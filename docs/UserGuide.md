@@ -331,11 +331,11 @@ Examples:
 - This command will search for the task, grade proposal, depending on the environment the user is in, it will search for task(s) allocated to a tutorial group or student.
 
 
-### Saving the data (//TODO update)
+### Save the data (//TODO update)
 
 AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
-### Editing the data file (//TODO update)
+### Edit the data file (//TODO update)
 
 AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
@@ -344,10 +344,9 @@ If your changes to the data file makes its format invalid, AddressBook will disc
 </div>
 
 (//TODO Update)
-### Archiving data files `[coming in v1.3]`
-### Editing a person : `[coming in v1.3]`
-### Locating persons by name: `[coming in v1.3]`
-### Deleting a person : `[coming in v1.3]`
+### Archive data files `[coming in v1.3]`
+### Locate persons by name: `[coming in v1.3]`
+### Delete a person : `[coming in v1.3]`
 
 _Details coming soon ..._
 
