@@ -11,7 +11,7 @@ title: ProfBook
 * The project simulates an ongoing software project for a desktop application (called _ProfBook_) used for managing tasks, group schedules, and notes for every tutorial slot and group.
   * It is **written in OOP fashion**. It provides a **reasonably well-written** code base **bigger** (around 6 KLoC) than what students usually write in beginner-level SE modules, without being overwhelmingly big.
   * It comes with a **reasonable level of user and developer documentation**.
-* It is named `ProfBook` because it sounds similar to the name of `AddressBook` projects.
+* It is named `ProfBook` because it sounds similar to the name of `AddressBook` projects. It aims to help professors to keep updated and informed with notifications and profile pictures of students for a personal touch and easy recognition of students during lessons.
 * If you are interested in using ProfBook, head over to the [_Quick Start_ section of the **User Guide**](UserGuide.html#quick-start).
 * If you are interested about developing ProfBook, the [**Developer Guide**](DeveloperGuide.html) is a good place to start.
 
