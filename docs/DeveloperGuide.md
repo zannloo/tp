@@ -257,62 +257,113 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
+* has a need to manage a significant number of students
+* has a need to manage various tutorial groups
+* has to keep track of deadlines and assign tasks to groups as well as individual students
+* prefer and is used to using cli and linux commands
 * can type fast
 * prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: Keep track of tutorial groups and students deadlines and tasks efficiently with an interface that will be faster than a typical mouse/GUI driven app
+
+
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
+| Priority level | As a …​          | I want to …​                                                                                                    | So that I can…​                                                               |
+|----------------|------------------|-----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| `* * *`        | new user         | see usage instructions                                                                                          | refer to instructions when I forget how to use the App                        |
+| `* * *`        | new user         | take advantage of existing linux skills                                                                         | be more efficient in using the application                                    |
+| `* * *`        | new user         | delete a student                                                                                                | remove students that I no longer need                                         |
+| `* * *`        | new user         | create deadlines for student                                                                                    | keep track of when assignments are due                                        |
+| `* * *`        | new user         | create todo task for student                                                                                    | keep track of which label they are at                                         |
+ | `* * *`        | new user         | create deadline for a group                                                                                     | keep track of when group specific assignments are due                         |
+| `* * *`        | new user         | create todo for a group                                                                                         | keep track of the progress of each group relative to others                   |
+| `* * *`        | new user         | create deadline for a tutorial group                                                                            | keep track of when tutorial specific assignments are due                      |
+| `* * *`        | new user         | create todo tasks for a tutorial group                                                                          | keep track of the progress of each tutorial group relative to others          |
+| `* * *`        | new user         | add time to a task                                                                                              | i can record when a task needs to be done                                     |
+| `* * *`        | new user         | set alerts and notification                                                                                     | I can receive the notifications of the task                                   |
+| `* * *`        | new user         | see the pending task that has the next earliest deadline                                                        | i can know what do do next                                                    |
+| `* * *`        | new user         | Add the profile picture of students                                                                             | I can better remember them                                                    |
+| `* * *`        | new user         | Add the profile picture of students                                                                             | I can better remember them                                                    |
+| `* * *`        | new user         | Add the matriculation number of students                                                                        | I can update their grade based on the matriculation number                    |
+| `* * *`        | new user         | create student profile                                                                                          | manage information of a specific student                                      |
+| `* * *`        | new user         | create group                                                                                                    | manage information of a specific group                                        |
+| `* * *`        | new user         | create tutorial slot                                                                                            | manage information fo a specific tutorial slot                                |
+| `* * *`        | Experienced user | search for a student/tutorial group by name                                                                     | pull up students/tutorial groups without having to go through the entire list |
+| `* * *`        | Experienced user | Mark task done for every student in a group                                                                     | I do not need to mark each task manually                                      |
+| `* * *`        | Experienced user | Add tasks for every student in the book                                                                         | I do not need to add tasks manually                                           |
+| `* * *`        | Experienced user | Add tasks for every student in a tutorial group                                                                 | I do not need to add tasks manually                                           |
+| `* * *`        | Experienced user | Add tasks for every student in a group                                                                          | I do not need to add tasks manually                                           |
+| `* * `         | Experienced user | Be able to see an brief overview of last week                                                                   | Can see deadlines that have passed etc                                        |
+| `* * `         | Experienced user | Easily edit the student/tutorial groups                                                                         | Information is applicable throughout time                                     |
+| `* * `         | Experienced user | Move students around, edit which group they are in                                                              | I can be flexible with the groupings                                          |
+| `* * `         | Expert user      | Check last week's deadline have been met or not                                                                 | I would not miss any deadline                                                 |
+| `* * `         | Expert user      | Upload text file contains tutorial groups and students                                                          | I do not need to manually add students and tutorial groups                    |
+| `*`            | Experienced user | Sync with google calendar                                                                                       | To keep information easily accessible                                         |
+| `* `           | Experienced user | Sync with nusmods                                                                                               | To make it easier to take note of tutorial venues                             |
+| `*`            | Experienced user | Use addressbook to track attendance for each tutorial book                                                      | I can easily write down attendance in one area                                |
+| `*`            | Expert user      | View a dashboard that provides the overview of the progress of each tutorial group and their respecective tasks | I can easily and quickly focus on areas that require my attention             |
+| `*`            | Expert user      | Let the program generate a detailed report on the performace of each tutorial group                             | I can easily identify the areas of strengths and weaknesses of each students  |
+| `*`            | Expert user      | Incorporate my own scripts to customise my own experience                                                       | I can improve productivity and tailor fit the software for myself             |
+| `*`            | Expert user      | make the program support customizable templates for tutorials and student profiles                              | I can make it more aesthetically pleasing                                     |
+| `*`            | Expert user      | Make use of the feature to archive certain task                                                                 | I can keep track of the history and not focus on unimportant task.            |
 
 *{More to be added}*
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `ProfBook` and the **Professor** is the `user`, unless specified otherwise)
 
 **Use case: Delete a person**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1. User requests to delete a student/group/task with specific id for each one
+2. AddressBook deletes the person
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 2a. The given id is invalid.
 
-  Use case ends.
+    * 2a1. ProfBook shows an error message.
 
-* 3a. The given index is invalid.
+      Use case resumes at step 1.
+    
 
-    * 3a1. AddressBook shows an error message.
+**Use case: Move student into/out of group**
 
-      Use case resumes at step 2.
+**MSS**
+
+1.  User requests to move a specific student from a source group to destination group with an id
+2.  AddressBook moves the student from a source group to destination group
+   
+    Use case ends.
+
+**Extensions**
+
+* 2a. The given StudentID is invalid.
+    * 2a1. ProfBook shows an error message. 
+        
+        Use case resumes at step 1.
+
+
+* 3a. The given groupID is invalid.
+
+    * 3a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
 
 *{More to be added}*
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
+1.  The application should be platform-independent and should run on all major operating systems as long as it has Java `11` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 
@@ -321,7 +372,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Root**: Folder which contains all students, groups as well
+* **Group**: Folder which contains Students within the specific group
 
 --------------------------------------------------------------------------------------------------------------------
 
