@@ -1,6 +1,16 @@
 package seedu.address.model.profbook;
 
+import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Phone;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.taskmanager.TaskList;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 /**
  * Encapsulates logic for a student's data
@@ -14,6 +24,13 @@ public class Student extends ProfBookModel implements IChildElement {
      */
     private final Name name;
 
+    private final Email email;
+    private final Phone phone;
+
+    // Data fields
+    private final Address address;
+    private final Set<Tag> tags = new HashSet<>();
+
     /**
      * Unique identifier of the group
      */
@@ -24,12 +41,19 @@ public class Student extends ProfBookModel implements IChildElement {
      *
      * @param taskList - The task list associated with this student
      * @param name     - The group name
+     * @param email    - The email of the student
+     * @param phone    - Student's Phone number
+     * @param address  - Students address
      * @param id       - Unique identifier of the group
      */
 
-    public Student(TaskList taskList, Name name, Id id) {
+    public Student(TaskList taskList, Name name, Email email, Phone phone, Address address, Id id) {
         super((taskList));
+        requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
         this.id = id;
     }
 
@@ -42,11 +66,6 @@ public class Student extends ProfBookModel implements IChildElement {
     }
 
 
-    @Override
-    public String toString() {
-        return "Student{" + "name=" + name + ", id=" + id + '}';
-    }
-
     /**
      * Returns true if child element has same id as param id
      *
@@ -56,5 +75,17 @@ public class Student extends ProfBookModel implements IChildElement {
     @Override
     public boolean isSameAs(Id id) {
         return this.id.equals(id);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("Student Id", id)
+                .add("name", name)
+                .add("phone", phone)
+                .add("email", email)
+                .add("address", address)
+                .add("tags", tags)
+                .toString();
     }
 }
