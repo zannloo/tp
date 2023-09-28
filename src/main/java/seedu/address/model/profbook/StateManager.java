@@ -1,8 +1,8 @@
 package seedu.address.model.profbook;
 
-import seedu.address.model.profbook.exceptions.NoSuchChildException;
-
 import java.util.List;
+
+import seedu.address.model.profbook.exceptions.NoSuchChildException;
 
 /**
  * Encapsulates logic manipulating data in ProfBook
@@ -33,8 +33,5 @@ public class StateManager {
         List<Id> path = p.getIdPath();
         Group parent = this.profBook.getChild(path.get(0));
         return parent.getChild(path.get(1));
-
     }
-
-    
 }
