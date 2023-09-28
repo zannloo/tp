@@ -3,6 +3,9 @@ package seedu.address.model.taskmanager;
 import java.util.List;
 
 // TODO: @niddddddish
+/**
+ * Encapsulates logic of a TaskList
+ */
 public interface TaskList {
 
 
