@@ -1,5 +1,10 @@
 package seedu.address.model.profbook;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.Id;
 import seedu.address.model.person.Address;
@@ -7,11 +12,6 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.taskmanager.TaskList;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 /**
  * Encapsulates logic for a student's data

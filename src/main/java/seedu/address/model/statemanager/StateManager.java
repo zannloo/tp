@@ -26,8 +26,17 @@ public class StateManager implements ITaskOperations {
     private final TaskListManager baseDir;
 
     /**
+     * Constructs a new stateManager instance
+     *
+     * @param baseDir - The current base directory of the state Manager
+     */
+    StateManager(TaskListManager baseDir) {
+        this.baseDir = baseDir;
+    }
+
+    /**
      * Creates a rootOperation class performs operation on the root
-     * 
+     *
      * @param root - The current root instance
      * @return A rootOperation instance specific to current root
      */
@@ -37,7 +46,7 @@ public class StateManager implements ITaskOperations {
 
     /**
      * Creates a GroupOperation class performs operation on the specified group
-     * 
+     *
      * @param root        - The current root instance
      * @param pathToGroup - The path to the specified group
      * @return A groupOperation instance specific to current Group
@@ -55,7 +64,7 @@ public class StateManager implements ITaskOperations {
 
     /**
      * Creates a StudentOperation class performs operation on the specified Student
-     * 
+     *
      * @param root          - The current root instance
      * @param pathToStudent - The path to the specified student
      * @return A StudentOperation instance specific to current Stident
@@ -85,15 +94,6 @@ public class StateManager implements ITaskOperations {
             return root.getChild(p.getGroupId()).getChild(p.getStudentId());
         }
         throw new UnsupportedPathOperationException("No such Student at " + p);
-    }
-
-    /**
-     * Constructs a new stateManager instance
-     * 
-     * @param baseDir - The current base directory of the state Manager
-     */
-    StateManager(TaskListManager baseDir) {
-        this.baseDir = baseDir;
     }
 
     void stateLogger(String log) {

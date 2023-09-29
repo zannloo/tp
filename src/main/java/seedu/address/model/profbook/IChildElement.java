@@ -13,5 +13,4 @@ public interface IChildElement {
      * @return true if it is equals using ID's equals method
      */
     boolean isSameAs(Id id);
-
 }

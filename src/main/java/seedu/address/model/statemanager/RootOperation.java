@@ -6,12 +6,19 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
 
+/**
+ * Encapsulates logic required to perform supported root operations
+ */
 public class RootOperation extends StateManager implements IChildOperation<Group> {
 
     private static final String LOGGING_PREFIX = "In Root Operations, ";
 
     private final Root baseDir;
 
+    /**
+     * Constructs a new root operation method
+     * @param root - The root object to perform operations on
+     */
     RootOperation(Root root) {
         super(root);
         this.baseDir = root;

@@ -6,12 +6,18 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
 
-
+/**
+ * Encapsulate logic required to perform group operations
+ */
 public class GroupOperation extends StateManager implements IChildOperation<Student> {
 
     private static final String LOGGING_PREFIX = "In Group Operations, ";
     private final Group baseDir;
 
+    /**
+     * Constructs a new group operation method
+     * @param baseDir - The group object to perform operations on
+     */
     GroupOperation(Group baseDir) {
         super(baseDir);
         this.baseDir = baseDir;

@@ -15,7 +15,7 @@ import seedu.address.model.profbook.exceptions.NoSuchChildException;
 public interface IChildOperation<T extends IChildElement> {
     /**
      * Adds the child to list of children
-     * 
+     *
      * @param id    - Unique identifier of the child
      * @param child - The child in question
      * @throws DuplicateChildException If attempting to add child with the same ID
@@ -24,7 +24,7 @@ public interface IChildOperation<T extends IChildElement> {
 
     /**
      * Deletes the child specified by the id
-     * 
+     *
      * @param id - Unique identifier of the child
      * @return The deleted Child
      * @throws NoSuchChildException If there is no such Child found
@@ -33,7 +33,7 @@ public interface IChildOperation<T extends IChildElement> {
 
     /**
      * Returns the child specified by the id
-     * 
+     *
      * @param id - Unique identifier of the child
      * @return The specified Child
      * @throws NoSuchChildException If there is no such Child found
@@ -42,7 +42,7 @@ public interface IChildOperation<T extends IChildElement> {
 
     /**
      * Returns a list of all current children
-     * 
+     *
      * @return list of all current children
      */
     T[] getAllChildren();

@@ -1,9 +1,9 @@
 package seedu.address.model.statemanager;
 
+import java.util.List;
+
 import seedu.address.model.taskmanager.NoSuchTaskException;
 import seedu.address.model.taskmanager.Task;
-
-import java.util.List;
 
 /**
  * Interface for classes that operations that involve a task list, ensures that all basic functions are present to
