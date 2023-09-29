@@ -6,8 +6,8 @@ import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.path.element.PathElement;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.pathelement.PathElement;
 
 /**
  * Absolute Path for storing group and student id.

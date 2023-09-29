@@ -1,4 +1,4 @@
-package seedu.address.model.pathelement.exceptions;
+package seedu.address.model.path.element.exceptions;
 
 /**
  * An exception thrown when an invalid path element is encountered.

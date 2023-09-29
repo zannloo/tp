@@ -1,6 +1,6 @@
-package seedu.address.model.pathelement;
+package seedu.address.model.path.element;
 
-import seedu.address.model.pathelement.exceptions.InvalidPathElementException;
+import seedu.address.model.path.element.exceptions.InvalidPathElementException;
 
 /**
  * Represent an element in a path.

@@ -1,4 +1,4 @@
-package seedu.address.model.pathelement;
+package seedu.address.model.path.element;
 
 /**
  * The {@code PathElementType} enum represents the types of elements that can appear in a path.

@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.path.element.PathElement;
+import seedu.address.model.path.element.PathElementType;
+import seedu.address.model.path.element.exceptions.InvalidPathElementException;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.pathelement.PathElement;
-import seedu.address.model.pathelement.PathElementType;
-import seedu.address.model.pathelement.exceptions.InvalidPathElementException;
 /**
  * Represents a path in our application.
  */
