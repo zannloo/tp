@@ -1,7 +1,9 @@
 package seedu.address.model.profbook;
 
+import seedu.address.model.id.Id;
+
 /**
- * Encapsulate reqiored logic for child element of ProfBok Model
+ * Encapsulate required logic for child element of ProfBok Model
  */
 public interface IChildElement {
 
