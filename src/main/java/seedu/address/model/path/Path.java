@@ -13,55 +13,65 @@ import seedu.address.model.pathelement.PathElementType;
 import seedu.address.model.pathelement.exceptions.InvalidPathElementException;
 
 public class Path {
-    protected List<PathElement> pathElements;
+    protected final List<PathElement> pathElements;
     private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
 
     public Path() throws InvalidPathException {
         this.pathElements = new ArrayList<>();
     }
 
-    // Common constructor logic
+    public Path(List<PathElement> pathElements) {
+        this.pathElements = pathElements;
+    }
+
     protected void commonConstructor(String path) throws InvalidPathException {
         String[] elementStrs = path.split("/");
+        List<PathElement> elements = new ArrayList<>();
 
         for (String elementStr : elementStrs) {
-            logger.info(elementStr);
             try {
                 PathElement element = PathElement.parsePathElement(elementStr);
-                logger.info("Current element " + element.toString());
+                elements.add(element);
+            } catch (InvalidPathElementException e) {
+                throw new InvalidPathException("Encountered invalid path element.");
+            }
+        }
 
-                if (element.getType() == PathElementType.CURRENT) {
+        appendPathElements(this.pathElements, elements);
+    }
+
+    protected static void appendPathElements(List<PathElement> destination, List<PathElement> source) 
+            throws InvalidPathException{
+        for (PathElement element : source) {
+
+            if (element.getType() == PathElementType.CURRENT) {
+                continue;
+            }
+
+            if (element.getType() == PathElementType.PARENT && !destination.isEmpty()) {
+                PathElement prevElement = destination.get(destination.size() - 1);
+
+                if (prevElement.getType() == PathElementType.ROOT) {
+                    throw new InvalidPathException("Unable to navigate above home directory");
+                }
+                if (prevElement.getType() != PathElementType.PARENT) {
+                    destination.remove(destination.size() - 1);
                     continue;
                 }
 
-                if (element.getType() == PathElementType.PARENT) {
-                    PathElement prevElement = this.pathElements.get(this.pathElements.size() - 1);
+            } else if (!destination.isEmpty()) {
+                PathElement prevElement = destination.get(destination.size() - 1);
 
-                    if (prevElement.getType() == PathElementType.ROOT) {
-                        throw new InvalidPathException("Unable to navigate above home directory");
-                    }
-                    if (prevElement.getType() != PathElementType.PARENT) {
-                        this.pathElements.remove(this.pathElements.size() - 1);
-                        continue;
-                    }
+                int priorityDiff = element.getPriorityDiff(prevElement);
 
-                } else if (!this.pathElements.isEmpty()) {
-                    PathElement prevElement = this.pathElements.get(this.pathElements.size() - 1);
-
-                    int priorityDiff = element.getPriorityDiff(prevElement);
-
-                    // Make sure curr element is has 1 level lower
-                    if (priorityDiff != -1 && prevElement.getType() != PathElementType.PARENT) {
-                        throw new InvalidPathException("Invalid path structure.");
-                    }
+                // Make sure curr element is has 1 level lower
+                if (priorityDiff != -1 && prevElement.getType() != PathElementType.PARENT) {
+                    throw new InvalidPathException("Invalid path structure.");
                 }
-
-                this.pathElements.add(element);
-            } catch (InvalidPathElementException e) {
-                throw new InvalidPathException("Invalid path element.");
             }
-            logger.info(this.toString());
+            destination.add(element);
         }
+        logger.info(destination.toString());
     }
 
     @Override
