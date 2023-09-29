@@ -1,6 +1,7 @@
 package seedu.address.model.profbook;
 import java.util.Map;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.Id;
 import seedu.address.model.taskmanager.TaskList;
 
@@ -17,5 +18,13 @@ public class Root extends ChildrenManager<Group> {
      */
     public Root(TaskList taskList, Map<Id, Group> children) {
         super(taskList, children);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("name", "Root")
+                .add("Students", super.toString())
+                .toString();
     }
 }

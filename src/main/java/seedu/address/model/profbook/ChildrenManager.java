@@ -77,4 +77,13 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
     public List<T> getAllChildren() {
         return new ArrayList<>(this.children.values());
     }
+
+    @Override
+    public String toString() {
+        StringBuilder ret = new StringBuilder();
+        for (Map.Entry<Id, T> entry : this.children.entrySet()) {
+            ret.append(entry.getKey().toString()).append(": ").append(entry.getValue().toString()).append("\n");
+        }
+        return ret.toString();
+    }
 }

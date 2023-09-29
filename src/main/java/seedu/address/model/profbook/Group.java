@@ -2,6 +2,7 @@ package seedu.address.model.profbook;
 
 import java.util.Map;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.Id;
 import seedu.address.model.taskmanager.TaskList;
 
@@ -42,10 +43,12 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
     public boolean isSameAs(Id id) {
         return this.id.equals(id);
     }
-
-
     @Override
     public String toString() {
-        return "Group{" + "name=" + name + ", id=" + id + '}';
+        return new ToStringBuilder(this)
+                .add("Group Id", id)
+                .add("name", name)
+                .add("Students", super.toString())
+                .toString();
     }
 }
