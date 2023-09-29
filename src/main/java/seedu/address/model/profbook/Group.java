@@ -2,12 +2,13 @@ package seedu.address.model.profbook;
 
 import java.util.Map;
 
+import seedu.address.model.id.Id;
 import seedu.address.model.taskmanager.TaskList;
 
 /**
  * Encapsulates logic for a group within a tutorial group
  */
-public class Group extends ProfBookDir<Student> implements IChildElement {
+public class Group extends ChildrenManager<Student> implements IChildElement {
 
     /**
      * Name of the group
