@@ -112,6 +112,7 @@ public class StateManager implements ITaskOperations {
     @Override
     public void addTask(Task t) {
         this.baseDir.addTask(t);
+        this.stateLogger("Adding" + t.toString());
     }
 
     /**
@@ -123,6 +124,7 @@ public class StateManager implements ITaskOperations {
      */
     @Override
     public Task deleteTask(int index) throws NoSuchTaskException {
+        this.stateLogger("deleting " + index);
         return this.baseDir.deleteTask(index);
     }
 
@@ -135,6 +137,7 @@ public class StateManager implements ITaskOperations {
      */
     @Override
     public Task markTask(int index) throws NoSuchTaskException {
+        this.stateLogger("marking " + index);
         return this.baseDir.markTask(index);
     }
 
@@ -147,6 +150,7 @@ public class StateManager implements ITaskOperations {
      */
     @Override
     public Task unmarkTask(int index) throws NoSuchTaskException {
+        this.stateLogger("un marking " + index);
         return this.baseDir.unmarkTask(index);
     }
 
@@ -158,6 +162,8 @@ public class StateManager implements ITaskOperations {
      */
     @Override
     public List<Task> findTask(String query) {
+
+        this.stateLogger("finding " + query);
         return this.baseDir.findTask(query);
     }
 
@@ -170,6 +176,7 @@ public class StateManager implements ITaskOperations {
      */
     @Override
     public Task getTask(int index) throws NoSuchTaskException {
+        this.stateLogger("getting " + index);
         return this.baseDir.getTask(index);
     }
 
@@ -180,6 +187,8 @@ public class StateManager implements ITaskOperations {
      */
     @Override
     public List<Task> getAllTask() {
+
+        this.stateLogger("getting all ");
         return this.baseDir.getAllTask();
     }
 }
