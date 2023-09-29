@@ -10,26 +10,19 @@ import seedu.address.model.taskmanager.TaskList;
  * Encapsulate the logic of a prof book model, mainly the need for a task list
  * at every level
  */
-public class ProfBookModel {
+public class TaskListManager {
     /**
      * Task list instance of this class
      */
     private final TaskList taskList;
 
-    /**
-     * Constructs a fresh model with no tasks
-     */
-    public ProfBookModel() {
-        // TODO: change when there is a proper class
-        this.taskList = new Tmp();
-    }
 
     /**
      * Constructs a fresh model with tasks loaded from storage
      *
      * @param taskList - prefilled task list from storage
      */
-    public ProfBookModel(TaskList taskList) {
+    public TaskListManager(TaskList taskList) {
         this.taskList = taskList;
     }
 

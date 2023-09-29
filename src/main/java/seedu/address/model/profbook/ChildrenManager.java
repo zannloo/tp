@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import seedu.address.model.id.Id;
+import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
 import seedu.address.model.taskmanager.TaskList;
 
@@ -12,18 +14,18 @@ import seedu.address.model.taskmanager.TaskList;
  * As of v1.2 it is only root and group class
  * @param <T> to represent the children type, as of v1.2 only student and group
  */
-public class ProfBookDir<T extends IChildElement> extends ProfBookModel {
+public class ChildrenManager<T extends IChildElement> extends TaskListManager {
     /**
      * Maps the id to the children
      */
     private final Map<Id, T> children;
 
     /**
-     * Constructs a new profbook instance
+     * Constructs a new child manager instance
      * @param taskList - For ProfBookModel constructor
      * @param children - Map of id to their children
      */
-    public ProfBookDir(TaskList taskList, Map<Id, T> children) {
+    public ChildrenManager(TaskList taskList, Map<Id, T> children) {
         super(taskList);
         this.children = children;
     }
@@ -32,8 +34,13 @@ public class ProfBookDir<T extends IChildElement> extends ProfBookModel {
      * Adds the child to list of children
      * @param id - Unique identifier of the child
      * @param child - The child in question
+     * @throws DuplicateChildException If attempting to add child with the same ID
      */
-    public void addChild(Id id, T child) {
+    public void addChild(Id id, T child) throws DuplicateChildException {
+        T currChild = this.children.get(id);
+        if (currChild != null) {
+            throw new DuplicateChildException(id.toString());
+        }
         this.children.put(id, child);
     }
 
@@ -67,7 +74,7 @@ public class ProfBookDir<T extends IChildElement> extends ProfBookModel {
      * Returns a list of all current children
      * @return list of all current children
      */
-    public List<T> getChildren() {
+    public List<T> getAllChildren() {
         return new ArrayList<>(this.children.values());
     }
 }
