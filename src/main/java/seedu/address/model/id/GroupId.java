@@ -30,7 +30,7 @@ public class GroupId extends Id {
      * @return A valid {@code GroupId} object.
      * @throws InvalidIdException If the provided ID does not match the expected format.
      */
-    public GroupId createGroupId(String id) throws InvalidIdException {
+    public static GroupId createGroupId(String id) throws InvalidIdException {
         if (!GROUP_ID_VALIDATOR.isValid(id)) {
             throw new InvalidIdException("Invalid group id format.");
         }

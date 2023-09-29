@@ -30,7 +30,7 @@ public class StudentId extends Id {
      * @return A valid {@code StudentId} object.
      * @throws InvalidIdException If the provided ID does not match the expected format.
      */
-    public StudentId createStudentId(String id) throws InvalidIdException {
+    public static StudentId createStudentId(String id) throws InvalidIdException {
         if (!STUDENT_ID_VALIDATOR.isValid(id)) {
             throw new InvalidIdException("Invalid student id format.");
         }
