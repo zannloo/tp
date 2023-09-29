@@ -1,5 +1,7 @@
 package seedu.address.model.statemanager;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -41,6 +43,7 @@ public class StateManager implements ITaskOperations {
      * @return A rootOperation instance specific to current root
      */
     public static RootOperation rootOperation(Root root) {
+        requireAllNonNull(root);
         return new RootOperation(root);
     }
 
@@ -58,6 +61,7 @@ public class StateManager implements ITaskOperations {
      */
     public static GroupOperation groupOperation(Root root, AbsolutePath pathToGroup)
             throws UnsupportedPathOperationException, InvalidIdException, NoSuchChildException {
+        requireAllNonNull(root, pathToGroup);
         Group currDir = StateManager.getGroupFromPath(root, pathToGroup);
         return new GroupOperation(currDir);
     }
@@ -76,6 +80,7 @@ public class StateManager implements ITaskOperations {
      */
     public static StudentOperation studentOperation(Root root, AbsolutePath pathToStudent)
             throws UnsupportedPathOperationException, InvalidIdException, NoSuchChildException {
+        requireAllNonNull(root, pathToStudent);
         Student currDir = StateManager.getStudentFromPath(root, pathToStudent);
         return new StudentOperation(currDir);
     }
@@ -107,12 +112,12 @@ public class StateManager implements ITaskOperations {
     /**
      * Adds a new tasks to the task list
      *
-     * @param t
+     * @param task
      */
     @Override
-    public void addTask(Task t) {
-        this.baseDir.addTask(t);
-        this.stateLogger("Adding" + t.toString());
+    public void addTask(Task task) {
+        this.baseDir.addTask(task);
+        this.stateLogger("Adding" + task.toString());
     }
 
     /**
@@ -162,7 +167,6 @@ public class StateManager implements ITaskOperations {
      */
     @Override
     public List<Task> findTask(String query) {
-
         this.stateLogger("finding " + query);
         return this.baseDir.findTask(query);
     }
@@ -187,7 +191,6 @@ public class StateManager implements ITaskOperations {
      */
     @Override
     public List<Task> getAllTask() {
-
         this.stateLogger("getting all ");
         return this.baseDir.getAllTask();
     }

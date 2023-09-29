@@ -1,5 +1,7 @@
 package seedu.address.model.profbook;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,7 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
      */
     public ChildrenManager(TaskList taskList, Map<Id, T> children) {
         super(taskList);
+        requireAllNonNull(children);
         this.children = children;
     }
 

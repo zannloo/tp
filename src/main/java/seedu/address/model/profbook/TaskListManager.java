@@ -1,5 +1,7 @@
 package seedu.address.model.profbook;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.List;
 
 import seedu.address.model.taskmanager.NoSuchTaskException;
@@ -23,6 +25,7 @@ public class TaskListManager {
      * @param taskList - prefilled task list from storage
      */
     public TaskListManager(TaskList taskList) {
+        requireAllNonNull(taskList);
         this.taskList = taskList;
     }
 
