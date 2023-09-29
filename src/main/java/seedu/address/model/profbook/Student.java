@@ -1,6 +1,7 @@
 package seedu.address.model.profbook;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.id.Id;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Phone;
@@ -15,15 +16,13 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 /**
  * Encapsulates logic for a student's data
  */
-public class Student extends ProfBookModel implements IChildElement {
+public class Student extends TaskListManager implements IChildElement {
 
     // Identity field
-    // TODO: Add more
     /**
      * Name of the group
      */
     private final Name name;
-
     private final Email email;
     private final Phone phone;
 
@@ -65,6 +64,21 @@ public class Student extends ProfBookModel implements IChildElement {
         return id;
     }
 
+    public Email getEmail() {
+        return email;
+    }
+
+    public Phone getPhone() {
+        return phone;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
 
     /**
      * Returns true if child element has same id as param id
