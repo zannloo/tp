@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.path.element.PathElement;
+import seedu.address.model.path.element.PathElementType;
 import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
@@ -53,5 +54,20 @@ public class AbsolutePath extends Path {
         Path.appendPathElements(fullPathElements, relativePathElements);
 
         return new AbsolutePath(fullPathElements);
+    }
+
+    public boolean isGroupDirectory() {
+        PathElement lastElement = this.pathElements.get(this.pathElements.size() - 1);
+        return lastElement.getType() == PathElementType.GROUPID;
+    }
+
+    public boolean isStudentDirectory() {
+        PathElement lastElement = this.pathElements.get(this.pathElements.size() - 1);
+        return lastElement.getType() == PathElementType.STUDENTID;
+    }
+
+    public boolean isRootDirectory() {
+        PathElement lastElement = this.pathElements.get(this.pathElements.size() - 1);
+        return lastElement.getType() == PathElementType.ROOT;
     }
 }
