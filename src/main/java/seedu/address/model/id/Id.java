@@ -1,5 +1,7 @@
 package seedu.address.model.id;
 
+import java.util.Objects;
+
 /**
  * Represents an identifier (ID) with a string value.
  */
@@ -18,5 +20,22 @@ public class Id {
     @Override
     public String toString() {
         return this.id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !(o instanceof Id)) {
+            return false;
+        }
+        Id id1 = (Id) o;
+        return id.equals(id1.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
