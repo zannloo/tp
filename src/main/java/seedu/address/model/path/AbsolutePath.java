@@ -121,7 +121,7 @@ public class AbsolutePath extends Path {
             throw new UnsupportedPathOperationException("Can't find group ID in the root directory");
         }
 
-        GroupId id = GroupId.createGroupId(this.pathElements.get(3).toString());
+        GroupId id = GroupId.createGroupId(this.pathElements.get(1).toString());
 
         return id;
     }
