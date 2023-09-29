@@ -105,7 +105,7 @@ public class AbsolutePath extends Path {
         }
 
         StudentId id = StudentId.createStudentId(this.pathElements.get(2).toString());
-        
+
         return id;
     }
 
@@ -122,7 +122,7 @@ public class AbsolutePath extends Path {
         }
 
         GroupId id = GroupId.createGroupId(this.pathElements.get(3).toString());
-        
+
         return id;
     }
 }

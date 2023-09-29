@@ -1,8 +1,8 @@
 package seedu.address.model.path.exceptions;
 
 /**
- * The {@code UnsupportedPathOperationException} class represents an 
- * exception that is thrown when an operation is not supported or is 
+ * The {@code UnsupportedPathOperationException} class represents an
+ * exception that is thrown when an operation is not supported or is
  * invalid based on the state of a path directory.
  */
 public class UnsupportedPathOperationException extends Exception {
