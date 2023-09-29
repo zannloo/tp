@@ -73,4 +73,14 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
         this.stateLogger(GroupOperation.LOGGING_PREFIX + "getting all child");
         return this.baseDir.getAllChildren().toArray(new Student[0]);
     }
+    
+    /**
+     * Returns Number of current children
+     *
+     * @return The Number of current children
+     */
+    @Override
+    public int numOfChildren() {
+        return this.numOfChildren();
+    }
 }

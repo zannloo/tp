@@ -74,6 +74,14 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
     }
 
     /**
+     * Returns Number of current children
+     * @return The Number of current children
+     */
+    public int numOfChildren() {
+        return this.children.size();
+    }
+
+    /**
      * Returns a list of all current children
      * @return list of all current children
      */

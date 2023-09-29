@@ -46,4 +46,10 @@ public interface IChildOperation<T extends IChildElement> {
      * @return list of all current children
      */
     T[] getAllChildren();
+
+    /**
+     * Returns Number of current children
+     * @return The Number of current children
+     */
+    int numOfChildren();
 }

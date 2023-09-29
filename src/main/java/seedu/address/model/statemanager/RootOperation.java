@@ -74,4 +74,14 @@ public class RootOperation extends StateManager implements IChildOperation<Group
         this.stateLogger(RootOperation.LOGGING_PREFIX + "getting all children");
         return this.baseDir.getAllChildren().toArray(new Group[0]);
     }
+
+    /**
+     * Returns Number of current children
+     *
+     * @return The Number of current children
+     */
+    @Override
+    public int numOfChildren() {
+        return this.numOfChildren();
+    }
 }
