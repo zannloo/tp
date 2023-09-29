@@ -11,19 +11,35 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.pathelement.PathElement;
 import seedu.address.model.pathelement.PathElementType;
 import seedu.address.model.pathelement.exceptions.InvalidPathElementException;
-
+/**
+ * Represents a path in our application.
+ */
 public class Path {
-    protected final List<PathElement> pathElements;
     private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+    protected final List<PathElement> pathElements;
 
-    public Path() throws InvalidPathException {
+    /**
+     * Constructs an empty {@code Path}.
+     */
+    public Path() {
         this.pathElements = new ArrayList<>();
     }
 
+    /**
+     * Constructs a {@code Path} from a list of path elements.
+     *
+     * @param pathElements The list of path elements.
+     */
     public Path(List<PathElement> pathElements) {
         this.pathElements = pathElements;
     }
 
+    /**
+     * Common constructor logic for initializing a {@code Path} from a string representation.
+     *
+     * @param path The string representation of the path.
+     * @throws InvalidPathException If an invalid path element is encountered.
+     */
     protected void commonConstructor(String path) throws InvalidPathException {
         String[] elementStrs = path.split("/");
         List<PathElement> elements = new ArrayList<>();
@@ -40,8 +56,16 @@ public class Path {
         appendPathElements(this.pathElements, elements);
     }
 
-    protected static void appendPathElements(List<PathElement> destination, List<PathElement> source) 
-            throws InvalidPathException{
+    /**
+     * Appends a list of path elements to an existing list of path elements.
+     * Handles path element traversal, validation, and structure checks.
+     *
+     * @param destination The list to which path elements will be appended.
+     * @param source The list of path elements to append.
+     * @throws InvalidPathException If an invalid path element is encountered or if the path structure is invalid.
+     */
+    protected static void appendPathElements(List<PathElement> destination, List<PathElement> source)
+            throws InvalidPathException {
         for (PathElement element : source) {
 
             if (element.getType() == PathElementType.CURRENT) {

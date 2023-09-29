@@ -8,7 +8,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.pathelement.PathElement;
-import seedu.address.model.pathelement.PathElementType;
 
 /**
  * Absolute Path for storing group and student id.
@@ -38,7 +37,7 @@ public class AbsolutePath extends Path {
      */
     public AbsolutePath(List<PathElement> fullPathElements) {
         super(fullPathElements);
-    } 
+    }
 
     /**
      * Resolves a relative path against this absolute path, resulting in a new absolute path.
