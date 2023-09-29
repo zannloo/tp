@@ -1,19 +1,37 @@
 package seedu.address.model.path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.logging.Logger;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javafx.scene.Group;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
+import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 
 public class AbsolutePathTest {
     private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+
+    //=========== Constructor =============================================================
+
+    @Test
+    public void constructor_pathNotStartedFromRoot_throwInvalidPathException() {
+        assertThrows(InvalidPathException.class, () -> {
+            new AbsolutePath("grp-001/stu-001");
+        });
+    }
 
     @Test
     public void constructor_validPath_returnValidPath() {
@@ -58,6 +76,8 @@ public class AbsolutePathTest {
         assertEquals(pathWithDot.toString(), pathWithoutDot.toString());
     }
 
+    //=========== Resolve Method =============================================================
+
     @Test
     public void resolve_relativePathWithOneValidNavigation_returnNewAbsolutePath()
             throws InvalidPathException {
@@ -98,4 +118,101 @@ public class AbsolutePathTest {
         assertThrows(InvalidPathException.class, () -> absolutePath.resolve(relativePath));
     }
 
+    //=========== Check Directory Method =============================================================
+    private AbsolutePath rootPath;
+    private AbsolutePath studentPath;
+    private AbsolutePath groupPath;
+
+    @BeforeEach
+    public void setUp() {
+        try {
+            rootPath = new AbsolutePath("~/");
+            studentPath = new AbsolutePath("~/grp-001/stu-001");
+            groupPath = new AbsolutePath("~/grp-001");
+        } catch(InvalidPathException e) {
+            fail("Unexpected Exception.");
+        }
+    }
+
+    @Test
+    public void isRootDirectory_RootPath_ReturnsTrue() {
+        assertTrue(rootPath.isRootDirectory());
+    }
+
+    @Test
+    public void isRootDirectory_StudentPath_ReturnsFalse() {
+        assertFalse(studentPath.isRootDirectory());
+    }
+
+    @Test
+    public void isRootDirectory_GroupPath_ReturnsFalse() {
+        assertFalse(groupPath.isRootDirectory());
+    }
+
+    @Test
+    public void isStudentDirectory_StudentPath_ReturnsTrue() {
+        assertTrue(studentPath.isStudentDirectory());
+    }
+
+    @Test
+    public void isStudentDirectory_GroupPath_ReturnsFalse() {
+        assertFalse(groupPath.isStudentDirectory());
+    }
+
+    @Test
+    public void isStudentDirectory_RootPath_ReturnsFalse() {
+        assertFalse(rootPath.isStudentDirectory());
+    }
+
+    @Test
+    public void isGroupDirectory_GroupPath_ReturnsTrue() {
+        assertTrue(groupPath.isGroupDirectory());
+    }
+
+    @Test
+    public void isGroupDirectory_StudentPath_ReturnsFalse() {
+        assertFalse(studentPath.isGroupDirectory());
+    }
+
+    @Test
+    public void isGroupDirectory_RootPath_ReturnsFalse() {
+        assertFalse(rootPath.isGroupDirectory());
+    }
+
+    //=========== Get ID Method =============================================================
+    @Test
+    public void getStudentId_studentPath_returnsValidStudentId() throws UnsupportedPathOperationException, InvalidIdException {
+        StudentId studentId = studentPath.getStudentId();
+        assertNotNull(studentId);
+        assertEquals("stu-001", studentId.toString());
+    }
+
+    @Test
+    public void getGroupId_studentPath_returnsValidStudentId() throws UnsupportedPathOperationException, InvalidIdException {
+        GroupId groupId = studentPath.getGroupId();
+        assertNotNull(groupId);
+        assertEquals("grp-001", groupId.toString());
+    }
+
+    @Test
+    public void getGroupId_groupPath_returnsValidGroupId() throws UnsupportedPathOperationException, InvalidIdException {
+        GroupId groupId = groupPath.getGroupId();
+        assertNotNull(groupId);
+        assertEquals("grp-001", groupId.toString());
+    }
+
+    @Test
+    public void getStudentId_rootPath_throwsUnsupportedPathOperationException() {
+        assertThrows(UnsupportedPathOperationException.class, () -> rootPath.getStudentId());
+    }
+
+    @Test
+    public void getStudentId_groupPath_throwsUnsupportedPathOperationException() {
+        assertThrows(UnsupportedPathOperationException.class, () -> groupPath.getStudentId());
+    }
+
+    @Test
+    public void getGroupId_rootPath_throwsUnsupportedPathOperationException() {
+        assertThrows(UnsupportedPathOperationException.class, () -> rootPath.getGroupId());
+    }
 }
