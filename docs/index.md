@@ -4,7 +4,6 @@ title: ProfBook
 ---
 
 # ProfBook
-___
 
 [![CI Status](https://github.com/AY2324S1-CS2103T-W15-2/tp/actions/workflows/gradle.yml/badge.svg)](https://github.com/AY2324S1-CS2103T-W15-2/tp/actions)
 [![codecov](https://codecov.io/gh/AY2324S1-CS2103T-W15-2/tp/branch/master/graph/badge.svg)](https://codecov.io/gh/AY2324S1-CS2103T-W15-2/tp)
@@ -12,7 +11,6 @@ ___
 ![Ui](images/Ui.png)
 
 ## Introducing our product - ProfBook
-___
 ProfBook provides easy management of tasks, group schedules, and notes for every tutorial slot and group. A CS professor
 friendly platform to keep updated and informed with notifications and profile pictures of your students for a personal 
 touch and easy recognition of students during lessons.
