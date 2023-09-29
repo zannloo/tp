@@ -55,7 +55,7 @@ public class AbsolutePath extends Path {
 
         return new AbsolutePath(fullPathElements);
     }
-    
+
     /**
      * Checks whether the path represents a group directory.
      *

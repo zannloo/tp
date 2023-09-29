@@ -10,12 +10,11 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
-import seedu.address.model.path.exceptions.InvalidPathException; 
+import seedu.address.model.path.exceptions.InvalidPathException;
 
-    
 public class AbsolutePathTest {
     private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
-    
+
     @Test
     public void constructor_validPath_returnValidPath() {
         try {
@@ -60,7 +59,7 @@ public class AbsolutePathTest {
     }
 
     @Test
-    public void resolve_relativePathWithOneValidNavigation_returnNewAbsolutePath() 
+    public void resolve_relativePathWithOneValidNavigation_returnNewAbsolutePath()
             throws InvalidPathException {
         AbsolutePath absolutePath = new AbsolutePath("~/grp-1/stu-1");
         RelativePath relativePath = new RelativePath("../stu-2");
@@ -71,7 +70,7 @@ public class AbsolutePathTest {
     }
 
     @Test
-    public void resolve_relativePathWithTwoValidNavigation_returnNewAbsolutePath() 
+    public void resolve_relativePathWithTwoValidNavigation_returnNewAbsolutePath()
             throws InvalidPathException {
         AbsolutePath absolutePath = new AbsolutePath("~/grp-1/stu-1");
         RelativePath relativePath = new RelativePath("../../grp-2/stu-2");
@@ -82,7 +81,7 @@ public class AbsolutePathTest {
     }
 
     @Test
-    public void resolve_relativePathWithInvalidOneNavigation_throwsInvalidPathException() 
+    public void resolve_relativePathWithInvalidOneNavigation_throwsInvalidPathException()
             throws InvalidPathException {
         AbsolutePath absolutePath = new AbsolutePath("~/grp-1/stu-1");
         RelativePath relativePath = new RelativePath("../grp-2/stu-2");
@@ -91,7 +90,7 @@ public class AbsolutePathTest {
     }
 
     @Test
-    public void resolve_relativePathWithInvalidNavigationAboveRoot_throwsInvalidPathException() 
+    public void resolve_relativePathWithInvalidNavigationAboveRoot_throwsInvalidPathException()
             throws InvalidPathException {
         AbsolutePath absolutePath = new AbsolutePath("~/grp-1/stu-1");
         RelativePath relativePath = new RelativePath("../../../grp-2");
@@ -100,4 +99,3 @@ public class AbsolutePathTest {
     }
 
 }
-    
