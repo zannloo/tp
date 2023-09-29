@@ -68,22 +68,5 @@ public class PathElement {
     public String toString() {
         return this.elementStr;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        PathElement otherId = (PathElement) obj;
-        return elementStr.equals(otherId.elementStr) && type == otherId.type;
-    }
-
-    @Override
-    public int hashCode() {
-        return elementStr.hashCode() * 31 + type.hashCode();
-    }
 }
 
