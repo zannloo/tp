@@ -1,10 +1,14 @@
 package seedu.address.model.path;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.pathelement.PathElement;
+import seedu.address.model.pathelement.PathElementType;
 
 /**
  * Absolute Path for storing group and student id.
@@ -26,5 +30,29 @@ public class AbsolutePath extends Path {
 
         commonConstructor(path);
         logger.info(this.toString());
+    }
+
+    /**
+     * Construct {@code AbsolutePath} with path element list.
+     * @param fullPathElements The list of elements for the full path.
+     */
+    public AbsolutePath(List<PathElement> fullPathElements) {
+        super(fullPathElements);
+    } 
+
+    /**
+     * Resolves a relative path against this absolute path, resulting in a new absolute path.
+     *
+     * @param relative The relative path to resolve against this absolute path.
+     * @return A new AbsolutePath representing the resolved path.
+     * @throws InvalidPathException If an invalid path element is encountered during resolution.
+     */
+    public AbsolutePath resolve(RelativePath relative) throws InvalidPathException {
+        List<PathElement> fullPathElements = new ArrayList<>(this.pathElements);
+        List<PathElement> relativePathElements = relative.pathElements;
+
+        Path.appendPathElements(fullPathElements, relativePathElements);
+
+        return new AbsolutePath(fullPathElements);
     }
 }
