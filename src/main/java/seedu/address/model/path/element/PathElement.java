@@ -1,5 +1,7 @@
 package seedu.address.model.path.element;
 
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.path.element.exceptions.InvalidPathElementException;
 
 /**
@@ -34,9 +36,9 @@ public class PathElement {
             return new PathElement(element, PathElementType.PARENT);
         } else if (element.equals(".")) {
             return new PathElement(element, PathElementType.CURRENT);
-        } else if (element.startsWith("stu-")) {
+        } else if (StudentId.STUDENT_ID_VALIDATOR.isValid(element)) {
             return new PathElement(element, PathElementType.STUDENTID);
-        } else if (element.startsWith("grp-")) {
+        } else if (GroupId.GROUP_ID_VALIDATOR.isValid(element)) {
             return new PathElement(element, PathElementType.GROUPID);
         } else {
             throw new InvalidPathElementException();
