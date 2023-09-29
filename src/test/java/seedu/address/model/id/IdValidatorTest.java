@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class IdValidatorTest {
-     private IdValidator validator;
+    private IdValidator validator;
 
     @BeforeEach
     public void setUp() {
@@ -19,7 +19,7 @@ public class IdValidatorTest {
     public void isValid_validId_returnsTrue() {
         assertTrue(validator.isValid("stu-123"));
     }
-    
+
     @Test
     public void isValid_invalidId_returnsFalse() {
         assertFalse(validator.isValid("stu-1"));
