@@ -4,7 +4,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
 
-import seedu.address.model.taskmanager.NoSuchTaskException;
+import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
 

@@ -1,6 +1,6 @@
 package seedu.address.model.taskmanager;
 
-import seedu.address.model.taskmanager.exceptions.TaskException;
+import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -11,8 +11,6 @@ import java.util.ArrayList;
 public class TaskList {
 
     ArrayList<Task> taskList;
-
-<<<<<<< HEAD
     /**
      * Constructs a {@code TaskList}.
      *
@@ -38,11 +36,11 @@ public class TaskList {
      *
      * @param index The index of the task to be deleted.
      * @return The deleted task.
-     * @throws TaskException If there are no tasks at this level or taskNumber provided is too large.
+     * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
      */
-    public Task delete(int index) throws TaskException {
+    public Task delete(int index) throws NoSuchTaskException {
         if (index - 1 >  this.taskList.size() || index < 0) {
-            throw new TaskException("There are 0 tasks at this level at the moment.");
+            throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
         int initialSize = this.taskList.size();
         Task task = this.taskList.get(index - 1);
@@ -56,11 +54,11 @@ public class TaskList {
      *
      * @param taskNumber The number of the task to be marked.
      * @return The marked task.
-     * @throws TaskException If there are no tasks at this level or taskNumber provided is too large.
+     * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
      */
-    public Task mark(int taskNumber) throws TaskException {
+    public Task mark(int taskNumber) throws NoSuchTaskException {
         if (taskNumber - 1 >  this.taskList.size() || taskNumber < 0) {
-            throw new TaskException("There are 0 tasks at this level at the moment.");
+            throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
         Task task = this.taskList.get(taskNumber - 1);
         task.mark();
@@ -72,38 +70,27 @@ public class TaskList {
      *
      * @param taskNumber The number of the task to be unmarked.
      * @return The unmarked task.
-     * @throws TaskException If there are no tasks at this level or taskNumber provided is too large.
+     * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
      */
-    public Task unmark(int taskNumber) throws TaskException {
+    public Task unmark(int taskNumber) throws NoSuchTaskException {
         if (taskNumber - 1 >  this.taskList.size() || taskNumber < 0) {
-            throw new TaskException("There are 0 tasks at this level at the moment.");
+            throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
         Task task = this.taskList.get(taskNumber - 1);
         task.unmark();
         return task;
     }
-=======
-    public void add(Task t);
-
-    public Task delete(int index); // should throw an error if index is not present
-
-    public Task mark(int index); // should throw an error if index is not present
-
-    public Task unmark(int index); // should throw an error if index is not present
-
-    public List<Task> find(String query);
->>>>>>> master
 
     /**
      * Finds tasks that match the given query.
      *
      * @param query The query to match.
      * @return A list of tasks that match the query.
-     * @throws TaskException If there are no tasks at this level.
+     * @throws NoSuchTaskException If there are no tasks at this level.
      */
-    public List<Task> find(String query) throws TaskException {
+    public List<Task> find(String query) throws NoSuchTaskException {
         if (this.taskList.size() == 0) {
-            throw new TaskException("There are 0 tasks at this level at the moment.");
+            throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
         List<Task> list = null;
         for (Task task : this.taskList) {
@@ -119,11 +106,11 @@ public class TaskList {
      *
      * @param index The index of the task to be retrieved.
      * @return The retrieved task.
-     * @throws TaskException If the index is out of bounds.
+     * @throws NoSuchTaskException If the index is out of bounds.
      */
-    public Task get(int index) throws TaskException {
+    public Task get(int index) throws NoSuchTaskException {
         if (index - 1 >  this.taskList.size() || index < 0) {
-            throw new TaskException("Please input an index between 1 and" + this.taskList.size());
+            throw new NoSuchTaskException("Please input an index between 1 and" + this.taskList.size());
         }
         Task task = this.taskList.get(index - 1);
         return task;
@@ -133,11 +120,11 @@ public class TaskList {
      * Retrieves all tasks from the task list.
      *
      * @return A list of all tasks.
-     * @throws TaskException If there are no tasks at this level.
+     * @throws NoSuchTaskException If there are no tasks at this level.
      */
-    public List<Task> getAllTask() throws TaskException {
+    public List<Task> getAllTask() throws NoSuchTaskException {
         if (this.taskList.size() == 0) {
-            throw new TaskException("There are 0 tasks at this level at the moment.");
+            throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
         List<Task> list = null;
         for (Task task : this.taskList) {

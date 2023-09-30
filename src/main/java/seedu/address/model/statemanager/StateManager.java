@@ -15,7 +15,7 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.TaskListManager;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
-import seedu.address.model.taskmanager.NoSuchTaskException;
+import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 import seedu.address.model.taskmanager.Task;
 
 /**

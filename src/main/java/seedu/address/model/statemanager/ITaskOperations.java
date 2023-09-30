@@ -2,7 +2,7 @@ package seedu.address.model.statemanager;
 
 import java.util.List;
 
-import seedu.address.model.taskmanager.NoSuchTaskException;
+import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 import seedu.address.model.taskmanager.Task;
 
 /**
