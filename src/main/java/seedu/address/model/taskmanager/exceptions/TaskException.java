@@ -1,4 +1,4 @@
-package seedu.address.commons.exceptions;
+package seedu.address.model.taskmanager.exceptions;
 
 public class TaskException extends Exception {
 
