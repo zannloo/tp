@@ -12,6 +12,7 @@ public class TaskList {
 
     ArrayList<Task> taskList;
 
+<<<<<<< HEAD
     /**
      * Constructs a {@code TaskList}.
      *
@@ -81,6 +82,17 @@ public class TaskList {
         task.unmark();
         return task;
     }
+=======
+    public void add(Task t);
+
+    public Task delete(int index); // should throw an error if index is not present
+
+    public Task mark(int index); // should throw an error if index is not present
+
+    public Task unmark(int index); // should throw an error if index is not present
+
+    public List<Task> find(String query);
+>>>>>>> master
 
     /**
      * Finds tasks that match the given query.
