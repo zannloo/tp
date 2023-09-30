@@ -9,15 +9,15 @@ import java.util.List;
 public interface TaskList {
 
 
-    public TaskList add(Task t);
+    public void add(Task t);
 
-    public TaskList delete(int index); // should throw an error if index is not present
+    public Task delete(int index); // should throw an error if index is not present
 
-    public TaskList mark(int index); // should throw an error if index is not present
+    public Task mark(int index); // should throw an error if index is not present
 
-    public TaskList unmark(int index); // should throw an error if index is not present
+    public Task unmark(int index); // should throw an error if index is not present
 
-    public TaskList find(String query);
+    public List<Task> find(String query);
 
     public Task get(int index); // should throw an error if index is not present
 
