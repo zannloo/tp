@@ -15,8 +15,8 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.TaskListManager;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 import seedu.address.model.taskmanager.Task;
+import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 
 /**
  * Encapsulates logic manipulating data in ProfBook
@@ -166,7 +166,7 @@ public class StateManager implements ITaskOperations {
      * @return A list of all matching Tasks
      */
     @Override
-    public List<Task> findTask(String query) {
+    public List<Task> findTask(String query) throws NoSuchTaskException {
         this.stateLogger("finding " + query);
         return this.baseDir.findTask(query);
     }
@@ -190,7 +190,7 @@ public class StateManager implements ITaskOperations {
      * @return A list of all Tasks
      */
     @Override
-    public List<Task> getAllTask() {
+    public List<Task> getAllTasks() throws NoSuchTaskException {
         this.stateLogger("getting all ");
         return this.baseDir.getAllTask();
     }

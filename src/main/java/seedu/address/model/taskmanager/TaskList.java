@@ -1,8 +1,10 @@
 package seedu.address.model.taskmanager;
 
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+
 
 
 /**
@@ -10,7 +12,7 @@ import java.util.ArrayList;
  */
 public class TaskList {
 
-    ArrayList<Task> taskList;
+    private ArrayList<Task> taskList;
     /**
      * Constructs a {@code TaskList}.
      *
@@ -39,7 +41,7 @@ public class TaskList {
      * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
      */
     public Task delete(int index) throws NoSuchTaskException {
-        if (index - 1 >  this.taskList.size() || index < 0) {
+        if (index - 1 > this.taskList.size() || index < 0) {
             throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
         int initialSize = this.taskList.size();
@@ -57,7 +59,7 @@ public class TaskList {
      * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
      */
     public Task mark(int taskNumber) throws NoSuchTaskException {
-        if (taskNumber - 1 >  this.taskList.size() || taskNumber < 0) {
+        if (taskNumber - 1 > this.taskList.size() || taskNumber < 0) {
             throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
         Task task = this.taskList.get(taskNumber - 1);
@@ -73,7 +75,7 @@ public class TaskList {
      * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
      */
     public Task unmark(int taskNumber) throws NoSuchTaskException {
-        if (taskNumber - 1 >  this.taskList.size() || taskNumber < 0) {
+        if (taskNumber - 1 > this.taskList.size() || taskNumber < 0) {
             throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
         Task task = this.taskList.get(taskNumber - 1);
@@ -109,7 +111,7 @@ public class TaskList {
      * @throws NoSuchTaskException If the index is out of bounds.
      */
     public Task get(int index) throws NoSuchTaskException {
-        if (index - 1 >  this.taskList.size() || index < 0) {
+        if (index - 1 > this.taskList.size() || index < 0) {
             throw new NoSuchTaskException("Please input an index between 1 and" + this.taskList.size());
         }
         Task task = this.taskList.get(index - 1);
@@ -128,7 +130,7 @@ public class TaskList {
         }
         List<Task> list = null;
         for (Task task : this.taskList) {
-                list.add(task);
+            list.add(task);
         }
         return list;
     }

@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
  * It extends the Task class and provides additional methods specific to deadline tasks.
  */
 public class Deadline extends Task {
-    String FormattedTime;
-    LocalDateTime dueBy;
+    private LocalDateTime dueBy;
 
     /**
      * Constructs a new Deadline object with the given description and deadline.
@@ -45,8 +44,8 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "Deadline has been added:\n" +
-                "[D][" + getStatusIcon() + "] " + this.description +"(by: "+ this.dueBy + ")";
+        return "Deadline has been added:\n"
+                + "[D][" + getStatusIcon() + "] " + this.description + "(by: " + this.dueBy + ")";
     }
 }
 

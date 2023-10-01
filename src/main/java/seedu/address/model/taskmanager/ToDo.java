@@ -34,9 +34,8 @@ public class ToDo extends Task {
      */
     @Override
     public String toString() {
-        return "Your ToDo has been added:\n" +
-                "[T]" + "[" + this.getStatusIcon() + "] " + this.description;
-
+        return "Your ToDo has been added:\n"
+                + "[T]" + "[" + this.getStatusIcon() + "] " + this.description;
     }
 
 }
