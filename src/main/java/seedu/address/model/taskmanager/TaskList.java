@@ -1,6 +1,7 @@
 package seedu.address.model.taskmanager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
@@ -128,11 +129,7 @@ public class TaskList {
         if (this.taskList.size() == 0) {
             throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
-        List<Task> list = null;
-        for (Task task : this.taskList) {
-            list.add(task);
-        }
-        return list;
+        return new ArrayList<>(this.taskList);
     }
 
 }

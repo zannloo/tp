@@ -52,7 +52,7 @@ public interface IChildOperation<T extends IChildElement> {
     /**
      * Returns a list of all current children
      *
-     * @return list of all current children
+     * @return array of all current children
      */
     T[] getAllChildren();
 
