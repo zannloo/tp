@@ -3,7 +3,6 @@ package seedu.address.model.statemanager;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
 
@@ -87,7 +86,7 @@ public class RootOperation extends StateManager implements IChildOperation<Group
     /**
      * Returns a list of all current children
      *
-     * @return list of all current children
+     * @return array of all current children
      */
     @Override
     public Group[] getAllChildren() {
@@ -102,6 +101,6 @@ public class RootOperation extends StateManager implements IChildOperation<Group
      */
     @Override
     public int numOfChildren() {
-        return this.numOfChildren();
+        return this.baseDir.numOfChildren();
     }
 }
