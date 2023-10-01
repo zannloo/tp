@@ -22,4 +22,5 @@ public abstract class Task {
 
         return (this.isDone ? "X" : " ");
     }
+    
 }
