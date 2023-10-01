@@ -11,7 +11,7 @@ import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
  */
 public class TaskList {
 
-    private final ArrayList<Task> taskList;
+    private final List<Task> taskList;
 
     /**
      * Constructs a {@code TaskList}.
