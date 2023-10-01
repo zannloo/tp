@@ -41,6 +41,15 @@ public interface IChildOperation<T extends IChildElement> {
     T getChild(Id id) throws NoSuchChildException;
 
     /**
+     * Updates the child with a new child of the same id
+     *
+     * @param id    - Unique identifier of the child
+     * @param Child - The new child to replace old child
+     * @throws NoSuchChildException If there is no such Child found
+     */
+    void updateChild(Id id, T Child) throws NoSuchChildException;
+
+    /**
      * Returns a list of all current children
      *
      * @return list of all current children
@@ -49,6 +58,7 @@ public interface IChildOperation<T extends IChildElement> {
 
     /**
      * Returns Number of current children
+     *
      * @return The Number of current children
      */
     int numOfChildren();

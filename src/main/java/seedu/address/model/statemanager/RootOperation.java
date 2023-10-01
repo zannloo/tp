@@ -3,6 +3,7 @@ package seedu.address.model.statemanager;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
+import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
 
@@ -17,6 +18,7 @@ public class RootOperation extends StateManager implements IChildOperation<Group
 
     /**
      * Constructs a new root operation method
+     *
      * @param root - The root object to perform operations on
      */
     RootOperation(Root root) {
@@ -62,6 +64,24 @@ public class RootOperation extends StateManager implements IChildOperation<Group
     public Group getChild(Id id) throws NoSuchChildException {
         this.stateLogger(RootOperation.LOGGING_PREFIX + "getting" + id.toString());
         return this.baseDir.getChild(id);
+    }
+
+    /**
+     * Updates the child with a new child of the same id
+     *
+     * @param id    - Unique identifier of the child
+     * @param Child - The new child to replace old child
+     * @throws NoSuchChildException If there is no such Child found
+     */
+    @Override
+    public void updateChild(Id id, Group Child) throws NoSuchChildException {
+        this.baseDir.deleteChild(id);
+        try {
+            this.baseDir.addChild(id, Child);
+        } catch (DuplicateChildException e) {
+            this.stateErrorLogger(RootOperation.LOGGING_PREFIX + "In updateChild, unexpected duplicate error");
+            throw new RuntimeException("ERROR: Code should not reach here");
+        }
     }
 
     /**
