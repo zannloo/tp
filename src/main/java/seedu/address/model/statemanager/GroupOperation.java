@@ -68,14 +68,14 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
      * Updates the child with a new child of the same id
      *
      * @param id    - Unique identifier of the child
-     * @param Child - The new child to replace old child
+     * @param child - The new child to replace old child
      * @throws NoSuchChildException If there is no such Child found
      */
     @Override
-    public void updateChild(Id id, Student Child) throws NoSuchChildException {
+    public void updateChild(Id id, Student child) throws NoSuchChildException {
         this.baseDir.deleteChild(id);
         try {
-            this.baseDir.addChild(id, Child);
+            this.baseDir.addChild(id, child);
         } catch (DuplicateChildException e) {
             this.stateErrorLogger(GroupOperation.LOGGING_PREFIX + "In updateChild, unexpected duplicate error");
             throw new RuntimeException("ERROR: Code should not reach here");

@@ -1,7 +1,6 @@
 package seedu.address.model.taskmanager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;

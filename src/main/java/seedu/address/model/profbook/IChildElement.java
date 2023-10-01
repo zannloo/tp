@@ -1,7 +1,5 @@
 package seedu.address.model.profbook;
 
-import seedu.address.model.id.Id;
-
 /**
  * Encapsulate required logic for child element of ProfBok Model
  */
