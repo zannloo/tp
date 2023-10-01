@@ -4,9 +4,10 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
 
-import seedu.address.model.taskmanager.NoSuchTaskException;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+
 
 /**
  * Encapsulate the logic of a prof book model, mainly the need for a task list
@@ -77,7 +78,7 @@ public class TaskListManager {
      * @param query - The String to match
      * @return A list of all matching Tasks
      */
-    public List<Task> findTask(String query) {
+    public List<Task> findTask(String query) throws NoSuchTaskException {
         return this.taskList.find(query);
     }
 
@@ -97,7 +98,7 @@ public class TaskListManager {
      *
      * @return A list of all Tasks
      */
-    public List<Task> getAllTask() {
+    public List<Task> getAllTask() throws NoSuchTaskException {
         return this.taskList.getAllTask();
     }
 

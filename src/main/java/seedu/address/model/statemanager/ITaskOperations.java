@@ -2,8 +2,8 @@ package seedu.address.model.statemanager;
 
 import java.util.List;
 
-import seedu.address.model.taskmanager.NoSuchTaskException;
 import seedu.address.model.taskmanager.Task;
+import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 
 /**
  * Interface for classes that operations that involve a task list, ensures that all basic functions are present to
@@ -51,7 +51,7 @@ public interface ITaskOperations {
      * @param query - The String to match
      * @return A list of all matching Tasks
      */
-    List<Task> findTask(String query);
+    List<Task> findTask(String query) throws NoSuchTaskException;
 
     /**
      * Returns the task at the specified index
@@ -67,6 +67,6 @@ public interface ITaskOperations {
      *
      * @return A list of all Tasks
      */
-    List<Task> getAllTask();
+    List<Task> getAllTasks() throws NoSuchTaskException;
 
 }
