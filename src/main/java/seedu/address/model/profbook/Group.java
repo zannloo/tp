@@ -38,17 +38,6 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
     }
 
     /**
-     * Returns true if child element has same id as param id
-     *
-     * @param id - Id to compare to
-     * @return true if it is equals using ID's equals method
-     */
-    @Override
-    public boolean isSameAs(Id id) {
-        return this.id.equals(id);
-    }
-
-    /**
      * Creates a clone of the current element, this is to achieve immutability
      *
      * @return The clone of the IChildElement
