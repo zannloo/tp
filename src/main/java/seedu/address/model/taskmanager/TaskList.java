@@ -6,19 +6,19 @@ import java.util.List;
 import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 
 
-
 /**
  * Encapsulates logic of a TaskList
  */
 public class TaskList {
 
-    private ArrayList<Task> taskList;
+    private final ArrayList<Task> taskList;
+
     /**
      * Constructs a {@code TaskList}.
      *
      * @param taskList A valid task list.
      */
-    public TaskList(ArrayList<Task> taskList) {
+    public TaskList(List<Task> taskList) {
         this.taskList = taskList;
     }
 

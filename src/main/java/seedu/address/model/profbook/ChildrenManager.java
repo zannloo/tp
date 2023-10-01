@@ -3,6 +3,7 @@ package seedu.address.model.profbook;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import seedu.address.model.taskmanager.TaskList;
 /**
  * Encapsulates the logic of a ProfBookModel that contains children
  * As of v1.2 it is only root and group class
+ *
  * @param <T> to represent the children type, as of v1.2 only student and group
  */
 public class ChildrenManager<T extends IChildElement> extends TaskListManager {
@@ -24,6 +26,7 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
 
     /**
      * Constructs a new child manager instance
+     *
      * @param taskList - For ProfBookModel constructor
      * @param children - Map of id to their children
      */
@@ -35,7 +38,8 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
 
     /**
      * Adds the child to list of children
-     * @param id - Unique identifier of the child
+     *
+     * @param id    - Unique identifier of the child
      * @param child - The child in question
      * @throws DuplicateChildException If attempting to add child with the same ID
      */
@@ -49,6 +53,7 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
 
     /**
      * Deletes the child specified by the id
+     *
      * @param id - Unique identifier of the child
      * @return The deleted Child
      * @throws NoSuchChildException If there is no such Child found
@@ -61,6 +66,7 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
 
     /**
      * Returns the child specified by the id
+     *
      * @param id - Unique identifier of the child
      * @return The specified Child
      * @throws NoSuchChildException If there is no such Child found
@@ -75,6 +81,7 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
 
     /**
      * Returns Number of current children
+     *
      * @return The Number of current children
      */
     public int numOfChildren() {
@@ -83,6 +90,7 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
 
     /**
      * Returns a list of all current children
+     *
      * @return list of all current children
      */
     public List<T> getAllChildren() {
@@ -96,5 +104,9 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
             ret.append(entry.getKey().toString()).append(": ").append(entry.getValue().toString()).append("\n");
         }
         return ret.toString();
+    }
+
+    public Map<Id, T> getChildren() {
+        return new HashMap<>(this.children);
     }
 }
