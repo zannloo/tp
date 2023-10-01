@@ -17,6 +17,7 @@ public class RootOperation extends StateManager implements IChildOperation<Group
 
     /**
      * Constructs a new root operation method
+     *
      * @param root - The root object to perform operations on
      */
     RootOperation(Root root) {
@@ -65,9 +66,27 @@ public class RootOperation extends StateManager implements IChildOperation<Group
     }
 
     /**
+     * Updates the child with a new child of the same id
+     *
+     * @param id    - Unique identifier of the child
+     * @param child - The new child to replace old child
+     * @throws NoSuchChildException If there is no such Child found
+     */
+    @Override
+    public void updateChild(Id id, Group child) throws NoSuchChildException {
+        this.baseDir.deleteChild(id);
+        try {
+            this.baseDir.addChild(id, child);
+        } catch (DuplicateChildException e) {
+            this.stateErrorLogger(RootOperation.LOGGING_PREFIX + "In updateChild, unexpected duplicate error");
+            throw new RuntimeException("ERROR: Code should not reach here");
+        }
+    }
+
+    /**
      * Returns a list of all current children
      *
-     * @return list of all current children
+     * @return array of all current children
      */
     @Override
     public Group[] getAllChildren() {
@@ -82,6 +101,6 @@ public class RootOperation extends StateManager implements IChildOperation<Group
      */
     @Override
     public int numOfChildren() {
-        return this.numOfChildren();
+        return this.baseDir.numOfChildren();
     }
 }

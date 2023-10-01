@@ -6,19 +6,19 @@ import java.util.List;
 import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 
 
-
 /**
  * Encapsulates logic of a TaskList
  */
 public class TaskList {
 
-    private ArrayList<Task> taskList;
+    private final List<Task> taskList;
+
     /**
      * Constructs a {@code TaskList}.
      *
      * @param taskList A valid task list.
      */
-    public TaskList(ArrayList<Task> taskList) {
+    public TaskList(List<Task> taskList) {
         this.taskList = taskList;
     }
 
@@ -128,11 +128,7 @@ public class TaskList {
         if (this.taskList.size() == 0) {
             throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
-        List<Task> list = null;
-        for (Task task : this.taskList) {
-            list.add(task);
-        }
-        return list;
+        return new ArrayList<>(this.taskList);
     }
 
 }

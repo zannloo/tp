@@ -16,6 +16,7 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
 
     /**
      * Constructs a new group operation method
+     *
      * @param baseDir - The group object to perform operations on
      */
     GroupOperation(Group baseDir) {
@@ -60,13 +61,31 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
     @Override
     public Student getChild(Id id) throws NoSuchChildException {
         this.stateLogger(GroupOperation.LOGGING_PREFIX + "getting" + id.toString());
-        return this.getChild(id);
+        return this.baseDir.getChild(id);
+    }
+
+    /**
+     * Updates the child with a new child of the same id
+     *
+     * @param id    - Unique identifier of the child
+     * @param child - The new child to replace old child
+     * @throws NoSuchChildException If there is no such Child found
+     */
+    @Override
+    public void updateChild(Id id, Student child) throws NoSuchChildException {
+        this.baseDir.deleteChild(id);
+        try {
+            this.baseDir.addChild(id, child);
+        } catch (DuplicateChildException e) {
+            this.stateErrorLogger(GroupOperation.LOGGING_PREFIX + "In updateChild, unexpected duplicate error");
+            throw new RuntimeException("ERROR: Code should not reach here");
+        }
     }
 
     /**
      * Returns a list of all current children
      *
-     * @return list of all current children
+     * @return array of all current children
      */
     @Override
     public Student[] getAllChildren() {
@@ -81,6 +100,6 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
      */
     @Override
     public int numOfChildren() {
-        return this.numOfChildren();
+        return this.baseDir.numOfChildren();
     }
 }
