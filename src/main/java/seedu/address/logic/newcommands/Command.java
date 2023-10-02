@@ -1,10 +1,7 @@
 package seedu.address.logic.newcommands;
 
-//import java.util.List;
-
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.path.AbsolutePath;
-//import seedu.address.model.path.element.PathElement;
 import seedu.address.model.profbook.Root;
 
 /**
