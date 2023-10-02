@@ -1,6 +1,6 @@
-package seedu.address.logic.commands.exceptions;
+package seedu.address.logic.newcommands.exceptions;
 
-import seedu.address.logic.commands.Command;
+import seedu.address.logic.newcommands.Command;
 
 /**
  * Represents an error which occurs during execution of a {@link Command}.
