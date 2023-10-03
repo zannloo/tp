@@ -79,6 +79,7 @@ public class CommandResult {
         if (!(other instanceof seedu.address.logic.commands.CommandResult)) {
             return false;
         }
+
         seedu.address.logic.newcommands.CommandResult otherCommandResult =
                 (seedu.address.logic.newcommands.CommandResult) other;
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)

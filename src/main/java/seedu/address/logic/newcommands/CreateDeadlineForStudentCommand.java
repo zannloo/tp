@@ -9,28 +9,23 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.taskmanager.Deadline;
 
 /**
- * Represents a command for creating a new deadline task within a specified group in ProfBook.
- * This command is typically used to add a deadline task to a group.
+ * Adds a person to the address book.
  */
-public class CreateDeadlineForGroupCommand extends Command {
+public class CreateDeadlineForStudentCommand extends Command {
 
     public static final String COMMAND_WORD = "deadline";
 
     public static final String MESSAGE_SUCCESS = "New Deadline task added: %1$s";
-
-    public static final String MESSAGE_DUPLICATE_DEADLINE_TASK = "This Deadline task has already been allocated to "
-            + "this group in ProfBook";
+    public static final String MESSAGE_DUPLICATE_TODO_TASK =
+            "This Deadline task has already been allocated to this student in ProfBook";
 
     private final RelativePath path;
     private final Deadline deadline;
 
     /**
-     * Constructs a {@code CreateDeadlineForGroupCommand} with the specified relative path and deadline details.
-     *
-     * @param path The relative path to the group where the deadline task will be added.
-     * @param deadline The details of the deadline task to be created.
+     * Creates an CreateDeadlineForStudentCommand to add the Deadline Task for a specified {@code Student}
      */
-    public CreateDeadlineForGroupCommand(RelativePath path, Deadline deadline) {
+    public CreateDeadlineForStudentCommand(RelativePath path, Deadline deadline) {
         requireAllNonNull(path, deadline);
         this.path = path;
         this.deadline = deadline;
