@@ -2,6 +2,7 @@ package seedu.address.model.profbook;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 
 /**
  * Encapsulates logic for a student's data
@@ -80,15 +82,21 @@ public class Student extends TaskListManager implements IChildElement {
         return tags;
     }
 
+
     /**
-     * Returns true if child element has same id as param id
+     * Creates a clone of the current element, this is to achieve immutability
      *
-     * @param id - Id to compare to
-     * @return true if it is equals using ID's equals method
+     * @return The clone of the IChildElement
      */
     @Override
-    public boolean isSameAs(Id id) {
-        return this.id.equals(id);
+    public Student clone() {
+        try {
+            return new Student(new TaskList(this.getAllTask()), new Name(this.name.fullName),
+                    new Email(this.email.value), new Phone(this.phone.value), new Address(this.address.value), this.id);
+        } catch (NoSuchTaskException e) {
+            return new Student(new TaskList(new ArrayList<>()), new Name(this.name.fullName),
+                    new Email(this.email.value), new Phone(this.phone.value), new Address(this.address.value), this.id);
+        }
     }
 
     @Override
