@@ -105,6 +105,6 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
 
     @Override
     public boolean duplicate(Student student) { //TODO
-        return null;
+        return false;
     }
 }
