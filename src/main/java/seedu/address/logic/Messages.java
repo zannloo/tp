@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.person.Person;
-
+import seedu.address.model.profbook.Student;
 /**
  * Container for user visible messages.
  */
@@ -17,7 +17,7 @@ public class Messages {
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
-                "Multiple values specified for the following single-valued field(s): ";
+            "Multiple values specified for the following single-valued field(s): ";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
@@ -48,4 +48,22 @@ public class Messages {
         return builder.toString();
     }
 
+    /**
+     * Formats the {@code student} for display to the user.
+     */
+    public static String format(Student student) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(student.getId())
+                .append("; Name: ")
+                .append(student.getName())
+                .append("; Phone: ")
+                .append(student.getPhone())
+                .append("; Email: ")
+                .append(student.getEmail())
+                .append("; Address: ")
+                .append(student.getAddress())
+                .append("; Tags: ");
+        student.getTags().forEach(builder::append);
+        return builder.toString();
+    }
 }

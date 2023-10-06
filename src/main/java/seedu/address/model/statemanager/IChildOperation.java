@@ -62,4 +62,7 @@ public interface IChildOperation<T extends IChildElement> {
      * @return The Number of current children
      */
     int numOfChildren();
+
+
+    boolean duplicate(T t);
 }

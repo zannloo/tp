@@ -1,12 +1,21 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.model.statemanager.StateManager.groupOperation;
 
+import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.id.StudentId;
+import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
+import seedu.address.model.profbook.exceptions.DuplicateChildException;
+import seedu.address.model.statemanager.GroupOperation;
 
 /**
  * Adds a student within the specific group.
@@ -16,8 +25,10 @@ public class CreateStudentCommand extends Command {
 
     public static final String COMMAND_WORD = "touch";
 
+    public static final String MESSAGE_USAGE = null; //TODO
+
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
-    public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in ProfBook";
+    public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in your specified class";
 
     private final RelativePath path;
     private final Student student;
@@ -32,17 +43,48 @@ public class CreateStudentCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
-        return null;
+    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException,
+            InvalidPathException, UnsupportedPathOperationException, InvalidIdException {
+        try {
+            requireAllNonNull(currPath, root);
+            AbsolutePath absolutePath = currPath.resolve(path);
+            GroupOperation group = groupOperation(root, absolutePath);
+            if (group.duplicate(student)) {
+                throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
+            }
+            StudentId studentId = absolutePath.getStudentId();
+            group.addChild(studentId, student);
+        } catch (InvalidPathException e) {
+            //do something
+        } catch (UnsupportedPathOperationException e) {
+            //do something
+        } catch (InvalidIdException e) {
+            //do something
+        } catch (DuplicateChildException e) {
+            //do something
+        }
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(student)));
     }
 
     @Override
     public boolean equals(Object other) {
-        return false;
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof CreateStudentCommand)) {
+            return false;
+        }
+
+        CreateStudentCommand otherCreateStudentCommand = (CreateStudentCommand) other;
+        return student.equals(otherCreateStudentCommand.student);
     }
 
     @Override
     public String toString() {
-        return null;
+        return new ToStringBuilder(this)
+                .add("toCreateStudent", student)
+                .toString();
     }
 }

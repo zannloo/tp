@@ -38,4 +38,8 @@ public class ToDo extends Task {
                 + "[T]" + "[" + this.getStatusIcon() + "] " + this.description;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
 }

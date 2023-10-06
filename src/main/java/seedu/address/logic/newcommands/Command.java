@@ -1,7 +1,10 @@
 package seedu.address.logic.newcommands;
 
 import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
 
 /**
@@ -13,9 +16,10 @@ public abstract class Command {
      * Executes the command and returns the result message.
      *
      * @param currPath {@code currPath} .
-     * @param root {@code root} which the command should operate on.
+     * @param root     {@code root} which the command should operate on.
      * @return feedback message of the operation result for display
      * @throws CommandException If an error occurs during command execution.
      */
-    public abstract CommandResult execute(AbsolutePath currPath, Root root) throws CommandException;
+    public abstract CommandResult execute(AbsolutePath currPath, Root root) throws CommandException,
+            InvalidPathException, UnsupportedPathOperationException, InvalidIdException;
 }

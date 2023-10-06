@@ -103,4 +103,9 @@ public class RootOperation extends StateManager implements IChildOperation<Group
     public int numOfChildren() {
         return this.baseDir.numOfChildren();
     }
+
+    @Override
+    public boolean duplicate(Group group) { //TODO
+        return false;
+    }
 }
