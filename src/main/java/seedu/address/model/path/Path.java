@@ -2,6 +2,7 @@ package seedu.address.model.path;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -105,5 +106,25 @@ public class Path {
                 .collect(Collectors.toList());
 
         return String.join("/", pathElementStrings);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Path)) {
+            return false;
+        }
+
+        Path other = (Path) obj;
+
+        return this.pathElements.equals(other.pathElements);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pathElements);
     }
 }

@@ -2,6 +2,7 @@ package seedu.address.model.path;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -124,5 +125,23 @@ public class AbsolutePath extends Path {
         GroupId id = GroupId.createGroupId(this.pathElements.get(1).toString());
 
         return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof AbsolutePath)) {
+            return false;
+        }
+
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), "ABSOLUTEPATH");
     }
 }

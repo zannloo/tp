@@ -1,5 +1,6 @@
 package seedu.address.model.path;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -21,6 +22,24 @@ public class RelativePath extends Path {
         super();
         commonConstructor(path);
         logger.info(path.toString());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof RelativePath)) {
+            return false;
+        }
+
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), "RELATIVEPATH");
     }
 }
 
