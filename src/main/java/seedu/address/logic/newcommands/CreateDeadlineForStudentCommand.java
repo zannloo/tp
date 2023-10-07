@@ -70,9 +70,8 @@ public class CreateDeadlineForStudentCommand extends Command {
                 (CreateDeadlineForStudentCommand) other;
 
         return deadline.getDescription().equals(otherCreateDeadlineForStudentCommand.deadline.getDescription())
-                && deadline.getDueBy().equals(otherCreateDeadlineForStudentCommand.deadline.getDueBy());
-                //to be included after equals method has been added to AbsolutePath method
-                //&& this.absolutePath.equals(otherCreateDeadlineForStudentCommand.absolutePath);
+                && deadline.getDueBy().equals(otherCreateDeadlineForStudentCommand.deadline.getDueBy())
+                && this.absolutePath.equals(otherCreateDeadlineForStudentCommand.absolutePath);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package seedu.address.logic.newcommands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
@@ -57,25 +58,24 @@ class CreateDeadlineForStudentCommandTest {
         Deadline deadline2 = new Deadline("Assignment 2", duedate2);
         CreateDeadlineForStudentCommand command2 = new CreateDeadlineForStudentCommand(path2, deadline2);
 
-        assertTrue(!command1.equals(command2));
+        assertFalse(command1.equals(command2));
     }
 
-    // to be included after equals method has been added to AbsolutePath method
-    //    @Test
-    //    void equals_differentPath_fail() throws InvalidPathException {
-    //        RelativePath path1 = new RelativePath("~/grp-001/stu-001");
-    //        LocalDateTime duedate1 = LocalDateTime.parse("2023-12-03T23:59");
-    //        Deadline deadline1 = new Deadline("Assignment 1", duedate1);
-    //        CreateDeadlineForStudentCommand command1 = new CreateDeadlineForStudentCommand(path1, deadline1);
-    //        command1.absolutePath = new AbsolutePath("~/grp-001/stu-001");
-    //
-    //        RelativePath path2 = new RelativePath("~/grp-001/stu-002");
-    //        LocalDateTime duedate2 = LocalDateTime.parse("2023-12-03T23:59");
-    //        Deadline deadline2 = new Deadline("Assignment 1", duedate2);
-    //        CreateDeadlineForStudentCommand command2 = new CreateDeadlineForStudentCommand(path2, deadline2);
-    //        command2.absolutePath = new AbsolutePath("~/grp-001/stu-002");
-    //        assertTrue(!command1.equals(command2));
-    //    }
+    @Test
+    void equals_differentPath_fail() throws InvalidPathException {
+        RelativePath path1 = new RelativePath("~/grp-001/stu-001");
+        LocalDateTime duedate1 = LocalDateTime.parse("2023-12-03T23:59");
+        Deadline deadline1 = new Deadline("Assignment 1", duedate1);
+        CreateDeadlineForStudentCommand command1 = new CreateDeadlineForStudentCommand(path1, deadline1);
+        command1.absolutePath = new AbsolutePath("~/grp-001/stu-001");
+
+        RelativePath path2 = new RelativePath("~/grp-001/stu-002");
+        LocalDateTime duedate2 = LocalDateTime.parse("2023-12-03T23:59");
+        Deadline deadline2 = new Deadline("Assignment 1", duedate2);
+        CreateDeadlineForStudentCommand command2 = new CreateDeadlineForStudentCommand(path2, deadline2);
+        command2.absolutePath = new AbsolutePath("~/grp-001/stu-002");
+        assertFalse(command1.equals(command2));
+    }
 
     @Test
     void equals_differentDuedate_fail() throws InvalidPathException {
@@ -89,7 +89,7 @@ class CreateDeadlineForStudentCommandTest {
         Deadline deadline2 = new Deadline("Assignment 1", duedate2);
         CreateDeadlineForStudentCommand command2 = new CreateDeadlineForStudentCommand(path2, deadline2);
 
-        assertTrue(!command1.equals(command2));
+        assertFalse(command1.equals(command2));
     }
 
     @Test
@@ -104,7 +104,7 @@ class CreateDeadlineForStudentCommandTest {
         Deadline deadline2 = new Deadline("Assignment 2", duedate2);
         CreateDeadlineForStudentCommand command2 = new CreateDeadlineForStudentCommand(path2, deadline2);
 
-        assertTrue(!command1.equals(command2));
+        assertFalse(command1.equals(command2));
     }
 
     @Test

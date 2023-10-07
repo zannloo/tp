@@ -28,10 +28,10 @@ public class CreateToDoForStudentCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New ToDo task added: %1$s";
     public static final String MESSAGE_DUPLICATE_TODO_TASK =
             "This ToDo task has already been allocated to this student in ProfBook";
+    protected AbsolutePath absolutePath;
     protected Student stu;
     private final RelativePath path;
     private final ToDo toDo;
-    private AbsolutePath absolutePath;
 
     /**
      * Creates an CreateToDoForStudentCommand  to add the ToDo Task for a specified {@code Student}
@@ -67,9 +67,8 @@ public class CreateToDoForStudentCommand extends Command {
         }
 
         CreateToDoForStudentCommand otherCreateToDoForStudentCommand = (CreateToDoForStudentCommand) other;
-        return toDo.getDescription().equals(otherCreateToDoForStudentCommand.toDo.getDescription());
-        //to be included after equals method has been added to AbsolutePath method
-        //&& this.absolutePath.equals(otherCreateToDoForStudentCommand.absolutePath);
+        return toDo.getDescription().equals(otherCreateToDoForStudentCommand.toDo.getDescription())
+                && this.absolutePath.equals(otherCreateToDoForStudentCommand.absolutePath);
     }
 
     @Override
