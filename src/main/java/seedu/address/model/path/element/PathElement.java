@@ -1,5 +1,7 @@
 package seedu.address.model.path.element;
 
+import java.util.Objects;
+
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.element.exceptions.InvalidPathElementException;
@@ -67,6 +69,26 @@ public class PathElement {
     @Override
     public String toString() {
         return this.elementStr;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof PathElement)) {
+            return false;
+        }
+
+        PathElement other = (PathElement) obj;
+
+        return elementStr.equals(other.elementStr) && type == other.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(elementStr, type);
     }
 }
 
