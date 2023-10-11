@@ -5,8 +5,8 @@ import java.util.Set;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
-import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Name;
+import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.tag.Tag;
 
