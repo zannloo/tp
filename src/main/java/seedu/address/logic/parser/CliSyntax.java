@@ -12,4 +12,5 @@ public class CliSyntax {
     public static final Option OPTION_ADDRESS = new Option("--address", "-a");
     public static final Option OPTION_TAG = new Option("--tag", "-t");
     public static final Option OPTION_ID = new Option("--id", "-i");
+    public static final Option OPTION_DESC = new Option("--desc", "-d");
 }
