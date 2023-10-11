@@ -2,8 +2,12 @@ package seedu.address.logic.parser.newcommandparser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.stream.Stream;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.parser.ArgumentMultimap;
+import seedu.address.logic.parser.Option;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
@@ -139,5 +143,13 @@ public class ParserUtil {
         }
 
         return groupId;
+    }
+
+    /**
+     * Returns true if none of the options contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    public static boolean areOptionsPresent(ArgumentMultimap argumentMultimap, Option... options) {
+        return Stream.of(options).allMatch(option -> argumentMultimap.getValue(option).isPresent());
     }
 }
