@@ -21,9 +21,7 @@ public class CreateStudentCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() {
-        
-        ;
-        String argument = "~/grp-001/stu-001 -n Amy -p 11111111 -e amy@example.com -a Block 312, Amy Street 1";
+        String argument = "~/grp-001/stu-002 -n Amy -p 11111111 -e amy@example.com -a Block 312, Amy Street 1";
 
         try {
             Command command = parser.parse(argument);
