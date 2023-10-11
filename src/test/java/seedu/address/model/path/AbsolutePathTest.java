@@ -2,11 +2,11 @@ package seedu.address.model.path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -182,39 +182,39 @@ public class AbsolutePathTest {
     @Test
     public void getStudentId_studentPath_returnsValidStudentId()
             throws UnsupportedPathOperationException, InvalidIdException {
-        StudentId studentId = studentPath.getStudentId();
-        assertNotNull(studentId);
-        assertEquals("stu-001", studentId.toString());
+        Optional<StudentId> studentId = studentPath.getStudentId();
+        assertTrue(studentId.isPresent());
+        assertEquals("stu-001", studentId.get().toString());
     }
 
     @Test
     public void getGroupId_studentPath_returnsValidStudentId()
             throws UnsupportedPathOperationException, InvalidIdException {
-        GroupId groupId = studentPath.getGroupId();
-        assertNotNull(groupId);
-        assertEquals("grp-001", groupId.toString());
+        Optional<GroupId> groupId = studentPath.getGroupId();
+        assertTrue(groupId.isPresent());
+        assertEquals("grp-001", groupId.get().toString());
     }
 
     @Test
     public void getGroupId_groupPath_returnsValidGroupId()
             throws UnsupportedPathOperationException, InvalidIdException {
-        GroupId groupId = groupPath.getGroupId();
-        assertNotNull(groupId);
-        assertEquals("grp-001", groupId.toString());
+        Optional<GroupId> groupId = groupPath.getGroupId();
+        assertTrue(groupId.isPresent());
+        assertEquals("grp-001", groupId.get().toString());
     }
 
     @Test
-    public void getStudentId_rootPath_throwsUnsupportedPathOperationException() {
-        assertThrows(UnsupportedPathOperationException.class, () -> rootPath.getStudentId());
+    public void getStudentId_rootPath_returnEmptyOptional() {
+        assertFalse(rootPath.getStudentId().isPresent());
     }
 
     @Test
-    public void getStudentId_groupPath_throwsUnsupportedPathOperationException() {
-        assertThrows(UnsupportedPathOperationException.class, () -> groupPath.getStudentId());
+    public void getStudentId_groupPath_returnEmptyOptional() {
+        assertFalse(groupPath.getStudentId().isPresent());
     }
 
     @Test
-    public void getGroupId_rootPath_throwsUnsupportedPathOperationException() {
-        assertThrows(UnsupportedPathOperationException.class, () -> rootPath.getGroupId());
+    public void getGroupId_rootPath_returnEmptyOptional() {
+        assertFalse(rootPath.getGroupId().isPresent());
     }
 }
