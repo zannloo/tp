@@ -11,7 +11,9 @@ import seedu.address.commons.core.LogsCenter;
 
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.newcommands.Command;
+import seedu.address.logic.newcommands.CreateGroupCommand;
 import seedu.address.logic.newcommands.CreateStudentCommand;
+import seedu.address.logic.newcommands.CreateTodoForGroupCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -50,6 +52,12 @@ public class ProfBookParser {
 
         case CreateStudentCommand.COMMAND_WORD:
             return new CreateStudentCommandParser().parse(arguments);
+
+        case CreateGroupCommand.COMMAND_WORD:
+            return new CreateGroupCommandParser().parse(arguments);
+
+        case CreateTodoForGroupCommand.COMMAND_WORD:
+            return new CreateTodoForGroupCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
