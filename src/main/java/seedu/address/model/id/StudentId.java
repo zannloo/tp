@@ -1,39 +1,51 @@
 package seedu.address.model.id;
 
-import seedu.address.model.id.exceptions.InvalidIdException;
+import static seedu.address.commons.util.AppUtil.checkArgument;
+
+import java.util.Objects;
 
 /**
  * The {@code StudentId} class represents a student identifier (ID)
  * with a specific format.
  */
 public class StudentId extends Id {
-    /**
-     * A validator object for checking the format of student IDs.
-     * Student IDs must match the pattern "stu-" followed by three digits.
-     */
-    public static final IdValidator STUDENT_ID_VALIDATOR = new IdValidator("stu-\\d{3}");
+    public static final String VALIDATION_REGEX = "stu-\\d{3}";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Student Id should be in the format 'stu-XXX' where XXX is a 3-digit number.";
 
     /**
-     * Constructs a {@code StudentId} object with the specified ID value.
-     * Use the {@link #createStudentId(String)} factory method for ID creation and validation.
+     * Constructs a {@code StudentId} object with the valid ID value.
      *
-     * @param id The student ID value to store.
+     * @param id A valid student id.
      */
-    private StudentId(String id) {
+    public StudentId(String id) {
         super(id);
+        checkArgument(isValidStudentId(id), MESSAGE_CONSTRAINTS);
     }
 
     /**
-     * Creates a new {@code StudentId} object with the specified ID value, while also validating its format.
-     *
-     * @param id The student ID value to create and validate.
-     * @return A valid {@code StudentId} object.
-     * @throws InvalidIdException If the provided ID does not match the expected format.
+     * Return true if given string is a valid studentId
      */
-    public static StudentId createStudentId(String id) throws InvalidIdException {
-        if (!STUDENT_ID_VALIDATOR.isValid(id)) {
-            throw new InvalidIdException("Invalid student id format.");
+    public static boolean isValidStudentId(String test) {
+        return test.matches(VALIDATION_REGEX);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
         }
-        return new StudentId(id);
+
+        if (!(other instanceof StudentId)) {
+            return false;
+        }
+
+        StudentId otherStudentId = (StudentId) other;
+        return id.equals(otherStudentId.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, "StudentId");
     }
 }

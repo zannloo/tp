@@ -38,9 +38,9 @@ public class PathElement {
             return new PathElement(element, PathElementType.PARENT);
         } else if (element.equals(".")) {
             return new PathElement(element, PathElementType.CURRENT);
-        } else if (StudentId.STUDENT_ID_VALIDATOR.isValid(element)) {
+        } else if (StudentId.isValidStudentId(element)) {
             return new PathElement(element, PathElementType.STUDENTID);
-        } else if (GroupId.GROUP_ID_VALIDATOR.isValid(element)) {
+        } else if (GroupId.isValidGroupId(element)) {
             return new PathElement(element, PathElementType.GROUPID);
         } else {
             throw new InvalidPathElementException();

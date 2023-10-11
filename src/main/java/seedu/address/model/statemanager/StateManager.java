@@ -3,10 +3,13 @@ package seedu.address.model.statemanager;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
@@ -60,7 +63,7 @@ public class StateManager implements ITaskOperations {
      *                                           valid group
      */
     public static GroupOperation groupOperation(Root root, AbsolutePath pathToGroup)
-            throws UnsupportedPathOperationException, InvalidIdException, NoSuchChildException {
+            throws UnsupportedPathOperationException, NoSuchChildException {
         requireAllNonNull(root, pathToGroup);
         Group currDir = StateManager.getGroupFromPath(root, pathToGroup);
         return new GroupOperation(currDir);
@@ -79,26 +82,29 @@ public class StateManager implements ITaskOperations {
      *                                           valid student
      */
     public static StudentOperation studentOperation(Root root, AbsolutePath pathToStudent)
-            throws UnsupportedPathOperationException, InvalidIdException, NoSuchChildException {
+            throws UnsupportedPathOperationException, NoSuchChildException {
         requireAllNonNull(root, pathToStudent);
         Student currDir = StateManager.getStudentFromPath(root, pathToStudent);
         return new StudentOperation(currDir);
     }
 
-    private static Group getGroupFromPath(Root root, AbsolutePath p) throws UnsupportedPathOperationException,
-            InvalidIdException, NoSuchChildException {
-        if (p.isGroupDirectory()) {
-            return root.getChild(p.getGroupId());
+    private static Group getGroupFromPath(Root root, AbsolutePath p)
+            throws UnsupportedPathOperationException, NoSuchChildException {
+        Optional<GroupId> groupIdOptional = p.getGroupId();
+        if (groupIdOptional.isPresent()) {
+            return root.getChild(groupIdOptional.get());
         }
         throw new UnsupportedPathOperationException("No such group at " + p);
     }
 
     private static Student getStudentFromPath(Root root, AbsolutePath p)
-            throws UnsupportedPathOperationException, InvalidIdException, NoSuchChildException {
-        if (p.isStudentDirectory()) {
-            return root.getChild(p.getGroupId()).getChild(p.getStudentId());
+            throws UnsupportedPathOperationException, NoSuchChildException {
+        Optional<GroupId> groupIdOptional = p.getGroupId();
+        Optional<StudentId> studentIdOptional = p.getStudentId();
+        if (studentIdOptional.isPresent() && groupIdOptional.isPresent()) {
+            return root.getChild(groupIdOptional.get()).getChild(studentIdOptional.get());
         }
-        throw new UnsupportedPathOperationException("No such Student at " + p);
+        throw new UnsupportedPathOperationException("No such student at " + p);
     }
 
     void stateLogger(String log) {
