@@ -3,11 +3,11 @@ package seedu.address.model.path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.id.exceptions.InvalidIdException;
@@ -19,8 +19,8 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 /**
  * Represents a path in our application.
  */
-public class Path {
-    private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+public abstract class Path {
+    private static final Logger logger = LogsCenter.getLogger(Path.class);
     protected final List<PathElement> pathElements;
 
     /**
@@ -140,16 +140,14 @@ public class Path {
      * @throws UnsupportedPathOperationException If the operation is not supported based on the directory's state.
      * @throws InvalidIdException If the retrieved ID is invalid.
      */
-    public StudentId getStudentId() throws UnsupportedPathOperationException, InvalidIdException {
-        if (this.isGroupDirectory()) {
-            throw new UnsupportedPathOperationException("Can't find student ID in the group directory");
-        } else if (this.isRootDirectory()) {
-            throw new UnsupportedPathOperationException("Can't find student ID in the root directory");
+    public Optional<StudentId> getStudentId() {
+        if (this.isGroupDirectory() || this.isRootDirectory()) {
+            return Optional.empty();
         }
 
-        StudentId id = StudentId.createStudentId(this.pathElements.get(2).toString());
+        String id = this.pathElements.get(2).toString();
 
-        return id;
+        return Optional.of(new StudentId(id));
     }
 
     /**
@@ -159,14 +157,14 @@ public class Path {
      * @throws UnsupportedPathOperationException If the operation is not supported based on the directory's state.
      * @throws InvalidIdException If the retrieved ID is invalid.
      */
-    public GroupId getGroupId() throws UnsupportedPathOperationException, InvalidIdException {
+    public Optional<GroupId> getGroupId() {
         if (this.isRootDirectory()) {
-            throw new UnsupportedPathOperationException("Can't find group ID in the root directory");
+            return Optional.empty();
         }
 
-        GroupId id = GroupId.createGroupId(this.pathElements.get(1).toString());
+        String id = this.pathElements.get(1).toString();
 
-        return id;
+        return Optional.of(new GroupId(id));
     }
 
     @Override
