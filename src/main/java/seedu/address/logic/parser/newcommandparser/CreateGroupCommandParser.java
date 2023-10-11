@@ -10,14 +10,14 @@ import seedu.address.logic.newcommands.CreateGroupCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.id.Id;
+import seedu.address.model.id.GroupId;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.taskmanager.TaskList;
 
 public class CreateGroupCommandParser implements Parser<CreateGroupCommand> {
-    //private static final String INVALID_PATH_MESSAGE = "Destination path provided is not a student directory.";
+    private static final String INVALID_PATH_MESSAGE = "Destination path provided is not a group directory.";
 
     public CreateGroupCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
@@ -30,19 +30,14 @@ public class CreateGroupCommandParser implements Parser<CreateGroupCommand> {
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME);
 
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
-
-        // Id id = null;
-        // try {
-        //     id = path.getStudentId();
-        // } catch (UnsupportedPathOperationException e) {
-        //     throw new ParseException(INVALID_PATH_MESSAGE);
-        // } catch (InvalidIdException e) {
-        //     throw new ParseException(e.getMessage());
-        // }
+        
+        //todo: is possible to create student without provide id -> will auto generate id
+        if (!path.isGroupDirectory()) {
+            throw new ParseException(INVALID_PATH_MESSAGE);
+        }
         
         Name name = ParserUtil.parseName(argMultimap.getValue(OPTION_NAME).get());
-        //todo: should be studentId
-        Id id = new Id("grp-001");
+        GroupId id = ParserUtil.parseGroupId(path);
 
         Group group = new Group(new TaskList(new ArrayList<>()), new HashMap<>(), name, id);
 

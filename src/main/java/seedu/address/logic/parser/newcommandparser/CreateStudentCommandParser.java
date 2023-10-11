@@ -12,7 +12,7 @@ import seedu.address.logic.newcommands.CreateStudentCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.id.Id;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
@@ -22,12 +22,13 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.taskmanager.TaskList;
 
 public class CreateStudentCommandParser implements Parser<CreateStudentCommand> {
-    //private static final String INVALID_PATH_MESSAGE = "Destination path provided is not a student directory.";
+    private static final String INVALID_PATH_MESSAGE = "Destination path provided is not a student directory.";
 
     public CreateStudentCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
 
+        //todo: need usage format from command class
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME, OPTION_ADDRESS, OPTION_PHONE, OPTION_EMAIL)
                 || argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, "todo/usage_format"));
@@ -37,22 +38,16 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
 
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
 
-        // Id id = null;
-        // try {
-        //     id = path.getStudentId();
-        // } catch (UnsupportedPathOperationException e) {
-        //     throw new ParseException(INVALID_PATH_MESSAGE);
-        // } catch (InvalidIdException e) {
-        //     throw new ParseException(e.getMessage());
-        // }
-        
+        //todo: is possible to create student without provide id -> will auto generate id
+        if (!path.isStudentDirectory()) {
+            throw new ParseException(INVALID_PATH_MESSAGE);
+        }
+
         Name name = ParserUtil.parseName(argMultimap.getValue(OPTION_NAME).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(OPTION_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(OPTION_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getValue(OPTION_ADDRESS).get());
-        
-        //todo: should be studentId
-        Id id = new Id("stu-001");
+        StudentId id = ParserUtil.parseStudentId(path);
 
         Student student = new Student(new TaskList(new ArrayList<>()), name, email, phone, address, id);
 

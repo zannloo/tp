@@ -2,6 +2,7 @@ package seedu.address.logic.parser.newcommandparser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
@@ -11,7 +12,6 @@ import seedu.address.logic.parser.Option;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
-import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Address;
@@ -101,7 +101,6 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String path} into an {@code RelativePath}.
-     * Leading and trailing whitespaces will be trimmed.
      *
      * @throws ParseException if the given {@code path} is invalid.
      */
@@ -117,32 +116,40 @@ public class ParserUtil {
         return relativePath;
     }
 
-    public static StudentId parseStudentId(String id) throws ParseException {
-        requireNonNull(id);
-        String trimmedId = id.trim();
+    /**
+     * Parses a {@link RelativePath} to extract a {@link StudentId}.
+     *
+     * @param path The {@link RelativePath} to parse.
+     * @return The extracted {@link StudentId}.
+     * @throws ParseException If the path is invalid or doesn't contain a valid {@link StudentId}.
+     */
+    public static StudentId parseStudentId(RelativePath path) throws ParseException {
+        requireNonNull(path);
+        Optional<StudentId> studentIdOptional = path.getStudentId();
 
-        StudentId studentId = null;
-        try {
-            studentId = StudentId.createStudentId(trimmedId);
-        } catch (InvalidIdException e) {
-            throw new ParseException(e.getMessage());
+        if(!studentIdOptional.isPresent()) {
+            throw new ParseException("No student id found in the path.");
         }
 
-        return studentId;
+        return studentIdOptional.get();
     }
 
-    public static GroupId parseGroupId(String id) throws ParseException {
-        requireNonNull(id);
-        String trimmedId = id.trim();
+    /**
+     * Parses a {@link RelativePath} to extract a {@link GroupId}.
+     *
+     * @param path The {@link RelativePath} to parse.
+     * @return The extracted {@link GroupId}.
+     * @throws ParseException If the path is invalid or doesn't contain a valid {@link GroupId}.
+     */
+    public static GroupId parseGroupId(RelativePath path) throws ParseException {
+        requireNonNull(path);
+        Optional<GroupId> groupIdOptional = path.getGroupId();
 
-        GroupId groupId = null;
-        try {
-            groupId = GroupId.createGroupId(trimmedId);
-        } catch (InvalidIdException e) {
-            throw new ParseException(e.getMessage());
+        if (!groupIdOptional.isPresent()) {
+            throw new ParseException("No group id found in the path.");
         }
 
-        return groupId;
+        return groupIdOptional.get();
     }
 
     /**
