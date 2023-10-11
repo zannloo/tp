@@ -6,6 +6,7 @@ import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
+import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 
 /**
  * Represents a command with hidden internal logic and the ability to be executed.
@@ -21,5 +22,5 @@ public abstract class Command {
      * @throws CommandException If an error occurs during command execution.
      */
     public abstract CommandResult execute(AbsolutePath currPath, Root root) throws CommandException,
-            InvalidPathException, UnsupportedPathOperationException, InvalidIdException;
+            InvalidPathException, UnsupportedPathOperationException, InvalidIdException, NoSuchTaskException;
 }

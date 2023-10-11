@@ -52,13 +52,11 @@ public class CreateStudentCommand extends Command {
             if (group.duplicate(student)) {
                 throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
             }
-            StudentId studentId = absolutePath.getStudentId();
+            StudentId studentId = absolutePath.getStudentId().get();
             group.addChild(studentId, student);
         } catch (InvalidPathException e) {
             //do something
         } catch (UnsupportedPathOperationException e) {
-            //do something
-        } catch (InvalidIdException e) {
             //do something
         } catch (DuplicateChildException e) {
             //do something

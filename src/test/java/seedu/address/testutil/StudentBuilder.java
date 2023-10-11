@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Set;
 
 import seedu.address.model.id.Id;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Phone;
+import seedu.address.model.id.StudentId;
+import seedu.address.model.profbook.Address;
+import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
+import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.taskmanager.Task;
@@ -39,7 +40,7 @@ public class StudentBuilder {
      * Creates a {@code StudentBuilder} with the default details.
      */
     public StudentBuilder() {
-        id = new Id(DEFAULT_ID);
+        id = new StudentId(DEFAULT_ID);
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
@@ -63,7 +64,7 @@ public class StudentBuilder {
      * Sets the {@code Id} of the {@code Student} that we are building.
      */
     public StudentBuilder withId(String id) {
-        this.id = new Id(id);
+        this.id = new StudentId(id);
         return this;
     }
 
