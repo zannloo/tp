@@ -9,6 +9,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
 
 import seedu.address.model.path.element.PathElement;
+import seedu.address.model.path.element.PathElementType;
 import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
@@ -51,6 +52,11 @@ public class AbsolutePath extends Path {
     public AbsolutePath resolve(RelativePath relative) throws InvalidPathException {
         List<PathElement> fullPathElements = new ArrayList<>(this.pathElements);
         List<PathElement> relativePathElements = relative.pathElements;
+
+        // If relativePath start with ~/ return relativePath
+        if (relativePathElements.get(0).getType() == PathElementType.ROOT) {
+            return new AbsolutePath(relativePathElements);
+        }
 
         Path.appendPathElements(fullPathElements, relativePathElements);
 
