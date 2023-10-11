@@ -10,8 +10,8 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.taskmanager.ToDo;
 
+//todo: only need one todo command
 public class CreateTodoForGroupCommandParser implements Parser<CreateToDoForStudentCommand> {
-    //private static final String INVALID_PATH_MESSAGE = "Destination path provided is not a student directory.";
 
     public CreateToDoForStudentCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
@@ -25,18 +25,8 @@ public class CreateTodoForGroupCommandParser implements Parser<CreateToDoForStud
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC);
 
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
-
-        // Id id = null;
-        // try {
-        //     id = path.getStudentId();
-        // } catch (UnsupportedPathOperationException e) {
-        //     throw new ParseException(INVALID_PATH_MESSAGE);
-        // } catch (InvalidIdException e) {
-        //     throw new ParseException(e.getMessage());
-        // }
         
         ToDo todo = new ToDo(argMultimap.getValue(OPTION_DESC).get());
-
 
         return new CreateToDoForStudentCommand(path, todo);
     }
