@@ -39,6 +39,17 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
     }
 
     /**
+     * Checks if the child is present
+     *
+     * @param id - Unique identifier of the child
+     * @return true if child is present
+     */
+    @Override
+    public boolean hasChild(Id id) {
+        return this.baseDir.hasChild(id);
+    }
+
+    /**
      * Deletes the child specified by the id
      *
      * @param id - Unique identifier of the child

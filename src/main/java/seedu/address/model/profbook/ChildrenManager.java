@@ -65,6 +65,16 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
     }
 
     /**
+     * Checks if the child is present
+     *
+     * @param id - Unique identifier of the child
+     * @return true if the child is present
+     */
+    public boolean hasChild(Id id) {
+        return this.children.containsKey(id);
+    }
+
+    /**
      * Returns the child specified by the id
      *
      * @param id - Unique identifier of the child

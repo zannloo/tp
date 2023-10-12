@@ -23,6 +23,13 @@ public interface IChildOperation<T extends IChildElement> {
     void addChild(Id id, T child) throws DuplicateChildException;
 
     /**
+     * Checks if the child is present
+     *
+     * @param id - Unique identifier of the child
+     */
+    boolean hasChild(Id id);
+
+    /**
      * Deletes the child specified by the id
      *
      * @param id - Unique identifier of the child
