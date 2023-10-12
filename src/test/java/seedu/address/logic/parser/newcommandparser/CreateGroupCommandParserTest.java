@@ -9,14 +9,14 @@ import seedu.address.logic.newcommands.Command;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 public class CreateGroupCommandParserTest {
-    private CreateGroupCommandParser parser = new CreateGroupCommandParser();
     private static final Logger logger = LogsCenter.getLogger(CreateStudentCommandParserTest.class);
+    private CreateGroupCommandParser parser = new CreateGroupCommandParser();
     // private Student expectedStudent = new Student(
-    //                 new TaskList(new ArrayList<>()), 
-    //                 new Name("Amy Bee"), 
-    //                 new Email("amy@example.com"), 
-    //                 new Phone("11111111"), 
-    //                 new Address("Block 312, Amy Street 1"), 
+    //                 new TaskList(new ArrayList<>()),
+    //                 new Name("Amy Bee"),
+    //                 new Email("amy@example.com"),
+    //                 new Phone("11111111"),
+    //                 new Address("Block 312, Amy Street 1"),
     //                 new Id("stu-001"));
 
     @Test

@@ -9,8 +9,8 @@ import seedu.address.logic.newcommands.Command;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 public class MoveStudentToGroupCommandParserTest {
-    private MoveStudentToGroupCommandParser parser = new MoveStudentToGroupCommandParser();
     private static final Logger logger = LogsCenter.getLogger(MoveStudentToGroupCommandParser.class);
+    private MoveStudentToGroupCommandParser parser = new MoveStudentToGroupCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
