@@ -29,6 +29,7 @@ public class CreateStudentCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
     public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in your specified class";
+    protected AbsolutePath absolutePath;
 
     private final RelativePath path;
     private final Student student;
@@ -45,22 +46,14 @@ public class CreateStudentCommand extends Command {
     @Override
     public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException,
             InvalidPathException, UnsupportedPathOperationException, InvalidIdException {
-        try {
-            requireAllNonNull(currPath, root);
-            AbsolutePath absolutePath = currPath.resolve(path);
-            GroupOperation group = groupOperation(root, absolutePath);
-            if (group.duplicate(student)) {
-                throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
-            }
-            StudentId studentId = absolutePath.getStudentId().get();
-            group.addChild(studentId, student);
-        } catch (InvalidPathException e) {
-            //do something
-        } catch (UnsupportedPathOperationException e) {
-            //do something
-        } catch (DuplicateChildException e) {
-            //do something
+        requireAllNonNull(currPath, root);
+        absolutePath = currPath.resolve(path);
+        GroupOperation group = groupOperation(root, absolutePath);
+        StudentId studentId = (StudentId) student.getId();
+        if (group.hasChild(studentId)) {
+            throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
         }
+        group.addChild(studentId, student);
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(student)));
     }
 

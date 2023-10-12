@@ -2,8 +2,8 @@ package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.model.statemanager.StateManager.groupOperation;
-import static seedu.address.model.statemanager.StateManager.studentOperation;
 import static seedu.address.model.statemanager.StateManager.rootOperation;
+import static seedu.address.model.statemanager.StateManager.studentOperation;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -32,10 +32,8 @@ public class CreateDeadlineCommand extends Command {
     public static final String COMMAND_WORD = "deadline";
 
     public static final String MESSAGE_SUCCESS = "New Deadline task added: %1$s";
-    public static final String MESSAGE_DUPLICATE_DEADLINE_TASK_STUDENT =
-            "This Deadline task has already been allocated to this student in ProfBook";
-    public static final String MESSAGE_DUPLICATE_DEADLINE_TASK_GROUP =
-            "This Deadline task has already been allocated to this group in ProfBook";
+    public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
+            "This Deadline task has already been allocated";
 
     protected AbsolutePath absolutePath;
     protected Student stu;
@@ -53,15 +51,17 @@ public class CreateDeadlineCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws
-            CommandException, InvalidPathException, UnsupportedPathOperationException, InvalidIdException, NoSuchTaskException {
+    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException,
+            InvalidPathException, UnsupportedPathOperationException, InvalidIdException, NoSuchTaskException {
         requireAllNonNull(currPath, root);
         absolutePath = currPath.resolve(path);
         CommandResult returnStatement = null;
         if (absolutePath.isStudentDirectory()) {
             StudentOperation student = studentOperation(root, absolutePath);
-            if (student.getAllTasks().contains(this.deadline)) {
-                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK_STUDENT);
+            if (student.getAllTasks()
+                    .stream()
+                    .filter(x -> x.getDescription().equals(this.deadline.getDescription())) != null) {
+                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
             }
             student.addTask(deadline);
             GroupOperation group = groupOperation(root, absolutePath);
@@ -70,8 +70,10 @@ public class CreateDeadlineCommand extends Command {
             returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(stu)));
         } else if (absolutePath.isGroupDirectory()) {
             GroupOperation group = groupOperation(root, absolutePath);
-            if (group.getAllTasks().contains(this.deadline)) {
-                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK_GROUP);
+            if (group.getAllTasks()
+                    .stream()
+                    .filter(x -> x.getDescription().equals(this.deadline.getDescription())) != null) {
+                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
             }
             group.addTask(deadline);
             RootOperation currRoot = rootOperation(root);
@@ -103,9 +105,9 @@ public class CreateDeadlineCommand extends Command {
     }
 
     @Override
-    public String toString() {
+    public String toString() { //have to make this such that it fits for both stu and group
         return new ToStringBuilder(this)
-                .add("toCreateDeadlineForStudent", stu)
+                .add("toCreateDeadline", stu)
                 .toString();
     }
 }

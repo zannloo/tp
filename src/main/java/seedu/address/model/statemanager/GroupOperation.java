@@ -113,9 +113,4 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
     public int numOfChildren() {
         return this.baseDir.numOfChildren();
     }
-
-    @Override
-    public boolean duplicate(Student student) { //TODO
-        return false;
-    }
 }

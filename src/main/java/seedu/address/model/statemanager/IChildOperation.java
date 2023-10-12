@@ -70,6 +70,4 @@ public interface IChildOperation<T extends IChildElement> {
      */
     int numOfChildren();
 
-
-    boolean duplicate(T t);
 }

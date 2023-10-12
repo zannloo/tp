@@ -13,10 +13,9 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import seedu.address.model.profbook.Student;
 /**
- * A utility class containing a list of {@code Person} objects to be used in tests.
+ * A utility class containing a list of {@code Student} objects to be used in tests.
  */
 public class TypicalStudents {
-
     public static final Student ALICE = new StudentBuilder()
             .withId("stu-001").withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")

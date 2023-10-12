@@ -4,8 +4,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 import seedu.address.logic.parser.Prefix;
+
 import seedu.address.model.person.Person;
+import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
 /**
  * Container for user visible messages.
@@ -66,4 +69,21 @@ public class Messages {
         student.getTags().forEach(builder::append);
         return builder.toString();
     }
+
+        //    public static String format(Group group) {
+        //        final StringBuilder builder = new StringBuilder();
+        //        builder.append(group.getId())
+        //                .append("; Name: ")
+        //                .append(group.getName())
+        //                .append("; Phone: ")
+        //                .append(student.getPhone())
+        //                .append("; Email: ")
+        //                .append(student.getEmail())
+        //                .append("; Address: ")
+        //                .append(student.getAddress())
+        //                .append("; Tags: ");
+        //        student.getTags().forEach(builder::append);
+        //        return builder.toString();
+        //        return null; // switch when getter methods have been implemented in Group class
+        //    }
 }
