@@ -37,9 +37,4 @@ public class ToDo extends Task {
         return "Your ToDo has been added:\n"
                 + "[T]" + "[" + this.getStatusIcon() + "] " + this.description;
     }
-
-    public String getDescription() {
-        return this.description;
-    }
-
 }

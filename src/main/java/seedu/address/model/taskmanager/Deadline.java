@@ -51,8 +51,5 @@ public class Deadline extends Task {
         return this.dueBy;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
 }
 
