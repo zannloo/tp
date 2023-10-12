@@ -30,10 +30,10 @@ public class PersonUtil {
      */
     public static String getPersonDetails(Person person) {
         StringBuilder sb = new StringBuilder();
-        sb.append(OPTION_NAME + person.getName().fullName + " ");
-        sb.append(OPTION_PHONE + person.getPhone().value + " ");
-        sb.append(OPTION_EMAIL + person.getEmail().value + " ");
-        sb.append(OPTION_ADDRESS + person.getAddress().value + " ");
+        sb.append(OPTION_NAME + " " + person.getName().fullName + " ");
+        sb.append(OPTION_PHONE + " " + person.getPhone().value + " ");
+        sb.append(OPTION_EMAIL + " " + person.getEmail().value + " ");
+        sb.append(OPTION_ADDRESS + " " + person.getAddress().value + " ");
         person.getTags().stream().forEach(
             s -> sb.append(OPTION_TAG + s.tagName + " ")
         );
@@ -45,16 +45,16 @@ public class PersonUtil {
      */
     public static String getEditPersonDescriptorDetails(EditPersonDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
-        descriptor.getName().ifPresent(name -> sb.append(OPTION_NAME).append(name.fullName).append(" "));
-        descriptor.getPhone().ifPresent(phone -> sb.append(OPTION_PHONE).append(phone.value).append(" "));
-        descriptor.getEmail().ifPresent(email -> sb.append(OPTION_EMAIL).append(email.value).append(" "));
-        descriptor.getAddress().ifPresent(address -> sb.append(OPTION_ADDRESS).append(address.value).append(" "));
+        descriptor.getName().ifPresent(name -> sb.append(OPTION_NAME).append(" ").append(name.fullName).append(" "));
+        descriptor.getPhone().ifPresent(phone -> sb.append(OPTION_PHONE).append(" ").append(phone.value).append(" "));
+        descriptor.getEmail().ifPresent(email -> sb.append(OPTION_EMAIL).append(" ").append(email.value).append(" "));
+        descriptor.getAddress().ifPresent(address -> sb.append(OPTION_ADDRESS).append(" ").append(address.value).append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (tags.isEmpty()) {
                 sb.append(OPTION_TAG);
             } else {
-                tags.forEach(s -> sb.append(OPTION_TAG).append(s.tagName).append(" "));
+                tags.forEach(s -> sb.append(OPTION_TAG).append(" ").append(s.tagName).append(" "));
             }
         }
         return sb.toString();
