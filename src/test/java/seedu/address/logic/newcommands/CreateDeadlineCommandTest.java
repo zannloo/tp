@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
-import seedu.address.logic.Messages;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
@@ -72,9 +71,9 @@ class CreateDeadlineCommandTest {
         Student stu = group.getChild(temp);
 
         CommandResult returnStatement =
-                new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(stu)));
+                new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
 
-        assertEquals(String.format(CreateDeadlineCommand.MESSAGE_SUCCESS, Messages.format(stu)),
+        assertEquals(String.format(CreateDeadlineCommand.MESSAGE_SUCCESS, stu.toString()),
                 returnStatement.getFeedbackToUser());
     }
 
@@ -187,7 +186,7 @@ class CreateDeadlineCommandTest {
     }
 
     @Test
-    void equals_differentDuedateForStudentDirectory_fail() throws InvalidPathException {
+    void equals_differentDueDateForStudentDirectory_fail() throws InvalidPathException {
         RelativePath path1 = new RelativePath("~/grp-001/stu-001");
         LocalDateTime duedate1 = LocalDateTime.parse("2023-12-03T23:58");
         Deadline deadline1 = new Deadline("Assignment 1", duedate1);
@@ -222,8 +221,9 @@ class CreateDeadlineCommandTest {
         LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:58");
         Deadline deadline = new Deadline("Assignment 1", duedate);
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline);
-        String expected = CreateDeadlineCommand.class.getCanonicalName()
-                + "{toCreateDeadline=" + command.stu + "}";
+        String expected = "seedu.address.logic.newcommands.CreateDeadlineCommand{"
+                        + "toCreateDeadline=Deadline has been added:\n"
+                        + "[D][ ] Assignment 1(by: 2023-12-03T23:58)}";
 
         assertEquals(expected, command.toString());
     }

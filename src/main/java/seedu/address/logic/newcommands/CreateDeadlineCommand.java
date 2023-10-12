@@ -6,7 +6,6 @@ import static seedu.address.model.statemanager.StateManager.rootOperation;
 import static seedu.address.model.statemanager.StateManager.studentOperation;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
@@ -25,7 +24,7 @@ import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 
 /**
- * Adds a person to the address book.
+ * Adds a Deadline for a specified {@code Student} or {@code Group}.
  */
 public class CreateDeadlineCommand extends Command {
 
@@ -35,6 +34,7 @@ public class CreateDeadlineCommand extends Command {
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
             "This Deadline task has already been allocated";
 
+    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid";
     protected AbsolutePath absolutePath;
     protected Student stu;
     protected Group grp;
@@ -50,6 +50,18 @@ public class CreateDeadlineCommand extends Command {
         this.deadline = deadline;
     }
 
+    /**
+     * Executes an CreateDeadlineCommand to allocate a {@code Deadline} task to a {@code Group} or {@code Student}
+     *
+     * @param currPath The current path user is at in ProfBook.
+     * @param root The root in ProfBook.
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     * @throws InvalidPathException thrown when error occurs due to invalid path.
+     * @throws UnsupportedPathOperationException Exception thrown when error occurs due to unsupported path execution.
+     * @throws InvalidIdException Exception thrown due to invalid Id which includes GroupId and StudentId.
+     * @throws NoSuchTaskException Exception thrown due to invalid Task.
+     */
     @Override
     public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException,
             InvalidPathException, UnsupportedPathOperationException, InvalidIdException, NoSuchTaskException {
@@ -65,9 +77,9 @@ public class CreateDeadlineCommand extends Command {
             }
             student.addTask(deadline);
             GroupOperation group = groupOperation(root, absolutePath);
-            StudentId temp = absolutePath.getStudentId().get();
-            stu = group.getChild(temp);
-            returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(stu)));
+            StudentId studentId = absolutePath.getStudentId().get();
+            stu = group.getChild(studentId);
+            returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
         } else if (absolutePath.isGroupDirectory()) {
             GroupOperation group = groupOperation(root, absolutePath);
             if (group.getAllTasks()
@@ -77,14 +89,21 @@ public class CreateDeadlineCommand extends Command {
             }
             group.addTask(deadline);
             RootOperation currRoot = rootOperation(root);
-            GroupId temp = absolutePath.getGroupId().get();
-            grp = currRoot.getChild(temp);
-            returnStatement = null;
-            //return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(grp)));
+            GroupId groupId = absolutePath.getGroupId().get();
+            grp = currRoot.getChild(groupId);
+            returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, grp.toString()));
+        } else {
+            throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
         }
         return returnStatement;
     }
 
+    /**
+     * Compares this {@code CreateDeadlineCommand} to another {@code CreateDeadlineCommand} to see if they are equal.
+     *
+     * @param other The other object to compare against this {@code CreateDeadlineCommand}.
+     * @return True if the object is same as {@code CreateDeadlineCommand} and false otherwise.
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -104,10 +123,15 @@ public class CreateDeadlineCommand extends Command {
                 && this.absolutePath.equals(otherCreateDeadlineCommand.absolutePath);
     }
 
+    /**
+     * Returns a string representation of the {@code CreateDeadlineCommand}.
+     *
+     * @return String representation of the {@code CreateDeadlineCommand}.
+     */
     @Override
-    public String toString() { //have to make this such that it fits for both stu and group
+    public String toString() {
         return new ToStringBuilder(this)
-                .add("toCreateDeadline", stu)
+                .add("toCreateDeadline", this.deadline)
                 .toString();
     }
 }
