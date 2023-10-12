@@ -47,5 +47,13 @@ public class Deadline extends Task {
         return "Deadline has been added:\n"
                 + "[D][" + getStatusIcon() + "] " + this.description + "(by: " + this.dueBy + ")";
     }
+
+    public LocalDateTime getDueBy() {
+        return this.dueBy;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
 }
 

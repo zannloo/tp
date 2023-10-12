@@ -2,10 +2,19 @@ package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
+import seedu.address.model.profbook.exceptions.DuplicateChildException;
+import seedu.address.model.statemanager.RootOperation;
+import seedu.address.model.statemanager.StateManager;
+import seedu.address.model.id.GroupId;
 
 /**
  * Represents a command for creating a new group within ProfBook.
@@ -19,34 +28,82 @@ public class CreateGroupCommand extends Command {
 
     public static final String MESSAGE_DUPLICATE_GROUP = "This group already exists in ProfBook";
 
-    private final RelativePath path;
+    private final RelativePath relativePath;
 
     private final Group group;
 
     /**
      * Constructs a {@code CreateGroupCommand} with the specified relative path and group details.
      *
-     * @param path  The relative path at which the new group will be created.
+     * @param relativePath  The relative path at which the new group will be created.
      * @param group The details of the group to be created.
      */
-    public CreateGroupCommand(RelativePath path, Group group) {
-        requireAllNonNull(path, group);
-        this.path = path;
+    public CreateGroupCommand(RelativePath relativePath, Group group) {
+        requireAllNonNull(relativePath, group);
+        this.relativePath = relativePath;
         this.group = group;
     }
 
+    /**
+     * Executes the CreateGroupCommand, creating a new group at the specified path in ProfBook.
+     *
+     * @param currPath The current path in the ProfBook.
+     * @param root The root of the ProfBook.
+     * @return A CommandResult indicating the outcome of the command execution.
+     * @throws CommandException If an error occurs during command execution.
+     * @throws DuplicateChildException If a duplicate group is encountered.
+     * @throws InvalidIdException If an invalid ID is encountered.
+     * @throws InvalidPathException If an invalid path is encountered.
+     * @throws UnsupportedPathOperationException If an unsupported path operation is encountered.
+     */
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) {
-        return null;
+    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException, DuplicateChildException,
+            InvalidIdException, InvalidPathException, UnsupportedPathOperationException {
+        requireAllNonNull(currPath, root);
+        RootOperation rootOperation = StateManager.rootOperation(root);
+        Group[] listOfGroups = rootOperation.getAllChildren();
+        for (Group group : listOfGroups) {
+            if (group.equals(this.group)) {
+                throw new CommandException(MESSAGE_DUPLICATE_GROUP);
+            }
+        }
+        AbsolutePath absolutePathSourceGroup = currPath.resolve(this.relativePath);
+        GroupId groupId = absolutePathSourceGroup.getGroupId();
+        rootOperation.addChild(groupId, this.group);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, this.group.toString()));
     }
 
+    /**
+     * Checks if this CreateGroupCommand is equal to another object.
+     *
+     * @param other The object to compare with.
+     * @return True if the objects are equal, false otherwise.
+     */
     @Override
     public boolean equals(Object other) {
-        return false;
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof CreateGroupCommand)) {
+            return false;
+        }
+
+        CreateGroupCommand otherCreateGroupCommand = (CreateGroupCommand) other;
+        return this.group.getName().equals(otherCreateGroupCommand.group.getName()) &&
+                this.group.getId().equals(otherCreateGroupCommand.group.getId());
     }
 
+    /**
+     * Returns a string representation of this CreateGroupCommand.
+     *
+     * @return A string representation of the CreateGroupCommand.
+     */
     @Override
     public String toString() {
-        return null;
+        return new ToStringBuilder(this)
+                .add("toCreateGroup", this.group)
+                .toString();
     }
 }
