@@ -8,8 +8,17 @@ import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.RelativePath;
 
+/**
+ * Parses input arguments and creates a new MoveStudentToGroupCommand object
+ */
 public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGroupCommand> {
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the MoveStudentToGroupCommand
+     * and returns an MoveStudentToGroupCommand object for execution.
+     *
+     * @throws ParseException if the user input does not conform the expected format
+     */
     public MoveStudentToGroupCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args);

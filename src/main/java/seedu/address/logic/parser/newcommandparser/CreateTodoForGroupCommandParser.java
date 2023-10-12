@@ -10,9 +10,18 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.taskmanager.ToDo;
 
-//todo: only need one todo command
+/**
+ * Parses input arguments and creates a new CreateTodoForGroupCommand object
+ */
 public class CreateTodoForGroupCommandParser implements Parser<CreateTodoForGroupCommand> {
+    //todo only need one todo command for both group and student
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the CreateTodoForGroupCommand
+     * and returns an CreateTodoForGroupCommand object for execution.
+     *
+     * @throws ParseException if the user input does not conform the expected format
+     */
     public CreateTodoForGroupCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, OPTION_DESC);
@@ -25,7 +34,7 @@ public class CreateTodoForGroupCommandParser implements Parser<CreateTodoForGrou
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC);
 
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
-        
+
         ToDo todo = new ToDo(argMultimap.getValue(OPTION_DESC).get());
 
         return new CreateTodoForGroupCommand(path, todo);

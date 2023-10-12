@@ -21,9 +21,18 @@ import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.taskmanager.TaskList;
 
+/**
+ * Parses input arguments and creates a new CreateStudentCommand object
+ */
 public class CreateStudentCommandParser implements Parser<CreateStudentCommand> {
     private static final String INVALID_PATH_MESSAGE = "Destination path provided is not a student directory.";
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the CreateStudentCommand
+     * and returns an CreateStudentCommand object for execution.
+     *
+     * @throws ParseException if the user input does not conform the expected format
+     */
     public CreateStudentCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
