@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
-
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.newcommands.Command;
 import seedu.address.logic.newcommands.CreateDeadlineForGroupCommand;
@@ -60,7 +59,7 @@ public class ProfBookParser {
 
         case CreateTodoForGroupCommand.COMMAND_WORD:
             return new CreateTodoForGroupCommandParser().parse(arguments);
-        
+
         case CreateDeadlineForGroupCommand.COMMAND_WORD:
             return new CreateDeadlineForGroupCommandParser().parse(arguments);
 

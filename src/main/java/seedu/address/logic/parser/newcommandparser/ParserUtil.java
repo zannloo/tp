@@ -130,7 +130,7 @@ public class ParserUtil {
         requireNonNull(path);
         Optional<StudentId> studentIdOptional = path.getStudentId();
 
-        if(!studentIdOptional.isPresent()) {
+        if (!studentIdOptional.isPresent()) {
             throw new ParseException("No student id found in the path.");
         }
 
