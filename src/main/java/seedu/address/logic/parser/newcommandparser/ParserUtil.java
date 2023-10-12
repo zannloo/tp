@@ -2,6 +2,9 @@ package seedu.address.logic.parser.newcommandparser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -23,7 +26,7 @@ import seedu.address.model.profbook.Phone;
  * Contains utility methods used for parsing strings in the various *Parser classes.
  */
 public class ParserUtil {
-
+    public static final DateTimeFormatter DATE_INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
 
     /**
@@ -117,11 +120,11 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@link RelativePath} to extract a {@link StudentId}.
+     * Parses a {@code RelativePath} to extract a {@code StudentId}.
      *
-     * @param path The {@link RelativePath} to parse.
-     * @return The extracted {@link StudentId}.
-     * @throws ParseException If the path is invalid or doesn't contain a valid {@link StudentId}.
+     * @param path The {@code RelativePath} to parse.
+     * @return The extracted {@code StudentId}.
+     * @throws ParseException If the path is invalid or doesn't contain a valid {@code StudentId}.
      */
     public static StudentId parseStudentId(RelativePath path) throws ParseException {
         requireNonNull(path);
@@ -135,11 +138,11 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@link RelativePath} to extract a {@link GroupId}.
+     * Parses a {@code RelativePath} to extract a {@code GroupId}.
      *
-     * @param path The {@link RelativePath} to parse.
-     * @return The extracted {@link GroupId}.
-     * @throws ParseException If the path is invalid or doesn't contain a valid {@link GroupId}.
+     * @param path The {@code RelativePath} to parse.
+     * @return The extracted {@code GroupId}.
+     * @throws ParseException If the path is invalid or doesn't contain a valid {@code GroupId}.
      */
     public static GroupId parseGroupId(RelativePath path) throws ParseException {
         requireNonNull(path);
@@ -150,6 +153,26 @@ public class ParserUtil {
         }
 
         return groupIdOptional.get();
+    }
+
+    /**
+     * Parses a {@code String dateTime} into a {@code LocalDateTime}.
+     *
+     * @param dateTimeStr The dateTime string.
+     * @throws ParseException if the given {@code path} is invalid.
+     */
+    public static LocalDateTime parseDateTime(String dateTimeStr) throws ParseException {
+        requireNonNull(dateTimeStr);
+        String trimmedDateTimeStr = dateTimeStr.trim();
+
+        LocalDateTime dateTime = null;
+        try {
+            dateTime = LocalDateTime.parse(trimmedDateTimeStr, DATE_INPUT_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new ParseException(e.getMessage());
+        }
+
+        return dateTime;
     }
 
     /**
