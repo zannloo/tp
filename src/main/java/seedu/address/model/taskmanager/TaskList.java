@@ -131,4 +131,12 @@ public class TaskList {
         return new ArrayList<>(this.taskList);
     }
 
+    /**
+     * Retrieves size of the current task list for testing purposes
+     *
+     * @return size of the task list.
+     */
+    public int size() {
+        return taskList.size();
+    }
 }
