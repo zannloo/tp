@@ -20,7 +20,6 @@ import seedu.address.model.statemanager.GroupOperation;
 import seedu.address.model.statemanager.RootOperation;
 import seedu.address.model.statemanager.StudentOperation;
 import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 
 /**
  * Adds a Deadline for a specified {@code Student} or {@code Group}.
