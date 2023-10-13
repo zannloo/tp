@@ -35,7 +35,7 @@ public class StateManager implements ITaskOperations {
      *
      * @param baseDir - The current base directory of the state Manager
      */
-    StateManager(TaskListManager baseDir) {
+    public StateManager(TaskListManager baseDir) {
         this.baseDir = baseDir;
     }
 

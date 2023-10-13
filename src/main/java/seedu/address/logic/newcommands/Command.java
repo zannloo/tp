@@ -13,7 +13,7 @@ public abstract class Command {
      * Executes the command and returns the result message.
      *
      * @param currPath {@code currPath} .
-     * @param root {@code root} which the command should operate on.
+     * @param root     {@code root} which the command should operate on.
      * @return feedback message of the operation result for display
      * @throws CommandException If an error occurs during command execution.
      */

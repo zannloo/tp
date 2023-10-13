@@ -37,6 +37,10 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
         this.id = id;
     }
 
+    public Id getId() {
+        return id;
+    }
+
     /**
      * Creates a clone of the current element, this is to achieve immutability
      *

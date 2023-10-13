@@ -18,7 +18,6 @@ public class Deadline extends Task {
     public Deadline(String description, LocalDateTime deadline) {
         super(description);
         this.dueBy = deadline;
-
     }
 
     /**
