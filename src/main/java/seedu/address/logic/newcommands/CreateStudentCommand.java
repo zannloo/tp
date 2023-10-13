@@ -6,7 +6,6 @@ import static seedu.address.model.statemanager.StateManager.groupOperation;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.StudentId;
-import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
@@ -26,6 +25,8 @@ public class CreateStudentCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
     public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in your specified class";
+    public static final String MESSAGE_INVALID_PATH = "Path you have chosen is invalid";
+    public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
     protected AbsolutePath absolutePath;
 
     private final RelativePath path;
@@ -49,20 +50,25 @@ public class CreateStudentCommand extends Command {
      * @throws CommandException Exception thrown when error occurs during command execution.
      * @throws InvalidPathException thrown when error occurs due to invalid path.
      * @throws UnsupportedPathOperationException Exception thrown when error occurs due to unsupported path execution.
-     * @throws InvalidIdException Exception thrown due to invalid Id which includes GroupId and StudentId.
      */
     @Override
     public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException,
-            InvalidPathException, UnsupportedPathOperationException, InvalidIdException {
-        requireAllNonNull(currPath, root);
-        absolutePath = currPath.resolve(path);
-        GroupOperation group = groupOperation(root, absolutePath);
-        StudentId studentId = (StudentId) student.getId();
-        if (group.hasChild(studentId)) {
-            throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
+            InvalidPathException, UnsupportedPathOperationException {
+        try {
+            requireAllNonNull(currPath, root);
+            absolutePath = currPath.resolve(path);
+            GroupOperation group = groupOperation(root, absolutePath);
+            StudentId studentId = (StudentId) student.getId();
+            if (group.hasChild(studentId)) {
+                throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
+            }
+            group.addChild(studentId, student);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, student.toString()));
+        } catch (InvalidPathException e) {
+            throw new CommandException(MESSAGE_INVALID_PATH);
+        } catch (UnsupportedPathOperationException e) {
+            throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
         }
-        group.addChild(studentId, student);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, student.toString()));
     }
 
     /**
