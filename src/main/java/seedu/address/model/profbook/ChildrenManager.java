@@ -119,4 +119,20 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
     public Map<Id, T> getChildren() {
         return new HashMap<>(this.children);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ChildrenManager<?>)) {
+            return false;
+        }
+
+        ChildrenManager<?> otherChildrenManger = (ChildrenManager<?>) other;
+        return super.equals(otherChildrenManger) 
+                && this.children.equals(otherChildrenManger.children);
+    }
 }

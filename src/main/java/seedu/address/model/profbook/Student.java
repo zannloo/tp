@@ -107,4 +107,25 @@ public class Student extends TaskListManager implements IChildElement {
                 .add("tags", tags)
                 .toString();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof Student)) {
+            return false;
+        }
+
+        Student otherStudent = (Student) other;
+        return super.equals(otherStudent) 
+                && this.address.equals(otherStudent.address)
+                && this.email.equals(otherStudent.email)
+                && this.id.equals(otherStudent.id)
+                && this.name.equals(otherStudent.name)
+                && this.phone.equals(otherStudent.phone)
+                && this.tags.equals(otherStudent.tags);
+    }
 }
