@@ -127,7 +127,7 @@ public class CreateTodoCommand extends Command {
 
         CreateTodoCommand otherCreateTodoCommand = (CreateTodoCommand) other;
         return this.relativePath.equals(otherCreateTodoCommand.relativePath)
-                &&  this.todo.equals(otherCreateTodoCommand.todo);
+                && this.todo.equals(otherCreateTodoCommand.todo);
     }
 
     /**

@@ -1,21 +1,22 @@
 package seedu.address.logic.newcommands;
 
-import org.junit.jupiter.api.Test;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.Id;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.profbook.Name;
-import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.TaskList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static seedu.address.testutil.Assert.assertThrows;
+import org.junit.jupiter.api.Test;
+
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.Id;
+import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.profbook.Group;
+import seedu.address.model.profbook.Name;
+import seedu.address.model.profbook.Student;
+import seedu.address.model.taskmanager.TaskList;
 
 public class CreateGroupCommandTest {
 
@@ -34,7 +35,7 @@ public class CreateGroupCommandTest {
 
         RelativePath relativePath = new RelativePath("~/grp-001");
         CreateGroupCommand createGroupCommand = new CreateGroupCommand(relativePath, group);
-        CreateGroupCommand duplicateCreateGroupCommand= new CreateGroupCommand(relativePath, group);
+        CreateGroupCommand duplicateCreateGroupCommand = new CreateGroupCommand(relativePath, group);
         assertEquals(createGroupCommand, duplicateCreateGroupCommand);
     }
 
@@ -48,7 +49,8 @@ public class CreateGroupCommandTest {
 
         RelativePath relativePath = new RelativePath("~/grp-001");
         CreateGroupCommand createGroupCommand = new CreateGroupCommand(relativePath, group);
-        String expected = "seedu.address.logic.newcommands.CreateGroupCommand{toCreateGroup=seedu.address.model.profbook.Group{Group Id=grp-001, name=Group 1, Students=}}";
+        String expected = "seedu.address.logic.newcommands.CreateGroupCommand"
+                + "{toCreateGroup=seedu.address.model.profbook.Group{Group Id=grp-001, name=Group 1, Students=}}";
         assertEquals(expected, createGroupCommand.toString());
     }
 }
