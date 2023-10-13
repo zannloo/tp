@@ -66,13 +66,5 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
                 .toString();
     }
 
-    public Name getName() {
-        return this.name;
-    }
-
-    public Id getId() {
-        return this.id;
-    }
-
 }
 
