@@ -53,7 +53,6 @@ class CreateStudentCommandTest {
 
     @Test
     void execute_studentAcceptedByGroup_success() throws Exception {
-        Student validStudent = new StudentBuilder().build();
         AbsolutePath currPath = new AbsolutePath("~/grp-001/stu-001");
         List<Task> defaultTaskList = new ArrayList<>();
         defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
@@ -81,7 +80,7 @@ class CreateStudentCommandTest {
                     commandResult.getFeedbackToUser());
     }
     @Test
-        public void execute_duplicateStudent_throwsCommandException() throws InvalidPathException {
+    public void execute_duplicateStudent_throwsCommandException() throws InvalidPathException {
         Student validStudent = new StudentBuilder().build();
         AbsolutePath currPath = new AbsolutePath("~/grp-001/stu-001");
         List<Task> defaultTaskList = new ArrayList<>();
@@ -142,7 +141,6 @@ class CreateStudentCommandTest {
     void toString_sameString_success() throws InvalidPathException {
         RelativePath path = new RelativePath("~/grp-001");
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, ALICE);
-        createStudentCommand.absolutePath = new AbsolutePath("~/grp-001");
         String expected = CreateStudentCommand.class.getCanonicalName() + "{toCreateStudent=" + ALICE + "}";
         assertEquals(expected, createStudentCommand.toString());
     }

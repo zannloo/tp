@@ -16,18 +16,16 @@ import seedu.address.model.statemanager.GroupOperation;
 
 /**
  * Adds a student within the specific group.
- * If command is executed outside a specific group, students are added into an ungrouped folder.
  */
 public class CreateStudentCommand extends Command {
 
     public static final String COMMAND_WORD = "touch";
-
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": student ";
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
     public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in your specified class";
     public static final String MESSAGE_INVALID_PATH = "Path you have chosen is invalid";
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
-    protected AbsolutePath absolutePath;
 
     private final RelativePath path;
     private final Student student;
@@ -55,7 +53,7 @@ public class CreateStudentCommand extends Command {
     public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
         try {
             requireAllNonNull(currPath, root);
-            absolutePath = currPath.resolve(path);
+            AbsolutePath absolutePath = currPath.resolve(path);
             GroupOperation group = groupOperation(root, absolutePath);
             StudentId studentId = (StudentId) student.getId();
             if (group.hasChild(studentId)) {
@@ -88,7 +86,9 @@ public class CreateStudentCommand extends Command {
         }
 
         CreateStudentCommand otherCreateStudentCommand = (CreateStudentCommand) other;
-        return student.equals(otherCreateStudentCommand.student);
+
+        return student.equals(otherCreateStudentCommand.student)
+                && this.path.equals(otherCreateStudentCommand.path);
     }
 
     /**
