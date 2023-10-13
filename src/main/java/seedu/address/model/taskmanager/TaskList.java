@@ -158,7 +158,7 @@ public class TaskList {
      */
     public boolean containsDuplicates(Task t) {
         for (Task check : this.taskList) {
-            if(check.equals(t)) {
+            if (check.equals(t)) {
                 return true;
             }
         }
