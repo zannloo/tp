@@ -1,8 +1,6 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.parser.CliSyntax.*;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
@@ -35,20 +33,7 @@ public class MoveStudentToGroupCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New student added to this group: %1$s";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
-            + "Parameters: "
-            + PREFIX_NAME + "NAME "
-            + PREFIX_PHONE + "PHONE "
-            + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_ADDRESS + "ADDRESS "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Doe "
-            + PREFIX_PHONE + "98765432 "
-            + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
     private final RelativePath source;
 
     private final RelativePath dest;
@@ -100,11 +85,11 @@ public class MoveStudentToGroupCommand extends Command {
             sourceGroupOperation.deleteChild(targetStudentId);
             return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
         } catch (DuplicateChildException duplicateChildException) {
-            return new CommandResult(ERROR_MESSAGE_DUPLICATE);
+            throw new CommandException(ERROR_MESSAGE_DUPLICATE);
         } catch (InvalidPathException invalidPathException) {
-            return new CommandResult(ERROR_MESSAGE_INVALID_PATH);
+            throw new CommandException(ERROR_MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException unsupportedPathOperationException) {
-            return new CommandResult(ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION);
+            throw new CommandException(ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION);
         }
     }
 
