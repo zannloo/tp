@@ -94,7 +94,7 @@ public class TaskList {
         if (this.taskList.size() == 0) {
             throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
-        List<Task> list = null;
+        List<Task> list = new ArrayList<>();
         for (Task task : this.taskList) {
             if (task.description.contains(query)) {
                 list.add(task);

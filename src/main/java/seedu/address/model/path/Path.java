@@ -46,6 +46,14 @@ public abstract class Path {
      * @throws InvalidPathException If an invalid path element is encountered.
      */
     protected void commonConstructor(String path) throws InvalidPathException {
+        if (path.startsWith("/")) {
+            path = path.substring(1, path.length());
+        }
+
+        if (path.endsWith("/")) {
+            path = path.substring(0, path.length() - 1);
+        }
+
         String[] elementStrs = path.split("/");
         List<PathElement> elements = new ArrayList<>();
 
@@ -54,7 +62,7 @@ public abstract class Path {
                 PathElement element = PathElement.parsePathElement(elementStr);
                 elements.add(element);
             } catch (InvalidPathElementException e) {
-                throw new InvalidPathException("Encountered invalid path element.");
+                throw new InvalidPathException("Encountered invalid path element: " + elementStr);
             }
         }
 
@@ -145,9 +153,14 @@ public abstract class Path {
             return Optional.empty();
         }
 
-        String id = this.pathElements.get(2).toString();
+        for (int i = 0; i < this.pathElements.size(); i++) {
+            PathElement currElement = this.pathElements.get(i);
+            if (currElement.getType() == PathElementType.STUDENTID) {
+                return Optional.of(new StudentId(currElement.toString()));
+            }
+        }
 
-        return Optional.of(new StudentId(id));
+        return Optional.empty();
     }
 
     /**
@@ -162,9 +175,14 @@ public abstract class Path {
             return Optional.empty();
         }
 
-        String id = this.pathElements.get(1).toString();
+        for (int i = 0; i < this.pathElements.size(); i++) {
+            PathElement currElement = this.pathElements.get(i);
+            if (currElement.getType() == PathElementType.GROUPID) {
+                return Optional.of(new GroupId(currElement.toString()));
+            }
+        }
 
-        return Optional.of(new GroupId(id));
+        return Optional.empty();
     }
 
     @Override

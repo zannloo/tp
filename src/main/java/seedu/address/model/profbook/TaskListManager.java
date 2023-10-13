@@ -105,4 +105,19 @@ public class TaskListManager {
     public boolean checkDuplicates(Task t) {
         return this.taskList.containsDuplicates(t);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof TaskListManager)) {
+            return false;
+        }
+
+        TaskListManager otherTaskListManager = (TaskListManager) other;
+        return this.taskList.equals(otherTaskListManager.taskList);
+    }
 }

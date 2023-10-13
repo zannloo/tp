@@ -26,7 +26,7 @@ public class AbsolutePath extends Path {
         super();
 
         if (!path.startsWith("~")) {
-            throw new InvalidPathException("Absolute path should start with ~");
+            throw new InvalidPathException("Absolute path should start with ~/");
         }
 
         commonConstructor(path);
@@ -52,13 +52,12 @@ public class AbsolutePath extends Path {
         List<PathElement> fullPathElements = new ArrayList<>(this.pathElements);
         List<PathElement> relativePathElements = relative.pathElements;
 
-        // If relativePath start with ~/ return relativePath
+        // If relativePath start from root, should return the relativePath
         if (relativePathElements.get(0).getType() == PathElementType.ROOT) {
             return new AbsolutePath(relativePathElements);
         }
 
         Path.appendPathElements(fullPathElements, relativePathElements);
-
         return new AbsolutePath(fullPathElements);
     }
 

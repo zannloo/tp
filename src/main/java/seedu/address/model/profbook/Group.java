@@ -66,5 +66,22 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
                 .toString();
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof Group)) {
+            return false;
+        }
+
+        Group otherGroup = (Group) other;
+        return super.equals(otherGroup)
+                && this.name.equals(otherGroup.name)
+                && this.id.equals(otherGroup.id);
+    }
+
 }
 

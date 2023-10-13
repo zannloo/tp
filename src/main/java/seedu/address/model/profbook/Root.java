@@ -27,4 +27,19 @@ public class Root extends ChildrenManager<Group> {
                 .add("Students", super.toString())
                 .toString();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof Root)) {
+            return false;
+        }
+
+        Root otherRoot = (Root) other;
+        return super.equals(otherRoot);
+    }
 }
