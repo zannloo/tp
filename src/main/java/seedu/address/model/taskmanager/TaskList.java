@@ -131,13 +131,13 @@ public class TaskList {
         return new ArrayList<>(this.taskList);
     }
 
-/**
- * Checks if this TaskList is equal to another object.
- * Two TaskLists are equal if their task lists are equal.
- * The task lists are compared based on the equals method of the Task class.
- * @param o The object to compare this TaskList against.
- * @return true if the given object represents a TaskList equivalent to this task list, false otherwise.
- */
+    /**
+    * Checks if this TaskList is equal to another object.
+    * Two TaskLists are equal if their task lists are equal.
+    * The task lists are compared based on the equals method of the Task class.
+     * @param o The object to compare this TaskList against.
+     * @return true if the given object represents a TaskList equivalent to this task list, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
