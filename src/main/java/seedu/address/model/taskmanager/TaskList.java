@@ -132,6 +132,39 @@ public class TaskList {
     }
 
     /**
+     * Checks if this TaskList is equal to another object.
+     * Two TaskLists are equal if their task lists are equal.
+     * The task lists are compared based on the equals method of the Task class.
+     * @param o The object to compare this TaskList against.
+     * @return true if the given object represents a TaskList equivalent to this task list, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TaskList taskList1 = (TaskList) o;
+        return this.taskList.equals(taskList1.taskList);
+    }
+
+    /**
+     * Checks if the task list contains a duplicate of the specified task.
+     *
+     * @param t the task to be checked for duplication in the task list
+     * @return true if a duplicate of the specified task is found in the task list, false otherwise
+     */
+    public boolean containsDuplicates(Task t) {
+        for (Task check : this.taskList) {
+            if (check.equals(t)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
      * Retrieves size of the current task list for testing purposes
      *
      * @return size of the task list.

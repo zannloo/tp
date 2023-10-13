@@ -102,4 +102,7 @@ public class TaskListManager {
         return this.taskList.getAllTask();
     }
 
+    public boolean checkDuplicates(Task t) {
+        return this.taskList.containsDuplicates(t);
+    }
 }
