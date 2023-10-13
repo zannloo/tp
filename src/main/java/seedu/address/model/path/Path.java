@@ -153,9 +153,14 @@ public abstract class Path {
             return Optional.empty();
         }
 
-        String id = this.pathElements.get(2).toString();
+        for (int i = 0; i < this.pathElements.size(); i++) {
+            PathElement currElement = this.pathElements.get(i);
+            if (currElement.getType() == PathElementType.STUDENTID) {
+                return Optional.of(new StudentId(currElement.toString()));
+            }
+        }
 
-        return Optional.of(new StudentId(id));
+        return Optional.empty();
     }
 
     /**
@@ -170,9 +175,14 @@ public abstract class Path {
             return Optional.empty();
         }
 
-        String id = this.pathElements.get(1).toString();
+        for (int i = 0; i < this.pathElements.size(); i++) {
+            PathElement currElement = this.pathElements.get(i);
+            if (currElement.getType() == PathElementType.GROUPID) {
+                return Optional.of(new GroupId(currElement.toString()));
+            }
+        }
 
-        return Optional.of(new GroupId(id));
+        return Optional.empty();
     }
 
     @Override
