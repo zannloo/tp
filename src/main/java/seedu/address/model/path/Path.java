@@ -2,20 +2,25 @@ package seedu.address.model.path;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
+import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.element.PathElement;
 import seedu.address.model.path.element.PathElementType;
 import seedu.address.model.path.element.exceptions.InvalidPathElementException;
 import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 /**
  * Represents a path in our application.
  */
-public class Path {
-    private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+public abstract class Path {
+    private static final Logger logger = LogsCenter.getLogger(Path.class);
     protected final List<PathElement> pathElements;
 
     /**
@@ -98,6 +103,70 @@ public class Path {
         logger.info(destination.toString());
     }
 
+    /**
+     * Checks whether the path represents a group directory.
+     *
+     * @return {@code true} if the path is a group directory; {@code false} otherwise.
+     */
+    public boolean isGroupDirectory() {
+        PathElement lastElement = this.pathElements.get(this.pathElements.size() - 1);
+        return lastElement.getType() == PathElementType.GROUPID;
+    }
+
+    /**
+     * Checks whether the path represents a student directory.
+     *
+     * @return {@code true} if the path is a student directory; {@code false} otherwise.
+     */
+    public boolean isStudentDirectory() {
+        PathElement lastElement = this.pathElements.get(this.pathElements.size() - 1);
+        return lastElement.getType() == PathElementType.STUDENTID;
+    }
+
+    /**
+     * Checks whether the path represents a root directory.
+     *
+     * @return {@code true} if the path is a root directory; {@code false} otherwise.
+     */
+    public boolean isRootDirectory() {
+        PathElement lastElement = this.pathElements.get(this.pathElements.size() - 1);
+        return lastElement.getType() == PathElementType.ROOT;
+    }
+
+    /**
+     * Retrieves the student ID from the path directory.
+     *
+     * @return The student ID.
+     * @throws UnsupportedPathOperationException If the operation is not supported based on the directory's state.
+     * @throws InvalidIdException If the retrieved ID is invalid.
+     */
+    public Optional<StudentId> getStudentId() {
+        if (this.isGroupDirectory() || this.isRootDirectory()) {
+            return Optional.empty();
+        }
+
+        String id = this.pathElements.get(2).toString();
+
+        return Optional.of(new StudentId(id));
+    }
+
+    /**
+     * Retrieves the group ID from the path directory.
+     *
+     * @return The group ID.
+     * @throws UnsupportedPathOperationException If the operation is not supported based on the directory's state.
+     * @throws InvalidIdException If the retrieved ID is invalid.
+     */
+    public Optional<GroupId> getGroupId() {
+        if (this.isRootDirectory()) {
+            return Optional.empty();
+        }
+
+        String id = this.pathElements.get(1).toString();
+
+        return Optional.of(new GroupId(id));
+    }
+
     @Override
     public String toString() {
         List<String> pathElementStrings = pathElements.stream()
@@ -105,5 +174,25 @@ public class Path {
                 .collect(Collectors.toList());
 
         return String.join("/", pathElementStrings);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Path)) {
+            return false;
+        }
+
+        Path other = (Path) obj;
+
+        return this.pathElements.equals(other.pathElements);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pathElements);
     }
 }
