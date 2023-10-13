@@ -64,8 +64,7 @@ public class CreateDeadlineCommand extends Command {
      * @throws NoSuchTaskException Exception thrown due to invalid Task.
      */
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException,
-            InvalidPathException, UnsupportedPathOperationException, NoSuchTaskException {
+    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
         try {
             requireAllNonNull(currPath, root);
             absolutePath = currPath.resolve(path);

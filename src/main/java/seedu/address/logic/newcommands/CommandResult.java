@@ -76,7 +76,7 @@ public class CommandResult {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof seedu.address.logic.commands.CommandResult)) {
+        if (!(other instanceof CommandResult)) {
             return false;
         }
 

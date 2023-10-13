@@ -52,8 +52,7 @@ public class CreateStudentCommand extends Command {
      * @throws UnsupportedPathOperationException Exception thrown when error occurs due to unsupported path execution.
      */
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException,
-            InvalidPathException, UnsupportedPathOperationException {
+    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
         try {
             requireAllNonNull(currPath, root);
             absolutePath = currPath.resolve(path);
