@@ -51,7 +51,7 @@ public abstract class Path {
         }
 
         if (path.endsWith("/")) {
-            path = path.substring(0, path.length()-1);
+            path = path.substring(0, path.length() - 1);
         }
 
         String[] elementStrs = path.split("/");

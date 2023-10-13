@@ -14,6 +14,10 @@ import java.time.LocalDateTime;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.newcommandparser.ParserUtil;
 import seedu.address.model.path.RelativePath;
+
+/**
+ * Contains helper methods for testing commands.
+ */
 public class CommandTestUtil {
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
@@ -57,19 +61,35 @@ public class CommandTestUtil {
             + OPTION_ADDRESS + " "; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + OPTION_TAG + " " + "hubby*"; // '*' not allowed in tags
 
-    public static RelativePath VALID_ROOT_RELATIVE_PATH;
-    public static RelativePath VALID_GROUP_RELATIVE_PATH;
-    public static RelativePath VALID_STUDENT_RELATIVE_PATH;
-    public static LocalDateTime VALID_DATETIME;
-    
+    private static RelativePath validRootRelativePath;
+    private static RelativePath validGroupRelativePath;
+    private static RelativePath validStudentRelativePath;
+    private static LocalDateTime validDateTime;
+
     static {
         try {
-            VALID_ROOT_RELATIVE_PATH = ParserUtil.parsePath(VALID_ROOT_DIR_PREAMBLE);
-            VALID_GROUP_RELATIVE_PATH = ParserUtil.parsePath(VALID_GROUP_DIR_PREAMBLE);
-            VALID_STUDENT_RELATIVE_PATH = ParserUtil.parsePath(VALID_STUDENT_DIR_PREAMBLE);
-            VALID_DATETIME = ParserUtil.parseDateTime(VALID_DATETIME_STR);
+            validRootRelativePath = ParserUtil.parsePath(VALID_ROOT_DIR_PREAMBLE);
+            validGroupRelativePath = ParserUtil.parsePath(VALID_GROUP_DIR_PREAMBLE);
+            validStudentRelativePath = ParserUtil.parsePath(VALID_STUDENT_DIR_PREAMBLE);
+            validDateTime = ParserUtil.parseDateTime(VALID_DATETIME_STR);
         } catch (ParseException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    public static RelativePath getValidRootRelativePath() {
+        return validRootRelativePath;
+    }
+
+    public static RelativePath getValidGroupRelativePath() {
+        return validGroupRelativePath;
+    }
+
+    public static RelativePath getValidStudentRelativePath() {
+        return validStudentRelativePath;
+    }
+
+    public static LocalDateTime getValidDateTime() {
+        return validDateTime;
     }
 }

@@ -132,7 +132,7 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
         }
 
         ChildrenManager<?> otherChildrenManger = (ChildrenManager<?>) other;
-        return super.equals(otherChildrenManger) 
+        return super.equals(otherChildrenManger)
                 && this.children.equals(otherChildrenManger.children);
     }
 }

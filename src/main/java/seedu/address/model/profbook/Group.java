@@ -78,7 +78,7 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
         }
 
         Group otherGroup = (Group) other;
-        return super.equals(otherGroup) 
+        return super.equals(otherGroup)
                 && this.name.equals(otherGroup.name)
                 && this.id.equals(otherGroup.id);
     }

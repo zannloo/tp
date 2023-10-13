@@ -1,15 +1,14 @@
 package seedu.address.logic.parser.newcommandparser;
 
-import static seedu.address.logic.parser.newcommandparser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.logic.newcommands.CommandTestUtil.DATETIME_DESC;
 import static seedu.address.logic.newcommands.CommandTestUtil.TASK_DESC_DESC;
-import static seedu.address.logic.newcommands.CommandTestUtil.VALID_DATETIME;
 import static seedu.address.logic.newcommands.CommandTestUtil.VALID_GROUP_DIR_PREAMBLE;
-import static seedu.address.logic.newcommands.CommandTestUtil.VALID_GROUP_RELATIVE_PATH;
 import static seedu.address.logic.newcommands.CommandTestUtil.VALID_TASK_DESC;
+import static seedu.address.logic.parser.newcommandparser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.newcommands.CommandTestUtil;
 import seedu.address.logic.newcommands.CreateDeadlineCommand;
 import seedu.address.model.taskmanager.Deadline;
 
@@ -18,9 +17,11 @@ public class CreateDeadlineCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() {
-        assertParseSuccess(parser, 
-                VALID_GROUP_DIR_PREAMBLE + TASK_DESC_DESC + DATETIME_DESC, 
-                new CreateDeadlineCommand(VALID_GROUP_RELATIVE_PATH, new Deadline(VALID_TASK_DESC, VALID_DATETIME)));
+        assertParseSuccess(parser,
+                VALID_GROUP_DIR_PREAMBLE + TASK_DESC_DESC + DATETIME_DESC,
+                new CreateDeadlineCommand(
+                        CommandTestUtil.getValidGroupRelativePath(),
+                        new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime())));
     }
 
 }

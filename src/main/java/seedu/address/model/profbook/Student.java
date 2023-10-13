@@ -120,7 +120,7 @@ public class Student extends TaskListManager implements IChildElement {
         }
 
         Student otherStudent = (Student) other;
-        return super.equals(otherStudent) 
+        return super.equals(otherStudent)
                 && this.address.equals(otherStudent.address)
                 && this.email.equals(otherStudent.email)
                 && this.id.equals(otherStudent.id)
