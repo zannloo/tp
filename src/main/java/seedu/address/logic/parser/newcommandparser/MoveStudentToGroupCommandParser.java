@@ -24,13 +24,15 @@ public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGrou
                 ArgumentTokenizer.tokenize(args);
 
         if (argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, "todo/usage_format"));
+            throw new ParseException(String.format(
+                    MESSAGE_INVALID_COMMAND_FORMAT, MoveStudentToGroupCommand.MESSAGE_USAGE));
         }
 
         String[] paths = argMultimap.getPreamble().split(" ");
 
         if (paths.length != 2) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, "todo/usage_format"));
+            throw new ParseException(String.format(
+                    MESSAGE_INVALID_COMMAND_FORMAT, MoveStudentToGroupCommand.MESSAGE_USAGE));
         }
 
         RelativePath source = ParserUtil.parsePath(paths[0]);

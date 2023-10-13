@@ -40,7 +40,8 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
         //todo: need usage format from command class
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME, OPTION_ADDRESS, OPTION_PHONE, OPTION_EMAIL)
                 || argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, "todo/usage_format"));
+            throw new ParseException(String.format(
+                    MESSAGE_INVALID_COMMAND_FORMAT, CreateStudentCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);

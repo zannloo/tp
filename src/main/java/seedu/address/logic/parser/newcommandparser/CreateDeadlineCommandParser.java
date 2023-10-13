@@ -31,7 +31,8 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC, OPTION_DATETIME)
                 || argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, "todo/usage_format"));
+            throw new ParseException(String.format(
+                    MESSAGE_INVALID_COMMAND_FORMAT, CreateDeadlineCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_DATETIME);

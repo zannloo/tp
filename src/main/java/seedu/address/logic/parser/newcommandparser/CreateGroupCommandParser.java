@@ -33,7 +33,8 @@ public class CreateGroupCommandParser implements Parser<CreateGroupCommand> {
                 ArgumentTokenizer.tokenize(args, OPTION_NAME);
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME) || argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, "todo/usage_format"));
+            throw new ParseException(String.format(
+                    MESSAGE_INVALID_COMMAND_FORMAT, CreateGroupCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME);
