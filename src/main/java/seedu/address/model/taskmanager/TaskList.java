@@ -132,9 +132,9 @@ public class TaskList {
     }
 
     /**
-    * Checks if this TaskList is equal to another object.
-    * Two TaskLists are equal if their task lists are equal.
-    * The task lists are compared based on the equals method of the Task class.
+     * Checks if this TaskList is equal to another object.
+     * Two TaskLists are equal if their task lists are equal.
+     * The task lists are compared based on the equals method of the Task class.
      * @param o The object to compare this TaskList against.
      * @return true if the given object represents a TaskList equivalent to this task list, false otherwise.
      */
@@ -163,5 +163,13 @@ public class TaskList {
             }
         }
         return false;
+    }
+    /**
+     * Retrieves size of the current task list for testing purposes
+     *
+     * @return size of the task list.
+     */
+    public int size() {
+        return taskList.size();
     }
 }
