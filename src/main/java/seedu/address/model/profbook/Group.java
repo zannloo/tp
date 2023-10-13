@@ -65,4 +65,6 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
                 .add("Students", super.toString())
                 .toString();
     }
+
 }
+
