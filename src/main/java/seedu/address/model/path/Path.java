@@ -46,6 +46,14 @@ public abstract class Path {
      * @throws InvalidPathException If an invalid path element is encountered.
      */
     protected void commonConstructor(String path) throws InvalidPathException {
+        if (path.startsWith("/")) {
+            path = path.substring(1, path.length());
+        }
+
+        if (path.endsWith("/")) {
+            path = path.substring(0, path.length()-1);
+        }
+
         String[] elementStrs = path.split("/");
         List<PathElement> elements = new ArrayList<>();
 
@@ -54,7 +62,7 @@ public abstract class Path {
                 PathElement element = PathElement.parsePathElement(elementStr);
                 elements.add(element);
             } catch (InvalidPathElementException e) {
-                throw new InvalidPathException("Encountered invalid path element.");
+                throw new InvalidPathException("Encountered invalid path element: " + elementStr);
             }
         }
 
