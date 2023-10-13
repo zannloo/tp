@@ -27,20 +27,7 @@ public class CreateGroupCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New group added: %1$s";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
-            + "Parameters: "
-            + PREFIX_NAME + "NAME "
-            + PREFIX_PHONE + "PHONE "
-            + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_ADDRESS + "ADDRESS "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Doe "
-            + PREFIX_PHONE + "98765432 "
-            + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": group";
 
     private final RelativePath relativePath;
 
@@ -81,7 +68,7 @@ public class CreateGroupCommand extends Command {
             rootOperation.addChild(groupId, this.group);
             return new CommandResult(String.format(MESSAGE_SUCCESS, this.group.toString()));
         } catch (DuplicateChildException duplicateChildException) {
-            return new CommandResult(MESSAGE_DUPLICATE_GROUP);
+            throw new CommandException(MESSAGE_DUPLICATE_GROUP);
         }
     }
 
