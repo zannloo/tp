@@ -25,6 +25,4 @@ public abstract class Task {
     public String getStatusIcon() {
         return (this.isDone ? "X" : " ");
     }
-    @Override
-    public abstract boolean equals(Object o);
 }

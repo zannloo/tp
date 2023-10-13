@@ -150,4 +150,18 @@ public class TaskList {
         return this.taskList.equals(taskList1.taskList);
     }
 
+    /**
+     * Checks if the task list contains a duplicate of the specified task.
+     *
+     * @param t the task to be checked for duplication in the task list
+     * @return true if a duplicate of the specified task is found in the task list, false otherwise
+     */
+    public boolean containsDuplicates(Task t) {
+        for (Task check : this.taskList) {
+            if(check.equals(t)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
