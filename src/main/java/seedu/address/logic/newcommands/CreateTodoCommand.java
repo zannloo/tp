@@ -21,7 +21,6 @@ import seedu.address.model.statemanager.RootOperation;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.StudentOperation;
 import seedu.address.model.taskmanager.ToDo;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 
 /**
  * Represents a command for creating a new "ToDo" task in ProfBook.
@@ -34,8 +33,6 @@ public class CreateTodoCommand extends Command {
     public static final String ERROR_MESSAGE_DUPLICATE = "This Todo task has already been allocated";
 
     public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
-
-    public static final String ERROR_MESSAGE_NO_SUCH_TASK = "There is no such task";
 
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
@@ -95,24 +92,24 @@ public class CreateTodoCommand extends Command {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(relativePath);
             if (currPath.isStudentDirectory()) {
+                GroupOperation groupOperation = StateManager.groupOperation(root, absolutePath);
                 StudentOperation studentOperation = StateManager.studentOperation(root, absolutePath);
-                if (studentOperation.getAllTasks().contains(this.todo)) {
+                StudentId targetStudentId = absolutePath.getStudentId().get();
+                Student targetStudent = groupOperation.getChild(targetStudentId);
+                if (targetStudent.checkDuplicates(this.todo)) {
                     throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
                 }
                 studentOperation.addTask(this.todo);
-                GroupOperation groupOperation = StateManager.groupOperation(root, absolutePath);
-                StudentId targetStudentId = absolutePath.getStudentId().get();
-                Student targetStudent = groupOperation.getChild(targetStudentId);
                 return new CommandResult(String.format(MESSAGE_SUCCESS, targetStudent.toString()));
             } else if (currPath.isGroupDirectory()) {
+                RootOperation rootOperation = StateManager.rootOperation(root);
                 GroupOperation groupOperation = StateManager.groupOperation(root, currPath);
-                if (groupOperation.getAllTasks().contains(this.todo)) {
+                GroupId targetGroupId = absolutePath.getGroupId().get();
+                Group targetGroup = rootOperation.getChild(targetGroupId);
+                if (targetGroup.checkDuplicates(this.todo)) {
                     throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_GROUP);
                 }
                 groupOperation.addTask(this.todo);
-                RootOperation rootOperation = StateManager.rootOperation(root);
-                GroupId groupId = absolutePath.getGroupId().get();
-                Group targetGroup = rootOperation.getChild(groupId);
                 return new CommandResult(String.format(MESSAGE_SUCCESS, targetGroup.toString()));
             } else {
                 throw new CommandException(MESSAGE_ERROR);
@@ -121,8 +118,6 @@ public class CreateTodoCommand extends Command {
             return new CommandResult(ERROR_MESSAGE_DUPLICATE);
         } catch (InvalidPathException invalidPathException) {
             return new CommandResult(ERROR_MESSAGE_INVALID_PATH);
-        } catch (NoSuchTaskException noSuchTaskException) {
-            return new CommandResult(ERROR_MESSAGE_NO_SUCH_TASK);
         } catch (UnsupportedPathOperationException unsupportedPathOperationException) {
             return new CommandResult(ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION);
         }

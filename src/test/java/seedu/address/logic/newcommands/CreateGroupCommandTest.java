@@ -1,6 +1,7 @@
 package seedu.address.logic.newcommands;
 
 import org.junit.jupiter.api.Test;
+import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
@@ -28,7 +29,7 @@ public class CreateGroupCommandTest {
         TaskList taskList = new TaskList(new ArrayList<>());
         Map<Id, Student> students = new HashMap<>();
         Name name = new Name("Group 1");
-        Id id = new Id("001");
+        GroupId id = new GroupId("grp-001");
         Group group = new Group(taskList, students, name, id);
 
         RelativePath relativePath = new RelativePath("~/grp-001");
@@ -42,12 +43,12 @@ public class CreateGroupCommandTest {
         TaskList taskList = new TaskList(new ArrayList<>());
         Map<Id, Student> students = new HashMap<>();
         Name name = new Name("Group 1");
-        Id id = new Id("001");
+        GroupId id = new GroupId("grp-001");
         Group group = new Group(taskList, students, name, id);
 
         RelativePath relativePath = new RelativePath("~/grp-001");
         CreateGroupCommand createGroupCommand = new CreateGroupCommand(relativePath, group);
-        String expected = "seedu.address.logic.newcommands.CreateGroupCommand{toCreateGroup=seedu.address.model.profbook.Group{Group Id=001, name=Group 1, Students=}}";
+        String expected = "seedu.address.logic.newcommands.CreateGroupCommand{toCreateGroup=seedu.address.model.profbook.Group{Group Id=grp-001, name=Group 1, Students=}}";
         assertEquals(expected, createGroupCommand.toString());
     }
 }
