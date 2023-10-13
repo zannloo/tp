@@ -1,27 +1,22 @@
 package seedu.address.logic.parser.newcommandparser;
 
-import java.util.logging.Logger;
+import static seedu.address.logic.parser.newcommandparser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.logic.newcommands.CommandTestUtil.VALID_GROUP_DIR_PREAMBLE;
+import static seedu.address.logic.newcommands.CommandTestUtil.VALID_GROUP_RELATIVE_PATH;
+import static seedu.address.logic.newcommands.CommandTestUtil.VALID_STUDENT_DIR_PREAMBLE;
+import static seedu.address.logic.newcommands.CommandTestUtil.VALID_STUDENT_RELATIVE_PATH;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.newcommands.Command;
-import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.newcommands.MoveStudentToGroupCommand;
 
 public class MoveStudentToGroupCommandParserTest {
-    private static final Logger logger = LogsCenter.getLogger(MoveStudentToGroupCommandParser.class);
     private MoveStudentToGroupCommandParser parser = new MoveStudentToGroupCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
-        String argument = "~/grp-001/stu-001 ~/grp-002/";
-
-        try {
-            Command command = parser.parse(argument);
-            logger.info(command.toString());
-        } catch (ParseException pe) {
-            logger.warning(pe.getMessage());
-            // throw new IllegalArgumentException("Invalid userInput.", pe);
-        }
+        assertParseSuccess(parser, 
+                VALID_STUDENT_DIR_PREAMBLE + " " + VALID_GROUP_DIR_PREAMBLE, 
+                new MoveStudentToGroupCommand(VALID_STUDENT_RELATIVE_PATH, VALID_GROUP_RELATIVE_PATH));
     }
 }

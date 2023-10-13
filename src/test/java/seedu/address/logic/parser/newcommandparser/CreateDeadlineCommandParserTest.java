@@ -1,27 +1,26 @@
 package seedu.address.logic.parser.newcommandparser;
 
-import java.util.logging.Logger;
+import static seedu.address.logic.parser.newcommandparser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.logic.newcommands.CommandTestUtil.DATETIME_DESC;
+import static seedu.address.logic.newcommands.CommandTestUtil.TASK_DESC_DESC;
+import static seedu.address.logic.newcommands.CommandTestUtil.VALID_DATETIME;
+import static seedu.address.logic.newcommands.CommandTestUtil.VALID_GROUP_DIR_PREAMBLE;
+import static seedu.address.logic.newcommands.CommandTestUtil.VALID_GROUP_RELATIVE_PATH;
+import static seedu.address.logic.newcommands.CommandTestUtil.VALID_TASK_DESC;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.newcommands.Command;
-import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.newcommands.CreateDeadlineCommand;
+import seedu.address.model.taskmanager.Deadline;
 
 public class CreateDeadlineCommandParserTest {
-    private static final Logger logger = LogsCenter.getLogger(CreateDeadlineCommandParser.class);
     private CreateDeadlineCommandParser parser = new CreateDeadlineCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
-        String argument = "~/grp-001/ -d assignment 2 -dt 2023-09-22 11:30";
-
-        try {
-            Command command = parser.parse(argument);
-            logger.info(command.toString());
-        } catch (ParseException pe) {
-            logger.warning(pe.getMessage());
-            // throw new IllegalArgumentException("Invalid userInput.", pe);
-        }
+        assertParseSuccess(parser, 
+                VALID_GROUP_DIR_PREAMBLE + TASK_DESC_DESC + DATETIME_DESC, 
+                new CreateDeadlineCommand(VALID_GROUP_RELATIVE_PATH, new Deadline(VALID_TASK_DESC, VALID_DATETIME)));
     }
+
 }
