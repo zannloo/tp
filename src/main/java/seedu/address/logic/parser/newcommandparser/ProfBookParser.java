@@ -10,10 +10,10 @@ import java.util.regex.Pattern;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.newcommands.Command;
-import seedu.address.logic.newcommands.CreateDeadlineForGroupCommand;
+import seedu.address.logic.newcommands.CreateDeadlineCommand;
 import seedu.address.logic.newcommands.CreateGroupCommand;
 import seedu.address.logic.newcommands.CreateStudentCommand;
-import seedu.address.logic.newcommands.CreateTodoForGroupCommand;
+import seedu.address.logic.newcommands.CreateTodoCommand;
 import seedu.address.logic.newcommands.MoveStudentToGroupCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -57,11 +57,11 @@ public class ProfBookParser {
         case CreateGroupCommand.COMMAND_WORD:
             return new CreateGroupCommandParser().parse(arguments);
 
-        case CreateTodoForGroupCommand.COMMAND_WORD:
-            return new CreateTodoForGroupCommandParser().parse(arguments);
+        case CreateTodoCommand.COMMAND_WORD:
+            return new CreateTodoCommandParser().parse(arguments);
 
-        case CreateDeadlineForGroupCommand.COMMAND_WORD:
-            return new CreateDeadlineForGroupCommandParser().parse(arguments);
+        case CreateDeadlineCommand.COMMAND_WORD:
+            return new CreateDeadlineCommandParser().parse(arguments);
 
         case MoveStudentToGroupCommand.COMMAND_WORD:
             return new MoveStudentToGroupCommandParser().parse(arguments);

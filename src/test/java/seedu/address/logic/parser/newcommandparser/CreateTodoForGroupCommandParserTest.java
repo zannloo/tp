@@ -9,8 +9,8 @@ import seedu.address.logic.newcommands.Command;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 public class CreateTodoForGroupCommandParserTest {
-    private static final Logger logger = LogsCenter.getLogger(CreateTodoForGroupCommandParser.class);
-    private CreateTodoForGroupCommandParser parser = new CreateTodoForGroupCommandParser();
+    private static final Logger logger = LogsCenter.getLogger(CreateTodoCommandParser.class);
+    private CreateTodoCommandParser parser = new CreateTodoCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {

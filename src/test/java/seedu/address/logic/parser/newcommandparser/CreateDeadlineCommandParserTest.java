@@ -8,9 +8,9 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.newcommands.Command;
 import seedu.address.logic.parser.exceptions.ParseException;
 
-public class CreateDeadlineForGroupCommandParserTest {
-    private static final Logger logger = LogsCenter.getLogger(CreateDeadlineForGroupCommandParser.class);
-    private CreateDeadlineForGroupCommandParser parser = new CreateDeadlineForGroupCommandParser();
+public class CreateDeadlineCommandParserTest {
+    private static final Logger logger = LogsCenter.getLogger(CreateDeadlineCommandParser.class);
+    private CreateDeadlineCommandParser parser = new CreateDeadlineCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {

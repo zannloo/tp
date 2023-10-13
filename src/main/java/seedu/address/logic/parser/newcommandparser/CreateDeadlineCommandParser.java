@@ -6,7 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import java.time.LocalDateTime;
 
-import seedu.address.logic.newcommands.CreateDeadlineForGroupCommand;
+import seedu.address.logic.newcommands.CreateDeadlineCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -16,16 +16,16 @@ import seedu.address.model.taskmanager.Deadline;
 /**
  * Parses input arguments and creates a new CreateDeadlineForGroupCommand object
  */
-public class CreateDeadlineForGroupCommandParser {
+public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand> {
     //todo: only need one deadline command
 
     /**
-     * Parses the given {@code String} of arguments in the context of the CreateDeadlineForGroupCommand
-     * and returns an CreateDeadlineForGroupCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the CreateDeadlineCommand
+     * and returns an CreateDeadlineCommand object for execution.
      *
      * @throws ParseException if the user input does not conform the expected format
      */
-    public CreateDeadlineForGroupCommand parse(String args) throws ParseException {
+    public CreateDeadlineCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME);
 
@@ -41,6 +41,6 @@ public class CreateDeadlineForGroupCommandParser {
 
         Deadline deadline = new Deadline(argMultimap.getValue(OPTION_DESC).get(), by);
 
-        return new CreateDeadlineForGroupCommand(path, deadline);
+        return new CreateDeadlineCommand(path, deadline);
     }
 }
