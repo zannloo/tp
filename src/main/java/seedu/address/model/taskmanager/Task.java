@@ -26,7 +26,4 @@ public abstract class Task {
         return (this.isDone ? "X" : " ");
     }
 
-    public String getDescription() {
-        return this.description;
-    }
 }
