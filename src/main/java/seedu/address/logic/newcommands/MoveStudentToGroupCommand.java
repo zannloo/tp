@@ -7,7 +7,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.StudentId;
-import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
@@ -26,13 +25,11 @@ public class MoveStudentToGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mv";
 
-    public static final String ERROR_MESSAGE_DUPLICATE = "";
+    public static final String ERROR_MESSAGE_DUPLICATE = "This student has already been allocated";
 
     public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
 
-    public static final String ERROR_MESSAGE_INVALID_ID = "This id is invalid.";
-
-    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "";
+    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
     public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in the group";
 
@@ -84,8 +81,11 @@ public class MoveStudentToGroupCommand extends Command {
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePathSourceGroup = currPath.resolve(this.source);
+            if (!source.isStudentDirectory()) {
+                throw new CommandException("Source is not a student directory.");
+            }
             GroupOperation sourceGroupOperation = StateManager.groupOperation(root, absolutePathSourceGroup);
-            StudentId targetStudentId = absolutePathSourceGroup.getStudentId();
+            StudentId targetStudentId = absolutePathSourceGroup.getStudentId().get();
             studentToBeMoved = sourceGroupOperation.getChild(targetStudentId);
 
             AbsolutePath absolutePathDestinationGroup = currPath.resolve(this.dest);
@@ -101,8 +101,6 @@ public class MoveStudentToGroupCommand extends Command {
             return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
         } catch (DuplicateChildException duplicateChildException) {
             return new CommandResult(ERROR_MESSAGE_DUPLICATE);
-        } catch (InvalidIdException invalidIdException) {
-            return new CommandResult(ERROR_MESSAGE_INVALID_ID);
         } catch (InvalidPathException invalidPathException) {
             return new CommandResult(ERROR_MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException unsupportedPathOperationException) {

@@ -6,17 +6,14 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
-import seedu.address.model.id.exceptions.InvalidIdException;
+import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.RootOperation;
 import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.id.GroupId;
 
 /**
  * Represents a command for creating a new group within ProfBook.
@@ -25,14 +22,6 @@ import seedu.address.model.id.GroupId;
 public class CreateGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mkdir";
-
-    public static final String ERROR_MESSAGE_DUPLICATE = "";
-
-    public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
-
-    public static final String ERROR_MESSAGE_INVALID_ID = "This id is invalid.";
-
-    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "";
 
     public static final String MESSAGE_DUPLICATE_GROUP = "This group already exists in ProfBook";
 
@@ -88,18 +77,11 @@ public class CreateGroupCommand extends Command {
                     throw new CommandException(MESSAGE_DUPLICATE_GROUP);
                 }
             }
-            AbsolutePath absolutePathSourceGroup = currPath.resolve(this.relativePath);
-            GroupId groupId = absolutePathSourceGroup.getGroupId();
+            Id groupId = this.group.getId();
             rootOperation.addChild(groupId, this.group);
             return new CommandResult(String.format(MESSAGE_SUCCESS, this.group.toString()));
         } catch (DuplicateChildException duplicateChildException) {
-            return new CommandResult(ERROR_MESSAGE_DUPLICATE);
-        } catch (InvalidIdException invalidIdException) {
-            return new CommandResult(ERROR_MESSAGE_INVALID_ID);
-        } catch (InvalidPathException invalidPathException) {
-            return new CommandResult(ERROR_MESSAGE_INVALID_PATH);
-        } catch (UnsupportedPathOperationException unsupportedPathOperationException) {
-            return new CommandResult(ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION);
+            return new CommandResult(MESSAGE_DUPLICATE_GROUP);
         }
     }
 
@@ -121,8 +103,8 @@ public class CreateGroupCommand extends Command {
         }
 
         CreateGroupCommand otherCreateGroupCommand = (CreateGroupCommand) other;
-        return this.group.getName().equals(otherCreateGroupCommand.group.getName()) &&
-                this.group.getId().equals(otherCreateGroupCommand.group.getId());
+        return this.relativePath.equals(otherCreateGroupCommand.relativePath)
+                && this.group.equals(otherCreateGroupCommand.group);
     }
 
     /**
