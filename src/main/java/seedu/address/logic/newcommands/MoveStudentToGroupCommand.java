@@ -1,6 +1,8 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.parser.CliSyntax.*;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
@@ -12,6 +14,7 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
+import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.GroupOperation;
 import seedu.address.model.statemanager.StateManager;
 
@@ -23,10 +26,32 @@ public class MoveStudentToGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mv";
 
-    public static final String MESSAGE_SUCCESS = "New student added to this group: %1$s";
+    public static final String ERROR_MESSAGE_DUPLICATE = "";
+
+    public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
+
+    public static final String ERROR_MESSAGE_INVALID_ID = "This id is invalid.";
+
+    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "";
 
     public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in the group";
 
+    public static final String MESSAGE_SUCCESS = "New student added to this group: %1$s";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
+            + "Parameters: "
+            + PREFIX_NAME + "NAME "
+            + PREFIX_PHONE + "PHONE "
+            + PREFIX_EMAIL + "EMAIL "
+            + PREFIX_ADDRESS + "ADDRESS "
+            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_NAME + "John Doe "
+            + PREFIX_PHONE + "98765432 "
+            + PREFIX_EMAIL + "johnd@example.com "
+            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
+            + PREFIX_TAG + "friends "
+            + PREFIX_TAG + "owesMoney";
     private final RelativePath source;
 
     private final RelativePath dest;
@@ -46,24 +71,6 @@ public class MoveStudentToGroupCommand extends Command {
     }
 
     /**
-     * Gets the relative path to the source group from which the student will be moved.
-     *
-     * @return The relative path to the source group.
-     */
-    public RelativePath getRelativePathToSourceGroup() {
-        return this.source;
-    }
-
-    /**
-     * Gets the relative path to the destination group to which the student will be moved.
-     *
-     * @return The relative path to the destination group.
-     */
-    public RelativePath getRelativePathToDestinationGroup() {
-        return this.dest;
-    }
-
-    /**
      * Executes the MoveStudentToGroupCommand, moving a student from the source group to the destination group in
      * ProfBook.
      *
@@ -71,31 +78,36 @@ public class MoveStudentToGroupCommand extends Command {
      * @param root The root of the ProfBook.
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
-     * @throws InvalidIdException If an invalid ID is encountered.
-     * @throws UnsupportedPathOperationException If an unsupported path operation is encountered.
-     * @throws InvalidPathException If an invalid path is encountered.
      */
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException, InvalidIdException,
-            UnsupportedPathOperationException, InvalidPathException {
-        requireAllNonNull(currPath, root);
+    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
+        try {
+            requireAllNonNull(currPath, root);
+            AbsolutePath absolutePathSourceGroup = currPath.resolve(this.source);
+            GroupOperation sourceGroupOperation = StateManager.groupOperation(root, absolutePathSourceGroup);
+            StudentId targetStudentId = absolutePathSourceGroup.getStudentId();
+            studentToBeMoved = sourceGroupOperation.getChild(targetStudentId);
 
-        AbsolutePath absolutePathSourceGroup = currPath.resolve(this.source);
-        GroupOperation sourceGroupOperation = StateManager.groupOperation(root, absolutePathSourceGroup);
-        StudentId targetStudentId = absolutePathSourceGroup.getStudentId();
-        studentToBeMoved = sourceGroupOperation.getChild(targetStudentId);
-        sourceGroupOperation.deleteChild(targetStudentId);
-
-        AbsolutePath absolutePathDestinationGroup = currPath.resolve(this.dest);
-        GroupOperation destinationGroupOperation = StateManager.groupOperation(root, absolutePathDestinationGroup);
-        Student[] listOfStudentsInDestinationGroup = destinationGroupOperation.getAllChildren();
-        for (Student student : listOfStudentsInDestinationGroup) {
-            if (student.equals(studentToBeMoved)) {
-                throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
+            AbsolutePath absolutePathDestinationGroup = currPath.resolve(this.dest);
+            GroupOperation destinationGroupOperation = StateManager.groupOperation(root, absolutePathDestinationGroup);
+            Student[] listOfStudentsInDestinationGroup = destinationGroupOperation.getAllChildren();
+            for (Student student : listOfStudentsInDestinationGroup) {
+                if (student.equals(studentToBeMoved)) {
+                    throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
+                }
             }
+            destinationGroupOperation.addChild(targetStudentId, studentToBeMoved);
+            sourceGroupOperation.deleteChild(targetStudentId);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
+        } catch (DuplicateChildException duplicateChildException) {
+            return new CommandResult(ERROR_MESSAGE_DUPLICATE);
+        } catch (InvalidIdException invalidIdException) {
+            return new CommandResult(ERROR_MESSAGE_INVALID_ID);
+        } catch (InvalidPathException invalidPathException) {
+            return new CommandResult(ERROR_MESSAGE_INVALID_PATH);
+        } catch (UnsupportedPathOperationException unsupportedPathOperationException) {
+            return new CommandResult(ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION);
         }
-        destinationGroupOperation.addChild(targetStudentId, studentToBeMoved);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
     }
 
     /**
@@ -116,11 +128,8 @@ public class MoveStudentToGroupCommand extends Command {
         }
 
         MoveStudentToGroupCommand otherMoveStudentToGroupCommand = (MoveStudentToGroupCommand) other;
-        return this.getRelativePathToSourceGroup().equals(otherMoveStudentToGroupCommand.getRelativePathToSourceGroup())
-                && this.getRelativePathToDestinationGroup()
-                .equals(otherMoveStudentToGroupCommand.getRelativePathToDestinationGroup());
-//        return this.source.equals(otherMoveStudentToGroupCommand.source)
-//                && this.dest.equals(otherMoveStudentToGroupCommand.dest);
+        return this.source.equals(otherMoveStudentToGroupCommand.source)
+                && this.dest.equals(otherMoveStudentToGroupCommand.dest);
     }
 
     /**

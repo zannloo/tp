@@ -1,6 +1,8 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.parser.CliSyntax.*;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
@@ -24,9 +26,32 @@ public class CreateGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mkdir";
 
-    public static final String MESSAGE_SUCCESS = "New group added: %1$s";
+    public static final String ERROR_MESSAGE_DUPLICATE = "";
+
+    public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
+
+    public static final String ERROR_MESSAGE_INVALID_ID = "This id is invalid.";
+
+    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "";
 
     public static final String MESSAGE_DUPLICATE_GROUP = "This group already exists in ProfBook";
+
+    public static final String MESSAGE_SUCCESS = "New group added: %1$s";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
+            + "Parameters: "
+            + PREFIX_NAME + "NAME "
+            + PREFIX_PHONE + "PHONE "
+            + PREFIX_EMAIL + "EMAIL "
+            + PREFIX_ADDRESS + "ADDRESS "
+            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_NAME + "John Doe "
+            + PREFIX_PHONE + "98765432 "
+            + PREFIX_EMAIL + "johnd@example.com "
+            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
+            + PREFIX_TAG + "friends "
+            + PREFIX_TAG + "owesMoney";
 
     private final RelativePath relativePath;
 
@@ -51,26 +76,31 @@ public class CreateGroupCommand extends Command {
      * @param root The root of the ProfBook.
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
-     * @throws DuplicateChildException If a duplicate group is encountered.
-     * @throws InvalidIdException If an invalid ID is encountered.
-     * @throws InvalidPathException If an invalid path is encountered.
-     * @throws UnsupportedPathOperationException If an unsupported path operation is encountered.
      */
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException, DuplicateChildException,
-            InvalidIdException, InvalidPathException, UnsupportedPathOperationException {
-        requireAllNonNull(currPath, root);
-        RootOperation rootOperation = StateManager.rootOperation(root);
-        Group[] listOfGroups = rootOperation.getAllChildren();
-        for (Group group : listOfGroups) {
-            if (group.equals(this.group)) {
-                throw new CommandException(MESSAGE_DUPLICATE_GROUP);
+    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
+        try {
+            requireAllNonNull(currPath, root);
+            RootOperation rootOperation = StateManager.rootOperation(root);
+            Group[] listOfGroups = rootOperation.getAllChildren();
+            for (Group group : listOfGroups) {
+                if (group.equals(this.group)) {
+                    throw new CommandException(MESSAGE_DUPLICATE_GROUP);
+                }
             }
+            AbsolutePath absolutePathSourceGroup = currPath.resolve(this.relativePath);
+            GroupId groupId = absolutePathSourceGroup.getGroupId();
+            rootOperation.addChild(groupId, this.group);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, this.group.toString()));
+        } catch (DuplicateChildException duplicateChildException) {
+            return new CommandResult(ERROR_MESSAGE_DUPLICATE);
+        } catch (InvalidIdException invalidIdException) {
+            return new CommandResult(ERROR_MESSAGE_INVALID_ID);
+        } catch (InvalidPathException invalidPathException) {
+            return new CommandResult(ERROR_MESSAGE_INVALID_PATH);
+        } catch (UnsupportedPathOperationException unsupportedPathOperationException) {
+            return new CommandResult(ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION);
         }
-        AbsolutePath absolutePathSourceGroup = currPath.resolve(this.relativePath);
-        GroupId groupId = absolutePathSourceGroup.getGroupId();
-        rootOperation.addChild(groupId, this.group);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, this.group.toString()));
     }
 
     /**
