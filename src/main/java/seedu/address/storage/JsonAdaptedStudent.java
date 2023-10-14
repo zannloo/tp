@@ -32,10 +32,14 @@ public class JsonAdaptedStudent {
     private final Set<JsonAdaptedTag> tags = new HashSet<>();
     private final String id;
 
+    private final Set<JsonAdaptedTasks> tasks = new HashSet<>();
+
+
     @JsonCreator
     public JsonAdaptedStudent(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email, @JsonProperty("address") String address,
-                              @JsonProperty("id") String id, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                              @JsonProperty("id") String id, @JsonProperty("tags") List<JsonAdaptedTag> tags
+                                @JsonProperty("tasks") List<JsonAdaptedTasks> tasks) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -99,6 +103,7 @@ public class JsonAdaptedStudent {
 
         //USE WHEN MING IMPLEMENTS INTO STUDENT CONSTRUCTOR
         final Set<Tag> modelTags = new HashSet<>(studentTags);
+
         return new Student(,modelName, modelPhone, modelEmail, modelAddress, studId);
     }
 
