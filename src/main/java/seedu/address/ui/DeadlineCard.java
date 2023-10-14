@@ -39,5 +39,6 @@ public class DeadlineCard extends UiPart<Region> {
         desc.setText(deadline.getDesc());
         by.setText(deadline.getDeadline());
         checkBox.setSelected(deadline.getStatus());
+        checkBox.setDisable(true);
     }
 }

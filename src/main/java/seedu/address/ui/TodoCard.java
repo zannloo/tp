@@ -36,5 +36,6 @@ public class TodoCard extends UiPart<Region> {
         type.setText("Todo");
         desc.setText(todo.getDesc());
         checkBox.setSelected(todo.getStatus());
+        checkBox.setDisable(true);
     }
 }
