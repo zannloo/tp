@@ -4,21 +4,15 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
-import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
-import seedu.address.model.statemanager.GroupOperation;
-import seedu.address.model.statemanager.RootOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.statemanager.StudentOperation;
+import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.ToDo;
 
 /**
@@ -77,31 +71,18 @@ public class CreateTodoCommand extends Command {
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(relativePath);
-            if (absolutePath.isStudentDirectory()) {
-                GroupOperation groupOperation = StateManager.groupOperation(root, absolutePath);
-                StudentOperation studentOperation = StateManager.studentOperation(root, absolutePath);
-                StudentId targetStudentId = absolutePath.getStudentId().get();
-                Student targetStudent = groupOperation.getChild(targetStudentId);
-                if (targetStudent.checkDuplicates(this.todo)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
-                }
-                studentOperation.addTask(this.todo);
-                state.updateList();
-                return new CommandResult(String.format(MESSAGE_SUCCESS, targetStudent.toString()));
-            } else if (absolutePath.isGroupDirectory()) {
-                RootOperation rootOperation = StateManager.rootOperation(root);
-                GroupOperation groupOperation = StateManager.groupOperation(root, absolutePath);
-                GroupId targetGroupId = absolutePath.getGroupId().get();
-                Group targetGroup = rootOperation.getChild(targetGroupId);
-                if (targetGroup.checkDuplicates(this.todo)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_GROUP);
-                }
-                groupOperation.addTask(this.todo);
-                state.updateList();
-                return new CommandResult(String.format(MESSAGE_SUCCESS, targetGroup.toString()));
-            } else {
-                throw new CommandException(MESSAGE_ERROR);
+
+            TaskOperation target = StateManager.taskOperation(root, absolutePath);
+
+            if (target.hasTask(this.todo)) {
+                throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
             }
+
+            target.addTask(this.todo);
+            state.updateList();
+
+            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+
         } catch (DuplicateChildException duplicateChildException) {
             throw new CommandException(ERROR_MESSAGE_DUPLICATE);
         } catch (InvalidPathException invalidPathException) {

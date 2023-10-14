@@ -2,6 +2,8 @@ package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Optional;
+
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.StudentId;
@@ -12,9 +14,11 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
-import seedu.address.model.statemanager.GroupOperation;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
+
+
 
 /**
  * Represents a command for moving a student from one group to another within ProfBook.
@@ -67,23 +71,24 @@ public class MoveStudentToGroupCommand extends Command {
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePathSourceGroup = currPath.resolve(this.source);
-            if (!source.isStudentDirectory()) {
+            Optional<StudentId> toBeMoved = absolutePathSourceGroup.getStudentId();
+            if (!source.isStudentDirectory() || toBeMoved.isEmpty()) {
                 throw new CommandException("Source is not a student directory.");
             }
-            GroupOperation sourceGroupOperation = StateManager.groupOperation(root, absolutePathSourceGroup);
-            StudentId targetStudentId = absolutePathSourceGroup.getStudentId().get();
-            studentToBeMoved = sourceGroupOperation.getChild(targetStudentId);
 
-            AbsolutePath absolutePathDestinationGroup = currPath.resolve(this.dest);
-            GroupOperation destinationGroupOperation = StateManager.groupOperation(root, absolutePathDestinationGroup);
-            Student[] listOfStudentsInDestinationGroup = destinationGroupOperation.getAllChildren();
-            for (Student student : listOfStudentsInDestinationGroup) {
-                if (student.equals(studentToBeMoved)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
-                }
+            StudentId toBeMovedId = toBeMoved.get();
+
+            ChildOperation<Student> destGroup = StateManager.groupChildOperation(root, absolutePathSourceGroup);
+            if (destGroup.hasChild(toBeMovedId)) {
+                throw new CommandException(MESSAGE_DUPLICATE_STUDENT); // @gary prob should let user know
             }
-            destinationGroupOperation.addChild(targetStudentId, studentToBeMoved);
-            sourceGroupOperation.deleteChild(targetStudentId);
+
+            ChildOperation<Student> sourceGroup = StateManager.groupChildOperation(root, absolutePathSourceGroup);
+            studentToBeMoved = sourceGroup.getChild(toBeMovedId);
+
+            destGroup.addChild(toBeMovedId, studentToBeMoved);
+            sourceGroup.deleteChild(toBeMovedId);
+
             state.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
         } catch (DuplicateChildException duplicateChildException) {

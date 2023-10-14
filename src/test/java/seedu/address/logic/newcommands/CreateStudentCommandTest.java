@@ -19,16 +19,20 @@ import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
+import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.IChildOperation;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
@@ -65,7 +69,7 @@ class CreateStudentCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(taskList, groups);
 
-        RelativePath path = new RelativePath("~/grp-001/stu-001");
+        RelativePath path = new RelativePath("~/grp-001"); // @zann this path supposed to lead to student or group?
 
         Student bob = new StudentBuilder()
                 .withName("Bob")
@@ -73,7 +77,7 @@ class CreateStudentCommandTest {
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("owesMoney", "friends")
-                .withId("stu-002").build();
+                .withId("stu-002").build(); // this ID doesnt even match the previous ID
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, bob);
         State state = new State(currPath, root, new UserPrefs());
@@ -84,18 +88,22 @@ class CreateStudentCommandTest {
     }
     @Test
     public void execute_duplicateStudent_throwsCommandException() throws InvalidPathException {
-        Student validStudent = new StudentBuilder().build();
         AbsolutePath currPath = new AbsolutePath("~/grp-001/");
-        List<Task> defaultTaskList = new ArrayList<>();
-        defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
-        TaskList taskList = new TaskList(defaultTaskList);
-
+        Student duplicatedStudent = new StudentBuilder()
+                .withName("zann")
+                .withEmail("zannwhatudoing@example.com")
+                .withPhone("98765432")
+                .withAddress("311, Clementi Ave 2, #02-25")
+                .withTags("owesMoney", "friends")
+                .withId("stu-001").build();
+        Map<Id, Student> studentMap = new HashMap<>();
+        studentMap.put(new StudentId("stu-001"), duplicatedStudent);
+        Group grp = new Group(new TaskList(null), studentMap, new Name("gary"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
-        Group grp = new GroupBuilder().build();
         groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(taskList, groups);
+        Root root = new Root(new TaskList(null), groups);
 
-        RelativePath path = new RelativePath("~/grp-001/stu-001");
+        RelativePath path = new RelativePath("~/grp-001");
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, validStudent);
         State state = new State(currPath, root, new UserPrefs());
@@ -180,7 +188,7 @@ class CreateStudentCommandTest {
         }
 
         @Override
-        public Student[] getAllChildren() {
+        public List<Student> getAllChildren() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -194,10 +202,11 @@ class CreateStudentCommandTest {
     /**
      * A groupOperation stub that contains a single student.
      */
-    private class GroupOperationStubWithStudent extends GroupOperationStub {
+    private class GroupOperationStubWithStudent extends ChildOperation<Student > {
         private final Group baseDir;
         private Student child;
         public GroupOperationStubWithStudent(Group baseDir, Student child) {
+            super(baseDir);
             this.baseDir = baseDir;
             this.child = child;
         }
@@ -211,10 +220,11 @@ class CreateStudentCommandTest {
     /**
      * A GroupOperation stub that always accept the student being added.
      */
-    private class GroupOperationStubAlwaysAcceptingStudent extends GroupOperationStub {
+    private class GroupOperationStubAlwaysAcceptingStudent extends ChildOperation<Student > {
         private final Group baseDir;
         private Student child;
         GroupOperationStubAlwaysAcceptingStudent(Group baseDir, Student child) {
+            super(baseDir);
             this.baseDir = baseDir;
             this.child = child;
         }
