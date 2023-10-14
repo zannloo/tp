@@ -8,6 +8,7 @@ import java.util.Set;
 import javafx.scene.layout.Region;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.Id;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.ui.StudentCard;
@@ -31,12 +32,12 @@ public class Student extends TaskListManager implements IChildElement {
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Unique identifier of the group
+     * Unique identifier of the student
      */
-    private final Id id;
+    private final StudentId id;
 
     /**
-     * Constructs a new Student instance
+     * Constructs a Student instance with all fields.
      *
      * @param taskList - The task list associated with this student
      * @param name     - The group name
@@ -45,9 +46,21 @@ public class Student extends TaskListManager implements IChildElement {
      * @param address  - Students address
      * @param id       - Unique identifier of the group
      */
+    public Student(TaskList taskList, Name name, Email email, Phone phone, Address address, StudentId id) {
+        super(taskList);
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.id = id;
+    }
 
-    public Student(TaskList taskList, Name name, Email email, Phone phone, Address address, Id id) {
-        super((taskList));
+    /**
+     * Constructs a new Student without task list.
+     */
+    public Student(Name name, Email email, Phone phone, Address address, StudentId id) {
+        super();
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.email = email;

@@ -30,15 +30,20 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
             FXCollections.unmodifiableObservableList(childrenList);
 
     /**
-     * Constructs a new child manager instance
-     *
-     * @param taskList - For ProfBookModel constructor
-     * @param children - Map of id to their children
+     * Construct a children manager with given task list and children map.
      */
     public ChildrenManager(TaskList taskList, Map<Id, T> children) {
         super(taskList);
         requireAllNonNull(children);
         this.children = children;
+    }
+
+    /**
+     * Construct a new children manager.
+     */
+    public ChildrenManager() {
+        super();
+        children = new HashMap<>();
     }
 
     /**

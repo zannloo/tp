@@ -22,13 +22,18 @@ public class TaskListManager {
 
 
     /**
-     * Constructs a fresh model with tasks loaded from storage
-     *
-     * @param taskList - prefilled task list from storage
+     * Constructs a task list manager with task list given
      */
     public TaskListManager(TaskList taskList) {
         requireAllNonNull(taskList);
         this.taskList = taskList;
+    }
+
+    /**
+     * Constructs a new task list manager
+     */
+    public TaskListManager() {
+        taskList = new TaskList(new ArrayList<>());
     }
 
     /**

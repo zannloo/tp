@@ -1,5 +1,7 @@
 package seedu.address.model.profbook;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.Map;
 
 import javafx.scene.layout.Region;
@@ -25,7 +27,7 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
     private final Id id;
 
     /**
-     * Constructs a new Group instance
+     * Constructs a Group instance with all fields.
      *
      * @param taskList - The task list associated with this group
      * @param students - The list of students in this group
@@ -34,6 +36,16 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
      */
     public Group(TaskList taskList, Map<Id, Student> students, Name name, Id id) {
         super(taskList, students);
+        requireAllNonNull(name, id);
+        this.name = name;
+        this.id = id;
+    }
+
+    /**
+     * Constructs a new Group instance without task list and student map.
+     */
+    public Group(Name name, Id id) {
+        super();
         this.name = name;
         this.id = id;
     }
