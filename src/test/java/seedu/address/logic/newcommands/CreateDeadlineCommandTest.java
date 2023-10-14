@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
@@ -31,6 +32,7 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.TaskListManager;
 import seedu.address.model.statemanager.GroupOperation;
+import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.StudentOperation;
 import seedu.address.model.taskmanager.Deadline;
@@ -78,7 +80,7 @@ class CreateDeadlineCommandTest {
 
     @Test
     public void execute_duplicateDeadline_throwsCommandException() throws InvalidPathException {
-        AbsolutePath currPath = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath currPath = new AbsolutePath("~/grp-001/");
         List<Task> defaultTaskList = new ArrayList<>();
         defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
         TaskList taskList = new TaskList(defaultTaskList);
@@ -88,6 +90,8 @@ class CreateDeadlineCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(taskList, groups);
 
+        State state = new State(currPath, root, new UserPrefs());
+
         RelativePath path = new RelativePath("~/grp-001/stu-001");
         Deadline deadline = new Deadline("Assignment 3", LocalDateTime.parse("2023-12-03T23:59"));
 
@@ -95,7 +99,7 @@ class CreateDeadlineCommandTest {
 
         assertThrows(CommandException.class,
                 CreateDeadlineCommand.MESSAGE_DUPLICATE_DEADLINE_TASK, (
-                    ) -> createDeadlineCommand.execute(currPath, root)
+                    ) -> createDeadlineCommand.execute(state)
         );
     }
 

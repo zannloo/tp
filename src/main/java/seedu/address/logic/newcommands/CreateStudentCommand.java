@@ -13,6 +13,7 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.GroupOperation;
+import seedu.address.model.statemanager.State;
 
 /**
  * Adds a student within the specific group.
@@ -42,15 +43,15 @@ public class CreateStudentCommand extends Command {
     /**
      * Executes an CreateStudentCommand to add the specified {@code Student} to a {@code Group}
      *
-     * @param currPath The current path user is at in ProfBook.
-     * @param root The root in ProfBook.
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
      * @throws InvalidPathException thrown when error occurs due to invalid path.
      * @throws UnsupportedPathOperationException Exception thrown when error occurs due to unsupported path execution.
      */
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
+    public CommandResult execute(State state) throws CommandException {
+        AbsolutePath currPath = state.getCurrPath();
+        Root root = state.getRoot();
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(path);
@@ -60,6 +61,7 @@ public class CreateStudentCommand extends Command {
                 throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
             }
             group.addChild(studentId, student);
+            state.updateFilteredList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, student.toString()));
         } catch (InvalidPathException e) {
             throw new CommandException(MESSAGE_INVALID_PATH);

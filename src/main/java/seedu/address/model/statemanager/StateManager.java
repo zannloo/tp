@@ -88,7 +88,7 @@ public class StateManager implements ITaskOperations {
         return new StudentOperation(currDir);
     }
 
-    private static Group getGroupFromPath(Root root, AbsolutePath p)
+    public static Group getGroupFromPath(Root root, AbsolutePath p)
             throws UnsupportedPathOperationException, NoSuchChildException {
         Optional<GroupId> groupIdOptional = p.getGroupId();
         if (groupIdOptional.isPresent()) {
@@ -97,7 +97,7 @@ public class StateManager implements ITaskOperations {
         throw new UnsupportedPathOperationException("No such group at " + p);
     }
 
-    private static Student getStudentFromPath(Root root, AbsolutePath p)
+    public static Student getStudentFromPath(Root root, AbsolutePath p)
             throws UnsupportedPathOperationException, NoSuchChildException {
         Optional<GroupId> groupIdOptional = p.getGroupId();
         Optional<StudentId> studentIdOptional = p.getStudentId();

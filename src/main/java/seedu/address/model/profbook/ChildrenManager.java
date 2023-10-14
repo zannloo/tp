@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
@@ -23,6 +25,9 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
      * Maps the id to the children
      */
     private final Map<Id, T> children;
+    private final ObservableList<T> childrenList = FXCollections.observableArrayList();
+    private final ObservableList<T> unmodifiableChildrenList =
+            FXCollections.unmodifiableObservableList(childrenList);
 
     /**
      * Constructs a new child manager instance
@@ -34,6 +39,13 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
         super(taskList);
         requireAllNonNull(children);
         this.children = children;
+    }
+
+    /**
+     * Returns the children list as an unmodifiable {@code ObservableList}.
+     */
+    public ObservableList<T> asUnmodifiableObservableList() {
+        return unmodifiableChildrenList;
     }
 
     /**
@@ -49,6 +61,7 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
             throw new DuplicateChildException(id.toString());
         }
         this.children.put(id, child);
+        this.childrenList.add(child);
     }
 
     /**
@@ -61,6 +74,7 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
     public T deleteChild(Id id) throws NoSuchChildException {
         T child = this.getChild(id);
         this.children.remove(id);
+        this.childrenList.remove(child);
         return child;
     }
 
@@ -118,5 +132,21 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
 
     public Map<Id, T> getChildren() {
         return new HashMap<>(this.children);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ChildrenManager<?>)) {
+            return false;
+        }
+
+        ChildrenManager<?> otherChildrenManger = (ChildrenManager<?>) other;
+        return super.equals(otherChildrenManger)
+                && this.children.equals(otherChildrenManger.children);
     }
 }

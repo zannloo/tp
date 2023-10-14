@@ -82,6 +82,28 @@ public class AbsolutePathTest {
     //=========== Resolve Method =============================================================
 
     @Test
+    public void resolve_relativeStudentPathWithoutNavigation_returnNewAbsolutePath()
+            throws InvalidPathException {
+        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/");
+        RelativePath relativePath = new RelativePath("stu-002");
+
+        AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
+
+        assertEquals("~/grp-001/stu-002", resolvedPath.toString());
+    }
+
+    @Test
+    public void resolve_relativeGroupPathWithoutNavigation_returnNewAbsolutePath()
+            throws InvalidPathException {
+        AbsolutePath absolutePath = new AbsolutePath("~/");
+        RelativePath relativePath = new RelativePath("grp-002");
+
+        AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
+
+        assertEquals("~/grp-002", resolvedPath.toString());
+    }
+
+    @Test
     public void resolve_relativePathWithOneValidNavigation_returnNewAbsolutePath()
             throws InvalidPathException {
         AbsolutePath absolutePath = new AbsolutePath("~/grp-001/stu-001");
@@ -101,6 +123,17 @@ public class AbsolutePathTest {
         AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
 
         assertEquals("~/grp-002/stu-002", resolvedPath.toString());
+    }
+
+    @Test
+    public void resolve_relativePathStartWithRoot()
+            throws InvalidPathException {
+        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/stu-001");
+        RelativePath relativePath = new RelativePath("~/grp-002/stu-003");
+
+        AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
+
+        assertEquals("~/grp-002/stu-003", resolvedPath.toString());
     }
 
     @Test
