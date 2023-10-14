@@ -11,6 +11,7 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.RootOperation;
+import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 
 /**
@@ -46,13 +47,13 @@ public class CreateGroupCommand extends Command {
     /**
      * Executes the CreateGroupCommand, creating a new group at the specified path in ProfBook.
      *
-     * @param currPath The current path in the ProfBook.
-     * @param root The root of the ProfBook.
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
+    public CommandResult execute(State state) throws CommandException {
+        AbsolutePath currPath = state.getCurrPath();
+        Root root = state.getRoot();
         try {
             requireAllNonNull(currPath, root);
             RootOperation rootOperation = StateManager.rootOperation(root);
@@ -64,6 +65,7 @@ public class CreateGroupCommand extends Command {
             }
             Id groupId = this.group.getId();
             rootOperation.addChild(groupId, this.group);
+            state.updateFilteredList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, this.group.toString()));
         } catch (DuplicateChildException duplicateChildException) {
             throw new CommandException(MESSAGE_DUPLICATE_GROUP);

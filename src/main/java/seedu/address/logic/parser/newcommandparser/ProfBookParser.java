@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.newcommands.ChangeDirectoryCommand;
 import seedu.address.logic.newcommands.Command;
 import seedu.address.logic.newcommands.CreateDeadlineCommand;
 import seedu.address.logic.newcommands.CreateGroupCommand;
@@ -65,6 +66,9 @@ public class ProfBookParser {
 
         case MoveStudentToGroupCommand.COMMAND_WORD:
             return new MoveStudentToGroupCommandParser().parse(arguments);
+
+        case ChangeDirectoryCommand.COMMAND_WORD:
+            return new ChangeDirectoryCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

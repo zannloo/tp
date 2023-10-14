@@ -13,6 +13,7 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.GroupOperation;
+import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 
 /**
@@ -56,13 +57,13 @@ public class MoveStudentToGroupCommand extends Command {
      * Executes the MoveStudentToGroupCommand, moving a student from the source group to the destination group in
      * ProfBook.
      *
-     * @param currPath The current path in the ProfBook.
-     * @param root The root of the ProfBook.
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
+    public CommandResult execute(State state) throws CommandException {
+        AbsolutePath currPath = state.getCurrPath();
+        Root root = state.getRoot();
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePathSourceGroup = currPath.resolve(this.source);
@@ -83,6 +84,7 @@ public class MoveStudentToGroupCommand extends Command {
             }
             destinationGroupOperation.addChild(targetStudentId, studentToBeMoved);
             sourceGroupOperation.deleteChild(targetStudentId);
+            state.updateFilteredList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
         } catch (DuplicateChildException duplicateChildException) {
             throw new CommandException(ERROR_MESSAGE_DUPLICATE);

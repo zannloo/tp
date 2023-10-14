@@ -18,6 +18,7 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.GroupOperation;
 import seedu.address.model.statemanager.RootOperation;
+import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StudentOperation;
 import seedu.address.model.taskmanager.Deadline;
 
@@ -52,15 +53,15 @@ public class CreateDeadlineCommand extends Command {
     /**
      * Executes an CreateDeadlineCommand to allocate a {@code Deadline} task to a {@code Group} or {@code Student}
      *
-     * @param currPath The current path user is at in ProfBook.
-     * @param root The root in ProfBook.
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
      * @throws InvalidPathException thrown when error occurs due to invalid path.
      * @throws UnsupportedPathOperationException Exception thrown when error occurs due to unsupported path execution.
      */
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
+    public CommandResult execute(State state) throws CommandException {
+        AbsolutePath currPath = state.getCurrPath();
+        Root root = state.getRoot();
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(path);
@@ -88,6 +89,7 @@ public class CreateDeadlineCommand extends Command {
             } else {
                 throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
             }
+            state.updateFilteredList();
             return returnStatement;
         } catch (InvalidPathException e) {
             throw new CommandException(MESSAGE_INVALID_PATH);

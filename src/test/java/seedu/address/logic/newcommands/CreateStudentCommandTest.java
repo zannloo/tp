@@ -16,6 +16,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
@@ -27,6 +28,7 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
 import seedu.address.model.statemanager.IChildOperation;
+import seedu.address.model.statemanager.State;
 import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
@@ -53,7 +55,7 @@ class CreateStudentCommandTest {
 
     @Test
     void execute_studentAcceptedByGroup_success() throws Exception {
-        AbsolutePath currPath = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath currPath = new AbsolutePath("~/grp-001/");
         List<Task> defaultTaskList = new ArrayList<>();
         defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
         TaskList taskList = new TaskList(defaultTaskList);
@@ -74,7 +76,8 @@ class CreateStudentCommandTest {
                 .withId("stu-002").build();
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, bob);
-        CommandResult commandResult = createStudentCommand.execute(currPath, root);
+        State state = new State(currPath, root, new UserPrefs());
+        CommandResult commandResult = createStudentCommand.execute(state);
 
         assertEquals(String.format(CreateStudentCommand.MESSAGE_SUCCESS, bob.toString()),
                     commandResult.getFeedbackToUser());
@@ -82,7 +85,7 @@ class CreateStudentCommandTest {
     @Test
     public void execute_duplicateStudent_throwsCommandException() throws InvalidPathException {
         Student validStudent = new StudentBuilder().build();
-        AbsolutePath currPath = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath currPath = new AbsolutePath("~/grp-001/");
         List<Task> defaultTaskList = new ArrayList<>();
         defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
         TaskList taskList = new TaskList(defaultTaskList);
@@ -95,9 +98,10 @@ class CreateStudentCommandTest {
         RelativePath path = new RelativePath("~/grp-001/stu-001");
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, validStudent);
+        State state = new State(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 CreateStudentCommand.MESSAGE_DUPLICATE_STUDENT, (
-                    ) -> createStudentCommand.execute(currPath, root)
+                    ) -> createStudentCommand.execute(state)
         );
     }
 
