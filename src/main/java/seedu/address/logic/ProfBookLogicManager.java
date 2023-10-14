@@ -61,7 +61,7 @@ public class ProfBookLogicManager {
         return commandResult;
     }
 
-    public ObservableList<? extends IChildElement> getFilteredPersonList() {
+    public ObservableList<? extends IChildElement> getFilteredList() {
         return state.getFilteredList();
     }
 
