@@ -101,7 +101,7 @@ public class State {
     public void changeDirectory(AbsolutePath path) {
         this.currentPath = path;
         this.currManager = getCurrManager(path);
-        updateList();
+        showChildrenList();
     }
 
     //=========== Filtered List Accessors =============================================================
