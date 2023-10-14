@@ -76,7 +76,7 @@ public class CreateTodoCommand extends Command {
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(relativePath);
-            if (currPath.isStudentDirectory()) {
+            if (absolutePath.isStudentDirectory()) {
                 GroupOperation groupOperation = StateManager.groupOperation(root, absolutePath);
                 StudentOperation studentOperation = StateManager.studentOperation(root, absolutePath);
                 StudentId targetStudentId = absolutePath.getStudentId().get();
@@ -86,7 +86,7 @@ public class CreateTodoCommand extends Command {
                 }
                 studentOperation.addTask(this.todo);
                 return new CommandResult(String.format(MESSAGE_SUCCESS, targetStudent.toString()));
-            } else if (currPath.isGroupDirectory()) {
+            } else if (absolutePath.isGroupDirectory()) {
                 RootOperation rootOperation = StateManager.rootOperation(root);
                 GroupOperation groupOperation = StateManager.groupOperation(root, currPath);
                 GroupId targetGroupId = absolutePath.getGroupId().get();
