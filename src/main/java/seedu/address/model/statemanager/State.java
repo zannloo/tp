@@ -3,7 +3,10 @@ package seedu.address.model.statemanager;
 import static java.util.Objects.requireNonNull;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.ReadOnlyUserPrefs;
@@ -18,10 +21,10 @@ import seedu.address.model.profbook.Root;
  * Current state of ProfBook.
  */
 public class State {
-    private final AbsolutePath currentPath;
+    private AbsolutePath currentPath;
     private final Root root;
-    private final ChildrenManager<? extends IChildElement> currManager;
-    private ObservableList<? extends IChildElement> filteredList;
+    private ChildrenManager<? extends IChildElement> currManager;
+    private ObservableList<IChildElement> filteredList = FXCollections.observableArrayList();
     private final UserPrefs userPrefs;
 
     /**
@@ -31,7 +34,7 @@ public class State {
         this.currentPath = currentPath;
         this.root = root;
         this.currManager = getCurrManager(currentPath);
-        this.filteredList = currManager.asUnmodifiableObservableList();
+        updateFilteredList();
         this.userPrefs = new UserPrefs(userPrefs);
     }
 
@@ -87,9 +90,28 @@ public class State {
         throw new IllegalArgumentException("Invalid Current Path: Must be children manager path!");
     }
 
+    /**
+     * Change directory to destination path
+     */
+    public void changeDirectory(AbsolutePath path) {
+        this.currentPath = path;
+        this.currManager = getCurrManager(path);
+        updateFilteredList();
+    }
+
     //=========== Filtered List Accessors =============================================================
     public ObservableList<? extends IChildElement> getFilteredList() {
         return this.filteredList;
+    }
+
+    /**
+     * Reset filtered list with updated list.
+     *
+     */
+    public void updateFilteredList() {
+        List<? extends IChildElement> temp = new ArrayList<>(currManager.asUnmodifiableObservableList());
+        this.filteredList.clear();
+        this.filteredList.setAll(temp);
     }
 
     // public void updateFilteredPersonList(Predicate<? extends IChildElement> predicate) {
