@@ -16,6 +16,7 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.GroupOperation;
 import seedu.address.model.statemanager.RootOperation;
+import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.StudentOperation;
 import seedu.address.model.taskmanager.ToDo;
@@ -66,13 +67,13 @@ public class CreateTodoCommand extends Command {
      * Executes the CreateTodoCommand, adding a "ToDo" task to either a group or a specific student as specified
      * in the relative path.
      *
-     * @param currPath The current path in the ProfBook.
-     * @param root The root of the ProfBook.
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(AbsolutePath currPath, Root root) throws CommandException {
+    public CommandResult execute(State state) throws CommandException {
+        AbsolutePath currPath = state.getCurrPath();
+        Root root = state.getRoot();
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(relativePath);
@@ -95,6 +96,7 @@ public class CreateTodoCommand extends Command {
                     throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_GROUP);
                 }
                 groupOperation.addTask(this.todo);
+                state.updateFilteredList();
                 return new CommandResult(String.format(MESSAGE_SUCCESS, targetGroup.toString()));
             } else {
                 throw new CommandException(MESSAGE_ERROR);
