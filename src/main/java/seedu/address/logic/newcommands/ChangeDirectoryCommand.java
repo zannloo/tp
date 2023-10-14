@@ -19,6 +19,7 @@ import seedu.address.model.statemanager.State;
 public class ChangeDirectoryCommand extends Command {
     public static final String COMMAND_WORD = "cd";
     public static final String MESSAGE_SUCCESS = "Changed directory to: %1$s";
+    public static final String MESSAGE_INVALID_DEST = "Change directory into a student directory is not allowed.";
     private static final Logger logger = LogsCenter.getLogger(ChangeDirectoryCommandParser.class);
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]";
@@ -51,6 +52,10 @@ public class ChangeDirectoryCommand extends Command {
             targetPath = currPath.resolve(dest);
         } catch (InvalidPathException e) {
             throw new CommandException(e.getMessage());
+        }
+
+        if (targetPath.isStudentDirectory()) {
+            throw new CommandException(MESSAGE_INVALID_DEST);
         }
 
         logger.info("Changing directory to: " + targetPath.toString());
