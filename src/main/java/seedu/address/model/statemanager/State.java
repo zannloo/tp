@@ -5,10 +5,12 @@ import static java.util.Objects.requireNonNull;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
@@ -16,16 +18,19 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.ChildrenManager;
 import seedu.address.model.profbook.IChildElement;
 import seedu.address.model.profbook.Root;
+import seedu.address.ui.Displayable;
 
 /**
  * Current state of ProfBook.
  */
 public class State {
+    private static final Logger logger = LogsCenter.getLogger(State.class);
     private AbsolutePath currentPath;
     private final Root root;
     private ChildrenManager<? extends IChildElement> currManager;
-    private ObservableList<IChildElement> filteredList = FXCollections.observableArrayList();
+    private ObservableList<Displayable> filteredList = FXCollections.observableArrayList();
     private final UserPrefs userPrefs;
+    private boolean showTaskList = false;
 
     /**
      * Construct a new state with current path and the root object.
@@ -34,7 +39,7 @@ public class State {
         this.currentPath = currentPath;
         this.root = root;
         this.currManager = getCurrManager(currentPath);
-        updateFilteredList();
+        showChildrenList();
         this.userPrefs = new UserPrefs(userPrefs);
     }
 
@@ -96,22 +101,42 @@ public class State {
     public void changeDirectory(AbsolutePath path) {
         this.currentPath = path;
         this.currManager = getCurrManager(path);
-        updateFilteredList();
+        updateList();
     }
 
     //=========== Filtered List Accessors =============================================================
-    public ObservableList<? extends IChildElement> getFilteredList() {
+    public ObservableList<Displayable> getFilteredList() {
         return this.filteredList;
     }
 
     /**
-     * Reset filtered list with updated list.
-     *
+     * Update list with latest data
      */
-    public void updateFilteredList() {
-        List<? extends IChildElement> temp = new ArrayList<>(currManager.asUnmodifiableObservableList());
+    public void updateList() {
+        List<? extends Displayable> temp;
+        if (showTaskList) {
+            temp = new ArrayList<>(currManager.getAllTask());
+        } else {
+            temp = new ArrayList<>(currManager.asUnmodifiableObservableList());
+        }
         this.filteredList.clear();
         this.filteredList.setAll(temp);
+    }
+
+    /**
+     * Show children list
+     */
+    public void showChildrenList() {
+        showTaskList = false;
+        updateList();
+    }
+
+    /**
+     * Show task list
+     */
+    public void showTaskList() {
+        showTaskList = true;
+        updateList();
     }
 
     // public void updateFilteredPersonList(Predicate<? extends IChildElement> predicate) {

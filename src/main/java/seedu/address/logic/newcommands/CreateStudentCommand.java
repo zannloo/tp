@@ -61,7 +61,7 @@ public class CreateStudentCommand extends Command {
                 throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
             }
             group.addChild(studentId, student);
-            state.updateFilteredList();
+            state.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, student.toString()));
         } catch (InvalidPathException e) {
             throw new CommandException(MESSAGE_INVALID_PATH);

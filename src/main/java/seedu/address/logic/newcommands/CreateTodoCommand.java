@@ -77,7 +77,7 @@ public class CreateTodoCommand extends Command {
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(relativePath);
-            if (currPath.isStudentDirectory()) {
+            if (absolutePath.isStudentDirectory()) {
                 GroupOperation groupOperation = StateManager.groupOperation(root, absolutePath);
                 StudentOperation studentOperation = StateManager.studentOperation(root, absolutePath);
                 StudentId targetStudentId = absolutePath.getStudentId().get();
@@ -86,17 +86,18 @@ public class CreateTodoCommand extends Command {
                     throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
                 }
                 studentOperation.addTask(this.todo);
+                state.updateList();
                 return new CommandResult(String.format(MESSAGE_SUCCESS, targetStudent.toString()));
-            } else if (currPath.isGroupDirectory()) {
+            } else if (absolutePath.isGroupDirectory()) {
                 RootOperation rootOperation = StateManager.rootOperation(root);
-                GroupOperation groupOperation = StateManager.groupOperation(root, currPath);
+                GroupOperation groupOperation = StateManager.groupOperation(root, absolutePath);
                 GroupId targetGroupId = absolutePath.getGroupId().get();
                 Group targetGroup = rootOperation.getChild(targetGroupId);
                 if (targetGroup.checkDuplicates(this.todo)) {
                     throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_GROUP);
                 }
                 groupOperation.addTask(this.todo);
-                state.updateFilteredList();
+                state.updateList();
                 return new CommandResult(String.format(MESSAGE_SUCCESS, targetGroup.toString()));
             } else {
                 throw new CommandException(MESSAGE_ERROR);
