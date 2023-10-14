@@ -29,8 +29,8 @@ public class State {
      */
     public State(AbsolutePath currentPath, Root root, ReadOnlyUserPrefs userPrefs) {
         this.currentPath = currentPath;
-        this.currManager = getCurrManager(currentPath);
         this.root = root;
+        this.currManager = getCurrManager(currentPath);
         this.filteredList = currManager.asUnmodifiableObservableList();
         this.userPrefs = new UserPrefs(userPrefs);
     }
