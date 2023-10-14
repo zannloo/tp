@@ -1,10 +1,12 @@
 package seedu.address.logic.parser.newcommandparser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import seedu.address.logic.newcommands.CreateDeadlineCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
@@ -27,7 +29,7 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
      */
     public CreateDeadlineCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME);
+                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC, OPTION_DATETIME)
                 || argMultimap.getPreamble().isEmpty()) {
@@ -40,8 +42,17 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
         LocalDateTime by = ParserUtil.parseDateTime(argMultimap.getValue(OPTION_DATETIME).get());
 
+        Set<String> catergoryList = ParserUtil.parseCatergories(argMultimap.getAllValues(OPTION_ALL));
+
         Deadline deadline = new Deadline(argMultimap.getValue(OPTION_DESC).get(), by);
 
-        return new CreateDeadlineCommand(path, deadline);
+        if (catergoryList.size() > 1) {
+            throw new ParseException(String.format(
+                    MESSAGE_INVALID_COMMAND_FORMAT, CreateDeadlineCommand.MESSAGE_USAGE));
+        } else if (catergoryList.size() == 1) {
+            return new CreateDeadlineCommand(path, deadline, catergoryList.stream().findFirst().get());
+        } else { //catergoryList.size() == 0
+            return new CreateDeadlineCommand(path, deadline);
+        }
     }
 }

@@ -36,10 +36,12 @@ public class CreateDeadlineCommand extends Command {
     public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid";
     public static final String MESSAGE_INVALID_PATH = "Path is invalid";
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
+    public static final String MESSAGE_ERROR = "An error has occurred";
     protected Student stu;
     protected Group grp;
     private final RelativePath path;
     private final Deadline deadline;
+    private String category;
 
     /**
      * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
@@ -48,6 +50,17 @@ public class CreateDeadlineCommand extends Command {
         requireAllNonNull(path, deadline);
         this.path = path;
         this.deadline = deadline;
+    }
+
+    /**
+     * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
+     * User has input a category as well.
+     */
+    public CreateDeadlineCommand(RelativePath path, Deadline deadline, String category) {
+        requireAllNonNull(path, deadline);
+        this.path = path;
+        this.deadline = deadline;
+        this.category = category;
     }
 
     /**
@@ -62,30 +75,60 @@ public class CreateDeadlineCommand extends Command {
     public CommandResult execute(State state) throws CommandException {
         AbsolutePath currPath = state.getCurrPath();
         Root root = state.getRoot();
+        CommandResult returnStatement = null;
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(path);
-            CommandResult returnStatement;
-            if (absolutePath.isStudentDirectory()) {
-                GroupOperation groupOper = groupOperation(root, absolutePath);
-                StudentId studentId = absolutePath.getStudentId().get();
-                stu = groupOper.getChild(studentId);
-                if (stu.checkDuplicates(deadline)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+            if (category == null) {
+                if (absolutePath.isStudentDirectory()) {
+                    GroupOperation groupOper = groupOperation(root, absolutePath);
+                    StudentId studentId = absolutePath.getStudentId().get();
+                    stu = groupOper.getChild(studentId);
+                    if (stu.checkDuplicates(deadline)) {
+                        throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+                    }
+                    StudentOperation studentOper = studentOperation(root, absolutePath);
+                    studentOper.addTask(deadline);
+                    returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
+                } else if (absolutePath.isGroupDirectory()) {
+                    RootOperation rootOper = rootOperation(root);
+                    GroupId groupId = absolutePath.getGroupId().get();
+                    grp = rootOper.getChild(groupId);
+                    if (grp.checkDuplicates(deadline)) {
+                        throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+                    }
+                    GroupOperation groupOper = groupOperation(root, absolutePath);
+                    groupOper.addTask(deadline);
+                    returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, grp.toString()));
+                } else {
+                    throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
                 }
-                StudentOperation studentOper = studentOperation(root, absolutePath);
-                studentOper.addTask(deadline);
-                returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
-            } else if (absolutePath.isGroupDirectory()) {
+            } else if (category.equals("allStu") && (absolutePath.isGroupDirectory())) { //add task for all stu in grp
+                GroupOperation groupOper = groupOperation(root, absolutePath);
+                Student[] allStudents = groupOper.getAllChildren();
+                for (Student s : allStudents) {
+                    if (s.checkDuplicates(deadline)) {
+                        throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+                    }
+                    StudentId studentId = (StudentId) s.getId();
+                    AbsolutePath newPath = absolutePath.resolve(new RelativePath(studentId.toString()));
+                    StudentOperation studentOper = studentOperation(root, newPath);
+                    studentOper.addTask(deadline);
+                }
+                //returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
+            } else if (category.equals("allGrp") && (absolutePath.isRootDirectory())) {
                 RootOperation rootOper = rootOperation(root);
-                GroupId groupId = absolutePath.getGroupId().get();
-                grp = rootOper.getChild(groupId);
-                if (grp.checkDuplicates(deadline)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+                Group[] allGroups = rootOper.getAllChildren();
+                for (Group g : allGroups) {
+                    if (g.checkDuplicates(deadline)) {
+                        throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+                    }
+                    GroupId groupId = (GroupId) g.getId();
+                    AbsolutePath newPath = absolutePath.resolve(new RelativePath(groupId.toString()));
+                    GroupOperation groupOper = groupOperation(root, newPath);
+                    groupOper.addTask(deadline);
                 }
-                GroupOperation groupOper = groupOperation(root, absolutePath);
-                groupOper.addTask(deadline);
-                returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, grp.toString()));
+                //returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
             } else {
                 throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
             }

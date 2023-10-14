@@ -5,7 +5,10 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
@@ -181,5 +184,32 @@ public class ParserUtil {
      */
     public static boolean areOptionsPresent(ArgumentMultimap argumentMultimap, Option... options) {
         return Stream.of(options).allMatch(option -> argumentMultimap.getValue(option).isPresent());
+    }
+
+    /**
+     * Parses a {@code String cat} into a {@code String}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code cat} is invalid.
+     */
+    public static String parseCatergory(String cat) throws ParseException {
+        requireNonNull(cat);
+        String trimmedCat = cat.trim();
+        if (!(cat.equals("allStu")) || !(cat.equals("allGrp"))) {
+            throw new ParseException("Format is invalid. Should be allStu or allGrp");
+        }
+        return new String(trimmedCat);
+    }
+
+    /**
+     * Parses {@code Collection<String> cats} into a {@code Set<String>}.
+     */
+    public static Set<String> parseCatergories(Collection<String> cats) throws ParseException {
+        requireNonNull(cats);
+        final Set<String> catSet = new HashSet<>();
+        for (String catName : cats) {
+            catSet.add(parseCatergory(catName));
+        }
+        return catSet;
     }
 }
