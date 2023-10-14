@@ -48,7 +48,7 @@ public class ProfBookLogicManager {
 
         CommandResult commandResult;
         Command command = profBookParser.parseCommand(commandText);
-        commandResult = command.execute(state.getCurrPath(), state.getRoot());
+        commandResult = command.execute(state);
 
         // try {
         //     storage.saveAddressBook(model.getAddressBook());
