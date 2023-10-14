@@ -2,6 +2,7 @@ package seedu.address.model.profbook;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import seedu.address.model.taskmanager.Task;
@@ -98,7 +99,10 @@ public class TaskListManager {
      *
      * @return A list of all Tasks
      */
-    public List<Task> getAllTask() throws NoSuchTaskException {
+    public List<Task> getAllTask() {
+        if (taskList.size() == 0) {
+            return new ArrayList<>();
+        }
         return this.taskList.getAllTask();
     }
 

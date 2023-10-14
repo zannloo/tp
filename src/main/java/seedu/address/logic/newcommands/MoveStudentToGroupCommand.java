@@ -84,7 +84,7 @@ public class MoveStudentToGroupCommand extends Command {
             }
             destinationGroupOperation.addChild(targetStudentId, studentToBeMoved);
             sourceGroupOperation.deleteChild(targetStudentId);
-            state.updateFilteredList();
+            state.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
         } catch (DuplicateChildException duplicateChildException) {
             throw new CommandException(ERROR_MESSAGE_DUPLICATE);

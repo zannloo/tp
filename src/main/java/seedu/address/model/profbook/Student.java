@@ -2,15 +2,16 @@ package seedu.address.model.profbook;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import javafx.scene.layout.Region;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.Id;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.taskmanager.TaskList;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+import seedu.address.ui.StudentCard;
+import seedu.address.ui.UiPart;
 
 /**
  * Encapsulates logic for a student's data
@@ -79,6 +80,11 @@ public class Student extends TaskListManager implements IChildElement {
         return tags;
     }
 
+    @Override
+    public UiPart<Region> getDisplayCard(int displayedIndex) {
+        return new StudentCard(this, displayedIndex);
+    }
+
 
     /**
      * Creates a clone of the current element, this is to achieve immutability
@@ -87,13 +93,8 @@ public class Student extends TaskListManager implements IChildElement {
      */
     @Override
     public Student clone() {
-        try {
-            return new Student(new TaskList(this.getAllTask()), new Name(this.name.fullName),
-                    new Email(this.email.value), new Phone(this.phone.value), new Address(this.address.value), this.id);
-        } catch (NoSuchTaskException e) {
-            return new Student(new TaskList(new ArrayList<>()), new Name(this.name.fullName),
-                    new Email(this.email.value), new Phone(this.phone.value), new Address(this.address.value), this.id);
-        }
+        return new Student(new TaskList(getAllTask()), new Name(this.name.fullName),
+                new Email(this.email.value), new Phone(this.phone.value), new Address(this.address.value), this.id);
     }
 
     @Override

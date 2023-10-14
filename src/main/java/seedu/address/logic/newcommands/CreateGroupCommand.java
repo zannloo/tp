@@ -65,7 +65,7 @@ public class CreateGroupCommand extends Command {
             }
             Id groupId = this.group.getId();
             rootOperation.addChild(groupId, this.group);
-            state.updateFilteredList();
+            state.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, this.group.toString()));
         } catch (DuplicateChildException duplicateChildException) {
             throw new CommandException(MESSAGE_DUPLICATE_GROUP);

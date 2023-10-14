@@ -89,7 +89,7 @@ public class CreateDeadlineCommand extends Command {
             } else {
                 throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
             }
-            state.updateFilteredList();
+            state.updateList();
             return returnStatement;
         } catch (InvalidPathException e) {
             throw new CommandException(MESSAGE_INVALID_PATH);

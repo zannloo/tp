@@ -108,6 +108,13 @@ public abstract class Path {
             }
             destination.add(element);
         }
+        if (destination.size() == 0) {
+            try {
+                destination.add(PathElement.parsePathElement("."));
+            } catch (InvalidPathElementException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        }
         logger.info(destination.toString());
     }
 
