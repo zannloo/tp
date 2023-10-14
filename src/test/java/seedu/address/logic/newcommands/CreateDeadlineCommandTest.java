@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.newcommands.CreateDeadlineCommand.MESSAGE_SUCCESS;
+import static seedu.address.model.statemanager.StateManager.groupOperation;
+import static seedu.address.model.statemanager.StateManager.studentOperation;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.time.LocalDateTime;
@@ -76,6 +78,34 @@ class CreateDeadlineCommandTest {
 
         assertEquals(String.format(CreateDeadlineCommand.MESSAGE_SUCCESS, stu),
                 returnStatement.getFeedbackToUser());
+    }
+
+    public void execute_deadlineForAllStudentsInGroupAccepted_addSuccessful() throws InvalidPathException,
+            UnsupportedPathOperationException, CommandException {
+        AbsolutePath currPath = new AbsolutePath("~/grp-001/");
+        List<Task> defaultTaskList = new ArrayList<>();
+        defaultTaskList.add(new Deadline("Assignment 3", LocalDateTime.parse("2023-12-03T23:59")));
+        TaskList taskList = new TaskList(defaultTaskList);
+        Map<Id, Group> groups = new HashMap<>();
+        Group grp = new GroupBuilder().build();
+        groups.put(grp.getId(), grp);
+        Root root = new Root(taskList, groups);
+
+        LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:59");
+        Deadline deadline = new Deadline("Assignment 3", duedate);
+
+        RelativePath path = new RelativePath("~/grp-001/");
+        AbsolutePath absolutePath = currPath.resolve(path);
+
+        CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline, "allStu");
+        State state = new State(currPath, root, new UserPrefs());
+        CommandResult commandResult = command.execute(state);
+        GroupOperation groupOper = groupOperation(root, absolutePath);
+        StudentOperation studentOper = studentOperation(root, absolutePath);
+        Student stu1 = groupOper.getChild(new StudentId("stu-001"));
+        assertTrue(stu1.checkDuplicates(deadline));
+        Student stu2 = groupOper.getChild(new StudentId("stu-010"));
+        assertTrue(stu2.checkDuplicates(deadline));
     }
 
     @Test

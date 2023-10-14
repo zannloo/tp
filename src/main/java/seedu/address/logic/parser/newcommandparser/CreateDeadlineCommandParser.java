@@ -41,7 +41,6 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
 
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
         LocalDateTime by = ParserUtil.parseDateTime(argMultimap.getValue(OPTION_DATETIME).get());
-
         Set<String> catergoryList = ParserUtil.parseCatergories(argMultimap.getAllValues(OPTION_ALL));
 
         Deadline deadline = new Deadline(argMultimap.getValue(OPTION_DESC).get(), by);
