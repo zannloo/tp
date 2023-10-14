@@ -11,13 +11,20 @@ import seedu.address.model.taskmanager.TaskList;
 public class Root extends ChildrenManager<Group> {
 
     /**
-     * Constructs a new prof book instance
+     * Constructs a profbook instance with task list and children.
      *
      * @param taskList - The Task list associated with this object
      * @param children - The Groups under the root
      */
     public Root(TaskList taskList, Map<Id, Group> children) {
         super(taskList, children);
+    }
+
+    /**
+     * Constructs a new prof book instance.
+     */
+    public Root() {
+        super();
     }
 
     @Override
