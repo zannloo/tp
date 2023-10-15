@@ -16,7 +16,6 @@ import seedu.address.logic.ProfBookLogicManager;
 import seedu.address.logic.newcommands.CommandResult;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.profbook.IChildElement;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -32,7 +31,7 @@ public class MainWindow extends UiPart<Stage> {
     private ProfBookLogicManager logic;
 
     // Independent Ui parts residing in this Ui container
-    private ItemListPanel<? extends IChildElement> itemListPanel;
+    private ItemListPanel itemListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
 
@@ -111,7 +110,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        itemListPanel = new ItemListPanel<>(logic.getFilteredList());
+        itemListPanel = new ItemListPanel(logic.getFilteredList());
         itemListPanelPlaceholder.getChildren().add(itemListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -164,7 +163,7 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
-    public ItemListPanel<? extends IChildElement> getItemListPanel() {
+    public ItemListPanel getItemListPanel() {
         return itemListPanel;
     }
 

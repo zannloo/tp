@@ -11,9 +11,9 @@ import seedu.address.logic.newcommands.CommandResult;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.newcommandparser.ProfBookParser;
-import seedu.address.model.profbook.IChildElement;
 import seedu.address.model.statemanager.State;
 //import seedu.address.storage.Storage;
+import seedu.address.ui.Displayable;
 
 /**
  * The main LogicManager of the app.
@@ -61,7 +61,7 @@ public class ProfBookLogicManager {
         return commandResult;
     }
 
-    public ObservableList<? extends IChildElement> getFilteredList() {
+    public ObservableList<Displayable> getFilteredList() {
         return state.getFilteredList();
     }
 

@@ -2,12 +2,19 @@ package seedu.address.model.taskmanager;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import javafx.scene.layout.Region;
+import seedu.address.ui.DeadlineCard;
+import seedu.address.ui.UiPart;
 
 /**
  * The Deadline class represents a deadline task for the ProfBook.
  * It extends the Task class and provides additional methods specific to deadline tasks.
  */
 public class Deadline extends Task {
+    private static final DateTimeFormatter OUTPUT_DATETIME_FORMATTER =
+        DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy h:mm a");
     private LocalDateTime dueBy;
 
     /**
@@ -35,6 +42,15 @@ public class Deadline extends Task {
     public void unmark() {
         this.isDone = false;
         assert !this.isDone;
+    }
+
+    public String getDeadline() {
+        return this.dueBy.format(OUTPUT_DATETIME_FORMATTER);
+    }
+
+    @Override
+    public UiPart<Region> getDisplayCard(int displayedIndex) {
+        return new DeadlineCard(this, displayedIndex);
     }
 
     /**
