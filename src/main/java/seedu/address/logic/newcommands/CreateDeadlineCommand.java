@@ -1,14 +1,9 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.model.statemanager.StateManager.groupOperation;
-import static seedu.address.model.statemanager.StateManager.rootOperation;
-import static seedu.address.model.statemanager.StateManager.studentOperation;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
@@ -16,10 +11,9 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.GroupOperation;
-import seedu.address.model.statemanager.RootOperation;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StudentOperation;
+import seedu.address.model.statemanager.StateManager;
+import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 
 /**
@@ -68,8 +62,6 @@ public class CreateDeadlineCommand extends Command {
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
-     * @throws InvalidPathException thrown when error occurs due to invalid path.
-     * @throws UnsupportedPathOperationException Exception thrown when error occurs due to unsupported path execution.
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
@@ -131,13 +123,25 @@ public class CreateDeadlineCommand extends Command {
                 //returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
             } else {
                 throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
+
+                //NEW INBETWEEN BELOW
+                TaskOperation target = StateManager.taskOperation(root, absolutePath);
+
+
+                if (target.hasTask(this.deadline)) {
+                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+//NEW INBETWEEN above
+                }
+
+                target.addTask(this.deadline);
+                state.updateList();
+                return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+
+            } catch(InvalidPathException e){
+                throw new CommandException(MESSAGE_INVALID_PATH);
+            } catch(UnsupportedPathOperationException e){
+                throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
             }
-            state.updateFilteredList();
-            return returnStatement;
-        } catch (InvalidPathException e) {
-            throw new CommandException(MESSAGE_INVALID_PATH);
-        } catch (UnsupportedPathOperationException e) {
-            throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
         }
     }
 

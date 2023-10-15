@@ -1,6 +1,5 @@
 package seedu.address.logic.newcommands;
 
-import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,33 +13,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.util.JsonUtil;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.Student;
-import seedu.address.model.profbook.TaskListManager;
-import seedu.address.model.statemanager.GroupOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.statemanager.StudentOperation;
+import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 import seedu.address.testutil.GroupBuilder;
 
 
@@ -57,8 +48,6 @@ class CreateDeadlineCommandTest {
         groups.put(grp.getId(), grp);
         Root root = new Root(taskList, groups);
 
-        StateManagerStubAcceptingDeadlineAdded managerStub =
-                new StateManagerStubAcceptingDeadlineAdded(new TaskListManager(taskList));
 
         LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline = new Deadline("Assignment 3", duedate);
@@ -66,17 +55,13 @@ class CreateDeadlineCommandTest {
         RelativePath path = new RelativePath("~/grp-001/stu-001");
         AbsolutePath absolutePath = currPath.resolve(path);
 
-        StudentOperation student = managerStub.studentOperation(root, absolutePath);
+        TaskOperation student = StateManager.taskOperation(root, absolutePath);
         student.addTask(deadline);
 
-        GroupOperation group = managerStub.groupOperation(root, absolutePath);
-        StudentId temp = absolutePath.getStudentId().get();
-        Student stu = group.getChild(temp);
-
         CommandResult returnStatement =
-                new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
+                new CommandResult(String.format(MESSAGE_SUCCESS, student.toString()));
 
-        assertEquals(String.format(CreateDeadlineCommand.MESSAGE_SUCCESS, stu),
+        assertEquals(String.format(CreateDeadlineCommand.MESSAGE_SUCCESS, student),
                 returnStatement.getFeedbackToUser());
     }
 
@@ -256,73 +241,5 @@ class CreateDeadlineCommandTest {
         assertEquals(expected, command.toString());
     }
 
-    private class StateManagerStub extends StateManager {
-        private final Logger logger = LogsCenter.getLogger(JsonUtil.class);
-
-        public StateManagerStub(TaskListManager baseDir) {
-            super(baseDir);
-        }
-
-        @Override
-        public void addTask(Task t) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Task deleteTask(int index) throws NoSuchTaskException {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Task markTask(int index) throws NoSuchTaskException {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Task unmarkTask(int index) throws NoSuchTaskException {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public List<Task> findTask(String query) throws NoSuchTaskException {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Task getTask(int index) throws NoSuchTaskException {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public List<Task> getAllTasks() throws NoSuchTaskException {
-            throw new AssertionError("This method should not be called.");
-        }
-    }
-
-    private class StateManagerStubAcceptingDeadlineAdded extends StateManagerStub {
-        private final Logger logger = LogsCenter.getLogger(JsonUtil.class);
-
-        private final TaskListManager baseDir;
-
-        StateManagerStubAcceptingDeadlineAdded(TaskListManager baseDir) {
-            super(baseDir);
-            requireNonNull(baseDir);
-            this.baseDir = baseDir;
-        }
-
-        void stateLogger(String log) {
-            this.logger.info(log);
-        }
-
-        void stateErrorLogger(String errMsg) {
-            this.logger.severe(errMsg);
-        }
-
-        @Override
-        public void addTask(Task task) {
-            this.baseDir.addTask(task);
-            this.stateLogger("Adding" + task.toString());
-        }
-    }
 }
 
