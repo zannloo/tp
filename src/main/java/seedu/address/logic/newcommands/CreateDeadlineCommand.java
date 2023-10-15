@@ -1,14 +1,9 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.model.statemanager.StateManager.groupOperation;
-import static seedu.address.model.statemanager.StateManager.rootOperation;
-import static seedu.address.model.statemanager.StateManager.studentOperation;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
@@ -16,10 +11,9 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.GroupOperation;
-import seedu.address.model.statemanager.RootOperation;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StudentOperation;
+import seedu.address.model.statemanager.StateManager;
+import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 
 /**
@@ -55,8 +49,6 @@ public class CreateDeadlineCommand extends Command {
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
-     * @throws InvalidPathException thrown when error occurs due to invalid path.
-     * @throws UnsupportedPathOperationException Exception thrown when error occurs due to unsupported path execution.
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
@@ -65,32 +57,18 @@ public class CreateDeadlineCommand extends Command {
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(path);
-            CommandResult returnStatement;
-            if (absolutePath.isStudentDirectory()) {
-                GroupOperation groupOper = groupOperation(root, absolutePath);
-                StudentId studentId = absolutePath.getStudentId().get();
-                stu = groupOper.getChild(studentId);
-                if (stu.checkDuplicates(deadline)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
-                }
-                StudentOperation studentOper = studentOperation(root, absolutePath);
-                studentOper.addTask(deadline);
-                returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
-            } else if (absolutePath.isGroupDirectory()) {
-                RootOperation rootOper = rootOperation(root);
-                GroupId groupId = absolutePath.getGroupId().get();
-                grp = rootOper.getChild(groupId);
-                if (grp.checkDuplicates(deadline)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
-                }
-                GroupOperation groupOper = groupOperation(root, absolutePath);
-                groupOper.addTask(deadline);
-                returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, grp.toString()));
-            } else {
-                throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
+
+            TaskOperation target = StateManager.taskOperation(root, absolutePath);
+
+
+            if (target.hasTask(this.deadline)) {
+                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
             }
-            state.updateFilteredList();
-            return returnStatement;
+
+            target.addTask(this.deadline);
+            state.updateList();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+
         } catch (InvalidPathException e) {
             throw new CommandException(MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException e) {

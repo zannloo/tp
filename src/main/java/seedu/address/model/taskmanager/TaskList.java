@@ -124,10 +124,7 @@ public class TaskList {
      * @return A list of all tasks.
      * @throws NoSuchTaskException If there are no tasks at this level.
      */
-    public List<Task> getAllTask() throws NoSuchTaskException {
-        if (this.taskList.size() == 0) {
-            throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
-        }
+    public List<Task> getAllTask() {
         return new ArrayList<>(this.taskList);
     }
 
@@ -171,5 +168,10 @@ public class TaskList {
      */
     public int size() {
         return taskList.size();
+    }
+
+    @Override
+    public String toString() {
+        return this.taskList.toString();
     }
 }

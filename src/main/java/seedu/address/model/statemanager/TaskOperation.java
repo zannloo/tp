@@ -1,43 +1,53 @@
-package seedu.address.model.profbook;
+package seedu.address.model.statemanager;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.profbook.TaskListManager;
 import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
 import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 
-
 /**
- * Encapsulate the logic of a prof book model, mainly the need for a task list
- * at every level
+ * Encapsulates the required logic for task operation
  */
-public class TaskListManager {
-    /**
-     * Task list instance of this class
-     */
-    private final TaskList taskList;
+public class TaskOperation implements ITaskOperations {
 
+    private final TaskListManager baseDir;
+    private final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+
+    public TaskOperation(TaskListManager baseDir) {
+        this.baseDir = baseDir;
+    }
+
+    void stateLogger(String log) {
+        this.logger.info(log);
+    }
+
+    void stateErrorLogger(String errMsg) {
+        this.logger.severe(errMsg);
+    }
 
     /**
-     * Constructs a fresh model with tasks loaded from storage
+     * Checks if current task is present
      *
-     * @param taskList - prefilled task list from storage
+     * @param t the task being checked for
      */
-    public TaskListManager(TaskList taskList) {
-        requireAllNonNull(taskList);
-        this.taskList = taskList;
+    @Override
+    public boolean hasTask(Task t) {
+        return this.baseDir.checkDuplicates(t);
     }
 
     /**
      * Adds a new tasks to the task list
      *
-     * @param t
+     * @param task the task being added
      */
-    public void addTask(Task t) {
-        this.taskList.add(t);
+    @Override
+    public void addTask(Task task) {
+        this.baseDir.addTask(task);
+        this.stateLogger("Adding" + task.toString());
     }
 
     /**
@@ -47,8 +57,10 @@ public class TaskListManager {
      * @return The deleted class
      * @throws NoSuchTaskException if no task can be found by the index
      */
+    @Override
     public Task deleteTask(int index) throws NoSuchTaskException {
-        return this.taskList.delete(index);
+        this.stateLogger("deleting " + index);
+        return this.baseDir.deleteTask(index);
     }
 
     /**
@@ -58,8 +70,10 @@ public class TaskListManager {
      * @return The marked task
      * @throws NoSuchTaskException if no task can be found by the index
      */
+    @Override
     public Task markTask(int index) throws NoSuchTaskException {
-        return this.taskList.mark(index);
+        this.stateLogger("marking " + index);
+        return this.baseDir.markTask(index);
     }
 
     /**
@@ -69,8 +83,10 @@ public class TaskListManager {
      * @return The un-marked task
      * @throws NoSuchTaskException if no task can be found by the index
      */
+    @Override
     public Task unmarkTask(int index) throws NoSuchTaskException {
-        return this.taskList.mark(index);
+        this.stateLogger("un marking " + index);
+        return this.baseDir.unmarkTask(index);
     }
 
     /**
@@ -79,8 +95,10 @@ public class TaskListManager {
      * @param query - The String to match
      * @return A list of all matching Tasks
      */
+    @Override
     public List<Task> findTask(String query) throws NoSuchTaskException {
-        return this.taskList.find(query);
+        this.stateLogger("finding " + query);
+        return this.baseDir.findTask(query);
     }
 
     /**
@@ -90,8 +108,10 @@ public class TaskListManager {
      * @return The specified task
      * @throws NoSuchTaskException if no task can be found by the index
      */
+    @Override
     public Task getTask(int index) throws NoSuchTaskException {
-        return this.taskList.get(index);
+        this.stateLogger("getting " + index);
+        return this.baseDir.getTask(index);
     }
 
     /**
@@ -99,29 +119,14 @@ public class TaskListManager {
      *
      * @return A list of all Tasks
      */
-    public List<Task> getAllTask() {
-        if (taskList.size() == 0) {
-            return new ArrayList<>();
-        }
-        return this.taskList.getAllTask();
-    }
-
-    public boolean checkDuplicates(Task t) {
-        return this.taskList.containsDuplicates(t);
+    @Override
+    public List<Task> getAllTasks() {
+        this.stateLogger("getting all ");
+        return this.baseDir.getAllTask();
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(other instanceof TaskListManager)) {
-            return false;
-        }
-
-        TaskListManager otherTaskListManager = (TaskListManager) other;
-        return this.taskList.equals(otherTaskListManager.taskList);
+    public String toString() {
+        return this.baseDir.toString();
     }
 }
