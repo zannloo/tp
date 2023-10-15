@@ -1,19 +1,18 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.model.statemanager.StateManager.groupOperation;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.GroupOperation;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.StateManager;
 
 /**
  * Adds a student within the specific group.
@@ -45,8 +44,6 @@ public class CreateStudentCommand extends Command {
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
-     * @throws InvalidPathException thrown when error occurs due to invalid path.
-     * @throws UnsupportedPathOperationException Exception thrown when error occurs due to unsupported path execution.
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
@@ -55,14 +52,17 @@ public class CreateStudentCommand extends Command {
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(path);
-            GroupOperation group = groupOperation(root, absolutePath);
-            StudentId studentId = (StudentId) student.getId();
-            if (group.hasChild(studentId)) {
+
+            ChildOperation<Student> target = StateManager.groupChildOperation(root, absolutePath);
+
+            if (target.hasChild(this.student.getId())) {
                 throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
             }
-            group.addChild(studentId, student);
+
+            target.addChild(this.student.getId(), this.student);
             state.updateList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, student.toString()));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, student));
+
         } catch (InvalidPathException e) {
             throw new CommandException(MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException e) {

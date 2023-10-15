@@ -144,6 +144,7 @@ public class State {
     //     filteredPersons.setPredicate(predicate);
     // }
 
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {

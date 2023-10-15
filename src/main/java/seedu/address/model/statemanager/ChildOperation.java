@@ -1,28 +1,29 @@
 package seedu.address.model.statemanager;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.id.Id;
-import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Student;
+import seedu.address.model.profbook.ChildrenManager;
+import seedu.address.model.profbook.IChildElement;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
 
 /**
- * Encapsulate logic required to perform group operations
+ * Encapsulates the logic to perform a generic child operation for child manager
+ * @param <T> The type of child that is required
  */
-public class GroupOperation extends StateManager implements IChildOperation<Student> {
+public class ChildOperation<T extends IChildElement> implements IChildOperation<T> {
 
-    private static final String LOGGING_PREFIX = "In Group Operations, ";
-    private final Group baseDir;
+    private final ChildrenManager<T> baseDir;
 
-    /**
-     * Constructs a new group operation method
-     *
-     * @param baseDir - The group object to perform operations on
-     */
-    GroupOperation(Group baseDir) {
-        super(baseDir);
+    private final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+
+    public ChildOperation(ChildrenManager<T> baseDir) {
         this.baseDir = baseDir;
-        this.stateLogger(GroupOperation.LOGGING_PREFIX);
     }
 
     /**
@@ -33,9 +34,8 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
      * @throws DuplicateChildException If attempting to add child with the same ID
      */
     @Override
-    public void addChild(Id id, Student child) throws DuplicateChildException {
+    public void addChild(Id id, T child) throws DuplicateChildException {
         this.baseDir.addChild(id, child);
-        this.stateLogger(GroupOperation.LOGGING_PREFIX + "adding" + child.toString());
     }
 
     /**
@@ -57,8 +57,8 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
      * @throws NoSuchChildException If there is no such Child found
      */
     @Override
-    public Student deleteChild(Id id) throws NoSuchChildException {
-        this.stateLogger(GroupOperation.LOGGING_PREFIX + "deleting" + id.toString());
+    public T deleteChild(Id id) throws NoSuchChildException {
+        this.logger.info("deleting" + id.toString());
         return this.baseDir.deleteChild(id);
     }
 
@@ -70,8 +70,8 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
      * @throws NoSuchChildException If there is no such Child found
      */
     @Override
-    public Student getChild(Id id) throws NoSuchChildException {
-        this.stateLogger(GroupOperation.LOGGING_PREFIX + "getting" + id.toString());
+    public T getChild(Id id) throws NoSuchChildException {
+        this.logger.info("getting" + id.toString());
         return this.baseDir.getChild(id);
     }
 
@@ -83,12 +83,12 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
      * @throws NoSuchChildException If there is no such Child found
      */
     @Override
-    public void updateChild(Id id, Student child) throws NoSuchChildException {
+    public void updateChild(Id id, T child) throws NoSuchChildException {
         this.baseDir.deleteChild(id);
         try {
             this.baseDir.addChild(id, child);
         } catch (DuplicateChildException e) {
-            this.stateErrorLogger(GroupOperation.LOGGING_PREFIX + "In updateChild, unexpected duplicate error");
+            this.logger.warning("In updateChild, unexpected duplicate error");
             throw new RuntimeException("ERROR: Code should not reach here");
         }
     }
@@ -96,12 +96,12 @@ public class GroupOperation extends StateManager implements IChildOperation<Stud
     /**
      * Returns a list of all current children
      *
-     * @return array of all current children
+     * @return List of all current children
      */
     @Override
-    public Student[] getAllChildren() {
-        this.stateLogger(GroupOperation.LOGGING_PREFIX + "getting all child");
-        return this.baseDir.getAllChildren().toArray(new Student[0]);
+    public List<T> getAllChildren() {
+        this.logger.info("getting all child");
+        return new ArrayList<>(this.baseDir.getAllChildren());
     }
 
     /**

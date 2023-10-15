@@ -4,13 +4,13 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
-import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
-import seedu.address.model.statemanager.RootOperation;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 
@@ -52,23 +52,23 @@ public class CreateGroupCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
-        AbsolutePath currPath = state.getCurrPath();
+        AbsolutePath currPath = state.getCurrPath(); // @gary why do u need absolutepath
         Root root = state.getRoot();
         try {
-            requireAllNonNull(currPath, root);
-            RootOperation rootOperation = StateManager.rootOperation(root);
-            Group[] listOfGroups = rootOperation.getAllChildren();
-            for (Group group : listOfGroups) {
-                if (group.equals(this.group)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_GROUP);
-                }
+            requireAllNonNull(currPath, root); // @gary why is this here?
+            ChildOperation<Group> target = StateManager.rootChildOperation(root);
+
+            if (target.hasChild(this.group.getId())) {
+                throw new CommandException(MESSAGE_DUPLICATE_GROUP);
             }
-            Id groupId = this.group.getId();
-            rootOperation.addChild(groupId, this.group);
+
+            target.addChild(this.group.getId(), this.group);
             state.updateList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, this.group.toString()));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, this.group));
         } catch (DuplicateChildException duplicateChildException) {
             throw new CommandException(MESSAGE_DUPLICATE_GROUP);
+        } catch (UnsupportedPathOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 
