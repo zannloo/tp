@@ -33,8 +33,8 @@ public class CommandTestUtil {
     public static final String VALID_TASK_DESC = "Assignment 1: Software Engineer Project";
     public static final String VALID_ID_STUDENT = "stu-022";
     public static final String VALID_ID_GROUP = "grp-123";
-    public static final String VALID_CATEGORY_STUDENT = "allStu";
-    public static final String VALID_CATEGORY_GROUP = "allGrp";
+    public static final String VALID_CATEGORY_STUDENT = " allStu";
+    public static final String VALID_CATEGORY_GROUP = " allGrp";
 
     public static final String VALID_ROOT_DIR_PREAMBLE = "~/";
     public static final String VALID_GROUP_DIR_PREAMBLE = "./grp-123";

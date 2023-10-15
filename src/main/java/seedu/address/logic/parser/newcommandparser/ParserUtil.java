@@ -192,7 +192,7 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code cat} is invalid.
      */
-    public static String parseCatergory(String cat) throws ParseException {
+    public static String parseCategory(String cat) throws ParseException {
         requireNonNull(cat);
         String trimmedCat = cat.trim();
         if (!(cat.equals("allStu")) || !(cat.equals("allGrp"))) {
@@ -204,11 +204,11 @@ public class ParserUtil {
     /**
      * Parses {@code Collection<String> cats} into a {@code Set<String>}.
      */
-    public static Set<String> parseCatergories(Collection<String> cats) throws ParseException {
+    public static Set<String> parseCategories(Collection<String> cats) throws ParseException {
         requireNonNull(cats);
         final Set<String> catSet = new HashSet<>();
         for (String catName : cats) {
-            catSet.add(parseCatergory(catName));
+            catSet.add(parseCategory(catName));
         }
         return catSet;
     }
