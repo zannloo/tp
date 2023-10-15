@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.StudentBuilder.DEFAULT_ID;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,21 +46,21 @@ class DeleteForStudentsAndGroupsCommandTest {
 
         Map<Id, Group> groups = new HashMap<>();
         Group grp = new GroupBuilder().build();
-        groups.put(new GroupId("grp-001"), grp);
+        groups.put(grp.getId(), grp);
         Root root = new Root(taskList, groups);
 
         RelativePath path = new RelativePath("~/grp-001/stu-001");
+        Student stu = new StudentBuilder().build();
+        StudentId studentId = new StudentId("stu-001");
+        assertTrue(grp.hasChild(studentId));
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
         State state = new State(currPath, root, new UserPrefs());
         CommandResult commandResult = command.execute(state);
 
-        Student stu = new StudentBuilder().build();
+        assertFalse(root.hasChild(studentId));
 
-        StudentId studentId = new StudentId("stu-001");
-        assertFalse(grp.hasChild(studentId));
-
-        assertEquals(String.format(DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS, stu.toString()),
+        assertEquals(String.format(DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS, stu),
                 commandResult.getFeedbackToUser());
     }
 
@@ -84,7 +85,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         GroupId groupId = new GroupId("grp-001");
         assertFalse(root.hasChild(groupId));
 
-        assertEquals(String.format(DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS, grp.toString()),
+        assertEquals(String.format(DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS, grp),
                 commandResult.getFeedbackToUser());
     }
 
@@ -100,7 +101,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(taskList, groups);
 
-        RelativePath path = new RelativePath("~/grp-001/stu-002");
+        RelativePath path = new RelativePath("stu-002");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
         State state = new State(currPath, root, new UserPrefs());

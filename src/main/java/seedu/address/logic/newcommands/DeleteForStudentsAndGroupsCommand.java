@@ -2,12 +2,11 @@ package seedu.address.logic.newcommands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.model.statemanager.StateManager.groupOperation;
-import static seedu.address.model.statemanager.StateManager.rootOperation;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.GroupId;
+import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
@@ -17,10 +16,9 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
-import seedu.address.model.statemanager.GroupOperation;
-import seedu.address.model.statemanager.RootOperation;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
-
+import seedu.address.model.statemanager.StateManager;
 /**
  * Deletes a {@code Student} or {@code Group} according to the targeted path.
  */
@@ -40,7 +38,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     /**
      * Creates an DeleteForStudentsAndGroupsCommand to specified {@code Student} or {@code Group}
      */
-    public DeleteForStudentsAndGroupsCommand(RelativePath path) {
+    public DeleteForStudentsAndGroupsCommand(RelativePath path) { //path will specify which grp/student
         requireNonNull(path);
         this.path = path;
     }
@@ -58,37 +56,42 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     public CommandResult execute(State state) throws CommandException {
         AbsolutePath currPath = state.getCurrPath();
         Root root = state.getRoot();
+        CommandResult returnStatement;
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(path);
-            CommandResult returnStatement;
+
             if (absolutePath.isStudentDirectory()) {
-                GroupOperation groupOper = groupOperation(root, absolutePath);
+                ChildOperation<Student> target = StateManager.groupChildOperation(root, absolutePath);
                 StudentId studentId = absolutePath.getStudentId().get();
-                stu = groupOper.getChild(studentId);
-                groupOper.deleteChild(studentId);
+                if (!target.hasChild(studentId)) {
+                    throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
+                }
+                stu = target.getChild(studentId);
+                target.deleteChild(studentId);
+                state.updateList();
                 returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
-                state.updateFilteredList();
             } else if (absolutePath.isGroupDirectory()) {
-                RootOperation rootOper = rootOperation(root);
+                ChildOperation<Group> target = StateManager.rootChildOperation(root);
                 GroupId groupId = absolutePath.getGroupId().get();
-                grp = rootOper.getChild(groupId);
-                rootOper.deleteChild(groupId);
+                if (!target.hasChild(groupId)) {
+                    throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
+                }
+                grp = target.getChild(groupId);
+                target.deleteChild(groupId);
+                state.updateList();
                 returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, grp.toString()));
-                state.updateFilteredList();
             } else {
                 throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
             }
-            state.updateFilteredList();
             return returnStatement;
         } catch (InvalidPathException e) {
             throw new CommandException(MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException e) {
             throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
-        } catch (NoSuchChildException e) {
-            throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
         }
     }
+
 
     /**
      * Compares this {@code DeleteForStudentsAndGroupsCommand} to another {@code DeleteForStudentsAndGroupsCommand}
@@ -98,7 +101,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
      * @return True if the object is same as {@code DeleteForStudentsAndGroupsCommand} and false otherwise.
      */
     @Override
-    public boolean equals(Object other) {
+    public boolean equals (Object other){
         if (other == this) {
             return true;
         }
@@ -119,7 +122,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
      * @return String representation of the {@code DeleteForStudentsAndGroupsCommand}.
      */
     @Override
-    public String toString() {
+    public String toString () {
         return new ToStringBuilder(this)
                 .add("toDeleteStudentOrGroup", path)
                 .toString();

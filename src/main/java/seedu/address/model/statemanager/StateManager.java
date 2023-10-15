@@ -48,9 +48,6 @@ public class StateManager {
     public static ChildOperation<Student> groupChildOperation(Root root, AbsolutePath path)
             throws UnsupportedPathOperationException, NoSuchChildException {
         requireAllNonNull(root, path);
-        if (!path.isGroupDirectory()) {
-            throw new UnsupportedPathOperationException("Not a group directory");
-        }
         return new ChildOperation<>(StateManager.getGroupFromPath(root, path));
     }
 
