@@ -13,7 +13,6 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
@@ -26,8 +25,6 @@ public class MoveStudentToGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mv";
 
-    public static final String ERROR_MESSAGE_DUPLICATE = "This student has already been allocated";
-
     public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
 
     public static final String ERROR_MESSAGE_INCORRECT_DIRECTORY = "Source is not a student directory.";
@@ -36,7 +33,7 @@ public class MoveStudentToGroupCommand extends Command {
 
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
-    public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in the group";
+    public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in target.";
 
     public static final String MESSAGE_SUCCESS = "New student added to this group: %1$s";
 
@@ -85,8 +82,8 @@ public class MoveStudentToGroupCommand extends Command {
             StudentId toBeMovedId = toBeMoved.get();
 
             ChildOperation<Student> destGroup = StateManager.groupChildOperation(root, absolutePathSourceGroup);
-            if (!destGroup.hasChild(toBeMovedId)) {
-                throw new CommandException(ERROR_MESSAGE_NO_SUCH_STUDENT);
+            if (destGroup.hasChild(toBeMovedId)) {
+                throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
             }
 
             ChildOperation<Student> sourceGroup = StateManager.groupChildOperation(root, absolutePathSourceGroup);
@@ -97,8 +94,6 @@ public class MoveStudentToGroupCommand extends Command {
 
             state.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
-        } catch (DuplicateChildException duplicateChildException) {
-            throw new CommandException(ERROR_MESSAGE_DUPLICATE);
         } catch (InvalidPathException invalidPathException) {
             throw new CommandException(ERROR_MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException unsupportedPathOperationException) {

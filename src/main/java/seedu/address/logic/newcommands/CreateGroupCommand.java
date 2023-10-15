@@ -8,7 +8,6 @@ import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
@@ -64,8 +63,6 @@ public class CreateGroupCommand extends Command {
             target.addChild(this.group.getId(), this.group);
             state.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, this.group));
-        } catch (DuplicateChildException duplicateChildException) {
-            throw new CommandException(MESSAGE_DUPLICATE_GROUP);
         } catch (UnsupportedPathOperationException e) {
             throw new RuntimeException(e);
         }
