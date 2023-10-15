@@ -6,7 +6,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.GroupId;
-import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
@@ -101,11 +100,10 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
      * @return True if the object is same as {@code DeleteForStudentsAndGroupsCommand} and false otherwise.
      */
     @Override
-    public boolean equals (Object other){
+    public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
         if (!(other instanceof DeleteForStudentsAndGroupsCommand)) {
             return false;
@@ -122,7 +120,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
      * @return String representation of the {@code DeleteForStudentsAndGroupsCommand}.
      */
     @Override
-    public String toString () {
+    public String toString() {
         return new ToStringBuilder(this)
                 .add("toDeleteStudentOrGroup", path)
                 .toString();
