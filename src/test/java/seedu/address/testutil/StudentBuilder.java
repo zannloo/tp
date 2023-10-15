@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
@@ -32,7 +31,7 @@ public class StudentBuilder {
     public static final Task DEFAULT_TASK = new Deadline("Assignment 3", LocalDateTime.parse("2023-12-03T23:59"));
 
     private TaskList taskList;
-    private Id id;
+    private StudentId id;
     private Name name;
     private Phone phone;
     private Email email;

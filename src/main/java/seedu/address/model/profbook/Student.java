@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javafx.scene.layout.Region;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.taskmanager.TaskList;
@@ -73,7 +72,7 @@ public class Student extends TaskListManager implements IChildElement {
         return name;
     }
 
-    public Id getId() {
+    public StudentId getId() {
         return id;
     }
 
