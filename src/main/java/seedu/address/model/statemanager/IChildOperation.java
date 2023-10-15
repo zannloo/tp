@@ -1,5 +1,7 @@
 package seedu.address.model.statemanager;
 
+import java.util.List;
+
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.IChildElement;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
@@ -59,9 +61,9 @@ public interface IChildOperation<T extends IChildElement> {
     /**
      * Returns a list of all current children
      *
-     * @return array of all current children
+     * @return list of all current children
      */
-    T[] getAllChildren();
+    List<T> getAllChildren();
 
     /**
      * Returns Number of current children

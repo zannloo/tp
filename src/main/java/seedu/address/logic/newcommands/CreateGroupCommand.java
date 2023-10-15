@@ -4,13 +4,12 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
-import seedu.address.model.id.Id;
-import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
-import seedu.address.model.statemanager.RootOperation;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 
@@ -45,30 +44,30 @@ public class CreateGroupCommand extends Command {
     }
 
     /**
-     * Executes the CreateGroupCommand, creating a new group at the specified path in ProfBook.
+     * Executes the CreateGroupCommand to create a new group within ProfBook at the specified path.
      *
-     * @return A CommandResult indicating the outcome of the command execution.
-     * @throws CommandException If an error occurs during command execution.
+     * @param state The current state of the application.
+     * @return A CommandResult indicating the outcome of the execution.
+     * @throws CommandException If an error occurs while executing the command.
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
-        AbsolutePath currPath = state.getCurrPath();
-        Root root = state.getRoot();
+        requireAllNonNull(state);
         try {
-            requireAllNonNull(currPath, root);
-            RootOperation rootOperation = StateManager.rootOperation(root);
-            Group[] listOfGroups = rootOperation.getAllChildren();
-            for (Group group : listOfGroups) {
-                if (group.equals(this.group)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_GROUP);
-                }
+            Root root = state.getRoot();
+            ChildOperation<Group> target = StateManager.rootChildOperation(root);
+
+            if (target.hasChild(this.group.getId())) {
+                throw new CommandException(MESSAGE_DUPLICATE_GROUP);
             }
-            Id groupId = this.group.getId();
-            rootOperation.addChild(groupId, this.group);
-            state.updateFilteredList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, this.group.toString()));
+
+            target.addChild(this.group.getId(), this.group);
+            state.updateList();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, this.group));
         } catch (DuplicateChildException duplicateChildException) {
             throw new CommandException(MESSAGE_DUPLICATE_GROUP);
+        } catch (UnsupportedPathOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 

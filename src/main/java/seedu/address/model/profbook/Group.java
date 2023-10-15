@@ -1,12 +1,13 @@
 package seedu.address.model.profbook;
 
-import java.util.ArrayList;
 import java.util.Map;
 
+import javafx.scene.layout.Region;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.Id;
 import seedu.address.model.taskmanager.TaskList;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+import seedu.address.ui.GroupCard;
+import seedu.address.ui.UiPart;
 
 /**
  * Encapsulates logic for a group within a tutorial group
@@ -52,13 +53,13 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
      */
     @Override
     public Group clone() {
-        try {
-            return new Group(new TaskList(this.getAllTask()), this.getChildren(),
-                    new Name(this.name.fullName), this.id);
-        } catch (NoSuchTaskException e) {
-            return new Group(new TaskList(new ArrayList<>()), this.getChildren(),
-                    new Name(this.name.fullName), this.id);
-        }
+        return new Group(new TaskList(getAllTask()), this.getChildren(),
+                new Name(this.name.fullName), this.id);
+    }
+
+    @Override
+    public UiPart<Region> getDisplayCard(int displayedIndex) {
+        return new GroupCard(this, displayedIndex);
     }
 
     @Override

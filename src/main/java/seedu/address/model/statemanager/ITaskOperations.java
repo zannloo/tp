@@ -12,6 +12,13 @@ import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
 public interface ITaskOperations {
 
     /**
+     * Checks if current task is present
+     *
+     * @param t
+     */
+    boolean hasTask(Task t);
+
+    /**
      * Adds a new tasks to the task list
      *
      * @param t

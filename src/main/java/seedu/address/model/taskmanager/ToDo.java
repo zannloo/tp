@@ -1,6 +1,8 @@
 package seedu.address.model.taskmanager;
 
-
+import javafx.scene.layout.Region;
+import seedu.address.ui.TodoCard;
+import seedu.address.ui.UiPart;
 
 /**
  * The ToDo class represents a deadline task for the ProfBook.
@@ -19,13 +21,17 @@ public class ToDo extends Task {
         assert this.isDone;
     }
 
-
     /**
      * Unmarks the task as done and displays a message to the user.
      */
     public void unmark() {
         this.isDone = false;
         assert !this.isDone;
+    }
+
+    @Override
+    public UiPart<Region> getDisplayCard(int displayedIndex) {
+        return new TodoCard(this, displayedIndex);
     }
 
     /**

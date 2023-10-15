@@ -2,6 +2,8 @@ package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Optional;
+
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.StudentId;
@@ -12,7 +14,7 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
-import seedu.address.model.statemanager.GroupOperation;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 
@@ -27,6 +29,10 @@ public class MoveStudentToGroupCommand extends Command {
     public static final String ERROR_MESSAGE_DUPLICATE = "This student has already been allocated";
 
     public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
+
+    public static final String ERROR_MESSAGE_INCORRECT_DIRECTORY = "Source is not a student directory.";
+
+    public static final String ERROR_MESSAGE_NO_SUCH_STUDENT = "Student to be moved is not in the source group.";
 
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
@@ -62,29 +68,34 @@ public class MoveStudentToGroupCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
-        AbsolutePath currPath = state.getCurrPath();
-        Root root = state.getRoot();
+        requireAllNonNull(state);
         try {
-            requireAllNonNull(currPath, root);
+            AbsolutePath currPath = state.getCurrPath();
+            Root root = state.getRoot();
             AbsolutePath absolutePathSourceGroup = currPath.resolve(this.source);
+            Optional<StudentId> toBeMoved = absolutePathSourceGroup.getStudentId();
             if (!source.isStudentDirectory()) {
-                throw new CommandException("Source is not a student directory.");
+                throw new CommandException(ERROR_MESSAGE_INCORRECT_DIRECTORY);
             }
-            GroupOperation sourceGroupOperation = StateManager.groupOperation(root, absolutePathSourceGroup);
-            StudentId targetStudentId = absolutePathSourceGroup.getStudentId().get();
-            studentToBeMoved = sourceGroupOperation.getChild(targetStudentId);
 
-            AbsolutePath absolutePathDestinationGroup = currPath.resolve(this.dest);
-            GroupOperation destinationGroupOperation = StateManager.groupOperation(root, absolutePathDestinationGroup);
-            Student[] listOfStudentsInDestinationGroup = destinationGroupOperation.getAllChildren();
-            for (Student student : listOfStudentsInDestinationGroup) {
-                if (student.equals(studentToBeMoved)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
-                }
+            if (toBeMoved.isEmpty()) {
+                throw new CommandException(ERROR_MESSAGE_NO_SUCH_STUDENT);
             }
-            destinationGroupOperation.addChild(targetStudentId, studentToBeMoved);
-            sourceGroupOperation.deleteChild(targetStudentId);
-            state.updateFilteredList();
+
+            StudentId toBeMovedId = toBeMoved.get();
+
+            ChildOperation<Student> destGroup = StateManager.groupChildOperation(root, absolutePathSourceGroup);
+            if (!destGroup.hasChild(toBeMovedId)) {
+                throw new CommandException(ERROR_MESSAGE_NO_SUCH_STUDENT);
+            }
+
+            ChildOperation<Student> sourceGroup = StateManager.groupChildOperation(root, absolutePathSourceGroup);
+            studentToBeMoved = sourceGroup.getChild(toBeMovedId);
+
+            destGroup.addChild(toBeMovedId, studentToBeMoved);
+            sourceGroup.deleteChild(toBeMovedId);
+
+            state.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
         } catch (DuplicateChildException duplicateChildException) {
             throw new CommandException(ERROR_MESSAGE_DUPLICATE);

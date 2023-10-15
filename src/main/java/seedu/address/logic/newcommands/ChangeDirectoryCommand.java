@@ -21,7 +21,7 @@ public class ChangeDirectoryCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Changed directory to: %1$s";
     private static final Logger logger = LogsCenter.getLogger(ChangeDirectoryCommandParser.class);
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + "[destination path]";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]";
 
     private final RelativePath dest;
 
