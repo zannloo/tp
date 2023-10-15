@@ -10,6 +10,8 @@ import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Address;
+import seedu.address.model.taskmanager.Task;
+import seedu.address.model.taskmanager.TaskList;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,12 +36,14 @@ public class JsonAdaptedStudent {
 
     private final Set<JsonAdaptedTasks> tasks = new HashSet<>();
 
-
+    /**
+     * Constructs a {@code JsonAdaptedStudent} with the given person details.
+     */
     @JsonCreator
     public JsonAdaptedStudent(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email, @JsonProperty("address") String address,
-                              @JsonProperty("id") String id, @JsonProperty("tags") List<JsonAdaptedTag> tags
-                                @JsonProperty("tasks") List<JsonAdaptedTasks> tasks) {
+                              @JsonProperty("id") String id, @JsonProperty("tags") List<JsonAdaptedTag> tags,
+                              @JsonProperty("tasks") List<JsonAdaptedTasks> tasks) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -48,13 +52,24 @@ public class JsonAdaptedStudent {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        if (tasks!= null) {
+            this.tasks.addAll(tasks);
+        }
     }
 
 
     public Student toModelType() throws IllegalValueException {
         final List<Tag> studentTags = new ArrayList<>();
+
+        final List<Task> taskList = new ArrayList<>();
+
         for (JsonAdaptedTag tag : tags) {
             studentTags.add(tag.toModelType());
+        }
+
+        for (JsonAdaptedTasks task : tasks) {
+
+            taskList.add(task.toModelType());
         }
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -101,10 +116,12 @@ public class JsonAdaptedStudent {
         }
         final seedu.address.model.id.Id studId = new StudentId(id);
 
+        final seedu.address.model.taskmanager.TaskList modelTList = new TaskList(taskList);
+
         //USE WHEN MING IMPLEMENTS INTO STUDENT CONSTRUCTOR
         final Set<Tag> modelTags = new HashSet<>(studentTags);
 
-        return new Student(,modelName, modelPhone, modelEmail, modelAddress, studId);
+        return new Student(modelTList, modelName, modelEmail, modelPhone, modelAddress, studId);
     }
 
 }

@@ -20,19 +20,19 @@ public interface ProfBookStorage {
      *
      * @throws DataLoadingException if loading the data from storage failed.
      */
-    Optional<ReadOnlyProfBook> readAddressBook() throws DataLoadingException;
+    Optional<ReadOnlyProfBook> readProfBook() throws DataLoadingException;
 
-    Optional<ReadOnlyAddressBook> readAddressBook(Path filePath) throws DataLoadingException;
+    Optional<ReadOnlyProfBook> readProfBook(Path filePath) throws DataLoadingException;
 
     /**
      * Saves the given {@link ReadOnlyProfBook} to the storage.
      * @param profBook cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveAddressBook(ReadOnlyProfBook profBook) throws IOException;
+    void saveProfBook(ReadOnlyProfBook profBook) throws IOException;
 
     /**
-     * @see #saveAddressBook(ReadOnlyProfBook) 
+     * @see #saveProfBook(ReadOnlyProfBook)
      */
-    void saveAddressBook(ReadOnlyProfBook profBook, Path filePath) throws IOException;
+    void saveProfBook(ReadOnlyProfBook profBook, Path filePath) throws IOException;
 }

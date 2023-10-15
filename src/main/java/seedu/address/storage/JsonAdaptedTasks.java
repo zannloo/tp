@@ -1,20 +1,24 @@
 package seedu.address.storage;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
 
 /**
  * Jackson-friendly version of {@link TaskList}.
  */
-public class JsonAdaptedTasks  {
-    private String description;
+public abstract class JsonAdaptedTasks  {
+    protected String description;
 
-    private String isDone;
+    protected String isDone;
 
     @JsonCreator
-    public JsonAdaptedTasks(String description, String isDone) {
+    public JsonAdaptedTasks(@JsonProperty("description") String description, @JsonProperty("isDone") String isDone) {
         this.description = description;
         this.isDone = isDone;
     }
+
+    abstract Task toModelType();
 
 }

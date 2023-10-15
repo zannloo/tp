@@ -5,6 +5,7 @@ import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyProfBook;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class JsonProfBookStorage implements ProfBookStorage {
     }
 
     @Override
-    public Optional<ReadOnlyProfBook> readAddressBook() throws DataLoadingException {
+    public Optional<ReadOnlyProfBook> readProfBook() throws DataLoadingException {
         return readProfBook(filePath);
     }
     public Optional<ReadOnlyProfBook> readProfBook(Path filePath) throws DataLoadingException {
@@ -49,7 +50,11 @@ public class JsonProfBookStorage implements ProfBookStorage {
         }
     }
 
-    public void saveAddressBook(ReadOnlyProfBook profBook, Path filePath) throws IOException {
+    @Override
+    public void saveProfBook(ReadOnlyProfBook profBook) throws IOException {
+        saveProfBook(profBook, filePath);
+    }
+    public void saveProfBook(ReadOnlyProfBook profBook, Path filePath) throws IOException {
         requireNonNull(profBook);
         requireNonNull(filePath);
 
