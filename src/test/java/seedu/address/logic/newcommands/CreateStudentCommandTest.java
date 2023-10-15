@@ -32,7 +32,6 @@ import seedu.address.model.profbook.exceptions.NoSuchChildException;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.IChildOperation;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
