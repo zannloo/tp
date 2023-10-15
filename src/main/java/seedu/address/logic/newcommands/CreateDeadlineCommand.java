@@ -1,9 +1,12 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.model.statemanager.StateManager.*;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
@@ -11,10 +14,13 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
+
+import java.util.List;
 
 /**
  * Adds a Deadline for a specified {@code Student} or {@code Group}.
@@ -36,6 +42,7 @@ public class CreateDeadlineCommand extends Command {
     private final RelativePath path;
     private final Deadline deadline;
     private String category;
+    private CommandResult returnStatement = null;
 
     /**
      * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
@@ -67,82 +74,54 @@ public class CreateDeadlineCommand extends Command {
     public CommandResult execute(State state) throws CommandException {
         AbsolutePath currPath = state.getCurrPath();
         Root root = state.getRoot();
-        CommandResult returnStatement = null;
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(path);
             if (category == null) {
-                if (absolutePath.isStudentDirectory()) {
-                    GroupOperation groupOper = groupOperation(root, absolutePath);
-                    StudentId studentId = absolutePath.getStudentId().get();
-                    stu = groupOper.getChild(studentId);
-                    if (stu.checkDuplicates(deadline)) {
-                        throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
-                    }
-                    StudentOperation studentOper = studentOperation(root, absolutePath);
-                    studentOper.addTask(deadline);
-                    returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
-                } else if (absolutePath.isGroupDirectory()) {
-                    RootOperation rootOper = rootOperation(root);
-                    GroupId groupId = absolutePath.getGroupId().get();
-                    grp = rootOper.getChild(groupId);
-                    if (grp.checkDuplicates(deadline)) {
-                        throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
-                    }
-                    GroupOperation groupOper = groupOperation(root, absolutePath);
-                    groupOper.addTask(deadline);
-                    returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, grp.toString()));
-                } else {
-                    throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
+                TaskOperation target = StateManager.taskOperation(root, absolutePath);
+                if (target.hasTask(this.deadline)) {
+                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
                 }
-            } else if (category.equals("allStu") && (absolutePath.isGroupDirectory())) { //add task for all stu in grp
-                GroupOperation groupOper = groupOperation(root, absolutePath);
-                Student[] allStudents = groupOper.getAllChildren();
+                target.addTask(this.deadline);
+                state.updateList();
+                returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
+            } else if (this.category.equals("allStu") && (absolutePath.isGroupDirectory())) { //add task for all stu in grp
+                ChildOperation<Student> groupOper = groupChildOperation(root, absolutePath);
+                List<Student> allStudents = groupOper.getAllChildren();
                 for (Student s : allStudents) {
                     if (s.checkDuplicates(deadline)) {
                         throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
                     }
                     StudentId studentId = (StudentId) s.getId();
                     AbsolutePath newPath = absolutePath.resolve(new RelativePath(studentId.toString()));
-                    StudentOperation studentOper = studentOperation(root, newPath);
-                    studentOper.addTask(deadline);
+                    TaskOperation target = StateManager.taskOperation(root, newPath);
+                    target.addTask(this.deadline);
+                    state.updateList();
+                    returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
                 }
-                //returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
-            } else if (category.equals("allGrp") && (absolutePath.isRootDirectory())) {
-                RootOperation rootOper = rootOperation(root);
-                Group[] allGroups = rootOper.getAllChildren();
+            } else if (this.category.equals("allGrp") && (absolutePath.isRootDirectory())){
+                ChildOperation<Group> rootOper = rootChildOperation(root);
+                List<Group> allGroups = rootOper.getAllChildren();
                 for (Group g : allGroups) {
                     if (g.checkDuplicates(deadline)) {
                         throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
                     }
                     GroupId groupId = (GroupId) g.getId();
                     AbsolutePath newPath = absolutePath.resolve(new RelativePath(groupId.toString()));
-                    GroupOperation groupOper = groupOperation(root, newPath);
-                    groupOper.addTask(deadline);
+                    TaskOperation target = StateManager.taskOperation(root, newPath);
+                    target.addTask(this.deadline);
+                    state.updateList();
+                    returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
                 }
-                //returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
             } else {
-                throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
-
-                //NEW INBETWEEN BELOW
-                TaskOperation target = StateManager.taskOperation(root, absolutePath);
-
-
-                if (target.hasTask(this.deadline)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
-//NEW INBETWEEN above
-                }
-
-                target.addTask(this.deadline);
-                state.updateList();
-                return new CommandResult(String.format(MESSAGE_SUCCESS, target));
-
-            } catch(InvalidPathException e){
-                throw new CommandException(MESSAGE_INVALID_PATH);
-            } catch(UnsupportedPathOperationException e){
-                throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
+                throw new CommandException(MESSAGE_ERROR);
             }
+        } catch(InvalidPathException e){
+            throw new CommandException(MESSAGE_INVALID_PATH);
+        } catch(UnsupportedPathOperationException e){
+            throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
         }
+        return returnStatement;
     }
 
     /**
