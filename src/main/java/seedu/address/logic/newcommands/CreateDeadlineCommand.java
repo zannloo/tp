@@ -1,7 +1,10 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.model.statemanager.StateManager.*;
+import static seedu.address.model.statemanager.StateManager.groupChildOperation;
+import static seedu.address.model.statemanager.StateManager.rootChildOperation;
+
+import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
@@ -19,8 +22,6 @@ import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
-
-import java.util.List;
 
 /**
  * Adds a Deadline for a specified {@code Student} or {@code Group}.
@@ -85,7 +86,7 @@ public class CreateDeadlineCommand extends Command {
                 target.addTask(this.deadline);
                 state.updateList();
                 returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
-            } else if (this.category.equals("allStu") && (absolutePath.isGroupDirectory())) { //add task for all stu in grp
+            } else if (this.category.equals("allStu") && (absolutePath.isGroupDirectory())) {
                 ChildOperation<Student> groupOper = groupChildOperation(root, absolutePath);
                 List<Student> allStudents = groupOper.getAllChildren();
                 for (Student s : allStudents) {
@@ -99,7 +100,7 @@ public class CreateDeadlineCommand extends Command {
                     state.updateList();
                     returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
                 }
-            } else if (this.category.equals("allGrp") && (absolutePath.isRootDirectory())){
+            } else if (this.category.equals("allGrp") && (absolutePath.isRootDirectory())) {
                 ChildOperation<Group> rootOper = rootChildOperation(root);
                 List<Group> allGroups = rootOper.getAllChildren();
                 for (Group g : allGroups) {
@@ -116,9 +117,9 @@ public class CreateDeadlineCommand extends Command {
             } else {
                 throw new CommandException(MESSAGE_ERROR);
             }
-        } catch(InvalidPathException e){
+        } catch (InvalidPathException e) {
             throw new CommandException(MESSAGE_INVALID_PATH);
-        } catch(UnsupportedPathOperationException e){
+        } catch (UnsupportedPathOperationException e) {
             throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
         }
         return returnStatement;
