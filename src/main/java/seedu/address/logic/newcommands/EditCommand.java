@@ -219,7 +219,12 @@ public class EditCommand extends Command {
         return null;
     }
 
-
+    /**
+     * Represents the descriptor for editing the details of a student in ProfBook. The descriptor contains fields for
+     * updating the student's name, phone, email, address, and id. It helps to track which fields have been edited by
+     * the user.
+     * An instance of this class is used within the {@code EditCommand} to specify the details to be edited.
+     */
     public static class EditStudentDescriptor {
         private Name name;
         private Phone phone;
@@ -380,7 +385,11 @@ public class EditCommand extends Command {
         }
     }
 
-
+    /**
+     * Represents the descriptor for editing the details of a group in ProfBook. The descriptor contains fields for
+     * updating the group's name and id. It helps to track which fields have been edited by the user.
+     * An instance of this class is used within the {@code EditCommand} to specify the details to be edited.
+     */
     public static class EditGroupDescriptor {
         private Name name;
 

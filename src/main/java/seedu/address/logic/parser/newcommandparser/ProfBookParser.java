@@ -8,16 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.commands.HelpCommand;
-import seedu.address.logic.newcommands.ChangeDirectoryCommand;
-import seedu.address.logic.newcommands.Command;
-import seedu.address.logic.newcommands.CreateDeadlineCommand;
-import seedu.address.logic.newcommands.CreateGroupCommand;
-import seedu.address.logic.newcommands.CreateStudentCommand;
-import seedu.address.logic.newcommands.CreateTodoCommand;
-import seedu.address.logic.newcommands.MoveStudentToGroupCommand;
-import seedu.address.logic.newcommands.ShowChildrenListCommand;
-import seedu.address.logic.newcommands.ShowTaskListCommand;
+import seedu.address.logic.newcommands.*;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -65,6 +56,12 @@ public class ProfBookParser {
 
         case CreateDeadlineCommand.COMMAND_WORD:
             return new CreateDeadlineCommandParser().parse(arguments);
+
+        case EditCommand.COMMAND_WORD:
+            return new EditCommandParser().parse(arguments);
+
+        case HelpCommand.COMMAND_WORD:
+            return new HelpCommandParser().parse(arguments);
 
         case MoveStudentToGroupCommand.COMMAND_WORD:
             return new MoveStudentToGroupCommandParser().parse(arguments);
