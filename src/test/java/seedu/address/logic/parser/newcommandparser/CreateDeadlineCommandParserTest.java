@@ -25,12 +25,12 @@ public class CreateDeadlineCommandParserTest {
     }
 
     //There are errors
-    //            @Test
-    //            public void parse_allFieldsPresentWithCategory_success() { //VALID_CATEGORY_STUDENT
-    //                assertParseSuccess(parser,
-    //                        VALID_GROUP_DIR_PREAMBLE + TASK_DESC_DESC + DATETIME_DESC + VALID_CATEGORY_STUDENT,
-    //                        new CreateDeadlineCommand(
-    //                                CommandTestUtil.getValidGroupRelativePath(),
-    //                                new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime()), "allStu"));
-    //            }
+    @Test
+    public void parse_allFieldsPresentWithCategory_success() {
+        assertParseSuccess(parser,
+                VALID_GROUP_DIR_PREAMBLE + TASK_DESC_DESC + DATETIME_DESC + " --all allStu",
+                new CreateDeadlineCommand(
+                        CommandTestUtil.getValidGroupRelativePath(),
+                        new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime()), "allStu"));
+    }
 }

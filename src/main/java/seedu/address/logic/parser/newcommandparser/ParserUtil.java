@@ -195,7 +195,7 @@ public class ParserUtil {
     public static String parseCategory(String cat) throws ParseException {
         requireNonNull(cat);
         String trimmedCat = cat.trim();
-        if (!(cat.equals("allStu")) || !(cat.equals("allGrp"))) {
+        if (!(cat.equals("allStu")) && !(cat.equals("allGrp"))) {
             throw new ParseException("Format is invalid. Should be allStu or allGrp");
         }
         return new String(trimmedCat);

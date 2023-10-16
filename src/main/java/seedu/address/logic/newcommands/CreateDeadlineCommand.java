@@ -89,7 +89,6 @@ public class CreateDeadlineCommand extends Command {
                     throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
                 }
                 target.addTask(this.deadline);
-                state.updateList();
                 returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
             } else if (this.category.equals("allStu") && (absolutePath.isGroupDirectory())) {
                 ChildOperation<Student> groupOper = groupChildOperation(root, absolutePath);
@@ -102,7 +101,6 @@ public class CreateDeadlineCommand extends Command {
                         throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
                     }
                     target.addTask(this.deadline);
-                    state.updateList();
                 }
                 returnStatement = new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
             } else if (this.category.equals("allGrp") && (absolutePath.isRootDirectory())) {
@@ -116,12 +114,12 @@ public class CreateDeadlineCommand extends Command {
                         throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
                     }
                     target.addTask(this.deadline);
-                    state.updateList();
                 }
                 returnStatement = new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
             } else {
                 throw new CommandException(MESSAGE_ERROR);
             }
+            state.updateList();
         } catch (InvalidPathException e) {
             throw new CommandException(MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException e) {

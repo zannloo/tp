@@ -37,7 +37,7 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
                     MESSAGE_INVALID_COMMAND_FORMAT, CreateDeadlineCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_DATETIME);
+        argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
 
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
         LocalDateTime by = ParserUtil.parseDateTime(argMultimap.getValue(OPTION_DATETIME).get());
