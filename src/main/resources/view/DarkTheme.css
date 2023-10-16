@@ -326,7 +326,7 @@
 }
 
 #currDirectory {
-    -fx-text-fill: rgb(0, 255, 242);
+    -fx-text-fill: rgb(0, 255, 81);
     -fx-font-size: 12pt;
     -fx-font-family: "Monospaced";
     -fx-font-weight: bold;

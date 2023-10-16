@@ -52,8 +52,14 @@ public class SampleProfBook {
     public static List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             tasks.add(new ToDo("Task " + i));
+        }
+
+        for (int i = 0; i < 5; i++) {
+            ToDo todo = new ToDo("Task " + i + 5);
+            todo.mark();
+            tasks.add(todo);
         }
 
         return tasks;
