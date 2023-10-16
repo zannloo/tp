@@ -24,6 +24,7 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
+import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.storage.Storage;
@@ -98,7 +99,11 @@ public class MainApp extends Application {
 
         Group grp = new Group(
                 new TaskList(new ArrayList<>()), new HashMap<>(), new Name("grp one"), new GroupId("grp-001"));
-        root.addChild(grp.getId(), grp);
+        try {
+            root.addChild(grp.getId(), grp);
+        } catch (DuplicateChildException e) {
+            throw new RuntimeException(e); // @Nereus new one
+        }
 
         return new State(currentPath, root, userPrefs);
     }
@@ -127,7 +132,7 @@ public class MainApp extends Application {
 
         try {
             Optional<Config> configOptional = ConfigUtil.readConfig(configFilePathUsed);
-            if (!configOptional.isPresent()) {
+            if (configOptional.isEmpty()) {
                 logger.info("Creating new config file " + configFilePathUsed);
             }
             initializedConfig = configOptional.orElse(new Config());
@@ -177,7 +182,6 @@ public class MainApp extends Application {
 
     //     return initializedPrefs;
     // }
-
     @Override
     public void start(Stage primaryStage) {
         logger.info("Starting AddressBook " + MainApp.VERSION);

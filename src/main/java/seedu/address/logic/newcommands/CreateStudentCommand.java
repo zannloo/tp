@@ -10,6 +10,7 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
+import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
@@ -67,6 +68,8 @@ public class CreateStudentCommand extends Command {
             throw new CommandException(MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException e) {
             throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
+        } catch (DuplicateChildException e) {
+            throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
         }
     }
 
