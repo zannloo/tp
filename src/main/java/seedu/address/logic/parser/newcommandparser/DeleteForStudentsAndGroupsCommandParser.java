@@ -29,9 +29,6 @@ public class DeleteForStudentsAndGroupsCommandParser implements Parser<DeleteFor
                     MESSAGE_INVALID_COMMAND_FORMAT, DeleteForStudentsAndGroupsCommand.MESSAGE_USAGE));
         }
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
-        if (!path.isGroupDirectory() && !path.isStudentDirectory()) {
-            throw new ParseException(INVALID_PATH_MESSAGE);
-        }
         return new DeleteForStudentsAndGroupsCommand(path);
     }
 }
