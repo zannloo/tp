@@ -60,9 +60,6 @@ public class ProfBookParser {
         case EditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);
 
-        case HelpCommand.COMMAND_WORD:
-            return new HelpCommandParser().parse(arguments);
-
         case MoveStudentToGroupCommand.COMMAND_WORD:
             return new MoveStudentToGroupCommandParser().parse(arguments);
 
