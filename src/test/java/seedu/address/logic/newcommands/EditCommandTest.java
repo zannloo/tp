@@ -1,9 +1,15 @@
 package seedu.address.logic.newcommands;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
+
 import seedu.address.logic.newcommands.EditCommand.EditGroupDescriptor;
 import seedu.address.logic.newcommands.EditCommand.EditStudentDescriptor;
 import seedu.address.logic.newcommands.exceptions.CommandException;
@@ -17,22 +23,16 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.taskmanager.TaskList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 public class EditCommandTest {
 
     @Test
     public void constructor_nullRelativePathAndEditGroupDescriptor_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> new EditCommand(null, (EditGroupDescriptor) null));
+        assertThrows(NullPointerException.class, () -> new EditCommand(null, (EditGroupDescriptor) null));
     }
 
     @Test
     public void constructor_nullRelativePathAndEditStudentDescriptor_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> new EditCommand(null, (EditStudentDescriptor) null));
+        assertThrows(NullPointerException.class, () -> new EditCommand(null, (EditStudentDescriptor) null));
     }
 
     @Test
@@ -52,8 +52,8 @@ public class EditCommandTest {
         EditGroupDescriptor editGroupDescriptor = new EditGroupDescriptor();
         EditCommand firstEditCommand = new EditCommand(relativePath, editGroupDescriptor);
 
-        String expected = "seedu.address.logic.newcommands.EditCommand{toEdit=seedu.address.logic.newcommands" +
-                ".EditCommand.EditGroupDescriptor{name=null, id=null}}";
+        String expected = "seedu.address.logic.newcommands.EditCommand{toEdit=seedu.address.logic.newcommands"
+                + ".EditCommand.EditGroupDescriptor{name=null, id=null}}";
         assertEquals(expected, firstEditCommand.toString());
     }
 
@@ -69,9 +69,7 @@ public class EditCommandTest {
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
         EditCommand editCommand = new EditCommand(relativePath, editStudentDescriptor);
 
-        assertThrows(CommandException.class,
-                EditCommand.ERROR_MESSAGE_NO_SUCH_GROUP,
-                () -> editCommand.execute(state));
+        assertThrows(CommandException.class, EditCommand.ERROR_MESSAGE_NO_SUCH_GROUP, () -> editCommand.execute(state));
     }
 
     @Test
@@ -87,7 +85,6 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(relativePath, editStudentDescriptor);
 
         assertThrows(CommandException.class,
-                EditCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR,
-                () -> editCommand.execute(state));
+                EditCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR, () -> editCommand.execute(state));
     }
 }
