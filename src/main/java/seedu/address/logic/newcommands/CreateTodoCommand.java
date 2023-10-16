@@ -1,5 +1,6 @@
 package seedu.address.logic.newcommands;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -7,11 +8,7 @@ import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
-import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.ToDo;
 
@@ -22,27 +19,20 @@ import seedu.address.model.taskmanager.ToDo;
 public class CreateTodoCommand extends Command {
 
     public static final String COMMAND_WORD = "todo";
-
     public static final String ERROR_MESSAGE_DUPLICATE = "This Todo task has already been allocated";
-
     public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
-
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
-
     public static final String MESSAGE_DUPLICATE_TODO_TASK_STUDENT =
             "This ToDo task has already been allocated to this student in ProfBook";
-
     public static final String MESSAGE_DUPLICATE_TODO_TASK_GROUP =
             "This ToDo task has already been allocated to this group in ProfBook";
-
     public static final String MESSAGE_ERROR = "Invalid target encountered while creating this todo task";
-
     public static final String MESSAGE_SUCCESS = "New ToDo task has been added to: %1$s";
-
+    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
+    public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
 
     private final RelativePath relativePath;
-
     private final ToDo todo;
 
     /**
@@ -66,30 +56,38 @@ public class CreateTodoCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
+        requireNonNull(state);
         AbsolutePath currPath = state.getCurrPath();
-        Root root = state.getRoot();
+
+        // Check resolved path is valid
+        AbsolutePath targetPath = null;
         try {
-            requireAllNonNull(currPath, root);
-            AbsolutePath absolutePath = currPath.resolve(relativePath);
-
-            TaskOperation target = StateManager.taskOperation(root, absolutePath);
-
-            if (target.hasTask(this.todo)) {
-                throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
-            }
-
-            target.addTask(this.todo);
-            state.updateList();
-
-            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
-
-        } catch (DuplicateChildException duplicateChildException) {
-            throw new CommandException(ERROR_MESSAGE_DUPLICATE);
-        } catch (InvalidPathException invalidPathException) {
-            throw new CommandException(ERROR_MESSAGE_INVALID_PATH);
-        } catch (UnsupportedPathOperationException unsupportedPathOperationException) {
-            throw new CommandException(ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION);
+            targetPath = currPath.resolve(relativePath);
+        } catch (InvalidPathException e) {
+            throw new CommandException(e.getMessage());
         }
+
+        // Check path exists in ProfBook
+        if (!state.hasPath(targetPath)) {
+            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+        }
+
+        // Check target path is task manager
+        if (!state.hasTaskListInPath(targetPath)) {
+            throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
+        }
+
+        TaskOperation target = state.taskOperation(targetPath);
+
+        // Check duplicate todo
+        if (target.hasTask(this.todo)) {
+            throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
+        }
+
+        target.addTask(this.todo);
+        state.updateList();
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, target));
     }
 
     /**

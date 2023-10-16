@@ -7,12 +7,9 @@ import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 
@@ -23,13 +20,11 @@ public class CreateDeadlineCommand extends Command {
 
     public static final String COMMAND_WORD = "deadline";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": deadline ";
-
     public static final String MESSAGE_SUCCESS = "New Deadline task added: %1$s";
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
             "This Deadline task has already been allocated";
-    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid";
-    public static final String MESSAGE_INVALID_PATH = "Path is invalid";
-    public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
+    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
+    public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
     protected Student stu;
     protected Group grp;
     private final RelativePath path;
@@ -53,27 +48,35 @@ public class CreateDeadlineCommand extends Command {
     @Override
     public CommandResult execute(State state) throws CommandException {
         AbsolutePath currPath = state.getCurrPath();
-        Root root = state.getRoot();
+        AbsolutePath targetPath = null;
+
+        // Check resolved path is valid
         try {
-            requireAllNonNull(currPath, root);
-            AbsolutePath absolutePath = currPath.resolve(path);
-
-            TaskOperation target = StateManager.taskOperation(root, absolutePath);
-
-
-            if (target.hasTask(this.deadline)) {
-                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
-            }
-
-            target.addTask(this.deadline);
-            state.updateList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
-
+            targetPath = currPath.resolve(path);
         } catch (InvalidPathException e) {
-            throw new CommandException(MESSAGE_INVALID_PATH);
-        } catch (UnsupportedPathOperationException e) {
-            throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
+            throw new CommandException(e.getMessage());
         }
+
+        // Check path exists in ProfBook
+        if (!state.hasPath(targetPath)) {
+            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+        }
+
+        // Check target path is task manager
+        if (!state.hasTaskListInPath(targetPath)) {
+            throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
+        }
+
+        TaskOperation target = state.taskOperation(targetPath);
+
+        // Check duplicate deadline
+        if (target.hasTask(this.deadline)) {
+            throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+        }
+
+        target.addTask(this.deadline);
+        state.updateList();
+        return new CommandResult(String.format(MESSAGE_SUCCESS, target));
     }
 
     /**

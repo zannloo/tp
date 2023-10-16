@@ -1,18 +1,16 @@
 package seedu.address.logic.newcommands;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
+import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 
 /**
  * Represents a command for creating a new group within ProfBook.
@@ -52,24 +50,29 @@ public class CreateGroupCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
-        AbsolutePath currPath = state.getCurrPath(); // @gary why do u need absolutepath
-        Root root = state.getRoot();
+        requireNonNull(state);
+
+        AbsolutePath currentPath = state.getCurrPath();
+
+        // Check resolved path is valid
+        AbsolutePath targetPath = null;
         try {
-            requireAllNonNull(currPath, root); // @gary why is this here?
-            ChildOperation<Group> target = StateManager.rootChildOperation(root);
-
-            if (target.hasChild(this.group.getId())) {
-                throw new CommandException(MESSAGE_DUPLICATE_GROUP);
-            }
-
-            target.addChild(this.group.getId(), this.group);
-            state.updateList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, this.group));
-        } catch (DuplicateChildException duplicateChildException) {
-            throw new CommandException(MESSAGE_DUPLICATE_GROUP);
-        } catch (UnsupportedPathOperationException e) {
-            throw new RuntimeException(e);
+            targetPath = currentPath.resolve(relativePath);
+        } catch (InvalidPathException e) {
+            throw new CommandException(e.getMessage());
         }
+
+        ChildOperation<Group> rootOperation = state.rootChildOperation();
+
+        // Check duplicate group
+        if (rootOperation.hasChild(targetPath.getGroupId().get())) {
+            throw new CommandException(MESSAGE_DUPLICATE_GROUP);
+        }
+
+        rootOperation.addChild(this.group.getId(), this.group);
+        state.updateList();
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, this.group));
     }
 
     /**

@@ -19,7 +19,8 @@ import seedu.address.model.statemanager.State;
 public class ChangeDirectoryCommand extends Command {
     public static final String COMMAND_WORD = "cd";
     public static final String MESSAGE_SUCCESS = "Changed directory to: %1$s";
-    public static final String MESSAGE_INVALID_DEST = "Change directory into a student directory is not allowed.";
+    public static final String MESSAGE_INVALID_DEST = "Student path is not navigable.";
+    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
     private static final Logger logger = LogsCenter.getLogger(ChangeDirectoryCommandParser.class);
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]";
@@ -54,15 +55,15 @@ public class ChangeDirectoryCommand extends Command {
             throw new CommandException(e.getMessage());
         }
 
+        if (!state.hasPath(targetPath)) {
+            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+        }
+
         if (targetPath.isStudentDirectory()) {
             throw new CommandException(MESSAGE_INVALID_DEST);
         }
 
-        logger.info("Changing directory to: " + targetPath.toString());
-
         state.changeDirectory(targetPath);
-
-        logger.info("Current filtered list: " + state.getFilteredList());
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, targetPath.toString()));
     }
