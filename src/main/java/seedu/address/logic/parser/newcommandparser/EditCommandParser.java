@@ -3,7 +3,11 @@ package seedu.address.logic.parser.newcommandparser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.newcommands.EditCommand.MESSAGE_USAGE;
-import static seedu.address.logic.parser.CliSyntax.*;
+import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_ID;
+import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
+import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 
 import seedu.address.logic.newcommands.EditCommand;
 import seedu.address.logic.newcommands.EditCommand.EditGroupDescriptor;
@@ -17,7 +21,7 @@ import seedu.address.model.path.RelativePath;
  * Parses user input to create an `EditCommand` for editing student or group details.
  * This parser handles commands that allow users to modify information of existing students or groups.
  */
-public class EditCommandParser implements Parser<EditCommand>  {
+public class EditCommandParser implements Parser<EditCommand> {
 
     /**
      * Parses the given command arguments and creates an `EditCommand` object.

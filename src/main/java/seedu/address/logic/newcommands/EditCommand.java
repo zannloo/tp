@@ -1,7 +1,14 @@
 package seedu.address.logic.newcommands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.*;
+import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
+import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
+import static seedu.address.logic.parser.CliSyntax.OPTION_TAG;
+
+import java.util.Map;
+import java.util.Optional;
 
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -9,23 +16,21 @@ import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
+import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
-import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
+import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.TaskList;
-
-import java.util.*;
 
 /**
  * EditCommand is a class representing a command to edit the details of a person (either a student or a group) in
