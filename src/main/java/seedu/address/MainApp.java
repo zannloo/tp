@@ -20,6 +20,7 @@ import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.util.SampleProfBook;
 import seedu.address.storage.Storage;
 import seedu.address.ui.Ui;
@@ -92,7 +93,7 @@ public class MainApp extends Application {
         // Use sample data.
         Root root = SampleProfBook.getRoot();
 
-        return new State(currentPath, root, userPrefs);
+        return new StateManager(currentPath, root, userPrefs);
     }
 
     private void initLogging(Config config) {

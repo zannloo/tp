@@ -46,6 +46,8 @@ class CreateDeadlineCommandTest {
         groups.put(grp.getId(), grp);
         Root root = new Root(taskList, groups);
 
+        State state = new StateManager(currPath, root, new UserPrefs());
+
 
         LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline = new Deadline("Assignment 3", duedate);
@@ -53,7 +55,7 @@ class CreateDeadlineCommandTest {
         RelativePath path = new RelativePath("~/grp-001/stu-001");
         AbsolutePath absolutePath = currPath.resolve(path);
 
-        TaskOperation student = StateManager.taskOperation(root, absolutePath);
+        TaskOperation student = state.taskOperation(absolutePath);
         student.addTask(deadline);
 
         CommandResult returnStatement =
@@ -75,7 +77,7 @@ class CreateDeadlineCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(taskList, groups);
 
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
 
         RelativePath path = new RelativePath("~/grp-001/stu-001");
         Deadline deadline = new Deadline("Assignment 3", LocalDateTime.parse("2023-12-03T23:59"));

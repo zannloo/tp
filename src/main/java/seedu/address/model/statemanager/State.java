@@ -1,166 +1,141 @@
 package seedu.address.model.statemanager;
 
-import static java.util.Objects.requireNonNull;
-
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
-import seedu.address.model.profbook.ChildrenManager;
-import seedu.address.model.profbook.IChildElement;
-import seedu.address.model.profbook.Root;
+import seedu.address.model.profbook.Group;
+import seedu.address.model.profbook.Student;
 import seedu.address.ui.Displayable;
 
 /**
- * Current state of ProfBook.
+ * The API of the State component.
  */
-public class State {
-    private static final Logger logger = LogsCenter.getLogger(State.class);
-    private AbsolutePath currentPath;
-    private final Root root;
-    private ChildrenManager<? extends IChildElement> currManager;
-    private ObservableList<Displayable> filteredList = FXCollections.observableArrayList();
-    private final UserPrefs userPrefs;
-    private boolean showTaskList = false;
+public interface State {
+    //=========== UserPrefs ==================================================================================
+    public void setUserPrefs(ReadOnlyUserPrefs userPrefs);
+
+    public ReadOnlyUserPrefs getUserPrefs();
+
+    public GuiSettings getGuiSettings();
+
+    public void setGuiSettings(GuiSettings guiSettings);
+
+    public Path getAddressBookFilePath();
+
+    public void setAddressBookFilePath(Path addressBookFilePath);
+
+    //=========== ProfBook State ================================================================================
+    /**
+     * Return current directory.
+     */
+    public AbsolutePath getCurrPath();
 
     /**
-     * Construct a new state with current path and the root object.
+     * Return true if current path has task list.
      */
-    public State(AbsolutePath currentPath, Root root, ReadOnlyUserPrefs userPrefs) {
-        this.currentPath = currentPath;
-        this.root = root;
-        this.currManager = getCurrManager(currentPath);
-        showChildrenList();
-        this.userPrefs = new UserPrefs(userPrefs);
-    }
+    public boolean hasTaskListInCurrentPath();
 
-    //=========== UserPrefs ==================================================================================
-    public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
-        requireNonNull(userPrefs);
-        this.userPrefs.resetData(userPrefs);
-    }
+    /**
+     * Return true if current path has children list.
+     */
+    public boolean hasChildrenListInCurrentPath();
 
-    public ReadOnlyUserPrefs getUserPrefs() {
-        return userPrefs;
-    }
+    /**
+     * Returns true if group in given path exists in the ProfBook.
+     * {@code path} must be path with group information.
+     * i.e. Group directory or Student Directory.
+     */
+    public boolean hasGroup(AbsolutePath path);
 
-    public GuiSettings getGuiSettings() {
-        return userPrefs.getGuiSettings();
-    }
+    /**
+     * Returns true if student exists in the ProfBook.
+     * {@code path} must be student path.
+     */
+    public boolean hasStudent(AbsolutePath path);
 
-    public void setGuiSettings(GuiSettings guiSettings) {
-        requireNonNull(guiSettings);
-        userPrefs.setGuiSettings(guiSettings);
-    }
-
-    public Path getAddressBookFilePath() {
-        return userPrefs.getAddressBookFilePath();
-    }
-
-    public void setAddressBookFilePath(Path addressBookFilePath) {
-        requireNonNull(addressBookFilePath);
-        userPrefs.setAddressBookFilePath(addressBookFilePath);
-    }
-
-    //=========== ProfBook ================================================================================
-
-    public AbsolutePath getCurrPath() {
-        return this.currentPath;
-    }
-
-    public Root getRoot() {
-        return this.root;
-    }
-
-    public ChildrenManager<? extends IChildElement> getCurrManager(AbsolutePath path) {
-        try {
-            if (path.isGroupDirectory()) {
-                return StateManager.getGroupFromPath(root, path);
-            }
-        } catch (UnsupportedPathOperationException e) {
-            throw new IllegalArgumentException("Invalid Current Path: Must be children manager path!");
-        }
-        if (path.isRootDirectory()) {
-            return root;
-        }
-        throw new IllegalArgumentException("Invalid Current Path: Must be children manager path!");
-    }
+    /**
+     * Returns true if given path exists in the ProfBook.
+     */
+    public boolean hasPath(AbsolutePath path);
 
     /**
      * Change directory to destination path
+     * {@code path} must exist in ProfBook and is not student path.
      */
-    public void changeDirectory(AbsolutePath path) {
-        this.currentPath = path;
-        this.currManager = getCurrManager(path);
-        showChildrenList();
-    }
+    public void changeDirectory(AbsolutePath path);
 
-    //=========== Filtered List Accessors =============================================================
-    public ObservableList<Displayable> getFilteredList() {
-        return this.filteredList;
-    }
+    //=========== Display Panel Settings =============================================================
+    /**
+     * Return the current list shown on display panel.
+     */
+    public ObservableList<Displayable> getDisplayList();
 
     /**
-     * Update list with latest data
+     * Update list with latest data according to
+     * current display path and display content.
      */
-    public void updateList() {
-        List<? extends Displayable> temp;
-        if (showTaskList) {
-            temp = new ArrayList<>(currManager.getAllTask());
-        } else {
-            temp = new ArrayList<>(currManager.asUnmodifiableObservableList());
-        }
-        this.filteredList.clear();
-        this.filteredList.setAll(temp);
-    }
+    public void updateList();
 
     /**
-     * Show children list
+     * Set the path to be shown on display panel.
+     * {@code path} must exist in ProfBook.
      */
-    public void showChildrenList() {
-        showTaskList = false;
-        updateList();
-    }
+    public void setDisplayPath(AbsolutePath path);
 
     /**
-     * Show task list
+     * Return true if current display path has task list.
      */
-    public void showTaskList() {
-        showTaskList = true;
-        updateList();
-    }
+    public boolean hasTaskListInDisplayPath();
 
-    // public void updateFilteredPersonList(Predicate<? extends IChildElement> predicate) {
-    //     requireNonNull(predicate);
-    //     filteredPersons.setPredicate(predicate);
-    // }
+    /**
+     * Return true if current display path has children list.
+     */
+    public boolean hasChildrenListInDisplayPath();
 
+    /**
+     * Displays a children list on the display panel.
+     * This method should be called after checking that the current display path contains children list
+     * by using the {@link hasChildrenListInDisplayPath} method.
+     */
+    public void showChildrenList();
 
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
+    /**
+     * Displays a task list on the display panel.
+     * This method should be called after checking that the current display path contains task list
+     * by using the {@link hasTaskListInDisplayPath} method.
+     */
+    public void showTaskList();
 
-        // instanceof handles nulls
-        if (!(other instanceof State)) {
-            return false;
-        }
+    //=========== State Management Operation =============================================================
 
-        State otherState = (State) other;
-        return this.currManager.equals(otherState.currManager)
-                && this.currentPath.equals(otherState.currentPath)
-                && this.filteredList.equals(otherState.filteredList)
-                && this.root.equals(otherState.root)
-                && this.userPrefs.equals(otherState.userPrefs);
-    }
+    /**
+     * Creates a ChildOperation class that performs operation on root.
+     */
+    public ChildOperation<Group> rootChildOperation();
+
+    /**
+     * Creates a ChildOperation that performs operation on the specified group.
+     * {@code path} must be a directory with group information and exist in the ProfBook.
+     */
+    public ChildOperation<Student> groupChildOperation(AbsolutePath path);
+
+    /**
+     * Creates a TaskOperation that performs task operation on the specified task list.
+     * {@code path} must be a directory with task list and exist in the ProfBook.
+     */
+    public TaskOperation taskOperation(AbsolutePath path);
+
+    //=========== Helper Method =============================================================
+    /**
+     * Return true if given path has task list.
+     */
+    public boolean hasTaskListInPath(AbsolutePath path);
+
+    /**
+     * Return true if given path has children list.
+     */
+    public boolean hasChildrenListInPath(AbsolutePath path);
 }
