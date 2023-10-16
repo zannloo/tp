@@ -65,6 +65,10 @@ public class ProfBookLogicManager {
         return state.getDisplayList();
     }
 
+    public String getCurrPath() {
+        return state.getCurrPath().toString();
+    }
+
     public Path getAddressBookFilePath() {
         return state.getAddressBookFilePath();
     }

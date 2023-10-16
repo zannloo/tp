@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane styleClass="stack-pane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-  <TextField fx:id="commandTextField" onAction="#handleCommandEntered" promptText="Enter command here..."/>
+<StackPane styleClass="stack-pane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="200.0" StackPane.alignment="TOP_CENTER">
+      <children>
+         <Label fx:id="currDirectory" alignment="BOTTOM_LEFT" text="~/grp-001" HBox.hgrow="ALWAYS" />
+        <TextField fx:id="commandTextField" alignment="BOTTOM_LEFT" onAction="#handleCommandEntered" prefHeight="0.0" prefWidth="148.0" promptText="Enter command here..." HBox.hgrow="ALWAYS" />
+      </children>
+   </HBox>
 </StackPane>
-

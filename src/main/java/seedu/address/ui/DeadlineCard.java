@@ -40,5 +40,10 @@ public class DeadlineCard extends UiPart<Region> {
         by.setText(deadline.getDeadline());
         checkBox.setSelected(deadline.getStatus());
         checkBox.setDisable(true);
+        if (displayedIndex % 2 == 0) {
+            cardPane.setStyle("-fx-background-color: #534531;");
+        } else {
+            cardPane.setStyle("-fx-background-color: #866937;");
+        }
     }
 }

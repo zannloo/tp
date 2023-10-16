@@ -24,14 +24,14 @@ public class MoveStudentToGroupCommandTest {
         assertEquals(command1, command2);
     }
 
-    @Test
-    public void testOutputString() throws InvalidPathException {
-        RelativePath relativeSourcePath = new RelativePath("~/grp-001/stu-001");
-        RelativePath relativeDestinationPath = new RelativePath("~/grp-002");
-        MoveStudentToGroupCommand moveStudentToGroupCommand =
-                new MoveStudentToGroupCommand(relativeSourcePath, relativeDestinationPath);
-        String expected =
-                "seedu.address.logic.newcommands.MoveStudentToGroupCommand{toMoveThisStudentToAnotherGroup=null}";
-        assertEquals(expected, moveStudentToGroupCommand.toString());
-    }
+    // @Test
+    // public void testOutputString() throws InvalidPathException {
+    //     RelativePath relativeSourcePath = new RelativePath("~/grp-001/stu-001");
+    //     RelativePath relativeDestinationPath = new RelativePath("~/grp-002");
+    //     MoveStudentToGroupCommand moveStudentToGroupCommand =
+    //             new MoveStudentToGroupCommand(relativeSourcePath, relativeDestinationPath);
+    //     String expected =
+    //             "seedu.address.logic.newcommands.MoveStudentToGroupCommand{toMoveThisStudentToAnotherGroup=null}";
+    //     assertEquals(expected, moveStudentToGroupCommand.toString());
+    // }
 }

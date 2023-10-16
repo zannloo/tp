@@ -1,5 +1,8 @@
 package seedu.address.model.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.profbook.Address;
@@ -9,6 +12,8 @@ import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
+import seedu.address.model.taskmanager.Task;
+import seedu.address.model.taskmanager.ToDo;
 
 /**
  * Sample ProfBook data.
@@ -44,6 +49,16 @@ public class SampleProfBook {
         };
     }
 
+    public static List<Task> getTasks() {
+        List<Task> tasks = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            tasks.add(new ToDo("Task " + i));
+        }
+
+        return tasks;
+    }
+
     public static Group getGroup1() {
         Group grp = new Group(new Name("Group One"), new GroupId("grp-001"));
         Student[] students = getSampleStudents1();
@@ -58,6 +73,10 @@ public class SampleProfBook {
         Student[] students = getSampleStudents2();
         for (Student s : students) {
             grp.addChild(s.getId(), s);
+        }
+        List<Task> tasks = getTasks();
+        for (Task task : tasks) {
+            grp.addTask(task);
         }
         return grp;
     }

@@ -1,6 +1,5 @@
 package seedu.address.logic.newcommands;
 
-import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,11 +26,8 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
-import seedu.address.model.profbook.exceptions.NoSuchChildException;
-import seedu.address.model.statemanager.ChildOperation;
-import seedu.address.model.statemanager.IChildOperation;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
@@ -79,7 +75,7 @@ class CreateStudentCommandTest {
                 .withId("stu-002").build(); // this ID doesnt even match the previous ID
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, bob);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult commandResult = createStudentCommand.execute(state);
 
         assertEquals(String.format(CreateStudentCommand.MESSAGE_SUCCESS, bob.toString()),
@@ -105,7 +101,7 @@ class CreateStudentCommandTest {
         RelativePath path = new RelativePath("~/grp-001");
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, validStudent);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 CreateStudentCommand.MESSAGE_DUPLICATE_STUDENT, (
                     ) -> createStudentCommand.execute(state)
@@ -156,85 +152,85 @@ class CreateStudentCommandTest {
         assertEquals(expected, createStudentCommand.toString());
     }
 
-    /**
-     * A default groupOperation stub that have all of the methods failing.
-     */
-    private class GroupOperationStub implements IChildOperation<Student> {
+    // /**
+    //  * A default groupOperation stub that have all of the methods failing.
+    //  */
+    // private class GroupOperationStub implements IChildOperation<Student> {
 
-        @Override
-        public void addChild(Id id, Student child) throws DuplicateChildException {
-            throw new AssertionError("This method should not be called.");
-        }
+    //     @Override
+    //     public void addChild(Id id, Student child) throws DuplicateChildException {
+    //         throw new AssertionError("This method should not be called.");
+    //     }
 
-        @Override
-        public boolean hasChild(Id id) {
-            throw new AssertionError("This method should not be called.");
-        }
+    //     @Override
+    //     public boolean hasChild(Id id) {
+    //         throw new AssertionError("This method should not be called.");
+    //     }
 
-        @Override
-        public Student deleteChild(Id id) throws NoSuchChildException {
-            throw new AssertionError("This method should not be called.");
-        }
+    //     @Override
+    //     public Student deleteChild(Id id) throws NoSuchChildException {
+    //         throw new AssertionError("This method should not be called.");
+    //     }
 
-        @Override
-        public Student getChild(Id id) throws NoSuchChildException {
-            throw new AssertionError("This method should not be called.");
-        }
+    //     @Override
+    //     public Student getChild(Id id) throws NoSuchChildException {
+    //         throw new AssertionError("This method should not be called.");
+    //     }
 
-        @Override
-        public void updateChild(Id id, Student child) throws NoSuchChildException {
-            throw new AssertionError("This method should not be called.");
-        }
+    //     @Override
+    //     public void updateChild(Id id, Student child) throws NoSuchChildException {
+    //         throw new AssertionError("This method should not be called.");
+    //     }
 
-        @Override
-        public List<Student> getAllChildren() {
-            throw new AssertionError("This method should not be called.");
-        }
+    //     @Override
+    //     public List<Student> getAllChildren() {
+    //         throw new AssertionError("This method should not be called.");
+    //     }
 
-        @Override
-        public int numOfChildren() {
-            throw new AssertionError("This method should not be called.");
-        }
-    }
+    //     @Override
+    //     public int numOfChildren() {
+    //         throw new AssertionError("This method should not be called.");
+    //     }
+    // }
 
 
-    /**
-     * A groupOperation stub that contains a single student.
-     */
-    private class GroupOperationStubWithStudent extends ChildOperation<Student > {
-        private final Group baseDir;
-        private Student child;
-        public GroupOperationStubWithStudent(Group baseDir, Student child) {
-            super(baseDir);
-            this.baseDir = baseDir;
-            this.child = child;
-        }
+    // /**
+    //  * A groupOperation stub that contains a single student.
+    //  */
+    // private class GroupOperationStubWithStudent extends ChildOperation<Student > {
+    //     private final Group baseDir;
+    //     private Student child;
+    //     public GroupOperationStubWithStudent(Group baseDir, Student child) {
+    //         super(baseDir);
+    //         this.baseDir = baseDir;
+    //         this.child = child;
+    //     }
 
-        public boolean hasChild(Student student) {
-            requireNonNull(student);
-            return true;
-        }
-    }
+    //     public boolean hasChild(Student student) {
+    //         requireNonNull(student);
+    //         return true;
+    //     }
+    // }
 
-    /**
-     * A GroupOperation stub that always accept the student being added.
-     */
-    private class GroupOperationStubAlwaysAcceptingStudent extends ChildOperation<Student > {
-        private final Group baseDir;
-        private Student child;
-        GroupOperationStubAlwaysAcceptingStudent(Group baseDir, Student child) {
-            super(baseDir);
-            this.baseDir = baseDir;
-            this.child = child;
-        }
-        @Override
-        public void addChild(Id id, Student child) throws DuplicateChildException {
-            this.baseDir.addChild(id, child);
-        }
+    // /**
+    //  * A GroupOperation stub that always accept the student being added.
+    //  */
+    // private class GroupOperationStubAlwaysAcceptingStudent extends ChildOperation<Student > {
+    //     private final Group baseDir;
+    //     private Student child;
+    //     GroupOperationStubAlwaysAcceptingStudent(Group baseDir, Student child) {
+    //         super(baseDir);
+    //         this.baseDir = baseDir;
+    //         this.child = child;
+    //     }
+    //     @Override
+    //     public void addChild(Id id, Student child) throws DuplicateChildException {
+    //         this.baseDir.addChild(id, child);
+    //     }
 
-        public boolean hasChild(Student student) {
-            requireNonNull(student);
-            return false;
-        }
-    }
+    //     public boolean hasChild(Student student) {
+    //         requireNonNull(student);
+    //         return false;
+    //     }
+    // }
 }
