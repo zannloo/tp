@@ -6,7 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import seedu.address.logic.newcommands.CreateDeadlineCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
@@ -19,8 +18,7 @@ import seedu.address.model.taskmanager.Deadline;
  * Parses input arguments and creates a new CreateDeadlineForGroupCommand object
  */
 public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand> {
-    //todo: only need one deadline command
-
+    //deadline: only need one deadline command
     /**
      * Parses the given {@code String} of arguments in the context of the CreateDeadlineCommand
      * and returns an CreateDeadlineCommand object for execution.
@@ -41,17 +39,13 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
 
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
         LocalDateTime by = ParserUtil.parseDateTime(argMultimap.getValue(OPTION_DATETIME).get());
-        Set<String> catergoryList = ParserUtil.parseCategories(argMultimap.getAllValues(OPTION_ALL));
-
         Deadline deadline = new Deadline(argMultimap.getValue(OPTION_DESC).get(), by);
 
-        if (catergoryList.size() > 1) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, CreateDeadlineCommand.MESSAGE_USAGE));
-        } else if (catergoryList.size() == 1) {
-            return new CreateDeadlineCommand(path, deadline, catergoryList.stream().findFirst().get());
-        } else { //catergoryList.size() == 0
+        if (argMultimap.getValue(OPTION_ALL).isEmpty()) {
             return new CreateDeadlineCommand(path, deadline);
+        } else {
+            String category = ParserUtil.parseCategory(argMultimap.getValue(OPTION_ALL).get());
+            return new CreateDeadlineCommand(path, deadline, category);
         }
     }
 }

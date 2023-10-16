@@ -5,10 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
@@ -199,17 +196,5 @@ public class ParserUtil {
             throw new ParseException("Format is invalid. Should be allStu or allGrp");
         }
         return new String(trimmedCat);
-    }
-
-    /**
-     * Parses {@code Collection<String> cats} into a {@code Set<String>}.
-     */
-    public static Set<String> parseCategories(Collection<String> cats) throws ParseException {
-        requireNonNull(cats);
-        final Set<String> catSet = new HashSet<>();
-        for (String catName : cats) {
-            catSet.add(parseCategory(catName));
-        }
-        return catSet;
     }
 }

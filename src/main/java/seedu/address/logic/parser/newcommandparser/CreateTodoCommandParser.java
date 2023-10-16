@@ -4,8 +4,6 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
-import java.util.Set;
-
 import seedu.address.logic.newcommands.CreateTodoCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
@@ -39,16 +37,12 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
 
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
         ToDo todo = new ToDo(argMultimap.getValue(OPTION_DESC).get());
-        Set<String> catergoryList = ParserUtil.parseCategories(argMultimap.getAllValues(OPTION_ALL));
 
-
-        if (catergoryList.size() > 1) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, CreateTodoCommand.MESSAGE_USAGE));
-        } else if (catergoryList.size() == 1) {
-            return new CreateTodoCommand(path, todo, catergoryList.stream().findFirst().get());
-        } else { //catergoryList.size() == 0
+        if (argMultimap.getValue(OPTION_ALL).isEmpty()) {
             return new CreateTodoCommand(path, todo);
+        } else {
+            String category = ParserUtil.parseCategory(argMultimap.getValue(OPTION_ALL).get());
+            return new CreateTodoCommand(path, todo, category);
         }
     }
 }
