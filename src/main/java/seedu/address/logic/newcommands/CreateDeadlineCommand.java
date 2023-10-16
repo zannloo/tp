@@ -64,7 +64,7 @@ public class CreateDeadlineCommand extends Command {
      * User has input a category as well.
      */
     public CreateDeadlineCommand(RelativePath path, Deadline deadline, String category) {
-        requireAllNonNull(path, deadline);
+        requireAllNonNull(path, deadline, category);
         this.path = path;
         this.deadline = deadline;
         this.category = category;
