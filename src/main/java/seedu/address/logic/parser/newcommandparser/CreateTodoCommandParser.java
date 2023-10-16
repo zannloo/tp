@@ -1,6 +1,7 @@
 package seedu.address.logic.parser.newcommandparser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import seedu.address.logic.newcommands.CreateTodoCommand;
@@ -24,7 +25,7 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
      */
     public CreateTodoCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_DESC);
+                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_ALL);
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC)
                 || argMultimap.getPreamble().isEmpty()) {
@@ -32,12 +33,16 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
                     MESSAGE_INVALID_COMMAND_FORMAT, CreateTodoCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC);
+        argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_ALL);
 
         RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
-
         ToDo todo = new ToDo(argMultimap.getValue(OPTION_DESC).get());
 
-        return new CreateTodoCommand(path, todo);
+        if (argMultimap.getValue(OPTION_ALL).isEmpty()) {
+            return new CreateTodoCommand(path, todo);
+        } else {
+            String category = ParserUtil.parseCategory(argMultimap.getValue(OPTION_ALL).get());
+            return new CreateTodoCommand(path, todo, category);
+        }
     }
 }

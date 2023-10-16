@@ -43,10 +43,11 @@ public class CreateGroupCommand extends Command {
     }
 
     /**
-     * Executes the CreateGroupCommand, creating a new group at the specified path in ProfBook.
+     * Executes the CreateGroupCommand to create a new group within ProfBook at the specified path.
      *
-     * @return A CommandResult indicating the outcome of the command execution.
-     * @throws CommandException If an error occurs during command execution.
+     * @param state The current state of the application.
+     * @return A CommandResult indicating the outcome of the execution.
+     * @throws CommandException If an error occurs while executing the command.
      */
     @Override
     public CommandResult execute(State state) throws CommandException {

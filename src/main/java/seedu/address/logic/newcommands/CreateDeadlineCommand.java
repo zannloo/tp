@@ -1,15 +1,24 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.model.statemanager.StateManager.groupChildOperation;
+import static seedu.address.model.statemanager.StateManager.rootChildOperation;
+
+import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 
@@ -21,6 +30,11 @@ public class CreateDeadlineCommand extends Command {
     public static final String COMMAND_WORD = "deadline";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": deadline ";
     public static final String MESSAGE_SUCCESS = "New Deadline task added: %1$s";
+
+    public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
+            "New Deadline task added to all students in group: %1$s";
+    public static final String MESSAGE_SUCCESS_ALL_GROUPS =
+            "New Deadline task added to all groups in root: %1$s";
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
             "This Deadline task has already been allocated";
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
@@ -29,6 +43,8 @@ public class CreateDeadlineCommand extends Command {
     protected Group grp;
     private final RelativePath path;
     private final Deadline deadline;
+    private String category = null;
+    private CommandResult returnStatement = null;
 
     /**
      * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
@@ -40,6 +56,17 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
+     * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
+     * User has input a category as well.
+     */
+    public CreateDeadlineCommand(RelativePath path, Deadline deadline, String category) {
+        requireAllNonNull(path, deadline, category);
+        this.path = path;
+        this.deadline = deadline;
+        this.category = category;
+    }
+
+    /**
      * Executes an CreateDeadlineCommand to allocate a {@code Deadline} task to a {@code Group} or {@code Student}
      *
      * @return Command result which represents the outcome of the command execution.
@@ -48,9 +75,8 @@ public class CreateDeadlineCommand extends Command {
     @Override
     public CommandResult execute(State state) throws CommandException {
         AbsolutePath currPath = state.getCurrPath();
-        AbsolutePath targetPath = null;
-
         // Check resolved path is valid
+        AbsolutePath targetPath = null;
         try {
             targetPath = currPath.resolve(path);
         } catch (InvalidPathException e) {
@@ -62,21 +88,60 @@ public class CreateDeadlineCommand extends Command {
             throw new CommandException(MESSAGE_PATH_NOT_FOUND);
         }
 
-        // Check target path is task manager
-        if (!state.hasTaskListInPath(targetPath)) {
-            throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
+        if (this.category == null) {
+            // Check target path is task manager
+            if (!state.hasTaskListInPath(targetPath)) {
+                throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
+            }
+
+            TaskOperation target = state.taskOperation(targetPath);
+
+            // Check duplicate deadline
+            if (target.hasTask(this.deadline)) {
+                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+            }
+
+            target.addTask(this.deadline);
+            state.updateList();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
         }
 
-        TaskOperation target = state.taskOperation(targetPath);
-
-        // Check duplicate deadline
-        if (target.hasTask(this.deadline)) {
-            throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+        if (this.category.equals("allStu")) {
+            if (!targetPath.isGroupDirectory()) {
+                throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
+            }
+            ChildOperation<Student> groupOper = state.groupChildOperation(targetPath);
+            List<Student> allStudents = groupOper.getAllChildren();
+            for (Student s : allStudents) {
+                StudentId studentId = (StudentId) s.getId();
+                AbsolutePath newPath = targetPath.resolve(new RelativePath(studentId.toString()));
+                TaskOperation target = state.taskOperation(newPath);
+                if (target.hasTask(this.deadline)) {
+                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+                }
+                target.addTask(this.deadline);
+            }
+            return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
         }
 
-        target.addTask(this.deadline);
-        state.updateList();
-        return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+        if (!targetPath.isRootDirectory()) {
+            throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
+        }
+
+        ChildOperation<Group> rootOper = state.rootChildOperation();
+        List<Group> allGroups = rootOper.getAllChildren();
+
+        for (Group g : allGroups) {
+            GroupId groupId = (GroupId) g.getId();
+            AbsolutePath newPath = targetPath.resolve(new RelativePath(groupId.toString()));
+            TaskOperation target = state.taskOperation(newPath);
+            if (target.hasTask(this.deadline)) {
+                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+            }
+            target.addTask(this.deadline);
+        }
+
+        return new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
     }
 
     /**

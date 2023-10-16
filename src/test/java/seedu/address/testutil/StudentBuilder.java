@@ -116,8 +116,8 @@ public class StudentBuilder {
     /**
      * Sets the {@code TaskList} of the {@code Student} that we are building.
      */
-    public StudentBuilder withTaskList(TaskList taskList) {
-        this.taskList = new TaskList((List<Task>) taskList);
+    public StudentBuilder withTaskList(ArrayList arrayList) {
+        this.taskList = new TaskList(arrayList);
         return this;
     }
 

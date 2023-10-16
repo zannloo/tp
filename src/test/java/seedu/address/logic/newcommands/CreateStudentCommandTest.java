@@ -18,7 +18,6 @@ import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
@@ -36,6 +35,7 @@ import seedu.address.testutil.StudentBuilder;
 
 class CreateStudentCommandTest {
     private Student validStudent = new StudentBuilder().build();
+
     @Test
     public void constructor_nullPersonNullPath_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new CreateStudentCommand(null, null));
@@ -44,7 +44,7 @@ class CreateStudentCommandTest {
     @Test
     public void constructor_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, (
-                ) -> new CreateStudentCommand(new RelativePath("~/grp-001/stu-001"), null));
+        ) -> new CreateStudentCommand(new RelativePath("~/grp-001/stu-001"), null));
     }
 
     @Test
@@ -64,36 +64,37 @@ class CreateStudentCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(taskList, groups);
 
-        RelativePath path = new RelativePath("~/grp-001"); // @zann this path supposed to lead to student or group?
+        RelativePath path = new RelativePath("~/grp-001/");
 
         Student bob = new StudentBuilder()
                 .withName("Bob")
-                .withEmail("johnd@example.com")
+                .withEmail("bobthebuilder@example.com")
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("owesMoney", "friends")
-                .withId("stu-002").build(); // this ID doesnt even match the previous ID
+                .withId("stu-002").build();
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, bob);
         State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult commandResult = createStudentCommand.execute(state);
 
         assertEquals(String.format(CreateStudentCommand.MESSAGE_SUCCESS, bob.toString()),
-                    commandResult.getFeedbackToUser());
+                commandResult.getFeedbackToUser());
     }
+
     @Test
     public void execute_duplicateStudent_throwsCommandException() throws InvalidPathException {
         AbsolutePath currPath = new AbsolutePath("~/grp-001/");
         Student duplicatedStudent = new StudentBuilder()
-                .withName("zann")
-                .withEmail("zannwhatudoing@example.com")
+                .withName("alice")
+                .withEmail("aliceinwonderland@example.com")
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
-                .withTags("owesMoney", "friends")
+                .withTags("friends")
                 .withId("stu-001").build();
         Map<Id, Student> studentMap = new HashMap<>();
-        studentMap.put(new StudentId("stu-001"), duplicatedStudent);
-        Group grp = new Group(new TaskList(null), studentMap, new Name("gary"), new GroupId("grp-001"));
+        studentMap.put(duplicatedStudent.getId(), duplicatedStudent);
+        Group grp = new Group(new TaskList(null), studentMap, new Name("ProfBook"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(new TaskList(null), groups);
@@ -104,7 +105,7 @@ class CreateStudentCommandTest {
         State state = new StateManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 CreateStudentCommand.MESSAGE_DUPLICATE_STUDENT, (
-                    ) -> createStudentCommand.execute(state)
+                ) -> createStudentCommand.execute(state)
         );
     }
 
@@ -151,86 +152,4 @@ class CreateStudentCommandTest {
         String expected = CreateStudentCommand.class.getCanonicalName() + "{toCreateStudent=" + ALICE + "}";
         assertEquals(expected, createStudentCommand.toString());
     }
-
-    // /**
-    //  * A default groupOperation stub that have all of the methods failing.
-    //  */
-    // private class GroupOperationStub implements IChildOperation<Student> {
-
-    //     @Override
-    //     public void addChild(Id id, Student child) throws DuplicateChildException {
-    //         throw new AssertionError("This method should not be called.");
-    //     }
-
-    //     @Override
-    //     public boolean hasChild(Id id) {
-    //         throw new AssertionError("This method should not be called.");
-    //     }
-
-    //     @Override
-    //     public Student deleteChild(Id id) throws NoSuchChildException {
-    //         throw new AssertionError("This method should not be called.");
-    //     }
-
-    //     @Override
-    //     public Student getChild(Id id) throws NoSuchChildException {
-    //         throw new AssertionError("This method should not be called.");
-    //     }
-
-    //     @Override
-    //     public void updateChild(Id id, Student child) throws NoSuchChildException {
-    //         throw new AssertionError("This method should not be called.");
-    //     }
-
-    //     @Override
-    //     public List<Student> getAllChildren() {
-    //         throw new AssertionError("This method should not be called.");
-    //     }
-
-    //     @Override
-    //     public int numOfChildren() {
-    //         throw new AssertionError("This method should not be called.");
-    //     }
-    // }
-
-
-    // /**
-    //  * A groupOperation stub that contains a single student.
-    //  */
-    // private class GroupOperationStubWithStudent extends ChildOperation<Student > {
-    //     private final Group baseDir;
-    //     private Student child;
-    //     public GroupOperationStubWithStudent(Group baseDir, Student child) {
-    //         super(baseDir);
-    //         this.baseDir = baseDir;
-    //         this.child = child;
-    //     }
-
-    //     public boolean hasChild(Student student) {
-    //         requireNonNull(student);
-    //         return true;
-    //     }
-    // }
-
-    // /**
-    //  * A GroupOperation stub that always accept the student being added.
-    //  */
-    // private class GroupOperationStubAlwaysAcceptingStudent extends ChildOperation<Student > {
-    //     private final Group baseDir;
-    //     private Student child;
-    //     GroupOperationStubAlwaysAcceptingStudent(Group baseDir, Student child) {
-    //         super(baseDir);
-    //         this.baseDir = baseDir;
-    //         this.child = child;
-    //     }
-    //     @Override
-    //     public void addChild(Id id, Student child) throws DuplicateChildException {
-    //         this.baseDir.addChild(id, child);
-    //     }
-
-    //     public boolean hasChild(Student student) {
-    //         requireNonNull(student);
-    //         return false;
-    //     }
-    // }
 }

@@ -2,13 +2,26 @@ package seedu.address.logic.newcommands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.model.statemanager.StateManager.groupChildOperation;
+import static seedu.address.model.statemanager.StateManager.rootChildOperation;
+
+import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
+import seedu.address.model.profbook.Group;
+import seedu.address.model.profbook.Root;
+import seedu.address.model.profbook.Student;
+import seedu.address.model.profbook.exceptions.DuplicateChildException;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.ToDo;
 
@@ -26,6 +39,11 @@ public class CreateTodoCommand extends Command {
             "This ToDo task has already been allocated to this student in ProfBook";
     public static final String MESSAGE_DUPLICATE_TODO_TASK_GROUP =
             "This ToDo task has already been allocated to this group in ProfBook";
+    public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
+            "New ToDo task added to all students in group: %1$s";
+    public static final String MESSAGE_SUCCESS_ALL_GROUPS =
+            "New ToDo task added to all groups in root: %1$s";
+
     public static final String MESSAGE_ERROR = "Invalid target encountered while creating this todo task";
     public static final String MESSAGE_SUCCESS = "New ToDo task has been added to: %1$s";
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
@@ -34,6 +52,8 @@ public class CreateTodoCommand extends Command {
 
     private final RelativePath relativePath;
     private final ToDo todo;
+    private String category = null;
+    private CommandResult returnStatement = null;
 
     /**
      * Constructs a {@code CreateTodoCommand} with the specified relative path and "ToDo" task details.
@@ -45,6 +65,20 @@ public class CreateTodoCommand extends Command {
         requireAllNonNull(relativePath, todo);
         this.relativePath = relativePath;
         this.todo = todo;
+    }
+
+    /**
+     * Constructs a {@code CreateTodoCommand} with the specified relative path and "ToDo" task details.
+     *
+     * @param relativePath The relative path to the group where the "ToDo" task will be added.
+     * @param todo The details of the "ToDo" task to be created.
+     * @param category The specific category of people to add ToDo task to each.
+     */
+    public CreateTodoCommand(RelativePath relativePath, ToDo todo, String category) {
+        requireAllNonNull(relativePath, todo, category);
+        this.relativePath = relativePath;
+        this.todo = todo;
+        this.category = category;
     }
 
     /**
@@ -67,27 +101,53 @@ public class CreateTodoCommand extends Command {
             throw new CommandException(e.getMessage());
         }
 
-        // Check path exists in ProfBook
-        if (!state.hasPath(targetPath)) {
-            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+        if (this.category == null) {
+            TaskOperation target = state.taskOperation(targetPath);
+            if (target.hasTask(this.todo)) {
+                throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
+            }
+            target.addTask(this.todo);
+            state.updateList();
+            returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
         }
 
-        // Check target path is task manager
-        if (!state.hasTaskListInPath(targetPath)) {
-            throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
+        if (this.category.equals("allStu")) {
+            if (!targetPath.isGroupDirectory()) {
+                throw new CommandException();
+            }
+            ChildOperation<Student> groupOper = state.groupChildOperation(targetPath);
+            List<Student> allStudents = groupOper.getAllChildren();
+            for (Student s : allStudents) {
+                StudentId studentId = (StudentId) s.getId();
+                AbsolutePath newPath = targetPath.resolve(new RelativePath(studentId.toString()));
+                TaskOperation target = state.taskOperation(newPath);
+                if (target.hasTask(this.todo)) {
+                    throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
+                }
+                target.addTask(this.todo);
+            }
+            state.updateList();
+            return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
         }
 
-        TaskOperation target = state.taskOperation(targetPath);
-
-        // Check duplicate todo
-        if (target.hasTask(this.todo)) {
-            throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
+        if (!targetPath.isRootDirectory()) {
+            throw new CommandException();
+        }
+        ChildOperation<Group> rootOper = state.rootChildOperation();
+        List<Group> allGroups = rootOper.getAllChildren();
+        for (Group g : allGroups) {
+            GroupId groupId = (GroupId) g.getId();
+            AbsolutePath newPath = targetPath.resolve(new RelativePath(groupId.toString()));
+            TaskOperation target = state.taskOperation(newPath);
+            if (target.hasTask(this.todo)) {
+                throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_GROUP);
+            }
+            target.addTask(this.todo);
         }
 
-        target.addTask(this.todo);
         state.updateList();
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+        return new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
     }
 
     /**
