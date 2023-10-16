@@ -25,8 +25,7 @@ public class JsonAdaptedDeadline extends JsonAdaptedTasks {
 
     @Override
     public Task toModelType() {
-        //change localdatetime later ask nereus for implementation
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
         Task t = new Deadline(description, parsedDateTime);
         if(Objects.equals(isDone, "true")) {
