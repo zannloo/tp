@@ -17,7 +17,7 @@ public class Root extends ChildrenManager<Group> {
      * @param children - The Groups under the root
      */
     public Root(TaskList taskList, Map<Id, Group> children) {
-        super(taskList, children);
+        super(children);
     }
 
     /**

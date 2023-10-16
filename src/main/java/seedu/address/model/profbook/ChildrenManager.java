@@ -7,12 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
-import seedu.address.model.taskmanager.TaskList;
 
 /**
  * Encapsulates the logic of a ProfBookModel that contains children
@@ -20,20 +17,16 @@ import seedu.address.model.taskmanager.TaskList;
  *
  * @param <T> to represent the children type, as of v1.2 only student and group
  */
-public class ChildrenManager<T extends IChildElement> extends TaskListManager {
+public class ChildrenManager<T extends IChildElement> {
     /**
      * Maps the id to the children
      */
     private final Map<Id, T> children;
-    private final ObservableList<T> childrenList = FXCollections.observableArrayList();
-    private final ObservableList<T> unmodifiableChildrenList =
-            FXCollections.unmodifiableObservableList(childrenList);
 
     /**
      * Construct a children manager with given task list and children map.
      */
-    public ChildrenManager(TaskList taskList, Map<Id, T> children) {
-        super(taskList);
+    public ChildrenManager(Map<Id, T> children) {
         requireAllNonNull(children);
         this.children = children;
     }
@@ -44,13 +37,6 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
     public ChildrenManager() {
         super();
         children = new HashMap<>();
-    }
-
-    /**
-     * Returns the children list as an unmodifiable {@code ObservableList}.
-     */
-    public ObservableList<T> asUnmodifiableObservableList() {
-        return unmodifiableChildrenList;
     }
 
     /**
@@ -66,7 +52,6 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
             throw new DuplicateChildException(id.toString());
         }
         this.children.put(id, child);
-        this.childrenList.add(child);
     }
 
     /**
@@ -79,7 +64,6 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
     public T deleteChild(Id id) throws NoSuchChildException {
         T child = this.getChild(id);
         this.children.remove(id);
-        this.childrenList.remove(child);
         return child;
     }
 
@@ -151,7 +135,6 @@ public class ChildrenManager<T extends IChildElement> extends TaskListManager {
         }
 
         ChildrenManager<?> otherChildrenManger = (ChildrenManager<?>) other;
-        return super.equals(otherChildrenManger)
-                && this.children.equals(otherChildrenManger.children);
+        return this.children.equals(otherChildrenManger.children);
     }
 }

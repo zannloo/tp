@@ -3,9 +3,6 @@ package seedu.address.logic.parser.newcommandparser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import seedu.address.logic.newcommands.CreateGroupCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
@@ -14,7 +11,6 @@ import seedu.address.model.id.GroupId;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
-import seedu.address.model.taskmanager.TaskList;
 
 /**
  * Parses input arguments and creates a new CreateGroupCommand object
@@ -49,7 +45,7 @@ public class CreateGroupCommandParser implements Parser<CreateGroupCommand> {
         Name name = ParserUtil.parseName(argMultimap.getValue(OPTION_NAME).get());
         GroupId id = ParserUtil.parseGroupId(path);
 
-        Group group = new Group(new TaskList(new ArrayList<>()), new HashMap<>(), name, id);
+        Group group = new Group(name, id);
 
         return new CreateGroupCommand(path, group);
     }

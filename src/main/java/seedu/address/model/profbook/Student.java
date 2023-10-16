@@ -104,7 +104,7 @@ public class Student extends TaskListManager implements IChildElement {
      * @return The clone of the IChildElement
      */
     @Override
-    public Student clone() {
+    public Student getClone() {
         return new Student(new TaskList(getAllTask()), new Name(this.name.fullName),
                 new Email(this.email.value), new Phone(this.phone.value), new Address(this.address.value), this.id);
     }
