@@ -14,4 +14,5 @@ public class CliSyntax {
     public static final Option OPTION_ID = new Option("--id", "-i");
     public static final Option OPTION_DESC = new Option("--desc", "-d");
     public static final Option OPTION_DATETIME = new Option("--datetime", "-dt");
+    public static final Option OPTION_ALL = new Option("--all", "-al");
 }

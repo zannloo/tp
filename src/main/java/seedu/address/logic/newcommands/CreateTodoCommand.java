@@ -9,6 +9,7 @@ import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
+import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
@@ -22,11 +23,19 @@ public class CreateTodoCommand extends Command {
 
     public static final String COMMAND_WORD = "todo";
 
+    public static final String ERROR_MESSAGE_DUPLICATE = "This Todo task has already been allocated";
+
     public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
 
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
-    public static final String MESSAGE_DUPLICATE_TODO_TASK = "The ToDo task already exists in target.";
+    public static final String MESSAGE_DUPLICATE_TODO_TASK_STUDENT =
+            "This ToDo task has already been allocated to this student in ProfBook";
+
+    public static final String MESSAGE_DUPLICATE_TODO_TASK_GROUP =
+            "This ToDo task has already been allocated to this group in ProfBook";
+
+    public static final String MESSAGE_ERROR = "Invalid target encountered while creating this todo task";
 
     public static final String MESSAGE_SUCCESS = "New ToDo task has been added to: %1$s";
 
@@ -57,22 +66,25 @@ public class CreateTodoCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
-        requireAllNonNull(state);
+        AbsolutePath currPath = state.getCurrPath();
+        Root root = state.getRoot();
         try {
-            AbsolutePath currPath = state.getCurrPath();
-            Root root = state.getRoot();
+            requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(relativePath);
 
             TaskOperation target = StateManager.taskOperation(root, absolutePath);
 
             if (target.hasTask(this.todo)) {
-                throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK);
+                throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
             }
 
             target.addTask(this.todo);
             state.updateList();
 
             return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+
+        } catch (DuplicateChildException duplicateChildException) {
+            throw new CommandException(ERROR_MESSAGE_DUPLICATE);
         } catch (InvalidPathException invalidPathException) {
             throw new CommandException(ERROR_MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException unsupportedPathOperationException) {

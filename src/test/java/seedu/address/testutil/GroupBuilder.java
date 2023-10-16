@@ -36,8 +36,16 @@ public class GroupBuilder {
         defaultTaskList.add(DEFAULT_TASK);
         taskList = new TaskList(defaultTaskList);
         students = new HashMap<>();
-        Student stu = new StudentBuilder().build();
-        students.put(stu.getId(), stu);
+        Student stu1 = new StudentBuilder().build();
+        Student stu2 = new StudentBuilder()
+                .withName("Bob")
+                .withEmail("johnd@example.com")
+                .withPhone("98765432")
+                .withAddress("311, Clementi Ave 2, #02-25")
+                .withTags("owesMoney", "friends")
+                .withId("stu-010").build();
+        students.put(stu1.getId(), stu1);
+        students.put(stu2.getId(), stu2);
         name = new Name(DEFAULT_NAME);
         id = new GroupId(DEFAULT_ID);
     }
