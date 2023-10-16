@@ -9,7 +9,6 @@ import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
@@ -49,7 +48,7 @@ public class CreateTodoCommand extends Command {
      * Constructs a {@code CreateTodoCommand} with the specified relative path and "ToDo" task details.
      *
      * @param relativePath The relative path to the group where the "ToDo" task will be added.
-     * @param todo The details of the "ToDo" task to be created.
+     * @param todo         The details of the "ToDo" task to be created.
      */
     public CreateTodoCommand(RelativePath relativePath, ToDo todo) {
         requireAllNonNull(relativePath, todo);
@@ -83,8 +82,6 @@ public class CreateTodoCommand extends Command {
 
             return new CommandResult(String.format(MESSAGE_SUCCESS, target));
 
-        } catch (DuplicateChildException duplicateChildException) {
-            throw new CommandException(ERROR_MESSAGE_DUPLICATE);
         } catch (InvalidPathException invalidPathException) {
             throw new CommandException(ERROR_MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException unsupportedPathOperationException) {
