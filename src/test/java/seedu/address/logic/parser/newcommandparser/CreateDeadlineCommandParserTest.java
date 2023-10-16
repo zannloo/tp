@@ -4,7 +4,6 @@ import static seedu.address.logic.newcommands.CommandTestUtil.DATETIME_DESC;
 import static seedu.address.logic.newcommands.CommandTestUtil.TASK_DESC_DESC;
 import static seedu.address.logic.newcommands.CommandTestUtil.VALID_GROUP_DIR_PREAMBLE;
 import static seedu.address.logic.newcommands.CommandTestUtil.VALID_TASK_DESC;
-import static seedu.address.logic.newcommands.CommandTestUtil.VALID_CATEGORY_STUDENT;
 import static seedu.address.logic.parser.newcommandparser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
@@ -26,12 +25,12 @@ public class CreateDeadlineCommandParserTest {
     }
 
     //There are errors
-//            @Test
-//            public void parse_allFieldsPresentWithCategory_success() { //VALID_CATEGORY_STUDENT
-//                assertParseSuccess(parser,
-//                        VALID_GROUP_DIR_PREAMBLE + TASK_DESC_DESC + DATETIME_DESC + VALID_CATEGORY_STUDENT,
-//                        new CreateDeadlineCommand(
-//                                CommandTestUtil.getValidGroupRelativePath(),
-//                                new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime()), "allStu"));
-//            }
+    //            @Test
+    //            public void parse_allFieldsPresentWithCategory_success() { //VALID_CATEGORY_STUDENT
+    //                assertParseSuccess(parser,
+    //                        VALID_GROUP_DIR_PREAMBLE + TASK_DESC_DESC + DATETIME_DESC + VALID_CATEGORY_STUDENT,
+    //                        new CreateDeadlineCommand(
+    //                                CommandTestUtil.getValidGroupRelativePath(),
+    //                                new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime()), "allStu"));
+    //            }
 }

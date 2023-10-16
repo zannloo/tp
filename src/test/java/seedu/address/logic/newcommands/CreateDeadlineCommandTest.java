@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.newcommands.CreateDeadlineCommand.MESSAGE_SUCCESS;
+import static seedu.address.logic.newcommands.CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_GROUPS;
+import static seedu.address.logic.newcommands.CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.time.LocalDateTime;
@@ -39,53 +41,17 @@ import seedu.address.testutil.StudentBuilder;
 class CreateDeadlineCommandTest {
     @Test
     public void execute_deadlineForStudentAccepted_addSuccessful() throws InvalidPathException,
-            UnsupportedPathOperationException {
-        AbsolutePath currPath = new AbsolutePath("~/grp-001/stu-001");
-        List<Task> defaultTaskList = new ArrayList<>();
-        defaultTaskList.add(new Deadline("Assignment 3", LocalDateTime.parse("2023-12-03T23:59")));
-        TaskList taskList = new TaskList(defaultTaskList);
-        Map<Id, Group> groups = new HashMap<>();
-        Group grp = new GroupBuilder().build();
-        groups.put(grp.getId(), grp);
-        Root root = new Root(taskList, groups);
-
-        LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:59");
-        Deadline deadline = new Deadline("Assignment 3", duedate);
-
-        RelativePath path = new RelativePath("~/grp-001/stu-001");
-        AbsolutePath absolutePath = currPath.resolve(path);
-
-        TaskOperation student = StateManager.taskOperation(root, absolutePath);
-        student.addTask(deadline);
-
-        CommandResult returnStatement =
-                new CommandResult(String.format(MESSAGE_SUCCESS, student.toString()));
-
-        assertEquals(String.format(CreateDeadlineCommand.MESSAGE_SUCCESS, student),
-                returnStatement.getFeedbackToUser());
-    }
-
-    @Test
-    public void execute_deadlineForAllStudentsInGroupAccepted_addSuccessful() throws InvalidPathException,
             UnsupportedPathOperationException, CommandException {
-        AbsolutePath currPath = new AbsolutePath("~");
+        AbsolutePath currPath = new AbsolutePath("~/grp-001/");
         Map<Id, Student> studentMap = new HashMap<>();
-        Student alice = new StudentBuilder()
-                .withName("Alice")
-                .withEmail("alice@example.com")
+        Student calissa = new StudentBuilder()
+                .withName("Calissa")
+                .withEmail("callissa@example.com")
                 .withPhone("94351253")
                 .withAddress("123, Jurong West Ave 6, #08-111")
-                .withId("stu-001").build();
-        Student bob = new StudentBuilder()
-                .withName("Bob")
-                .withEmail("johnd@example.com")
-                .withPhone("98765432")
-                .withAddress("311, Clementi Ave 2, #02-25")
-                .withTags("owesMoney", "friends")
-                .withId("stu-002").build();
-        studentMap.put(alice.getId(), alice);
-        studentMap.put(bob.getId(), bob);
-        Group grp = new Group(new TaskList(null), studentMap, new Name("AmazingGroup"), new GroupId("grp-001"));
+                .withId("stu-003").withTaskList(new ArrayList<>()).build();
+        studentMap.put(calissa.getId(), calissa);
+        Group grp = new Group(new TaskList(null), studentMap, new Name("Group1"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(new TaskList(null), groups);
@@ -93,42 +59,107 @@ class CreateDeadlineCommandTest {
         LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline = new Deadline("Assignment 3", duedate);
 
-        RelativePath path = new RelativePath("~/grp-001/");
+        assertFalse(calissa.checkDuplicates(deadline));
+        RelativePath path = new RelativePath("stu-003");
+        AbsolutePath absolutePath = currPath.resolve(path);
+
+        TaskOperation target = StateManager.taskOperation(root, absolutePath);
+
+        CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline);
+        State state = new State(currPath, root, new UserPrefs());
+        CommandResult runCommand = command.execute(state);
+
+        CommandResult returnStatement =
+                new CommandResult(String.format(MESSAGE_SUCCESS, target));
+
+        assertEquals(runCommand, returnStatement);
+
+        assertTrue(target.hasTask(deadline));
+        assertTrue(calissa.checkDuplicates(deadline));
+    }
+
+    @Test
+    public void execute_deadlineForAllStudentsInGroupAccepted_addSuccessful()
+            throws InvalidPathException, CommandException {
+        AbsolutePath currPath = new AbsolutePath("~");
+        Map<Id, Student> studentMap = new HashMap<>();
+        Student alice = new StudentBuilder()
+                .withName("Alice")
+                .withEmail("alice@example.com")
+                .withPhone("94351253")
+                .withAddress("123, Jurong West Ave 6, #08-111")
+                .withId("stu-001").withTaskList(new ArrayList<>()).build();
+        Student bob = new StudentBuilder()
+                .withName("Bob")
+                .withEmail("johnd@example.com")
+                .withPhone("98765432")
+                .withAddress("311, Clementi Ave 2, #02-25")
+                .withTags("owesMoney", "friends")
+                .withId("stu-002").withTaskList(new ArrayList<>()).build();
+        studentMap.put(alice.getId(), alice);
+        studentMap.put(bob.getId(), bob);
+        Group grp = new Group(new TaskList(null), studentMap, new Name("AmazingGroup"), new GroupId("grp-003"));
+        Map<Id, Group> groups = new HashMap<>();
+        groups.put(new GroupId("grp-003"), grp);
+        Root root = new Root(new TaskList(null), groups);
+
+        LocalDateTime duedate = LocalDateTime.parse("2023-03-03T00:00");
+        Deadline deadline = new Deadline("Assignment 1", duedate);
+
+        assertFalse(alice.checkDuplicates(deadline));
+        assertFalse(bob.checkDuplicates(deadline));
+
+        RelativePath path = new RelativePath("grp-003");
 
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline, "allStu");
         State state = new State(currPath, root, new UserPrefs());
+        CommandResult runCommand = command.execute(state);
 
         assertTrue(alice.checkDuplicates(deadline));
         assertTrue(bob.checkDuplicates(deadline));
+
+        CommandResult returnStatement =
+                new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
+
+        assertEquals(runCommand, returnStatement);
     }
 
-    //    @Test
-    //    public void execute_deadlineForAllGroupsInRootAccepted_addSuccessful() throws InvalidPathException,
-    //            UnsupportedPathOperationException, CommandException {
-    //        AbsolutePath currPath = new AbsolutePath("~");
-    //        Map<Id, Student> studentMap = new HashMap<>();
-    //        List<Task> defaultTaskList = new ArrayList<>();
-    //        defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
-    //        TaskList taskList1 = new TaskList(defaultTaskList);
-    //        TaskList taskList2 = new TaskList(defaultTaskList);
-    //        Group grp1 = new Group(taskList1, studentMap, new Name("AmazingGroup"), new GroupId("grp-001"));
-    //        Group grp2 = new Group(taskList2, studentMap, new Name("AmazingGroup"), new GroupId("grp-002"));
-    //        Map<Id, Group> groups = new HashMap<>();
-    //        groups.put(new GroupId("grp-001"), grp1);
-    //        groups.put(new GroupId("grp-002"), grp2);
-    //        Root root = new Root(new TaskList(null), groups);
-    //
-    //        LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:58");
-    //        Deadline deadline = new Deadline("Assignment 3", duedate);
-    //
-    //        RelativePath path = new RelativePath("~");
-    //
-    //        CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline, "allGrp");
-    //        State state = new State(currPath, root, new UserPrefs());
-    //
-    //        assertTrue(grp1.checkDuplicates(deadline));
-    //        assertTrue(grp2.checkDuplicates(deadline));
-    //    }
+    @Test
+    public void execute_deadlineForAllGroupsInRootAccepted_addSuccessful()
+            throws InvalidPathException, CommandException {
+        AbsolutePath currPath = new AbsolutePath("~");
+        Map<Id, Student> studentMap = new HashMap<>();
+        List<Task> list1 = new ArrayList<>();
+        List<Task> list2 = new ArrayList<>();
+        TaskList taskList1 = new TaskList(list1);
+        TaskList taskList2 = new TaskList(list2);
+        Group grp1 = new Group(taskList1, studentMap, new Name("Amazing"), new GroupId("grp-001"));
+        Group grp2 = new Group(taskList2, studentMap, new Name("AmazingGroup"), new GroupId("grp-002"));
+        Map<Id, Group> groups = new HashMap<>();
+        groups.put(new GroupId("grp-001"), grp1);
+        groups.put(new GroupId("grp-002"), grp2);
+        Root root = new Root(new TaskList(null), groups);
+
+        LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:58");
+        Deadline deadline = new Deadline("Assignment 3", duedate);
+
+        RelativePath path = new RelativePath("~");
+
+        assertFalse(grp1.checkDuplicates(deadline));
+        assertFalse(grp2.checkDuplicates(deadline));
+
+        CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline, "allGrp");
+        State state = new State(currPath, root, new UserPrefs());
+        CommandResult runCommand = command.execute(state);
+
+        assertTrue(grp1.checkDuplicates(deadline));
+        assertTrue(grp2.checkDuplicates(deadline));
+
+        CommandResult returnStatement =
+                new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
+
+        assertEquals(runCommand, returnStatement);
+    }
 
     @Test
     public void execute_duplicateDeadline_throwsCommandException() throws InvalidPathException {
@@ -277,6 +308,5 @@ class CreateDeadlineCommandTest {
 
         assertEquals(expected, command.toString());
     }
-
 }
 
