@@ -10,10 +10,10 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.newcommands.EditCommand.EditGroupDescriptor;
-import seedu.address.logic.newcommands.EditCommand.EditStudentDescriptor;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.field.EditGroupDescriptor;
+import seedu.address.model.field.EditStudentDescriptor;
 import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
@@ -52,8 +52,8 @@ public class EditCommandTest {
         EditGroupDescriptor editGroupDescriptor = new EditGroupDescriptor();
         EditCommand firstEditCommand = new EditCommand(relativePath, editGroupDescriptor);
 
-        String expected = "seedu.address.logic.newcommands.EditCommand{toEdit=seedu.address.logic.newcommands"
-                + ".EditCommand.EditGroupDescriptor{name=null, id=null}}";
+        String expected = "seedu.address.logic.newcommands.EditCommand{toEdit=seedu.address.model"
+                + ".field.EditGroupDescriptor{name=null, id=null}}";
         assertEquals(expected, firstEditCommand.toString());
     }
 
