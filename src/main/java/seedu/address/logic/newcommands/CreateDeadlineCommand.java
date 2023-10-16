@@ -1,9 +1,15 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.model.statemanager.StateManager.groupChildOperation;
+import static seedu.address.model.statemanager.StateManager.rootChildOperation;
+
+import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
@@ -11,6 +17,7 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
+import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
@@ -25,15 +32,23 @@ public class CreateDeadlineCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": deadline ";
 
     public static final String MESSAGE_SUCCESS = "New Deadline task added: %1$s";
+
+    public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
+            "New Deadline task added to all students in group: %1$s";
+    public static final String MESSAGE_SUCCESS_ALL_GROUPS =
+            "New Deadline task added to all groups in root: %1$s";
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
             "This Deadline task has already been allocated";
     public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid";
     public static final String MESSAGE_INVALID_PATH = "Path is invalid";
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
+    public static final String MESSAGE_ERROR = "An error has occurred";
     protected Student stu;
     protected Group grp;
     private final RelativePath path;
     private final Deadline deadline;
+    private String category = null;
+    private CommandResult returnStatement = null;
 
     /**
      * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
@@ -42,6 +57,17 @@ public class CreateDeadlineCommand extends Command {
         requireAllNonNull(path, deadline);
         this.path = path;
         this.deadline = deadline;
+    }
+
+    /**
+     * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
+     * User has input a category as well.
+     */
+    public CreateDeadlineCommand(RelativePath path, Deadline deadline, String category) {
+        requireAllNonNull(path, deadline, category);
+        this.path = path;
+        this.deadline = deadline;
+        this.category = category;
     }
 
     /**
@@ -57,23 +83,49 @@ public class CreateDeadlineCommand extends Command {
         try {
             requireAllNonNull(currPath, root);
             AbsolutePath absolutePath = currPath.resolve(path);
-
-            TaskOperation target = StateManager.taskOperation(root, absolutePath);
-
-
-            if (target.hasTask(this.deadline)) {
-                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+            if (this.category == null) {
+                TaskOperation target = StateManager.taskOperation(root, absolutePath);
+                if (target.hasTask(this.deadline)) {
+                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+                }
+                target.addTask(this.deadline);
+                returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
+            } else if (this.category.equals("allStu") && (absolutePath.isGroupDirectory())) {
+                ChildOperation<Student> groupOper = groupChildOperation(root, absolutePath);
+                List<Student> allStudents = groupOper.getAllChildren();
+                for (Student s : allStudents) {
+                    StudentId studentId = (StudentId) s.getId();
+                    AbsolutePath newPath = absolutePath.resolve(new RelativePath(studentId.toString()));
+                    TaskOperation target = StateManager.taskOperation(root, newPath);
+                    if (target.hasTask(this.deadline)) {
+                        throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+                    }
+                    target.addTask(this.deadline);
+                }
+                returnStatement = new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
+            } else if (this.category.equals("allGrp") && (absolutePath.isRootDirectory())) {
+                ChildOperation<Group> rootOper = rootChildOperation(root);
+                List<Group> allGroups = rootOper.getAllChildren();
+                for (Group g : allGroups) {
+                    GroupId groupId = (GroupId) g.getId();
+                    AbsolutePath newPath = absolutePath.resolve(new RelativePath(groupId.toString()));
+                    TaskOperation target = StateManager.taskOperation(root, newPath);
+                    if (target.hasTask(this.deadline)) {
+                        throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+                    }
+                    target.addTask(this.deadline);
+                }
+                returnStatement = new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
+            } else {
+                throw new CommandException(MESSAGE_ERROR);
             }
-
-            target.addTask(this.deadline);
             state.updateList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
-
         } catch (InvalidPathException e) {
             throw new CommandException(MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException e) {
             throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
         }
+        return returnStatement;
     }
 
     /**

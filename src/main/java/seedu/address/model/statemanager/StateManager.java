@@ -49,7 +49,7 @@ public class StateManager {
             throws UnsupportedPathOperationException, NoSuchChildException {
         requireAllNonNull(root, path);
         if (path.isRootDirectory()) {
-            throw new UnsupportedPathOperationException("Not a group directory or a student directory");
+            throw new UnsupportedPathOperationException("Not a group directory or student directory");
         }
         return new ChildOperation<>(StateManager.getGroupFromPath(root, path));
     }
