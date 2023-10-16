@@ -12,20 +12,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * An Immutable AddressBook that is serializable to JSON format.
+ * An Immutable ProfBookRoot that is serializable to JSON format.
  */
-@JsonRootName(value = "profbook student")
-public class JsonSerializableProfBookGroup {
+@JsonRootName(value = "profbook root")
+public class JsonSerializableProfBookRoot {
     public static final String MESSAGE_DUPLICATE_GROUP = "Group list contains duplicate group(s).";
 
     private final List<JsonAdaptedGroup> groups = new ArrayList<>();
 
     @JsonCreator
-    public JsonSerializableProfBookGroup(@JsonProperty("groups") List<JsonAdaptedGroup> groups) {
+    public JsonSerializableProfBookRoot(@JsonProperty("groups") List<JsonAdaptedGroup> groups) {
         this.groups.addAll(groups);
     }
 
-    public JsonSerializableProfBookGroup(ReadOnlyProfBook source) {
+    public JsonSerializableProfBookRoot(ReadOnlyProfBook source) {
         groups.addAll(source.getGroupList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
     }
 

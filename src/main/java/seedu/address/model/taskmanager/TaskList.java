@@ -41,7 +41,7 @@ public class TaskList {
      * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
      */
     public Task delete(int index) throws NoSuchTaskException {
-        if (index - 1 > this.taskList.size() || index < 0) {
+        if (index - 1 > this.taskList.size() || index <= 0) {
             throw new NoSuchTaskException("There are 0 tasks at this level at the moment.");
         }
         int initialSize = this.taskList.size();
