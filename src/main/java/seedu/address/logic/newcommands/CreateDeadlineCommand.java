@@ -104,6 +104,7 @@ public class CreateDeadlineCommand extends Command {
             }
             ChildOperation<Student> groupOper = state.groupChildOperation(targetPath);
             groupOper.addTaskToAllChildren(deadline, 1);
+            state.updateList();
             return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
         }
 
@@ -113,6 +114,7 @@ public class CreateDeadlineCommand extends Command {
 
         ChildOperation<Group> rootOper = state.rootChildOperation();
         rootOper.addTaskToAllChildren(deadline, 1);
+        state.updateList();
 
         return new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
     }
