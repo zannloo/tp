@@ -221,8 +221,8 @@ public class StateManager implements State {
         requireNonNull(path);
         checkArgument(path.isGroupDirectory() || path.isStudentDirectory(),
                 String.format(MESSAGE_INTERNAL_ERROR, "Path must have group information"));
-        checkArgument(hasPath(path),
-                String.format(MESSAGE_INTERNAL_ERROR, "Path must exist in ProfBook"));
+        checkArgument(hasGroup(path),
+                String.format(MESSAGE_INTERNAL_ERROR, "Group must exist in ProfBook"));
         return new ChildOperation<>(getGroupFromPath(path).getChildrenManger());
     }
 
