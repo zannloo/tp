@@ -53,7 +53,6 @@ public class CreateTodoCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New ToDo task has been added to: %1$s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
-
     private final RelativePath relativePath;
 
     private final ToDo todo;
