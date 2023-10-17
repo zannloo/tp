@@ -1,11 +1,11 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,10 +28,10 @@ public class JsonAdaptedRoot {
     @JsonCreator
     public JsonAdaptedRoot(@JsonProperty("groups") List<JsonAdaptedGroup> groups,
                             @JsonProperty("tasks") List<JsonAdaptedTasks> tasks) {
-        if (groups!= null) {
+        if (groups != null) {
             this.groups.addAll(groups);
         }
-        if (tasks!= null) {
+        if (tasks != null) {
             this.tasks.addAll(tasks);
         }
 

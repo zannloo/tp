@@ -59,7 +59,7 @@ public class JsonProfBookStorage implements ProfBookStorage {
         requireNonNull(filePath);
 
         FileUtil.createIfMissing(filePath);
-        JsonUtil.saveJsonFile(new JsonSerializableProfBookRoot(profBook, filePath);
+//        JsonUtil.saveJsonFile(new JsonSerializableProfBookRoot(profBook, filePath);
     }
 
 }

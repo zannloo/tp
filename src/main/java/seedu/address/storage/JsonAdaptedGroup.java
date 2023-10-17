@@ -1,12 +1,11 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Student;
@@ -44,10 +42,10 @@ public class JsonAdaptedGroup {
                             @JsonProperty("tasks") List<JsonAdaptedTasks> tasks) {
         this.name = name;
         this.id = id;
-        if (students!= null) {
+        if (students != null) {
             this.students.addAll(students);
         }
-        if (tasks!= null) {
+        if (tasks != null) {
             this.tasks.addAll(tasks);
         }
 
@@ -82,10 +80,10 @@ public class JsonAdaptedGroup {
         if (!seedu.address.model.id.StudentId.isValidStudentId(id)) {
             throw new IllegalValueException(seedu.address.model.id.StudentId.MESSAGE_CONSTRAINTS);
         }
-        final seedu.address.model.id.Id GrpId = new GroupId(id);
+        final seedu.address.model.id.Id grpId = new GroupId(id);
 
         final seedu.address.model.taskmanager.TaskList modelTList = new TaskList(taskList);
 
-        return new Group(modelTList,studentMap, modelName, GrpId);
+        return new Group(modelTList, studentMap, modelName, grpId);
     }
 }

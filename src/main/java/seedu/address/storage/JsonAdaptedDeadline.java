@@ -1,14 +1,15 @@
 package seedu.address.storage;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.ToDo;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import seedu.address.model.taskmanager.Deadline;
+import seedu.address.model.taskmanager.Task;
+
 
 public class JsonAdaptedDeadline extends JsonAdaptedTasks {
 
@@ -18,7 +19,7 @@ public class JsonAdaptedDeadline extends JsonAdaptedTasks {
     @JsonCreator
     public JsonAdaptedDeadline(@JsonProperty String type, @JsonProperty("description") String description,
                                @JsonProperty("isDone") String isDone, @JsonProperty("date") String date) {
-        super(description,isDone);
+        super(description, isDone);
         this.type = type;
         this.date = date;
     }
@@ -28,7 +29,7 @@ public class JsonAdaptedDeadline extends JsonAdaptedTasks {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
         Task t = new Deadline(description, parsedDateTime);
-        if(Objects.equals(isDone, "true")) {
+        if (isDone == "true") {
             t.mark();
         }
         return t;

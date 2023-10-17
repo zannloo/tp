@@ -1,22 +1,24 @@
 package seedu.address.storage;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.id.StudentId;
-import seedu.address.model.profbook.Student;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.profbook.Name;
-import seedu.address.model.profbook.Phone;
-import seedu.address.model.profbook.Email;
-import seedu.address.model.profbook.Address;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import seedu.address.model.id.StudentId;
+import seedu.address.model.profbook.Address;
+import seedu.address.model.profbook.Email;
+import seedu.address.model.profbook.Name;
+import seedu.address.model.profbook.Phone;
+import seedu.address.model.profbook.Student;
+import seedu.address.model.tag.Tag;
+import seedu.address.model.taskmanager.Task;
+import seedu.address.model.taskmanager.TaskList;
+import seedu.address.commons.exceptions.IllegalValueException;
+
 
 /**
  * Jackson-friendly version of {@link Student}.
@@ -52,7 +54,7 @@ public class JsonAdaptedStudent {
         if (tags != null) {
             this.tags.addAll(tags);
         }
-        if (tasks!= null) {
+        if (tasks != null) {
             this.tasks.addAll(tasks);
         }
     }

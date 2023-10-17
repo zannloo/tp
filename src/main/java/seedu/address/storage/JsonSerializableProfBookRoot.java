@@ -1,15 +1,16 @@
 package seedu.address.storage;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
-import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyProfBook;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyProfBook;
 
 /**
  * An Immutable ProfBookRoot that is serializable to JSON format.
@@ -32,4 +33,5 @@ public class JsonSerializableProfBookRoot {
 //    public ReadOnlyProfBook toModelType() throws IllegalValueException {
 //
 //    }
+
 }
