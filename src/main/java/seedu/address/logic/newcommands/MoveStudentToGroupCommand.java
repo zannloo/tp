@@ -39,6 +39,7 @@ public class MoveStudentToGroupCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New student added to this group: %1$s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
+
     private final RelativePath source;
 
     private final RelativePath dest;
