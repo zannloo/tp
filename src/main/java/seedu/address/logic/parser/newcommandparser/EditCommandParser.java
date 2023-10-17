@@ -10,11 +10,11 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 
 import seedu.address.logic.newcommands.EditCommand;
-import seedu.address.logic.newcommands.EditCommand.EditGroupDescriptor;
-import seedu.address.logic.newcommands.EditCommand.EditStudentDescriptor;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.field.EditGroupDescriptor;
+import seedu.address.model.field.EditStudentDescriptor;
 import seedu.address.model.path.RelativePath;
 
 /**
