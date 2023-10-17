@@ -1,25 +1,16 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.model.statemanager.StateManager.groupChildOperation;
-import static seedu.address.model.statemanager.StateManager.rootChildOperation;
-
-import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 
@@ -30,7 +21,6 @@ public class CreateDeadlineCommand extends Command {
 
     public static final String COMMAND_WORD = "deadline";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": deadline ";
-
     public static final String MESSAGE_SUCCESS = "New Deadline task added: %1$s";
 
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
@@ -39,16 +29,14 @@ public class CreateDeadlineCommand extends Command {
             "New Deadline task added to all groups in root: %1$s";
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
             "This Deadline task has already been allocated";
-    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid";
-    public static final String MESSAGE_INVALID_PATH = "Path is invalid";
-    public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
-    public static final String MESSAGE_ERROR = "An error has occurred";
-    protected Student stu;
-    protected Group grp;
+    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
+    public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
+    public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "All stu flag is only allowed for group path";
+    public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "All Group flag is only allowed for root path";
+
     private final RelativePath path;
     private final Deadline deadline;
     private String category = null;
-    private CommandResult returnStatement = null;
 
     /**
      * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
@@ -79,53 +67,56 @@ public class CreateDeadlineCommand extends Command {
     @Override
     public CommandResult execute(State state) throws CommandException {
         AbsolutePath currPath = state.getCurrPath();
-        Root root = state.getRoot();
+        // Check resolved path is valid
+        AbsolutePath targetPath = null;
         try {
-            requireAllNonNull(currPath, root);
-            AbsolutePath absolutePath = currPath.resolve(path);
-            if (this.category == null) {
-                TaskOperation target = StateManager.taskOperation(root, absolutePath);
-                if (target.hasTask(this.deadline)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
-                }
-                target.addTask(this.deadline);
-                returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
-            } else if (this.category.equals("allStu") && (absolutePath.isGroupDirectory())) {
-                ChildOperation<Student> groupOper = groupChildOperation(root, absolutePath);
-                List<Student> allStudents = groupOper.getAllChildren();
-                for (Student s : allStudents) {
-                    StudentId studentId = (StudentId) s.getId();
-                    AbsolutePath newPath = absolutePath.resolve(new RelativePath(studentId.toString()));
-                    TaskOperation target = StateManager.taskOperation(root, newPath);
-                    if (target.hasTask(this.deadline)) {
-                        throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
-                    }
-                    target.addTask(this.deadline);
-                }
-                returnStatement = new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
-            } else if (this.category.equals("allGrp") && (absolutePath.isRootDirectory())) {
-                ChildOperation<Group> rootOper = rootChildOperation(root);
-                List<Group> allGroups = rootOper.getAllChildren();
-                for (Group g : allGroups) {
-                    GroupId groupId = (GroupId) g.getId();
-                    AbsolutePath newPath = absolutePath.resolve(new RelativePath(groupId.toString()));
-                    TaskOperation target = StateManager.taskOperation(root, newPath);
-                    if (target.hasTask(this.deadline)) {
-                        throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
-                    }
-                    target.addTask(this.deadline);
-                }
-                returnStatement = new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
-            } else {
-                throw new CommandException(MESSAGE_ERROR);
-            }
-            state.updateList();
+            targetPath = currPath.resolve(path);
         } catch (InvalidPathException e) {
-            throw new CommandException(MESSAGE_INVALID_PATH);
-        } catch (UnsupportedPathOperationException e) {
-            throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
+            throw new CommandException(e.getMessage());
         }
-        return returnStatement;
+
+        // Check path exists in ProfBook
+        if (!state.hasPath(targetPath)) {
+            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+        }
+
+        if (this.category == null) {
+            // Check target path is task manager
+            if (!state.hasTaskListInPath(targetPath)) {
+                throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
+            }
+
+            TaskOperation target = state.taskOperation(targetPath);
+
+            // Check duplicate deadline
+            if (target.hasTask(this.deadline)) {
+                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+            }
+
+            target.addTask(this.deadline);
+            state.updateList();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+        }
+
+        if (this.category.equals("allStu")) {
+            if (!targetPath.isGroupDirectory()) {
+                throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
+            }
+            ChildOperation<Student> groupOper = state.groupChildOperation(targetPath);
+            groupOper.addTaskToAllChildren(deadline, 1);
+            state.updateList();
+            return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
+        }
+
+        if (!targetPath.isRootDirectory()) {
+            throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
+        }
+
+        ChildOperation<Group> rootOper = state.rootChildOperation();
+        rootOper.addTaskToAllChildren(deadline, 1);
+        state.updateList();
+
+        return new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
     }
 
     /**

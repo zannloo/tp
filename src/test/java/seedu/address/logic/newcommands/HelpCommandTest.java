@@ -2,7 +2,6 @@ package seedu.address.logic.newcommands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,16 +15,15 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.statemanager.StateManager;
 
 public class HelpCommandTest {
     @Test
     public void execute_validCommand_success() throws CommandException, InvalidPathException {
-        TaskList taskList = new TaskList(new ArrayList<>());
         Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(taskList, children);
+        Root root = new Root(children);
         AbsolutePath currPath = new AbsolutePath("~/");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
 
         HelpCommand helpCommand = new HelpCommand();
         CommandResult commandResult = helpCommand.execute(state);

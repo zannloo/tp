@@ -1,7 +1,5 @@
 package seedu.address.logic.parser.newcommandparser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -9,11 +7,13 @@ import seedu.address.logic.newcommands.ShowChildrenListCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.path.RelativePath;
 
 /**
  * Parses input arguments and creates a new ShowChildrenListCommand object
  */
 public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCommand> {
+    public static final String MESSAGE_COMMAND_CREATED = "Created new \"cat\" command: %1$s";
     private static final Logger logger = LogsCenter.getLogger(ShowChildrenListCommandParser.class);
 
     /**
@@ -26,11 +26,15 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args);
 
-        if (!argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, ShowChildrenListCommand.MESSAGE_USAGE));
+        if (argMultimap.getPreamble().isEmpty()) {
+            logger.fine(String.format(MESSAGE_COMMAND_CREATED, "Current directory"));
+            return new ShowChildrenListCommand();
         }
 
-        return new ShowChildrenListCommand();
+        RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
+
+        logger.fine(String.format(MESSAGE_COMMAND_CREATED, path.toString()));
+
+        return new ShowChildrenListCommand(path);
     }
 }

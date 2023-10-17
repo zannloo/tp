@@ -2,8 +2,6 @@ package seedu.address;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -18,15 +16,12 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.ProfBookLogicManager;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.id.GroupId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.statemanager.StateManager;
+import seedu.address.model.util.SampleProfBook;
 import seedu.address.storage.Storage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
@@ -95,17 +90,10 @@ public class MainApp extends Application {
         // }
 
         AbsolutePath currentPath = new AbsolutePath("~/");
-        Root root = new Root(new TaskList(new ArrayList<>()), new HashMap<>());
+        // Use sample data.
+        Root root = SampleProfBook.getRoot();
 
-        Group grp = new Group(
-                new TaskList(new ArrayList<>()), new HashMap<>(), new Name("grp one"), new GroupId("grp-001"));
-        try {
-            root.addChild(grp.getId(), grp);
-        } catch (DuplicateChildException e) {
-            throw new RuntimeException(e); // @Nereus new one
-        }
-
-        return new State(currentPath, root, userPrefs);
+        return new StateManager(currentPath, root, userPrefs);
     }
 
     private void initLogging(Config config) {

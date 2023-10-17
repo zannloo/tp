@@ -5,6 +5,9 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.statemanager.State;
 
 /**
@@ -12,10 +15,21 @@ import seedu.address.model.statemanager.State;
  */
 public class ShowTaskListCommand extends Command {
     public static final String COMMAND_WORD = "cat";
-    public static final String MESSAGE_SUCCESS = "Show TaskList of %1$s";
+    public static final String MESSAGE_SUCCESS = "Show task list of %1$s";
+    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook: %1$s";
+    public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot show task list for this path: %1$s";
+    public static final String MESSAGE_USAGE = COMMAND_WORD;
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD;
+    private final RelativePath target;
+
+    public ShowTaskListCommand() {
+        target = null;
+    }
+
+    public ShowTaskListCommand(RelativePath path) {
+        target = path;
+    }
 
     /**
      * Executes the MoveStudentToGroupCommand, moving a student from the source group to the destination group in
@@ -26,9 +40,41 @@ public class ShowTaskListCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
+        AbsolutePath currPath = state.getCurrPath();
+
+        if (target == null) {
+            if (!state.hasTaskListInCurrentPath()) {
+                throw new CommandException(String.format(MESSAGE_NOT_TASK_MANAGER, currPath.toString()));
+            }
+            state.setDisplayPath(currPath);
+            state.showTaskList();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, currPath.toString()));
+        }
+
+        // Check target absolute path is valid
+        AbsolutePath targetAbsolutePath = null;
+        try {
+            targetAbsolutePath = currPath.resolve(target);
+        } catch (InvalidPathException e) {
+            throw new CommandException(e.getMessage());
+        }
+
+        // Check path exists in ProfBook
+        if (!state.hasPath(targetAbsolutePath)) {
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, targetAbsolutePath.toString()));
+        }
+
+        // Check path is task manager
+        if (!state.hasTaskListInPath(targetAbsolutePath)) {
+            throw new CommandException(String.format(MESSAGE_NOT_TASK_MANAGER, targetAbsolutePath.toString()));
+        }
+
+        state.setDisplayPath(targetAbsolutePath);
         state.showTaskList();
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, "Current Directory"));
+        logger.fine("Showing task list for path: " + targetAbsolutePath.toString());
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, targetAbsolutePath.toString()));
     }
 
     /**

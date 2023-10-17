@@ -30,6 +30,11 @@ public class ToDo extends Task {
     }
 
     @Override
+    public ToDo clone() {
+        return new ToDo(description);
+    }
+
+    @Override
     public UiPart<Region> getDisplayCard(int displayedIndex) {
         return new TodoCard(this, displayedIndex);
     }

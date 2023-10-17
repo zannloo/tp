@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.statemanager.StateManager;
 
 public class EditCommandTest {
 
@@ -59,12 +58,11 @@ public class EditCommandTest {
 
     @Test
     public void execute_noSuchGroup_throwCommandException() throws InvalidPathException {
-        TaskList taskList = new TaskList(new ArrayList<>());
         Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(taskList, children);
+        Root root = new Root(children);
         AbsolutePath currPath = new AbsolutePath("~/");
         RelativePath relativePath = new RelativePath("~/grp-001");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
 
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
         EditCommand editCommand = new EditCommand(relativePath, editStudentDescriptor);
@@ -74,12 +72,11 @@ public class EditCommandTest {
 
     @Test
     public void execute_invalidDirectory_throwCommandException() throws InvalidPathException {
-        TaskList taskList = new TaskList(new ArrayList<>());
         Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(taskList, children);
+        Root root = new Root(children);
         AbsolutePath currPath = new AbsolutePath("~/");
         RelativePath relativePath = new RelativePath("~/");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
 
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
         EditCommand editCommand = new EditCommand(relativePath, editStudentDescriptor);

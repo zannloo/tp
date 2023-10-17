@@ -1,7 +1,6 @@
 package seedu.address.logic.newcommands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
@@ -12,12 +11,10 @@ import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 /**
  * Deletes a {@code Student} or {@code Group} according to the targeted path.
  */
@@ -53,42 +50,48 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
+        requireNonNull(state);
         AbsolutePath currPath = state.getCurrPath();
-        Root root = state.getRoot();
-        CommandResult returnStatement;
-        try {
-            requireAllNonNull(currPath, root);
-            AbsolutePath absolutePath = currPath.resolve(path);
 
-            if (absolutePath.isStudentDirectory()) {
-                ChildOperation<Student> target = StateManager.groupChildOperation(root, absolutePath);
-                StudentId studentId = absolutePath.getStudentId().get();
-                if (!target.hasChild(studentId)) {
-                    throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
-                }
-                stu = target.getChild(studentId);
-                target.deleteChild(studentId);
-                state.updateList();
-                returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
-            } else if (absolutePath.isGroupDirectory()) {
-                ChildOperation<Group> target = StateManager.rootChildOperation(root);
-                GroupId groupId = absolutePath.getGroupId().get();
-                if (!target.hasChild(groupId)) {
-                    throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
-                }
-                grp = target.getChild(groupId);
-                target.deleteChild(groupId);
-                state.updateList();
-                returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, grp.toString()));
-            } else {
-                throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
-            }
-            return returnStatement;
+        // Check resolved path is valid
+        AbsolutePath targetPath = null;
+        try {
+            targetPath = currPath.resolve(path);
         } catch (InvalidPathException e) {
-            throw new CommandException(MESSAGE_INVALID_PATH);
-        } catch (UnsupportedPathOperationException e) {
-            throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
+            throw new CommandException(e.getMessage());
         }
+
+        // Check path exists in ProfBook
+        if (!state.hasPath(targetPath)) {
+            throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
+        }
+
+        if (targetPath.isStudentDirectory()) {
+            ChildOperation<Student> target = state.groupChildOperation(targetPath);
+            StudentId studentId = targetPath.getStudentId().get();
+            if (!target.hasChild(studentId)) {
+                throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
+            }
+            stu = target.getChild(studentId);
+            target.deleteChild(studentId);
+            state.updateList();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
+        }
+
+        if (targetPath.isGroupDirectory()) {
+            ChildOperation<Group> target = state.rootChildOperation();
+            GroupId groupId = targetPath.getGroupId().get();
+            if (!target.hasChild(groupId)) {
+                throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
+            }
+            grp = target.getChild(groupId);
+            target.deleteChild(groupId);
+            state.updateList();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, grp.toString()));
+        }
+
+        throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
+
     }
 
 

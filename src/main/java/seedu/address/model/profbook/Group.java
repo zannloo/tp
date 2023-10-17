@@ -1,5 +1,7 @@
 package seedu.address.model.profbook;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.Map;
 
 import javafx.scene.layout.Region;
@@ -12,7 +14,7 @@ import seedu.address.ui.UiPart;
 /**
  * Encapsulates logic for a group within a tutorial group
  */
-public class Group extends ChildrenManager<Student> implements IChildElement {
+public class Group extends ChildrenAndTaskListManager<Student> {
 
     /**
      * Name of the group
@@ -25,7 +27,7 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
     private final Id id;
 
     /**
-     * Constructs a new Group instance
+     * Constructs a Group instance with all fields.
      *
      * @param taskList - The task list associated with this group
      * @param students - The list of students in this group
@@ -33,7 +35,17 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
      * @param id       - Unique identifier of the group
      */
     public Group(TaskList taskList, Map<Id, Student> students, Name name, Id id) {
-        super(taskList, students);
+        super(students, taskList);
+        requireAllNonNull(name, id);
+        this.name = name;
+        this.id = id;
+    }
+
+    /**
+     * Constructs a new Group instance without task list and student map.
+     */
+    public Group(Name name, Id id) {
+        super();
         this.name = name;
         this.id = id;
     }
@@ -52,7 +64,7 @@ public class Group extends ChildrenManager<Student> implements IChildElement {
      * @return The clone of the IChildElement
      */
     @Override
-    public Group clone() {
+    public Group getClone() {
         return new Group(new TaskList(getAllTask()), this.getChildren(),
                 new Name(this.name.fullName), this.id);
     }

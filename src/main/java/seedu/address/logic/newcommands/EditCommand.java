@@ -19,17 +19,14 @@ import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
-import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.TaskList;
 
 /**
@@ -108,7 +105,7 @@ public class EditCommand extends Command {
         Phone updatedPhone = editStudentDescriptor.getPhone().orElse(studentToEdit.getPhone());
         Email updatedEmail = editStudentDescriptor.getEmail().orElse(studentToEdit.getEmail());
         Address updatedAddress = editStudentDescriptor.getAddress().orElse(studentToEdit.getAddress());
-        Id updatedId = editStudentDescriptor.getId().orElse(studentToEdit.getId());
+        StudentId updatedId = editStudentDescriptor.getId().orElse(studentToEdit.getId());
         TaskList taskList = new TaskList(studentToEdit.getAllTask());
         return new Student(taskList, updatedName, updatedEmail, updatedPhone, updatedAddress, updatedId);
     }
@@ -137,44 +134,46 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(State state) throws CommandException {
         requireNonNull(state);
+        AbsolutePath currPath = state.getCurrPath();
+
+        // Check resolved path is valid
+        AbsolutePath targetPath = null;
         try {
-            AbsolutePath currPath = state.getCurrPath();
-            Root root = state.getRoot();
-            AbsolutePath absolutePath = currPath.resolve(this.relativePath);
-            if (absolutePath.isGroupDirectory()) {
-                ChildOperation<Group> target = StateManager.rootChildOperation(root);
-                GroupId groupId = absolutePath.getGroupId().get();
-                if (!target.hasChild(groupId)) {
-                    throw new CommandException(ERROR_MESSAGE_NO_SUCH_GROUP);
-                }
-                Group groupToEdit = target.getChild(groupId);
-                Group editedGroup = createEditedGroup(groupToEdit, this.editGroupDescriptor);
-                target.deleteChild(groupId);
-                target.addChild(groupId, editedGroup);
-                state.updateList();
-
-                return new CommandResult(MESSAGE_EDIT_GROUP_SUCCESS);
-
-            } else if (absolutePath.isStudentDirectory()) {
-                ChildOperation<Student> target = StateManager.groupChildOperation(root, absolutePath);
-                StudentId studentId = absolutePath.getStudentId().get();
-
-                Student studentToEdit = target.getChild(studentId);
-                Student editedStudent = createEditedStudent(studentToEdit, this.editStudentDescriptor);
-                target.deleteChild(studentId);
-                target.addChild(editedStudent.getId(), editedStudent);
-                state.updateList();
-
-                return new CommandResult(MESSAGE_EDIT_STUDENT_SUCCESS);
-
-            } else {
-                throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
-            }
-        } catch (InvalidPathException invalidPathException) {
-            throw new CommandException(ERROR_MESSAGE_INVALID_PATH);
-        } catch (UnsupportedPathOperationException e) {
-            throw new CommandException(ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION);
+            targetPath = currPath.resolve(relativePath);
+        } catch (InvalidPathException e) {
+            throw new CommandException(e.getMessage());
         }
+
+        if (targetPath.isGroupDirectory()) {
+            ChildOperation<Group> target = state.rootChildOperation();
+            GroupId groupId = targetPath.getGroupId().get();
+            if (!target.hasChild(groupId)) {
+                throw new CommandException(ERROR_MESSAGE_NO_SUCH_GROUP);
+            }
+            Group groupToEdit = target.getChild(groupId);
+            Group editedGroup = createEditedGroup(groupToEdit, this.editGroupDescriptor);
+            target.deleteChild(groupId);
+            target.addChild(groupId, editedGroup);
+            state.updateList();
+
+            return new CommandResult(MESSAGE_EDIT_GROUP_SUCCESS);
+
+        } else if (targetPath.isStudentDirectory()) {
+            ChildOperation<Student> target = state.groupChildOperation(targetPath);
+            StudentId studentId = targetPath.getStudentId().get();
+
+            Student studentToEdit = target.getChild(studentId);
+            Student editedStudent = createEditedStudent(studentToEdit, this.editStudentDescriptor);
+            target.deleteChild(studentId);
+            target.addChild(editedStudent.getId(), editedStudent);
+            state.updateList();
+
+            return new CommandResult(MESSAGE_EDIT_STUDENT_SUCCESS);
+
+        } else {
+            throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
+        }
+
     }
 
     /**
