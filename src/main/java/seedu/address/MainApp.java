@@ -19,7 +19,6 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.util.SampleProfBook;
