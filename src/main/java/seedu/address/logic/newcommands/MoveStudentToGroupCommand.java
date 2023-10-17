@@ -33,7 +33,8 @@ public class MoveStudentToGroupCommand extends Command {
 
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
-    public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in target.";
+    public static final String MESSAGE_DUPLICATE_STUDENT =
+            "This student already exists in the target destination group.";
 
     public static final String MESSAGE_SUCCESS = "New student added to this group: %1$s";
 
