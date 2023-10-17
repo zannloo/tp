@@ -6,6 +6,7 @@ import seedu.address.model.id.Id;
 import seedu.address.model.profbook.IChildElement;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
+import seedu.address.model.taskmanager.Task;
 
 /**
  * Interface for classes that operations that involve children, ensures that all
@@ -64,6 +65,12 @@ public interface IChildOperation<T extends IChildElement> {
      * @return list of all current children
      */
     List<T> getAllChildren();
+
+    /**
+     * Adds a task to children within the hierarchy up to a specified depth level.
+     * e.g. if target is root and level is 2, task will be added to all student
+     */
+    public void addTaskToAllChildren(Task task, int level);
 
     /**
      * Returns Number of current children

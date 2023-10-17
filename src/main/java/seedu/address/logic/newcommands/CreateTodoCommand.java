@@ -2,26 +2,16 @@ package seedu.address.logic.newcommands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.model.statemanager.StateManager.groupChildOperation;
-import static seedu.address.model.statemanager.StateManager.rootChildOperation;
-
-import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.ToDo;
 
@@ -48,12 +38,13 @@ public class CreateTodoCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New ToDo task has been added to: %1$s";
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
     public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
+    public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "All stu flag is only allowed for group path";
+    public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "All Group flag is only allowed for root path";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
 
     private final RelativePath relativePath;
     private final ToDo todo;
     private String category = null;
-    private CommandResult returnStatement = null;
 
     /**
      * Constructs a {@code CreateTodoCommand} with the specified relative path and "ToDo" task details.
@@ -108,42 +99,24 @@ public class CreateTodoCommand extends Command {
             }
             target.addTask(this.todo);
             state.updateList();
-            returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
         }
 
         if (this.category.equals("allStu")) {
             if (!targetPath.isGroupDirectory()) {
-                throw new CommandException();
+                throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
             }
             ChildOperation<Student> groupOper = state.groupChildOperation(targetPath);
-            List<Student> allStudents = groupOper.getAllChildren();
-            for (Student s : allStudents) {
-                StudentId studentId = (StudentId) s.getId();
-                AbsolutePath newPath = targetPath.resolve(new RelativePath(studentId.toString()));
-                TaskOperation target = state.taskOperation(newPath);
-                if (target.hasTask(this.todo)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
-                }
-                target.addTask(this.todo);
-            }
+            groupOper.addTaskToAllChildren(todo, 1);
             state.updateList();
             return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
         }
 
         if (!targetPath.isRootDirectory()) {
-            throw new CommandException();
+            throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
         ChildOperation<Group> rootOper = state.rootChildOperation();
-        List<Group> allGroups = rootOper.getAllChildren();
-        for (Group g : allGroups) {
-            GroupId groupId = (GroupId) g.getId();
-            AbsolutePath newPath = targetPath.resolve(new RelativePath(groupId.toString()));
-            TaskOperation target = state.taskOperation(newPath);
-            if (target.hasTask(this.todo)) {
-                throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_GROUP);
-            }
-            target.addTask(this.todo);
-        }
+        rootOper.addTaskToAllChildren(todo, 1);;
 
         state.updateList();
 

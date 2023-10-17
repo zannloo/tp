@@ -7,10 +7,13 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.id.Id;
+import seedu.address.model.profbook.ChildrenAndTaskListManager;
 import seedu.address.model.profbook.ChildrenManager;
 import seedu.address.model.profbook.IChildElement;
+import seedu.address.model.profbook.TaskListManager;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
+import seedu.address.model.taskmanager.Task;
 
 /**
  * Encapsulates the logic to perform a generic child operation for child manager
@@ -112,5 +115,40 @@ public class ChildOperation<T extends IChildElement> implements IChildOperation<
     @Override
     public int numOfChildren() {
         return this.baseDir.numOfChildren();
+    }
+
+    @Override
+    public void addTaskToAllChildren(Task task, int level) {
+        List<IChildElement> children = new ArrayList<>(getAllChildren());
+        level--;
+
+        while (level > 0) {
+            List<IChildElement> list = new ArrayList<>();
+            for (IChildElement child : children) {
+                if (child instanceof ChildrenAndTaskListManager) {
+                    ChildrenAndTaskListManager<?> ctlm = (ChildrenAndTaskListManager<?>) child;
+                    list.addAll(ctlm.getAllChildren());
+                }
+            }
+            children = new ArrayList<>(list);
+            level--;
+        }
+
+        addAllTaskToAllChildren(task, children);
+    }
+
+    private void addAllTaskToAllChildren(Task task, List<? extends IChildElement> children) {
+        for (IChildElement child : children) {
+            Task clonedTask = task.clone();
+            if (child instanceof TaskListManager) {
+                TaskListManager tlm = (TaskListManager) child;
+                tlm.addTask(clonedTask);;
+            } else if (child instanceof ChildrenAndTaskListManager) {
+                ChildrenAndTaskListManager<?> ctlm = (ChildrenAndTaskListManager<?>) child;
+                ctlm.addTask(clonedTask);
+            } else {
+                throw new IllegalArgumentException("All children must be task list manager.");
+            }
+        }
     }
 }
