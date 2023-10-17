@@ -5,8 +5,8 @@ import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.JsonUtil;
-import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyProfBook;
+import seedu.address.model.profbook.Root;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -30,14 +30,14 @@ public class JsonProfBookStorage implements ProfBookStorage {
     }
 
     @Override
-    public Optional<ReadOnlyProfBook> readProfBook() throws DataLoadingException {
+    public Optional<Root> readProfBook() throws DataLoadingException {
         return readProfBook(filePath);
     }
-    public Optional<ReadOnlyProfBook> readProfBook(Path filePath) throws DataLoadingException {
+    public Optional<Root> readProfBook(Path filePath) throws DataLoadingException {
         requireNonNull(filePath);
 
-        Optional<JsonSerializableProfBookStudent> jsonProfBook = JsonUtil.readJsonFile(
-                filePath, JsonSerializableProfBookStudent.class);
+        Optional<JsonSerializableProfBookRoot> jsonProfBook = JsonUtil.readJsonFile(
+                filePath, JsonSerializableProfBookRoot.class);
         if (!jsonProfBook.isPresent()) {
             return Optional.empty();
         }
@@ -51,15 +51,15 @@ public class JsonProfBookStorage implements ProfBookStorage {
     }
 
     @Override
-    public void saveProfBook(ReadOnlyProfBook profBook) throws IOException {
+    public void saveProfBook(Root profBook) throws IOException {
         saveProfBook(profBook, filePath);
     }
-    public void saveProfBook(ReadOnlyProfBook profBook, Path filePath) throws IOException {
+    public void saveProfBook(Root profBook, Path filePath) throws IOException {
         requireNonNull(profBook);
         requireNonNull(filePath);
 
         FileUtil.createIfMissing(filePath);
-//        JsonUtil.saveJsonFile(new JsonSerializableProfBookRoot(profBook, filePath);
+        JsonUtil.saveJsonFile(new JsonSerializableProfBookRoot(profBook), filePath);
     }
 
 }

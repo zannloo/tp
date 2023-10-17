@@ -59,6 +59,12 @@ public class JsonAdaptedStudent {
         }
     }
 
+    public JsonAdaptedStudent(Student source) {
+
+    }
+
+
+
 
     public Student toModelType() throws IllegalValueException {
         final List<Tag> studentTags = new ArrayList<>();

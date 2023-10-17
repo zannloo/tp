@@ -5,8 +5,8 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataLoadingException;
-import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyProfBook;
+import seedu.address.model.profbook.Root;
 
 public interface ProfBookStorage {
     /**
@@ -20,19 +20,19 @@ public interface ProfBookStorage {
      *
      * @throws DataLoadingException if loading the data from storage failed.
      */
-    Optional<ReadOnlyProfBook> readProfBook() throws DataLoadingException;
+    Optional<Root> readProfBook() throws DataLoadingException;
 
-    Optional<ReadOnlyProfBook> readProfBook(Path filePath) throws DataLoadingException;
+    Optional<Root> readProfBook(Path filePath) throws DataLoadingException;
 
     /**
      * Saves the given {@link ReadOnlyProfBook} to the storage.
      * @param profBook cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveProfBook(ReadOnlyProfBook profBook) throws IOException;
+    void saveProfBook(Root profBook) throws IOException;
 
     /**
-     * @see #saveProfBook(ReadOnlyProfBook)
+     * @see #saveProfBook(Root)
      */
-    void saveProfBook(ReadOnlyProfBook profBook, Path filePath) throws IOException;
+    void saveProfBook(Root profBook, Path filePath) throws IOException;
 }

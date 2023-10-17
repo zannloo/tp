@@ -4,10 +4,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyProfBook;
+import seedu.address.model.person.Person;
+import seedu.address.model.profbook.Group;
+import seedu.address.model.profbook.Root;
+import seedu.address.model.taskmanager.TaskList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +35,15 @@ public class JsonSerializableProfBookGroup {
         groups.addAll(source.getGroupList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
     }
 
-//    public ReadOnlyProfBook toModelType() throws IllegalValueException {
-//
-//    }
+    public Root toModelType() throws IllegalValueException {
+        Root profbook = new Root(new TaskList(new ArrayList<>()), new HashMap<>());
+        for (JsonAdaptedGroup jsonAdaptedGroup : groups) {
+            Group grp = jsonAdaptedGroup.toModelType();
+            if (profbook.hasChild(grp.getId())) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_GROUP);
+            }
+            profbook.addChild(grp.getId(), grp);
+        }
+        return profbook;
+    }
 }

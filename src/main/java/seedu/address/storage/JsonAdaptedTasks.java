@@ -19,6 +19,12 @@ public abstract class JsonAdaptedTasks  {
         this.isDone = isDone;
     }
 
+    public JsonAdaptedTasks {
+
+    }
+
+
+
     abstract Task toModelType();
 
 }

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -49,6 +50,16 @@ public class JsonAdaptedGroup {
             this.tasks.addAll(tasks);
         }
 
+    }
+
+    /**
+     * Converts a given {@code Group} into this class for Jackson use.
+     */
+    public JsonAdaptedGroup(Group source) {
+        name = source.getName().fullName;
+        id = source.getId().toString();
+        students = new HashSet<>(source.getAllChildren().stream().map(JsonAdaptedStudent::new).collect(Collectors.toList()));
+        tasks = source.getAllTask().stream().map(JsonAdaptedTasks::new).collect(Collectors.toList());
     }
 
     public Group toModelType() throws IllegalValueException {
