@@ -8,6 +8,9 @@ import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.model.ReadOnlyProfBook;
 import seedu.address.model.profbook.Root;
 
+/**
+ * The interface ProfBookStorage provides methods to interact with the storage of the ProfBook.
+ */
 public interface ProfBookStorage {
     /**
      * Returns the file path of the data file.

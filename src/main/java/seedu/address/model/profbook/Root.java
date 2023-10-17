@@ -12,7 +12,6 @@ public class Root extends ChildrenManager<Group> {
     /**
      * Constructs a profbook instance with task list and children.
      *
-     * @param taskList - The Task list associated with this object
      * @param children - The Groups under the root
      */
     public Root(Map<Id, Group> children) {

@@ -1,6 +1,5 @@
 package seedu.address.storage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,45 +13,38 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
 
 
-
+/**
+ * A class to adapt a Root object into a format suitable for JSON storage.
+ */
 public class JsonAdaptedRoot {
-    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Group's %s field is missing!";
 
     private final Set<JsonAdaptedGroup> groups = new HashSet<>();
-    private final Set<JsonAdaptedTasks> tasks = new HashSet<>();
 
+    /**
+     * Constructs a {@code JsonAdaptedRoot} with the given person details.
+     */
     @JsonCreator
-    public JsonAdaptedRoot(@JsonProperty("groups") List<JsonAdaptedGroup> groups,
-                            @JsonProperty("tasks") List<JsonAdaptedTasks> tasks) {
+    public JsonAdaptedRoot(@JsonProperty("groups") List<JsonAdaptedGroup> groups) {
         if (groups != null) {
             this.groups.addAll(groups);
         }
-        if (tasks != null) {
-            this.tasks.addAll(tasks);
-        }
-
     }
 
+    /**
+     * Converts this Jackson-friendly adapted root object into the model's Root object.
+     *
+     * @return The Root object that corresponds to this JsonAdaptedRoot.
+     * @throws IllegalValueException If there were any data constraints violated in the adapted root.
+     */
     public Root toModelType() throws IllegalValueException {
-        // Convert the list of JsonAdaptedStudent back into a map of students.
-        final List<Task> taskList = new ArrayList<>();
-
         Map<Id, Group> groupMap = new HashMap<>();
         for (JsonAdaptedGroup groupJson : groups) {
             Group grp = groupJson.toModelType();
             groupMap.put(grp.getId(), grp);
         }
-        for (JsonAdaptedTasks task : tasks) {
 
-            taskList.add(task.toModelType());
-        }
-
-        final seedu.address.model.taskmanager.TaskList modelTList = new TaskList(taskList);
-
-        return new Root(modelTList, groupMap);
+        return new Root(groupMap);
     }
 }

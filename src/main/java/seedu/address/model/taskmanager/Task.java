@@ -33,8 +33,14 @@ public abstract class Task implements Displayable {
         return isDone;
     }
 
+    /**
+     * This method checks the status of a task.
+     *
+     * @return A string representation of the status.
+     *         Returns "true" if the task is done, "false" otherwise.
+     */
     public String statusString() {
-        if(isDone) {
+        if (isDone) {
             return "true";
         }
         return "false";

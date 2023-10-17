@@ -22,7 +22,9 @@ import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.model.taskmanager.ToDo;
 
-
+/**
+ * A class to adapt a Group object into a format suitable for JSON storage.
+ */
 public class JsonAdaptedGroup {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Group's %s field is missing!";
@@ -39,6 +41,9 @@ public class JsonAdaptedGroup {
     private final Set<JsonAdaptedStudent> students = new HashSet<>();
     private final Set<JsonAdaptedTasks> tasks = new HashSet<>();
 
+    /**
+     * Constructs a {@code JsonAdaptedGroup} with the given person details.
+     */
     @JsonCreator
     public JsonAdaptedGroup(@JsonProperty("name") String name, @JsonProperty("id") String id,
                             @JsonProperty("students") List<JsonAdaptedStudent> students,
@@ -62,12 +67,19 @@ public class JsonAdaptedGroup {
         id = source.getId().toString();
         students.addAll(source.getAllChildren().stream().map(JsonAdaptedStudent::new).collect(Collectors.toList()));
         tasks.addAll(source.getAllTask().stream()
-                .map(task -> (task instanceof ToDo) ? new JsonAdaptedToDo((ToDo) task) : new JsonAdaptedDeadline((Deadline)task))
+                .map(task -> (task instanceof ToDo)
+                        ? new JsonAdaptedToDo((ToDo) task)
+                        : new JsonAdaptedDeadline((Deadline) task))
                 .collect(Collectors.toList()));
     }
 
+    /**
+     * Converts this Jackson-friendly adapted group object into the model's Group object.
+     *
+     * @return The Group object that corresponds to this JsonAdaptedGroup.
+     * @throws IllegalValueException If there were any data constraints violated in the adapted group.
+     */
     public Group toModelType() throws IllegalValueException {
-        // Convert the list of JsonAdaptedStudent back into a map of students.
         final List<Task> taskList = new ArrayList<>();
 
         Map<Id, Student> studentMap = new HashMap<>();

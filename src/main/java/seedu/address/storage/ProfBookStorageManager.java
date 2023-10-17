@@ -1,15 +1,18 @@
 package seedu.address.storage;
 
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.exceptions.DataLoadingException;
-import seedu.address.model.profbook.Root;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-public class ProfBookStorageManager implements ProfBookStorage{
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.model.profbook.Root;
+
+/**
+ * A class to manage the storage of ProfBook.
+ **/
+public class ProfBookStorageManager implements ProfBookStorage {
 
     private static final Logger logger = LogsCenter.getLogger(ProfBookStorageManager.class);
     private ProfBookStorage profBookStorage;

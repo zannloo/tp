@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
@@ -19,7 +20,6 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
-import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.taskmanager.ToDo;
 
 
@@ -62,6 +62,11 @@ public class JsonAdaptedStudent {
         }
     }
 
+    /**
+     * Converts a given {@code Student} into this class for Jackson use.
+     *
+     * @param source The source Student object.
+     */
     public JsonAdaptedStudent(Student source) {
         this.name = source.getName().toString();
         this.phone = source.getPhone().toString();
@@ -72,13 +77,18 @@ public class JsonAdaptedStudent {
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
         tasks.addAll(source.getAllTask().stream()
-                .map(task -> (task instanceof ToDo) ? new JsonAdaptedToDo((ToDo) task) : new JsonAdaptedDeadline((Deadline)task))
+                .map(task -> (task instanceof ToDo)
+                        ? new JsonAdaptedToDo((ToDo) task)
+                        : new JsonAdaptedDeadline((Deadline) task))
                 .collect(Collectors.toList()));
     }
 
-
-
-
+    /**
+     * Converts this Jackson-friendly adapted student object into the model's Student object.
+     *
+     * @return The Student object that corresponds to this JsonAdaptedStudent.
+     * @throws IllegalValueException If there were any data constraints violated in the adapted student.
+     */
     public Student toModelType() throws IllegalValueException {
         final List<Tag> studentTags = new ArrayList<>();
 
@@ -135,7 +145,7 @@ public class JsonAdaptedStudent {
         if (!seedu.address.model.id.StudentId.isValidStudentId(id)) {
             throw new IllegalValueException(seedu.address.model.id.StudentId.MESSAGE_CONSTRAINTS);
         }
-        final seedu.address.model.id.Id studId = new StudentId(id);
+        final seedu.address.model.id.StudentId studId = new StudentId(id);
 
         final seedu.address.model.taskmanager.TaskList modelTList = new TaskList(taskList);
 
