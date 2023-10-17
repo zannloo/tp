@@ -3,6 +3,7 @@ package seedu.address.logic.newcommands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.newcommands.CreateTodoCommand.MESSAGE_SUCCESS;
 import static seedu.address.logic.newcommands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_GROUPS;
 import static seedu.address.logic.newcommands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -22,6 +23,7 @@ import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
@@ -121,6 +123,49 @@ public class CreateTodoCommandTest {
 
         assertEquals(runCommand, returnStatement);
     }
+    @Test
+    public void execute_createTodoTask_success() throws CommandException, InvalidPathException,
+            UnsupportedPathOperationException {
+        ToDo todo = new ToDo("Todo read book");
+        TaskList taskList = new TaskList(new ArrayList<>());
+        Map<Id, Group> children = new HashMap<>();
+        Root root = new Root(taskList, children);
+        Map<Id, Student> students = new HashMap<>();
+        Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
+        root.addChild(group.getId(), group);
+        AbsolutePath currPath = new AbsolutePath("~/");
+        RelativePath relativePath = new RelativePath("~/grp-001");
+        State state = new State(currPath, root, new UserPrefs());
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(relativePath, todo);
+        AbsolutePath absolutePath = currPath.resolve(relativePath);
+        TaskOperation target = StateManager.taskOperation(root, absolutePath);
+        CommandResult successCommandResult = new CommandResult(String.format(MESSAGE_SUCCESS, target));
+
+        assertEquals(successCommandResult, createTodoCommand.execute(state));
+    }
+
+    @Test
+    public void execute_duplicateTodoTask_throwCommandException() throws InvalidPathException,
+            UnsupportedPathOperationException {
+        ToDo todo = new ToDo("Todo read book");
+        TaskList taskList = new TaskList(new ArrayList<>());
+        Map<Id, Group> children = new HashMap<>();
+        Root root = new Root(taskList, children);
+        Map<Id, Student> students = new HashMap<>();
+        Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
+        root.addChild(group.getId(), group);
+        AbsolutePath currPath = new AbsolutePath("~/");
+        RelativePath relativePath = new RelativePath("~/grp-001");
+        State state = new State(currPath, root, new UserPrefs());
+        AbsolutePath absolutePath = currPath.resolve(relativePath);
+        TaskOperation target = StateManager.taskOperation(root, absolutePath);
+        target.addTask(todo);
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(relativePath, todo);
+
+        assertThrows(CommandException.class,
+                CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK_STUDENT, () -> createTodoCommand.execute(state));
+    }
+
     @Test
     public void equals_sameInstance_success() throws InvalidPathException {
         ToDo todo = new ToDo("Todo test");

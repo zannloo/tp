@@ -41,7 +41,6 @@ public class CreateTodoCommand extends Command {
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "All stu flag is only allowed for group path";
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "All Group flag is only allowed for root path";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
-
     private final RelativePath relativePath;
     private final ToDo todo;
     private String category = null;
@@ -50,7 +49,7 @@ public class CreateTodoCommand extends Command {
      * Constructs a {@code CreateTodoCommand} with the specified relative path and "ToDo" task details.
      *
      * @param relativePath The relative path to the group where the "ToDo" task will be added.
-     * @param todo The details of the "ToDo" task to be created.
+     * @param todo         The details of the "ToDo" task to be created.
      */
     public CreateTodoCommand(RelativePath relativePath, ToDo todo) {
         requireAllNonNull(relativePath, todo);
@@ -62,8 +61,8 @@ public class CreateTodoCommand extends Command {
      * Constructs a {@code CreateTodoCommand} with the specified relative path and "ToDo" task details.
      *
      * @param relativePath The relative path to the group where the "ToDo" task will be added.
-     * @param todo The details of the "ToDo" task to be created.
-     * @param category The specific category of people to add ToDo task to each.
+     * @param todo         The details of the "ToDo" task to be created.
+     * @param category     The specific category of people to add ToDo task to each.
      */
     public CreateTodoCommand(RelativePath relativePath, ToDo todo, String category) {
         requireAllNonNull(relativePath, todo, category);

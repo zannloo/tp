@@ -2,6 +2,7 @@ package seedu.address.model.statemanager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -17,6 +18,7 @@ import seedu.address.model.taskmanager.Task;
 
 /**
  * Encapsulates the logic to perform a generic child operation for child manager
+ *
  * @param <T> The type of child that is required
  */
 public class ChildOperation<T extends IChildElement> implements IChildOperation<T> {
@@ -150,5 +152,22 @@ public class ChildOperation<T extends IChildElement> implements IChildOperation<
                 throw new IllegalArgumentException("All children must be task list manager.");
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChildOperation<?> that = (ChildOperation<?>) o;
+        return Objects.equals(baseDir, that.baseDir);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(baseDir);
     }
 }
