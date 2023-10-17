@@ -25,6 +25,7 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
@@ -54,7 +55,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         assertTrue(grp.hasChild(studentId));
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult commandResult = command.execute(state);
 
         assertFalse(root.hasChild(studentId));
@@ -78,7 +79,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         RelativePath path = new RelativePath("~/grp-001/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult commandResult = command.execute(state);
 
         GroupId groupId = new GroupId("grp-001");
@@ -103,7 +104,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         RelativePath path = new RelativePath("stu-002");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 DeleteForStudentsAndGroupsCommand.MESSAGE_NO_SUCH_STUDENT_OR_GROUP, (
                 ) -> command.execute(state)
@@ -125,7 +126,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         RelativePath path = new RelativePath("~/grp-002/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 DeleteForStudentsAndGroupsCommand.MESSAGE_NO_SUCH_STUDENT_OR_GROUP, (
                 ) -> command.execute(state)
@@ -147,7 +148,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         RelativePath path = new RelativePath("~/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 DeleteForStudentsAndGroupsCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR, (
                 ) -> command.execute(state)

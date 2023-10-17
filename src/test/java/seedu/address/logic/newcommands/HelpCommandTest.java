@@ -16,6 +16,7 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.TaskList;
 
 public class HelpCommandTest {
@@ -25,7 +26,7 @@ public class HelpCommandTest {
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(taskList, children);
         AbsolutePath currPath = new AbsolutePath("~/");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
 
         HelpCommand helpCommand = new HelpCommand();
         CommandResult commandResult = helpCommand.execute(state);

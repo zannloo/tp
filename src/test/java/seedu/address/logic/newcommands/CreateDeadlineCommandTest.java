@@ -63,10 +63,11 @@ class CreateDeadlineCommandTest {
         RelativePath path = new RelativePath("stu-003");
         AbsolutePath absolutePath = currPath.resolve(path);
 
-        TaskOperation target = StateManager.taskOperation(root, absolutePath);
+        State state = new StateManager(currPath, root, new UserPrefs());
+
+        TaskOperation target = state.taskOperation(absolutePath);
 
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline);
-        State state = new State(currPath, root, new UserPrefs());
         CommandResult runCommand = command.execute(state);
 
         CommandResult returnStatement =
@@ -112,7 +113,7 @@ class CreateDeadlineCommandTest {
         RelativePath path = new RelativePath("grp-003");
 
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline, "allStu");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult runCommand = command.execute(state);
 
         assertTrue(alice.checkDuplicates(deadline));
@@ -149,7 +150,7 @@ class CreateDeadlineCommandTest {
         assertFalse(grp2.checkDuplicates(deadline));
 
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline, "allGrp");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult runCommand = command.execute(state);
 
         assertTrue(grp1.checkDuplicates(deadline));

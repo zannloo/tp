@@ -27,6 +27,7 @@ import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.model.taskmanager.ToDo;
@@ -72,7 +73,7 @@ public class CreateTodoCommandTest {
         RelativePath path = new RelativePath("grp-003");
 
         CreateTodoCommand command = new CreateTodoCommand(path, todo, "allStu");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult runCommand = command.execute(state);
 
         assertTrue(alice.checkDuplicates(todo));
@@ -109,7 +110,7 @@ public class CreateTodoCommandTest {
         assertFalse(grp2.checkDuplicates(todo));
 
         CreateTodoCommand command = new CreateTodoCommand(path, todo, "allGrp");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult runCommand = command.execute(state);
 
         assertTrue(grp1.checkDuplicates(todo));
