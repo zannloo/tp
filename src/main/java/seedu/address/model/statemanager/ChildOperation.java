@@ -2,6 +2,7 @@ package seedu.address.model.statemanager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -14,6 +15,7 @@ import seedu.address.model.profbook.exceptions.NoSuchChildException;
 
 /**
  * Encapsulates the logic to perform a generic child operation for child manager
+ *
  * @param <T> The type of child that is required
  */
 public class ChildOperation<T extends IChildElement> implements IChildOperation<T> {
@@ -112,5 +114,22 @@ public class ChildOperation<T extends IChildElement> implements IChildOperation<
     @Override
     public int numOfChildren() {
         return this.baseDir.numOfChildren();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChildOperation<?> that = (ChildOperation<?>) o;
+        return Objects.equals(baseDir, that.baseDir);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(baseDir);
     }
 }

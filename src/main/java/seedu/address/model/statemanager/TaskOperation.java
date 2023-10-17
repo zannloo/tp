@@ -1,6 +1,7 @@
 package seedu.address.model.statemanager;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -128,5 +129,22 @@ public class TaskOperation implements ITaskOperations {
     @Override
     public String toString() {
         return this.baseDir.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TaskOperation that = (TaskOperation) o;
+        return Objects.equals(baseDir, that.baseDir);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(baseDir);
     }
 }

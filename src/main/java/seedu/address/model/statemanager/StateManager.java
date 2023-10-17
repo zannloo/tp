@@ -22,7 +22,7 @@ public class StateManager {
     /**
      * Creates a ChildOperation class performs operation on the specified root
      *
-     * @param root        - The current root instance
+     * @param root - The current root instance
      * @return A groupOperation instance specific to current Group
      * @throws UnsupportedPathOperationException If the operation is not supported
      *                                           based on the directory's state.
@@ -37,7 +37,7 @@ public class StateManager {
     /**
      * Creates a ChildOperation class performs operation on the specified group
      *
-     * @param root        - The current root instance
+     * @param root - The current root instance
      * @param path - The path to the childManager
      * @return A groupOperation instance specific to current Group
      * @throws UnsupportedPathOperationException If the operation is not supported
@@ -48,8 +48,8 @@ public class StateManager {
     public static ChildOperation<Student> groupChildOperation(Root root, AbsolutePath path)
             throws UnsupportedPathOperationException, NoSuchChildException {
         requireAllNonNull(root, path);
-        if (!path.isGroupDirectory()) {
-            throw new UnsupportedPathOperationException("Not a group directory");
+        if (path.isRootDirectory()) {
+            throw new UnsupportedPathOperationException("Not a group directory or a student directory");
         }
         return new ChildOperation<>(StateManager.getGroupFromPath(root, path));
     }
@@ -57,7 +57,7 @@ public class StateManager {
     /**
      * Creates a TaskOperation class performs task operation on the specified directory
      *
-     * @param root          - The current root instance
+     * @param root - The current root instance
      * @param path - The path to the specified student
      * @return A TaskOperation instance specific to current path
      * @throws UnsupportedPathOperationException If the operation is not supported

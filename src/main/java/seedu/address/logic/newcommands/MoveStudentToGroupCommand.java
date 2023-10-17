@@ -13,12 +13,9 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
-
-
 
 /**
  * Represents a command for moving a student from one group to another within ProfBook.
@@ -28,17 +25,21 @@ public class MoveStudentToGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mv";
 
-    public static final String ERROR_MESSAGE_DUPLICATE = "This student has already been allocated";
-
     public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
+
+    public static final String ERROR_MESSAGE_INCORRECT_DIRECTORY = "Source is not a student directory.";
+
+    public static final String ERROR_MESSAGE_NO_SUCH_STUDENT = "Student to be moved is not in the source group.";
 
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
-    public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in the group";
+    public static final String MESSAGE_DUPLICATE_STUDENT =
+            "This student already exists in the target destination group.";
 
     public static final String MESSAGE_SUCCESS = "New student added to this group: %1$s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
+
     private final RelativePath source;
 
     private final RelativePath dest;
@@ -66,21 +67,25 @@ public class MoveStudentToGroupCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
-        AbsolutePath currPath = state.getCurrPath();
-        Root root = state.getRoot();
+        requireAllNonNull(state);
         try {
-            requireAllNonNull(currPath, root);
+            AbsolutePath currPath = state.getCurrPath();
+            Root root = state.getRoot();
             AbsolutePath absolutePathSourceGroup = currPath.resolve(this.source);
             Optional<StudentId> toBeMoved = absolutePathSourceGroup.getStudentId();
-            if (!source.isStudentDirectory() || toBeMoved.isEmpty()) {
-                throw new CommandException("Source is not a student directory.");
+            if (!source.isStudentDirectory()) {
+                throw new CommandException(ERROR_MESSAGE_INCORRECT_DIRECTORY);
+            }
+
+            if (toBeMoved.isEmpty()) {
+                throw new CommandException(ERROR_MESSAGE_NO_SUCH_STUDENT);
             }
 
             StudentId toBeMovedId = toBeMoved.get();
 
             ChildOperation<Student> destGroup = StateManager.groupChildOperation(root, absolutePathSourceGroup);
             if (destGroup.hasChild(toBeMovedId)) {
-                throw new CommandException(MESSAGE_DUPLICATE_STUDENT); // @gary prob should let user know
+                throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
             }
 
             ChildOperation<Student> sourceGroup = StateManager.groupChildOperation(root, absolutePathSourceGroup);
@@ -91,8 +96,6 @@ public class MoveStudentToGroupCommand extends Command {
 
             state.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
-        } catch (DuplicateChildException duplicateChildException) {
-            throw new CommandException(ERROR_MESSAGE_DUPLICATE);
         } catch (InvalidPathException invalidPathException) {
             throw new CommandException(ERROR_MESSAGE_INVALID_PATH);
         } catch (UnsupportedPathOperationException unsupportedPathOperationException) {
