@@ -164,7 +164,7 @@ public class CreateTodoCommandTest {
         CreateTodoCommand createTodoCommand = new CreateTodoCommand(relativePath, todo);
 
         assertThrows(CommandException.class,
-                CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK, () -> createTodoCommand.execute(state));
+                CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK_STUDENT, () -> createTodoCommand.execute(state));
     }
 
     @Test
