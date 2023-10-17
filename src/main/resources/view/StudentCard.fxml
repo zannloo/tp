@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox id="cardPane" fx:id="cardPane" styleClass="children_cardPane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <GridPane HBox.hgrow="ALWAYS">
     <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150" />
@@ -35,20 +35,20 @@
       <FlowPane fx:id="tags" />
          <Label fx:id="id" styleClass="cell_small_label" text="\$id">
             <VBox.margin>
-               <Insets left="15.0" top="3.0" />
+               <Insets left="20.0" top="3.0" />
             </VBox.margin>
          </Label>
       <Label fx:id="phone" styleClass="cell_small_label" text="\$phone">
             <padding>
-               <Insets left="15.0" />
+               <Insets left="20.0" top="3.0"/>
             </padding></Label>
       <Label fx:id="address" styleClass="cell_small_label" text="\$address">
             <padding>
-               <Insets left="15.0" />
+               <Insets left="20.0" top="3.0"/>
             </padding></Label>
       <Label fx:id="email" styleClass="cell_small_label" text="\$email">
             <padding>
-               <Insets left="15.0" />
+               <Insets left="20.0" top="3.0"/>
             </padding></Label>
     </VBox>
       <rowConstraints>

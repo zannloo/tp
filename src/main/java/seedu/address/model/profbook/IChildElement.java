@@ -12,5 +12,5 @@ public interface IChildElement extends Displayable {
      *
      * @return The clone of the IChildElement
      */
-    IChildElement clone();
+    IChildElement getClone();
 }

@@ -22,13 +22,25 @@ public class TaskListManager {
 
 
     /**
-     * Constructs a fresh model with tasks loaded from storage
-     *
-     * @param taskList - prefilled task list from storage
+     * Constructs a task list manager with task list given
      */
     public TaskListManager(TaskList taskList) {
         requireAllNonNull(taskList);
         this.taskList = taskList;
+    }
+
+    /**
+     * Constructs a new task list manager
+     */
+    public TaskListManager() {
+        taskList = new TaskList(new ArrayList<>());
+    }
+
+    /**
+     * Check if index is between 0 and task list size.
+     */
+    public boolean isValidIndex(int index) {
+        return index > 0 && index <= taskList.size();
     }
 
     /**

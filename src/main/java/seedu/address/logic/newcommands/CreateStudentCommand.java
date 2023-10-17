@@ -1,5 +1,6 @@
 package seedu.address.logic.newcommands;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -7,13 +8,9 @@ import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
-import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 
 /**
  * Adds a student within the specific group.
@@ -27,6 +24,7 @@ public class CreateStudentCommand extends Command {
     public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in your specified class";
     public static final String MESSAGE_INVALID_PATH = "Path you have chosen is invalid";
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
+    public static final String MESSAGE_GROUP_NOT_FOUND = "Group %1$s does not exist in ProfBook";
 
     private final RelativePath path;
     private final Student student;
@@ -48,29 +46,33 @@ public class CreateStudentCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
+        requireNonNull(state);
         AbsolutePath currPath = state.getCurrPath();
-        Root root = state.getRoot();
+
+        // Check resolved path is valid
+        AbsolutePath targetPath = null;
         try {
-            requireAllNonNull(currPath, root);
-            AbsolutePath absolutePath = currPath.resolve(path);
-
-            ChildOperation<Student> target = StateManager.groupChildOperation(root, absolutePath);
-
-            if (target.hasChild(this.student.getId())) {
-                throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
-            }
-
-            target.addChild(this.student.getId(), this.student);
-            state.updateList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, student));
-
+            targetPath = currPath.resolve(path);
         } catch (InvalidPathException e) {
-            throw new CommandException(MESSAGE_INVALID_PATH);
-        } catch (UnsupportedPathOperationException e) {
-            throw new CommandException(MESSAGE_UNSUPPORTED_PATH_OPERATION);
-        } catch (DuplicateChildException e) {
+            throw new CommandException(e.getMessage());
+        }
+
+        // Check group exists in ProfBook
+        if (!state.hasGroup(targetPath)) {
+            throw new CommandException(String.format(MESSAGE_GROUP_NOT_FOUND, targetPath.getGroupId()));
+        }
+
+        ChildOperation<Student> target = state.groupChildOperation(targetPath);
+
+        // Check duplicate student
+        if (target.hasChild(this.student.getId())) {
             throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
         }
+
+        target.addChild(this.student.getId(), this.student);
+        state.updateList();
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, student));
     }
 
     /**

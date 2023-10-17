@@ -19,8 +19,13 @@ public interface ITaskOperations {
     boolean hasTask(Task t);
 
     /**
-     * Adds a new tasks to the task list
-     *
+     * Check if index is between 0 and task list size.
+     */
+    boolean isValidIndex(int index);
+
+    /**
+     * Adds a new tasks to the task list.
+     * Task must not be duplicated class.
      * @param t
      */
     void addTask(Task t);

@@ -1,7 +1,5 @@
 package seedu.address.logic.parser.newcommandparser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -9,11 +7,13 @@ import seedu.address.logic.newcommands.ShowTaskListCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.path.RelativePath;
 
 /**
  * Parses input arguments and creates a new ShowTaskListCommand object
  */
 public class ShowTaskListCommandParser implements Parser<ShowTaskListCommand> {
+    public static final String MESSAGE_COMMAND_CREATED = "Created new \"ls\" command: %1$s";
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommandParser.class);
 
     /**
@@ -26,11 +26,15 @@ public class ShowTaskListCommandParser implements Parser<ShowTaskListCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args);
 
-        if (!argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, ShowTaskListCommand.MESSAGE_USAGE));
+        if (argMultimap.getPreamble().isEmpty()) {
+            logger.fine(String.format(MESSAGE_COMMAND_CREATED, "Current directory"));
+            return new ShowTaskListCommand();
         }
 
-        return new ShowTaskListCommand();
+        RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
+
+        logger.fine(String.format(MESSAGE_COMMAND_CREATED, path.toString()));
+
+        return new ShowTaskListCommand(path);
     }
 }

@@ -1,25 +1,17 @@
 package seedu.address.logic.newcommands;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.model.statemanager.StateManager.groupChildOperation;
-import static seedu.address.model.statemanager.StateManager.rootChildOperation;
-
-import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.ToDo;
 
@@ -30,16 +22,11 @@ import seedu.address.model.taskmanager.ToDo;
 public class CreateTodoCommand extends Command {
 
     public static final String COMMAND_WORD = "todo";
-
     public static final String ERROR_MESSAGE_DUPLICATE = "This Todo task has already been allocated";
-
     public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
-
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
-
     public static final String MESSAGE_DUPLICATE_TODO_TASK_STUDENT =
             "This ToDo task has already been allocated to this student in ProfBook";
-
     public static final String MESSAGE_DUPLICATE_TODO_TASK_GROUP =
             "This ToDo task has already been allocated to this group in ProfBook";
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
@@ -48,15 +35,15 @@ public class CreateTodoCommand extends Command {
             "New ToDo task added to all groups in root: %1$s";
 
     public static final String MESSAGE_ERROR = "Invalid target encountered while creating this todo task";
-
     public static final String MESSAGE_SUCCESS = "New ToDo task has been added to: %1$s";
-
+    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
+    public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
+    public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "All stu flag is only allowed for group path";
+    public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "All Group flag is only allowed for root path";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
     private final RelativePath relativePath;
-
     private final ToDo todo;
     private String category = null;
-    private CommandResult returnStatement = null;
 
     /**
      * Constructs a {@code CreateTodoCommand} with the specified relative path and "ToDo" task details.
@@ -93,52 +80,46 @@ public class CreateTodoCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
+        requireNonNull(state);
         AbsolutePath currPath = state.getCurrPath();
-        Root root = state.getRoot();
+
+        // Check resolved path is valid
+        AbsolutePath targetPath = null;
         try {
-            requireAllNonNull(currPath, root);
-            AbsolutePath absolutePath = currPath.resolve(relativePath);
-            if (this.category == null) {
-                TaskOperation target = StateManager.taskOperation(root, absolutePath);
-                if (target.hasTask(this.todo)) {
-                    throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
-                }
-                target.addTask(this.todo);
-                returnStatement = new CommandResult(String.format(MESSAGE_SUCCESS, target));
-            } else if (this.category.equals("allStu") && (absolutePath.isGroupDirectory())) {
-                ChildOperation<Student> groupOper = groupChildOperation(root, absolutePath);
-                List<Student> allStudents = groupOper.getAllChildren();
-                for (Student s : allStudents) {
-                    StudentId studentId = (StudentId) s.getId();
-                    AbsolutePath newPath = absolutePath.resolve(new RelativePath(studentId.toString()));
-                    TaskOperation target = StateManager.taskOperation(root, newPath);
-                    if (target.hasTask(this.todo)) {
-                        throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
-                    }
-                    target.addTask(this.todo);
-                }
-                returnStatement = new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
-            } else if (this.category.equals("allGrp") && (absolutePath.isRootDirectory())) {
-                ChildOperation<Group> rootOper = rootChildOperation(root);
-                List<Group> allGroups = rootOper.getAllChildren();
-                for (Group g : allGroups) {
-                    GroupId groupId = (GroupId) g.getId();
-                    AbsolutePath newPath = absolutePath.resolve(new RelativePath(groupId.toString()));
-                    TaskOperation target = StateManager.taskOperation(root, newPath);
-                    if (target.hasTask(this.todo)) {
-                        throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_GROUP);
-                    }
-                    target.addTask(this.todo);
-                }
-                returnStatement = new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
-            }
-            state.updateList();
-        } catch (InvalidPathException invalidPathException) {
-            throw new CommandException(ERROR_MESSAGE_INVALID_PATH);
-        } catch (UnsupportedPathOperationException unsupportedPathOperationException) {
-            throw new CommandException(ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION);
+            targetPath = currPath.resolve(relativePath);
+        } catch (InvalidPathException e) {
+            throw new CommandException(e.getMessage());
         }
-        return returnStatement;
+
+        if (this.category == null) {
+            TaskOperation target = state.taskOperation(targetPath);
+            if (target.hasTask(this.todo)) {
+                throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
+            }
+            target.addTask(this.todo);
+            state.updateList();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+        }
+
+        if (this.category.equals("allStu")) {
+            if (!targetPath.isGroupDirectory()) {
+                throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
+            }
+            ChildOperation<Student> groupOper = state.groupChildOperation(targetPath);
+            groupOper.addTaskToAllChildren(todo, 1);
+            state.updateList();
+            return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
+        }
+
+        if (!targetPath.isRootDirectory()) {
+            throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
+        }
+        ChildOperation<Group> rootOper = state.rootChildOperation();
+        rootOper.addTaskToAllChildren(todo, 1);;
+
+        state.updateList();
+
+        return new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
     }
 
     /**

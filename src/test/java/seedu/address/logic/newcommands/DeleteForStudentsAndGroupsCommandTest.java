@@ -5,10 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -25,9 +22,7 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.State;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.statemanager.StateManager;
 import seedu.address.testutil.GroupBuilder;
 import seedu.address.testutil.StudentBuilder;
 
@@ -39,14 +34,11 @@ class DeleteForStudentsAndGroupsCommandTest {
     @Test
     void execute_deleteStudent_success() throws InvalidPathException, CommandException {
         AbsolutePath currPath = new AbsolutePath("~/grp-001/");
-        List<Task> defaultTaskList = new ArrayList<>();
-        defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
-        TaskList taskList = new TaskList(defaultTaskList);
 
         Map<Id, Group> groups = new HashMap<>();
         Group grp = new GroupBuilder().build();
         groups.put(grp.getId(), grp);
-        Root root = new Root(taskList, groups);
+        Root root = new Root(groups);
 
         RelativePath path = new RelativePath("~/grp-001/stu-001");
         Student stu = new StudentBuilder().build();
@@ -54,7 +46,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         assertTrue(grp.hasChild(studentId));
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult commandResult = command.execute(state);
 
         assertFalse(root.hasChild(studentId));
@@ -66,19 +58,16 @@ class DeleteForStudentsAndGroupsCommandTest {
     @Test
     void execute_deleteGroup_success() throws InvalidPathException, CommandException {
         AbsolutePath currPath = new AbsolutePath("~/");
-        List<Task> defaultTaskList = new ArrayList<>();
-        defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
-        TaskList taskList = new TaskList(defaultTaskList);
 
         Map<Id, Group> groups = new HashMap<>();
         Group grp = new GroupBuilder().build();
         groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(taskList, groups);
+        Root root = new Root(groups);
 
         RelativePath path = new RelativePath("~/grp-001/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult commandResult = command.execute(state);
 
         GroupId groupId = new GroupId("grp-001");
@@ -91,19 +80,16 @@ class DeleteForStudentsAndGroupsCommandTest {
     @Test
     public void execute_noSuchStudent_throwsCommandException() throws InvalidPathException {
         AbsolutePath currPath = new AbsolutePath("~/grp-001/");
-        List<Task> defaultTaskList = new ArrayList<>();
-        defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
-        TaskList taskList = new TaskList(defaultTaskList);
 
         Map<Id, Group> groups = new HashMap<>();
         Group grp = new GroupBuilder().build();
         groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(taskList, groups);
+        Root root = new Root(groups);
 
         RelativePath path = new RelativePath("stu-002");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 DeleteForStudentsAndGroupsCommand.MESSAGE_NO_SUCH_STUDENT_OR_GROUP, (
                 ) -> command.execute(state)
@@ -113,19 +99,16 @@ class DeleteForStudentsAndGroupsCommandTest {
     @Test
     public void execute_noSuchGroup_throwsCommandException() throws InvalidPathException {
         AbsolutePath currPath = new AbsolutePath("~/");
-        List<Task> defaultTaskList = new ArrayList<>();
-        defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
-        TaskList taskList = new TaskList(defaultTaskList);
 
         Map<Id, Group> groups = new HashMap<>();
         Group grp = new GroupBuilder().build();
         groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(taskList, groups);
+        Root root = new Root(groups);
 
         RelativePath path = new RelativePath("~/grp-002/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 DeleteForStudentsAndGroupsCommand.MESSAGE_NO_SUCH_STUDENT_OR_GROUP, (
                 ) -> command.execute(state)
@@ -135,19 +118,16 @@ class DeleteForStudentsAndGroupsCommandTest {
     @Test
     public void execute_incorrectDirectory_throwsCommandException() throws InvalidPathException {
         AbsolutePath currPath = new AbsolutePath("~/");
-        List<Task> defaultTaskList = new ArrayList<>();
-        defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
-        TaskList taskList = new TaskList(defaultTaskList);
 
         Map<Id, Group> groups = new HashMap<>();
         Group grp = new GroupBuilder().build();
         groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(taskList, groups);
+        Root root = new Root(groups);
 
         RelativePath path = new RelativePath("~/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 DeleteForStudentsAndGroupsCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR, (
                 ) -> command.execute(state)

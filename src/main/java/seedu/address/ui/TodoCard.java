@@ -37,5 +37,10 @@ public class TodoCard extends UiPart<Region> {
         desc.setText(todo.getDesc());
         checkBox.setSelected(todo.getStatus());
         checkBox.setDisable(true);
+        if (displayedIndex % 2 == 0) {
+            cardPane.setStyle("-fx-background-color: #534531;");
+        } else {
+            cardPane.setStyle("-fx-background-color: #866937;");
+        }
     }
 }

@@ -49,6 +49,11 @@ public class Deadline extends Task {
     }
 
     @Override
+    public Deadline clone() {
+        return new Deadline(description, dueBy);
+    }
+
+    @Override
     public UiPart<Region> getDisplayCard(int displayedIndex) {
         return new DeadlineCard(this, displayedIndex);
     }

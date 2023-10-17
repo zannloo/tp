@@ -37,4 +37,6 @@ public abstract class Task implements Displayable {
         return (this.isDone ? "X" : " ");
     }
 
+    public abstract Task clone();
+
 }

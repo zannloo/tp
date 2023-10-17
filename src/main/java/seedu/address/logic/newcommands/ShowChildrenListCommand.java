@@ -5,6 +5,9 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.statemanager.State;
 
 /**
@@ -12,10 +15,21 @@ import seedu.address.model.statemanager.State;
  */
 public class ShowChildrenListCommand extends Command {
     public static final String COMMAND_WORD = "ls";
-    public static final String MESSAGE_SUCCESS = "Show Children List of %1$s";
+    public static final String MESSAGE_SUCCESS = "Show children List of %1$s";
+    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook: %1$s";
+    public static final String MESSAGE_NOT_CHILDREN_MANAGER = "Cannot show children list for this path: %1$s";
+    public static final String MESSAGE_USAGE = COMMAND_WORD;
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD;
+    private final RelativePath target;
+
+    public ShowChildrenListCommand() {
+        target = null;
+    }
+
+    public ShowChildrenListCommand(RelativePath path) {
+        target = path;
+    }
 
     /**
      * Executes the MoveStudentToGroupCommand, moving a student from the source group to the destination group in
@@ -26,9 +40,41 @@ public class ShowChildrenListCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
+        AbsolutePath currPath = state.getCurrPath();
+
+        if (target == null) {
+            if (!state.hasChildrenListInCurrentPath()) {
+                throw new CommandException(MESSAGE_NOT_CHILDREN_MANAGER);
+            }
+            state.setDisplayPath(currPath);
+            state.showChildrenList();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, "current directory"));
+        }
+
+        // Check target absolute path is valid
+        AbsolutePath targetAbsolutePath = null;
+        try {
+            targetAbsolutePath = currPath.resolve(target);
+        } catch (InvalidPathException e) {
+            throw new CommandException(e.getMessage());
+        }
+
+        // Check path exists in ProfBook
+        if (!state.hasPath(targetAbsolutePath)) {
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, targetAbsolutePath.toString()));
+        }
+
+        // Check path is children manager
+        if (!state.hasChildrenListInPath(targetAbsolutePath)) {
+            throw new CommandException(String.format(MESSAGE_NOT_CHILDREN_MANAGER, targetAbsolutePath.toString()));
+        }
+
+        state.setDisplayPath(targetAbsolutePath);
         state.showChildrenList();
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, "Current Directory"));
+        logger.fine("Showing children list for path: " + targetAbsolutePath.toString());
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, targetAbsolutePath.toString()));
     }
 
     /**

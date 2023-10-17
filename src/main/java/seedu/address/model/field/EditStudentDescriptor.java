@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.id.Id;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
@@ -21,7 +21,7 @@ public class EditStudentDescriptor {
     private Phone phone;
     private Email email;
     private Address address;
-    private Id id;
+    private StudentId id;
 
     public EditStudentDescriptor() {}
 
@@ -121,7 +121,7 @@ public class EditStudentDescriptor {
      *
      * @param id The new id to set.
      */
-    public void setId(Id id) {
+    public void setId(StudentId id) {
         this.id = id;
     }
 
@@ -130,7 +130,7 @@ public class EditStudentDescriptor {
      *
      * @return An Optional containing the id if it's set, empty otherwise.
      */
-    public Optional<Id> getId() {
+    public Optional<StudentId> getId() {
         return Optional.ofNullable(id);
     }
 

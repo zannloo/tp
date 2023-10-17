@@ -61,8 +61,12 @@ public class ProfBookLogicManager {
         return commandResult;
     }
 
-    public ObservableList<Displayable> getFilteredList() {
-        return state.getFilteredList();
+    public ObservableList<Displayable> getDisplayList() {
+        return state.getDisplayList();
+    }
+
+    public String getCurrPath() {
+        return state.getCurrPath().toString();
     }
 
     public Path getAddressBookFilePath() {
