@@ -8,7 +8,6 @@ import static seedu.address.logic.newcommands.CreateTodoCommand.MESSAGE_SUCCESS_
 import static seedu.address.logic.newcommands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +29,7 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
+import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.model.taskmanager.ToDo;
@@ -65,7 +65,7 @@ public class CreateTodoCommandTest {
         Group grp = new Group(new TaskList(null), studentMap, new Name("AmazingGroup"), new GroupId("grp-003"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-003"), grp);
-        Root root = new Root(new TaskList(null), groups);
+        Root root = new Root(groups);
 
         ToDo todo = new ToDo("Assignment 1");
 
@@ -101,9 +101,8 @@ public class CreateTodoCommandTest {
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), grp1);
         groups.put(new GroupId("grp-002"), grp2);
-        Root root = new Root(new TaskList(null), groups);
+        Root root = new Root(groups);
 
-        LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:58");
         ToDo todo = new ToDo("Assignment 3");
 
         RelativePath path = new RelativePath("~");
@@ -127,18 +126,17 @@ public class CreateTodoCommandTest {
     public void execute_createTodoTask_success() throws CommandException, InvalidPathException,
             UnsupportedPathOperationException {
         ToDo todo = new ToDo("Todo read book");
-        TaskList taskList = new TaskList(new ArrayList<>());
         Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(taskList, children);
+        Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
         Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
         AbsolutePath currPath = new AbsolutePath("~/");
         RelativePath relativePath = new RelativePath("~/grp-001");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CreateTodoCommand createTodoCommand = new CreateTodoCommand(relativePath, todo);
         AbsolutePath absolutePath = currPath.resolve(relativePath);
-        TaskOperation target = StateManager.taskOperation(root, absolutePath);
+        TaskOperation target = state.taskOperation(absolutePath);
         CommandResult successCommandResult = new CommandResult(String.format(MESSAGE_SUCCESS, target));
 
         assertEquals(successCommandResult, createTodoCommand.execute(state));
@@ -148,17 +146,16 @@ public class CreateTodoCommandTest {
     public void execute_duplicateTodoTask_throwCommandException() throws InvalidPathException,
             UnsupportedPathOperationException {
         ToDo todo = new ToDo("Todo read book");
-        TaskList taskList = new TaskList(new ArrayList<>());
         Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(taskList, children);
+        Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
         Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
         AbsolutePath currPath = new AbsolutePath("~/");
         RelativePath relativePath = new RelativePath("~/grp-001");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         AbsolutePath absolutePath = currPath.resolve(relativePath);
-        TaskOperation target = StateManager.taskOperation(root, absolutePath);
+        TaskOperation target = state.taskOperation(absolutePath);
         target.addTask(todo);
         CreateTodoCommand createTodoCommand = new CreateTodoCommand(relativePath, todo);
 

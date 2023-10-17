@@ -54,7 +54,7 @@ class CreateDeadlineCommandTest {
         Group grp = new Group(new TaskList(null), studentMap, new Name("Group1"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(new TaskList(null), groups);
+        Root root = new Root(groups);
 
         LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline = new Deadline("Assignment 3", duedate);
@@ -102,7 +102,7 @@ class CreateDeadlineCommandTest {
         Group grp = new Group(new TaskList(null), studentMap, new Name("AmazingGroup"), new GroupId("grp-003"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-003"), grp);
-        Root root = new Root(new TaskList(null), groups);
+        Root root = new Root(groups);
 
         LocalDateTime duedate = LocalDateTime.parse("2023-03-03T00:00");
         Deadline deadline = new Deadline("Assignment 1", duedate);
@@ -139,7 +139,7 @@ class CreateDeadlineCommandTest {
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), grp1);
         groups.put(new GroupId("grp-002"), grp2);
-        Root root = new Root(new TaskList(null), groups);
+        Root root = new Root(groups);
 
         LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:58");
         Deadline deadline = new Deadline("Assignment 3", duedate);
@@ -165,14 +165,11 @@ class CreateDeadlineCommandTest {
     @Test
     public void execute_duplicateDeadline_throwsCommandException() throws InvalidPathException {
         AbsolutePath currPath = new AbsolutePath("~/grp-001/");
-        List<Task> defaultTaskList = new ArrayList<>();
-        defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
-        TaskList taskList = new TaskList(defaultTaskList);
 
         Map<Id, Group> groups = new HashMap<>();
         Group grp = new GroupBuilder().build();
         groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(taskList, groups);
+        Root root = new Root(groups);
 
         State state = new StateManager(currPath, root, new UserPrefs());
 

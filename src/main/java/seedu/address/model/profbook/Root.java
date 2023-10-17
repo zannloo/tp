@@ -3,7 +3,6 @@ import java.util.Map;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.Id;
-import seedu.address.model.taskmanager.TaskList;
 
 /**
  * Encapsulates logic for the whole application data
@@ -16,7 +15,7 @@ public class Root extends ChildrenManager<Group> {
      * @param taskList - The Task list associated with this object
      * @param children - The Groups under the root
      */
-    public Root(TaskList taskList, Map<Id, Group> children) {
+    public Root(Map<Id, Group> children) {
         super(children);
     }
 

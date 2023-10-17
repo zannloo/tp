@@ -2,6 +2,7 @@ package seedu.address.statemanager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -12,18 +13,19 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.statemanager.ChildOperation;
+import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.testutil.StudentBuilder;
@@ -36,6 +38,8 @@ public class ChildOperationTest {
     private AbsolutePath rootPath;
     private AbsolutePath grpPath;
     private AbsolutePath stuPath;
+
+    private State state;
 
     @BeforeEach
     public void init() {
@@ -59,101 +63,75 @@ public class ChildOperationTest {
         this.group = new Group(new TaskList(null), studentMap, new Name("gary"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), this.group);
-        this.root = new Root(new TaskList(null), groups);
+        this.root = new Root(groups);
+        state = new StateManager(rootPath, root, new UserPrefs());
     }
 
     @Test
     public void getChildOperation_noErrorReturn() {
-        try {
-            assertEquals(new ChildOperation<>(this.root), StateManager.rootChildOperation(root));
-            assertEquals(new ChildOperation<>(this.group), StateManager.groupChildOperation(root, grpPath));
-            assertEquals(new ChildOperation<>(this.group), StateManager.groupChildOperation(root, stuPath));
-        } catch (UnsupportedPathOperationException e) {
-            fail();
-        }
+        assertEquals(new ChildOperation<>(this.root), state.rootChildOperation());
+        assertEquals(new ChildOperation<>(this.group.getChildrenManger()), state.groupChildOperation(grpPath));
+        assertEquals(new ChildOperation<>(this.group.getChildrenManger()), state.groupChildOperation(stuPath));
     }
 
     @Test
     public void getGroupChildOperationWithRoot_exceptionThrown() {
-        try {
-            assertEquals(new ChildOperation<>(this.group), StateManager.groupChildOperation(root, rootPath));
-            fail();
-        } catch (UnsupportedPathOperationException e) {
-            assertEquals("Not a group directory or a student directory", e.getMessage());
-        }
+        assertThrows(IllegalArgumentException.class, () -> state.groupChildOperation(rootPath));
     }
 
     @Test
     public void childOperationVerifyDeleteAndAdd_noError() {
-        try {
-            StudentId stu = new StudentId("stu-001");
-            ChildOperation<Student> opr = StateManager.groupChildOperation(root, grpPath);
-            assertTrue(opr.hasChild(stu));
-            opr.deleteChild(stu);
-            assertFalse(opr.hasChild(stu));
-            opr.addChild(stu, this.student);
-            assertTrue(opr.hasChild(stu));
-        } catch (UnsupportedPathOperationException | DuplicateChildException e) {
-            fail();
-        }
+        StudentId stu = new StudentId("stu-001");
+        ChildOperation<Student> opr = state.groupChildOperation(grpPath);
+        assertTrue(opr.hasChild(stu));
+        opr.deleteChild(stu);
+        assertFalse(opr.hasChild(stu));
+        opr.addChild(stu, this.student);
+        assertTrue(opr.hasChild(stu));
     }
 
     @Test
     public void childOperationVerifyGet_noError() {
-        try {
-            StudentId stu = new StudentId("stu-001");
-            ChildOperation<Student> opr = StateManager.groupChildOperation(root, grpPath);
-            assertTrue(opr.hasChild(stu));
-            assertEquals(this.student, opr.getChild(stu));
-        } catch (UnsupportedPathOperationException e) {
-            fail();
-        }
+        StudentId stu = new StudentId("stu-001");
+        ChildOperation<Student> opr = state.groupChildOperation(grpPath);
+        assertTrue(opr.hasChild(stu));
+        assertEquals(this.student, opr.getChild(stu));
     }
 
     @Test
     public void childOperationAddDuplicateChild_exceptionThrown() {
         StudentId stu = new StudentId("stu-001");
         try {
-            ChildOperation<Student> opr = StateManager.groupChildOperation(root, grpPath);
+            ChildOperation<Student> opr = state.groupChildOperation(grpPath);
             assertTrue(opr.hasChild(stu));
             opr.addChild(stu, this.student);
             fail();
         } catch (DuplicateChildException e) {
             assertEquals("Operation would result in duplicate " + stu, e.getMessage());
-        } catch (UnsupportedPathOperationException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @Test
     public void childOperationVerifyGetAll_noError() {
-        try {
-            ChildOperation<Student> opr = StateManager.groupChildOperation(root, grpPath);
-            ArrayList<Student> list = new ArrayList<>();
-            list.add(this.student);
-            assertEquals(opr.getAllChildren(), list);
-        } catch (UnsupportedPathOperationException e) {
-            fail();
-        }
+        ChildOperation<Student> opr = state.groupChildOperation(grpPath);
+        ArrayList<Student> list = new ArrayList<>();
+        list.add(this.student);
+        assertEquals(opr.getAllChildren(), list);
     }
 
     @Test
     public void childOperationVerifyUpdate_noError() {
-        try {
-            StudentId stu = new StudentId("stu-001");
-            Student newStu = new StudentBuilder()
-                    .withName("angel")
-                    .withEmail("angelyipenqi@example.com")
-                    .withPhone("1234567")
-                    .withAddress("311, Clementi Ave 2, #02-25")
-                    .withTags("owesMoney", "friends")
-                    .withId("stu-001").build();
-            ChildOperation<Student> opr = StateManager.groupChildOperation(root, grpPath);
-            assertTrue(opr.hasChild(stu));
-            opr.updateChild(stu, newStu);
-            assertEquals(newStu, opr.getChild(stu));
-        } catch (UnsupportedPathOperationException e) {
-            fail();
-        }
+        StudentId stu = new StudentId("stu-001");
+        Student newStu = new StudentBuilder()
+                .withName("angel")
+                .withEmail("angelyipenqi@example.com")
+                .withPhone("1234567")
+                .withAddress("311, Clementi Ave 2, #02-25")
+                .withTags("owesMoney", "friends")
+                .withId("stu-001").build();
+        ChildOperation<Student> opr = state.groupChildOperation(grpPath);
+        assertTrue(opr.hasChild(stu));
+        opr.updateChild(stu, newStu);
+        assertEquals(newStu, opr.getChild(stu));
     }
 }

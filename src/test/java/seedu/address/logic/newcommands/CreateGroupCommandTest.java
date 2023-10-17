@@ -23,6 +23,7 @@ import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.TaskList;
 
 public class CreateGroupCommandTest {
@@ -34,14 +35,13 @@ public class CreateGroupCommandTest {
 
     @Test
     public void execute_createGroup_success() throws CommandException, InvalidPathException {
-        TaskList taskList = new TaskList(new ArrayList<>());
         Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(taskList, children);
+        Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
         Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
         AbsolutePath currPath = new AbsolutePath("~/");
         RelativePath relativePath = new RelativePath("~/grp-001");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CreateGroupCommand createGroupCommand = new CreateGroupCommand(relativePath, group);
         CommandResult successCommandResult = new CommandResult(String.format(MESSAGE_SUCCESS, group));
 
@@ -50,15 +50,14 @@ public class CreateGroupCommandTest {
 
     @Test
     public void execute_duplicateGroup_throwCommandException() throws InvalidPathException {
-        TaskList taskList = new TaskList(new ArrayList<>());
         Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(taskList, children);
+        Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
         Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
         AbsolutePath currPath = new AbsolutePath("~/");
         RelativePath relativePath = new RelativePath("~/grp-001");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         CreateGroupCommand createGroupCommand = new CreateGroupCommand(relativePath, group);
 
         assertThrows(CommandException.class, MESSAGE_DUPLICATE_GROUP, () -> createGroupCommand.execute(state));

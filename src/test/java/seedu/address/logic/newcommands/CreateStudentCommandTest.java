@@ -6,10 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalStudents.ALICE;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -27,8 +24,6 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.testutil.GroupBuilder;
 import seedu.address.testutil.StudentBuilder;
@@ -55,14 +50,11 @@ class CreateStudentCommandTest {
     @Test
     void execute_studentAcceptedByGroup_success() throws Exception {
         AbsolutePath currPath = new AbsolutePath("~/grp-001/");
-        List<Task> defaultTaskList = new ArrayList<>();
-        defaultTaskList.add(new Deadline("Assignment 1", LocalDateTime.parse("2023-12-03T23:59")));
-        TaskList taskList = new TaskList(defaultTaskList);
 
         Map<Id, Group> groups = new HashMap<>();
         Group grp = new GroupBuilder().build();
         groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(taskList, groups);
+        Root root = new Root(groups);
 
         RelativePath path = new RelativePath("~/grp-001/");
 
@@ -97,7 +89,7 @@ class CreateStudentCommandTest {
         Group grp = new Group(new TaskList(null), studentMap, new Name("ProfBook"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(new TaskList(null), groups);
+        Root root = new Root(groups);
 
         RelativePath path = new RelativePath("~/grp-001");
 

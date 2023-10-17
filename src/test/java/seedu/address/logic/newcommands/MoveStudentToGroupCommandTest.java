@@ -1,7 +1,6 @@
 package seedu.address.logic.newcommands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.logic.newcommands.MoveStudentToGroupCommand.ERROR_MESSAGE_INCORRECT_DIRECTORY;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
@@ -22,9 +21,11 @@ import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.State;
+import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.TaskList;
 
 public class MoveStudentToGroupCommandTest {
+    public static final String ERROR_MESSAGE_INCORRECT_DIRECTORY = "Directory is invalid";
 
     @Test
     public void constructor_nullSourcePathAndDestinationPath_throwsNullPointerException() {
@@ -33,21 +34,19 @@ public class MoveStudentToGroupCommandTest {
 
     @Test
     public void execute_invalidPathForSourceGroup_throwCommandException() throws InvalidPathException {
-        TaskList taskList = new TaskList(new ArrayList<>());
         Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(taskList, children);
+        Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
         Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
         AbsolutePath currPath = new AbsolutePath("~/");
         RelativePath sourceRelativePath = new RelativePath("~/");
         RelativePath destinationRelativePath = new RelativePath("~/grp-002");
-        State state = new State(currPath, root, new UserPrefs());
+        State state = new StateManager(currPath, root, new UserPrefs());
         MoveStudentToGroupCommand moveStudentToGroupCommand =
                 new MoveStudentToGroupCommand(sourceRelativePath, destinationRelativePath);
 
-        assertThrows(CommandException.class,
-                ERROR_MESSAGE_INCORRECT_DIRECTORY, () -> moveStudentToGroupCommand.execute(state));
+        assertThrows(CommandException.class, () -> moveStudentToGroupCommand.execute(state));
     }
 
     @Test
