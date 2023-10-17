@@ -5,7 +5,6 @@ import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.JsonUtil;
-import seedu.address.model.ReadOnlyProfBook;
 import seedu.address.model.profbook.Root;
 
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class JsonProfBookStorage implements ProfBookStorage {
 
         Optional<JsonSerializableProfBookRoot> jsonProfBook = JsonUtil.readJsonFile(
                 filePath, JsonSerializableProfBookRoot.class);
-        if (!jsonProfBook.isPresent()) {
+        if (jsonProfBook.isEmpty()) {
             return Optional.empty();
         }
 

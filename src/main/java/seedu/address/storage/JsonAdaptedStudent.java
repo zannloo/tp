@@ -16,9 +16,11 @@ import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.taskmanager.ToDo;
 
 
 /**
@@ -69,7 +71,9 @@ public class JsonAdaptedStudent {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
-        tasks.addAll(source.getAllTask().stream().map(JsonAdaptedTasks::new).collect(Collectors.toList()));
+        tasks.addAll(source.getAllTask().stream()
+                .map(task -> (task instanceof ToDo) ? new JsonAdaptedToDo((ToDo) task) : new JsonAdaptedDeadline((Deadline)task))
+                .collect(Collectors.toList()));
     }
 
 

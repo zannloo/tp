@@ -14,8 +14,10 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyProfBook;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
+import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.taskmanager.ToDo;
 
 /**
  * An Immutable ProfBookRoot that is serializable to JSON format.
@@ -36,9 +38,12 @@ public class JsonSerializableProfBookRoot {
     }
 
     public JsonSerializableProfBookRoot(Root source) {
-        groups.addAll(source.getGroupList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
-        groups.addAll(source.getAllChildren().stream().map())
-        tasks.addAll()
+        groups.addAll(source.getAllChildren().stream().map(JsonAdaptedGroup::new).collect(Collectors.toList()));
+        tasks.addAll(source.getAllTask().stream().
+                map(task -> (task instanceof ToDo)
+                        ? new JsonAdaptedToDo((ToDo) task)
+                        : new JsonAdaptedDeadline((Deadline) task))
+                .collect(Collectors.toList()));
     }
 
     public Root toModelType() throws IllegalValueException {
