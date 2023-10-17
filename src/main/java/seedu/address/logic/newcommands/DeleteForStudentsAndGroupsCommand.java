@@ -61,6 +61,11 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
             throw new CommandException(e.getMessage());
         }
 
+        // Check path exists in ProfBook
+        if (!state.hasPath(targetPath)) {
+            throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
+        }
+
         if (targetPath.isStudentDirectory()) {
             ChildOperation<Student> target = state.groupChildOperation(targetPath);
             StudentId studentId = targetPath.getStudentId().get();
