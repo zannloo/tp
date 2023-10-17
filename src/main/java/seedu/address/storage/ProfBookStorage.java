@@ -12,7 +12,7 @@ public interface ProfBookStorage {
     /**
      * Returns the file path of the data file.
      */
-    Path getAddressBookFilePath();
+    Path getProfBookFilePath();
 
     /**
      * Returns ProfBook data as a {@link ReadOnlyProfBook}.

@@ -24,7 +24,7 @@ public class JsonProfBookStorage implements ProfBookStorage {
         this.filePath = filePath;
     }
 
-    public Path getAddressBookFilePath() {
+    public Path getProfBookFilePath() {
         return filePath;
     }
 

@@ -47,22 +47,22 @@ public class JsonSerializableProfBookRoot {
     }
 
     public Root toModelType() throws IllegalValueException {
-        Root profbook = new Root(new TaskList(new ArrayList<>()), new HashMap<>());
+        Root profBook = new Root(new TaskList(new ArrayList<>()), new HashMap<>());
         for (JsonAdaptedGroup jsonAdaptedGroup : groups) {
             Group grp = jsonAdaptedGroup.toModelType();
-            if (profbook.hasChild(grp.getId())) {
+            if (profBook.hasChild(grp.getId())) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_GROUP);
             }
-            profbook.addChild(grp.getId(), grp);
+            profBook.addChild(grp.getId(), grp);
         }
         for (JsonAdaptedTasks jsonAdaptedtasks : tasks) {
             Task task = jsonAdaptedtasks.toModelType();
-            if (profbook.checkDuplicates(task)){
+            if (profBook.checkDuplicates(task)){
                 throw new IllegalValueException(MESSAGE_DUPLICATE_GROUP);
             }
-            profbook.addTask(task);
+            profBook.addTask(task);
         }
-        return profbook;
+        return profBook;
     }
 
 }
