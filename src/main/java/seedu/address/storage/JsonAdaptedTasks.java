@@ -19,8 +19,9 @@ public abstract class JsonAdaptedTasks  {
         this.isDone = isDone;
     }
 
-    public JsonAdaptedTasks {
-
+    public JsonAdaptedTasks (Task source){
+        this.description = source.getDesc();
+        this.isDone = source.statusString();
     }
 
 

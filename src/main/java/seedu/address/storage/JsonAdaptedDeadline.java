@@ -17,15 +17,15 @@ public class JsonAdaptedDeadline extends JsonAdaptedTasks {
     private String date;
 
     @JsonCreator
-    public JsonAdaptedDeadline(@JsonProperty String type, @JsonProperty("description") String description,
+    public JsonAdaptedDeadline(@JsonProperty("description") String description,
                                @JsonProperty("isDone") String isDone, @JsonProperty("date") String date) {
         super(description, isDone);
         this.type = type;
         this.date = date;
     }
     public JsonAdaptedDeadline(Deadline source){
-        super(source.getDesc(), source.getStatus())
-        this.date = source.getDeadline()
+        super(source.getDesc(), source.statusString());
+        this.date = source.getDeadline();
     }
 
     @Override

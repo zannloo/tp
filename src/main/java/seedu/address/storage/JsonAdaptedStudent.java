@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -60,7 +61,15 @@ public class JsonAdaptedStudent {
     }
 
     public JsonAdaptedStudent(Student source) {
-
+        this.name = source.getName().toString();
+        this.phone = source.getPhone().toString();
+        this.email = source.getEmail().toString();
+        this.address = source.getAddress().toString();
+        this.id = source.getId().toString();
+        tags.addAll(source.getTags().stream()
+                .map(JsonAdaptedTag::new)
+                .collect(Collectors.toList()));
+        tasks.addAll(source.getAllTask().stream().map(JsonAdaptedTasks::new).collect(Collectors.toList()));
     }
 
 

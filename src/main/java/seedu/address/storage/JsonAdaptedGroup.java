@@ -58,8 +58,8 @@ public class JsonAdaptedGroup {
     public JsonAdaptedGroup(Group source) {
         name = source.getName().fullName;
         id = source.getId().toString();
-        students = new HashSet<>(source.getAllChildren().stream().map(JsonAdaptedStudent::new).collect(Collectors.toList()));
-        tasks = source.getAllTask().stream().map(JsonAdaptedTasks::new).collect(Collectors.toList());
+        students.addAll(source.getAllChildren().stream().map(JsonAdaptedStudent::new).collect(Collectors.toList()));
+        tasks.addAll(source.getAllTask().stream().map(JsonAdaptedTasks::new).collect(Collectors.toList()));
     }
 
     public Group toModelType() throws IllegalValueException {

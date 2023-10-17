@@ -33,6 +33,13 @@ public abstract class Task implements Displayable {
         return isDone;
     }
 
+    public String statusString() {
+        if(isDone) {
+            return "true";
+        }
+        return "false";
+    }
+
     public String getStatusIcon() {
         return (this.isDone ? "X" : " ");
     }

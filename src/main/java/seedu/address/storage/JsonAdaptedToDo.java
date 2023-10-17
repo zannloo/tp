@@ -6,14 +6,15 @@ import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.ToDo;
 public class JsonAdaptedToDo extends JsonAdaptedTasks{
 
-    private String type;
-
     @JsonCreator
-    public JsonAdaptedToDo(@JsonProperty String type, @JsonProperty("description") String description,
+    public JsonAdaptedToDo(@JsonProperty("description") String description,
                            @JsonProperty("isDone") String isDone) {
         super(description,isDone);
-        this.type = type;
 
+    }
+
+    public JsonAdaptedToDo(ToDo source) {
+        super(source.getDesc(), source.statusString());
     }
 
     @Override
