@@ -37,6 +37,13 @@ public class TaskListManager {
     }
 
     /**
+     * Check if index is between 0 and task list size.
+     */
+    public boolean isValidIndex(int index) {
+        return index > 0 && index <= taskList.size();
+    }
+
+    /**
      * Adds a new tasks to the task list
      *
      * @param t
