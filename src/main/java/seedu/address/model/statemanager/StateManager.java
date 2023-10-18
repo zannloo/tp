@@ -288,6 +288,14 @@ public class StateManager implements State {
         return root.getChild(grpId).getChild(stuId);
     }
 
+    /**
+     * Return the Root of addressbook.
+     */
+    @Override
+    public Root getRoot() {
+        return this.root;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
