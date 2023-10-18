@@ -11,6 +11,8 @@ Java, and has about 10 kLoC.
 
 Given below are my contributions to the project.
 
+### Features Contribution
+
 * **Dynamic Commands**:
     * What it does: Allow user's command to have different effect based on their current location in the file structure
     * Justification:
@@ -34,27 +36,68 @@ Given below are my contributions to the project.
         * Implementation of this required an in-depth analysis of design alternative as there was a need for a generic
           way to modify all the current different classes alongside future classes.
 
-* **Code contributed**:
-  [RepoSense link](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=w15&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code&since=2023-09-22&tabOpen=true&tabType=authorship&tabAuthor=mingyuanc&tabRepo=AY2324S1-CS2103T-W15-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false).
+### Classes Contribution
 
-* **Project management**:
-    * to be added soon.
+* **Introduced TaskListManager Class**:
 
-* **Enhancements to existing features**:
-    * to be added soon.
+    * Manages the required operations of TaskList
+    * Ensure the expected behaviour with regard to managing the tasks
+        * No Duplicate tasks
+        * Able to accept subclasses of Tasks
+        * Other classes not being able to directly modify tasks
+* **Introduced ChildManager Class**
 
-* **Documentation**:
-    * User Guide:
-        * to be added soon.
+    * Manages the operation required to modify the children
+    * Ensure the expected behaviour with regard to managing the children
+        * No Duplicate children across the whole profbook
+        * Children are identified by their Unique ID
+        * Other classes not being able to directly modify children
+
+* **Introduced Student Class**
+
+    * Encapsulates the required information to represent student
+
+* **Introduced Group Class**
+
+    * Encapsulates the required information to represent a group within tutorial group
+
+* **Introduced Root Class**
+
+    * Encapsulates the required information to represent the whole application
+
+* **Enhanced StateManager Class**
+    * Provides the logic to safely manipulate data stored in Student/Group/Root
+    * Ensure separation of concern by implementing other two other classes, TaskOperation and ChildOperation,
+      each handling their own operation.
+        * Ensure the expected behaviour with regard to manipulating the state
+            * Path given matches the expected outcome
+            * Commands are unable to directly modify the state
+
+### **Code contributed**:
+
+[RepoSense link](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=w15&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code&since=2023-09-22&tabOpen=true&tabType=authorship&tabAuthor=mingyuanc&tabRepo=AY2324S1-CS2103T-W15-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false).
+
+### Project Management:
+
+* Managed Releases v1.2 on GitHub
+
+### Documentations:
+
+* User Guide:
+    * Non-Feature specific
+        * Transferred initial command description from Google documents into Markdown format
+        * Wrote the overview of the whole project
+        * Wrote the overview for all three of our main features
+        * Updated the command summary page
     * Developer Guide:
         * to be added soon.
 
+
 * **Community**:
-    * PRs reviewed (with non-trivial review comments): to be added soon.
-    * Contributed to forum discussions (examples: to be added soon)
-    * Reported bugs and suggestions for other teams in the class (examples: to be added soon)
-    * Some parts of the history feature I added was adopted by several other class mates (to be added soon)
-
-* **Tools**:
-    * to be added soon
-
+    * PRs reviewed (with non-trivial review comments):
+        * **[Pull Request #71](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/71)**
+        * **[Pull Request #87](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/87)**
+        * **[Pull Request #113](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/113)**
+        * **[Pull Request #115](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/115)**
+        * **[Pull Request #117](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/117)**
+        * **[Pull Request #118](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/118)**
