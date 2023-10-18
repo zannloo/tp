@@ -30,7 +30,7 @@ public class JsonProfBookStorage implements ProfBookStorage {
     }
 
     /**
-     * @return
+     * @return Path
      */
     @Override
     public Path getUserPrefsFilePath() {
@@ -38,7 +38,7 @@ public class JsonProfBookStorage implements ProfBookStorage {
     }
 
     /**
-     * @return
+     * @return Empty Optional
      * @throws DataLoadingException
      */
     @Override
