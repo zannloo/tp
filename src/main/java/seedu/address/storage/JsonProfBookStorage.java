@@ -12,6 +12,8 @@ import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.profbook.Root;
 
 /**
@@ -25,6 +27,32 @@ public class JsonProfBookStorage implements ProfBookStorage {
 
     public JsonProfBookStorage(Path filePath) {
         this.filePath = filePath;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Path getUserPrefsFilePath() {
+        return null;
+    }
+
+    /**
+     * @return
+     * @throws DataLoadingException
+     */
+    @Override
+    public Optional<UserPrefs> readUserPrefs() throws DataLoadingException {
+        return Optional.empty();
+    }
+
+    /**
+     * @param userPrefs cannot be null.
+     * @throws IOException
+     */
+    @Override
+    public void saveUserPrefs(ReadOnlyUserPrefs userPrefs) throws IOException {
+
     }
 
     public Path getProfBookFilePath() {

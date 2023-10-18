@@ -55,13 +55,13 @@ public class ProfBookLogicManager {
         Command command = profBookParser.parseCommand(commandText);
         commandResult = command.execute(state);
 
-         try {
-             storage.saveProfBook(state.getRoot());
-         } catch (AccessDeniedException e) {
-             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
-         } catch (IOException ioe) {
-             throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
-         }
+        try {
+            storage.saveProfBook(state.getRoot());
+        } catch (AccessDeniedException e) {
+            throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
+        } catch (IOException ioe) {
+            throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
+        }
 
         return commandResult;
     }

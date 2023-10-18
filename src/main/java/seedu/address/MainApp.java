@@ -23,10 +23,10 @@ import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.util.SampleProfBook;
 import seedu.address.storage.JsonProfBookStorage;
+import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.ProfBookStorage;
 import seedu.address.storage.ProfBookStorageManager;
 import seedu.address.storage.UserPrefsStorage;
-import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
 
@@ -59,7 +59,7 @@ public class MainApp extends Application {
         // AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
         // storage = new StorageManager(addressBookStorage, userPrefsStorage);
         ProfBookStorage profBookStorage = new JsonProfBookStorage(userPrefs.getProfBookFilePath());
-        storage = new ProfBookStorageManager(profBookStorage);
+        storage = new ProfBookStorageManager(profBookStorage, userPrefsStorage);
 
         //todo: abstract to an init method, and need to read from storage
         state = initModelManager(userPrefs);
@@ -78,24 +78,23 @@ public class MainApp extends Application {
         //todo: storage
         logger.info("Using data file : " + storage.getProfBookFilePath());
 
-         Optional<Root> profBookOptional;
-         Root initialData;
-         try {
-             profBookOptional = storage.readProfBook();
-             if (!profBookOptional.isPresent()) {
-                 logger.info("Creating a new data file " + storage.getProfBookFilePath()
-                         + " populated with a sample AddressBook.");
-             }
-//             initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
-             initialData = new Root();
-         }
-         catch (DataLoadingException e) {
-             logger.warning("Data file at " + storage.getProfBookFilePath() + " could not be loaded."
-                     + " Will be starting with an empty AddressBook.");
-             initialData = new Root();
-         } catch (NullPointerException e){
-             logger.info("here");
-             initialData = new Root();
+        Optional<Root> profBookOptional;
+        Root initialData;
+        try {
+            profBookOptional = storage.readProfBook();
+            if (!profBookOptional.isPresent()) {
+                logger.info("Creating a new data file " + storage.getProfBookFilePath()
+                        + " populated with a sample AddressBook.");
+            }
+            //initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
+            initialData = new Root();
+        } catch (DataLoadingException e) {
+            logger.warning("Data file at " + storage.getProfBookFilePath() + " could not be loaded."
+                    + " Will be starting with an empty AddressBook.");
+            initialData = new Root();
+        } catch (NullPointerException e) {
+            logger.info("here");
+            initialData = new Root();
         }
 
         AbsolutePath currentPath = new AbsolutePath("~/");
@@ -153,32 +152,31 @@ public class MainApp extends Application {
      * or a new {@code UserPrefs} with default configuration if errors occur when
      * reading from the file.
      */
-     protected UserPrefs initPrefs(UserPrefsStorage storage) {
-         Path prefsFilePath = storage.getUserPrefsFilePath();
-         logger.info("Using preference file : " + prefsFilePath);
+    protected UserPrefs initPrefs(UserPrefsStorage storage) {
+        Path prefsFilePath = storage.getUserPrefsFilePath();
+        logger.info("Using preference file : " + prefsFilePath);
+        UserPrefs initializedPrefs;
+        try {
+            Optional<UserPrefs> prefsOptional = storage.readUserPrefs();
+            if (!prefsOptional.isPresent()) {
+                logger.info("Creating new preference file " + prefsFilePath);
+            }
+            initializedPrefs = prefsOptional.orElse(new UserPrefs());
+        } catch (DataLoadingException e) {
+            logger.warning("Preference file at " + prefsFilePath + " could not be loaded."
+                    + " Using default preferences.");
+            initializedPrefs = new UserPrefs();
+        }
 
-         UserPrefs initializedPrefs;
-         try {
-             Optional<UserPrefs> prefsOptional = storage.readUserPrefs();
-             if (!prefsOptional.isPresent()) {
-                 logger.info("Creating new preference file " + prefsFilePath);
-             }
-             initializedPrefs = prefsOptional.orElse(new UserPrefs());
-         } catch (DataLoadingException e) {
-             logger.warning("Preference file at " + prefsFilePath + " could not be loaded."
-                     + " Using default preferences.");
-             initializedPrefs = new UserPrefs();
-         }
+        //Update prefs file in case it was missing to begin with or there are new/unused fields
+        try {
+            storage.saveUserPrefs(initializedPrefs);
+        } catch (IOException e) {
+            logger.warning("Failed to save config file : " + StringUtil.getDetails(e));
+        }
 
-         //Update prefs file in case it was missing to begin with or there are new/unused fields
-         try {
-             storage.saveUserPrefs(initializedPrefs);
-         } catch (IOException e) {
-             logger.warning("Failed to save config file : " + StringUtil.getDetails(e));
-         }
-
-         return initializedPrefs;
-     }
+        return initializedPrefs;
+    }
     @Override
     public void start(Stage primaryStage) {
         logger.info("Starting AddressBook " + MainApp.VERSION);
@@ -188,10 +186,11 @@ public class MainApp extends Application {
     @Override
     public void stop() {
         logger.info("============================ [ Stopping Address Book ] =============================");
-//         try {
-//             storage.saveUserPrefs(model.getUserPrefs());
-//         } catch (IOException e) {
-//             logger.severe("Failed to save preferences " + StringUtil.getDetails(e));
-//         }
+        try {
+            storage.saveUserPrefs(state.getUserPrefs());
+            storage.saveProfBook(state.getRoot());
+        } catch (IOException e) {
+            logger.severe("Failed to save preferences/ProfBook " + StringUtil.getDetails(e));
+        }
     }
 }

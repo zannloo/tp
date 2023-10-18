@@ -70,7 +70,7 @@ public class StateManager implements State {
     }
 
     public Path getAddressBookFilePath() {
-        return userPrefs.getAddressBookFilePath();
+        return userPrefs.getProfBookFilePath();
     }
 
     public void setAddressBookFilePath(Path addressBookFilePath) {
