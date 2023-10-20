@@ -85,6 +85,11 @@ public class StateManager implements State {
     }
 
     @Override
+    public AbsolutePath getDisplayPath() {
+        return this.displayPath;
+    }
+
+    @Override
     public boolean hasTaskListInCurrentPath() {
         return hasTaskListInPath(currentPath);
     }
