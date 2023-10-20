@@ -16,7 +16,6 @@ import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
@@ -40,7 +39,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         groups.put(grp.getId(), grp);
         Root root = new Root(groups);
 
-        RelativePath path = new RelativePath("~/grp-001/stu-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001/stu-001");
         Student stu = new StudentBuilder().build();
         StudentId studentId = new StudentId("stu-001");
         assertTrue(grp.hasChild(studentId));
@@ -64,7 +63,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);
 
-        RelativePath path = new RelativePath("~/grp-001/");
+        AbsolutePath path = new AbsolutePath("~/grp-001/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
         State state = new StateManager(currPath, root, new UserPrefs());
@@ -86,7 +85,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);
 
-        RelativePath path = new RelativePath("stu-002");
+        AbsolutePath path = new AbsolutePath("~/grp-001/stu-002");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
         State state = new StateManager(currPath, root, new UserPrefs());
@@ -105,7 +104,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);
 
-        RelativePath path = new RelativePath("~/grp-002/");
+        AbsolutePath path = new AbsolutePath("~/grp-002/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
         State state = new StateManager(currPath, root, new UserPrefs());
@@ -124,7 +123,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);
 
-        RelativePath path = new RelativePath("~/");
+        AbsolutePath path = new AbsolutePath("~/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
         State state = new StateManager(currPath, root, new UserPrefs());
@@ -137,10 +136,10 @@ class DeleteForStudentsAndGroupsCommandTest {
 
     @Test
     void testEquals() throws InvalidPathException {
-        RelativePath pathGrp001 = new RelativePath("~/grp-001");
-        RelativePath pathGrp002 = new RelativePath("~/grp-002");
-        RelativePath pathStu001 = new RelativePath("~/grp-001/stu-001");
-        RelativePath pathStu002 = new RelativePath("~/grp-002/stu-002");
+        AbsolutePath pathGrp001 = new AbsolutePath("~/grp-001");
+        AbsolutePath pathGrp002 = new AbsolutePath("~/grp-002");
+        AbsolutePath pathStu001 = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath pathStu002 = new AbsolutePath("~/grp-002/stu-002");
 
         DeleteForStudentsAndGroupsCommand deleteG001 = new DeleteForStudentsAndGroupsCommand(pathGrp001);
         DeleteForStudentsAndGroupsCommand deleteG002 = new DeleteForStudentsAndGroupsCommand(pathGrp002);
@@ -178,7 +177,7 @@ class DeleteForStudentsAndGroupsCommandTest {
 
     @Test
     void toString_sameString_success() throws InvalidPathException {
-        RelativePath path = new RelativePath("~/grp-001/stu-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001/stu-001");
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
         String expected = DeleteForStudentsAndGroupsCommand.class.getCanonicalName()
                 + "{toDeleteStudentOrGroup=" + path + "}";

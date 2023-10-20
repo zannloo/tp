@@ -7,8 +7,6 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
@@ -23,25 +21,24 @@ public class MoveStudentToGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mv";
     public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in the group";
-    public static final String MESSAGE_INVALID_SOURCE = "Invalid source path: %1$s";
-    public static final String MESSAGE_INVALID_DEST = "Invalid destination path: %1$s";
     public static final String MESSAGE_SOURCE_IS_NOT_STUDENT = "Source path must be a student directory";
     public static final String MESSAGE_DEST_IS_NOT_GROUP = "Destination path must be a group directory";
-    public static final String MESSAGE_STUDENT_NOT_FOUND = "Target student not found in ProfBook";
+    public static final String MESSAGE_STUDENT_NOT_FOUND = "Source student not found in ProfBook";
     public static final String MESSAGE_GROUP_NOT_FOUND = "Destination Group not found in ProfBook";
-    public static final String MESSAGE_SUCCESS = "New student added to this group: %1$s";
+    public static final String MESSAGE_MOVE_STUDENT_SUCCESS = "Student $1$s is moved to this group: %2$s";
+    public static final String MESSAGE_INVALID_MOVE_COMMAND = "Move command is invalid.";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
 
-    private final RelativePath source;
-    private final RelativePath dest;
+    private final AbsolutePath source;
+    private final AbsolutePath dest;
 
     /**
      * Constructs a {@code MoveStudentToGroupCommand} with the specified source and destination paths.
      *
-     * @param source The relative path to the source group from which the student will be moved.
-     * @param dest   The relative path to the destination group to which the student will be moved.
+     * @param source The absolute path to the source group from which the student will be moved.
+     * @param dest   The absolute path to the destination group to which the student will be moved.
      */
-    public MoveStudentToGroupCommand(RelativePath source, RelativePath dest) {
+    public MoveStudentToGroupCommand(AbsolutePath source, AbsolutePath dest) {
         requireAllNonNull(source, dest);
         this.source = source;
         this.dest = dest;
@@ -57,60 +54,34 @@ public class MoveStudentToGroupCommand extends Command {
     @Override
     public CommandResult execute(State state) throws CommandException {
         requireNonNull(state);
-        AbsolutePath currPath = state.getCurrPath();
 
-        // Check resolved source path is valid
-        AbsolutePath sourceAbsolutePath = null;
-        try {
-            sourceAbsolutePath = currPath.resolve(this.source);
-        } catch (InvalidPathException e) {
-            throw new CommandException(String.format(MESSAGE_INVALID_SOURCE, e.getMessage()));
+        // Check move studen to group
+        if (source.isStudentDirectory() && dest.isGroupDirectory()) {
+            // Check student exists in ProfBook
+            if (!state.hasStudent(source)) {
+                throw new CommandException(MESSAGE_STUDENT_NOT_FOUND);
+            }
+
+            // Check group exists in ProfBook
+            if (!state.hasGroup(dest)) {
+                throw new CommandException(MESSAGE_GROUP_NOT_FOUND);
+            }
+
+            StudentId toBeMovedId = source.getStudentId().get();
+
+            ChildOperation<Student> sourceGroup = state.groupChildOperation(source);
+            Student studentToBeMoved = sourceGroup.getChild(toBeMovedId);
+
+            ChildOperation<Student> destGroup = state.groupChildOperation(dest);
+
+            destGroup.addChild(toBeMovedId, studentToBeMoved);
+            sourceGroup.deleteChild(toBeMovedId);
+            state.updateList();
+            return new CommandResult(String.format(
+                    MESSAGE_MOVE_STUDENT_SUCCESS, source.getStudentId().get(), dest.getGroupId().get()));
         }
 
-        // Check resolved destination path is valid
-        AbsolutePath destAbsolutePath = null;
-        try {
-            destAbsolutePath = currPath.resolve(this.dest);
-        } catch (InvalidPathException e) {
-            throw new CommandException(String.format(MESSAGE_INVALID_DEST, e.getMessage()));
-        }
-
-        // Check source path is student path
-        if (!sourceAbsolutePath.isStudentDirectory()) {
-            throw new CommandException(MESSAGE_SOURCE_IS_NOT_STUDENT);
-        }
-
-        // Check dest path is group path
-        if (!destAbsolutePath.isGroupDirectory()) {
-            throw new CommandException(MESSAGE_DEST_IS_NOT_GROUP);
-        }
-
-        // Check student exists in ProfBook
-        if (!state.hasStudent(sourceAbsolutePath)) {
-            throw new CommandException(MESSAGE_STUDENT_NOT_FOUND);
-        }
-
-        // Check group exists in ProfBook
-        if (!state.hasGroup(destAbsolutePath)) {
-            throw new CommandException(MESSAGE_GROUP_NOT_FOUND);
-        }
-
-        StudentId toBeMovedId = sourceAbsolutePath.getStudentId().get();
-
-        ChildOperation<Student> sourceGroup = state.groupChildOperation(sourceAbsolutePath);
-        Student studentToBeMoved = sourceGroup.getChild(toBeMovedId);
-
-        ChildOperation<Student> destGroup = state.groupChildOperation(destAbsolutePath);
-        // Check duplicate student -> impossible this means got issue in previous add student
-        if (destGroup.hasChild(toBeMovedId)) {
-            throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
-        }
-
-        destGroup.addChild(toBeMovedId, studentToBeMoved);
-        sourceGroup.deleteChild(toBeMovedId);
-        state.updateList();
-
-        return new CommandResult(String.format(MESSAGE_SUCCESS, studentToBeMoved));
+        throw new CommandException(MESSAGE_INVALID_MOVE_COMMAND);
     }
 
     /**

@@ -5,8 +5,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.ChildOperation;
@@ -34,14 +32,14 @@ public class CreateDeadlineCommand extends Command {
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "All stu flag is only allowed for group path";
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "All Group flag is only allowed for root path";
 
-    private final RelativePath path;
+    private final AbsolutePath path;
     private final Deadline deadline;
     private String category = null;
 
     /**
      * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
      */
-    public CreateDeadlineCommand(RelativePath path, Deadline deadline) {
+    public CreateDeadlineCommand(AbsolutePath path, Deadline deadline) {
         requireAllNonNull(path, deadline);
         this.path = path;
         this.deadline = deadline;
@@ -51,7 +49,7 @@ public class CreateDeadlineCommand extends Command {
      * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
      * User has input a category as well.
      */
-    public CreateDeadlineCommand(RelativePath path, Deadline deadline, String category) {
+    public CreateDeadlineCommand(AbsolutePath path, Deadline deadline, String category) {
         requireAllNonNull(path, deadline, category);
         this.path = path;
         this.deadline = deadline;
@@ -66,27 +64,18 @@ public class CreateDeadlineCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
-        AbsolutePath currPath = state.getCurrPath();
-        // Check resolved path is valid
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new CommandException(e.getMessage());
-        }
-
         // Check path exists in ProfBook
-        if (!state.hasPath(targetPath)) {
+        if (!state.hasPath(path)) {
             throw new CommandException(MESSAGE_PATH_NOT_FOUND);
         }
 
         if (this.category == null) {
             // Check target path is task manager
-            if (!state.hasTaskListInPath(targetPath)) {
+            if (!state.hasTaskListInPath(path)) {
                 throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
             }
 
-            TaskOperation target = state.taskOperation(targetPath);
+            TaskOperation target = state.taskOperation(path);
 
             // Check duplicate deadline
             if (target.hasTask(this.deadline)) {
@@ -99,16 +88,16 @@ public class CreateDeadlineCommand extends Command {
         }
 
         if (this.category.equals("allStu")) {
-            if (!targetPath.isGroupDirectory()) {
+            if (!path.isGroupDirectory()) {
                 throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
             }
-            ChildOperation<Student> groupOper = state.groupChildOperation(targetPath);
+            ChildOperation<Student> groupOper = state.groupChildOperation(path);
             groupOper.addTaskToAllChildren(deadline, 1);
             state.updateList();
             return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
         }
 
-        if (!targetPath.isRootDirectory()) {
+        if (!path.isRootDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
 

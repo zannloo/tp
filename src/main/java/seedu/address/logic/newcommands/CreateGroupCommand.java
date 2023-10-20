@@ -6,8 +6,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
@@ -26,19 +24,19 @@ public class CreateGroupCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": group";
 
-    private final RelativePath relativePath;
+    private final AbsolutePath dest;
 
     private final Group group;
 
     /**
-     * Constructs a {@code CreateGroupCommand} with the specified relative path and group details.
+     * Constructs a {@code CreateGroupCommand} with the specified absolute path and group details.
      *
-     * @param relativePath  The relative path at which the new group will be created.
+     * @param dest  The absolute path at which the new group will be created.
      * @param group The details of the group to be created.
      */
-    public CreateGroupCommand(RelativePath relativePath, Group group) {
-        requireAllNonNull(relativePath, group);
-        this.relativePath = relativePath;
+    public CreateGroupCommand(AbsolutePath dest, Group group) {
+        requireAllNonNull(dest, group);
+        this.dest = dest;
         this.group = group;
     }
 
@@ -53,20 +51,10 @@ public class CreateGroupCommand extends Command {
     public CommandResult execute(State state) throws CommandException {
         requireNonNull(state);
 
-        AbsolutePath currentPath = state.getCurrPath();
-
-        // Check resolved path is valid
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currentPath.resolve(relativePath);
-        } catch (InvalidPathException e) {
-            throw new CommandException(e.getMessage());
-        }
-
         ChildOperation<Group> rootOperation = state.rootChildOperation();
 
         // Check duplicate group
-        if (rootOperation.hasChild(targetPath.getGroupId().get())) {
+        if (rootOperation.hasChild(dest.getGroupId().get())) {
             throw new CommandException(MESSAGE_DUPLICATE_GROUP);
         }
 
@@ -94,7 +82,7 @@ public class CreateGroupCommand extends Command {
         }
 
         CreateGroupCommand otherCreateGroupCommand = (CreateGroupCommand) other;
-        return this.relativePath.equals(otherCreateGroupCommand.relativePath)
+        return this.dest.equals(otherCreateGroupCommand.dest)
                 && this.group.equals(otherCreateGroupCommand.group);
     }
 

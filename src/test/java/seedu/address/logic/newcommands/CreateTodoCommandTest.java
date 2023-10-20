@@ -20,7 +20,6 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
@@ -72,7 +71,7 @@ public class CreateTodoCommandTest {
         assertFalse(alice.checkDuplicates(todo));
         assertFalse(bob.checkDuplicates(todo));
 
-        RelativePath path = new RelativePath("grp-003");
+        AbsolutePath path = new AbsolutePath("~/grp-003");
 
         CreateTodoCommand command = new CreateTodoCommand(path, todo, "allStu");
         State state = new StateManager(currPath, root, new UserPrefs());
@@ -105,7 +104,7 @@ public class CreateTodoCommandTest {
 
         ToDo todo = new ToDo("Assignment 3");
 
-        RelativePath path = new RelativePath("~");
+        AbsolutePath path = new AbsolutePath("~");
 
         assertFalse(grp1.checkDuplicates(todo));
         assertFalse(grp2.checkDuplicates(todo));
@@ -131,14 +130,13 @@ public class CreateTodoCommandTest {
         Map<Id, Student> students = new HashMap<>();
         Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
-        AbsolutePath currPath = new AbsolutePath("~/");
-        RelativePath relativePath = new RelativePath("~/grp-001");
-        State state = new StateManager(currPath, root, new UserPrefs());
-        CreateTodoCommand createTodoCommand = new CreateTodoCommand(relativePath, todo);
-        AbsolutePath absolutePath = currPath.resolve(relativePath);
-        TaskOperation target = state.taskOperation(absolutePath);
-        CommandResult successCommandResult = new CommandResult(String.format(MESSAGE_SUCCESS, target));
 
+        AbsolutePath currPath = new AbsolutePath("~/");
+        State state = new StateManager(currPath, root, new UserPrefs());
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
+
+        CommandResult successCommandResult = new CommandResult(String.format(MESSAGE_SUCCESS, target));
         assertEquals(successCommandResult, createTodoCommand.execute(state));
     }
 
@@ -151,13 +149,15 @@ public class CreateTodoCommandTest {
         Map<Id, Student> students = new HashMap<>();
         Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
+
         AbsolutePath currPath = new AbsolutePath("~/");
-        RelativePath relativePath = new RelativePath("~/grp-001");
         State state = new StateManager(currPath, root, new UserPrefs());
-        AbsolutePath absolutePath = currPath.resolve(relativePath);
-        TaskOperation target = state.taskOperation(absolutePath);
-        target.addTask(todo);
-        CreateTodoCommand createTodoCommand = new CreateTodoCommand(relativePath, todo);
+
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        TaskOperation taskOperation = state.taskOperation(target);
+        taskOperation.addTask(todo);
+
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
 
         assertThrows(CommandException.class,
                 CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK_STUDENT, () -> createTodoCommand.execute(state));
@@ -166,9 +166,9 @@ public class CreateTodoCommandTest {
     @Test
     public void equals_sameInstance_success() throws InvalidPathException {
         ToDo todo = new ToDo("Todo test");
-        RelativePath relativePath = new RelativePath("~/grp-001");
-        CreateTodoCommand createTodoCommand = new CreateTodoCommand(relativePath, todo);
-        CreateTodoCommand duplicateCreateTodoCommand = new CreateTodoCommand(relativePath, todo);
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
+        CreateTodoCommand duplicateCreateTodoCommand = new CreateTodoCommand(target, todo);
         assertTrue(createTodoCommand.equals(duplicateCreateTodoCommand));
     }
 
@@ -176,17 +176,17 @@ public class CreateTodoCommandTest {
     public void equals_differentTodoTask_fail() throws InvalidPathException {
         ToDo todoTest1 = new ToDo("Todo test1");
         ToDo todoTest2 = new ToDo("Todo test2");
-        RelativePath relativePath = new RelativePath("~/grp-001");
-        CreateTodoCommand createTodoCommand1 = new CreateTodoCommand(relativePath, todoTest1);
-        CreateTodoCommand createTodoCommand2 = new CreateTodoCommand(relativePath, todoTest2);
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        CreateTodoCommand createTodoCommand1 = new CreateTodoCommand(target, todoTest1);
+        CreateTodoCommand createTodoCommand2 = new CreateTodoCommand(target, todoTest2);
         assertFalse(createTodoCommand1.equals(createTodoCommand2));
     }
 
     @Test
     public void toString_validateOutputString_correctStringRepresentation() throws InvalidPathException {
         ToDo todo = new ToDo("Todo test");
-        RelativePath relativePath = new RelativePath("~/grp-001");
-        CreateTodoCommand createTodoCommand = new CreateTodoCommand(relativePath, todo);
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
         String expected = "seedu.address.logic.newcommands.CreateTodoCommand{toCreateTodo=Your ToDo has been added:"
                 + "\n[T][ ] Todo test}";
         assertEquals(expected, createTodoCommand.toString());
