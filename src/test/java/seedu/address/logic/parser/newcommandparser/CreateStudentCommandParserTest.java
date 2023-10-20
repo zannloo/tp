@@ -41,6 +41,7 @@ public class CreateStudentCommandParserTest {
 
         assertParseSuccess(parser,
                 VALID_STUDENT_DIR_PREAMBLE + NAME_DESC_AMY + EMAIL_DESC_AMY + PHONE_DESC_AMY + ADDRESS_DESC_AMY,
-                new CreateStudentCommand(CommandTestUtil.getValidStudentRelativePath(), expectedStu));
+                CommandTestUtil.getValidRootAbsolutePath(),
+                new CreateStudentCommand(CommandTestUtil.getValidStudentAbsolutePath(), expectedStu));
     }
 }

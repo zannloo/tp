@@ -15,6 +15,7 @@ import seedu.address.logic.parser.Option;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
+import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Address;
@@ -107,7 +108,7 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code path} is invalid.
      */
-    public static RelativePath parsePath(String path) throws ParseException {
+    public static RelativePath parseRelativePath(String path) throws ParseException {
         requireNonNull(path);
         String trimmedPath = path.trim();
         RelativePath relativePath = null;
@@ -126,7 +127,7 @@ public class ParserUtil {
      * @return The extracted {@code StudentId}.
      * @throws ParseException If the path is invalid or doesn't contain a valid {@code StudentId}.
      */
-    public static StudentId parseStudentId(RelativePath path) throws ParseException {
+    public static StudentId parseStudentId(AbsolutePath path) throws ParseException {
         requireNonNull(path);
         Optional<StudentId> studentIdOptional = path.getStudentId();
 
@@ -138,13 +139,30 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String student id} into a {@code StudentId}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code id} is invalid.
+     */
+    public static StudentId parseStudentId(String id) throws ParseException {
+        requireNonNull(id);
+        String trimmedId = id.trim();
+
+        if (!StudentId.isValidStudentId(trimmedId)) {
+            throw new ParseException(StudentId.MESSAGE_CONSTRAINTS);
+        }
+
+        return new StudentId(trimmedId);
+    }
+
+    /**
      * Parses a {@code RelativePath} to extract a {@code GroupId}.
      *
      * @param path The {@code RelativePath} to parse.
      * @return The extracted {@code GroupId}.
      * @throws ParseException If the path is invalid or doesn't contain a valid {@code GroupId}.
      */
-    public static GroupId parseGroupId(RelativePath path) throws ParseException {
+    public static GroupId parseGroupId(AbsolutePath path) throws ParseException {
         requireNonNull(path);
         Optional<GroupId> groupIdOptional = path.getGroupId();
 
@@ -153,6 +171,23 @@ public class ParserUtil {
         }
 
         return groupIdOptional.get();
+    }
+
+    /**
+     * Parses a {@code String group id} into a {@code GroupId}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code id} is invalid.
+     */
+    public static GroupId parseGroupId(String id) throws ParseException {
+        requireNonNull(id);
+        String trimmedId = id.trim();
+
+        if (!GroupId.isValidGroupId(trimmedId)) {
+            throw new ParseException(GroupId.MESSAGE_CONSTRAINTS);
+        }
+
+        return new GroupId(trimmedId);
     }
 
     /**
