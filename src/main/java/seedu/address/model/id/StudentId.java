@@ -9,9 +9,10 @@ import java.util.Objects;
  * with a specific format.
  */
 public class StudentId extends Id {
-    public static final String VALIDATION_REGEX = "stu-\\d{3}";
+    public static final String VALIDATION_REGEX = "A\\d{8}[A-Z]";
     public static final String MESSAGE_CONSTRAINTS =
-            "Student Id should be in the format 'stu-XXX' where XXX is a 3-digit number.";
+            "Student ID should follow this format: 'A12345678X', "
+            + "where 'A' is a fixed character, '12345678' is an 8-digit number, and 'X' is a capital letter.";
 
     /**
      * Constructs a {@code StudentId} object with the valid ID value.
