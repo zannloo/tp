@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
@@ -316,6 +317,18 @@ public class StateManager implements State {
                 && this.displayPath.equals(otherStateManager.displayPath)
                 && this.root.equals(otherStateManager.root)
                 && this.userPrefs.equals(otherStateManager.userPrefs);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("showTaskList", showTaskList)
+                .add("Current Path", currentPath)
+                .add("Display List", displayList)
+                .add("Display Path", displayPath)
+                .add("root", root)
+                .add("userPrefs", userPrefs)
+                .toString();
     }
 
 }
