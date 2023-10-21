@@ -90,6 +90,11 @@ public class StateManager implements State {
     }
 
     @Override
+    public boolean isShowTaskList() {
+        return this.showTaskList;
+    }
+
+    @Override
     public boolean hasTaskListInCurrentPath() {
         return hasTaskListInPath(currentPath);
     }
