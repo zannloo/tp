@@ -92,11 +92,7 @@ public class MainApp extends Application {
             logger.warning("Data file at " + storage.getProfBookFilePath() + " could not be loaded."
                     + " Will be starting with an empty AddressBook.");
             initialData = new Root();
-        } catch (NullPointerException e) {
-            logger.info("here");
-            initialData = new Root();
         }
-
         AbsolutePath currentPath = new AbsolutePath("~/");
         // Use sample data.
         Root root = SampleProfBook.getRoot();
@@ -187,6 +183,7 @@ public class MainApp extends Application {
     public void stop() {
         logger.info("============================ [ Stopping Address Book ] =============================");
         try {
+            System.out.println("Hello mommy");
             storage.saveUserPrefs(state.getUserPrefs());
             storage.saveProfBook(state.getRoot());
         } catch (IOException e) {
