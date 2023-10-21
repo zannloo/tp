@@ -7,7 +7,9 @@ import seedu.address.logic.newcommands.ShowChildrenListCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
  * Parses input arguments and creates a new ShowChildrenListCommand object
@@ -20,9 +22,12 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
      * Parses the given {@code String} of arguments in the context of the ShowChildrenListCommand
      * and returns an ShowChildrenListCommand object for execution.
      *
+     * @param args The user input string.
+     * @param currPath The current path of the application.
+     * @return A ShowChildrenListCommand based on the input.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public ShowChildrenListCommand parse(String args) throws ParseException {
+    public ShowChildrenListCommand parse(String args, AbsolutePath currPath) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args);
 
@@ -31,10 +36,16 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
             return new ShowChildrenListCommand();
         }
 
-        RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
+        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
+        AbsolutePath target = null;
+        try {
+            target = currPath.resolve(path);
+        } catch (InvalidPathException e) {
+            throw new ParseException(e.getMessage());
+        }
 
         logger.fine(String.format(MESSAGE_COMMAND_CREATED, path.toString()));
 
-        return new ShowChildrenListCommand(path);
+        return new ShowChildrenListCommand(target);
     }
 }

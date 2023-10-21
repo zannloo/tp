@@ -13,7 +13,9 @@ import java.time.LocalDateTime;
 
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.newcommandparser.ParserUtil;
+import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
  * Contains helper methods for testing commands.
@@ -37,7 +39,7 @@ public class CommandTestUtil {
     public static final String VALID_CATEGORY_GROUP = " -all allGrp";
 
     public static final String VALID_ROOT_DIR_PREAMBLE = "~/";
-    public static final String VALID_GROUP_DIR_PREAMBLE = "./grp-123";
+    public static final String VALID_GROUP_DIR_PREAMBLE = "/grp-123";
     public static final String VALID_STUDENT_DIR_PREAMBLE = "/grp-123/stu-022";
     public static final String NAME_DESC_AMY = " " + OPTION_NAME + " " + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + OPTION_NAME + " " + VALID_NAME_BOB;
@@ -66,15 +68,21 @@ public class CommandTestUtil {
     private static RelativePath validRootRelativePath;
     private static RelativePath validGroupRelativePath;
     private static RelativePath validStudentRelativePath;
+    private static AbsolutePath validRootAbsolutePath;
+    private static AbsolutePath validGroupAbsolutePath;
+    private static AbsolutePath validStudentAbsolutePath;
     private static LocalDateTime validDateTime;
 
     static {
         try {
-            validRootRelativePath = ParserUtil.parsePath(VALID_ROOT_DIR_PREAMBLE);
-            validGroupRelativePath = ParserUtil.parsePath(VALID_GROUP_DIR_PREAMBLE);
-            validStudentRelativePath = ParserUtil.parsePath(VALID_STUDENT_DIR_PREAMBLE);
+            validRootRelativePath = ParserUtil.parseRelativePath(VALID_ROOT_DIR_PREAMBLE);
+            validGroupRelativePath = ParserUtil.parseRelativePath(VALID_GROUP_DIR_PREAMBLE);
+            validStudentRelativePath = ParserUtil.parseRelativePath(VALID_STUDENT_DIR_PREAMBLE);
+            validRootAbsolutePath = new AbsolutePath(VALID_ROOT_DIR_PREAMBLE);
+            validGroupAbsolutePath = validRootAbsolutePath.resolve(validGroupRelativePath);
+            validStudentAbsolutePath = validRootAbsolutePath.resolve(validStudentRelativePath);
             validDateTime = ParserUtil.parseDateTime(VALID_DATETIME_STR);
-        } catch (ParseException e) {
+        } catch (ParseException | InvalidPathException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
@@ -89,6 +97,18 @@ public class CommandTestUtil {
 
     public static RelativePath getValidStudentRelativePath() {
         return validStudentRelativePath;
+    }
+
+    public static AbsolutePath getValidRootAbsolutePath() {
+        return validRootAbsolutePath;
+    }
+
+    public static AbsolutePath getValidGroupAbsolutePath() {
+        return validGroupAbsolutePath;
+    }
+
+    public static AbsolutePath getValidStudentAbsolutePath() {
+        return validStudentAbsolutePath;
     }
 
     public static LocalDateTime getValidDateTime() {

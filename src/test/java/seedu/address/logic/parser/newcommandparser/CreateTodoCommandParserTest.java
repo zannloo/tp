@@ -19,14 +19,16 @@ public class CreateTodoCommandParserTest {
     public void parse_allFieldsPresent_success() {
         assertParseSuccess(parser,
                 VALID_STUDENT_DIR_PREAMBLE + TASK_DESC_DESC,
-                new CreateTodoCommand(CommandTestUtil.getValidStudentRelativePath(), new ToDo(VALID_TASK_DESC)));
+                CommandTestUtil.getValidRootAbsolutePath(),
+                new CreateTodoCommand(CommandTestUtil.getValidStudentAbsolutePath(), new ToDo(VALID_TASK_DESC)));
     }
 
     @Test
     public void parse_allFieldsPresentWithCatergory_success() {
         assertParseSuccess(parser,
                 VALID_STUDENT_DIR_PREAMBLE + TASK_DESC_DESC + VALID_CATEGORY_STUDENT,
-                new CreateTodoCommand(CommandTestUtil.getValidStudentRelativePath(),
+                CommandTestUtil.getValidRootAbsolutePath(),
+                new CreateTodoCommand(CommandTestUtil.getValidStudentAbsolutePath(),
                         new ToDo(VALID_TASK_DESC), "allStu"));
     }
 }

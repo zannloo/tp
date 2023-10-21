@@ -7,7 +7,6 @@ import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
@@ -27,16 +26,18 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     public static final String MESSAGE_INVALID_PATH = "Path is invalid";
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
     public static final String MESSAGE_NO_SUCH_STUDENT_OR_GROUP = "There is no such student or group to delete";
+    public static final String MESSAGE_DELETE_CURRENT_PATH = "Current path cannot be deleted";
+    public static final String MESSAGE_DELETE_DISPLAY_PATH = "Current display path cannot be deleted.";
     protected Student stu;
     protected Group grp;
-    private final RelativePath path;
+    private final AbsolutePath toBeDeleted;
 
     /**
      * Creates an DeleteForStudentsAndGroupsCommand to specified {@code Student} or {@code Group}
      */
-    public DeleteForStudentsAndGroupsCommand(RelativePath path) { //path will specify which grp/student
-        requireNonNull(path);
-        this.path = path;
+    public DeleteForStudentsAndGroupsCommand(AbsolutePath toBeDeleted) { //path will specify which grp/student
+        requireNonNull(toBeDeleted);
+        this.toBeDeleted = toBeDeleted;
     }
 
     /**
@@ -51,24 +52,29 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     @Override
     public CommandResult execute(State state) throws CommandException {
         requireNonNull(state);
-        AbsolutePath currPath = state.getCurrPath();
 
-        // Check resolved path is valid
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new CommandException(e.getMessage());
+        if (toBeDeleted.isRootDirectory()) {
+            throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
+        }
+
+        // Check if to be deleted path is current path.
+        if (toBeDeleted.equals(state.getCurrPath())) {
+            throw new CommandException(MESSAGE_DELETE_CURRENT_PATH);
+        }
+
+        // Check if to be deleted path is diplay path.
+        if (toBeDeleted.equals(state.getDisplayPath())) {
+            throw new CommandException(MESSAGE_DELETE_DISPLAY_PATH);
         }
 
         // Check path exists in ProfBook
-        if (!state.hasPath(targetPath)) {
+        if (!state.hasPath(toBeDeleted)) {
             throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
         }
 
-        if (targetPath.isStudentDirectory()) {
-            ChildOperation<Student> target = state.groupChildOperation(targetPath);
-            StudentId studentId = targetPath.getStudentId().get();
+        if (toBeDeleted.isStudentDirectory()) {
+            ChildOperation<Student> target = state.groupChildOperation(toBeDeleted);
+            StudentId studentId = toBeDeleted.getStudentId().get();
             if (!target.hasChild(studentId)) {
                 throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
             }
@@ -78,9 +84,9 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
             return new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
         }
 
-        if (targetPath.isGroupDirectory()) {
+        if (toBeDeleted.isGroupDirectory()) {
             ChildOperation<Group> target = state.rootChildOperation();
-            GroupId groupId = targetPath.getGroupId().get();
+            GroupId groupId = toBeDeleted.getGroupId().get();
             if (!target.hasChild(groupId)) {
                 throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
             }
@@ -114,7 +120,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
 
         DeleteForStudentsAndGroupsCommand otherDeleteForStudentsAndGroupsCommand =
                 (DeleteForStudentsAndGroupsCommand) other;
-        return this.path.equals(otherDeleteForStudentsAndGroupsCommand.path);
+        return this.toBeDeleted.equals(otherDeleteForStudentsAndGroupsCommand.toBeDeleted);
     }
 
     /**
@@ -125,7 +131,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("toDeleteStudentOrGroup", path)
+                .add("toDeleteStudentOrGroup", toBeDeleted)
                 .toString();
     }
 }

@@ -34,6 +34,16 @@ public interface State {
     public AbsolutePath getCurrPath();
 
     /**
+     * Return current display path.
+     */
+    public AbsolutePath getDisplayPath();
+
+    /**
+     * Return true if display panel is showing task list.
+     */
+    public boolean isShowTaskList();
+
+    /**
      * Return true if current path has task list.
      */
     public boolean hasTaskListInCurrentPath();

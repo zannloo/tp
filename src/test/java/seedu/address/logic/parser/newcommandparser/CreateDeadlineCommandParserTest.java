@@ -20,18 +20,19 @@ public class CreateDeadlineCommandParserTest {
     public void parse_allFieldsPresent_success() {
         assertParseSuccess(parser,
                 VALID_GROUP_DIR_PREAMBLE + TASK_DESC_DESC + DATETIME_DESC,
+                CommandTestUtil.getValidRootAbsolutePath(),
                 new CreateDeadlineCommand(
-                        CommandTestUtil.getValidGroupRelativePath(),
+                        CommandTestUtil.getValidGroupAbsolutePath(),
                         new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime())));
     }
 
-    //There are errors
     @Test
     public void parse_allFieldsPresentWithCategory_success() {
         assertParseSuccess(parser,
                 VALID_GROUP_DIR_PREAMBLE + TASK_DESC_DESC + DATETIME_DESC + VALID_CATEGORY_STUDENT,
+                CommandTestUtil.getValidRootAbsolutePath(),
                 new CreateDeadlineCommand(
-                        CommandTestUtil.getValidGroupRelativePath(),
+                        CommandTestUtil.getValidGroupAbsolutePath(),
                         new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime()), "allStu"));
     }
 }

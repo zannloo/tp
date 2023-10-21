@@ -6,8 +6,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.ChildOperation;
@@ -41,7 +39,8 @@ public class CreateTodoCommand extends Command {
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "All stu flag is only allowed for group path";
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "All Group flag is only allowed for root path";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
-    private final RelativePath relativePath;
+
+    private final AbsolutePath target;
     private final ToDo todo;
     private String category = null;
 
@@ -51,22 +50,22 @@ public class CreateTodoCommand extends Command {
      * @param relativePath The relative path to the group where the "ToDo" task will be added.
      * @param todo         The details of the "ToDo" task to be created.
      */
-    public CreateTodoCommand(RelativePath relativePath, ToDo todo) {
-        requireAllNonNull(relativePath, todo);
-        this.relativePath = relativePath;
+    public CreateTodoCommand(AbsolutePath target, ToDo todo) {
+        requireAllNonNull(target, todo);
+        this.target = target;
         this.todo = todo;
     }
 
     /**
-     * Constructs a {@code CreateTodoCommand} with the specified relative path and "ToDo" task details.
+     * Constructs a {@code CreateTodoCommand} with the specified absolute path and "ToDo" task details.
      *
-     * @param relativePath The relative path to the group where the "ToDo" task will be added.
+     * @param target The absolute path to the group where the "ToDo" task will be added.
      * @param todo         The details of the "ToDo" task to be created.
      * @param category     The specific category of people to add ToDo task to each.
      */
-    public CreateTodoCommand(RelativePath relativePath, ToDo todo, String category) {
-        requireAllNonNull(relativePath, todo, category);
-        this.relativePath = relativePath;
+    public CreateTodoCommand(AbsolutePath target, ToDo todo, String category) {
+        requireAllNonNull(target, todo, category);
+        this.target = target;
         this.todo = todo;
         this.category = category;
     }
@@ -81,37 +80,27 @@ public class CreateTodoCommand extends Command {
     @Override
     public CommandResult execute(State state) throws CommandException {
         requireNonNull(state);
-        AbsolutePath currPath = state.getCurrPath();
-
-        // Check resolved path is valid
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(relativePath);
-        } catch (InvalidPathException e) {
-            throw new CommandException(e.getMessage());
-        }
-
         if (this.category == null) {
-            TaskOperation target = state.taskOperation(targetPath);
-            if (target.hasTask(this.todo)) {
+            TaskOperation taskOperation = state.taskOperation(target);
+            if (taskOperation.hasTask(this.todo)) {
                 throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
             }
-            target.addTask(this.todo);
+            taskOperation.addTask(this.todo);
             state.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, target));
         }
 
         if (this.category.equals("allStu")) {
-            if (!targetPath.isGroupDirectory()) {
+            if (!target.isGroupDirectory()) {
                 throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
             }
-            ChildOperation<Student> groupOper = state.groupChildOperation(targetPath);
+            ChildOperation<Student> groupOper = state.groupChildOperation(target);
             groupOper.addTaskToAllChildren(todo, 1);
             state.updateList();
             return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
         }
 
-        if (!targetPath.isRootDirectory()) {
+        if (!target.isRootDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
         ChildOperation<Group> rootOper = state.rootChildOperation();
@@ -140,7 +129,7 @@ public class CreateTodoCommand extends Command {
         }
 
         CreateTodoCommand otherCreateTodoCommand = (CreateTodoCommand) other;
-        return this.relativePath.equals(otherCreateTodoCommand.relativePath)
+        return this.target.equals(otherCreateTodoCommand.target)
                 && this.todo.equals(otherCreateTodoCommand.todo);
     }
 

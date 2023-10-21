@@ -16,7 +16,6 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
@@ -39,7 +38,7 @@ class CreateStudentCommandTest {
     @Test
     public void constructor_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, (
-        ) -> new CreateStudentCommand(new RelativePath("~/grp-001/stu-001"), null));
+        ) -> new CreateStudentCommand(new AbsolutePath("~/grp-001/stu-001"), null));
     }
 
     @Test
@@ -56,7 +55,7 @@ class CreateStudentCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);
 
-        RelativePath path = new RelativePath("~/grp-001/");
+        AbsolutePath path = new AbsolutePath("~/grp-001/stu-002");
 
         Student bob = new StudentBuilder()
                 .withName("Bob")
@@ -91,7 +90,7 @@ class CreateStudentCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);
 
-        RelativePath path = new RelativePath("~/grp-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001/stu-001");
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, validStudent);
         State state = new StateManager(currPath, root, new UserPrefs());
@@ -103,7 +102,7 @@ class CreateStudentCommandTest {
 
     @Test
     void testEquals() throws InvalidPathException {
-        RelativePath path = new RelativePath("~/grp-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001");
         Student alice = new StudentBuilder()
                 .withName("Alice")
                 .withEmail("alice@example.com")
@@ -139,7 +138,7 @@ class CreateStudentCommandTest {
 
     @Test
     void toString_sameString_success() throws InvalidPathException {
-        RelativePath path = new RelativePath("~/grp-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001");
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, ALICE);
         String expected = CreateStudentCommand.class.getCanonicalName() + "{toCreateStudent=" + ALICE + "}";
         assertEquals(expected, createStudentCommand.toString());

@@ -16,7 +16,6 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
@@ -40,9 +39,10 @@ public class CreateGroupCommandTest {
         Map<Id, Student> students = new HashMap<>();
         Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
         AbsolutePath currPath = new AbsolutePath("~/");
-        RelativePath relativePath = new RelativePath("~/grp-001");
         State state = new StateManager(currPath, root, new UserPrefs());
-        CreateGroupCommand createGroupCommand = new CreateGroupCommand(relativePath, group);
+
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        CreateGroupCommand createGroupCommand = new CreateGroupCommand(target, group);
         CommandResult successCommandResult = new CommandResult(String.format(MESSAGE_SUCCESS, group));
 
         assertEquals(successCommandResult, createGroupCommand.execute(state));
@@ -56,9 +56,9 @@ public class CreateGroupCommandTest {
         Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
         AbsolutePath currPath = new AbsolutePath("~/");
-        RelativePath relativePath = new RelativePath("~/grp-001");
+        AbsolutePath target = new AbsolutePath("~/grp-001");
         State state = new StateManager(currPath, root, new UserPrefs());
-        CreateGroupCommand createGroupCommand = new CreateGroupCommand(relativePath, group);
+        CreateGroupCommand createGroupCommand = new CreateGroupCommand(target, group);
 
         assertThrows(CommandException.class, MESSAGE_DUPLICATE_GROUP, () -> createGroupCommand.execute(state));
     }
@@ -71,9 +71,9 @@ public class CreateGroupCommandTest {
         GroupId id = new GroupId("grp-001");
         Group group = new Group(taskList, students, name, id);
 
-        RelativePath relativePath = new RelativePath("~/grp-001");
-        CreateGroupCommand createGroupCommand = new CreateGroupCommand(relativePath, group);
-        CreateGroupCommand duplicateCreateGroupCommand = new CreateGroupCommand(relativePath, group);
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        CreateGroupCommand createGroupCommand = new CreateGroupCommand(target, group);
+        CreateGroupCommand duplicateCreateGroupCommand = new CreateGroupCommand(target, group);
         assertEquals(createGroupCommand, duplicateCreateGroupCommand);
     }
 
