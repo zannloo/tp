@@ -15,7 +15,6 @@ import seedu.address.model.field.EditGroupDescriptor;
 import seedu.address.model.field.EditStudentDescriptor;
 import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
@@ -36,20 +35,20 @@ public class EditCommandTest {
 
     @Test
     public void equals_differentRelativePath_fail() throws InvalidPathException {
-        RelativePath relativePath1 = new RelativePath("~/grp-001");
-        RelativePath relativePath2 = new RelativePath("~/grp-002");
+        AbsolutePath path1 = new AbsolutePath("~/grp-001");
+        AbsolutePath path2 = new AbsolutePath("~/grp-002");
         EditGroupDescriptor editGroupDescriptor = new EditGroupDescriptor();
-        EditCommand firstEditCommand = new EditCommand(relativePath1, editGroupDescriptor);
-        EditCommand secondEditCommand = new EditCommand(relativePath2, editGroupDescriptor);
+        EditCommand firstEditCommand = new EditCommand(path1, editGroupDescriptor);
+        EditCommand secondEditCommand = new EditCommand(path2, editGroupDescriptor);
 
         assertFalse(firstEditCommand.equals(secondEditCommand));
     }
 
     @Test
     public void toString_validateOutputString_correctStringRepresentation() throws InvalidPathException {
-        RelativePath relativePath = new RelativePath("~/grp-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001");
         EditGroupDescriptor editGroupDescriptor = new EditGroupDescriptor();
-        EditCommand firstEditCommand = new EditCommand(relativePath, editGroupDescriptor);
+        EditCommand firstEditCommand = new EditCommand(path, editGroupDescriptor);
 
         String expected = "seedu.address.logic.newcommands.EditCommand{toEdit=seedu.address.model"
                 + ".field.EditGroupDescriptor{name=null, id=null}}";
@@ -61,13 +60,13 @@ public class EditCommandTest {
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(children);
         AbsolutePath currPath = new AbsolutePath("~/");
-        RelativePath relativePath = new RelativePath("~/grp-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001");
         State state = new StateManager(currPath, root, new UserPrefs());
 
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
-        EditCommand editCommand = new EditCommand(relativePath, editStudentDescriptor);
+        EditCommand editCommand = new EditCommand(path, editStudentDescriptor);
 
-        assertThrows(CommandException.class, EditCommand.ERROR_MESSAGE_NO_SUCH_GROUP, () -> editCommand.execute(state));
+        assertThrows(CommandException.class, EditCommand.MESSAGE_NO_SUCH_PATH, () -> editCommand.execute(state));
     }
 
     @Test
@@ -75,11 +74,11 @@ public class EditCommandTest {
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(children);
         AbsolutePath currPath = new AbsolutePath("~/");
-        RelativePath relativePath = new RelativePath("~/");
+        AbsolutePath path = new AbsolutePath("~/");
         State state = new StateManager(currPath, root, new UserPrefs());
 
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
-        EditCommand editCommand = new EditCommand(relativePath, editStudentDescriptor);
+        EditCommand editCommand = new EditCommand(path, editStudentDescriptor);
 
         assertThrows(CommandException.class,
                 EditCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR, () -> editCommand.execute(state));

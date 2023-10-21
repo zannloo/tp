@@ -17,8 +17,6 @@ import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Group;
@@ -65,7 +63,9 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
-    private final RelativePath relativePath;
+    public static final String MESSAGE_NO_SUCH_PATH = "Path does not exist in ProfBook.";
+
+    private final AbsolutePath target;
 
     private EditGroupDescriptor editGroupDescriptor;
 
@@ -74,22 +74,22 @@ public class EditCommand extends Command {
     /**
      * Constructs an EditCommand for editing a group's details.
      *
-     * @param relativePath The relative path to the group to be edited.
+     * @param target The path to the target group to be edited.
      * @param editGroupDescriptor The descriptor containing the details to edit.
      */
-    public EditCommand(RelativePath relativePath, EditGroupDescriptor editGroupDescriptor) {
-        this.relativePath = relativePath;
+    public EditCommand(AbsolutePath target, EditGroupDescriptor editGroupDescriptor) {
+        this.target = target;
         this.editGroupDescriptor = new EditGroupDescriptor(editGroupDescriptor);
     }
 
     /**
      * Constructs an EditCommand for editing a student's details.
      *
-     * @param relativePath The relative path to the student to be edited.
+     * @param target The path to the target student to be edited.
      * @param editStudentDescriptor The descriptor containing the details to edit.
      */
-    public EditCommand(RelativePath relativePath, EditStudentDescriptor editStudentDescriptor) {
-        this.relativePath = relativePath;
+    public EditCommand(AbsolutePath target, EditStudentDescriptor editStudentDescriptor) {
+        this.target = target;
         this.editStudentDescriptor = new EditStudentDescriptor(editStudentDescriptor);
     }
 
@@ -134,38 +134,34 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(State state) throws CommandException {
         requireNonNull(state);
-        AbsolutePath currPath = state.getCurrPath();
 
-        // Check resolved path is valid
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(relativePath);
-        } catch (InvalidPathException e) {
-            throw new CommandException(e.getMessage());
+        // Check path exists in ProfBook
+        if (!state.hasPath(target)) {
+            throw new CommandException(MESSAGE_NO_SUCH_PATH);
         }
 
-        if (targetPath.isGroupDirectory()) {
-            ChildOperation<Group> target = state.rootChildOperation();
-            GroupId groupId = targetPath.getGroupId().get();
-            if (!target.hasChild(groupId)) {
+        if (target.isGroupDirectory()) {
+            ChildOperation<Group> rootOperation = state.rootChildOperation();
+            GroupId groupId = target.getGroupId().get();
+            if (!rootOperation.hasChild(groupId)) {
                 throw new CommandException(ERROR_MESSAGE_NO_SUCH_GROUP);
             }
-            Group groupToEdit = target.getChild(groupId);
+            Group groupToEdit = rootOperation.getChild(groupId);
             Group editedGroup = createEditedGroup(groupToEdit, this.editGroupDescriptor);
-            target.deleteChild(groupId);
-            target.addChild(groupId, editedGroup);
+            rootOperation.deleteChild(groupId);
+            rootOperation.addChild(groupId, editedGroup);
             state.updateList();
 
             return new CommandResult(MESSAGE_EDIT_GROUP_SUCCESS);
 
-        } else if (targetPath.isStudentDirectory()) {
-            ChildOperation<Student> target = state.groupChildOperation(targetPath);
-            StudentId studentId = targetPath.getStudentId().get();
+        } else if (target.isStudentDirectory()) {
+            ChildOperation<Student> groupOperation = state.groupChildOperation(target);
+            StudentId studentId = target.getStudentId().get();
 
-            Student studentToEdit = target.getChild(studentId);
+            Student studentToEdit = groupOperation.getChild(studentId);
             Student editedStudent = createEditedStudent(studentToEdit, this.editStudentDescriptor);
-            target.deleteChild(studentId);
-            target.addChild(editedStudent.getId(), editedStudent);
+            groupOperation.deleteChild(studentId);
+            groupOperation.addChild(editedStudent.getId(), editedStudent);
             state.updateList();
 
             return new CommandResult(MESSAGE_EDIT_STUDENT_SUCCESS);
@@ -195,10 +191,10 @@ public class EditCommand extends Command {
 
         EditCommand otherEditCommand = (EditCommand) other;
         if (this.editStudentDescriptor == null) {
-            return this.relativePath.equals(otherEditCommand.relativePath)
+            return this.target.equals(otherEditCommand.target)
                     && this.editGroupDescriptor.equals(otherEditCommand.editGroupDescriptor);
         } else {
-            return this.relativePath.equals(otherEditCommand.relativePath)
+            return this.target.equals(otherEditCommand.target)
                     && this.editStudentDescriptor.equals(otherEditCommand.editStudentDescriptor);
         }
     }

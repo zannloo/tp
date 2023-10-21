@@ -11,6 +11,7 @@ class DeleteForStudentsAndGroupsCommandParserTest {
         DeleteForStudentsAndGroupsCommandParser parser = new DeleteForStudentsAndGroupsCommandParser();
         CommandParserTestUtil.assertParseSuccess(parser,
                 CommandTestUtil.getValidStudentRelativePath().toString(),
-                new DeleteForStudentsAndGroupsCommand(CommandTestUtil.getValidStudentRelativePath()));
+                CommandTestUtil.getValidRootAbsolutePath(),
+                new DeleteForStudentsAndGroupsCommand(CommandTestUtil.getValidStudentAbsolutePath()));
     }
 }

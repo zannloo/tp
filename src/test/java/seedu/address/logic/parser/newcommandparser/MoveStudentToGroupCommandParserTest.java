@@ -16,8 +16,9 @@ public class MoveStudentToGroupCommandParserTest {
     public void parse_allFieldsPresent_success() {
         assertParseSuccess(parser,
                 VALID_STUDENT_DIR_PREAMBLE + " " + VALID_GROUP_DIR_PREAMBLE,
+                CommandTestUtil.getValidRootAbsolutePath(),
                 new MoveStudentToGroupCommand(
-                        CommandTestUtil.getValidStudentRelativePath(),
-                        CommandTestUtil.getValidGroupRelativePath()));
+                        CommandTestUtil.getValidStudentAbsolutePath(),
+                        CommandTestUtil.getValidGroupAbsolutePath()));
     }
 }

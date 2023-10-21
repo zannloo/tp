@@ -13,7 +13,9 @@ import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.StudentId;
+import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
@@ -31,9 +33,11 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
      * Parses the given {@code String} of arguments in the context of the CreateStudentCommand
      * and returns an CreateStudentCommand object for execution.
      *
+     * @param args The command arguments to be parsed.
+     * @param currPath The current path of the application.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public CreateStudentCommand parse(String args) throws ParseException {
+    public CreateStudentCommand parse(String args, AbsolutePath currPath) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
 
@@ -46,10 +50,16 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
 
-        RelativePath path = ParserUtil.parsePath(argMultimap.getPreamble());
+        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
+        AbsolutePath targetPath = null;
+        try {
+            targetPath = currPath.resolve(path);
+        } catch (InvalidPathException e) {
+            throw new ParseException(e.getMessage());
+        }
 
         //todo: is possible to create student without provide id -> will auto generate id
-        if (!path.isStudentDirectory()) {
+        if (!targetPath.isStudentDirectory()) {
             throw new ParseException(INVALID_PATH_MESSAGE);
         }
 
@@ -57,10 +67,10 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(OPTION_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(OPTION_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getValue(OPTION_ADDRESS).get());
-        StudentId id = ParserUtil.parseStudentId(path);
+        StudentId id = ParserUtil.parseStudentId(targetPath);
 
         Student student = new Student(new TaskList(new ArrayList<>()), name, email, phone, address, id);
 
-        return new CreateStudentCommand(path, student);
+        return new CreateStudentCommand(targetPath, student);
     }
 }
