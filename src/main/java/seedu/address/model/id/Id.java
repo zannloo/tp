@@ -12,7 +12,7 @@ public abstract class Id {
      * @param id The ID value to store.
      */
     public Id(String id) {
-        this.id = id;
+        this.id = id.toUpperCase();
     }
 
     @Override

@@ -49,7 +49,7 @@ class CreateDeadlineCommandTest {
                 .withEmail("callissa@example.com")
                 .withPhone("94351253")
                 .withAddress("123, Jurong West Ave 6, #08-111")
-                .withId("stu-003").withTaskList(new ArrayList<>()).build();
+                .withId("0012Y").withTaskList(new ArrayList<>()).build();
         studentMap.put(calissa.getId(), calissa);
         Group grp = new Group(new TaskList(null), studentMap, new Name("Group1"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
@@ -60,7 +60,7 @@ class CreateDeadlineCommandTest {
         Deadline deadline = new Deadline("Assignment 3", duedate);
 
         assertFalse(calissa.checkDuplicates(deadline));
-        RelativePath path = new RelativePath("stu-003");
+        RelativePath path = new RelativePath("0012Y");
         AbsolutePath absolutePath = currPath.resolve(path);
 
         State state = new StateManager(currPath, root, new UserPrefs());
@@ -89,14 +89,14 @@ class CreateDeadlineCommandTest {
                 .withEmail("alice@example.com")
                 .withPhone("94351253")
                 .withAddress("123, Jurong West Ave 6, #08-111")
-                .withId("stu-001").withTaskList(new ArrayList<>()).build();
+                .withId("0001Y").withTaskList(new ArrayList<>()).build();
         Student bob = new StudentBuilder()
                 .withName("Bob")
                 .withEmail("johnd@example.com")
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("owesMoney", "friends")
-                .withId("stu-002").withTaskList(new ArrayList<>()).build();
+                .withId("0002Y").withTaskList(new ArrayList<>()).build();
         studentMap.put(alice.getId(), alice);
         studentMap.put(bob.getId(), bob);
         Group grp = new Group(new TaskList(null), studentMap, new Name("AmazingGroup"), new GroupId("grp-003"));
@@ -175,7 +175,7 @@ class CreateDeadlineCommandTest {
 
         State state = new StateManager(currPath, root, new UserPrefs());
 
-        RelativePath path = new RelativePath("~/grp-001/stu-001");
+        RelativePath path = new RelativePath("~/grp-001/0001Y");
         AbsolutePath absolutePath = currPath.resolve(path);
         Deadline deadline = new Deadline("Assignment 3", LocalDateTime.parse("2023-12-03T23:59"));
 
@@ -189,7 +189,7 @@ class CreateDeadlineCommandTest {
 
     @Test
     void equals_sameInstanceForStudentDirectory_success() throws InvalidPathException {
-        AbsolutePath path = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline = new Deadline("Assignment 1", duedate);
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline);
@@ -209,12 +209,12 @@ class CreateDeadlineCommandTest {
 
     @Test
     void equals_sameCommandForStudentDirectory_success() throws InvalidPathException {
-        AbsolutePath path1 = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path1 = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate1 = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline1 = new Deadline("Assignment 1", duedate1);
         CreateDeadlineCommand command1 = new CreateDeadlineCommand(path1, deadline1);
 
-        AbsolutePath path2 = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path2 = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate2 = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline2 = new Deadline("Assignment 1", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
@@ -239,12 +239,12 @@ class CreateDeadlineCommandTest {
 
     @Test
     void equals_differentDescriptionForStudentDirectory_fail() throws InvalidPathException {
-        AbsolutePath path1 = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path1 = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate1 = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline1 = new Deadline("Assignment 1", duedate1);
         CreateDeadlineCommand command1 = new CreateDeadlineCommand(path1, deadline1);
 
-        AbsolutePath path2 = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path2 = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate2 = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline2 = new Deadline("Assignment 2", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
@@ -254,12 +254,12 @@ class CreateDeadlineCommandTest {
 
     @Test
     void equals_differentPathForStudentDirectory_fail() throws InvalidPathException {
-        AbsolutePath path1 = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path1 = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate1 = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline1 = new Deadline("Assignment 1", duedate1);
         CreateDeadlineCommand command1 = new CreateDeadlineCommand(path1, deadline1);
 
-        AbsolutePath path2 = new AbsolutePath("~/grp-001/stu-002");
+        AbsolutePath path2 = new AbsolutePath("~/grp-001/0002Y");
         LocalDateTime duedate2 = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline2 = new Deadline("Assignment 1", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
@@ -269,12 +269,12 @@ class CreateDeadlineCommandTest {
 
     @Test
     void equals_differentDueDateForStudentDirectory_fail() throws InvalidPathException {
-        AbsolutePath path1 = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path1 = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate1 = LocalDateTime.parse("2023-12-03T23:58");
         Deadline deadline1 = new Deadline("Assignment 1", duedate1);
         CreateDeadlineCommand command1 = new CreateDeadlineCommand(path1, deadline1);
 
-        AbsolutePath path2 = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path2 = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate2 = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline2 = new Deadline("Assignment 1", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
@@ -284,12 +284,12 @@ class CreateDeadlineCommandTest {
 
     @Test
     void equals_differentFieldsForStudentDirectory_fail() throws InvalidPathException {
-        AbsolutePath path1 = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path1 = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate1 = LocalDateTime.parse("2023-12-03T23:58");
         Deadline deadline1 = new Deadline("Assignment 1", duedate1);
         CreateDeadlineCommand command1 = new CreateDeadlineCommand(path1, deadline1);
 
-        AbsolutePath path2 = new AbsolutePath("~/grp-001/stu-002");
+        AbsolutePath path2 = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate2 = LocalDateTime.parse("2023-12-03T23:59");
         Deadline deadline2 = new Deadline("Assignment 2", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
@@ -299,7 +299,7 @@ class CreateDeadlineCommandTest {
 
     @Test
     void toString_sameStringForStudentDirectory_success() throws InvalidPathException {
-        AbsolutePath path = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
         LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:58");
         Deadline deadline = new Deadline("Assignment 1", duedate);
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline);

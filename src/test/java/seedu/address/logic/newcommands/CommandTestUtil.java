@@ -33,14 +33,14 @@ public class CommandTestUtil {
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_DATETIME_STR = "2023-09-22 11:30";
     public static final String VALID_TASK_DESC = "Assignment 1: Software Engineer Project";
-    public static final String VALID_ID_STUDENT = "stu-022";
+    public static final String VALID_ID_STUDENT = "0011Y";
     public static final String VALID_ID_GROUP = "grp-123";
     public static final String VALID_CATEGORY_STUDENT = " --all allStu";
     public static final String VALID_CATEGORY_GROUP = " -all allGrp";
 
     public static final String VALID_ROOT_DIR_PREAMBLE = "~/";
     public static final String VALID_GROUP_DIR_PREAMBLE = "/grp-123";
-    public static final String VALID_STUDENT_DIR_PREAMBLE = "/grp-123/stu-022";
+    public static final String VALID_STUDENT_DIR_PREAMBLE = "/grp-123/0011Y";
     public static final String NAME_DESC_AMY = " " + OPTION_NAME + " " + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + OPTION_NAME + " " + VALID_NAME_BOB;
     public static final String PHONE_DESC_AMY = " " + OPTION_PHONE + " " + VALID_PHONE_AMY;

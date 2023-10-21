@@ -9,7 +9,7 @@ import java.util.Objects;
  * with a specific format.
  */
 public class GroupId extends Id {
-    public static final String VALIDATION_REGEX = "grp-\\d{3}";
+    public static final String VALIDATION_REGEX = "[Gg][Rr][Pp]-\\d{3}";
     public static final String MESSAGE_CONSTRAINTS =
             "Group Id should be in the format 'grp-XXX' where XXX is a 3-digit number.";
 

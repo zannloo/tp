@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * An option is a command line argument that can be used in a command.
  * An option typically has a long name and may have an optional short name.
- * E.g. '--name' in 'mkstu ~/grp-001/stu-001 --name Ming Yuan'.
+ * E.g. '--name' in 'mkstu ~/grp-001/A12345678Y --name Ming Yuan'.
  */
 public class Option {
     private final String longName;
