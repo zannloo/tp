@@ -2,6 +2,9 @@ package seedu.address.logic.newcommands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
@@ -22,10 +25,15 @@ public class DeleteTaskCommand extends Command {
     public static final String MESSAGE_TASK_LIST_NOT_SHOWN = "Current display panel is not displaying task list.";
     public static final String MESSAGE_INVALID_INDEX = "The task list provided is invalid.";
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted task: %1$s";
+    private static final Logger logger = LogsCenter.getLogger(DeleteTaskCommand.class);
 
     private final Index targetIndex;
 
+    /**
+     * Construct a DeleteTaskCommand instance with target index.
+     */
     public DeleteTaskCommand(Index targetIndex) {
+        requireNonNull(targetIndex);
         this.targetIndex = targetIndex;
     }
 
@@ -33,8 +41,11 @@ public class DeleteTaskCommand extends Command {
     public CommandResult execute(State state) throws CommandException {
         requireNonNull(state);
 
+        logger.info("Executing delete task command...");
+
         // Check if diplay panel is displaying task list
         if (!state.isShowTaskList()) {
+            logger.warning("Task list is not shown. Aborting delete task command.");
             throw new CommandException(MESSAGE_TASK_LIST_NOT_SHOWN);
         }
 
@@ -42,11 +53,16 @@ public class DeleteTaskCommand extends Command {
 
         // Check if index is valid.
         if (!taskOperation.isValidIndex(targetIndex.getOneBased())) {
+            logger.warning("Invalid index: " + targetIndex.getOneBased() + ". Aborting delete task command.");
             throw new CommandException(MESSAGE_INVALID_INDEX);
         }
 
+        logger.info("Executing delete task command on index " + targetIndex.getOneBased());
+
         Task deletedTask = taskOperation.deleteTask(targetIndex.getOneBased());
         state.updateList();
+
+        logger.info("Task deleted successfully. Deleted task: " + deletedTask.toString());
 
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask.toString()));
     }
