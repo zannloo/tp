@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
@@ -50,7 +51,7 @@ class DeleteForStudentsAndGroupsCommandTest {
 
         assertFalse(root.hasChild(studentId));
 
-        assertEquals(String.format(DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS, stu),
+        assertEquals(String.format(DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS_FOR_STUDENT, Messages.format(stu)),
                 commandResult.getFeedbackToUser());
     }
 
@@ -72,7 +73,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         GroupId groupId = new GroupId("grp-001");
         assertFalse(root.hasChild(groupId));
 
-        assertEquals(String.format(DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS, grp),
+        assertEquals(String.format(DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS_FOR_GROUP, Messages.format(grp)),
                 commandResult.getFeedbackToUser());
     }
 
