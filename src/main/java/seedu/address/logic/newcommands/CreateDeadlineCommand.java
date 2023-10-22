@@ -32,7 +32,7 @@ public class CreateDeadlineCommand extends Command {
             + " stu-001 "
             + OPTION_DESC + " Assignment 1 "
             + OPTION_DATETIME + " 2023-10-11 23:59 ";
-    public static final String MESSAGE_SUCCESS = "New Deadline task added for: %1$s";
+    public static final String MESSAGE_SUCCESS = "%1$s";
 
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New Deadline task added to all students in group: %1$s";
@@ -98,7 +98,7 @@ public class CreateDeadlineCommand extends Command {
             target.addTask(this.deadline);
             state.updateList();
 
-            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, this.deadline));
         }
 
         if (this.category.equals("allStu")) {
