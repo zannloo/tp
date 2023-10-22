@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
@@ -69,7 +70,7 @@ class CreateStudentCommandTest {
         State state = new StateManager(currPath, root, new UserPrefs());
         CommandResult commandResult = createStudentCommand.execute(state);
 
-        assertEquals(String.format(CreateStudentCommand.MESSAGE_SUCCESS, bob.toString()),
+        assertEquals(String.format(CreateStudentCommand.MESSAGE_SUCCESS, Messages.format(bob)),
                 commandResult.getFeedbackToUser());
     }
 
