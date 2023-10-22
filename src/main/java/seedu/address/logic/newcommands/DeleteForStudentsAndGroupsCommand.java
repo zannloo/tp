@@ -3,6 +3,7 @@ package seedu.address.logic.newcommands;
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
@@ -19,9 +20,15 @@ import seedu.address.model.statemanager.State;
  */
 public class DeleteForStudentsAndGroupsCommand extends Command {
     public static final String COMMAND_WORD = "rm";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": student or group ";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes a student/group from the specified directory\n"
+            + "Parameters: "
+            + "specified path\n"
+            + "Example: " + COMMAND_WORD
+            + " stu-200 ";
 
-    public static final String MESSAGE_SUCCESS = "Student/Group removed: %1$s";
+
+    public static final String MESSAGE_SUCCESS_FOR_STUDENT = "Student removed: %1$s";
+    public static final String MESSAGE_SUCCESS_FOR_GROUP = "Group removed: %1$s";
     public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid";
     public static final String MESSAGE_INVALID_PATH = "Path is invalid";
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
@@ -81,7 +88,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
             stu = target.getChild(studentId);
             target.deleteChild(studentId);
             state.updateList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, stu.toString()));
+            return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_STUDENT, Messages.format(stu)));
         }
 
         if (toBeDeleted.isGroupDirectory()) {
@@ -93,7 +100,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
             grp = target.getChild(groupId);
             target.deleteChild(groupId);
             state.updateList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, grp.toString()));
+            return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_GROUP, Messages.format(grp)));
         }
 
         throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
