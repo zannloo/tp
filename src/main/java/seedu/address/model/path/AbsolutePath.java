@@ -14,7 +14,6 @@ import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.element.PathElement;
 import seedu.address.model.path.element.PathElementType;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 
 /**
  * Absolute Path for storing group and student id.
@@ -100,7 +99,6 @@ public class AbsolutePath extends Path {
      * Retrieves the student ID from the path directory.
      *
      * @return The student ID.
-     * @throws UnsupportedPathOperationException If the operation is not supported based on the directory's state.
      * @throws InvalidIdException If the retrieved ID is invalid.
      */
     public Optional<StudentId> getStudentId() {
@@ -122,7 +120,6 @@ public class AbsolutePath extends Path {
      * Retrieves the group ID from the path directory.
      *
      * @return The group ID.
-     * @throws UnsupportedPathOperationException If the operation is not supported based on the directory's state.
      * @throws InvalidIdException If the retrieved ID is invalid.
      */
     public Optional<GroupId> getGroupId() {

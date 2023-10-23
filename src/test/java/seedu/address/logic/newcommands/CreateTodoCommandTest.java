@@ -21,7 +21,6 @@ import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
@@ -122,8 +121,7 @@ public class CreateTodoCommandTest {
         assertEquals(runCommand, returnStatement);
     }
     @Test
-    public void execute_createTodoTask_success() throws CommandException, InvalidPathException,
-            UnsupportedPathOperationException {
+    public void execute_createTodoTask_success() throws CommandException, InvalidPathException {
         ToDo todo = new ToDo("Todo read book");
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(children);
@@ -141,8 +139,7 @@ public class CreateTodoCommandTest {
     }
 
     @Test
-    public void execute_duplicateTodoTask_throwCommandException() throws InvalidPathException,
-            UnsupportedPathOperationException {
+    public void execute_duplicateTodoTask_throwCommandException() throws InvalidPathException {
         ToDo todo = new ToDo("Todo read book");
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(children);

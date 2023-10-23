@@ -23,7 +23,6 @@ import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
@@ -40,8 +39,7 @@ import seedu.address.testutil.StudentBuilder;
 
 class CreateDeadlineCommandTest {
     @Test
-    public void execute_deadlineForStudentAccepted_addSuccessful() throws InvalidPathException,
-            UnsupportedPathOperationException, CommandException {
+    public void execute_deadlineForStudentAccepted_addSuccessful() throws InvalidPathException, CommandException {
         AbsolutePath currPath = new AbsolutePath("~/grp-001/");
         Map<Id, Student> studentMap = new HashMap<>();
         Student calissa = new StudentBuilder()

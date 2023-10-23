@@ -8,7 +8,6 @@ import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
@@ -46,7 +45,6 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
      * @throws InvalidPathException Exception thrown when error occurs due to invalid path.
-     * @throws UnsupportedPathOperationException Exception thrown when error occurs due to unsupported path execution.
      * @throws NoSuchChildException Exception thrown when child specified does not exist.
      */
     @Override

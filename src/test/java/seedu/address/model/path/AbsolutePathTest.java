@@ -15,7 +15,6 @@ import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 
 public class AbsolutePathTest {
 
@@ -248,7 +247,7 @@ public class AbsolutePathTest {
     //=========== Get ID Method =============================================================
     @Test
     public void getStudentId_studentPath_returnsValidStudentId()
-            throws UnsupportedPathOperationException, InvalidIdException {
+            throws InvalidIdException {
         Optional<StudentId> studentId = studentPath.getStudentId();
         assertTrue(studentId.isPresent());
         assertEquals("0001Y", studentId.get().toString());
@@ -256,7 +255,7 @@ public class AbsolutePathTest {
 
     @Test
     public void getGroupId_studentPath_returnsValidStudentId()
-            throws UnsupportedPathOperationException, InvalidIdException {
+            throws InvalidIdException {
         Optional<GroupId> groupId = studentPath.getGroupId();
         assertTrue(groupId.isPresent());
         assertEquals("GRP-001", groupId.get().toString());
@@ -264,7 +263,7 @@ public class AbsolutePathTest {
 
     @Test
     public void getGroupId_groupPath_returnsValidGroupId()
-            throws UnsupportedPathOperationException, InvalidIdException {
+            throws InvalidIdException {
         Optional<GroupId> groupId = groupPath.getGroupId();
         assertTrue(groupId.isPresent());
         assertEquals("GRP-001", groupId.get().toString());
