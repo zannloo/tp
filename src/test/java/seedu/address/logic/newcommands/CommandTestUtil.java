@@ -1,5 +1,7 @@
 package seedu.address.logic.newcommands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
@@ -11,11 +13,13 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_TAG;
 
 import java.time.LocalDateTime;
 
+import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.newcommandparser.ParserUtil;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.statemanager.State;
 
 /**
  * Contains helper methods for testing commands.
@@ -113,5 +117,43 @@ public class CommandTestUtil {
 
     public static LocalDateTime getValidDateTime() {
         return validDateTime;
+    }
+
+    /**
+     * Executes the given {@code command}, confirms that <br>
+     * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
+     * - the {@code actualState} matches {@code expectedState}
+     */
+    public static void assertCommandSuccess(Command command, State actualState, CommandResult expectedCommandResult,
+            State expectedState) {
+        try {
+            CommandResult result = command.execute(actualState);
+            assertEquals(expectedCommandResult, result);
+            assertEquals(expectedState, actualState);
+        } catch (CommandException ce) {
+            throw new AssertionError("Execution of command should not fail.", ce);
+        }
+    }
+
+    /**
+     * Convenience wrapper to {@link #assertCommandSuccess(Command, State, CommandResult, State)}
+     * that takes a string {@code expectedMessage}.
+     */
+    public static void assertCommandSuccess(Command command, State actualState, String expectedMessage,
+            State expectedState) {
+        CommandResult expectedCommandResult = new CommandResult(expectedMessage);
+        assertCommandSuccess(command, actualState, expectedCommandResult, expectedState);
+    }
+
+    /**
+     * Executes the given {@code command}, confirms that <br>
+     * - a {@code CommandException} is thrown <br>
+     * - the CommandException message matches {@code expectedMessage} <br>
+     * - the {@code actualState} remain unchanged
+     */
+    public static void assertCommandFailure(Command command, State actualState,
+            String expectedMessage, State unchangedState) {
+        assertThrows(CommandException.class, () -> command.execute(actualState), expectedMessage);
+        assertEquals(unchangedState, actualState);
     }
 }
