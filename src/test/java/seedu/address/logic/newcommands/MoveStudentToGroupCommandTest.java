@@ -50,7 +50,7 @@ public class MoveStudentToGroupCommandTest {
 
     @Test
     public void equals() throws InvalidPathException {
-        AbsolutePath sourcePath = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath sourcePath = new AbsolutePath("~/grp-001/0001Y");
         AbsolutePath destinationPath = new AbsolutePath("~/grp-002");
         MoveStudentToGroupCommand command1 = new MoveStudentToGroupCommand(sourcePath, destinationPath);
         MoveStudentToGroupCommand command2 = new MoveStudentToGroupCommand(sourcePath, destinationPath);
@@ -59,7 +59,7 @@ public class MoveStudentToGroupCommandTest {
 
     // @Test
     // public void testOutputString() throws InvalidPathException {
-    //     RelativePath relativeSourcePath = new RelativePath("~/grp-001/stu-001");
+    //     RelativePath relativeSourcePath = new RelativePath("~/grp-001/0001Y");
     //     RelativePath relativeDestinationPath = new RelativePath("~/grp-002");
     //     MoveStudentToGroupCommand moveStudentToGroupCommand =
     //             new MoveStudentToGroupCommand(relativeSourcePath, relativeDestinationPath);

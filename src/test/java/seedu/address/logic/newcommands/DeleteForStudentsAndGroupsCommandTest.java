@@ -39,9 +39,9 @@ class DeleteForStudentsAndGroupsCommandTest {
         groups.put(grp.getId(), grp);
         Root root = new Root(groups);
 
-        AbsolutePath path = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
         Student stu = new StudentBuilder().build();
-        StudentId studentId = new StudentId("stu-001");
+        StudentId studentId = new StudentId("0001Y");
         assertTrue(grp.hasChild(studentId));
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
@@ -85,7 +85,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);
 
-        AbsolutePath path = new AbsolutePath("~/grp-001/stu-002");
+        AbsolutePath path = new AbsolutePath("~/grp-001/0002Y");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
         State state = new StateManager(currPath, root, new UserPrefs());
@@ -138,8 +138,8 @@ class DeleteForStudentsAndGroupsCommandTest {
     void testEquals() throws InvalidPathException {
         AbsolutePath pathGrp001 = new AbsolutePath("~/grp-001");
         AbsolutePath pathGrp002 = new AbsolutePath("~/grp-002");
-        AbsolutePath pathStu001 = new AbsolutePath("~/grp-001/stu-001");
-        AbsolutePath pathStu002 = new AbsolutePath("~/grp-002/stu-002");
+        AbsolutePath pathStu001 = new AbsolutePath("~/grp-001/0001Y");
+        AbsolutePath pathStu002 = new AbsolutePath("~/grp-002/0002Y");
 
         DeleteForStudentsAndGroupsCommand deleteG001 = new DeleteForStudentsAndGroupsCommand(pathGrp001);
         DeleteForStudentsAndGroupsCommand deleteG002 = new DeleteForStudentsAndGroupsCommand(pathGrp002);
@@ -177,7 +177,7 @@ class DeleteForStudentsAndGroupsCommandTest {
 
     @Test
     void toString_sameString_success() throws InvalidPathException {
-        AbsolutePath path = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
         String expected = DeleteForStudentsAndGroupsCommand.class.getCanonicalName()
                 + "{toDeleteStudentOrGroup=" + path + "}";
