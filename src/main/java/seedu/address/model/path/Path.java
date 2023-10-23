@@ -50,6 +50,11 @@ public abstract class Path {
         }
 
         String[] elementStrs = path.split("/");
+
+        if (elementStrs.length == 0) {
+            throw new InvalidPathException("Path cannot be empty.");
+        }
+
         List<PathElement> elements = new ArrayList<>();
 
         for (String elementStr : elementStrs) {

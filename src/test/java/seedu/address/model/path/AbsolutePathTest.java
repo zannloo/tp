@@ -7,13 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.id.exceptions.InvalidIdException;
@@ -22,7 +19,6 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 
 public class AbsolutePathTest {
 
-    private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
     private AbsolutePath rootPath;
     private AbsolutePath studentPath;
     private AbsolutePath groupPath;
@@ -33,6 +29,28 @@ public class AbsolutePathTest {
     public void constructor_pathNotStartedFromRoot_throwInvalidPathException() {
         assertThrows(InvalidPathException.class, () -> {
             new AbsolutePath("grp-001/0001Y");
+        });
+    }
+
+    @Test
+    public void constructor_invalidPathElement_throwInvalidPathException() {
+        assertThrows(InvalidPathException.class, () -> {
+            new AbsolutePath("~/grp-001/K001Y");
+        });
+        assertThrows(InvalidPathException.class, () -> {
+            new AbsolutePath("~/grp-001/ABCDE");
+        });
+        assertThrows(InvalidPathException.class, () -> {
+            new AbsolutePath("~/grp-001/0001");
+        });
+        assertThrows(InvalidPathException.class, () -> {
+            new AbsolutePath("~/grp-001/123456");
+        });
+        assertThrows(InvalidPathException.class, () -> {
+            new AbsolutePath("~/group1/0001Y");
+        });
+        assertThrows(InvalidPathException.class, () -> {
+            new AbsolutePath("~/group-001/0001Y");
         });
     }
 
@@ -50,7 +68,6 @@ public class AbsolutePathTest {
     public void constructor_pathWithValidNavigation_returnValidPath() {
         try {
             AbsolutePath path = new AbsolutePath("~/grp-001/../grp-002/0001Y");
-            logger.info(path.toString());
             assertEquals("~/grp-002/0001Y", path.toString());
         } catch (InvalidPathException e) {
             fail("Expected no InvalidPathException, but got one.");
@@ -76,7 +93,24 @@ public class AbsolutePathTest {
             fail("Unexpected InvalidPathException");
         }
 
-        assertEquals(pathWithDot.toString(), pathWithoutDot.toString());
+        assertEquals(pathWithDot, pathWithoutDot);
+    }
+
+    @Test
+    public void equals() throws InvalidPathException {
+        AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
+
+        // same values -> returns true
+        assertTrue(path.equals(new AbsolutePath("~/grp-001/0001Y")));
+
+        // same object -> returns true
+        assertTrue(path.equals(path));
+
+        // null -> returns false
+        assertFalse(path.equals(null));
+
+        // different values -> returns false
+        assertFalse(path.equals(new AbsolutePath("~/grp-001/")));
     }
 
     //=========== Resolve Method =============================================================
