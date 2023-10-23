@@ -51,7 +51,7 @@ public class TaskOperationTest {
         try {
             rootPath = new AbsolutePath("~/");
             grpPath = new AbsolutePath("~/grp-001");
-            stuPath = new AbsolutePath("~/grp-001/stu-001");
+            stuPath = new AbsolutePath("~/grp-001/0001Y");
         } catch (InvalidPathException e) {
             fail();
             return;
@@ -62,9 +62,9 @@ public class TaskOperationTest {
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("owesMoney", "friends")
-                .withId("stu-001").build();
+                .withId("0001Y").build();
         Map<Id, Student> studentMap = new HashMap<>();
-        studentMap.put(new StudentId("stu-001"), this.student);
+        studentMap.put(new StudentId("0001Y"), this.student);
         this.group = new Group(new TaskList(null), studentMap, new Name("gary"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), this.group);

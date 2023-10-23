@@ -51,14 +51,14 @@ public class CreateTodoCommandTest {
                 .withEmail("alice@example.com")
                 .withPhone("94351253")
                 .withAddress("123, Jurong West Ave 6, #08-111")
-                .withId("stu-001").withTaskList(new ArrayList<>()).build();
+                .withId("0001Y").withTaskList(new ArrayList<>()).build();
         Student bob = new StudentBuilder()
                 .withName("Bob")
                 .withEmail("johnd@example.com")
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("owesMoney", "friends")
-                .withId("stu-002").withTaskList(new ArrayList<>()).build();
+                .withId("0002Y").withTaskList(new ArrayList<>()).build();
         studentMap.put(alice.getId(), alice);
         studentMap.put(bob.getId(), bob);
         Group grp = new Group(new TaskList(null), studentMap, new Name("AmazingGroup"), new GroupId("grp-003"));
@@ -187,8 +187,8 @@ public class CreateTodoCommandTest {
         ToDo todo = new ToDo("Todo test");
         AbsolutePath target = new AbsolutePath("~/grp-001");
         CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
-        String expected = "seedu.address.logic.newcommands.CreateTodoCommand{toCreateTodo=Your ToDo has been added:"
-                + "\n[T][ ] Todo test}";
+        String expected = "seedu.address.logic.newcommands.CreateTodoCommand{toCreateTodo="
+                + "[T][ ] Todo test}";
         assertEquals(expected, createTodoCommand.toString());
     }
 }

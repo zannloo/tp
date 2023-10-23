@@ -43,7 +43,7 @@ public class GroupBuilder {
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("owesMoney", "friends")
-                .withId("stu-010").build();
+                .withId("0010Y").build();
         students.put(stu1.getId(), stu1);
         students.put(stu2.getId(), stu2);
         name = new Name(DEFAULT_NAME);

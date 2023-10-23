@@ -133,7 +133,7 @@ name:
 
 StudentId:
 
-- must be a non-empty string starting with stu-
+- must be a 4 digits number follow with any letter
 
 Output if command fails
 
@@ -150,7 +150,7 @@ A person can have any number of tags (including 0)
 </div>
 
 Examples:
-`touch student -n Gary -id stu-1234`
+`touch student -n Gary -id 1234Y`
 
 - Command creates a student within the tutorial group if command is used from within the tutorial group.
 - If a command is executed outside of a specific group, students are added into an ungrouped folder and can be moved into a group later.
@@ -179,9 +179,9 @@ Output if command succeeds
 - pop up message indicate target successfully removed
 
 Examples:
-`rm -type student -target stu-123`
+`rm -type student -target 0123Y`
 
-- This command will delete the student profile with id stu-123
+- This command will delete the student profile with id 0123Y
 
 ### Move students into/out of the group: `mv`
 
@@ -192,7 +192,7 @@ Format `mv [StudentID] -source [source group]  -dest [destination group]`
 Acceptable values for each parameter:
 StudentID:
 
-- must be a non-empty string starting with stu-
+- must be a 4 digits number follow with any letter
 
 source group:
 
@@ -204,16 +204,16 @@ destination group:
 
 Output if command fails
 
-- pop up message indicate error when moving student with id stu-123 from grp-1 to grp-2
+- pop up message indicate error when moving student with id 0123Y from grp-1 to grp-2
 
 Output if command succeeds
 
-- pop up message indicates successfully moving student with id stu-123 from grp-1 to grp-2
+- pop up message indicates successfully moving student with id 0123Y from grp-1 to grp-2
 
 Examples:
-`mv stu-123 -source grp-1 -dest grp-2`
+`mv 0123Y -source grp-1 -dest grp-2`
 
-- This command will move a student with value id stu-123 within the groups or from Ungroup to Group.
+- This command will move a student with value id 0123Y within the groups or from Ungroup to Group.
 
 ### Create Group : `mkdir`
 
@@ -281,9 +281,9 @@ Output if command succeeds
 - pop up message indicate todo created successfully
 
 Examples:
-`todo -desc ps1 -level student -target stu-123`
+`todo -desc ps1 -level student -target 0123Y`
 
-- This command will create a todo task called “ps 1” for the student with id stu-123
+- This command will create a todo task called “ps 1” for the student with id 0123Y
 
 ### Create Deadline task : `Deadline`
 
@@ -360,9 +360,9 @@ Output if command succeeds
 - pop up message saying mark is done successfully as well as specific task that is marked
 
 Examples:
-`mark -d Assignment 1 -level student -target stu-123`
+`mark -d Assignment 1 -level student -target 0123Y`
 
-- This command will mark stu-123's Assignment 1 as done
+- This command will mark 0123Y's Assignment 1 as done
 
 ### Search for Tasks: `find`
 
@@ -439,11 +439,11 @@ _Details coming soon ..._
 | **List**            | `ls`                                                                                                                                                                                             |
 | **Clear**           | `clear`                                                                                                                                                                                          |
 | **Exit**            | `exit`                                                                                                                                                                                           |
-| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id stu-1234`                                                                                                        |
+| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                        |
 | **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-1`                                                                                                                                                       |
-| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id stu-1234`                                                                                                                                 |
-| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target stu-123`                                                    |
+| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                                 |
+| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                                    |
 | **Create Deadline** | `deadline -desc [task] -level [student/group] -target [StudentID/groupId/tutorialId] -byDate[dd/MM/yyyy]`<br> e.g., `deadline -d grade proposal 1 -level group -target tut-1 -byDate 20/10/2023` |
-| **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target stu-123`                                                               |
-| **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target stu-123`                                                           |
+| **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                               |
+| **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                           |
 | **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                                    |

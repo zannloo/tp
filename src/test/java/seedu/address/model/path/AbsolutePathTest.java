@@ -32,15 +32,15 @@ public class AbsolutePathTest {
     @Test
     public void constructor_pathNotStartedFromRoot_throwInvalidPathException() {
         assertThrows(InvalidPathException.class, () -> {
-            new AbsolutePath("grp-001/stu-001");
+            new AbsolutePath("grp-001/0001Y");
         });
     }
 
     @Test
     public void constructor_validPath_returnValidPath() {
         try {
-            AbsolutePath path = new AbsolutePath("~/grp-001/stu-001");
-            assertEquals("~/grp-001/stu-001", path.toString());
+            AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
+            assertEquals("~/grp-001/0001Y", path.toString());
         } catch (InvalidPathException e) {
             fail("Expected no InvalidPathException, but got one.");
         }
@@ -49,9 +49,9 @@ public class AbsolutePathTest {
     @Test
     public void constructor_pathWithValidNavigation_returnValidPath() {
         try {
-            AbsolutePath path = new AbsolutePath("~/grp-001/../grp-002/stu-001");
+            AbsolutePath path = new AbsolutePath("~/grp-001/../grp-002/0001Y");
             logger.info(path.toString());
-            assertEquals("~/grp-002/stu-001", path.toString());
+            assertEquals("~/grp-002/0001Y", path.toString());
         } catch (InvalidPathException e) {
             fail("Expected no InvalidPathException, but got one.");
         }
@@ -60,7 +60,7 @@ public class AbsolutePathTest {
     @Test
     public void constructor_invalidPathStructure_throwInvalidPathException() {
         assertThrows(InvalidPathException.class, () -> {
-            new AbsolutePath("~/grp-001/../stu-001");
+            new AbsolutePath("~/grp-001/../0001Y");
         });
     }
 
@@ -70,8 +70,8 @@ public class AbsolutePathTest {
         AbsolutePath pathWithoutDot = null;
 
         try {
-            pathWithDot = new AbsolutePath("~/grp-001/./stu-001");
-            pathWithoutDot = new AbsolutePath("~/grp-001/stu-001");
+            pathWithDot = new AbsolutePath("~/grp-001/./0001Y");
+            pathWithoutDot = new AbsolutePath("~/grp-001/0001Y");
         } catch (InvalidPathException e) {
             fail("Unexpected InvalidPathException");
         }
@@ -85,11 +85,11 @@ public class AbsolutePathTest {
     public void resolve_relativeStudentPathWithoutNavigation_returnNewAbsolutePath()
             throws InvalidPathException {
         AbsolutePath absolutePath = new AbsolutePath("~/grp-001/");
-        RelativePath relativePath = new RelativePath("stu-002");
+        RelativePath relativePath = new RelativePath("0002Y");
 
         AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
 
-        assertEquals("~/grp-001/stu-002", resolvedPath.toString());
+        assertEquals("~/grp-001/0002Y", resolvedPath.toString());
     }
 
     @Test
@@ -106,41 +106,41 @@ public class AbsolutePathTest {
     @Test
     public void resolve_relativePathWithOneValidNavigation_returnNewAbsolutePath()
             throws InvalidPathException {
-        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/stu-001");
-        RelativePath relativePath = new RelativePath("../stu-002");
+        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/0001Y");
+        RelativePath relativePath = new RelativePath("../0002Y");
 
         AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
 
-        assertEquals("~/grp-001/stu-002", resolvedPath.toString());
+        assertEquals("~/grp-001/0002Y", resolvedPath.toString());
     }
 
     @Test
     public void resolve_relativePathWithTwoValidNavigation_returnNewAbsolutePath()
             throws InvalidPathException {
-        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/stu-001");
-        RelativePath relativePath = new RelativePath("../../grp-002/stu-002");
+        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/0001Y");
+        RelativePath relativePath = new RelativePath("../../grp-002/0002Y");
 
         AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
 
-        assertEquals("~/grp-002/stu-002", resolvedPath.toString());
+        assertEquals("~/grp-002/0002Y", resolvedPath.toString());
     }
 
     @Test
     public void resolve_relativePathStartWithRoot()
             throws InvalidPathException {
-        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/stu-001");
-        RelativePath relativePath = new RelativePath("~/grp-002/stu-003");
+        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/0001Y");
+        RelativePath relativePath = new RelativePath("~/grp-002/0003Y");
 
         AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
 
-        assertEquals("~/grp-002/stu-003", resolvedPath.toString());
+        assertEquals("~/grp-002/0003Y", resolvedPath.toString());
     }
 
     @Test
     public void resolve_relativePathWithInvalidOneNavigation_throwsInvalidPathException()
             throws InvalidPathException {
-        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/stu-001");
-        RelativePath relativePath = new RelativePath("../grp-002/stu-002");
+        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/0001Y");
+        RelativePath relativePath = new RelativePath("../grp-002/0002Y");
 
         assertThrows(InvalidPathException.class, () -> absolutePath.resolve(relativePath));
     }
@@ -148,7 +148,7 @@ public class AbsolutePathTest {
     @Test
     public void resolve_relativePathWithInvalidNavigationAboveRoot_throwsInvalidPathException()
             throws InvalidPathException {
-        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath absolutePath = new AbsolutePath("~/grp-001/0001Y");
         RelativePath relativePath = new RelativePath("../../../grp-002");
 
         assertThrows(InvalidPathException.class, () -> absolutePath.resolve(relativePath));
@@ -159,7 +159,7 @@ public class AbsolutePathTest {
     public void setUp() {
         try {
             rootPath = new AbsolutePath("~/");
-            studentPath = new AbsolutePath("~/grp-001/stu-001");
+            studentPath = new AbsolutePath("~/grp-001/0001Y");
             groupPath = new AbsolutePath("~/grp-001");
         } catch (InvalidPathException e) {
             fail("Unexpected Exception.");
@@ -217,7 +217,7 @@ public class AbsolutePathTest {
             throws UnsupportedPathOperationException, InvalidIdException {
         Optional<StudentId> studentId = studentPath.getStudentId();
         assertTrue(studentId.isPresent());
-        assertEquals("stu-001", studentId.get().toString());
+        assertEquals("0001Y", studentId.get().toString());
     }
 
     @Test
@@ -225,7 +225,7 @@ public class AbsolutePathTest {
             throws UnsupportedPathOperationException, InvalidIdException {
         Optional<GroupId> groupId = studentPath.getGroupId();
         assertTrue(groupId.isPresent());
-        assertEquals("grp-001", groupId.get().toString());
+        assertEquals("GRP-001", groupId.get().toString());
     }
 
     @Test
@@ -233,7 +233,7 @@ public class AbsolutePathTest {
             throws UnsupportedPathOperationException, InvalidIdException {
         Optional<GroupId> groupId = groupPath.getGroupId();
         assertTrue(groupId.isPresent());
-        assertEquals("grp-001", groupId.get().toString());
+        assertEquals("GRP-001", groupId.get().toString());
     }
 
     @Test

@@ -46,7 +46,7 @@ public class ChildOperationTest {
         try {
             rootPath = new AbsolutePath("~/");
             grpPath = new AbsolutePath("~/grp-001");
-            stuPath = new AbsolutePath("~/grp-001/stu-001");
+            stuPath = new AbsolutePath("~/grp-001/0001Y");
         } catch (InvalidPathException e) {
             fail();
             return;
@@ -57,9 +57,9 @@ public class ChildOperationTest {
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("owesMoney", "friends")
-                .withId("stu-001").build();
+                .withId("0001Y").build();
         Map<Id, Student> studentMap = new HashMap<>();
-        studentMap.put(new StudentId("stu-001"), this.student);
+        studentMap.put(new StudentId("0001Y"), this.student);
         this.group = new Group(new TaskList(null), studentMap, new Name("gary"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), this.group);
@@ -81,7 +81,7 @@ public class ChildOperationTest {
 
     @Test
     public void childOperationVerifyDeleteAndAdd_noError() {
-        StudentId stu = new StudentId("stu-001");
+        StudentId stu = new StudentId("0001Y");
         ChildOperation<Student> opr = state.groupChildOperation(grpPath);
         assertTrue(opr.hasChild(stu));
         opr.deleteChild(stu);
@@ -92,7 +92,7 @@ public class ChildOperationTest {
 
     @Test
     public void childOperationVerifyGet_noError() {
-        StudentId stu = new StudentId("stu-001");
+        StudentId stu = new StudentId("0001Y");
         ChildOperation<Student> opr = state.groupChildOperation(grpPath);
         assertTrue(opr.hasChild(stu));
         assertEquals(this.student, opr.getChild(stu));
@@ -100,7 +100,7 @@ public class ChildOperationTest {
 
     @Test
     public void childOperationAddDuplicateChild_exceptionThrown() {
-        StudentId stu = new StudentId("stu-001");
+        StudentId stu = new StudentId("0001Y");
         try {
             ChildOperation<Student> opr = state.groupChildOperation(grpPath);
             assertTrue(opr.hasChild(stu));
@@ -121,14 +121,14 @@ public class ChildOperationTest {
 
     @Test
     public void childOperationVerifyUpdate_noError() {
-        StudentId stu = new StudentId("stu-001");
+        StudentId stu = new StudentId("0001Y");
         Student newStu = new StudentBuilder()
                 .withName("angel")
                 .withEmail("angelyipenqi@example.com")
                 .withPhone("1234567")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("owesMoney", "friends")
-                .withId("stu-001").build();
+                .withId("0001Y").build();
         ChildOperation<Student> opr = state.groupChildOperation(grpPath);
         assertTrue(opr.hasChild(stu));
         opr.updateChild(stu, newStu);

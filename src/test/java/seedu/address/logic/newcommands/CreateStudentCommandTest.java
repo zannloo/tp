@@ -38,7 +38,7 @@ class CreateStudentCommandTest {
     @Test
     public void constructor_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, (
-        ) -> new CreateStudentCommand(new AbsolutePath("~/grp-001/stu-001"), null));
+        ) -> new CreateStudentCommand(new AbsolutePath("~/grp-001/0001Y"), null));
     }
 
     @Test
@@ -55,7 +55,7 @@ class CreateStudentCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);
 
-        AbsolutePath path = new AbsolutePath("~/grp-001/stu-002");
+        AbsolutePath path = new AbsolutePath("~/grp-001/0002Y");
 
         Student bob = new StudentBuilder()
                 .withName("Bob")
@@ -63,7 +63,7 @@ class CreateStudentCommandTest {
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("owesMoney", "friends")
-                .withId("stu-002").build();
+                .withId("0002Y").build();
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, bob);
         State state = new StateManager(currPath, root, new UserPrefs());
@@ -82,7 +82,7 @@ class CreateStudentCommandTest {
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("friends")
-                .withId("stu-001").build();
+                .withId("0001Y").build();
         Map<Id, Student> studentMap = new HashMap<>();
         studentMap.put(duplicatedStudent.getId(), duplicatedStudent);
         Group grp = new Group(new TaskList(null), studentMap, new Name("ProfBook"), new GroupId("grp-001"));
@@ -90,7 +90,7 @@ class CreateStudentCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);
 
-        AbsolutePath path = new AbsolutePath("~/grp-001/stu-001");
+        AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, validStudent);
         State state = new StateManager(currPath, root, new UserPrefs());
@@ -108,14 +108,14 @@ class CreateStudentCommandTest {
                 .withEmail("alice@example.com")
                 .withPhone("94351253")
                 .withAddress("123, Jurong West Ave 6, #08-111")
-                .withId("stu-001").build();
+                .withId("0001Y").build();
         Student bob = new StudentBuilder()
                 .withName("Bob")
                 .withEmail("johnd@example.com")
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withTags("owesMoney", "friends")
-                .withId("stu-002").build();
+                .withId("0002Y").build();
         CreateStudentCommand createAliceCommand = new CreateStudentCommand(path, alice);
         CreateStudentCommand createBobCommand = new CreateStudentCommand(path, bob);
 

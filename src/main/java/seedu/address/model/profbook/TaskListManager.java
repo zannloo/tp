@@ -44,6 +44,13 @@ public class TaskListManager {
     }
 
     /**
+     * Return task list size.
+     */
+    public int getTaskListSize() {
+        return taskList.size();
+    }
+
+    /**
      * Adds a new tasks to the task list
      *
      * @param t
