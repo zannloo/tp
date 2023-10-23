@@ -23,7 +23,7 @@ import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.util.SampleProfBook;
 
-public class MarkCommandTest {
+public class UnmarkCommandTest {
 
     private State actualState;
 
@@ -52,54 +52,54 @@ public class MarkCommandTest {
 
     @Test
     public void execute_validIndex_success() {
-        Task taskToMark = taskOperation.markTask(FIRST_INDEX.getOneBased());
-        MarkCommand markCommand = new MarkCommand(FIRST_INDEX);
+        Task taskToUnmark = taskOperation.unmarkTask(FIRST_INDEX.getOneBased());
+        UnmarkCommand unmarkCommand = new UnmarkCommand(FIRST_INDEX);
 
-        String expectedMessage = String.format(MarkCommand.MESSAGE_MARK_TASK_SUCCESS,
-                taskToMark.toString());
+        String expectedMessage = String.format(UnmarkCommand.MESSAGE_MARK_TASK_SUCCESS,
+                taskToUnmark.toString());
 
-        taskOperation.markTask(FIRST_INDEX.getOneBased());
+        taskOperation.unmarkTask(FIRST_INDEX.getOneBased());
         expectedState.updateList();
 
-        assertCommandSuccess(markCommand, actualState, expectedMessage, expectedState);
+        assertCommandSuccess(unmarkCommand, actualState, expectedMessage, expectedState);
     }
 
     @Test
     public void execute_invalidIndex_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(taskOperation.getTaskListSize() + 1);
-        MarkCommand markCommand = new MarkCommand(outOfBoundIndex);
+        UnmarkCommand unmarkCommand = new UnmarkCommand(outOfBoundIndex);
 
-        assertCommandFailure(markCommand, actualState,
+        assertCommandFailure(unmarkCommand, actualState,
                 Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, expectedState);
     }
 
     @Test
     public void equals() {
-        MarkCommand firstMarkCommand = new MarkCommand(FIRST_INDEX);
-        MarkCommand secondMarkCommand = new MarkCommand(SECOND_INDEX);
+        UnmarkCommand firstUnmarkCommand = new UnmarkCommand(FIRST_INDEX);
+        UnmarkCommand secondUnmarkCommand = new UnmarkCommand(SECOND_INDEX);
 
         // same object -> returns true
-        assertTrue(firstMarkCommand.equals(firstMarkCommand));
+        assertTrue(firstUnmarkCommand.equals(firstUnmarkCommand));
 
         // same values -> returns true
-        MarkCommand firstMarkCommandCopy = new MarkCommand(FIRST_INDEX);
-        assertTrue(firstMarkCommand.equals(firstMarkCommandCopy));
+        UnmarkCommand firstMarkCommandCopy = new UnmarkCommand(FIRST_INDEX);
+        assertTrue(firstUnmarkCommand.equals(firstMarkCommandCopy));
 
         // different types -> returns false
-        assertFalse(firstMarkCommand.equals(1));
+        assertFalse(firstUnmarkCommand.equals(1));
 
         // null -> returns false
-        assertFalse(firstMarkCommand.equals(null));
+        assertFalse(firstUnmarkCommand.equals(null));
 
         // different object -> returns false
-        assertFalse(firstMarkCommand.equals(secondMarkCommand));
+        assertFalse(firstUnmarkCommand.equals(secondUnmarkCommand));
     }
 
     @Test
     public void toStringMethod() {
         Index targetIndex = Index.fromOneBased(1);
-        MarkCommand markCommand = new MarkCommand(targetIndex);
-        String expected = MarkCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";
-        assertEquals(expected, markCommand.toString());
+        UnmarkCommand unmarkCommand = new UnmarkCommand(targetIndex);
+        String expected = UnmarkCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";
+        assertEquals(expected, unmarkCommand.toString());
     }
 }
