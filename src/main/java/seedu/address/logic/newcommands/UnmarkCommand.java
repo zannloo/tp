@@ -57,28 +57,28 @@ public class UnmarkCommand extends Command {
 
         logger.info("Executing unmark task command...");
 
-        if (state.isShowTaskList()) {
-            AbsolutePath displayPath = state.getDisplayPath();
-            TaskOperation taskOperation = state.taskOperation(displayPath);
-
-            // Check if index is valid.
-            if (!taskOperation.isValidIndex(this.index.getOneBased())) {
-                logger.warning("Invalid index: " + this.index.getOneBased() + ". Aborting unmark task command.");
-                throw new CommandException(MESSAGE_INVALID_INDEX);
-            }
-
-            logger.info("Executing unmark task command on index " + this.index.getOneBased());
-
-            Task ummarkedTask = taskOperation.unmarkTask(this.index.getOneBased());
-            state.updateList();
-
-            logger.info("Task unmarked successfully. Unmarked task: " + ummarkedTask.toString());
-
-            return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS, ummarkedTask));
-        } else {
+        if (!state.isShowTaskList()) {
             logger.warning("Task list is not shown. Aborting unmark task command.");
             throw new CommandException(MESSAGE_INCORRECT_STATE);
         }
+
+        AbsolutePath displayPath = state.getDisplayPath();
+        TaskOperation taskOperation = state.taskOperation(displayPath);
+
+        // Check if index is valid.
+        if (!taskOperation.isValidIndex(this.index.getOneBased())) {
+            logger.warning("Invalid index: " + this.index.getOneBased() + ". Aborting unmark task command.");
+            throw new CommandException(MESSAGE_INVALID_INDEX);
+        }
+
+        logger.info("Executing unmark task command on index " + this.index.getOneBased());
+
+        Task ummarkedTask = taskOperation.unmarkTask(this.index.getOneBased());
+        state.updateList();
+
+        logger.info("Task unmarked successfully. Unmarked task: " + ummarkedTask.toString());
+
+        return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS, ummarkedTask));
     }
 
     /**

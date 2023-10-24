@@ -57,28 +57,28 @@ public class MarkCommand extends Command {
 
         logger.info("Executing mark task command...");
 
-        if (state.isShowTaskList()) {
-            AbsolutePath displayPath = state.getDisplayPath();
-            TaskOperation taskOperation = state.taskOperation(displayPath);
-
-            // Check if index is valid.
-            if (!taskOperation.isValidIndex(this.index.getOneBased())) {
-                logger.warning("Invalid index: " + this.index.getOneBased() + ". Aborting mark task command.");
-                throw new CommandException(MESSAGE_INVALID_INDEX);
-            }
-
-            logger.info("Executing mark task command on index " + this.index.getOneBased());
-
-            Task markedTask = taskOperation.markTask(this.index.getOneBased());
-            state.updateList();
-
-            logger.info("Task marked successfully. Marked task: " + markedTask.toString());
-
-            return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS, markedTask));
-        } else {
+        if (!state.isShowTaskList()) {
             logger.warning("Task list is not shown. Aborting mark task command.");
             throw new CommandException(MESSAGE_INCORRECT_STATE);
         }
+
+        AbsolutePath displayPath = state.getDisplayPath();
+        TaskOperation taskOperation = state.taskOperation(displayPath);
+
+        // Check if index is valid.
+        if (!taskOperation.isValidIndex(this.index.getOneBased())) {
+            logger.warning("Invalid index: " + this.index.getOneBased() + ". Aborting mark task command.");
+            throw new CommandException(MESSAGE_INVALID_INDEX);
+        }
+
+        logger.info("Executing mark task command on index " + this.index.getOneBased());
+
+        Task markedTask = taskOperation.markTask(this.index.getOneBased());
+        state.updateList();
+
+        logger.info("Task marked successfully. Marked task: " + markedTask.toString());
+
+        return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS, markedTask));
     }
 
     /**
