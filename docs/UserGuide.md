@@ -1,6 +1,7 @@
 ---
-layout: page
-title: User Guide
+  layout: default.md
+  title: "User Guide"
+  pageNav: 3
 ---
 
 # ProfBook
@@ -61,11 +62,9 @@ ProfBook aids with the **management of Tutorial and Groups information**. Profbo
 
 ## Features
 
-(//TODO Change)
+<box type="info" seamless>
 
-<div markdown="block" class="alert alert-info">
-
-**:information_source: Notes about the command format:**<br>
+**Notes about the command format:**<br>
 
 - Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
