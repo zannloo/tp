@@ -6,6 +6,9 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Option;
 import seedu.address.model.person.Person;
+import seedu.address.model.profbook.Group;
+import seedu.address.model.profbook.Student;
+
 /**
  * Container for user visible messages.
  */
@@ -44,6 +47,34 @@ public class Messages {
                 .append(person.getAddress())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
+        return builder.toString();
+    }
+
+    /**
+     * Formats the {@code student} for display to the user.
+     */
+    public static String format(Student student) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(student.getName())
+                .append("; Phone: ")
+                .append(student.getPhone())
+                .append("; Email: ")
+                .append(student.getEmail())
+                .append("; Address: ")
+                .append(student.getAddress())
+                .append("; StudentId: ")
+                .append(student.getId());
+        return builder.toString();
+    }
+
+    /**
+     * Formats the {@code group} for display to the user.
+     */
+    public static String format(Group group) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(group.getName())
+                .append("; GroupId: ")
+                .append(group.getId());
         return builder.toString();
     }
 }

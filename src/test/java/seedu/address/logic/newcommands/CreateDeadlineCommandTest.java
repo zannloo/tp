@@ -69,7 +69,7 @@ class CreateDeadlineCommandTest {
         CommandResult runCommand = command.execute(state);
 
         CommandResult returnStatement =
-                new CommandResult(String.format(MESSAGE_SUCCESS, target));
+                new CommandResult(String.format(MESSAGE_SUCCESS, deadline));
 
         assertEquals(runCommand, returnStatement);
 

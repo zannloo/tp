@@ -55,7 +55,7 @@ public class MoveStudentToGroupCommand extends Command {
     public CommandResult execute(State state) throws CommandException {
         requireNonNull(state);
 
-        // Check move studen to group
+        // Check move student to group
         if (source.isStudentDirectory() && dest.isGroupDirectory()) {
             // Check student exists in ProfBook
             if (!state.hasStudent(source)) {
