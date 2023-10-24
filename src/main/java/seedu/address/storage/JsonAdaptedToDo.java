@@ -1,8 +1,8 @@
 package seedu.address.storage;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.ToDo;

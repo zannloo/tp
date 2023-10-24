@@ -1,8 +1,8 @@
 package seedu.address.storage;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
@@ -16,8 +16,8 @@ import seedu.address.model.taskmanager.TaskList;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = JsonAdaptedDeadline.class, name = "Deadline"),
-        @JsonSubTypes.Type(value = JsonAdaptedToDo.class, name = "ToDo")
+    @JsonSubTypes.Type(value = JsonAdaptedDeadline.class, name = "Deadline"),
+    @JsonSubTypes.Type(value = JsonAdaptedToDo.class, name = "ToDo")
 })
 public abstract class JsonAdaptedTasks {
     protected String description;
