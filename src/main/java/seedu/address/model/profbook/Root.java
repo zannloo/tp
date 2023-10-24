@@ -29,7 +29,7 @@ public class Root extends ChildrenManager<Group> {
     public String toString() {
         return new ToStringBuilder(this)
                 .add("name", "Root")
-                .add("Children", super.toString())
+                .add("Groups", super.toString())
                 .toString();
     }
 
