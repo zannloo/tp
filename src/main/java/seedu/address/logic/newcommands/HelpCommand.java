@@ -18,7 +18,7 @@ public class HelpCommand extends Command {
             + "CreateStudentCommand: touch [groupId/studentId] -n [name] -p [phone] -e [email] -a [address]\n"
             + "CreateGroupCommand: mkdir [groupId] -n [groupName]\n"
             + "CreateTodoCommand: todo -d [task]\n"
-            + "CreateDeadlineCommand: “deadline -d [task] -dt [yyyy/MM/dd hh:mm]\n"
+            + "CreateDeadlineCommand: deadline -d [task] -dt [yyyy/MM/dd hh:mm]\n"
             + "DeleteCommand: rm -type [targetType] -target [targetId]\n"
             + "EditCommand: edit [path]\n"
             + "MarkCommand: mark -d [task] -level [student/group] -target [StudentID/groupId]\n"
