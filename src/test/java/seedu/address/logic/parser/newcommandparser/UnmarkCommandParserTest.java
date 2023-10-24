@@ -12,8 +12,9 @@ import seedu.address.logic.newcommands.UnmarkCommand;
 import seedu.address.model.path.AbsolutePath;
 
 /**
- * The UnmarkCommandParserTest class is responsible for testing the parsing of user input and the creation of UnmarkCommand objects
- * by the UnmarkCommandParser class. It contains test cases to ensure that valid and invalid input strings are handled correctly.
+ * The UnmarkCommandParserTest class is responsible for testing the parsing of user input and the creation of
+ * UnmarkCommand objects by the UnmarkCommandParser class. It contains test cases to ensure that valid and invalid
+ * input strings are handled correctly.
  */
 public class UnmarkCommandParserTest {
 

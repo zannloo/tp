@@ -12,8 +12,9 @@ import seedu.address.logic.newcommands.MarkCommand;
 import seedu.address.model.path.AbsolutePath;
 
 /**
- * The MarkCommandParserTest class is responsible for testing the parsing of user input and the creation of MarkCommand objects
- * by the MarkCommandParser class. It contains test cases to ensure that valid and invalid input strings are handled correctly.
+ * The MarkCommandParserTest class is responsible for testing the parsing of user input and the creation of MarkCommand
+ * objects by the MarkCommandParser class. It contains test cases to ensure that valid and invalid input strings are
+ * handled correctly.
  */
 public class MarkCommandParserTest {
 
