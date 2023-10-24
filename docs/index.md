@@ -1,8 +1,7 @@
 ---
-layout: page
+layout: default.md
 title: ProfBook
 ---
-
 # ProfBook
 
 [![CI Status](https://github.com/AY2324S1-CS2103T-W15-2/tp/actions/workflows/gradle.yml/badge.svg)](https://github.com/AY2324S1-CS2103T-W15-2/tp/actions)

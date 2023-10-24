@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default.md
 title: Nereus Ng Wei Bin's Project Portfolio Page
 ---
 
