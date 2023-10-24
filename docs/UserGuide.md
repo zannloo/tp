@@ -283,11 +283,11 @@ Format: `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY`
 - Pop up message indicating todo task created successfully.
 
 #### Examples:
-- When user is at the directory `~/grp-001` and keys in the following command, a todo task with description Assignment 1, will be allocated to student from path `grp-001/stu-001`.
+- When user is at the directory `~/grp-001` and keys in the following command, a todo task with description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
     - `todo stu-001 --desc Assignment 1 `
-- When user is at the root directory `~/` and keys in the following command, a todo task with description Assignment 1, will be allocated to student from path `grp-001/stu-001`.
+- When user is at the root directory `~/` and keys in the following command, a todo task with description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
     - `todo ~/grp-001/stu-001 --desc Assignment 1 `
-- When user is at the directory `~` and keys in the following command, a todo task with description Assignment 1, will be allocated to all students in path `~/grp-001`.
+- When user is at the directory `~` and keys in the following command, a todo task with description `Assignment 1`, will be allocated to all students in path `~/grp-001`.
     - `todo ~/grp-001 --desc Assignment 1 --all allStu`
 
 ### Create Deadline task : `deadline`
@@ -310,11 +310,11 @@ Format `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --al
 - Pop up message indicating deadline task created successfully.
 
 #### Examples:
-- When user is at the directory `~/grp-001` and keys in the following command, a task with a deadline 2023-10-11 23:59 for the task with description Assignment 1, will be allocated to student from path `grp-001/stu-001`.
+- When user is at the directory `~/grp-001` and keys in the following command, a task with a deadline `2023-10-11 23:59` for the task with description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
   - `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `
-- When user is at the root directory `~/` and keys in the following command, a task with a deadline 2023-10-11 23:59 for the task with description Assignment 1, will be allocated to student from path `grp-001/stu-001`.
+- When user is at the root directory `~/` and keys in the following command, a task with a deadline `2023-10-11 23:59` for the task with description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
   - `deadline ~/grp-001/stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `
-- When user is at the root directory `~/` and keys in the following command, a task with a deadline 2023-10-11 23:59 for the task with description Assignment 1, will be allocated to all students in path `~/grp-001`.
+- When user is at the root directory `~/` and keys in the following command, a task with a deadline `2023-10-11 23:59` for the task with description `Assignment 1`, will be allocated to all students in path `~/grp-001`.
     - `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`
 
 
