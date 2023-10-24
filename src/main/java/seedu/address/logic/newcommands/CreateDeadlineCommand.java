@@ -1,6 +1,9 @@
 package seedu.address.logic.newcommands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
+import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
@@ -18,8 +21,18 @@ import seedu.address.model.taskmanager.Deadline;
 public class CreateDeadlineCommand extends Command {
 
     public static final String COMMAND_WORD = "deadline";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": deadline ";
-    public static final String MESSAGE_SUCCESS = "New Deadline task added: %1$s";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Creates a deadline task for student/group in specified directory\n"
+            + "Parameters: "
+            + "specified path\n"
+            + "[" + OPTION_DESC + " DESCRIPTION] "
+            + "[" + OPTION_DATETIME + " DATE_AND_TIME] "
+            + "[" + OPTION_ALL + " CATERGORY]\n"
+            + "Example: " + COMMAND_WORD
+            + " stu-001 "
+            + OPTION_DESC + " Assignment 1 "
+            + OPTION_DATETIME + " 2023-10-11 23:59 ";
+    public static final String MESSAGE_SUCCESS = "%1$s";
 
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New Deadline task added to all students in group: %1$s";
@@ -84,7 +97,8 @@ public class CreateDeadlineCommand extends Command {
 
             target.addTask(this.deadline);
             state.updateList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+
+            return new CommandResult(String.format(MESSAGE_SUCCESS, this.deadline));
         }
 
         if (this.category.equals("allStu")) {
