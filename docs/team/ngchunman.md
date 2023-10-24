@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default.md
 title: Ng Chun Man's Project Portfolio Page
 ---
 

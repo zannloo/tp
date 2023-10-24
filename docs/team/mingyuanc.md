@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default.md
 title: Ching Ming Yuan's Project Portfolio Page
 ---
 

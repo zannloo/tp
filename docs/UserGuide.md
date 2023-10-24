@@ -4,9 +4,7 @@
   pageNav: 3
 ---
 
-# ProfBook
-
-## Overview
+# ProfBook User Guide
 
 ProfBook is a **student management system** specially made for **CS2103T tutors**, built by CS2103T students. As current students of CS2103T, we understand that CS2103T tutors have a high administrative workload on top of their existing tutor duties. On top of that, any administrative mistakes or oversights can increase that workload exponentially and may adversely impact student's learning. To address the aforementioned issues, Profbook was designed as a student management system which can **dramatically decrease administrative mistakes and workload**.
 
@@ -26,12 +24,13 @@ ProfBook aids with the **management of student information**. Student's informat
 
 ProfBook aids with the **management of Tutorial and Groups information**. Profbook efficiently encapsulates information of every tutorial group and every project group so that tutors can management their progress and relevant information **seamlessly**. Tutors can easily add, move, delete students from groups. Similiar to students, tutors are able to track each group progress through tasks. In addition, Tutors can store short description of the groups or links to their GitHub Repository if desired.
 
-- Table of Contents
-  {:toc}
+<!-- * Table of Contents -->
+<page-nav-print />
 
----
+--------------------------------------------------------------------------------------------------------------------
 
-## Quick start (//TODO Change)
+## Quick start 
+(//TODO Change)
 
 1. Ensure you have Java `11` or above installed in your Computer.
 
@@ -58,7 +57,7 @@ ProfBook aids with the **management of Tutorial and Groups information**. Profbo
 
 1. Refer to the [Features](#features) below for details of each command.
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 ## Features
 
@@ -82,9 +81,9 @@ ProfBook aids with the **management of Tutorial and Groups information**. Profbo
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 - If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</div>
+</box>
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 # General Commands
 
@@ -115,7 +114,7 @@ Exits the program.
 
 Format: `exit`
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 # Student/Group commands
 
@@ -144,9 +143,9 @@ Output if command succeeds
 
 (//TODO Update)
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
-</div>
+<box type="tip">
+**Tip:** A person can have any number of tags (including 0)
+</box>
 
 Examples:
 `touch student -n Gary -id 1234Y`
@@ -238,7 +237,7 @@ Examples:
 
 - This command will create a group with groupId which is a string called 1 and only consists the creator at that instance of creating the group
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 # Tasks command
 
@@ -395,9 +394,10 @@ ProfBook data are saved in the hard disk automatically after any command that ch
 
 ProfBook data are saved automatically as a JSON file `[JAR file location]/data/ProfBook.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<box type="warning" seamless>
+**Caution:**
 If your changes to the data file makes its format invalid, ProfBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.
-</div>
+</box>
 
 (//TODO Update)
 
@@ -409,7 +409,7 @@ If your changes to the data file makes its format invalid, ProfBook will discard
 
 _Details coming soon ..._
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 (//TODO Update)
 
@@ -418,7 +418,7 @@ _Details coming soon ..._
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous ProfBook home folder.
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 (//TODO Update)
 
@@ -426,7 +426,7 @@ _Details coming soon ..._
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 (//TODO Update)
 
