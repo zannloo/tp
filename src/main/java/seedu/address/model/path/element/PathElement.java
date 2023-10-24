@@ -19,7 +19,7 @@ public class PathElement {
     * @param elementStr The element string.
     * @param type The type of the element.
     */
-    public PathElement(String elementStr, PathElementType type) {
+    private PathElement(String elementStr, PathElementType type) {
         this.elementStr = elementStr;
         this.type = type;
     }
