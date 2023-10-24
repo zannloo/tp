@@ -53,5 +53,16 @@ public class GroupBuilder {
     public Group build() {
         return new Group(taskList, students, name, id);
     }
+
+    public Group buildEmptyTask() {
+        List<Task> emptyList = new ArrayList<>();
+        TaskList emptyTaskList = new TaskList(emptyList);
+        return new Group (emptyTaskList, students, name, id);
+    }
+
+    public Group buildWithEmptyStudent() {
+        Map<Id, Student> emptyStudent = new HashMap();
+        return new Group (taskList, emptyStudent, name, id);
+    }
 }
 

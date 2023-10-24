@@ -124,4 +124,10 @@ public class StudentBuilder {
     public Student build() {
         return new Student(taskList, name, email, phone, address, id);
     }
+
+    public Student buildEmptyTask() {
+        List<Task> emptyList = new ArrayList<>();
+        TaskList emptyTaskList = new TaskList(emptyList);
+        return new Student(emptyTaskList, name, email, phone, address, id);
+    }
 }

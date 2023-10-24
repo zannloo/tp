@@ -82,12 +82,16 @@ public class MainApp extends Application {
         Root initialData;
         try {
             profBookOptional = storage.readProfBook();
-            if (!profBookOptional.isPresent()) {
+            System.out.println("smth happening here");
+            System.out.println(profBookOptional.get());
+            if (profBookOptional.isPresent()) {
+                // Set initialData to the value in profBookOptional
+                initialData = profBookOptional.get();
+            } else {
                 logger.info("Creating a new data file " + storage.getProfBookFilePath()
                         + " populated with a sample AddressBook.");
+                initialData = new Root();
             }
-            //initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
-            initialData = new Root();
         } catch (DataLoadingException e) {
             logger.warning("Data file at " + storage.getProfBookFilePath() + " could not be loaded."
                     + " Will be starting with an empty AddressBook.");

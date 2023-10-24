@@ -1,0 +1,21 @@
+{
+  "groups" : [ {
+    "name" : "Group 2",
+    "id" : "grp-002",
+    "students" : [ {
+      "name" : "Nidhihs",
+      "phone" : "91500145",
+      "email" : "Bob@gmail.com",
+      "address" : "boon keng",
+      "id" : "stu-321",
+      "tags" : [ ],
+      "tasks" : [ ]
+    } ],
+    "tasks" : [ ]
+  }, {
+    "name" : "Group 1",
+    "id" : "grp-001",
+    "students" : [ ],
+    "tasks" : [ ]
+  } ]
+}
