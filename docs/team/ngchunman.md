@@ -54,7 +54,7 @@ Given below are my contributions to the project.
    - Represents the descriptor for editing the details of a student in a group
    - Helps to track which student's field that the user wanted to edit
 
-    
+
 * **Enhancements to existing features**:
   * to be added soon.
 
