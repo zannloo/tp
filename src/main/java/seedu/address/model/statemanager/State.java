@@ -38,6 +38,16 @@ public interface State {
      * Return Root.
      */
     public Root getRoot();
+    /**
+     * Return current display path.
+     */
+    public AbsolutePath getDisplayPath();
+
+    /**
+     * Return true if display panel is showing task list.
+     */
+    public boolean isShowTaskList();
+
 
     /**
      * Return true if current path has task list.

@@ -9,8 +9,6 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.logic.parser.newcommandparser.ChangeDirectoryCommandParser;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.statemanager.State;
 
 /**
@@ -25,7 +23,7 @@ public class ChangeDirectoryCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]";
 
-    private final RelativePath dest;
+    private final AbsolutePath dest;
 
     /**
      * Constructs a {@code MoveStudentToGroupCommand} with the specified source and destination paths.
@@ -33,7 +31,7 @@ public class ChangeDirectoryCommand extends Command {
      * @param source The relative path to the source group from which the student will be moved.
      * @param dest   The relative path to the destination group to which the student will be moved.
      */
-    public ChangeDirectoryCommand(RelativePath dest) {
+    public ChangeDirectoryCommand(AbsolutePath dest) {
         requireAllNonNull(dest);
         this.dest = dest;
     }
@@ -47,25 +45,17 @@ public class ChangeDirectoryCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
-        AbsolutePath currPath = state.getCurrPath();
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(dest);
-        } catch (InvalidPathException e) {
-            throw new CommandException(e.getMessage());
-        }
-
-        if (!state.hasPath(targetPath)) {
+        if (!state.hasPath(dest)) {
             throw new CommandException(MESSAGE_PATH_NOT_FOUND);
         }
 
-        if (targetPath.isStudentDirectory()) {
+        if (dest.isStudentDirectory()) {
             throw new CommandException(MESSAGE_INVALID_DEST);
         }
 
-        state.changeDirectory(targetPath);
+        state.changeDirectory(dest);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, targetPath.toString()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, dest.toString()));
     }
 
     /**

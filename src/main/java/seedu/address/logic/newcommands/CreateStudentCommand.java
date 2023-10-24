@@ -2,12 +2,15 @@ package seedu.address.logic.newcommands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
+import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.statemanager.ChildOperation;
 import seedu.address.model.statemanager.State;
@@ -18,21 +21,33 @@ import seedu.address.model.statemanager.State;
 public class CreateStudentCommand extends Command {
 
     public static final String COMMAND_WORD = "touch";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": student ";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " : Adds a student into the specified directory\n"
+            + "Parameters: "
+            + "specified path "
+            + "[" + OPTION_NAME + " NAME] "
+            + "[" + OPTION_EMAIL + " EMAIL] "
+            + "[" + OPTION_PHONE + " PHONE] "
+            + "[" + OPTION_ADDRESS + " ADDRESS] "
+            + "Example: " + COMMAND_WORD
+            + " stu-200 "
+            + OPTION_NAME + " Bob "
+            + OPTION_EMAIL + " bobby@example.com "
+            + OPTION_PHONE + " 92929292 "
+            + OPTION_ADDRESS + " blk 258 Toa Payoh ";
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
     public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in your specified class";
-    public static final String MESSAGE_INVALID_PATH = "Path you have chosen is invalid";
+    public static final String MESSAGE_INVALID_PATH = "Path provided should be a valid student path";
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
     public static final String MESSAGE_GROUP_NOT_FOUND = "Group %1$s does not exist in ProfBook";
 
-    private final RelativePath path;
+    private final AbsolutePath path;
     private final Student student;
 
     /**
      * Creates an CreateStudentCommand to add the specified {@code Student}
      */
-    public CreateStudentCommand(RelativePath path, Student student) {
+    public CreateStudentCommand(AbsolutePath path, Student student) {
         requireAllNonNull(path, student);
         this.path = path;
         this.student = student;
@@ -47,22 +62,17 @@ public class CreateStudentCommand extends Command {
     @Override
     public CommandResult execute(State state) throws CommandException {
         requireNonNull(state);
-        AbsolutePath currPath = state.getCurrPath();
 
-        // Check resolved path is valid
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new CommandException(e.getMessage());
+        if (!path.isStudentDirectory()) {
+            throw new CommandException(MESSAGE_INVALID_PATH);
         }
 
         // Check group exists in ProfBook
-        if (!state.hasGroup(targetPath)) {
-            throw new CommandException(String.format(MESSAGE_GROUP_NOT_FOUND, targetPath.getGroupId()));
+        if (!state.hasGroup(path)) {
+            throw new CommandException(String.format(MESSAGE_GROUP_NOT_FOUND, path.getGroupId()));
         }
 
-        ChildOperation<Student> target = state.groupChildOperation(targetPath);
+        ChildOperation<Student> target = state.groupChildOperation(path);
 
         // Check duplicate student
         if (target.hasChild(this.student.getId())) {
@@ -72,7 +82,7 @@ public class CreateStudentCommand extends Command {
         target.addChild(this.student.getId(), this.student);
         state.updateList();
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, student));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(student)));
     }
 
     /**

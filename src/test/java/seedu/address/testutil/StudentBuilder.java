@@ -22,7 +22,7 @@ import seedu.address.model.util.SampleDataUtil;
  * A utility class to help with building Student objects.
  */
 public class StudentBuilder {
-    public static final String DEFAULT_ID = "stu-001";
+    public static final String DEFAULT_ID = "0001Y";
 
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";

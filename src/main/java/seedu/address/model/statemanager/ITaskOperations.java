@@ -24,6 +24,11 @@ public interface ITaskOperations {
     boolean isValidIndex(int index);
 
     /**
+     * Return the size of the task list.
+     */
+    int getTaskListSize();
+
+    /**
      * Adds a new tasks to the task list.
      * Task must not be duplicated class.
      * @param t

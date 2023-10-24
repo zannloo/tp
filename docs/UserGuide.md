@@ -1,11 +1,10 @@
 ---
-layout: page
-title: User Guide
+  layout: default.md
+  title: "User Guide"
+  pageNav: 3
 ---
 
-# ProfBook
-
-## Overview
+# ProfBook User Guide
 
 ProfBook is a **student management system** specially made for **CS2103T tutors**, built by CS2103T students. As current students of CS2103T, we understand that CS2103T tutors have a high administrative workload on top of their existing tutor duties. On top of that, any administrative mistakes or oversights can increase that workload exponentially and may adversely impact student's learning. To address the aforementioned issues, Profbook was designed as a student management system which can **dramatically decrease administrative mistakes and workload**.
 
@@ -25,12 +24,13 @@ ProfBook aids with the **management of student information**. Student's informat
 
 ProfBook aids with the **management of Tutorial and Groups information**. Profbook efficiently encapsulates information of every tutorial group and every project group so that tutors can management their progress and relevant information **seamlessly**. Tutors can easily add, move, delete students from groups. Similiar to students, tutors are able to track each group progress through tasks. In addition, Tutors can store short description of the groups or links to their GitHub Repository if desired.
 
-- Table of Contents
-  {:toc}
+<!-- * Table of Contents -->
+<page-nav-print />
 
----
+--------------------------------------------------------------------------------------------------------------------
 
-## Quick start (//TODO Change)
+## Quick start 
+(//TODO Change)
 
 1. Ensure you have Java `11` or above installed in your Computer.
 
@@ -57,18 +57,24 @@ ProfBook aids with the **management of Tutorial and Groups information**. Profbo
 
 1. Refer to the [Features](#features) below for details of each command.
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 ## Features
 
-(//TODO Change)
+<box type="info" seamless>
 
-<div markdown="block" class="alert alert-info">
+**Notes about the command format:**<br>
 
-**:information_source: Notes about the command format:**<br>
+- Words in `UPPER_CASE` are the parameters to be supplied by the user.
+  - e.g. in `touch SPECIFIED_PATH -n NAME -e EMAIL - p PHONE_NUMBER -a ADDRESS`, `SPECIFIED_PATH` and the other words 
+  in `UPPER_CASE` can be substituted to form `touch stu-200 --name Bob --email bobby@example.com --phone 92929292 
+  --address blk 258 Toa Payoh`.
 
-- Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+- Parameters can be in any order.
+  - e.g. if the command specifies `-n NAME -e EMAIL`, `-e EMAIL -n NAME` is also acceptable.
+
+- Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 - Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
@@ -76,16 +82,28 @@ ProfBook aids with the **management of Tutorial and Groups information**. Profbo
 - Items with `…`​ after them can be used multiple times including zero times.<br>
   e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
-- Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
-
-- Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
-
 - If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</div>
+  
+</box>
 
----
+Acceptable values for each parameter:
+
+`SPECIFIED_PATH`:
+- must be valid path
+
+`NAME`:
+- must be a non-empty string
+
+`EMAIL`:
+- must be a non-empty string
+
+`PHONE_NUMBER`:
+- must be a non-empty string
+
+`ADDRESS`:
+- must be a non-empty string
+
+--------------------------------------------------------------------------------------------------------------------
 
 # General Commands
 
@@ -116,72 +134,73 @@ Exits the program.
 
 Format: `exit`
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 # Student/Group commands
 
 ### Adding a student: `touch`
 
-Adds a student to the address book.
+Adds a student into the specified directory.
 
-Format: `touch student -n [name] -id [StudentId]`
+Format: `touch SPECIFIED_PATH -n NAME -e EMAIL - p PHONE_NUMBER -a ADDRESS`
+- `--name` / `-n` : Name of Student
+- `--email` / `-e` : Email of Student
+- `--phone` / `-p`: Phone number of Student
+- `--address` / `-a`: Address of Student
 
-Acceptable values for each parameter:
-name:
+#### Acceptable values for each parameter:
 
-- must be a non-empty string
+Specified path:
+- must be a valid path to a student
 
-StudentId:
+#### Output if command fails: 
 
-- must be a non-empty string starting with stu-
+- Pop up message indicating either:
+    - Invalid command format
+    - Invalid path
 
-Output if command fails
+#### Output if command succeeds: 
 
-- pop up message indicating non valid param/ invalid site of student creation
+- Pop up message indicating successful creation together with information of created student
 
-Output if command succeeds
+#### To note:
+- Command creates a student within the group if command is used from within the  group or specified path has indicated the group path.
+- If a command is executed outside a specific group, specified path must be to the group and to the student.
 
-- pop up message indicating successful creation together with created student with student id
+#### Example:
+- The following commands when executed at the different current path directory will create the same student at the same path directory`~/grp-001/stu-200`
+  - When user is at the directory `~/grp-001` and keys in command:
+    - `touch stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh ` 
+  - When user is at the root directory `~/` and keys in command:
+    - `touch ~/grp-001/stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh `
 
-(//TODO Update)
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
-</div>
+### Deleting a Student/ Group: `rm`
 
-Examples:
-`touch student -n Gary -id stu-1234`
+Deletes a student/group from the specified directory.
 
-- Command creates a student within the tutorial group if command is used from within the tutorial group.
-- If a command is executed outside of a specific group, students are added into an ungrouped folder and can be moved into a group later.
+Format: `rm SPECIFIED_PATH`
 
-### Deleting a Student : `rm`
+#### Acceptable values for each parameter:
 
-Delete task, student or group.
+Specified path:
+- must be a valid path to a student/group that user wants to delete
 
-Format: `rm -type [targetType] -target [targetId]`
+#### Output if command fails:
 
-Acceptable values for each parameter:
-type:
+- Pop up message indicating either:
+  - Invalid command format
+  - No such target to delete
 
-- "student", "task" or "group"
+#### Output if command succeeds
 
-target:
+- Pop up message indicating target successfully removed
 
-- A valid non-empty String
-
-Output if command fails
-
-- pop up message indicate error when remove target
-
-Output if command succeeds
-
-- pop up message indicate target successfully removed
-
-Examples:
-`rm -type student -target stu-123`
-
-- This command will delete the student profile with id stu-123
+#### Examples:
+- When user is at the directory `~/grp-001` and keys in the following command, student with specified path `~/grp-001/0123Y` will be deleted:
+  - `rm 0123Y`
+- When user is at the root directory `~/` and keys in the following command, will delete group with specified path `~/grp-001` will be deleted:
+  - `rm grp-001`
 
 ### Move students into/out of the group: `mv`
 
@@ -192,7 +211,7 @@ Format `mv [StudentID] -source [source group]  -dest [destination group]`
 Acceptable values for each parameter:
 StudentID:
 
-- must be a non-empty string starting with stu-
+- must be a 4 digits number follow with any letter
 
 source group:
 
@@ -204,16 +223,16 @@ destination group:
 
 Output if command fails
 
-- pop up message indicate error when moving student with id stu-123 from grp-1 to grp-2
+- pop up message indicate error when moving student with id 0123Y from grp-1 to grp-2
 
 Output if command succeeds
 
-- pop up message indicates successfully moving student with id stu-123 from grp-1 to grp-2
+- pop up message indicates successfully moving student with id 0123Y from grp-1 to grp-2
 
 Examples:
-`mv stu-123 -source grp-1 -dest grp-2`
+`mv 0123Y -source grp-1 -dest grp-2`
 
-- This command will move a student with value id stu-123 within the groups or from Ungroup to Group.
+- This command will move a student with value id 0123Y within the groups or from Ungroup to Group.
 
 ### Create Group : `mkdir`
 
@@ -239,98 +258,63 @@ Examples:
 
 - This command will create a group with groupId which is a string called 1 and only consists the creator at that instance of creating the group
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 # Tasks command
 
 ### Create Todo Task : `todo`
 
-Creates todo tasks for specific students or groups.
+Creates todo tasks for specific student(s) or group(s).
 
-Format: `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]`
--desc / -d : Description of the todo task
--level / -l : The level of the task (student or group)
--target / -t : The target id (StudentID/groupId/tutorialId)
+Format: `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY`
+- `--desc` / `-d` : Description of the todo task
+- `--all` / `-al` : (Optional) Either `allStu` or `allGrp` to add a deadline task to all students/groups in the specified path
 
-Acceptable values for each parameter:
-Task:
+#### Output if command fails:
 
-- Non empty string
+- Pop up message indicating either:
+    - Invalid command format
+    - Invalid path
 
-Level:
+#### Output if command succeeds
 
-- the level only can be lower than current level
-  -- E.g., if my current level is group (i.e I am in a specific group), I only can create a task for the group or a student
-- If a -level flag is not present, the app will by default create task for current level
-  -- E.g., command “todo -d ps1” will create todo for current level (specific group or student)
+- Pop up message indicating todo task created successfully.
 
-Target:
+#### Examples:
+- When user is at the directory `~/grp-001` and keys in the following command, a todo task with description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
+    - `todo stu-001 --desc Assignment 1 `
+- When user is at the root directory `~/` and keys in the following command, a todo task with description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
+    - `todo ~/grp-001/stu-001 --desc Assignment 1 `
+- When user is at the directory `~` and keys in the following command, a todo task with description `Assignment 1`, will be allocated to all students in path `~/grp-001`.
+    - `todo ~/grp-001 --desc Assignment 1 --all allStu`
 
-- Need to specify a valid id for indicated level
-  -- E.g., Need to specify a valid student id if want to create a student level task
-- If -target flag is not present, app will by default create task for every items under current level
-  -- E.g, command “todo -d ps1 -level student” will create todo “ps1” for every students under current group
-- Target flag is allowed only if level flag is provided
+### Create Deadline task : `deadline`
 
-Output if command fails
+Creates task with a deadline for specific student(s) or group(s).
 
-- pop up message indicate error when creating new todo.
+Format `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`
+- `--desc` / `-d` : Description of the deadline task
+- `--datetime` / `-dt` : The duedate of the task. In the following format: `YYYY-MM-DD HH:MM`
+- `--all` / `-al` : (Optional) Either `allStu` or `allGrp` to add a deadline task to all students/groups in the specified path
 
-Output if command succeeds
+#### Output if command fails:
 
-- pop up message indicate todo created successfully
+- Pop up message indicating either:
+    - Invalid command format
+    - Invalid path 
 
-Examples:
-`todo -desc ps1 -level student -target stu-123`
+#### Output if command succeeds
 
-- This command will create a todo task called “ps 1” for the student with id stu-123
+- Pop up message indicating deadline task created successfully.
 
-### Create Deadline task : `Deadline`
+#### Examples:
+- When user is at the directory `~/grp-001` and keys in the following command, a task with a deadline `2023-10-11 23:59` for the task with description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
+  - `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `
+- When user is at the root directory `~/` and keys in the following command, a task with a deadline `2023-10-11 23:59` for the task with description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
+  - `deadline ~/grp-001/stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `
+- When user is at the root directory `~/` and keys in the following command, a task with a deadline `2023-10-11 23:59` for the task with description `Assignment 1`, will be allocated to all students in path `~/grp-001`.
+    - `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`
 
-Creates task with a deadline for specific student or group or tutorial slot
-
-Format `deadline -desc [task] -level [student/group] -target [StudentID/groupId/tutorialId] -byDate[dd/MM/yyyy]`
--desc / -d : Description of the deadline task
--level / -l : The level of the task (student or group)
--target / -t : The target id (StudentID/groupId/tutorialId)
--byDate/ -b : the deadline for the task
-
-Acceptable values for each parameter:
-Task:
-
-- non empty string
-
-Level:
-
-- The level only can be lower than current level
-  -- E.g., if my current level is group (i.e I am in a specific group), I can create a deadline task for the group or a student
-- If a -level flag is not present, app will by default create deadline task for current level
-  -- E.g., command “deadline -d grade proposal 1-byDate 20/10/2023” will create deadline task for current level (specific group or student)
-
-Target:
-
-- Need to specify a valid id for indicated level
-  -- E.g., Need to specify a valid student id if want to create a student level task
-- If a -target flag is not present, app will by default create task for every items under current level
-  -- E.g, command “deadline -d grade proposal 1 -level student” will create deadline task “grade proposal 1” for every student under current group
-- Target flag is allowed only if level flag is provided
-
-byDate:
-
-- In the format of dd/MM/yyyy.
-
-Output if command fails
-
-- pop up message indicate error when creating new deadline task.
-
-Output if command succeeds
-
-- pop up message indicate deadline task created successfully.
-
-Examples:
-`deadline -d grade proposal 1 -level group -target tut-1 -byDate 20/10/2023`
-
-- This command will create a task with a deadline on 20/10/2023 for the task called grade proposal 1, allocated to students from tut-1.
 
 ### Mark/Unmark tasks as completed: `mark`
 
@@ -360,9 +344,9 @@ Output if command succeeds
 - pop up message saying mark is done successfully as well as specific task that is marked
 
 Examples:
-`mark -d Assignment 1 -level student -target stu-123`
+`mark -d Assignment 1 -level student -target 0123Y`
 
-- This command will mark stu-123's Assignment 1 as done
+- This command will mark 0123Y's Assignment 1 as done
 
 ### Search for Tasks: `find`
 
@@ -396,9 +380,12 @@ ProfBook data are saved in the hard disk automatically after any command that ch
 
 ProfBook data are saved automatically as a JSON file `[JAR file location]/data/ProfBook.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<box type="warning" seamless>
+
+**Caution:**
 If your changes to the data file makes its format invalid, ProfBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.
-</div>
+
+</box>
 
 (//TODO Update)
 
@@ -410,7 +397,7 @@ If your changes to the data file makes its format invalid, ProfBook will discard
 
 _Details coming soon ..._
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 (//TODO Update)
 
@@ -419,7 +406,7 @@ _Details coming soon ..._
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous ProfBook home folder.
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 (//TODO Update)
 
@@ -427,7 +414,7 @@ _Details coming soon ..._
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 (//TODO Update)
 
@@ -439,11 +426,11 @@ _Details coming soon ..._
 | **List**            | `ls`                                                                                                                                                                                             |
 | **Clear**           | `clear`                                                                                                                                                                                          |
 | **Exit**            | `exit`                                                                                                                                                                                           |
-| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id stu-1234`                                                                                                        |
+| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                        |
 | **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-1`                                                                                                                                                       |
-| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id stu-1234`                                                                                                                                 |
-| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target stu-123`                                                    |
+| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                                 |
+| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                                    |
 | **Create Deadline** | `deadline -desc [task] -level [student/group] -target [StudentID/groupId/tutorialId] -byDate[dd/MM/yyyy]`<br> e.g., `deadline -d grade proposal 1 -level group -target tut-1 -byDate 20/10/2023` |
-| **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target stu-123`                                                               |
-| **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target stu-123`                                                           |
+| **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                               |
+| **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                           |
 | **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                                    |

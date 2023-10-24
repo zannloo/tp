@@ -16,11 +16,15 @@ import seedu.address.logic.newcommands.CreateGroupCommand;
 import seedu.address.logic.newcommands.CreateStudentCommand;
 import seedu.address.logic.newcommands.CreateTodoCommand;
 import seedu.address.logic.newcommands.DeleteForStudentsAndGroupsCommand;
+import seedu.address.logic.newcommands.DeleteTaskCommand;
 import seedu.address.logic.newcommands.EditCommand;
+import seedu.address.logic.newcommands.MarkCommand;
 import seedu.address.logic.newcommands.MoveStudentToGroupCommand;
 import seedu.address.logic.newcommands.ShowChildrenListCommand;
 import seedu.address.logic.newcommands.ShowTaskListCommand;
+import seedu.address.logic.newcommands.UnmarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.path.AbsolutePath;
 
 /**
  * Parses user input.
@@ -37,10 +41,11 @@ public class ProfBookParser {
      * Parses user input into command for execution.
      *
      * @param userInput full user input string
+     * @param currPath The current path of the applicaiton
      * @return the command based on the user input
      * @throws ParseException if the user input does not conform the expected format
      */
-    public Command parseCommand(String userInput) throws ParseException {
+    public Command parseCommand(String userInput, AbsolutePath currPath) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
@@ -57,37 +62,46 @@ public class ProfBookParser {
         switch (commandWord) {
 
         case CreateStudentCommand.COMMAND_WORD:
-            return new CreateStudentCommandParser().parse(arguments);
+            return new CreateStudentCommandParser().parse(arguments, currPath);
 
         case CreateGroupCommand.COMMAND_WORD:
-            return new CreateGroupCommandParser().parse(arguments);
+            return new CreateGroupCommandParser().parse(arguments, currPath);
 
         case CreateTodoCommand.COMMAND_WORD:
-            return new CreateTodoCommandParser().parse(arguments);
+            return new CreateTodoCommandParser().parse(arguments, currPath);
 
         case CreateDeadlineCommand.COMMAND_WORD:
-            return new CreateDeadlineCommandParser().parse(arguments);
+            return new CreateDeadlineCommandParser().parse(arguments, currPath);
 
         case MoveStudentToGroupCommand.COMMAND_WORD:
-            return new MoveStudentToGroupCommandParser().parse(arguments);
+            return new MoveStudentToGroupCommandParser().parse(arguments, currPath);
 
         case ChangeDirectoryCommand.COMMAND_WORD:
-            return new ChangeDirectoryCommandParser().parse(arguments);
+            return new ChangeDirectoryCommandParser().parse(arguments, currPath);
 
         case ShowTaskListCommand.COMMAND_WORD:
-            return new ShowTaskListCommandParser().parse(arguments);
+            return new ShowTaskListCommandParser().parse(arguments, currPath);
 
         case ShowChildrenListCommand.COMMAND_WORD:
-            return new ShowChildrenListCommandParser().parse(arguments);
+            return new ShowChildrenListCommandParser().parse(arguments, currPath);
 
         case DeleteForStudentsAndGroupsCommand.COMMAND_WORD:
-            return new DeleteForStudentsAndGroupsCommandParser().parse(arguments);
+            return new DeleteForStudentsAndGroupsCommandParser().parse(arguments, currPath);
 
         case EditCommand.COMMAND_WORD:
-            return new EditCommandParser().parse(arguments);
+            return new EditCommandParser().parse(arguments, currPath);
 
         case HelpCommand.COMMAND_WORD:
-            return new HelpCommandParser().parse(arguments);
+            return new HelpCommandParser().parse(arguments, currPath);
+
+        case DeleteTaskCommand.COMMAND_WORD:
+            return new DeleteTaskCommandParser().parse(arguments, currPath);
+
+        case MarkCommand.COMMAND_WORD:
+            return new MarkCommandParser().parse(arguments, currPath);
+
+        case UnmarkCommand.COMMAND_WORD:
+            return new UnmarkCommandParser().parse(arguments, currPath);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

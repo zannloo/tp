@@ -52,7 +52,7 @@ public class ProfBookLogicManager {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = profBookParser.parseCommand(commandText);
+        Command command = profBookParser.parseCommand(commandText, state.getCurrPath());
         commandResult = command.execute(state);
 
         try {

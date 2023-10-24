@@ -23,6 +23,7 @@ public class CreateGroupCommandParserTest {
 
         assertParseSuccess(parser,
                 VALID_GROUP_DIR_PREAMBLE + NAME_DESC_AMY,
-                new CreateGroupCommand(CommandTestUtil.getValidGroupRelativePath(), group));
+                CommandTestUtil.getValidRootAbsolutePath(),
+                new CreateGroupCommand(CommandTestUtil.getValidGroupAbsolutePath(), group));
     }
 }

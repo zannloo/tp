@@ -1,5 +1,7 @@
 package seedu.address.logic.newcommands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
@@ -11,9 +13,13 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_TAG;
 
 import java.time.LocalDateTime;
 
+import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.newcommandparser.ParserUtil;
+import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.statemanager.State;
 
 /**
  * Contains helper methods for testing commands.
@@ -31,14 +37,14 @@ public class CommandTestUtil {
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_DATETIME_STR = "2023-09-22 11:30";
     public static final String VALID_TASK_DESC = "Assignment 1: Software Engineer Project";
-    public static final String VALID_ID_STUDENT = "stu-022";
+    public static final String VALID_ID_STUDENT = "0011Y";
     public static final String VALID_ID_GROUP = "grp-123";
     public static final String VALID_CATEGORY_STUDENT = " --all allStu";
     public static final String VALID_CATEGORY_GROUP = " -all allGrp";
 
     public static final String VALID_ROOT_DIR_PREAMBLE = "~/";
-    public static final String VALID_GROUP_DIR_PREAMBLE = "./grp-123";
-    public static final String VALID_STUDENT_DIR_PREAMBLE = "/grp-123/stu-022";
+    public static final String VALID_GROUP_DIR_PREAMBLE = "/grp-123";
+    public static final String VALID_STUDENT_DIR_PREAMBLE = "/grp-123/0011Y";
     public static final String NAME_DESC_AMY = " " + OPTION_NAME + " " + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + OPTION_NAME + " " + VALID_NAME_BOB;
     public static final String PHONE_DESC_AMY = " " + OPTION_PHONE + " " + VALID_PHONE_AMY;
@@ -66,15 +72,21 @@ public class CommandTestUtil {
     private static RelativePath validRootRelativePath;
     private static RelativePath validGroupRelativePath;
     private static RelativePath validStudentRelativePath;
+    private static AbsolutePath validRootAbsolutePath;
+    private static AbsolutePath validGroupAbsolutePath;
+    private static AbsolutePath validStudentAbsolutePath;
     private static LocalDateTime validDateTime;
 
     static {
         try {
-            validRootRelativePath = ParserUtil.parsePath(VALID_ROOT_DIR_PREAMBLE);
-            validGroupRelativePath = ParserUtil.parsePath(VALID_GROUP_DIR_PREAMBLE);
-            validStudentRelativePath = ParserUtil.parsePath(VALID_STUDENT_DIR_PREAMBLE);
+            validRootRelativePath = ParserUtil.parseRelativePath(VALID_ROOT_DIR_PREAMBLE);
+            validGroupRelativePath = ParserUtil.parseRelativePath(VALID_GROUP_DIR_PREAMBLE);
+            validStudentRelativePath = ParserUtil.parseRelativePath(VALID_STUDENT_DIR_PREAMBLE);
+            validRootAbsolutePath = new AbsolutePath(VALID_ROOT_DIR_PREAMBLE);
+            validGroupAbsolutePath = validRootAbsolutePath.resolve(validGroupRelativePath);
+            validStudentAbsolutePath = validRootAbsolutePath.resolve(validStudentRelativePath);
             validDateTime = ParserUtil.parseDateTime(VALID_DATETIME_STR);
-        } catch (ParseException e) {
+        } catch (ParseException | InvalidPathException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
@@ -91,7 +103,57 @@ public class CommandTestUtil {
         return validStudentRelativePath;
     }
 
+    public static AbsolutePath getValidRootAbsolutePath() {
+        return validRootAbsolutePath;
+    }
+
+    public static AbsolutePath getValidGroupAbsolutePath() {
+        return validGroupAbsolutePath;
+    }
+
+    public static AbsolutePath getValidStudentAbsolutePath() {
+        return validStudentAbsolutePath;
+    }
+
     public static LocalDateTime getValidDateTime() {
         return validDateTime;
+    }
+
+    /**
+     * Executes the given {@code command}, confirms that <br>
+     * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
+     * - the {@code actualState} matches {@code expectedState}
+     */
+    public static void assertCommandSuccess(Command command, State actualState, CommandResult expectedCommandResult,
+            State expectedState) {
+        try {
+            CommandResult result = command.execute(actualState);
+            assertEquals(expectedCommandResult, result);
+            assertEquals(expectedState, actualState);
+        } catch (CommandException ce) {
+            throw new AssertionError("Execution of command should not fail.", ce);
+        }
+    }
+
+    /**
+     * Convenience wrapper to {@link #assertCommandSuccess(Command, State, CommandResult, State)}
+     * that takes a string {@code expectedMessage}.
+     */
+    public static void assertCommandSuccess(Command command, State actualState, String expectedMessage,
+            State expectedState) {
+        CommandResult expectedCommandResult = new CommandResult(expectedMessage);
+        assertCommandSuccess(command, actualState, expectedCommandResult, expectedState);
+    }
+
+    /**
+     * Executes the given {@code command}, confirms that <br>
+     * - a {@code CommandException} is thrown <br>
+     * - the CommandException message matches {@code expectedMessage} <br>
+     * - the {@code actualState} remain unchanged
+     */
+    public static void assertCommandFailure(Command command, State actualState,
+            String expectedMessage, State unchangedState) {
+        assertThrows(CommandException.class, () -> command.execute(actualState), expectedMessage);
+        assertEquals(unchangedState, actualState);
     }
 }

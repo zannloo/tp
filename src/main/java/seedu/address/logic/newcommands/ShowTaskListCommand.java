@@ -6,8 +6,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.newcommands.exceptions.CommandException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.statemanager.State;
 
 /**
@@ -21,13 +19,13 @@ public class ShowTaskListCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD;
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
 
-    private final RelativePath target;
+    private final AbsolutePath target;
 
     public ShowTaskListCommand() {
         target = null;
     }
 
-    public ShowTaskListCommand(RelativePath path) {
+    public ShowTaskListCommand(AbsolutePath path) {
         target = path;
     }
 
@@ -40,9 +38,8 @@ public class ShowTaskListCommand extends Command {
      */
     @Override
     public CommandResult execute(State state) throws CommandException {
-        AbsolutePath currPath = state.getCurrPath();
-
         if (target == null) {
+            AbsolutePath currPath = state.getCurrPath();
             if (!state.hasTaskListInCurrentPath()) {
                 throw new CommandException(String.format(MESSAGE_NOT_TASK_MANAGER, currPath.toString()));
             }
@@ -51,30 +48,22 @@ public class ShowTaskListCommand extends Command {
             return new CommandResult(String.format(MESSAGE_SUCCESS, currPath.toString()));
         }
 
-        // Check target absolute path is valid
-        AbsolutePath targetAbsolutePath = null;
-        try {
-            targetAbsolutePath = currPath.resolve(target);
-        } catch (InvalidPathException e) {
-            throw new CommandException(e.getMessage());
-        }
-
         // Check path exists in ProfBook
-        if (!state.hasPath(targetAbsolutePath)) {
-            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, targetAbsolutePath.toString()));
+        if (!state.hasPath(target)) {
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, target.toString()));
         }
 
         // Check path is task manager
-        if (!state.hasTaskListInPath(targetAbsolutePath)) {
-            throw new CommandException(String.format(MESSAGE_NOT_TASK_MANAGER, targetAbsolutePath.toString()));
+        if (!state.hasTaskListInPath(target)) {
+            throw new CommandException(String.format(MESSAGE_NOT_TASK_MANAGER, target.toString()));
         }
 
-        state.setDisplayPath(targetAbsolutePath);
+        state.setDisplayPath(target);
         state.showTaskList();
 
-        logger.fine("Showing task list for path: " + targetAbsolutePath.toString());
+        logger.fine("Showing task list for path: " + target.toString());
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, targetAbsolutePath.toString()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, target.toString()));
     }
 
     /**
