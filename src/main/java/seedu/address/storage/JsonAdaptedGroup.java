@@ -104,10 +104,10 @@ public class JsonAdaptedGroup {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     seedu.address.model.id.StudentId.class.getSimpleName()));
         }
-        if (!seedu.address.model.id.StudentId.isValidStudentId(id)) {
-            throw new IllegalValueException(seedu.address.model.id.StudentId.MESSAGE_CONSTRAINTS);
+        if (!seedu.address.model.id.GroupId.isValidGroupId(id)) {
+            throw new IllegalValueException(seedu.address.model.id.GroupId.MESSAGE_CONSTRAINTS);
         }
-        final seedu.address.model.id.Id grpId = new GroupId(id);
+        final seedu.address.model.id.GroupId grpId = new GroupId(id);
 
         final seedu.address.model.taskmanager.TaskList modelTList = new TaskList(taskList);
 

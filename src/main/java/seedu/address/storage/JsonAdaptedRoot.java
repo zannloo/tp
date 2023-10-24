@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,6 +14,9 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
+import seedu.address.model.profbook.Student;
+import seedu.address.model.taskmanager.Deadline;
+import seedu.address.model.taskmanager.ToDo;
 
 
 /**
@@ -30,6 +34,12 @@ public class JsonAdaptedRoot {
         if (groups != null) {
             this.groups.addAll(groups);
         }
+    }
+
+    public JsonAdaptedRoot(Root source) {
+        groups.addAll(source.getAllChildren().stream().
+                map(JsonAdaptedGroup::new).
+                collect(Collectors.toList()));
     }
 
     /**
