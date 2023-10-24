@@ -54,15 +54,25 @@ public class GroupBuilder {
         return new Group(taskList, students, name, id);
     }
 
+    /**
+     * Builds a Group object with an empty task list using the current details of this {@code GroupBuilder}.
+     *
+     * @return a new Group object
+     */
     public Group buildEmptyTask() {
         List<Task> emptyList = new ArrayList<>();
         TaskList emptyTaskList = new TaskList(emptyList);
-        return new Group (emptyTaskList, students, name, id);
+        return new Group(emptyTaskList, students, name, id);
     }
 
+    /**
+     * Builds a Group object with an empty student list using the current details of this {@code GroupBuilder}.
+     *
+     * @return a new Group object
+     */
     public Group buildWithEmptyStudent() {
         Map<Id, Student> emptyStudent = new HashMap();
-        return new Group (taskList, emptyStudent, name, id);
+        return new Group(taskList, emptyStudent, name, id);
     }
 }
 

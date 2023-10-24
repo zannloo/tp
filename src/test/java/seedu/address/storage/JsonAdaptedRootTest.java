@@ -1,13 +1,11 @@
 package seedu.address.storage;
 
-import org.junit.jupiter.api.Test;
-import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Root;
-import seedu.address.testutil.GroupBuilder;
-import seedu.address.testutil.RootBuilder;
-
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.address.model.profbook.Root;
+import seedu.address.testutil.RootBuilder;
 
 public class JsonAdaptedRootTest {
 

@@ -1,11 +1,11 @@
 package seedu.address.testutil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A utility class to help with building Root objects.
@@ -13,7 +13,10 @@ import java.util.Map;
 public class RootBuilder {
     private Map<Id, Group> groups;
 
-    public RootBuilder(){
+    /**
+     * Constructs a RootBuilder to build a `Root` object with a collection of groups.
+     */
+    public RootBuilder() {
         groups = new HashMap<>();
 
     }
@@ -24,7 +27,7 @@ public class RootBuilder {
      */
     public Root withGroup() {
         Group group = new GroupBuilder().build();
-        Group noTasks = new  GroupBuilder().buildEmptyTask();
+        Group noTasks = new GroupBuilder().buildEmptyTask();
         Group emptyStudent = new GroupBuilder().buildWithEmptyStudent();
         groups.put(group.getId(), group);
         groups.put(noTasks.getId(), group);

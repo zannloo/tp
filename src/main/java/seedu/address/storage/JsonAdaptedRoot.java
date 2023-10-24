@@ -14,9 +14,6 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.ToDo;
 
 
 /**
@@ -36,10 +33,15 @@ public class JsonAdaptedRoot {
         }
     }
 
+    /**
+     * Constructs a JsonAdaptedRoot from a source `Root` object.
+     *
+     * @param source The source `Root` object to be adapted.
+     */
     public JsonAdaptedRoot(Root source) {
-        groups.addAll(source.getAllChildren().stream().
-                map(JsonAdaptedGroup::new).
-                collect(Collectors.toList()));
+        groups.addAll(source.getAllChildren().stream()
+                .map(JsonAdaptedGroup::new)
+                .collect(Collectors.toList()));
     }
 
     /**
