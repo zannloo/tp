@@ -82,8 +82,6 @@ public class MainApp extends Application {
         Root initialData;
         try {
             profBookOptional = storage.readProfBook();
-            System.out.println("smth happening here");
-            System.out.println(profBookOptional.get());
             if (profBookOptional.isPresent()) {
                 // Set initialData to the value in profBookOptional
                 initialData = profBookOptional.get();
