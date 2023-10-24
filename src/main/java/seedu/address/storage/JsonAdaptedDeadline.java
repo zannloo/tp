@@ -3,6 +3,7 @@ package seedu.address.storage;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,6 +13,7 @@ import seedu.address.model.taskmanager.Task;
 /**
  * A class to adapt a Deadline object into a format suitable for JSON storage.
  */
+@JsonTypeName("Deadline")
 public class JsonAdaptedDeadline extends JsonAdaptedTasks {
 
     private String date;

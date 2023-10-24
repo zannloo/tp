@@ -1,5 +1,6 @@
 package seedu.address.storage;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,6 +10,7 @@ import seedu.address.model.taskmanager.ToDo;
 /**
  * A class to adapt a ToDo object into a format suitable for JSON storage.
  */
+@JsonTypeName("ToDo")
 public class JsonAdaptedToDo extends JsonAdaptedTasks {
 
     /**
