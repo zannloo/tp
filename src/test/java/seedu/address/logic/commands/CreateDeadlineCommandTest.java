@@ -304,7 +304,7 @@ class CreateDeadlineCommandTest {
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline);
         String expected = "seedu.address.logic.commands.CreateDeadlineCommand{"
                         + "toCreateDeadline="
-                        + "[D][ ] Assignment 1(by: 2023-12-03T23:58)}";
+                        + "[D][ ] Assignment 1(by: 2023-12-03 23:58)}";
 
         assertEquals(expected, command.toString());
     }
