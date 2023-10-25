@@ -4,6 +4,8 @@ title: "User Guide"
 pageNav: 3
 ---
 
+<br>
+
 # ProfBook User Guide
 
 ProfBook is a **student management system** specially made for **CS2103T tutors**, built by CS2103T students. As current
@@ -16,6 +18,12 @@ It is optimized for tutors use via a **familiar Command Line Interface (CLI) tha
 still having the benefits of a Graphical User Interface (GUI). If you can type fast, ProfBook can track and manage your
 student's progress and tasks much faster than traditional GUI apps with a gentle learning curve.
 
+<br>
+
+---
+
+<br>
+
 ## Features overview
 
 ### Consolidated Information
@@ -25,14 +33,14 @@ aims to expedite this process by allowing tutors to keep track of all their tuto
 within that in a centralised location. Tutors are able to traverse between tutorial slots and groups quickly through
 familiar linux commands.
 
-#### Student Information Management
+### Student Information Management
 
 ProfBook aids with the **management of student information**. Student's information can be **readily** added, edited,
 deleted quickly. In addition, ProfBook supports the managment of additional information vital for a tutor. Tutors can
 track their student progress through creating various tasks such as Todo and Deadline. Furthermore, Tutors can store
 short description of a student or links to their GitHub Repository if desired.
 
-#### Tutorial and Groups Information Management
+### Tutorial and Groups Information Management
 
 ProfBook aids with the **management of Tutorial and Groups information**. Profbook efficiently encapsulates information
 of every tutorial group and every project group so that tutors can management their progress and relevant information *
@@ -40,10 +48,22 @@ of every tutorial group and every project group so that tutors can management th
 each group progress through tasks. In addition, Tutors can store short description of the groups or links to their
 GitHub Repository if desired.
 
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
+
 <!-- * Table of Contents -->
 <page-nav-print />
 
---------------------------------------------------------------------------------------------------------------------
+<br>
+
+---
+
+<br>
+
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
 
 ## Quick start
 
@@ -77,11 +97,52 @@ GitHub Repository if desired.
 
 1. Refer to the [Features](#features) below for details of each command.
 
---------------------------------------------------------------------------------------------------------------------
+<br>
 
-## Features
+---
 
-<box type="info" seamless>
+<br>
+
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
+
+## Understanding ProfBook
+
+<box type="definition">
+
+  **ProfBook Software Structure** <br>
+
+  ProfBook is organized hierarchically with the following structure:
+
+  <tree>
+  ~/
+    grp-001/
+      1001Z
+      4123U
+    grp-002/
+      5815Y
+    grp-003/
+      ...
+  </tree>
+
+  **Root Directory (e.g., `~/`)**<br>
+  The Root Directory serves as the main container for the ProfBook software. This is where all the data is organized.
+
+  **Group Directories (e.g., `grp-001`, `grp-002`, ...)**<br>
+
+  Within the Root Directory, there are Group Directories. Each Group Directory is dedicated to managing a specific group of students.
+
+  **Student Directories (e.g., `1001Z`, `5815Y`, ...)**<br>
+
+  Inside each Group Directory, you'll find Student Directories. These directories represent individual students within each group.
+
+  This hierarchical structure enables a well-organized and efficient way to manage groups and students within ProfBook.
+</box>
+
+
+
+<box type="info">
 
 **Notes about the command format:**<br>
 
@@ -130,11 +191,19 @@ Acceptable values for each parameter:
 
 - must be a non-empty string
 
---------------------------------------------------------------------------------------------------------------------
+<br>
 
-# General Commands
+---
 
-### Viewing help : `help` (//TODO Update)
+<br>
+
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
+
+## General Commands
+
+### View help : `help` (//TODO Update)
 
 Shows a message explaning how to access the help page.
 
@@ -143,11 +212,21 @@ Shows a message explaning how to access the help page.
 
 Format: `help`
 
-### Listing all users : `ls`
+### Change Directory: `cd`
+
+Change the current directory in the ProfBook.
+
+Format: `cd SPECIFIED_PATH`
+
+#### Example:
+- If the current directory is `~/grp-001`, and you want to change the directory to `~/grp-002`, you can use the command `cd ../grp-002`.
+
+
+### List All Directories : `ls`
 
 Shows the list of children in the current directory
 
-Format: `ls`
+Format: `ls SPECIFIED_PATH`
 
 #### Example:
 
@@ -156,7 +235,13 @@ Format: `ls`
 - When user is at the root directory `~/`:
     - `ls` will return all the current groups
 
-### Clearing all entries : `clear`
+<box type="info">
+  
+  If no `SPECIFIED_PATH` is given, the `ls` command will default to the current directory.
+
+</box>
+
+### Clear All Entries : `clear`
 
 Clears all entries from the address book.
 
@@ -168,11 +253,19 @@ Exits the program.
 
 Format: `exit`
 
---------------------------------------------------------------------------------------------------------------------
+<br>
 
-# Student/Group commands
+---
 
-### Adding a student: `touch`
+<br>
+
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
+
+## Student / Group commands
+
+### Add a student: `touch`
 
 Adds a student into the specified directory.
 
@@ -214,7 +307,7 @@ Specified path:
     - When user is at the root directory `~/` and keys in command:
         - `touch ~/grp-001/stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh `
 
-### Deleting a Student/ Group: `rm`
+### Delete a Student or Group: `rm`
 
 Deletes a student/group from the specified directory.
 
@@ -245,7 +338,7 @@ Specified path:
   path `~/grp-001` will be deleted:
     - `rm grp-001`
 
-### Move students into/out of the group: `mv`
+### Move Student or Group: `mv`
 
 Moves student from a group to another group
 
@@ -302,9 +395,17 @@ Examples:
 - This command will create a group with groupId which is a string called 1 and only consists the creator at that
   instance of creating the group
 
---------------------------------------------------------------------------------------------------------------------
+<br>
 
-# Tasks command
+---
+
+<br>
+
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
+
+## Tasks command
 
 ### Create Todo Task : `todo`
 
@@ -456,7 +557,11 @@ file at the next run. Hence, it is recommended to take a backup of the file befo
 
 _Details coming soon ..._
 
---------------------------------------------------------------------------------------------------------------------
+<br>
+
+---
+
+<br>
 
 (//TODO Update)
 
@@ -466,7 +571,11 @@ _Details coming soon ..._
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains
 the data of your previous ProfBook home folder.
 
---------------------------------------------------------------------------------------------------------------------
+<br>
+
+---
+
+<br>
 
 (//TODO Update)
 
@@ -476,7 +585,15 @@ the data of your previous ProfBook home folder.
    the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the
    application before running the application again.
 
---------------------------------------------------------------------------------------------------------------------
+<br>
+
+---
+
+<br>
+
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
 
 (//TODO Update)
 
