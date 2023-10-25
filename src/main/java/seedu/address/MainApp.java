@@ -21,7 +21,6 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.util.SampleProfBook;
 import seedu.address.storage.JsonProfBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.ProfBookStorage;
@@ -75,9 +74,7 @@ public class MainApp extends Application {
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
     private State initModelManager(ReadOnlyUserPrefs userPrefs) throws InvalidPathException {
-        //todo: storage
         logger.info("Using data file : " + storage.getProfBookFilePath());
-
         Optional<Root> profBookOptional;
         Root initialData;
         try {
@@ -96,8 +93,6 @@ public class MainApp extends Application {
             initialData = new Root();
         }
         AbsolutePath currentPath = new AbsolutePath("~/");
-        // Use sample data.
-        Root root = SampleProfBook.getRoot();
 
         return new StateManager(currentPath, initialData, userPrefs);
     }
@@ -185,7 +180,6 @@ public class MainApp extends Application {
     public void stop() {
         logger.info("============================ [ Stopping Address Book ] =============================");
         try {
-            System.out.println("Hello mommy");
             storage.saveUserPrefs(state.getUserPrefs());
             storage.saveProfBook(state.getRoot());
         } catch (IOException e) {

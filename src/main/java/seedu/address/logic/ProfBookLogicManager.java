@@ -38,7 +38,6 @@ public class ProfBookLogicManager {
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
      */
     public ProfBookLogicManager(State state, ProfBookStorage storage) {
-        //todo : storage;
         this.storage = storage;
         this.state = state;
         profBookParser = new ProfBookParser();
