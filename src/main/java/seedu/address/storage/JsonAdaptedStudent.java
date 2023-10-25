@@ -16,12 +16,10 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.tag.Tag;
 import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.model.taskmanager.ToDo;
-
 
 /**
  * Jackson-friendly version of {@link Student}.
@@ -36,7 +34,6 @@ public class JsonAdaptedStudent {
 
     // Data fields
     private final String address;
-    private final Set<JsonAdaptedTag> tags = new HashSet<>();
     private final String id;
 
     private final Set<JsonAdaptedTasks> tasks = new HashSet<>();
@@ -47,16 +44,12 @@ public class JsonAdaptedStudent {
     @JsonCreator
     public JsonAdaptedStudent(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email, @JsonProperty("address") String address,
-                              @JsonProperty("id") String id, @JsonProperty("tags") List<JsonAdaptedTag> tags,
-                              @JsonProperty("tasks") List<JsonAdaptedTasks> tasks) {
+                              @JsonProperty("id") String id, @JsonProperty("tasks") List<JsonAdaptedTasks> tasks) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.id = id;
-        if (tags != null) {
-            this.tags.addAll(tags);
-        }
         if (tasks != null) {
             this.tasks.addAll(tasks);
         }
@@ -73,9 +66,6 @@ public class JsonAdaptedStudent {
         this.email = source.getEmail().toString();
         this.address = source.getAddress().toString();
         this.id = source.getId().toString();
-        tags.addAll(source.getTags().stream()
-                .map(JsonAdaptedTag::new)
-                .collect(Collectors.toList()));
         tasks.addAll(source.getAllTask().stream()
                 .map(task -> (task instanceof ToDo)
                         ? new JsonAdaptedToDo((ToDo) task)
@@ -90,13 +80,7 @@ public class JsonAdaptedStudent {
      * @throws IllegalValueException If there were any data constraints violated in the adapted student.
      */
     public Student toModelType() throws IllegalValueException {
-        final List<Tag> studentTags = new ArrayList<>();
-
         final List<Task> taskList = new ArrayList<>();
-
-        for (JsonAdaptedTag tag : tags) {
-            studentTags.add(tag.toModelType());
-        }
 
         for (JsonAdaptedTasks task : tasks) {
 
@@ -148,9 +132,6 @@ public class JsonAdaptedStudent {
         final seedu.address.model.id.StudentId studId = new StudentId(id);
 
         final seedu.address.model.taskmanager.TaskList modelTList = new TaskList(taskList);
-
-        //USE WHEN MING IMPLEMENTS INTO STUDENT CONSTRUCTOR
-        final Set<Tag> modelTags = new HashSet<>(studentTags);
 
         return new Student(modelTList, modelName, modelEmail, modelPhone, modelAddress, studId);
     }

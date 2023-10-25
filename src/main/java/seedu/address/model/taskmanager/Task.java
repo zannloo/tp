@@ -52,4 +52,16 @@ public abstract class Task implements Displayable {
 
     public abstract Task clone();
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Task)) {
+            return false;
+        }
+        Task otherTask = (Task) other;
+        return description.equals(otherTask.description) && isDone.equals(otherTask.isDone);
+    }
+
 }

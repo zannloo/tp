@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javafx.scene.layout.Region;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.ui.GroupCard;
@@ -24,7 +25,7 @@ public class Group extends ChildrenAndTaskListManager<Student> {
     /**
      * Unique identifier of the group
      */
-    private final Id id;
+    private final GroupId id;
 
     /**
      * Constructs a Group instance with all fields.
@@ -34,7 +35,7 @@ public class Group extends ChildrenAndTaskListManager<Student> {
      * @param name     - The group name
      * @param id       - Unique identifier of the group
      */
-    public Group(TaskList taskList, Map<Id, Student> students, Name name, Id id) {
+    public Group(TaskList taskList, Map<Id, Student> students, Name name, GroupId id) {
         super(students, taskList);
         requireAllNonNull(name, id);
         this.name = name;
@@ -44,13 +45,13 @@ public class Group extends ChildrenAndTaskListManager<Student> {
     /**
      * Constructs a new Group instance without task list and student map.
      */
-    public Group(Name name, Id id) {
+    public Group(Name name, GroupId id) {
         super();
         this.name = name;
         this.id = id;
     }
 
-    public Id getId() {
+    public GroupId getId() {
         return id;
     }
 
@@ -79,7 +80,7 @@ public class Group extends ChildrenAndTaskListManager<Student> {
         return new ToStringBuilder(this)
                 .add("Group Id", id)
                 .add("name", name)
-                .add("Students", super.toString())
+                .add("Task List and Student List", super.toString())
                 .toString();
     }
 

@@ -61,7 +61,6 @@ public class TaskOperationTest {
                 .withEmail("zannwhatudoing@example.com")
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
-                .withTags("owesMoney", "friends")
                 .withId("0001Y").build();
         Map<Id, Student> studentMap = new HashMap<>();
         studentMap.put(new StudentId("0001Y"), this.student);

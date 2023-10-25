@@ -25,7 +25,7 @@ public class GroupBuilder {
 
     private TaskList taskList;
     private Map<Id, Student> students;
-    private Id id;
+    private GroupId id;
     private Name name;
 
     /**
@@ -42,7 +42,6 @@ public class GroupBuilder {
                 .withEmail("johnd@example.com")
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
-                .withTags("owesMoney", "friends")
                 .withId("0010Y").build();
         students.put(stu1.getId(), stu1);
         students.put(stu2.getId(), stu2);
@@ -71,7 +70,7 @@ public class GroupBuilder {
      * @return a new Group object
      */
     public Group buildWithEmptyStudent() {
-        Map<Id, Student> emptyStudent = new HashMap();
+        Map<Id, Student> emptyStudent = new HashMap<>();
         return new Group(taskList, emptyStudent, name, id);
     }
 }
