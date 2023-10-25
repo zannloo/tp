@@ -428,6 +428,38 @@ Examples:
 - This command will search for the task, grade proposal, depending on the environment the user is in, it will search for
   task(s) allocated to a tutorial group or student.
 
+### Display all tasks: `cat`
+
+Searches for tasks depending on the environment.
+
+Format `cat [StudentId/ GroupId]`
+
+Acceptable values for parameter:
+
+Id:
+- Non empty string
+- Id of Group/Student within Profbook
+
+Output if command fails:
+
+If cat in root directory
+
+- Pop up message indicating that tasks cannot be shown within root directory.
+
+If cat with invalid parameter
+
+- Pop up message showing invalid path with user entered Path
+
+Output if command succeeds
+
+- Display updates with tasks assigned under input Id
+
+Examples:
+`cat grp-001, cat 1234A`
+
+- The first command will display all tasks assigned to group 001.
+- The second command will display all tasks that are assigned to student with Id 1234A
+
 ### Save the data (//TODO update)
 
 ProfBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save
@@ -496,3 +528,4 @@ the data of your previous ProfBook home folder.
 | **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                                 |
 | **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                             |
 | **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                                    |
+| **cat**             | `cat [StudentId/GroupId]`<br> e.g., `cat 1234A, cat grp-001`                                                                                                                                     |
