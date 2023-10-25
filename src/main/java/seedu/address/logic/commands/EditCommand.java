@@ -118,7 +118,7 @@ public class EditCommand extends Command {
         assert groupToEdit != null;
 
         Name updatedName = editGroupDescriptor.getName().orElse(groupToEdit.getName());
-        Id updatedId = editGroupDescriptor.getId().orElse(groupToEdit.getId());
+        GroupId updatedId = editGroupDescriptor.getId().orElse(groupToEdit.getId());
         TaskList taskList = new TaskList(groupToEdit.getAllTask());
         Map<Id, Student> students = groupToEdit.getChildren();
         return new Group(taskList, students, updatedName, updatedId);

@@ -25,7 +25,7 @@ public class GroupBuilder {
 
     private TaskList taskList;
     private Map<Id, Student> students;
-    private Id id;
+    private GroupId id;
     private Name name;
 
     /**
