@@ -2,12 +2,8 @@ package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.logging.Logger;
-
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.ChangeDirectoryCommandParser;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.statemanager.State;
 
@@ -19,7 +15,6 @@ public class ChangeDirectoryCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Changed directory to: %1$s";
     public static final String MESSAGE_INVALID_DEST = "Student path is not navigable.";
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
-    private static final Logger logger = LogsCenter.getLogger(ChangeDirectoryCommandParser.class);
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]";
 

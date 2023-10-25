@@ -11,12 +11,12 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.AddressBookParser;
+import seedu.address.logic.parser.ProfBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Person;
-import seedu.address.storage.Storage;
+import seedu.address.model.statemanager.State;
+//import seedu.address.storage.Storage;
+import seedu.address.storage.ProfBookStorage;
+import seedu.address.ui.Displayable;
 
 /**
  * The main LogicManager of the app.
@@ -29,29 +29,34 @@ public class LogicManager implements Logic {
 
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
 
-    private final Model model;
-    private final Storage storage;
-    private final AddressBookParser addressBookParser;
+    private final State state;
+
+    private final ProfBookStorage storage;
+    private final ProfBookParser profBookParser;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
      */
-    public LogicManager(Model model, Storage storage) {
-        this.model = model;
+    public LogicManager(State state, ProfBookStorage storage) {
+        //todo : storage;
         this.storage = storage;
-        addressBookParser = new AddressBookParser();
+        this.state = state;
+        profBookParser = new ProfBookParser();
     }
 
-    @Override
+    /**
+     * Execute command and return the result if success
+     * or throw exception if error occurred.
+     */
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = addressBookParser.parseCommand(commandText);
-        commandResult = command.execute(model);
+        Command command = profBookParser.parseCommand(commandText, state.getCurrPath());
+        commandResult = command.execute(state);
 
         try {
-            storage.saveAddressBook(model.getAddressBook());
+            storage.saveProfBook(state.getRoot());
         } catch (AccessDeniedException e) {
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
@@ -61,28 +66,23 @@ public class LogicManager implements Logic {
         return commandResult;
     }
 
-    @Override
-    public ReadOnlyAddressBook getAddressBook() {
-        return model.getAddressBook();
+    public ObservableList<Displayable> getDisplayList() {
+        return state.getDisplayList();
     }
 
-    @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return model.getFilteredPersonList();
+    public String getCurrPath() {
+        return state.getCurrPath().toString();
     }
 
-    @Override
     public Path getAddressBookFilePath() {
-        return model.getAddressBookFilePath();
+        return state.getProfBookFilePath();
     }
 
-    @Override
     public GuiSettings getGuiSettings() {
-        return model.getGuiSettings();
+        return state.getGuiSettings();
     }
 
-    @Override
     public void setGuiSettings(GuiSettings guiSettings) {
-        model.setGuiSettings(guiSettings);
+        state.setGuiSettings(guiSettings);
     }
 }

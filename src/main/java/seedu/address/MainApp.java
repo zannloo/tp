@@ -13,7 +13,7 @@ import seedu.address.commons.core.Version;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.ProfBookLogicManager;
+import seedu.address.logic.LogicManager;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
@@ -40,7 +40,7 @@ public class MainApp extends Application {
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     protected Ui ui;
-    protected ProfBookLogicManager logic;
+    protected LogicManager logic;
     protected ProfBookStorage storage;
     protected State state;
     protected Config config;
@@ -64,7 +64,7 @@ public class MainApp extends Application {
         //todo: abstract to an init method, and need to read from storage
         state = initModelManager(userPrefs);
         //todo: Storage
-        logic = new ProfBookLogicManager(state, storage);
+        logic = new LogicManager(state, storage);
 
         ui = new UiManager(logic);
     }
@@ -87,17 +87,15 @@ public class MainApp extends Application {
                 initialData = profBookOptional.get();
             } else {
                 logger.info("Creating a new data file " + storage.getProfBookFilePath()
-                        + " populated with a sample AddressBook.");
-                initialData = new Root();
+                        + " populated with a sample ProfBook.");
+                initialData = SampleProfBook.getRoot();
             }
         } catch (DataLoadingException e) {
             logger.warning("Data file at " + storage.getProfBookFilePath() + " could not be loaded."
-                    + " Will be starting with an empty AddressBook.");
+                    + " Will be starting with an empty ProfBook.");
             initialData = new Root();
         }
         AbsolutePath currentPath = new AbsolutePath("~/");
-        // Use sample data.
-        Root root = SampleProfBook.getRoot();
 
         return new StateManager(currentPath, initialData, userPrefs);
     }
