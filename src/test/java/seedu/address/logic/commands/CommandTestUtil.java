@@ -1,31 +1,30 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
+import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_ID;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 import static seedu.address.logic.parser.CliSyntax.OPTION_TAG;
-import static seedu.address.testutil.Assert.assertThrows;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalDateTime;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.model.person.Person;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
+import seedu.address.logic.parser.ParserUtil;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
+import seedu.address.model.statemanager.State;
 
 /**
  * Contains helper methods for testing commands.
  */
 public class CommandTestUtil {
-
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_PHONE_AMY = "11111111";
@@ -36,7 +35,16 @@ public class CommandTestUtil {
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
+    public static final String VALID_DATETIME_STR = "2023-09-22 11:30";
+    public static final String VALID_TASK_DESC = "Assignment 1: Software Engineer Project";
+    public static final String VALID_ID_STUDENT = "0011Y";
+    public static final String VALID_ID_GROUP = "grp-123";
+    public static final String VALID_CATEGORY_STUDENT = " --all allStu";
+    public static final String VALID_CATEGORY_GROUP = " -all allGrp";
 
+    public static final String VALID_ROOT_DIR_PREAMBLE = "~/";
+    public static final String VALID_GROUP_DIR_PREAMBLE = "/grp-123";
+    public static final String VALID_STUDENT_DIR_PREAMBLE = "/grp-123/0011Y";
     public static final String NAME_DESC_AMY = " " + OPTION_NAME + " " + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + OPTION_NAME + " " + VALID_NAME_BOB;
     public static final String PHONE_DESC_AMY = " " + OPTION_PHONE + " " + VALID_PHONE_AMY;
@@ -47,6 +55,11 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + OPTION_ADDRESS + " " + VALID_ADDRESS_BOB;
     public static final String TAG_DESC_FRIEND = " " + OPTION_TAG + " " + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + OPTION_TAG + " " + VALID_TAG_HUSBAND;
+    public static final String DATETIME_DESC = " " + OPTION_DATETIME + " " + VALID_DATETIME_STR;
+    public static final String ID_DESC_STUDENT = " " + OPTION_ID + " " + VALID_ID_STUDENT;
+    public static final String ID_DESC_GROUP = " " + OPTION_ID + " " + VALID_ID_GROUP;
+    public static final String TASK_DESC_DESC = " " + OPTION_DESC + " " + VALID_TASK_DESC;
+
 
     public static final String INVALID_NAME_DESC = " "
             + OPTION_NAME + " " + "James&"; // '&' not allowed in names
@@ -56,75 +69,91 @@ public class CommandTestUtil {
             + OPTION_ADDRESS + " "; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + OPTION_TAG + " " + "hubby*"; // '*' not allowed in tags
 
-    public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
-    public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
-
-    public static final EditCommand.EditPersonDescriptor DESC_AMY;
-    public static final EditCommand.EditPersonDescriptor DESC_BOB;
+    private static RelativePath validRootRelativePath;
+    private static RelativePath validGroupRelativePath;
+    private static RelativePath validStudentRelativePath;
+    private static AbsolutePath validRootAbsolutePath;
+    private static AbsolutePath validGroupAbsolutePath;
+    private static AbsolutePath validStudentAbsolutePath;
+    private static LocalDateTime validDateTime;
 
     static {
-        DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_FRIEND).build();
-        DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+        try {
+            validRootRelativePath = ParserUtil.parseRelativePath(VALID_ROOT_DIR_PREAMBLE);
+            validGroupRelativePath = ParserUtil.parseRelativePath(VALID_GROUP_DIR_PREAMBLE);
+            validStudentRelativePath = ParserUtil.parseRelativePath(VALID_STUDENT_DIR_PREAMBLE);
+            validRootAbsolutePath = new AbsolutePath(VALID_ROOT_DIR_PREAMBLE);
+            validGroupAbsolutePath = validRootAbsolutePath.resolve(validGroupRelativePath);
+            validStudentAbsolutePath = validRootAbsolutePath.resolve(validStudentRelativePath);
+            validDateTime = ParserUtil.parseDateTime(VALID_DATETIME_STR);
+        } catch (ParseException | InvalidPathException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    public static RelativePath getValidRootRelativePath() {
+        return validRootRelativePath;
+    }
+
+    public static RelativePath getValidGroupRelativePath() {
+        return validGroupRelativePath;
+    }
+
+    public static RelativePath getValidStudentRelativePath() {
+        return validStudentRelativePath;
+    }
+
+    public static AbsolutePath getValidRootAbsolutePath() {
+        return validRootAbsolutePath;
+    }
+
+    public static AbsolutePath getValidGroupAbsolutePath() {
+        return validGroupAbsolutePath;
+    }
+
+    public static AbsolutePath getValidStudentAbsolutePath() {
+        return validStudentAbsolutePath;
+    }
+
+    public static LocalDateTime getValidDateTime() {
+        return validDateTime;
     }
 
     /**
      * Executes the given {@code command}, confirms that <br>
      * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
-     * - the {@code actualModel} matches {@code expectedModel}
+     * - the {@code actualState} matches {@code expectedState}
      */
-    public static void assertCommandSuccess(Command command, Model actualModel, CommandResult expectedCommandResult,
-            Model expectedModel) {
+    public static void assertCommandSuccess(Command command, State actualState, CommandResult expectedCommandResult,
+            State expectedState) {
         try {
-            CommandResult result = command.execute(actualModel);
+            CommandResult result = command.execute(actualState);
             assertEquals(expectedCommandResult, result);
-            assertEquals(expectedModel, actualModel);
+            assertEquals(expectedState, actualState);
         } catch (CommandException ce) {
             throw new AssertionError("Execution of command should not fail.", ce);
         }
     }
 
     /**
-     * Convenience wrapper to {@link #assertCommandSuccess(Command, Model, CommandResult, Model)}
+     * Convenience wrapper to {@link #assertCommandSuccess(Command, State, CommandResult, State)}
      * that takes a string {@code expectedMessage}.
      */
-    public static void assertCommandSuccess(Command command, Model actualModel, String expectedMessage,
-            Model expectedModel) {
+    public static void assertCommandSuccess(Command command, State actualState, String expectedMessage,
+            State expectedState) {
         CommandResult expectedCommandResult = new CommandResult(expectedMessage);
-        assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
+        assertCommandSuccess(command, actualState, expectedCommandResult, expectedState);
     }
 
     /**
      * Executes the given {@code command}, confirms that <br>
      * - a {@code CommandException} is thrown <br>
      * - the CommandException message matches {@code expectedMessage} <br>
-     * - the address book, filtered person list and selected person in {@code actualModel} remain unchanged
+     * - the {@code actualState} remain unchanged
      */
-    public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
-        // we are unable to defensively copy the model for comparison later, so we can
-        // only do so by copying its components.
-        AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());
-        List<Person> expectedFilteredList = new ArrayList<>(actualModel.getFilteredPersonList());
-
-        assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
-        assertEquals(expectedAddressBook, actualModel.getAddressBook());
-        assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
+    public static void assertCommandFailure(Command command, State actualState,
+            String expectedMessage, State unchangedState) {
+        assertThrows(CommandException.class, () -> command.execute(actualState), expectedMessage);
+        assertEquals(unchangedState, actualState);
     }
-    /**
-     * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
-     * {@code model}'s address book.
-     */
-    public static void showPersonAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredPersonList().size());
-
-        Person person = model.getFilteredPersonList().get(targetIndex.getZeroBased());
-        final String[] splitName = person.getName().fullName.split("\\s+");
-        model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
-
-        assertEquals(1, model.getFilteredPersonList().size());
-    }
-
 }

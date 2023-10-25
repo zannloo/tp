@@ -56,7 +56,6 @@ public class ChildOperationTest {
                 .withEmail("zannwhatudoing@example.com")
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
-                .withTags("owesMoney", "friends")
                 .withId("0001Y").build();
         Map<Id, Student> studentMap = new HashMap<>();
         studentMap.put(new StudentId("0001Y"), this.student);
@@ -127,7 +126,6 @@ public class ChildOperationTest {
                 .withEmail("angelyipenqi@example.com")
                 .withPhone("1234567")
                 .withAddress("311, Clementi Ave 2, #02-25")
-                .withTags("owesMoney", "friends")
                 .withId("0001Y").build();
         ChildOperation<Student> opr = state.groupChildOperation(grpPath);
         assertTrue(opr.hasChild(stu));

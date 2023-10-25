@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.path.AbsolutePath;
 
 /**
  * Contains helper methods for testing command parsers.
@@ -15,9 +16,9 @@ public class CommandParserTestUtil {
      * equals to {@code expectedCommand}.
      */
     public static void assertParseSuccess(Parser<? extends Command> parser, String userInput,
-            Command expectedCommand) {
+            AbsolutePath currPath, Command expectedCommand) {
         try {
-            Command command = parser.parse(userInput);
+            Command command = parser.parse(userInput, currPath);
             assertEquals(expectedCommand, command);
         } catch (ParseException pe) {
             throw new IllegalArgumentException("Invalid userInput.", pe);
@@ -28,9 +29,10 @@ public class CommandParserTestUtil {
      * Asserts that the parsing of {@code userInput} by {@code parser} is unsuccessful and the error message
      * equals to {@code expectedMessage}.
      */
-    public static void assertParseFailure(Parser<? extends Command> parser, String userInput, String expectedMessage) {
+    public static void assertParseFailure(Parser<? extends Command> parser, String userInput,
+            AbsolutePath currPath, String expectedMessage) {
         try {
-            parser.parse(userInput);
+            parser.parse(userInput, currPath);
             throw new AssertionError("The expected ParseException was not thrown.");
         } catch (ParseException pe) {
             assertEquals(expectedMessage, pe.getMessage());

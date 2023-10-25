@@ -6,34 +6,45 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 import static seedu.address.logic.parser.CliSyntax.OPTION_TAG;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.Map;
 
-import seedu.address.commons.core.index.Index;
-import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.field.EditGroupDescriptor;
+import seedu.address.model.field.EditStudentDescriptor;
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.Id;
+import seedu.address.model.id.StudentId;
+import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.profbook.Address;
+import seedu.address.model.profbook.Email;
+import seedu.address.model.profbook.Group;
+import seedu.address.model.profbook.Name;
+import seedu.address.model.profbook.Phone;
+import seedu.address.model.profbook.Student;
+import seedu.address.model.statemanager.ChildOperation;
+import seedu.address.model.statemanager.State;
+import seedu.address.model.taskmanager.TaskList;
 
 /**
- * Edits the details of an existing person in the address book.
+ * EditCommand is a class representing a command to edit the details of a person (either a student or a group) in
+ * ProfBook.
+ * Depending on the context (whether it's a student or group), this command can edit different fields.
  */
 public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
+
+    public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
+
+    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
+
+    public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
+
+    public static final String MESSAGE_EDIT_GROUP_SUCCESS = "Field(s) of group has been edited successfully.";
+
+    public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Field(s) of student has been edited successfully.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
             + "by the index number used in the displayed person list. "
@@ -48,62 +59,125 @@ public class EditCommand extends Command {
             + OPTION_PHONE + " 91234567 "
             + OPTION_EMAIL + " johndoe@example.com";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
+    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid";
+
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
-    private final Index index;
-    private final EditPersonDescriptor editPersonDescriptor;
+    public static final String MESSAGE_NO_SUCH_PATH = "Path does not exist in ProfBook.";
+
+    private final AbsolutePath target;
+
+    private EditGroupDescriptor editGroupDescriptor;
+
+    private EditStudentDescriptor editStudentDescriptor;
 
     /**
-     * @param index of the person in the filtered person list to edit
-     * @param editPersonDescriptor details to edit the person with
+     * Constructs an EditCommand for editing a group's details.
+     *
+     * @param target The path to the target group to be edited.
+     * @param editGroupDescriptor The descriptor containing the details to edit.
      */
-    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
-        requireNonNull(index);
-        requireNonNull(editPersonDescriptor);
-
-        this.index = index;
-        this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
+    public EditCommand(AbsolutePath target, EditGroupDescriptor editGroupDescriptor) {
+        this.target = target;
+        this.editGroupDescriptor = new EditGroupDescriptor(editGroupDescriptor);
     }
 
+    /**
+     * Constructs an EditCommand for editing a student's details.
+     *
+     * @param target The path to the target student to be edited.
+     * @param editStudentDescriptor The descriptor containing the details to edit.
+     */
+    public EditCommand(AbsolutePath target, EditStudentDescriptor editStudentDescriptor) {
+        this.target = target;
+        this.editStudentDescriptor = new EditStudentDescriptor(editStudentDescriptor);
+    }
+
+
+    /**
+     * Creates and returns a {@code Student} with the details of {@code studentToEdit}
+     * edited with {@code editStudentDescriptor}.
+     */
+    private static Student createEditedStudent(Student studentToEdit, EditStudentDescriptor editStudentDescriptor) {
+        assert studentToEdit != null;
+
+        Name updatedName = editStudentDescriptor.getName().orElse(studentToEdit.getName());
+        Phone updatedPhone = editStudentDescriptor.getPhone().orElse(studentToEdit.getPhone());
+        Email updatedEmail = editStudentDescriptor.getEmail().orElse(studentToEdit.getEmail());
+        Address updatedAddress = editStudentDescriptor.getAddress().orElse(studentToEdit.getAddress());
+        StudentId updatedId = editStudentDescriptor.getId().orElse(studentToEdit.getId());
+        TaskList taskList = new TaskList(studentToEdit.getAllTask());
+        return new Student(taskList, updatedName, updatedEmail, updatedPhone, updatedAddress, updatedId);
+    }
+
+    /**
+     * Creates and returns a {@code Group} with the details of {@code groupToEdit}
+     * edited with {@code editGroupDescriptor}.
+     */
+    private static Group createEditedGroup(Group groupToEdit, EditGroupDescriptor editGroupDescriptor) {
+        assert groupToEdit != null;
+
+        Name updatedName = editGroupDescriptor.getName().orElse(groupToEdit.getName());
+        Id updatedId = editGroupDescriptor.getId().orElse(groupToEdit.getId());
+        TaskList taskList = new TaskList(groupToEdit.getAllTask());
+        Map<Id, Student> students = groupToEdit.getChildren();
+        return new Group(taskList, students, updatedName, updatedId);
+    }
+
+    /**
+     * Executes the EditCommand to edit a group or student's details.
+     *
+     * @param state The current state of the application.
+     * @return A CommandResult indicating the result of the execution.
+     * @throws CommandException If there's an error during command execution.
+     */
     @Override
-    public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
+    public CommandResult execute(State state) throws CommandException {
+        requireNonNull(state);
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        // Check path exists in ProfBook
+        if (!state.hasPath(target)) {
+            throw new CommandException(MESSAGE_NO_SUCH_PATH);
         }
 
-        Person personToEdit = lastShownList.get(index.getZeroBased());
-        Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
+        if (target.isGroupDirectory()) {
+            ChildOperation<Group> rootOperation = state.rootChildOperation();
+            GroupId groupId = target.getGroupId().get();
+            if (!rootOperation.hasChild(groupId)) {
+                throw new CommandException(ERROR_MESSAGE_NO_SUCH_GROUP);
+            }
+            Group groupToEdit = rootOperation.getChild(groupId);
+            Group editedGroup = createEditedGroup(groupToEdit, this.editGroupDescriptor);
+            rootOperation.deleteChild(groupId);
+            rootOperation.addChild(groupId, editedGroup);
+            state.updateList();
 
-        if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            return new CommandResult(MESSAGE_EDIT_GROUP_SUCCESS);
+
+        } else if (target.isStudentDirectory()) {
+            ChildOperation<Student> groupOperation = state.groupChildOperation(target);
+            StudentId studentId = target.getStudentId().get();
+
+            Student studentToEdit = groupOperation.getChild(studentId);
+            Student editedStudent = createEditedStudent(studentToEdit, this.editStudentDescriptor);
+            groupOperation.deleteChild(studentId);
+            groupOperation.addChild(editedStudent.getId(), editedStudent);
+            state.updateList();
+
+            return new CommandResult(MESSAGE_EDIT_STUDENT_SUCCESS);
+
+        } else {
+            throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
         }
 
-        model.setPerson(personToEdit, editedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 
     /**
-     * Creates and returns a {@code Person} with the details of {@code personToEdit}
-     * edited with {@code editPersonDescriptor}.
+     * Checks if this EditCommand is equal to another object.
+     *
+     * @param other The object to compare with.
+     * @return True if the objects are equal, false otherwise.
      */
-    private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
-        assert personToEdit != null;
-
-        Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
-        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
-        Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-        Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
-
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
-    }
-
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -116,127 +190,32 @@ public class EditCommand extends Command {
         }
 
         EditCommand otherEditCommand = (EditCommand) other;
-        return index.equals(otherEditCommand.index)
-                && editPersonDescriptor.equals(otherEditCommand.editPersonDescriptor);
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .add("index", index)
-                .add("editPersonDescriptor", editPersonDescriptor)
-                .toString();
+        if (this.editStudentDescriptor == null) {
+            return this.target.equals(otherEditCommand.target)
+                    && this.editGroupDescriptor.equals(otherEditCommand.editGroupDescriptor);
+        } else {
+            return this.target.equals(otherEditCommand.target)
+                    && this.editStudentDescriptor.equals(otherEditCommand.editStudentDescriptor);
+        }
     }
 
     /**
-     * Stores the details to edit the person with. Each non-empty field value will replace the
-     * corresponding field value of the person.
+     * Returns a string representation of this EditCommand.
+     *
+     * @return A string representation of the object.
      */
-    public static class EditPersonDescriptor {
-        private Name name;
-        private Phone phone;
-        private Email email;
-        private Address address;
-        private Set<Tag> tags;
-
-        public EditPersonDescriptor() {}
-
-        /**
-         * Copy constructor.
-         * A defensive copy of {@code tags} is used internally.
-         */
-        public EditPersonDescriptor(EditPersonDescriptor toCopy) {
-            setName(toCopy.name);
-            setPhone(toCopy.phone);
-            setEmail(toCopy.email);
-            setAddress(toCopy.address);
-            setTags(toCopy.tags);
-        }
-
-        /**
-         * Returns true if at least one field is edited.
-         */
-        public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
-        }
-
-        public void setName(Name name) {
-            this.name = name;
-        }
-
-        public Optional<Name> getName() {
-            return Optional.ofNullable(name);
-        }
-
-        public void setPhone(Phone phone) {
-            this.phone = phone;
-        }
-
-        public Optional<Phone> getPhone() {
-            return Optional.ofNullable(phone);
-        }
-
-        public void setEmail(Email email) {
-            this.email = email;
-        }
-
-        public Optional<Email> getEmail() {
-            return Optional.ofNullable(email);
-        }
-
-        public void setAddress(Address address) {
-            this.address = address;
-        }
-
-        public Optional<Address> getAddress() {
-            return Optional.ofNullable(address);
-        }
-
-        /**
-         * Sets {@code tags} to this object's {@code tags}.
-         * A defensive copy of {@code tags} is used internally.
-         */
-        public void setTags(Set<Tag> tags) {
-            this.tags = (tags != null) ? new HashSet<>(tags) : null;
-        }
-
-        /**
-         * Returns an unmodifiable tag set, which throws {@code UnsupportedOperationException}
-         * if modification is attempted.
-         * Returns {@code Optional#empty()} if {@code tags} is null.
-         */
-        public Optional<Set<Tag>> getTags() {
-            return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (other == this) {
-                return true;
-            }
-
-            // instanceof handles nulls
-            if (!(other instanceof EditPersonDescriptor)) {
-                return false;
-            }
-
-            EditPersonDescriptor otherEditPersonDescriptor = (EditPersonDescriptor) other;
-            return Objects.equals(name, otherEditPersonDescriptor.name)
-                    && Objects.equals(phone, otherEditPersonDescriptor.phone)
-                    && Objects.equals(email, otherEditPersonDescriptor.email)
-                    && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
-        }
-
-        @Override
-        public String toString() {
+    @Override
+    public String toString() {
+        if (this.editStudentDescriptor != null) {
             return new ToStringBuilder(this)
-                    .add("name", name)
-                    .add("phone", phone)
-                    .add("email", email)
-                    .add("address", address)
-                    .add("tags", tags)
+                    .add("toEdit", this.editStudentDescriptor)
                     .toString();
         }
+        if (this.editGroupDescriptor != null) {
+            return new ToStringBuilder(this)
+                    .add("toEdit", this.editGroupDescriptor)
+                    .toString();
+        }
+        return null;
     }
 }
