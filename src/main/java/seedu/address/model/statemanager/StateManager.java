@@ -71,7 +71,7 @@ public class StateManager implements State {
     }
 
     public Path getAddressBookFilePath() {
-        return userPrefs.getAddressBookFilePath();
+        return userPrefs.getProfBookFilePath();
     }
 
     public void setAddressBookFilePath(Path addressBookFilePath) {
@@ -297,6 +297,14 @@ public class StateManager implements State {
         StudentId stuId = path.getStudentId().get();
 
         return root.getChild(grpId).getChild(stuId);
+    }
+
+    /**
+     * Return the Root of addressbook.
+     */
+    @Override
+    public Root getRoot() {
+        return this.root;
     }
 
     @Override

@@ -121,7 +121,23 @@ public class StudentBuilder {
         return this;
     }
 
+    /**
+     * Builds a `Student` object with the specified attributes.
+     *
+     * @return The `Student` object.
+     */
     public Student build() {
         return new Student(taskList, name, email, phone, address, id);
+    }
+
+    /**
+     * Builds a `Student` object with an empty task list and the specified attributes.
+     *
+     * @return The `Student` object with an empty task list.
+     */
+    public Student buildEmptyTask() {
+        List<Task> emptyList = new ArrayList<>();
+        TaskList emptyTaskList = new TaskList(emptyList);
+        return new Student(emptyTaskList, name, email, phone, address, id);
     }
 }

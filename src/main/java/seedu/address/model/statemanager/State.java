@@ -7,6 +7,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Group;
+import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.ui.Displayable;
 
@@ -34,6 +35,10 @@ public interface State {
     public AbsolutePath getCurrPath();
 
     /**
+     * Return Root.
+     */
+    public Root getRoot();
+    /**
      * Return current display path.
      */
     public AbsolutePath getDisplayPath();
@@ -42,6 +47,7 @@ public interface State {
      * Return true if display panel is showing task list.
      */
     public boolean isShowTaskList();
+
 
     /**
      * Return true if current path has task list.
