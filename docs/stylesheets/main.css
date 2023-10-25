@@ -13,20 +13,29 @@ mark {
   width: 100%;
 }
 
+.page-break-before {
+  page-break-before: always;
+}
+
 /* Scrollbar */
 
 .slim-scroll::-webkit-scrollbar {
-  width: 5px;
+  width: 0;
 }
 
 .slim-scroll::-webkit-scrollbar-thumb {
-  background: #808080;
+  background: #c1bfbfd4;
   border-radius: 20px;
 }
 
 .slim-scroll::-webkit-scrollbar-track {
   background: transparent;
   border-radius: 20px;
+}
+
+.slim-scroll:hover::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
 }
 
 .slim-scroll-blue::-webkit-scrollbar {
@@ -46,6 +55,8 @@ mark {
 /* Layout containers */
 
 #flex-body {
+  width: 90%;
+  margin: 0 auto;
   display: flex;
   flex: 1;
   align-items: start;
@@ -112,6 +123,10 @@ mark {
     padding-left: 10px;
   }
 
+  #flex-body{
+    width: 100%;
+  }
+
   #content-wrapper {
     padding: 0 10px;
   }
@@ -135,10 +150,36 @@ mark {
   }
 }
 
+code {
+  font-family: "Roboto Mono",Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace;
+}
+
+
 h2,
 h3,
 h4,
 h5,
 h6 {
-  color: #e46c0a;
+  color: #000000;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 1.7em;
+  font-weight: bold;
+}
+
+h3 {
+  padding-top: 15px;
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
+h4 {
+  padding-top: 5px;
+  font-size: 1em;
+  font-weight: 650;
 }
