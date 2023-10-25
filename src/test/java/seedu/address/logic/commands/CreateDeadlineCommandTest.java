@@ -302,7 +302,7 @@ class CreateDeadlineCommandTest {
         LocalDateTime duedate = LocalDateTime.parse("2023-12-03T23:58");
         Deadline deadline = new Deadline("Assignment 1", duedate);
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline);
-        String expected = "seedu.address.logic.newcommands.CreateDeadlineCommand{"
+        String expected = "seedu.address.logic.commands.CreateDeadlineCommand{"
                         + "toCreateDeadline="
                         + "[D][ ] Assignment 1(by: 2023-12-03T23:58)}";
 

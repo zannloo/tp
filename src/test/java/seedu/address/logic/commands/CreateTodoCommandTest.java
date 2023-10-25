@@ -186,7 +186,7 @@ public class CreateTodoCommandTest {
         ToDo todo = new ToDo("Todo test");
         AbsolutePath target = new AbsolutePath("~/grp-001");
         CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
-        String expected = "seedu.address.logic.newcommands.CreateTodoCommand{toCreateTodo="
+        String expected = "seedu.address.logic.commands.CreateTodoCommand{toCreateTodo="
                 + "[T][ ] Todo test}";
         assertEquals(expected, createTodoCommand.toString());
     }

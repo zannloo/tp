@@ -50,7 +50,7 @@ public class EditCommandTest {
         EditGroupDescriptor editGroupDescriptor = new EditGroupDescriptor();
         EditCommand firstEditCommand = new EditCommand(path, editGroupDescriptor);
 
-        String expected = "seedu.address.logic.newcommands.EditCommand{toEdit=seedu.address.model"
+        String expected = "seedu.address.logic.commands.EditCommand{toEdit=seedu.address.model"
                 + ".field.EditGroupDescriptor{name=null, id=null}}";
         assertEquals(expected, firstEditCommand.toString());
     }
