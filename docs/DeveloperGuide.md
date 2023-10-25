@@ -145,29 +145,54 @@ How the parsing works:
 ### Model component
 
 **API
-** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+** : [`Model.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/src/main/java/seedu/address/model/Model.java)
 
 <puml src="diagrams/ModelClassDiagram.puml" width="450" />
 
 
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which
-  is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to
-  this list so that the UI automatically updates when the data in the list change.
+* stores the ProfBook data i.e., all `Root, Group and Student` objects (which are contained in a
+  hierarchical structure in the ProfBook package).
+* stores the currently 'selected' `Displayable` objects (e.g., selected task list, children in current folder)
+  as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Displayable>` that can
+  be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list
+  change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as
   a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they
   should make sense on their own without depending on other components)
 
+<puml src="diagrams/ProfBookClassDiagram.puml" width="450" />
+
+The diagram above shows how the folder structure is implemented in ProfBook,
+
+* The hierarchy is as such: `Root` -> `Group` -> `Student`
+* As many of the operations are repeated (e.g., Tasks operations and Children Operation), we decided to abstract out
+  these logic into their own classes which is represented by `TaskListManager` and `ChildrenManager` respectively.
+* ChildrenManager manages the children which is of type `IChildElement`
+* We also created a wrapper classes for classes that require both of those aforementioned functionalities (e.g, `Group`,
+  `TutorialSlot`)
+
+The sequence diagram below illustrates the interactions within the Model component, taking an execution of a
+CreateTodoClass as example.
+
+<puml src="diagrams/AddTaskSequence.puml" width="450" />
+
+How the `Model` component works:
+
+1. Depending on the nature of the command, a static method is called to generate a `TaskOperation` or
+   a `ChildrenOperation` Object that acts as an interface Command object to manipulate the Model
+2. In this case, a `TaskOperation` object is created. This object would store all the necessary information to make
+   changes directly on the correct state.
+3. The command object calls the required method in the `TaskOperation` object which results in the `TaskOperation`
+   object adding the Todo task to the group
+
 <box type="info" seamless>
 
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`,
-which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of
-each `Person` needing their own `Tag` objects.<br>
-
-<puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
+**Note:** For ChildrenOperation, ModelManager provides more specific static factory methods (e.g., GroupChildOperation,
+StudentChildOperation) to generate the `ChildOperation` object. It is implemented this way so that ModelManager is able
+to check that the Operation required matches with the intended effect of the Command object's Execution
 
 </box>
 
