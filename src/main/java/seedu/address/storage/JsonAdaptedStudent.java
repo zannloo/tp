@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,8 +16,10 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
+import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.taskmanager.ToDo;
 
 /**
  * Jackson-friendly version of {@link Student}.
@@ -63,6 +66,11 @@ public class JsonAdaptedStudent {
         this.email = source.getEmail().toString();
         this.address = source.getAddress().toString();
         this.id = source.getId().toString();
+        tasks.addAll(source.getAllTask().stream()
+                .map(task -> (task instanceof ToDo)
+                        ? new JsonAdaptedToDo((ToDo) task)
+                        : new JsonAdaptedDeadline((Deadline) task))
+                .collect(Collectors.toList()));
     }
 
     /**

@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Student;
@@ -93,23 +94,23 @@ public class JsonAdaptedGroup {
         }
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    seedu.address.model.profbook.Name.class.getSimpleName()));
+                    Name.class.getSimpleName()));
         }
-        if (!seedu.address.model.profbook.Name.isValidName(name)) {
-            throw new IllegalValueException(seedu.address.model.profbook.Name.MESSAGE_CONSTRAINTS);
+        if (!Name.isValidName(name)) {
+            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
         }
-        final seedu.address.model.profbook.Name modelName = new Name(name);
+        final Name modelName = new Name(name);
 
         if (id == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    seedu.address.model.id.StudentId.class.getSimpleName()));
+                    StudentId.class.getSimpleName()));
         }
-        if (!seedu.address.model.id.GroupId.isValidGroupId(id)) {
-            throw new IllegalValueException(seedu.address.model.id.GroupId.MESSAGE_CONSTRAINTS);
+        if (!GroupId.isValidGroupId(id)) {
+            throw new IllegalValueException(GroupId.MESSAGE_CONSTRAINTS);
         }
-        final seedu.address.model.id.GroupId grpId = new GroupId(id);
+        final GroupId grpId = new GroupId(id);
 
-        final seedu.address.model.taskmanager.TaskList modelTList = new TaskList(taskList);
+        final TaskList modelTList = new TaskList(taskList);
 
         return new Group(modelTList, studentMap, modelName, grpId);
     }
