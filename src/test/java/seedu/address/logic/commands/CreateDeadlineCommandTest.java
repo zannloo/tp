@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_SUCCESS;
 import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_GROUPS;
@@ -17,6 +18,9 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.TaskOperation;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
@@ -28,9 +32,6 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
@@ -63,12 +64,12 @@ class CreateDeadlineCommandTest {
         RelativePath path = new RelativePath("0012Y");
         AbsolutePath absolutePath = currPath.resolve(path);
 
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
 
-        TaskOperation target = state.taskOperation(absolutePath);
+        TaskOperation target = model.taskOperation(absolutePath);
 
         CreateDeadlineCommand command = new CreateDeadlineCommand(absolutePath, deadline);
-        CommandResult runCommand = command.execute(state);
+        CommandResult runCommand = command.execute(model);
 
         CommandResult returnStatement =
                 new CommandResult(String.format(MESSAGE_SUCCESS, deadline));
@@ -113,8 +114,8 @@ class CreateDeadlineCommandTest {
         AbsolutePath absolutePath = currPath.resolve(path);
 
         CreateDeadlineCommand command = new CreateDeadlineCommand(absolutePath, deadline, "allStu");
-        State state = new StateManager(currPath, root, new UserPrefs());
-        CommandResult runCommand = command.execute(state);
+        Model model = new ModelManager(currPath, root, new UserPrefs());
+        CommandResult runCommand = command.execute(model);
 
         assertTrue(alice.checkDuplicates(deadline));
         assertTrue(bob.checkDuplicates(deadline));
@@ -151,8 +152,8 @@ class CreateDeadlineCommandTest {
         assertFalse(grp2.checkDuplicates(deadline));
 
         CreateDeadlineCommand command = new CreateDeadlineCommand(absolutePath, deadline, "allGrp");
-        State state = new StateManager(currPath, root, new UserPrefs());
-        CommandResult runCommand = command.execute(state);
+        Model model = new ModelManager(currPath, root, new UserPrefs());
+        CommandResult runCommand = command.execute(model);
 
         assertTrue(grp1.checkDuplicates(deadline));
         assertTrue(grp2.checkDuplicates(deadline));
@@ -172,7 +173,7 @@ class CreateDeadlineCommandTest {
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);
 
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
 
         RelativePath path = new RelativePath("~/grp-001/0001Y");
         AbsolutePath absolutePath = currPath.resolve(path);
@@ -182,7 +183,7 @@ class CreateDeadlineCommandTest {
 
         assertThrows(CommandException.class,
                 CreateDeadlineCommand.MESSAGE_DUPLICATE_DEADLINE_TASK, (
-                    ) -> createDeadlineCommand.execute(state)
+                ) -> createDeadlineCommand.execute(model)
         );
     }
 
@@ -193,7 +194,7 @@ class CreateDeadlineCommandTest {
         Deadline deadline = new Deadline("Assignment 1", duedate);
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline);
 
-        assertTrue(command.equals(command));
+        assertEquals(command, command);
     }
 
     @Test
@@ -203,7 +204,7 @@ class CreateDeadlineCommandTest {
         Deadline deadline = new Deadline("Assignment 1", duedate);
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline);
 
-        assertTrue(command.equals(command));
+        assertEquals(command, command);
     }
 
     @Test
@@ -218,7 +219,7 @@ class CreateDeadlineCommandTest {
         Deadline deadline2 = new Deadline("Assignment 1", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
 
-        assertTrue(command1.equals(command2));
+        assertEquals(command1, command2);
     }
 
     @Test
@@ -233,7 +234,7 @@ class CreateDeadlineCommandTest {
         Deadline deadline2 = new Deadline("Assignment 1", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
 
-        assertTrue(command1.equals(command2));
+        assertEquals(command1, command2);
     }
 
     @Test
@@ -248,7 +249,7 @@ class CreateDeadlineCommandTest {
         Deadline deadline2 = new Deadline("Assignment 2", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
 
-        assertFalse(command1.equals(command2));
+        assertNotEquals(command1, command2);
     }
 
     @Test
@@ -263,7 +264,7 @@ class CreateDeadlineCommandTest {
         Deadline deadline2 = new Deadline("Assignment 1", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
 
-        assertFalse(command1.equals(command2));
+        assertNotEquals(command1, command2);
     }
 
     @Test
@@ -278,7 +279,7 @@ class CreateDeadlineCommandTest {
         Deadline deadline2 = new Deadline("Assignment 1", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
 
-        assertFalse(command1.equals(command2));
+        assertNotEquals(command1, command2);
     }
 
     @Test
@@ -293,7 +294,7 @@ class CreateDeadlineCommandTest {
         Deadline deadline2 = new Deadline("Assignment 2", duedate2);
         CreateDeadlineCommand command2 = new CreateDeadlineCommand(path2, deadline2);
 
-        assertFalse(command1.equals(command2));
+        assertNotEquals(command1, command2);
     }
 
     @Test
@@ -303,8 +304,8 @@ class CreateDeadlineCommandTest {
         Deadline deadline = new Deadline("Assignment 1", duedate);
         CreateDeadlineCommand command = new CreateDeadlineCommand(path, deadline);
         String expected = "seedu.address.logic.commands.CreateDeadlineCommand{"
-                        + "toCreateDeadline="
-                        + "[D][ ] Assignment 1(by: 2023-12-03 23:58)}";
+                + "toCreateDeadline="
+                + "[D][ ] Assignment 1(by: 2023-12-03 23:58)}";
 
         assertEquals(expected, command.toString());
     }

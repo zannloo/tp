@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
@@ -21,8 +24,6 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.testutil.GroupBuilder;
 import seedu.address.testutil.StudentBuilder;
 
@@ -46,8 +47,8 @@ class DeleteForStudentsAndGroupsCommandTest {
         assertTrue(grp.hasChild(studentId));
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new StateManager(currPath, root, new UserPrefs());
-        CommandResult commandResult = command.execute(state);
+        Model model = new ModelManager(currPath, root, new UserPrefs());
+        CommandResult commandResult = command.execute(model);
 
         assertFalse(root.hasChild(studentId));
 
@@ -67,8 +68,8 @@ class DeleteForStudentsAndGroupsCommandTest {
         AbsolutePath path = new AbsolutePath("~/grp-001/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new StateManager(currPath, root, new UserPrefs());
-        CommandResult commandResult = command.execute(state);
+        Model model = new ModelManager(currPath, root, new UserPrefs());
+        CommandResult commandResult = command.execute(model);
 
         GroupId groupId = new GroupId("grp-001");
         assertFalse(root.hasChild(groupId));
@@ -89,10 +90,10 @@ class DeleteForStudentsAndGroupsCommandTest {
         AbsolutePath path = new AbsolutePath("~/grp-001/0002Y");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 DeleteForStudentsAndGroupsCommand.MESSAGE_NO_SUCH_STUDENT_OR_GROUP, (
-                ) -> command.execute(state)
+                ) -> command.execute(model)
         );
     }
 
@@ -108,10 +109,10 @@ class DeleteForStudentsAndGroupsCommandTest {
         AbsolutePath path = new AbsolutePath("~/grp-002/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 DeleteForStudentsAndGroupsCommand.MESSAGE_NO_SUCH_STUDENT_OR_GROUP, (
-                ) -> command.execute(state)
+                ) -> command.execute(model)
         );
     }
 
@@ -127,10 +128,10 @@ class DeleteForStudentsAndGroupsCommandTest {
         AbsolutePath path = new AbsolutePath("~/");
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 DeleteForStudentsAndGroupsCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR, (
-                ) -> command.execute(state)
+                ) -> command.execute(model)
         );
     }
 
@@ -148,32 +149,32 @@ class DeleteForStudentsAndGroupsCommandTest {
         DeleteForStudentsAndGroupsCommand deleteS002 = new DeleteForStudentsAndGroupsCommand(pathStu002);
 
         // same object(Group) -> returns true
-        assertTrue(deleteG001.equals(deleteG001));
+        assertEquals(deleteG001, deleteG001);
         // same object(Student) -> returns true
-        assertTrue(deleteS001.equals(deleteS001));
+        assertEquals(deleteS001, deleteS001);
 
         // same values(Group) -> returns true
         DeleteForStudentsAndGroupsCommand deleteG001Copy = new DeleteForStudentsAndGroupsCommand(pathGrp001);
-        assertTrue(deleteG001.equals(deleteG001Copy));
+        assertEquals(deleteG001, deleteG001Copy);
         // same values(Student) -> returns true
         DeleteForStudentsAndGroupsCommand deleteS001Copy = new DeleteForStudentsAndGroupsCommand(pathStu001);
-        assertTrue(deleteS001.equals(deleteS001Copy));
+        assertEquals(deleteS001, deleteS001Copy);
 
         // different types -> returns false
-        assertFalse(deleteG001.equals(1));
-        assertFalse(deleteS001.equals(1));
+        assertNotEquals(1, deleteG001);
+        assertNotEquals(1, deleteS001);
         // null -> returns false
-        assertFalse(deleteG001.equals(null));
-        assertFalse(deleteS001.equals(null));
+        assertNotEquals(null, deleteG001);
+        assertNotEquals(null, deleteS001);
 
         // different group -> returns false
-        assertFalse(deleteG001.equals(deleteG002));
+        assertNotEquals(deleteG001, deleteG002);
         // different student -> returns false
-        assertFalse(deleteS001.equals(deleteS002));
+        assertNotEquals(deleteS001, deleteS002);
         // different area to delete -> returns false
-        assertFalse(deleteG001.equals(deleteS001));
+        assertNotEquals(deleteG001, deleteS001);
         // different student -> returns false
-        assertFalse(deleteS001.equals(deleteS002));
+        assertNotEquals(deleteS001, deleteS002);
     }
 
     @Test

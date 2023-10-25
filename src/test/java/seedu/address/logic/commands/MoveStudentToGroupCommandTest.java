@@ -10,6 +10,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
@@ -19,8 +21,6 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.TaskList;
 
 public class MoveStudentToGroupCommandTest {
@@ -41,11 +41,11 @@ public class MoveStudentToGroupCommandTest {
         AbsolutePath currPath = new AbsolutePath("~/");
         AbsolutePath sourcePath = new AbsolutePath("~/");
         AbsolutePath destPath = new AbsolutePath("~/grp-002");
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
         MoveStudentToGroupCommand moveStudentToGroupCommand =
                 new MoveStudentToGroupCommand(sourcePath, destPath);
 
-        assertThrows(CommandException.class, () -> moveStudentToGroupCommand.execute(state));
+        assertThrows(CommandException.class, () -> moveStudentToGroupCommand.execute(model));
     }
 
     @Test

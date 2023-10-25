@@ -4,8 +4,9 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.statemanager.State;
+
 
 /**
  * Change directory to target path.
@@ -39,8 +40,8 @@ public class ChangeDirectoryCommand extends Command {
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
-        if (!state.hasPath(dest)) {
+    public CommandResult execute(Model model) throws CommandException {
+        if (!model.hasPath(dest)) {
             throw new CommandException(MESSAGE_PATH_NOT_FOUND);
         }
 
@@ -48,9 +49,9 @@ public class ChangeDirectoryCommand extends Command {
             throw new CommandException(MESSAGE_INVALID_DEST);
         }
 
-        state.changeDirectory(dest);
+        model.changeDirectory(dest);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, dest.toString()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, dest));
     }
 
     /**

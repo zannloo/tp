@@ -10,10 +10,10 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
+import seedu.address.model.Model;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.ChildOperation;
-import seedu.address.model.statemanager.State;
 
 /**
  * Adds a student within the specific group.
@@ -60,19 +60,19 @@ public class CreateStudentCommand extends Command {
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
-        requireNonNull(state);
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
 
         if (!path.isStudentDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH);
         }
 
         // Check group exists in ProfBook
-        if (!state.hasGroup(path)) {
+        if (!model.hasGroup(path)) {
             throw new CommandException(String.format(MESSAGE_GROUP_NOT_FOUND, path.getGroupId()));
         }
 
-        ChildOperation<Student> target = state.groupChildOperation(path);
+        ChildOperation<Student> target = model.groupChildOperation(path);
 
         // Check duplicate student
         if (target.hasChild(this.student.getId())) {
@@ -80,7 +80,7 @@ public class CreateStudentCommand extends Command {
         }
 
         target.addChild(this.student.getId(), this.student);
-        state.updateList();
+        model.updateList();
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(student)));
     }

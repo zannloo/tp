@@ -1,8 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalIndexes.FIRST_INDEX;
@@ -13,21 +12,21 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.TaskOperation;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.util.SampleProfBook;
 
 public class UnmarkCommandTest {
 
-    private State actualState;
+    private Model actualModel;
 
-    private State expectedState;
+    private Model expectedModel;
 
     private TaskOperation taskOperation;
 
@@ -36,18 +35,18 @@ public class UnmarkCommandTest {
         AbsolutePath currentPath = new AbsolutePath("~/");
         Root root1 = SampleProfBook.getRoot();
         Root root2 = SampleProfBook.getRoot();
-        actualState = new StateManager(currentPath, root1, new UserPrefs());
+        actualModel = new ModelManager(currentPath, root1, new UserPrefs());
 
-        expectedState = new StateManager(currentPath, root2, new UserPrefs());
+        expectedModel = new ModelManager(currentPath, root2, new UserPrefs());
 
         // Display task
         AbsolutePath displayPath = new AbsolutePath("~/grp-002/");
-        actualState.setDisplayPath(displayPath);
-        actualState.showTaskList();
-        expectedState.setDisplayPath(displayPath);
-        expectedState.showTaskList();
+        actualModel.setDisplayPath(displayPath);
+        actualModel.showTaskList();
+        expectedModel.setDisplayPath(displayPath);
+        expectedModel.showTaskList();
 
-        taskOperation = expectedState.taskOperation(displayPath);
+        taskOperation = expectedModel.taskOperation(displayPath);
     }
 
     @Test
@@ -59,9 +58,9 @@ public class UnmarkCommandTest {
                 taskToUnmark.toString());
 
         taskOperation.unmarkTask(FIRST_INDEX.getOneBased());
-        expectedState.updateList();
+        expectedModel.updateList();
 
-        assertCommandSuccess(unmarkCommand, actualState, expectedMessage, expectedState);
+        assertCommandSuccess(unmarkCommand, actualModel, expectedMessage, expectedModel);
     }
 
     @Test
@@ -69,8 +68,8 @@ public class UnmarkCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(taskOperation.getTaskListSize() + 1);
         UnmarkCommand unmarkCommand = new UnmarkCommand(outOfBoundIndex);
 
-        assertCommandFailure(unmarkCommand, actualState,
-                Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, expectedState);
+        assertCommandFailure(unmarkCommand, actualModel,
+                Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, expectedModel);
     }
 
     @Test
@@ -79,20 +78,20 @@ public class UnmarkCommandTest {
         UnmarkCommand secondUnmarkCommand = new UnmarkCommand(SECOND_INDEX);
 
         // same object -> returns true
-        assertTrue(firstUnmarkCommand.equals(firstUnmarkCommand));
+        assertEquals(firstUnmarkCommand, firstUnmarkCommand);
 
         // same values -> returns true
         UnmarkCommand firstMarkCommandCopy = new UnmarkCommand(FIRST_INDEX);
-        assertTrue(firstUnmarkCommand.equals(firstMarkCommandCopy));
+        assertEquals(firstUnmarkCommand, firstMarkCommandCopy);
 
         // different types -> returns false
-        assertFalse(firstUnmarkCommand.equals(1));
+        assertNotEquals(1, firstUnmarkCommand);
 
         // null -> returns false
-        assertFalse(firstUnmarkCommand.equals(null));
+        assertNotEquals(null, firstUnmarkCommand);
 
         // different object -> returns false
-        assertFalse(firstUnmarkCommand.equals(secondUnmarkCommand));
+        assertNotEquals(firstUnmarkCommand, secondUnmarkCommand);
     }
 
     @Test

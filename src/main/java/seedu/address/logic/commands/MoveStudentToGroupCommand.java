@@ -5,13 +5,11 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
+import seedu.address.model.Model;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.ChildOperation;
-import seedu.address.model.statemanager.State;
-
-
 
 /**
  * Represents a command for moving a student from one group to another within ProfBook.
@@ -52,31 +50,31 @@ public class MoveStudentToGroupCommand extends Command {
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
-        requireNonNull(state);
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
 
         // Check move student to group
         if (source.isStudentDirectory() && dest.isGroupDirectory()) {
             // Check student exists in ProfBook
-            if (!state.hasStudent(source)) {
+            if (!model.hasStudent(source)) {
                 throw new CommandException(MESSAGE_STUDENT_NOT_FOUND);
             }
 
             // Check group exists in ProfBook
-            if (!state.hasGroup(dest)) {
+            if (!model.hasGroup(dest)) {
                 throw new CommandException(MESSAGE_GROUP_NOT_FOUND);
             }
 
             StudentId toBeMovedId = source.getStudentId().get();
 
-            ChildOperation<Student> sourceGroup = state.groupChildOperation(source);
+            ChildOperation<Student> sourceGroup = model.groupChildOperation(source);
             Student studentToBeMoved = sourceGroup.getChild(toBeMovedId);
 
-            ChildOperation<Student> destGroup = state.groupChildOperation(dest);
+            ChildOperation<Student> destGroup = model.groupChildOperation(dest);
 
             destGroup.addChild(toBeMovedId, studentToBeMoved);
             sourceGroup.deleteChild(toBeMovedId);
-            state.updateList();
+            model.updateList();
             return new CommandResult(String.format(
                     MESSAGE_MOVE_STUDENT_SUCCESS, source.getStudentId().get(), dest.getGroupId().get()));
         }
