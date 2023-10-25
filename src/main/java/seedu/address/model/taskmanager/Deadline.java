@@ -64,7 +64,17 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[D][" + getStatusIcon() + "] " + this.description + "(by: " + this.dueBy + ")";
+        return "[D][" + getStatusIcon() + "] " + this.description + "(by: " + formatDueBy() + ")";
+    }
+
+    /**
+     * Formats the dueBy LocalDateTime without the 'T' between date and time.
+     *
+     * @return formatted dueBy as a string
+     */
+    public String formatDueBy() {
+        DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return dueBy.format(customFormatter);
     }
 
     /**

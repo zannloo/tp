@@ -21,7 +21,6 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.statemanager.State;
 import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.util.SampleProfBook;
 import seedu.address.storage.JsonProfBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.ProfBookStorage;
