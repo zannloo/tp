@@ -24,7 +24,7 @@ public interface State {
 
     public void setGuiSettings(GuiSettings guiSettings);
 
-    public Path getAddressBookFilePath();
+    public Path getProfBookFilePath();
 
     public void setAddressBookFilePath(Path addressBookFilePath);
 

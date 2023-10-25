@@ -70,7 +70,7 @@ public class StateManager implements State {
         userPrefs.setGuiSettings(guiSettings);
     }
 
-    public Path getAddressBookFilePath() {
+    public Path getProfBookFilePath() {
         return userPrefs.getProfBookFilePath();
     }
 

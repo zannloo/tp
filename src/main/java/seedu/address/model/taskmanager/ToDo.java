@@ -63,6 +63,6 @@ public class ToDo extends Task {
             return false;
         }
         ToDo task = (ToDo) o;
-        return isDone.equals(task.isDone) && description.equals(task.description);
+        return super.equals(task);
     }
 }

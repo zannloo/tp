@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
@@ -127,6 +128,13 @@ public class TaskListManager {
 
     public boolean checkDuplicates(Task t) {
         return this.taskList.containsDuplicates(t);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("Task List", taskList)
+                .toString();
     }
 
     @Override

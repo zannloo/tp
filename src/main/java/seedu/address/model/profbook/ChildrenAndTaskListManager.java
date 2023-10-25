@@ -3,6 +3,7 @@ package seedu.address.model.profbook;
 import java.util.List;
 import java.util.Map;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
@@ -184,6 +185,14 @@ public abstract class ChildrenAndTaskListManager<T extends IChildElement> implem
 
     public boolean checkDuplicates(Task t) {
         return taskListManager.checkDuplicates(t);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("Task List", taskListManager)
+                .add("Children List", childrenManager)
+                .toString();
     }
 
     @Override

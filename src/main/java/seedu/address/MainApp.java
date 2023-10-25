@@ -13,7 +13,8 @@ import seedu.address.commons.core.Version;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.ProfBookLogicManager;
+import seedu.address.logic.Logic;
+import seedu.address.logic.LogicManager;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
@@ -40,7 +41,7 @@ public class MainApp extends Application {
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     protected Ui ui;
-    protected ProfBookLogicManager logic;
+    protected Logic logic;
     protected ProfBookStorage storage;
     protected State state;
     protected Config config;
@@ -56,16 +57,11 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
-        // AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
-        // storage = new StorageManager(addressBookStorage, userPrefsStorage);
         ProfBookStorage profBookStorage = new JsonProfBookStorage(userPrefs.getProfBookFilePath());
         storage = new ProfBookStorageManager(profBookStorage, userPrefsStorage);
 
-        //todo: abstract to an init method, and need to read from storage
         state = initModelManager(userPrefs);
-        //todo: Storage
-        logic = new ProfBookLogicManager(state, storage);
-
+        logic = new LogicManager(state, storage);
         ui = new UiManager(logic);
     }
 
@@ -75,9 +71,7 @@ public class MainApp extends Application {
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
     private State initModelManager(ReadOnlyUserPrefs userPrefs) throws InvalidPathException {
-        //todo: storage
         logger.info("Using data file : " + storage.getProfBookFilePath());
-
         Optional<Root> profBookOptional;
         Root initialData;
         try {
@@ -87,17 +81,15 @@ public class MainApp extends Application {
                 initialData = profBookOptional.get();
             } else {
                 logger.info("Creating a new data file " + storage.getProfBookFilePath()
-                        + " populated with a sample AddressBook.");
-                initialData = new Root();
+                        + " populated with a sample ProfBook.");
+                initialData = SampleProfBook.getRoot();
             }
         } catch (DataLoadingException e) {
             logger.warning("Data file at " + storage.getProfBookFilePath() + " could not be loaded."
-                    + " Will be starting with an empty AddressBook.");
+                    + " Will be starting with an empty ProfBook.");
             initialData = new Root();
         }
         AbsolutePath currentPath = new AbsolutePath("~/");
-        // Use sample data.
-        Root root = SampleProfBook.getRoot();
 
         return new StateManager(currentPath, initialData, userPrefs);
     }
@@ -185,7 +177,6 @@ public class MainApp extends Application {
     public void stop() {
         logger.info("============================ [ Stopping Address Book ] =============================");
         try {
-            System.out.println("Hello mommy");
             storage.saveUserPrefs(state.getUserPrefs());
             storage.saveProfBook(state.getRoot());
         } catch (IOException e) {

@@ -36,18 +36,39 @@ public class CommandResult {
         this(feedbackToUser, false, false);
     }
 
+    /**
+     * Gets the feedback message to be displayed to the user.
+     *
+     * @return The feedback message as a String.
+     */
     public String getFeedbackToUser() {
         return feedbackToUser;
     }
 
+    /**
+     * Checks if help information should be shown to the user.
+     *
+     * @return {@code true} if help information should be shown, {@code false} otherwise.
+     */
     public boolean isShowHelp() {
         return showHelp;
     }
 
+    /**
+     * Checks if the application should exit.
+     *
+     * @return {@code true} if the application should exit, {@code false} otherwise.
+     */
     public boolean isExit() {
         return exit;
     }
 
+    /**
+     * Compares this CommandResult with another object for equality.
+     *
+     * @param other The object to compare with.
+     * @return {@code true} if the objects are equal, {@code false} otherwise.
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -65,11 +86,21 @@ public class CommandResult {
                 && exit == otherCommandResult.exit;
     }
 
+    /**
+     * Computes the hash code for this CommandResult.
+     *
+     * @return The hash code value.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(feedbackToUser, showHelp, exit);
     }
 
+    /**
+     * Returns a string representation of this CommandResult.
+     *
+     * @return A string containing the feedback message, showHelp, and exit information.
+     */
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -78,5 +109,4 @@ public class CommandResult {
                 .add("exit", exit)
                 .toString();
     }
-
 }
