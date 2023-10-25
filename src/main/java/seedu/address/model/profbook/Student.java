@@ -108,6 +108,7 @@ public class Student extends TaskListManager implements IChildElement {
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
+                .add("Task List", super.toString())
                 .toString();
     }
 
