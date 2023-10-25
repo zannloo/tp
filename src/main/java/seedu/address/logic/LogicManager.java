@@ -44,10 +44,7 @@ public class LogicManager implements Logic {
         profBookParser = new ProfBookParser();
     }
 
-    /**
-     * Execute command and return the result if success
-     * or throw exception if error occurred.
-     */
+    @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
@@ -66,22 +63,27 @@ public class LogicManager implements Logic {
         return commandResult;
     }
 
+    @Override
     public ObservableList<Displayable> getDisplayList() {
         return state.getDisplayList();
     }
 
+    @Override
     public String getCurrPath() {
         return state.getCurrPath().toString();
     }
 
+    @Override
     public Path getAddressBookFilePath() {
         return state.getProfBookFilePath();
     }
 
+    @Override
     public GuiSettings getGuiSettings() {
         return state.getGuiSettings();
     }
 
+    @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         state.setGuiSettings(guiSettings);
     }

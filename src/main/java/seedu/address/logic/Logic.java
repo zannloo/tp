@@ -26,6 +26,11 @@ public interface Logic {
     ObservableList<Displayable> getDisplayList();
 
     /**
+     * Returns current path in string format.
+     */
+    String getCurrPath();
+
+    /**
      * Retuns current directory in string format.
      */
     Path getAddressBookFilePath();

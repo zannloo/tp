@@ -13,6 +13,7 @@ import seedu.address.commons.core.Version;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
@@ -40,7 +41,7 @@ public class MainApp extends Application {
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     protected Ui ui;
-    protected LogicManager logic;
+    protected Logic logic;
     protected ProfBookStorage storage;
     protected State state;
     protected Config config;
@@ -56,16 +57,11 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
-        // AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
-        // storage = new StorageManager(addressBookStorage, userPrefsStorage);
         ProfBookStorage profBookStorage = new JsonProfBookStorage(userPrefs.getProfBookFilePath());
         storage = new ProfBookStorageManager(profBookStorage, userPrefsStorage);
 
-        //todo: abstract to an init method, and need to read from storage
         state = initModelManager(userPrefs);
-        //todo: Storage
         logic = new LogicManager(state, storage);
-
         ui = new UiManager(logic);
     }
 
