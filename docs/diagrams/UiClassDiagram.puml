@@ -70,7 +70,7 @@ TodoCard -[hidden]left- DeadlineCard
 
 ItemCard -[hidden]up- UiPart
 
-note right of ItemCard : Model will ensure single card type \n (either TaskCard, StudentCard or GroupCard)
+note right of ItemCard : Model will ensure **ItemListPanel** stores \na single type of card at anytime\n (either TaskCard, StudentCard or GroupCard)
 
 ItemListPanel -[hidden]left- HelpWindow
 HelpWindow -[hidden]left- CommandBox
