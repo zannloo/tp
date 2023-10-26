@@ -432,32 +432,31 @@ Examples:
 
 Searches for tasks depending on the environment.
 
-Format `cat [StudentId/ GroupId]`
+Format `cat SPECIFIED_PATH`
 
 Acceptable values for parameter:
 
-Id:
-- Non empty string
-- Id of Group/Student within Profbook
+Specified Path:
+- must be a valid path
 
 Output if command fails:
 
 If cat in root directory
 
-- Pop up message indicating that tasks cannot be shown within root directory.
+- display updates indicating that tasks cannot be shown within root directory.
 
 If cat with invalid parameter
 
-- Pop up message showing invalid path with user entered Path
+- display updates showing invalid path with user entered Path
 
 Output if command succeeds
 
-- Display updates with tasks assigned under input Id
+- display updates with tasks assigned under input Id
 
 Examples:
 `cat grp-001, cat 1234A`
 
-- The first command will display all tasks assigned to group 001.
+- The first command will display all tasks assigned to group 001
 - The second command will display all tasks that are assigned to student with Id 1234A
 
 ### Save the data (//TODO update)
@@ -467,7 +466,7 @@ manually.
 
 ### Edit the data file (//TODO update)
 
-ProfBook data are saved automatically as a JSON file `[JAR file location]/data/ProfBook.json`. Advanced users are
+ProfBook data are saved automatically as a JSON file `[JAR file location]/data/profBook.json`. Advanced users are
 welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
