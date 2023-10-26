@@ -527,4 +527,4 @@ the data of your previous ProfBook home folder.
 | **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                                 |
 | **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                             |
 | **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                                    |
-| **cat**             | `cat [StudentId/GroupId]`<br> e.g., `cat 1234A, cat grp-001`                                                                                                                                     |
+| **cat**             | `cat SPECIFIED_PATH`<br> e.g., `cat 1234A, cat grp-001`                                                                                                                                          |
