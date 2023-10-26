@@ -49,6 +49,4 @@ Root --> "*" Group : Groups >
 
 
 Group --> "*" Student : Students >
-
-
 @enduml
