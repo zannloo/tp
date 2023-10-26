@@ -29,15 +29,15 @@ ChildrenAndTaskListManager .up.|> IChildElement
 Student -up-|> TaskListManager
 Student .up.|> IChildElement
 
-Group --> Id
-Student --> Id
+Group *--> Id
+Student *--> Id
 
-Group --> Name
-Student --> Name
+Group *--> Name
+Student *--> Name
 
-Student --> Email
-Student --> Address
-Student --> Phone
+Student *--> Email
+Student *--> Address
+Student *--> Phone
 
 ChildrenAndTaskListManager -left-> TaskListManager
 ChildrenAndTaskListManager -right-> ChildrenManager

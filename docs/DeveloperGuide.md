@@ -168,14 +168,13 @@ The `Model` component,
 The diagram above shows how the folder structure is implemented in ProfBook,
 
 * The hierarchy is as such: `Root` -> `Group` -> `Student`
-* As many of the operations are repeated (e.g., Tasks operations and Children Operation), we decided to abstract out
+* As many of the operations are repeated (e.g., tasks operations and children operation), we decided to abstract out
   these logic into their own classes which is represented by `TaskListManager` and `ChildrenManager` respectively.
-* ChildrenManager manages the children which is of type `IChildElement`
-* We also created a wrapper classes for classes that require both of those aforementioned functionalities (e.g, `Group`,
-  `TutorialSlot`)
+* `ChildrenManager` manages the children which is of type `IChildElement`
+* We also created a wrapper classes for classes that require both of those aforementioned functionalities (e.g, `Group`)
 
-The sequence diagram below illustrates the interactions within the Model component, taking an execution of a
-CreateTodoClass as example.
+The sequence diagram below illustrates the interactions within the `Model` component, taking an execution of a
+`CreateTodoClass` as example.
 
 <puml src="diagrams/AddTaskSequence.puml" width="450" />
 
