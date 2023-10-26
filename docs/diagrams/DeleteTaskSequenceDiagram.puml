@@ -49,23 +49,31 @@ deactivate ProfBookParser
 LogicManager -> DeleteTaskCommand : execute(state)
 activate DeleteTaskCommand
 
+DeleteTaskCommand -> ModelManagerStatic : taskOperation(new Path("~/grp-001"))
+activate ModelManagerStatic
+
 create TaskOperation
-DeleteTaskCommand -> Model
-activate Model
+ModelManagerStatic -> TaskOperation
+activate TaskOperation
 
-Model -> deleteTask(1)
-activate Model
+TaskOperation --> ModelManagerStatic : opr
+deactivate TaskOperation
 
-deactivate Model
+ModelManagerStatic --> DeleteTaskCommand :opr
+deactivate ModelManagerStatic
 
-Model --> DeleteTaskCommand
-deactivate Model
+DeleteTaskCommand -> TaskOperation : deleteTask(1)
+activate TaskOperation
 
-DeleteTaskCommand -> Model : updateList()
-activate Model
+TaskOperation --> DeleteTaskCommand
 
-Model --> DeleteTaskCommand
-deactivate Model
+destroy TaskOperation
+
+DeleteTaskCommand -> ModelManagerStatic : updateList()
+activate ModelManagerStatic
+
+ModelManagerStatic --> DeleteTaskCommand
+deactivate ModelManagerStatic
 
 create CommandResult
 DeleteTaskCommand -> CommandResult
