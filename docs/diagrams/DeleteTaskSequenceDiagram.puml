@@ -52,11 +52,11 @@ activate DeleteTaskCommand
 DeleteTaskCommand -> Model : taskOperation("~/grp-001")
 activate Model
 
-Model --> DeleteTaskCommand
-deactivate Model
-
-DeleteTaskCommand -> Model : deleteTask(1)
+taskOperation -> Model : deleteTask(1)
 activate Model
+
+Model --> taskOperation
+deactivate Model
 
 Model --> DeleteTaskCommand
 deactivate Model
