@@ -17,9 +17,12 @@ package "ProfBook Storage" #F4F6F6{
 Class "<<interface>>\nProfBookStorage" as ProfBookStorage
 Class JsonSerializableProfBook
 Class JsonAdaptedStudent
-Class JsonAdaptedTag
 Class JsonProfBookStorage
-Class JsonAdaptedXYZ
+Class JsonAdaptedRoot
+Class JsonAdaptedGroup
+Class "{abstract}\nJsonAdaptedTask" as JsonAdaptedTask
+Class JsonAdaptedDeadline
+Class JsonAdaptedToDo
 }
 
 }
@@ -33,8 +36,11 @@ ProfBookStorageManager -right-|> ProfBookStorage
 JsonUserPrefsStorage .up.|> UserPrefsStorage
 JsonProfBookStorage .up.|> ProfBookStorage
 JsonProfBookStorage ..> JsonSerializableProfBook
-JsonSerializableProfBook --> "*" JsonAdaptedStudent
-JsonSerializableProfBook --> "*" JsonAdaptedXYZ
-JsonAdaptedStudent --> "*" JsonAdaptedTag
-
+JsonSerializableProfBook --> "1" JsonAdaptedRoot
+JsonAdaptedRoot --> "*" JsonAdaptedGroup
+JsonAdaptedGroup -right-> "*" JsonAdaptedStudent
+JsonAdaptedGroup --> "*" JsonAdaptedTask
+JsonAdaptedStudent --> "*" JsonAdaptedTask
+JsonAdaptedDeadline -up-|> JsonAdaptedTask
+JsonAdaptedToDo -up-|> JsonAdaptedTask
 @enduml
