@@ -25,7 +25,7 @@ public class GroupBuilder {
 
     private TaskList taskList;
     private Map<Id, Student> students;
-    private Id id;
+    private GroupId id;
     private Name name;
 
     /**
@@ -42,7 +42,6 @@ public class GroupBuilder {
                 .withEmail("johnd@example.com")
                 .withPhone("98765432")
                 .withAddress("311, Clementi Ave 2, #02-25")
-                .withTags("owesMoney", "friends")
                 .withId("0010Y").build();
         students.put(stu1.getId(), stu1);
         students.put(stu2.getId(), stu2);
@@ -52,6 +51,27 @@ public class GroupBuilder {
 
     public Group build() {
         return new Group(taskList, students, name, id);
+    }
+
+    /**
+     * Builds a Group object with an empty task list using the current details of this {@code GroupBuilder}.
+     *
+     * @return a new Group object
+     */
+    public Group buildEmptyTask() {
+        List<Task> emptyList = new ArrayList<>();
+        TaskList emptyTaskList = new TaskList(emptyList);
+        return new Group(emptyTaskList, students, name, id);
+    }
+
+    /**
+     * Builds a Group object with an empty student list using the current details of this {@code GroupBuilder}.
+     *
+     * @return a new Group object
+     */
+    public Group buildWithEmptyStudent() {
+        Map<Id, Student> emptyStudent = new HashMap<>();
+        return new Group(taskList, emptyStudent, name, id);
     }
 }
 
