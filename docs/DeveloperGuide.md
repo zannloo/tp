@@ -211,6 +211,33 @@ The `Storage` component,
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects
   that belong to the `Model`)
 
+### Command component
+
+The `Command` component,
+* executes the user's command
+
+#### CreateStudentCommand
+
+<puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="550" />
+
+The `CreateStudentCommand` class,
+* adds student object into specified path if there is no duplicate student in the same path and if path is a valid group path
+
+#### CreateDeadlineCommand
+
+<puml src="diagrams/CreateDeadlineCommandSequenceDiagram.puml" width="550" />
+
+The `CreateDeadlineCommand` class,
+* adds deadline task to specified student(s)/group(s)
+
+#### EditCommand
+
+<puml src="diagrams/EditCommandSequenceDiagram.puml" width="550" />
+
+The `EditCommand` class,
+* edits the fields of specified student or group
+
+
 ### Common classes
 
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
