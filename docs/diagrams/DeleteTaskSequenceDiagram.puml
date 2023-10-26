@@ -63,7 +63,7 @@ deactivate TaskOperation
 ModelManagerStatic --> DeleteTaskCommand :opr
 deactivate ModelManagerStatic
 
-DeleteTaskCommand -> TaskOperation : deleteTask(1)
+DeleteTaskCommand -> TaskOperation : opr.deleteTask(1)
 activate TaskOperation
 
 TaskOperation --> DeleteTaskCommand
@@ -80,7 +80,7 @@ create CommandResult
 DeleteTaskCommand -> CommandResult
 activate CommandResult
 
-CommandResult --> DeleteTaskCommand
+CommandResult --> DeleteTaskCommand : result
 deactivate CommandResult
 
 DeleteTaskCommand --> LogicManager : result
