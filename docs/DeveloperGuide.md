@@ -442,3 +442,50 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+<br>
+
+## **Appendix: Effort**
+
+### **Project Overview**
+
+Our project, ProfBook, underwent a significant transformation with the primary objective of providing robust **student organization** and **task management** features. The project also aimed to create a **terminal-like application**, complete with a terminal-like user interface and the ability to navigate through a hierarchical structure.
+
+### **Difficulty Level <span class="badge bg-danger">Challenging</span>**
+
+The project was classified as **challenging** due to:
+
+- **Terminal-Like Functionality:** Creating a terminal-like interface and functionality from scratch was a complex task, requiring a deep understanding of terminal behavior and navigation.
+
+- **Hierarchical Structure:** Our application features a hierarchical structure, with ProfBook serving as the root entity. Under ProfBook, there are groups, and each group contains students. Managing this hierarchical structure added complexity to the project.
+
+- **Diverse Classes:** Unlike AB3, our project needed to handle a more extensive range of classes, including Student, Group, and Task. This expansion added complexity as we had to provide functionality for student organization and task management within the same application.
+
+### **Effort Required**
+
+The project demanded an estimated total effort of **approximately one month**. The effort was distributed across various project phases:
+
+- **Design and Architecture:** This phase focused on designing the terminal-like user interface, defining terminal behavior, and integrating the hierarchical structure. Additionally, it involved accommodating and ensuring the smooth interaction of multiple entity types within the application.
+
+- **Implementation and Coding:** The implementation phase was dedicated to building custom components and functionalities essential for realizing terminal behavior, hierarchical structure navigation, and handling diverse classes.
+
+- **Testing and Quality Assurance:** This critical phase aimed to ensure the terminal-like interface worked seamlessly, the hierarchical structure navigation functionality was error-free, and the application effectively managed the different entity types.
+
+- **Documentation:** Preparing comprehensive documentation was essential for guiding both users and developers in understanding and utilizing the terminal-like application.
+
+### **Effort Savings through Reuse**
+
+A notable aspect of our project was the efficient use of custom components, which contributed to a significant reduction in the overall effort.
+
+- **Path Component:** We introduced the `Path` component, which includes subclasses for managing both **absolute** and **relative** paths. This component played a crucial role in managing navigation and executing dynamic commands within our application.
+
+- **ChildrenManager Component:** The component was instrumental in representing the hierarchical structure in our application. We successfully leveraged this component to perform operations related to child entities, optimizing the handling of students within groups and groups within the ProfBook.
+
+- **TaskListManager Component:** This component streamlines task management and allocation by providing a consistent and unified interface for handling tasks throughout the application.
+
+
+Reusing these components enhanced project efficiency and maintainability.
