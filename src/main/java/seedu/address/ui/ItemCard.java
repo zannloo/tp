@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
 /**
@@ -9,7 +10,9 @@ import javafx.scene.layout.Region;
  */
 public abstract class ItemCard extends UiPart<Region> {
     @FXML
-    private Label index;
+    protected HBox cardPane;
+    @FXML
+    protected Label index;
 
     /**
      * Construct an ItemCard with fxml and displayedIndex.

@@ -2,7 +2,6 @@ package seedu.address.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import seedu.address.model.profbook.Group;
 
 /**
@@ -15,8 +14,6 @@ public class GroupCard extends ItemCard {
 
     public final Group group;
 
-    @FXML
-    private HBox cardPane;
     @FXML
     private Label name;
     @FXML

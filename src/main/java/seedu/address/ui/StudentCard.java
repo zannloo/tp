@@ -2,7 +2,6 @@ package seedu.address.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import seedu.address.model.profbook.Student;
 
 /**
@@ -18,8 +17,6 @@ public class StudentCard extends ItemCard {
 
     public final Student student;
 
-    @FXML
-    private HBox cardPane;
     @FXML
     private Label name;
     @FXML
