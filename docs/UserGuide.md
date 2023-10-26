@@ -450,7 +450,7 @@ Output if command succeeds
 - display updates with tasks assigned under input Path
 
 Examples:
-`cat grp-001, cat 1234A`
+`cat grp-001`, `cat 1234A`
 
 - The first command will display all tasks assigned to group 001
 - The second command will display all tasks that are assigned to student with Id 1234A
