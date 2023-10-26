@@ -155,8 +155,9 @@ The `Storage` component,
 <puml src="diagrams/TaskListClassDiagram.puml" width="550" />
 
 The `TaskListManager` component,
-* Manages all task operations for a given tasklist
-* Depends on classes in the
+* Manages all task operations for a given tasklist.
+* Depends on classes in the LogicManager class.
+
 ### Common classes
 
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
