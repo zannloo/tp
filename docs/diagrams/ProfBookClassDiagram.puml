@@ -18,18 +18,17 @@ Class Address
 Class Email
 Class Phone
 
-
 Class I #FFFFFF
 }
+
 Class HiddenOutside #FFFFFF
 
-HiddenOutside ..> ChildrenManager
+HiddenOutside .down.> ChildrenManager
 
 ChildrenAndTaskListManager .up.|> IChildElement
 Student -up-|> TaskListManager
 Student .up.|> IChildElement
 
-Root --> Id
 Group --> Id
 Student --> Id
 
@@ -40,13 +39,13 @@ Student --> Email
 Student --> Address
 Student --> Phone
 
-ChildrenAndTaskListManager --> TaskListManager
-ChildrenAndTaskListManager --> ChildrenManager
+ChildrenAndTaskListManager -left-> TaskListManager
+ChildrenAndTaskListManager -right-> ChildrenManager
+
+TaskListManager -up-> TaskList
 
 Root -up-|> ChildrenManager
 Group -up-|> ChildrenAndTaskListManager
-Root --> "*" Group : Groups >
-
-
-Group --> "*" Student : Students >
+Root -left-> "*" Group : Parent of >
+Group -left-> "*" Student : Parent of >
 @enduml

@@ -11,7 +11,6 @@ Class ModelManager
 Class UserPrefs
 Class Path
 Class ObservableList
-Class TaskList
 
 Package ProfBook {
 
@@ -28,7 +27,6 @@ ModelManager --> Path
 ModelManager --> ProfBook
 ModelManager --> ObservableList
 ObservableList ..> ProfBook
-ObservableList ..> TaskList
 ModelManager .up.|> Model
 Model .right.> ReadOnlyUserPrefs
 ModelManager -right-> "1" UserPrefs
