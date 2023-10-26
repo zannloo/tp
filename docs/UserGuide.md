@@ -130,7 +130,7 @@ Acceptable values for each parameter:
 
 - must be a non-empty string
 
-`TASKINDEX`:
+`TASK_INDEX`:
 - must be a valid index starts from 1
 
 --------------------------------------------------------------------------------------------------------------------
@@ -249,17 +249,17 @@ Specified path:
 
 Moves student from one group to another group
 
-Format: `mv SPECIFIED_PATH_TO_STUDENT SPECIFIED_PATH_TO_GROUP`
+Format: `mv SPECIFIED_PATH SPECIFIED_PATH`
 
 #### Acceptable values for each parameter:
 
-SPECIFIED_PATH_TO_STUDENT:
+SPECIFIED_PATH:
 
-- must be a valid path to a student that user wants to move
+- must be a valid path to a student
 
-SPECIFIED_PATH_TO_GROUP:
+SPECIFIED_PATH:
 
-- must be a valid path to a group that user wants to move the student to
+- must be a valid path to a group
 
 #### Output if command fails
 
@@ -270,7 +270,7 @@ SPECIFIED_PATH_TO_GROUP:
 
 #### Output if command succeeds
 
-- Displays message indicating successfully moving student from one group to another group
+- Displays message to indicate the successful transfer of a student from one group to another group
 
 #### Examples:
 - When user is at the root directory `~` and keys in the following command, student with specified path `~/grp-001/0123Y` will be moved from grp-001 to grp-002:
@@ -377,9 +377,9 @@ Format `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --al
 
 ### Mark tasks as completed: `mark`
 
-Marks a specific task as done for a student
+Marks the specified task as done for the student
 
-Format: `mark TASKINDEX`
+Format: `mark TASK_INDEX`
 
 #### Acceptable parameter should be:
 
@@ -396,7 +396,7 @@ taskIndex:
 
 #### Output if command succeeds
 
-- Displays message saying mark is done successfully as well as specific task that is marked
+- Displays message indicating mark is done successfully as well as specific task that is marked
 
 #### Examples:
 
@@ -406,9 +406,9 @@ taskIndex:
 
 ### Unmark completed task: `unmark`
 
-Unmarks specific tasks by a student
+Unmarks the specified task for the student
 
-Format: `unmark TASKINDEX`
+Format: `unmark TASK_INDEX`
 
 #### Acceptable parameter should be:
 
@@ -425,7 +425,7 @@ taskIndex:
 
 #### Output if command succeeds
 
-- Displays message saying unmark is done successfully as well as specific task that is unmarked
+- Displays message indicating unmark is done successfully as well as specific task that is unmarked
 
 #### Examples:
 
@@ -512,24 +512,24 @@ the data of your previous ProfBook home folder.
 
 ## Command summary
 
-| Action              | Format, Examples                                                                                                                                                                        |
-|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ------------------- |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Help**            | `help`                                                                                                                                                                                  |
-| **List**            | `ls`                                                                                                                                                                                    |
-| **Clear**           | `clear`                                                                                                                                                                                 |
-| **Exit**            | `exit`                                                                                                                                                                                  |
-| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                  |
-| **Create Group**    | `mkdir PATH_TO_THE_GROUP` <br> e.g., `mkdir grp-1`                                                                                                                                               |
-| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                           |
-| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                             |
-| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                  |
-| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-001`                                                                                                                                            |
-| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                           |
-| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                             |
-| **Create Deadline** | `deadline -desc [task] -level [student/group] -target [StudentID/groupId/tutorialId] -byDate[dd/MM/yyyy]`<br> e.g., `deadline -d grade proposal 1 -level group -target tut-1 -byDate 20/10/2023` |
-| **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                        |
-| **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                    |
-| **Mark**            | `mark TASKINDEX`<br> e.g.,`mark 1`                                                                                                                                                      |
-| **Unmark**          | `unmark TASKINDEX`<br> e.g.,`unmark 2`                                                                                                                                                  |
-| **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                           |
+| Action              | Format, Examples                                                                                                                                                                                   |
+|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Help**            | `help`                                                                                                                                                                                             |
+| **List**            | `ls`                                                                                                                                                                                               |
+| **Clear**           | `clear`                                                                                                                                                                                            |
+| **Exit**            | `exit`                                                                                                                                                                                             |
+| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                             |
+| **Create Group**    | `mkdir PATH_TO_THE_GROUP` <br> e.g., `mkdir grp-1`                                                                                                                                                 |
+| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                                      |
+| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                                        |
+| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                             |
+| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-001`                                                                                                                                                       |
+| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                                      |
+| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                                        |
+| **Create Deadline** | `deadline -desc [task] -level [student/group] -target [StudentID/groupId/tutorialId] -byDate[dd/MM/yyyy]`<br> e.g., `deadline -d grade proposal 1 -level group -target tut-1 -byDate 20/10/2023`   |
+| **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                                   |
+| **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                               |
+| **Mark**            | `mark TASK_INDEX`<br> e.g.,`mark 1`                                                                                                                                                                |
+| **Unmark**          | `unmark TASK_INDEX`<br> e.g.,`unmark 2`                                                                                                                                                            |
+| **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                                      |
