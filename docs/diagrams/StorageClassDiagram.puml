@@ -11,33 +11,30 @@ Class "<<interface>>\nUserPrefsStorage" as UserPrefsStorage
 Class JsonUserPrefsStorage
 }
 
-Class "<<interface>>\nStorage" as Storage
-Class StorageManager
+Class ProfBookStorageManager
 
-package "AddressBook Storage" #F4F6F6{
-Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
-Class JsonAddressBookStorage
-Class JsonSerializableAddressBook
-Class JsonAdaptedPerson
+package "ProfBook Storage" #F4F6F6{
+Class "<<interface>>\nProfBookStorage" as ProfBookStorage
+Class JsonSerializableProfBook
+Class JsonAdaptedStudent
 Class JsonAdaptedTag
+Class JsonProfBookStorage
+Class JsonAdaptedXYZ
 }
 
 }
 
 Class HiddenOutside #FFFFFF
-HiddenOutside ..> Storage
+HiddenOutside ..> ProfBookStorageManager
 
-StorageManager .up.|> Storage
-StorageManager -up-> "1" UserPrefsStorage
-StorageManager -up-> "1" AddressBookStorage
-
-Storage -left-|> UserPrefsStorage
-Storage -right-|> AddressBookStorage
+ProfBookStorageManager -down-|> UserPrefsStorage
+ProfBookStorageManager -right-|> ProfBookStorage
 
 JsonUserPrefsStorage .up.|> UserPrefsStorage
-JsonAddressBookStorage .up.|> AddressBookStorage
-JsonAddressBookStorage ..> JsonSerializableAddressBook
-JsonSerializableAddressBook --> "*" JsonAdaptedPerson
-JsonAdaptedPerson --> "*" JsonAdaptedTag
+JsonProfBookStorage .up.|> ProfBookStorage
+JsonProfBookStorage ..> JsonSerializableProfBook
+JsonSerializableProfBook --> "*" JsonAdaptedStudent
+JsonSerializableProfBook --> "*" JsonAdaptedXYZ
+JsonAdaptedStudent --> "*" JsonAdaptedTag
 
 @enduml
