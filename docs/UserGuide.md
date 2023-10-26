@@ -437,17 +437,17 @@ Specified Path:
 
 Output if command fails:
 
-If cat in root directory
+If `cat` in root directory
 
 - display updates indicating that tasks cannot be shown within root directory.
 
-If cat with invalid parameter
+If `cat` with invalid parameter
 
 - display updates showing invalid path with user entered Path
 
 Output if command succeeds
 
-- display updates with tasks assigned under input Id
+- display updates with tasks assigned under input Path
 
 Examples:
 `cat grp-001, cat 1234A`
