@@ -424,6 +424,37 @@ Examples:
 - This command will search for the task, grade proposal, depending on the environment the user is in, it will search for
   task(s) allocated to a tutorial group or student.
 
+### Display all tasks: `cat`
+
+Searches for tasks depending on the environment.
+
+Format `cat SPECIFIED_PATH`
+
+Acceptable values for parameter:
+
+Specified Path:
+- must be a valid path
+
+Output if command fails:
+
+If `cat` in root directory
+
+- display updates indicating that tasks cannot be shown within root directory.
+
+If `cat` with invalid parameter
+
+- display updates showing invalid path with user entered Path
+
+Output if command succeeds
+
+- display updates with tasks assigned under input Path
+
+Examples:
+`cat grp-001`, `cat 1234A`
+
+- The first command will display all tasks assigned to group 001
+- The second command will display all tasks that are assigned to student with Id 1234A
+
 ### Save the data (//TODO update)
 
 ProfBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save
@@ -431,7 +462,7 @@ manually.
 
 ### Edit the data file (//TODO update)
 
-ProfBook data are saved automatically as a JSON file `[JAR file location]/data/ProfBook.json`. Advanced users are
+ProfBook data are saved automatically as a JSON file `[JAR file location]/data/profBook.json`. Advanced users are
 welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
@@ -477,7 +508,6 @@ the data of your previous ProfBook home folder.
 (//TODO Update)
 
 ## Command summary
-
 | Action              | Format, Examples                                                                                                                                                                                |
 |---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Help**            | `help`                                                                                                                                                                                          |
@@ -492,3 +522,5 @@ the data of your previous ProfBook home folder.
 | **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                                |
 | **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                            |
 | **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                                   |
+| **cat**             | `cat SPECIFIED_PATH`<br> e.g., `cat 1234A, cat grp-001`                                                                                                                                          |
+
