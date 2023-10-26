@@ -7,7 +7,7 @@ participant ":CreateTodoCommand" as CreateTodoCommand LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
-participant "ModelManager" as ModelManagerStatic MODEL_COLOR
+participant ":ModelManager" as ModelManagerStatic MODEL_COLOR
 participant "opr:TaskOperation" as TaskOperation MODEL_COLOR
 participant "g:Group" as Group MODEL_COLOR
 end box
@@ -28,7 +28,7 @@ deactivate TaskOperation
 ModelManagerStatic --> CreateTodoCommand :opr
 deactivate ModelManagerStatic
 
-CreateTodoCommand -> TaskOperation : opr.addTask(task)
+CreateTodoCommand -> TaskOperation : addTask(task)
 activate TaskOperation
 
 TaskOperation -> Group : addTask(task)
