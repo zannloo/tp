@@ -1,8 +1,8 @@
 @startuml
 !include style.puml
 skinparam arrowThickness 1.1
-skinparam arrowColor TASK_COLOR
-skinparam classBackgroundColor TASK_COLOR
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
 together {
 package "profbook" #F4F6F6 {
 Class TaskListManager
