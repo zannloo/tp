@@ -114,12 +114,6 @@ Acceptable values for each parameter:
 
 - must be valid path
 
-`SPECIFIED_STUDENT_PATH`:
-- must be valid path
-
-`SPECIFIED_DESTINATION_PATH`:
-- must be valid path
-
 `NAME`:
 
 - must be a non-empty string
@@ -143,12 +137,9 @@ Acceptable values for each parameter:
 
 # General Commands
 
-### Viewing help : `help` (//TODO Update)
+### Viewing help : `help`
 
 Shows a message explaning how to access the help page.
-
-// TODO Update
-![help message](images/helpMessage.png)
 
 Format: `help`
 
@@ -200,13 +191,13 @@ Specified path:
 
 #### Output if command fails:
 
-- Pop up message indicating either:
+- Displays message indicating either:
     - Invalid command format
     - Invalid path
 
 #### Output if command succeeds:
 
-- Pop up message indicating successful creation together with information of created student
+- Displays message indicating successful creation together with information of created student
 
 #### To note:
 
@@ -237,13 +228,13 @@ Specified path:
 
 #### Output if command fails:
 
-- Pop up message indicating either:
+- Displays message indicating either:
     - Invalid command format
     - No such target to delete
 
 #### Output if command succeeds
 
-- Pop up message indicating target successfully removed
+- Displays message indicating target successfully removed
 
 #### Examples:
 
@@ -258,62 +249,60 @@ Specified path:
 
 Moves student from one group to another group
 
-Format: `mv SPECIFIED_STUDENT_PATH SPECIFIED_DESTINATION_PATH`
+Format: `mv SPECIFIED_PATH_TO_STUDENT SPECIFIED_PATH_TO_GROUP`
 
 #### Acceptable values for each parameter:
 
-Specified student path:
+SPECIFIED_PATH_TO_STUDENT:
 
 - must be a valid path to a student that user wants to move
 
-Specified destination path:
+SPECIFIED_PATH_TO_GROUP:
 
 - must be a valid path to a group that user wants to move the student to
 
 #### Output if command fails
 
-- Pop up message indicating either:
+- Displays message indicating either:
     - Invalid command format
     - No such student to move
     - Invalid destination path
 
 #### Output if command succeeds
 
-- Pop up message indicating successfully moving student from one group to another group
+- Displays message indicating successfully moving student from one group to another group
 
 #### Examples:
 - When user is at the root directory `~` and keys in the following command, student with specified path `~/grp-001/0123Y` will be moved from grp-001 to grp-002:
-    - `mv grp-001/0123Y grp-002`
+  - `mv grp-001/0123Y grp-002`
 
 - When user is at the group directory `~/grp-001` and keys in the following command, student with specified path `~/grp-001/0123Y` will be moved from grp-001 to grp-002:
-    - `mv 0123Y ../grp-002`
+  - `mv 0123Y ../grp-002`
 
 ### Create Group : `mkdir`
 
 Creates a group consists of students
 
-Format: `mkdir [groupId]`
+Format: `mkdir PATH_TO_THE_GROUP`
 
 #### Acceptable values for each parameter:
 
-groupId:
+PATH_TO_THE_GROUP:
 
-- groupId must be a non-empty string starting with grp-
+- must be a valid path to a group
 
 #### Output if command fails
 
-- Pop up message indicating either:
+- Displays message indicating either:
     - Invalid command format
-    - Invalid groupId format
+    - Invalid path to a group
 
 #### Output if command succeeds
 
-- Pop up message indicating a group with specific groupId was created successfully
+- Displays message indicating a group was created successfully
 
 #### Examples:
 
-- This command will create a group with groupId which is a string called 1 and only consists the creator at that
-  instance of creating the group
 - When user is at the root directory `~` and keys in the following command, a group with groupId called grp-001 will be created
   - `mkdir grp-001`
 
@@ -333,13 +322,13 @@ Format: `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY`
 
 #### Output if command fails:
 
-- Pop up message indicating either:
+- Displays message indicating either:
     - Invalid command format
     - Invalid path
 
 #### Output if command succeeds
 
-- Pop up message indicating todo task created successfully.
+- Displays message indicating todo task created successfully.
 
 #### Examples:
 
@@ -366,13 +355,13 @@ Format `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --al
 
 #### Output if command fails:
 
-- Pop up message indicating either:
+- Displays message indicating either:
     - Invalid command format
     - Invalid path
 
 #### Output if command succeeds
 
-- Pop up message indicating deadline task created successfully.
+- Displays message indicating deadline task created successfully.
 
 #### Examples:
 
@@ -400,14 +389,14 @@ taskIndex:
 
 #### Output if command fails
 
-- Pop up message indicating either:
+- Displays message indicating either:
   - Invalid command format
   - Invalid task index
   - The display panel is not showing task list
 
 #### Output if command succeeds
 
-- Pop up message saying mark is done successfully as well as specific task that is marked
+- Displays message saying mark is done successfully as well as specific task that is marked
 
 #### Examples:
 
@@ -415,7 +404,7 @@ taskIndex:
   - `cat 0123Y`
   - `mark 1`
 
-### Unmark completed task: unmark`
+### Unmark completed task: `unmark`
 
 Unmarks specific tasks by a student
 
@@ -429,14 +418,14 @@ taskIndex:
 
 #### Output if command fails
 
-- Pop up message indicating either:
+- Displays message indicating either:
   - Invalid command format
   - Invalid task index
   - The display panel is not showing task list
 
 #### Output if command succeeds
 
-- Pop up message saying unmark is done successfully as well as specific task that is unmarked
+- Displays message saying unmark is done successfully as well as specific task that is unmarked
 
 #### Examples:
 
@@ -523,24 +512,24 @@ the data of your previous ProfBook home folder.
 
 ## Command summary
 
-| Action              | Format, Examples                                                                                                                                                                                 |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Action              | Format, Examples                                                                                                                                                                        |
+|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | ------------------- |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Help**            | `help`                                                                                                                                                                                           |
-| **List**            | `ls`                                                                                                                                                                                             |
-| **Clear**           | `clear`                                                                                                                                                                                          |
-| **Exit**            | `exit`                                                                                                                                                                                           |
-| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                           |
-| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-1`                                                                                                                                                       |
-| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                                    |
-| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                                      |
-| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                           |
-| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-001`                                                                                                                                                     |
-| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                                    |
-| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                                      |
+| **Help**            | `help`                                                                                                                                                                                  |
+| **List**            | `ls`                                                                                                                                                                                    |
+| **Clear**           | `clear`                                                                                                                                                                                 |
+| **Exit**            | `exit`                                                                                                                                                                                  |
+| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                  |
+| **Create Group**    | `mkdir PATH_TO_THE_GROUP` <br> e.g., `mkdir grp-1`                                                                                                                                               |
+| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                           |
+| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                             |
+| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                  |
+| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-001`                                                                                                                                            |
+| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                           |
+| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                             |
 | **Create Deadline** | `deadline -desc [task] -level [student/group] -target [StudentID/groupId/tutorialId] -byDate[dd/MM/yyyy]`<br> e.g., `deadline -d grade proposal 1 -level group -target tut-1 -byDate 20/10/2023` |
-| **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                                 |
-| **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                             |
-| **Mark**            | `mark [TASKINDEX]`<br> e.g.,`mark 1`                                                                                                                                                             |
-| **Mark**            | `unmark [TASKINDEX]`<br> e.g.,`unmark 2`                                                                                                                                                         |
-| **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                                    |
+| **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                        |
+| **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                    |
+| **Mark**            | `mark TASKINDEX`<br> e.g.,`mark 1`                                                                                                                                                      |
+| **Unmark**          | `unmark TASKINDEX`<br> e.g.,`unmark 2`                                                                                                                                                  |
+| **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                           |
