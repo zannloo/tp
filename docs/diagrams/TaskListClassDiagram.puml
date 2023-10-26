@@ -3,23 +3,27 @@
 skinparam arrowThickness 1.1
 skinparam arrowColor TASK_COLOR
 skinparam classBackgroundColor TASK_COLOR
-
-package "TaskManagement" #F4F6F6 {
+together {
+package "profbook" #F4F6F6 {
 Class TaskListManager
+}
+
+
+package "taskmanager" #F4F6F6 {
 
 Class TaskList
 
-Class Task
+Class "{abstract}\nTask" as Task
 
 Class Deadline
 
 Class ToDo
 }
-
+}
 Class HiddenOutside #FFFFFF
-HiddenOutside ....right....> TaskListManager
+HiddenOutside .up.> TaskListManager
 
-TaskListManager --> TaskList
+TaskListManager -right-> TaskList
 TaskList --> Task
 Task <|-- Deadline
 Task <|-- ToDo
