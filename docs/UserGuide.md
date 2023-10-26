@@ -214,12 +214,33 @@ Format: `help`
 
 ### Change Directory: `cd`
 
-Change the current directory in the ProfBook.
+Changes the current directory in the ProfBook.
 
-Format: `cd SPECIFIED_PATH`
+**Format:** ` cd SPECIFIED_PATH`
 
-#### Example:
-- If the current directory is `~/grp-001`, and you want to change the directory to `~/grp-002`, you can use the command `cd ../grp-002`.
+#### Example
+- Change directory from grp-001 to grp-002
+  ```
+    ~/grp-001> cd ../grp-002
+  ```
+
+<box type="success" light>
+
+#### Output if command succeeds:
+
+Display message indicating successful navigation to target path.
+
+</box>
+
+<box type="wrong" light>
+
+#### Output if command fails:
+
+Display message indicating either:
+  - Invalid command format
+  - Invalid path
+
+</box>
 
 
 ### List All Directories : `ls`
@@ -234,6 +255,24 @@ Format: `ls SPECIFIED_PATH`
     - `ls` will return all the students in grp-001
 - When user is at the root directory `~/`:
     - `ls` will return all the current groups
+
+<box type="success" light>
+
+#### Output if command succeeds:
+
+- Display message indicating successful display of children list.
+- Children list of target path will be displayed on display panel.
+
+</box>
+
+<box type="wrong" light>
+
+#### Output if command fails:
+
+- Invalid command format
+- Invalid path
+
+</box>
 
 <box type="info">
   
