@@ -47,11 +47,15 @@ GitHub Repository if desired.
 </div>
 
 <!-- * Table of Contents -->
-<page-nav-print>
+<div style="font-size: 23px;">
+
+  <page-nav-print>
 
   **Table of Contents**
 
-</page-nav-print>
+  </page-nav-print>
+
+</div>
 
 ---
 
@@ -88,7 +92,7 @@ GitHub Repository if desired.
 
     - `rm grp-001` : Deletes grp-001.
 
-1. Refer to the [Features](#features) below for details of each command.
+1. Refer to the [General Commands](#general-commands), [Student/Group Commands](#student-or-group-commands), [Task Commands](#tasks-command) below for details of each command.
 
 ---
 
@@ -195,7 +199,7 @@ GitHub Repository if desired.
 
 Shows a message explaning how to access the help page.
 
-Format: `help`
+**Format:** `help`
 
 ### Change Directory: `cd`
 
@@ -203,17 +207,17 @@ Changes the current directory in the ProfBook.
 
 **Format:** `cd SPECIFIED_PATH`
 
-#### Example
-- ```{heading="**~/grp-001**"}
-    cd ../grp-002
-  ```
-  Changes directory from `grp-001` to `grp-002`
+#### Acceptable values for each parameter:
+
+`SPECIFIED_PATH`:
+
+- must be a valid path to a group or root
 
 <box type="success" seamless>
 
 #### Output if command succeeds:
 
-Displays message indicating successful navigation to target path.
+- displays message indicating successful navigation to target path.
 
 </box>
 
@@ -221,44 +225,27 @@ Displays message indicating successful navigation to target path.
 
 #### Output if command fails:
 
-Displays message indicating either:
+- displays message indicating either:
   - Invalid command format
   - Invalid path
 
 </box>
 
+#### Examples:
+- When user is at the directory `~/grp-001`
+  - User can change directory from `grp-001` to `grp-002` using `cd ../grp-002`
 
-### List All Directories : `ls`
+### Display Directories : `ls`
 
 Shows the list of children in the current directory
 
-Format: `ls SPECIFIED_PATH`
+**Format:** `ls SPECIFIED_PATH`
 
-#### Example:
+#### Acceptable values for each parameter:
 
-- When user is at the directory `~/grp-001`:
-    - `ls` will return all the students in grp-001
-- When user is at the root directory `~/`:
-    - `ls` will return all the current groups
+`SPECIFIED_PATH`:
 
-<box type="success" seamless>
-
-#### Output if command succeeds:
-
-- Displays message indicating successful display of children list.
-- Children list of target path will be displayed on display panel.
-
-</box>
-
-<box type="wrong" seamless>
-
-#### Output if command fails:
-
-Displays message indicating either:
-  - Invalid command format
-  - Invalid path
-
-</box>
+- must be a valid path to a group or root
 
 <box type="info">
   
@@ -266,19 +253,84 @@ Displays message indicating either:
 
 </box>
 
+<box type="success" seamless>
+
+#### Output if command succeeds:
+
+- displays message indicating successful display of children list.
+- displays directories under target path on display panel.
+
+</box>
+
+<box type="wrong" seamless>
+
+#### Output if command fails:
+
+Displays message indicating either:
+  - Invalid command format
+  - Invalid path
+
+</box>
+
+#### Examples:
+
+- When user is at the directory `~/grp-001`:
+    - `ls` will return all the students in grp-001
+- When user is at the root directory `~/`:
+    - `ls` will return all the current groups
+
+### Display all tasks: `cat`
+
+Searches for tasks depending on the environment.
+
+**Format:** `cat SPECIFIED_PATH`
+
+#### cceptable values for parameter:
+
+`SPECIFIED_PATH`:
+- must be a valid path
+
+<box type="success" seamless>
+
+#### Output if command succeeds:
+
+- display updates with tasks assigned under input Path
+
+</box>
+
+<box type="wrong" seamless>
+
+#### Output if command fails:
+
+If `cat` in root directory
+
+- display updates indicating that tasks cannot be shown within root directory.
+
+If `cat` with invalid parameter
+
+- display updates showing invalid path with user entered Path
+
+</box>
+
+#### Examples:
+`cat grp-001`, `cat 1234A`
+
+- The first command will display all tasks assigned to group 001
+- The second command will display all tasks that are assigned to student with Id 1234A
+
 ---
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
 </div>
 
-## Student / Group commands
+## Student or Group Commands
 
 ### Add a student: `touch`
 
 Adds a student into the specified directory.
 
-Format: `touch SPECIFIED_PATH -n NAME -e EMAIL - p PHONE_NUMBER -a ADDRESS`
+**Format:** `touch SPECIFIED_PATH -n NAME -e EMAIL - p PHONE_NUMBER -a ADDRESS`
 
 - `--name` / `-n` : Name of Student
 - `--email` / `-e` : Email of Student
@@ -287,9 +339,19 @@ Format: `touch SPECIFIED_PATH -n NAME -e EMAIL - p PHONE_NUMBER -a ADDRESS`
 
 #### Acceptable values for each parameter:
 
-Specified path:
+`SPECIFIED_PATH`:
 
 - must be a valid path to a student
+
+<box type="success" seamless>
+
+#### Output if command succeeds:
+
+- Displays message indicating successful creation together with information of created student
+
+</box>
+
+<box type="wrong" seamless>
 
 #### Output if command fails:
 
@@ -297,17 +359,9 @@ Specified path:
     - Invalid command format
     - Invalid path
 
-#### Output if command succeeds:
+</box>
 
-- Displays message indicating successful creation together with information of created student
-
-#### To note:
-
-- Command creates a student within the group if command is used from within the group or specified path has indicated
-  the group path.
-- If a command is executed outside a specific group, specified path must be to the group and to the student.
-
-#### Example:
+#### Examples:
 
 - The following commands when executed at the different current path directory will create the same student at the same
   path directory`~/grp-001/stu-200`
@@ -316,17 +370,34 @@ Specified path:
     - When user is at the root directory `~/` and keys in command:
         - `touch ~/grp-001/stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh `
 
+
+#### To note:
+
+- Command creates a student within the group if command is used from within the group or specified path has indicated
+  the group path.
+- If a command is executed outside a specific group, specified path must be to the group and to the student.
+
 ### Delete a Student or Group: `rm`
 
 Deletes a student/group from the specified directory.
 
-Format: `rm SPECIFIED_PATH`
+**Format:** `rm SPECIFIED_PATH`
 
 #### Acceptable values for each parameter:
 
-Specified path:
+`SPECIFIED_PATH`:
 
 - must be a valid path to a student/group that user wants to delete
+
+<box type="success" seamless>
+
+#### Output if command succeeds
+
+- Displays message indicating target successfully removed
+
+</box>
+
+<box type="wrong" seamless>
 
 #### Output if command fails:
 
@@ -334,9 +405,7 @@ Specified path:
     - Invalid command format
     - No such target to delete
 
-#### Output if command succeeds
-
-- Displays message indicating target successfully removed
+</box>
 
 #### Examples:
 
@@ -347,32 +416,41 @@ Specified path:
   path `~/grp-001` will be deleted:
     - `rm grp-001`
 
+
 ### Move Student or Group: `mv`
 
 Moves student from one group to another group
 
-Format: `mv SPECIFIED_PATH SPECIFIED_PATH`
+**Format:** `mv SPECIFIED_PATH SPECIFIED_PATH`
 
 #### Acceptable values for each parameter:
 
-SPECIFIED_PATH:
+`SPECIFIED_PATH`:
 
 - must be a valid path to a student
 
-SPECIFIED_PATH:
+`SPECIFIED_PATH`:
 
 - must be a valid path to a group
 
-#### Output if command fails
-
-- Displays message indicating either:
-    - Invalid command format
-    - No such student to move
-    - Invalid destination path
+<box type="success" seamless>
 
 #### Output if command succeeds
 
 - Displays message to indicate the successful transfer of a student from one group to another group
+
+</box>
+
+<box type="wrong" seamless>
+
+#### Output if command fails
+
+- Displays message indicating either:
+  - Invalid command format
+  - No such student to move
+  - Invalid destination path
+
+</box>
 
 #### Examples:
 - When user is at the root directory `~` and keys in the following command, student with specified path `~/grp-001/0123Y` will be moved from grp-001 to grp-002:
@@ -381,17 +459,28 @@ SPECIFIED_PATH:
 - When user is at the group directory `~/grp-001` and keys in the following command, student with specified path `~/grp-001/0123Y` will be moved from grp-001 to grp-002:
   - `mv 0123Y ../grp-002`
 
+
 ### Create Group : `mkdir`
 
 Creates a group consists of students
 
-Format: `mkdir PATH_TO_THE_GROUP`
+**Format:** `mkdir PATH_TO_THE_GROUP`
 
 #### Acceptable values for each parameter:
 
-PATH_TO_THE_GROUP:
+`PATH_TO_THE_GROUP`:
 
 - must be a valid path to a group
+
+<box type="success" seamless>
+
+#### Output if command succeeds
+
+- pop up message indicates group with specific groupId was created successfully.
+
+</box>
+
+<box type="wrong" seamless>
 
 #### Output if command fails
 
@@ -399,14 +488,13 @@ PATH_TO_THE_GROUP:
     - Invalid command format
     - Invalid path to a group
 
-#### Output if command succeeds
-
-- pop up message indicates group with specific groupId was created successfully.
+</box>
 
 #### Examples:
 
 - When user is at the root directory `~` and keys in the following command, a group with groupId called grp-001 will be created
   - `mkdir grp-001`
+
 
 ---
 
@@ -420,21 +508,29 @@ PATH_TO_THE_GROUP:
 
 Creates todo tasks for specific student(s) or group(s).
 
-Format: `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY`
+**Format:** `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY`
 
 - `--desc` / `-d` : Description of the todo task
 - `--all` / `-al` : (Optional) Either `allStu` or `allGrp` to add a deadline task to all students/groups in the
   specified path
 
-#### Output if command fails:
-
-- Displays message indicating either:
-    - Invalid command format
-    - Invalid path
+<box type="success" seamless>
 
 #### Output if command succeeds
 
 - Displays message indicating todo task created successfully.
+
+</box>
+
+<box type="wrong" seamless>
+
+#### Output if command fails:
+
+- Displays message indicating either:
+  - Invalid command format
+  - Invalid path
+
+</box>
 
 #### Examples:
 
@@ -444,30 +540,39 @@ Format: `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY`
 - When user is at the root directory `~/` and keys in the following command, a todo task with
   description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
     - `todo ~/grp-001/stu-001 --desc Assignment 1 `
-- When user is at the directory `~` and keys in the following command, a todo task with description `Assignment 1`, will
+- When user is at the root directory `~` and keys in the following command, a todo task with description `Assignment 1`, will
   be allocated to all students in path `~/grp-001`.
     - `todo ~/grp-001 --desc Assignment 1 --all allStu`
+
 
 ### Create Deadline task : `deadline`
 
 Creates task with a deadline for specific student(s) or group(s).
 
-Format `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`
+**Format:** `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`
 
 - `--desc` / `-d` : Description of the deadline task
 - `--datetime` / `-dt` : The duedate of the task. In the following format: `yyyy-MM-dd HH:mm`
 - `--all` / `-al` : (Optional) Either `allStu` or `allGrp` to add a deadline task to all students/groups in the
   specified path
 
-#### Output if command fails:
-
-- Displays message indicating either:
-    - Invalid command format
-    - Invalid path
+<box type="success" seamless>
 
 #### Output if command succeeds
 
 - Displays message indicating deadline task created successfully.
+
+</box>
+
+<box type="wrong" seamless>
+
+#### Output if command fails:
+
+- Displays message indicating either:
+  - Invalid command format
+  - Invalid path
+
+</box>
 
 #### Examples:
 
@@ -481,28 +586,37 @@ Format `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --al
   for the task with description `Assignment 1`, will be allocated to all students in path `~/grp-001`.
     - `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`
 
+
 ### Mark tasks as completed: `mark`
 
 Marks the specified task as done for the student
 
-Format: `mark TASK_INDEX`
+**Format:** `mark TASK_INDEX`
 
 #### Acceptable parameter should be:
 
-taskIndex:
+`TASK_INDEX`:
 
 - must be a valid index starts from 1
 
+<box type="success" seamless>
+
+#### Output if command succeeds
+
+- displays message indicating mark is done successfully as well as specific task that is marked
+
+</box>
+
+<box type="wrong" seamless>
+
 #### Output if command fails
 
-- Displays message indicating either:
+- displays message indicating either:
   - Invalid command format
   - Invalid task index
   - The display panel is not showing task list
 
-#### Output if command succeeds
-
-- Displays message indicating mark is done successfully as well as specific task that is marked
+</box>
 
 #### Examples:
 
@@ -514,24 +628,32 @@ taskIndex:
 
 Unmarks the specified task for the student
 
-Format: `unmark TASK_INDEX`
+**Format:** `unmark TASK_INDEX`
 
 #### Acceptable parameter should be:
 
-task index:
+`TASK_INDEX`:
 
 - must be a valid index starts from 1
 
-#### Output if command fails
+<box type="success" seamless>
 
-- Displays message indicating either:
+#### Output if command succeeds:
+
+- displays message indicating either:
   - Invalid command format
   - Invalid task index
   - The display panel is not showing task list
 
-#### Output if command succeeds
+</box>
 
-- Displays message indicating unmark is done successfully as well as specific task that is unmarked
+<box type="wrong" seamless>
+
+#### Output if command fails:
+
+- displays message indicating unmark is done successfully as well as specific task that is unmarked
+
+</box>
 
 #### Examples:
 
@@ -587,19 +709,16 @@ the data of your previous ProfBook home folder.
 
 
 ## Command summary
-| Action              | Format, Examples                                                                                                                                                                  |
-|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Help**            | `help`                                                                                                                                                                            |
-| **List**            | `ls`                                                                                                                                                                              |
-| **Clear**           | `clear`                                                                                                                                                                           |
-| **Exit**            | `exit`                                                                                                                                                                            |
-| **Add**             | `touch SPECIFIED_PATH -n NAME -e EMAIL - p PHONE_NUMBER -a ADDRESS` <br> e.g., `touch stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh ` |
-| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-1`                                                                                                                                        |
-| **Delete**          | `rm SPECIFIED_PATH` <br> e.g., `rm 0123Y`                                                                                                                                         |
-| **Create Todo**     | `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY` <br> e.g., `todo stu-001 --desc Assignment 1 `                                                                           |
-| **Create Deadline** | `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`<br> e.g., `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `               |
-| **Mark**            | `mark TASK_INDEX`<br> e.g.,`mark 1`                                                                                                                                                                |
-| **Unmark**          | `unmark TASK_INDEX`<br> e.g.,`unmark 2`                                                                                                                                           |
-| **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                     |
-| **cat**             | `cat SPECIFIED_PATH`<br> e.g., `cat 1234A, cat grp-001`                                                                                                                           |
-
+| Action              | Format, Examples|
+|:------              |:------|
+| **Help**            | `help` |
+| **Change Directory**| `cd SPECIFIED_PATH` <br> e.g., `cd ../grp-001`|
+| **Display Directories**| `ls SPECIFIED_PATH` <br> e.g., `ls grp-001`|
+| **Display Task List**  | `cat SPECIFIED_PATH`<br> e.g., `cat 1234A, cat grp-001`|
+| **Add Student**     | `touch SPECIFIED_PATH -n NAME -e EMAIL - p PHONE_NUMBER -a ADDRESS` <br> e.g., `touch stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh ` |
+| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-1`|
+| **Delete**          | `rm SPECIFIED_PATH` <br> e.g., `rm 0123Y`, `rm grp-002`|
+| **Create Todo**     | `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY` <br> e.g., `todo stu-001 --desc Assignment 1|
+| **Create Deadline** | `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`<br> e.g., `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `|
+| **Mark**            | `mark TASK_INDEX`<br> e.g.,`mark 1`|
+| **Unmark**          | `unmark TASK_INDEX`<br> e.g.,`unmark 2`|
