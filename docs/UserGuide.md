@@ -285,7 +285,7 @@ Searches for tasks depending on the environment.
 
 **Format:** `cat SPECIFIED_PATH`
 
-#### cceptable values for parameter:
+#### Acceptable values for parameter:
 
 `SPECIFIED_PATH`:
 - must be a valid path
