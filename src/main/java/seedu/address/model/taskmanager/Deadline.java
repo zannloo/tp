@@ -4,9 +4,7 @@ package seedu.address.model.taskmanager;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javafx.scene.layout.Region;
 import seedu.address.ui.DeadlineCard;
-import seedu.address.ui.UiPart;
 
 /**
  * The Deadline class represents a deadline task for the ProfBook.
@@ -54,7 +52,7 @@ public class Deadline extends Task {
     }
 
     @Override
-    public UiPart<Region> getDisplayCard(int displayedIndex) {
+    public DeadlineCard getDisplayCard(int displayedIndex) {
         return new DeadlineCard(this, displayedIndex);
     }
 
