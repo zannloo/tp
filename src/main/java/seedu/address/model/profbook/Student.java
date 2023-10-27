@@ -2,12 +2,10 @@ package seedu.address.model.profbook;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import javafx.scene.layout.Region;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.ui.StudentCard;
-import seedu.address.ui.UiPart;
 
 /**
  * Encapsulates logic for a student's data
@@ -84,7 +82,7 @@ public class Student extends TaskListManager implements IChildElement {
     }
 
     @Override
-    public UiPart<Region> getDisplayCard(int displayedIndex) {
+    public StudentCard getDisplayCard(int displayedIndex) {
         return new StudentCard(this, displayedIndex);
     }
 
