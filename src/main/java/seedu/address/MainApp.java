@@ -15,13 +15,13 @@ import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.util.SampleProfBook;
 import seedu.address.storage.JsonProfBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
@@ -43,7 +43,7 @@ public class MainApp extends Application {
     protected Ui ui;
     protected Logic logic;
     protected ProfBookStorage storage;
-    protected State state;
+    protected Model model;
     protected Config config;
 
     @Override
@@ -60,8 +60,8 @@ public class MainApp extends Application {
         ProfBookStorage profBookStorage = new JsonProfBookStorage(userPrefs.getProfBookFilePath());
         storage = new ProfBookStorageManager(profBookStorage, userPrefsStorage);
 
-        state = initModelManager(userPrefs);
-        logic = new LogicManager(state, storage);
+        model = initModelManager(userPrefs);
+        logic = new LogicManager(model, storage);
         ui = new UiManager(logic);
     }
 
@@ -70,7 +70,7 @@ public class MainApp extends Application {
      * The data from the sample address book will be used instead if {@code storage}'s address book is not found,
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
-    private State initModelManager(ReadOnlyUserPrefs userPrefs) throws InvalidPathException {
+    private Model initModelManager(ReadOnlyUserPrefs userPrefs) throws InvalidPathException {
         logger.info("Using data file : " + storage.getProfBookFilePath());
         Optional<Root> profBookOptional;
         Root initialData;
@@ -91,7 +91,7 @@ public class MainApp extends Application {
         }
         AbsolutePath currentPath = new AbsolutePath("~/");
 
-        return new StateManager(currentPath, initialData, userPrefs);
+        return new ModelManager(currentPath, initialData, userPrefs);
     }
 
     private void initLogging(Config config) {
@@ -167,6 +167,7 @@ public class MainApp extends Application {
 
         return initializedPrefs;
     }
+
     @Override
     public void start(Stage primaryStage) {
         logger.info("Starting AddressBook " + MainApp.VERSION);
@@ -177,8 +178,8 @@ public class MainApp extends Application {
     public void stop() {
         logger.info("============================ [ Stopping Address Book ] =============================");
         try {
-            storage.saveUserPrefs(state.getUserPrefs());
-            storage.saveProfBook(state.getRoot());
+            storage.saveUserPrefs(model.getUserPrefs());
+            storage.saveProfBook(model.getRoot());
         } catch (IOException e) {
             logger.severe("Failed to save preferences/ProfBook " + StringUtil.getDetails(e));
         }

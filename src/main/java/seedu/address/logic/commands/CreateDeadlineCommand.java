@@ -7,12 +7,12 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
+import seedu.address.model.Model;
+import seedu.address.model.TaskOperation;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.ChildOperation;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 
 /**
@@ -76,19 +76,19 @@ public class CreateDeadlineCommand extends Command {
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
+    public CommandResult execute(Model model) throws CommandException {
         // Check path exists in ProfBook
-        if (!state.hasPath(path)) {
+        if (!model.hasPath(path)) {
             throw new CommandException(MESSAGE_PATH_NOT_FOUND);
         }
 
         if (this.category == null) {
             // Check target path is task manager
-            if (!state.hasTaskListInPath(path)) {
+            if (!model.hasTaskListInPath(path)) {
                 throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
             }
 
-            TaskOperation target = state.taskOperation(path);
+            TaskOperation target = model.taskOperation(path);
 
             // Check duplicate deadline
             if (target.hasTask(this.deadline)) {
@@ -96,7 +96,7 @@ public class CreateDeadlineCommand extends Command {
             }
 
             target.addTask(this.deadline);
-            state.updateList();
+            model.updateList();
 
             return new CommandResult(String.format(MESSAGE_SUCCESS, this.deadline));
         }
@@ -105,9 +105,9 @@ public class CreateDeadlineCommand extends Command {
             if (!path.isGroupDirectory()) {
                 throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
             }
-            ChildOperation<Student> groupOper = state.groupChildOperation(path);
+            ChildOperation<Student> groupOper = model.groupChildOperation(path);
             groupOper.addTaskToAllChildren(deadline, 1);
-            state.updateList();
+            model.updateList();
             return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
         }
 
@@ -115,9 +115,9 @@ public class CreateDeadlineCommand extends Command {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
 
-        ChildOperation<Group> rootOper = state.rootChildOperation();
+        ChildOperation<Group> rootOper = model.rootChildOperation();
         rootOper.addTaskToAllChildren(deadline, 1);
-        state.updateList();
+        model.updateList();
 
         return new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
     }

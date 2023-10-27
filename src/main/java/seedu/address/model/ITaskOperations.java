@@ -1,4 +1,4 @@
-package seedu.address.model.statemanager;
+package seedu.address.model;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface ITaskOperations {
     /**
      * Checks if current task is present
      *
-     * @param t
+     * @param t The task in question
      */
     boolean hasTask(Task t);
 
@@ -31,7 +31,8 @@ public interface ITaskOperations {
     /**
      * Adds a new tasks to the task list.
      * Task must not be duplicated class.
-     * @param t
+     *
+     * @param t The task in question
      */
     void addTask(Task t);
 

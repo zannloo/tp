@@ -1,8 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalStudents.ALICE;
 
@@ -13,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
@@ -22,14 +23,12 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.testutil.GroupBuilder;
 import seedu.address.testutil.StudentBuilder;
 
 class CreateStudentCommandTest {
-    private Student validStudent = new StudentBuilder().build();
+    private final Student validStudent = new StudentBuilder().build();
 
     @Test
     public void constructor_nullPersonNullPath_throwsNullPointerException() {
@@ -66,8 +65,8 @@ class CreateStudentCommandTest {
                 .withId("0002Y").build();
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, bob);
-        State state = new StateManager(currPath, root, new UserPrefs());
-        CommandResult commandResult = createStudentCommand.execute(state);
+        Model model = new ModelManager(currPath, root, new UserPrefs());
+        CommandResult commandResult = createStudentCommand.execute(model);
 
         assertEquals(String.format(CreateStudentCommand.MESSAGE_SUCCESS, Messages.format(bob)),
                 commandResult.getFeedbackToUser());
@@ -92,10 +91,10 @@ class CreateStudentCommandTest {
         AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
 
         CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, validStudent);
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
         assertThrows(CommandException.class,
                 CreateStudentCommand.MESSAGE_DUPLICATE_STUDENT, (
-                ) -> createStudentCommand.execute(state)
+                ) -> createStudentCommand.execute(model)
         );
     }
 
@@ -118,20 +117,20 @@ class CreateStudentCommandTest {
         CreateStudentCommand createBobCommand = new CreateStudentCommand(path, bob);
 
         // same object -> returns true
-        assertTrue(createAliceCommand.equals(createAliceCommand));
+        assertEquals(createAliceCommand, createAliceCommand);
 
         // same values -> returns true
         CreateStudentCommand createAliceCommandCopy = new CreateStudentCommand(path, alice);
-        assertTrue(createAliceCommand.equals(createAliceCommandCopy));
+        assertEquals(createAliceCommand, createAliceCommandCopy);
 
         // different types -> returns false
-        assertFalse(createAliceCommand.equals(1));
+        assertNotEquals(1, createAliceCommand);
 
         // null -> returns false
-        assertFalse(createAliceCommand.equals(null));
+        assertNotEquals(null, createAliceCommand);
 
         // different person -> returns false
-        assertFalse(createAliceCommand.equals(createBobCommand));
+        assertNotEquals(createAliceCommand, createBobCommand);
     }
 
     @Test

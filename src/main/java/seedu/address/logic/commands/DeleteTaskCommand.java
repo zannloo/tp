@@ -8,8 +8,8 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.TaskOperation;
+import seedu.address.model.Model;
+import seedu.address.model.TaskOperation;
 import seedu.address.model.taskmanager.Task;
 
 /**
@@ -38,18 +38,18 @@ public class DeleteTaskCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(State state) throws CommandException {
-        requireNonNull(state);
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
 
         logger.info("Executing delete task command...");
 
         // Check if diplay panel is displaying task list
-        if (!state.isShowTaskList()) {
+        if (!model.isShowTaskList()) {
             logger.warning("Task list is not shown. Aborting delete task command.");
             throw new CommandException(MESSAGE_TASK_LIST_NOT_SHOWN);
         }
 
-        TaskOperation taskOperation = state.taskOperation(state.getDisplayPath());
+        TaskOperation taskOperation = model.taskOperation(model.getDisplayPath());
 
         // Check if index is valid.
         if (!taskOperation.isValidIndex(targetIndex.getOneBased())) {
@@ -60,11 +60,11 @@ public class DeleteTaskCommand extends Command {
         logger.info("Executing delete task command on index " + targetIndex.getOneBased());
 
         Task deletedTask = taskOperation.deleteTask(targetIndex.getOneBased());
-        state.updateList();
+        model.updateList();
 
         logger.info("Task deleted successfully. Deleted task: " + deletedTask.toString());
 
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask.toString()));
+        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
     }
 
     @Override

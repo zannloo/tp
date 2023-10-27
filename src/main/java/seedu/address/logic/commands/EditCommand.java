@@ -11,6 +11,8 @@ import java.util.Map;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
+import seedu.address.model.Model;
 import seedu.address.model.field.EditGroupDescriptor;
 import seedu.address.model.field.EditStudentDescriptor;
 import seedu.address.model.id.GroupId;
@@ -23,8 +25,6 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.ChildOperation;
-import seedu.address.model.statemanager.State;
 import seedu.address.model.taskmanager.TaskList;
 
 /**
@@ -74,7 +74,7 @@ public class EditCommand extends Command {
     /**
      * Constructs an EditCommand for editing a group's details.
      *
-     * @param target The path to the target group to be edited.
+     * @param target              The path to the target group to be edited.
      * @param editGroupDescriptor The descriptor containing the details to edit.
      */
     public EditCommand(AbsolutePath target, EditGroupDescriptor editGroupDescriptor) {
@@ -85,7 +85,7 @@ public class EditCommand extends Command {
     /**
      * Constructs an EditCommand for editing a student's details.
      *
-     * @param target The path to the target student to be edited.
+     * @param target                The path to the target student to be edited.
      * @param editStudentDescriptor The descriptor containing the details to edit.
      */
     public EditCommand(AbsolutePath target, EditStudentDescriptor editStudentDescriptor) {
@@ -127,21 +127,21 @@ public class EditCommand extends Command {
     /**
      * Executes the EditCommand to edit a group or student's details.
      *
-     * @param state The current state of the application.
+     * @param model The current model of the application.
      * @return A CommandResult indicating the result of the execution.
      * @throws CommandException If there's an error during command execution.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
-        requireNonNull(state);
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
 
         // Check path exists in ProfBook
-        if (!state.hasPath(target)) {
+        if (!model.hasPath(target)) {
             throw new CommandException(MESSAGE_NO_SUCH_PATH);
         }
 
         if (target.isGroupDirectory()) {
-            ChildOperation<Group> rootOperation = state.rootChildOperation();
+            ChildOperation<Group> rootOperation = model.rootChildOperation();
             GroupId groupId = target.getGroupId().get();
             if (!rootOperation.hasChild(groupId)) {
                 throw new CommandException(ERROR_MESSAGE_NO_SUCH_GROUP);
@@ -150,19 +150,19 @@ public class EditCommand extends Command {
             Group editedGroup = createEditedGroup(groupToEdit, this.editGroupDescriptor);
             rootOperation.deleteChild(groupId);
             rootOperation.addChild(groupId, editedGroup);
-            state.updateList();
+            model.updateList();
 
             return new CommandResult(MESSAGE_EDIT_GROUP_SUCCESS);
 
         } else if (target.isStudentDirectory()) {
-            ChildOperation<Student> groupOperation = state.groupChildOperation(target);
+            ChildOperation<Student> groupOperation = model.groupChildOperation(target);
             StudentId studentId = target.getStudentId().get();
 
             Student studentToEdit = groupOperation.getChild(studentId);
             Student editedStudent = createEditedStudent(studentToEdit, this.editStudentDescriptor);
             groupOperation.deleteChild(studentId);
             groupOperation.addChild(editedStudent.getId(), editedStudent);
-            state.updateList();
+            model.updateList();
 
             return new CommandResult(MESSAGE_EDIT_STUDENT_SUCCESS);
 

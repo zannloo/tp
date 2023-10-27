@@ -8,9 +8,9 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.TaskOperation;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Task;
 
 /**
@@ -22,7 +22,7 @@ public class MarkCommand extends Command {
 
     public static final String COMMAND_WORD = "mark";
 
-    public static final String MESSAGE_INCORRECT_STATE = "The current state is not showing task list.";
+    public static final String MESSAGE_INCORRECT_STATE = "The current model is not showing task list.";
 
     public static final String MESSAGE_INVALID_INDEX = "The task index provided is invalid.";
 
@@ -47,23 +47,23 @@ public class MarkCommand extends Command {
     /**
      * Executes the MarkCommand to mark a task as completed.
      *
-     * @param state The current state of the application.
+     * @param model The current model of the application.
      * @return A CommandResult containing a message indicating the success of the marking operation.
-     * @throws CommandException If the command cannot be executed due to an incorrect state (not showing task list).
+     * @throws CommandException If the command cannot be executed due to an incorrect model (not showing task list).
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
-        requireNonNull(state);
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
 
         logger.info("Executing mark task command...");
 
-        if (!state.isShowTaskList()) {
+        if (!model.isShowTaskList()) {
             logger.warning("Task list is not shown. Aborting mark task command.");
             throw new CommandException(MESSAGE_INCORRECT_STATE);
         }
 
-        AbsolutePath displayPath = state.getDisplayPath();
-        TaskOperation taskOperation = state.taskOperation(displayPath);
+        AbsolutePath displayPath = model.getDisplayPath();
+        TaskOperation taskOperation = model.taskOperation(displayPath);
 
         // Check if index is valid.
         if (!taskOperation.isValidIndex(this.index.getOneBased())) {
@@ -74,7 +74,7 @@ public class MarkCommand extends Command {
         logger.info("Executing mark task command on index " + this.index.getOneBased());
 
         Task markedTask = taskOperation.markTask(this.index.getOneBased());
-        state.updateList();
+        model.updateList();
 
         logger.info("Task marked successfully. Marked task: " + markedTask.toString());
 
