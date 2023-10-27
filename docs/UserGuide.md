@@ -64,16 +64,12 @@ GitHub Repository if desired.
    open the help window.<br>
    Some example commands you can try:
 
-    - `list` : Lists all contacts.
+    - `cat grp-001` : Lists all tasks belonging to grp-001.
 
-    - `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe`
-      to the Address Book.
+    - `touch grp-001/stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh`
+      : Adds a student named `Bob` to the grp-001.
 
-    - `delete 3` : Deletes the 3rd contact shown in the current list.
-
-    - `clear` : Deletes all contacts.
-
-    - `exit` : Exits the app.
+    - `rm grp-001` : Deletes grp-001.
 
 1. Refer to the [Features](#features) below for details of each command.
 
@@ -349,7 +345,7 @@ Creates task with a deadline for specific student(s) or group(s).
 Format `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`
 
 - `--desc` / `-d` : Description of the deadline task
-- `--datetime` / `-dt` : The duedate of the task. In the following format: `YYYY-MM-DD HH:MM`
+- `--datetime` / `-dt` : The duedate of the task. In the following format: `yyyy-MM-dd HH:mm`
 - `--all` / `-al` : (Optional) Either `allStu` or `allGrp` to add a deadline task to all students/groups in the
   specified path
 
@@ -458,6 +454,37 @@ Examples:
 - This command will search for the task, grade proposal, depending on the environment the user is in, it will search for
   task(s) allocated to a tutorial group or student.
 
+### Display all tasks: `cat`
+
+Searches for tasks depending on the environment.
+
+Format `cat SPECIFIED_PATH`
+
+Acceptable values for parameter:
+
+Specified Path:
+- must be a valid path
+
+Output if command fails:
+
+If `cat` in root directory
+
+- display updates indicating that tasks cannot be shown within root directory.
+
+If `cat` with invalid parameter
+
+- display updates showing invalid path with user entered Path
+
+Output if command succeeds
+
+- display updates with tasks assigned under input Path
+
+Examples:
+`cat grp-001`, `cat 1234A`
+
+- The first command will display all tasks assigned to group 001
+- The second command will display all tasks that are assigned to student with Id 1234A
+
 ### Save the data (//TODO update)
 
 ProfBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save
@@ -465,7 +492,7 @@ manually.
 
 ### Edit the data file (//TODO update)
 
-ProfBook data are saved automatically as a JSON file `[JAR file location]/data/ProfBook.json`. Advanced users are
+ProfBook data are saved automatically as a JSON file `[JAR file location]/data/profBook.json`. Advanced users are
 welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
@@ -511,25 +538,19 @@ the data of your previous ProfBook home folder.
 (//TODO Update)
 
 ## Command summary
-
-| Action              | Format, Examples                                                                                                                                                                                   |
-|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Help**            | `help`                                                                                                                                                                                             |
-| **List**            | `ls`                                                                                                                                                                                               |
-| **Clear**           | `clear`                                                                                                                                                                                            |
-| **Exit**            | `exit`                                                                                                                                                                                             |
-| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                             |
-| **Create Group**    | `mkdir PATH_TO_THE_GROUP` <br> e.g., `mkdir grp-1`                                                                                                                                                 |
-| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                                      |
-| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                                        |
-| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                             |
-| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-001`                                                                                                                                                       |
-| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                                      |
-| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                                        |
-| **Create Deadline** | `deadline -desc [task] -level [student/group] -target [StudentID/groupId/tutorialId] -byDate[dd/MM/yyyy]`<br> e.g., `deadline -d grade proposal 1 -level group -target tut-1 -byDate 20/10/2023`   |
-| **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                                   |
-| **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                               |
+| Action              | Format, Examples                                                                                                                                                                  |
+|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Help**            | `help`                                                                                                                                                                            |
+| **List**            | `ls`                                                                                                                                                                              |
+| **Clear**           | `clear`                                                                                                                                                                           |
+| **Exit**            | `exit`                                                                                                                                                                            |
+| **Add**             | `touch SPECIFIED_PATH -n NAME -e EMAIL - p PHONE_NUMBER -a ADDRESS` <br> e.g., `touch stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh ` |
+| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-1`                                                                                                                                        |
+| **Delete**          | `rm SPECIFIED_PATH` <br> e.g., `rm 0123Y`                                                                                                                                         |
+| **Create Todo**     | `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY` <br> e.g., `todo stu-001 --desc Assignment 1 `                                                                           |
+| **Create Deadline** | `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`<br> e.g., `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `               |
 | **Mark**            | `mark TASK_INDEX`<br> e.g.,`mark 1`                                                                                                                                                                |
-| **Unmark**          | `unmark TASK_INDEX`<br> e.g.,`unmark 2`                                                                                                                                                            |
-| **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                                      |
+| **Unmark**          | `unmark TASK_INDEX`<br> e.g.,`unmark 2`                                                                                                                                           |
+| **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                     |
+| **cat**             | `cat SPECIFIED_PATH`<br> e.g., `cat 1234A, cat grp-001`                                                                                                                           |
+
