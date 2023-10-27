@@ -412,7 +412,7 @@ Format: `unmark TASK_INDEX`
 
 #### Acceptable parameter should be:
 
-taskIndex:
+task index:
 
 - must be a valid index starts from 1
 
