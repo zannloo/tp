@@ -4,8 +4,6 @@ title: "User Guide"
 pageNav: 3
 ---
 
-<br>
-
 # ProfBook User Guide
 
 ProfBook is a **student management system** specially made for **CS2103T tutors**, built by CS2103T students. As current
@@ -18,11 +16,7 @@ It is optimized for tutors use via a **familiar Command Line Interface (CLI) tha
 still having the benefits of a Graphical User Interface (GUI). If you can type fast, ProfBook can track and manage your
 student's progress and tasks much faster than traditional GUI apps with a gentle learning curve.
 
-<br>
-
 ---
-
-<br>
 
 ## Features overview
 
@@ -53,21 +47,20 @@ GitHub Repository if desired.
 </div>
 
 <!-- * Table of Contents -->
-<page-nav-print />
+<page-nav-print>
 
-<br>
+  **Table of Contents**
+
+</page-nav-print>
 
 ---
 
-<br>
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
 </div>
 
 ## Quick start
-
-(//TODO Change)
 
 1. Ensure you have Java `11` or above installed in your Computer.
 
@@ -78,7 +71,11 @@ GitHub Repository if desired.
 1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar ProfBook.jar` command
    to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+   <div class="centered-container">
+
+      ![Ui](images/Ui.png){width=400 height=200}
+
+   </div>
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will
    open the help window.<br>
@@ -97,11 +94,7 @@ GitHub Repository if desired.
 
 1. Refer to the [Features](#features) below for details of each command.
 
-<br>
-
 ---
-
-<br>
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
@@ -140,6 +133,9 @@ GitHub Repository if desired.
   This hierarchical structure enables a well-organized and efficient way to manage groups and students within ProfBook.
 </box>
 
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
 
 
 <box type="info">
@@ -158,18 +154,14 @@ GitHub Repository if desired.
   ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
-- Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-
-- Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-
 - If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines
   as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 </box>
 
-Acceptable values for each parameter:
+<box type="info" theme="warning">
+
+**Acceptable values for each parameter:**
 
 `SPECIFIED_PATH`:
 
@@ -190,12 +182,9 @@ Acceptable values for each parameter:
 `ADDRESS`:
 
 - must be a non-empty string
-
-<br>
+</box>
 
 ---
-
-<br>
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
@@ -216,27 +205,27 @@ Format: `help`
 
 Changes the current directory in the ProfBook.
 
-**Format:** ` cd SPECIFIED_PATH`
+**Format:** `cd SPECIFIED_PATH`
 
 #### Example
-- Change directory from grp-001 to grp-002
+- ```{heading="**~/grp-001**"}
+    cd ../grp-002
   ```
-    ~/grp-001> cd ../grp-002
-  ```
+  Changes directory from `grp-001` to `grp-002`
 
-<box type="success" light>
+<box type="success" seamless>
 
 #### Output if command succeeds:
 
-Display message indicating successful navigation to target path.
+Displays message indicating successful navigation to target path.
 
 </box>
 
-<box type="wrong" light>
+<box type="wrong" seamless>
 
 #### Output if command fails:
 
-Display message indicating either:
+Displays message indicating either:
   - Invalid command format
   - Invalid path
 
@@ -256,21 +245,22 @@ Format: `ls SPECIFIED_PATH`
 - When user is at the root directory `~/`:
     - `ls` will return all the current groups
 
-<box type="success" light>
+<box type="success" seamless>
 
 #### Output if command succeeds:
 
-- Display message indicating successful display of children list.
+- Displays message indicating successful display of children list.
 - Children list of target path will be displayed on display panel.
 
 </box>
 
-<box type="wrong" light>
+<box type="wrong" seamless>
 
 #### Output if command fails:
 
-- Invalid command format
-- Invalid path
+Displays message indicating either:
+  - Invalid command format
+  - Invalid path
 
 </box>
 
@@ -280,23 +270,7 @@ Format: `ls SPECIFIED_PATH`
 
 </box>
 
-### Clear All Entries : `clear`
-
-Clears all entries from the address book.
-
-Format: `clear`
-
-### Exiting the program : `exit`
-
-Exits the program.
-
-Format: `exit`
-
-<br>
-
 ---
-
-<br>
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
@@ -434,11 +408,7 @@ Examples:
 - This command will create a group with groupId which is a string called 1 and only consists the creator at that
   instance of creating the group
 
-<br>
-
 ---
-
-<br>
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
@@ -503,7 +473,7 @@ Format `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --al
 
 - When user is at the directory `~/grp-001` and keys in the following command, a task with a deadline `2023-10-11 23:59`
   for the task with description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
-    - `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `
+    - `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59`
 - When user is at the root directory `~/` and keys in the following command, a task with a deadline `2023-10-11 23:59`
   for the task with description `Assignment 1`, will be allocated to student from path `grp-001/stu-001`.
     - `deadline ~/grp-001/stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `
@@ -543,37 +513,12 @@ Examples:
 
 - This command will mark 0123Y's Assignment 1 as done
 
-### Search for Tasks: `find`
-
-Searches for tasks depending on the environment.
-
-Format `find [task]`
-
-Acceptable values for each parameter:
-task:
-
-- Non empty string
-
-Output if command fails
-
-- pop up message indicates error when finding for the task.
-
-Output if command succeeds
-
-- pop up message indicating the list of tasks matching the user’s input or that there is no task matching user input.
-
-Examples:
-`find grade proposal`
-
-- This command will search for the task, grade proposal, depending on the environment the user is in, it will search for
-  task(s) allocated to a tutorial group or student.
-
-### Save the data (//TODO update)
+### Save the data
 
 ProfBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save
 manually.
 
-### Edit the data file (//TODO update)
+### Edit the data file
 
 ProfBook data are saved automatically as a JSON file `[JAR file location]/data/ProfBook.json`. Advanced users are
 welcome to update data directly by editing that data file.
@@ -586,23 +531,13 @@ file at the next run. Hence, it is recommended to take a backup of the file befo
 
 </box>
 
-(//TODO Update)
-
-### Archive data files `[coming in v1.3]`
-
-### Locate persons by name: `[coming in v1.3]`
-
-### Delete a person : `[coming in v1.3]`
-
 _Details coming soon ..._
-
-<br>
 
 ---
 
-<br>
-
-(//TODO Update)
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
 
 ## FAQ
 
@@ -610,13 +545,7 @@ _Details coming soon ..._
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains
 the data of your previous ProfBook home folder.
 
-<br>
-
 ---
-
-<br>
-
-(//TODO Update)
 
 ## Known issues
 
@@ -624,31 +553,25 @@ the data of your previous ProfBook home folder.
    the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the
    application before running the application again.
 
-<br>
-
 ---
-
-<br>
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
 </div>
 
-(//TODO Update)
 
 ## Command summary
 
-| Action              | Format, Examples                                                                                                                                                                                 |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Help**            | `help`                                                                                                                                                                                           |
-| **List**            | `ls`                                                                                                                                                                                             |
-| **Clear**           | `clear`                                                                                                                                                                                          |
-| **Exit**            | `exit`                                                                                                                                                                                           |
-| **Add**             | `touch student -n [name] -id [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                           |
-| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-1`                                                                                                                                                       |
-| **Delete**          | `rm [StudentId]` <br> e.g., `touch student -n Gary -id 1234Y`                                                                                                                                    |
-| **Create Todo**     | `todo -desc [task] -level [student/group] -target [StudentID/group Id/tutorialId]` <br> e.g., `todo -desc ps1 -level student -target 0123Y`                                                      |
-| **Create Deadline** | `deadline -desc [task] -level [student/group] -target [StudentID/groupId/tutorialId] -byDate[dd/MM/yyyy]`<br> e.g., `deadline -d grade proposal 1 -level group -target tut-1 -byDate 20/10/2023` |
-| **Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`                                                                 |
-| **Mark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`                                                             |
-| **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                                    |
+Action     | Format, Examples |
+:-----     | :-------
+**Help**| `help`
+**Change Directory**| `cd SPECIFIED_PATH` <br> e.g., `cd ../grp-002`
+**List Directories**| `ls SPECIFIED_PATH` <br> e.g. `ls grp-001`
+**Add Student**     | `touch SPECIFIED_PATH -n NAME -id STUDENTID` <br> e.g., `touch grp-001/stu-001 -n Gary -id 1234Y`
+**Move Student**    | `mv SPECIFIED_PATH SPECIFIED_PATH` <br> e.g., `mv grp-001/stu-001 grp-002`
+**Create Group**    | `mkdir SPECIFIED_PATH` <br> e.g., `mkdir grp-001`
+**Remove**          | `rm SPECIFIED_PATH` <br> e.g., `rm grp-001/stu-001`
+**Create Todo**     | `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY` <br> e.g., `todo stu-001 --desc Assignment 1`
+**Create Deadline** | `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`<br> e.g., `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59`
+**Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`
+**Unmark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`

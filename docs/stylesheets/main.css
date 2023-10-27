@@ -5,6 +5,21 @@ mark {
   padding-bottom: 0;
 }
 
+hr {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+page-nav-print {
+  font-size: 100px;
+}
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .indented {
   padding-left: 20px;
 }
@@ -15,6 +30,9 @@ mark {
 
 .page-break-before {
   page-break-before: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Scrollbar */
@@ -141,6 +159,10 @@ mark {
 
 /* Hide site navigation when printing */
 @media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
   #site-nav {
     display: none;
   }
@@ -148,10 +170,16 @@ mark {
   #page-nav {
     display: none;
   }
+
+  hr {
+    display: none;
+  }
+
 }
 
 code {
   font-family: "Roboto Mono",Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace;
+  display: block;
 }
 
 
@@ -164,22 +192,23 @@ h6 {
 }
 
 h1 {
+  padding-top: 0;
   font-weight: bold;
 }
 
 h2 {
+  margin-top: 20px;
   font-size: 1.7em;
   font-weight: bold;
 }
 
 h3 {
-  padding-top: 15px;
+  margin-top: 15px;
   font-size: 1.3em;
   font-weight: 700;
 }
 
 h4 {
-  padding-top: 5px;
   font-size: 1em;
   font-weight: 650;
 }
