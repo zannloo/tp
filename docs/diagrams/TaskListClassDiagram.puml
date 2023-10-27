@@ -4,6 +4,7 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 together {
+package "Model" #F4F6F6 {
 package "profbook" #F4F6F6 {
 Class TaskListManager
 }
