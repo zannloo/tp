@@ -91,6 +91,7 @@ Here's a (partial) class diagram of the `Logic` component:
 <puml src="diagrams/LogicClassDiagram.puml" width="550"/>
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("rmt 1")` API call as an example.
+`rmt` is the command word for DeleteTaskCommand class. By executing the command `rmt 1`, tha task with index number 1 will be deleted.
 
 <puml src="diagrams/DeleteTaskSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `rmt 1` Command" />
 
