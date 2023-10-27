@@ -67,20 +67,20 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
 
 <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
 * executes user commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
+* depends on some classes in the `Model` component, as it displays [`Displayable`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/Displayable.java) object residing in the `Model`.
 
 ### Logic component
 
@@ -138,14 +138,41 @@ The `Model` component,
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`ProfBookStorageManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/ProfBookStorageManager.java)
 
 <puml src="diagrams/StorageClassDiagram.puml" width="550" />
 
 The `Storage` component,
-* can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
-* depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
+* can save both ProfBook data and user preference data in JSON format, and read them back into corresponding objects.
+* inherits from both `ProfBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+* depends on some classes in the `Model` component (because the `ProfBookStorageManager` component's job is to save/retrieve objects that belong to the `Model`)
+
+### Command component
+
+The `Command` component,
+* executes the user's command
+
+#### CreateStudentCommand
+
+<puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="550" />
+
+The `CreateStudentCommand` class,
+* adds student object into specified path if there is no duplicate student in the same path and if path is a valid group path
+
+#### CreateDeadlineCommand
+
+<puml src="diagrams/CreateDeadlineCommandSequenceDiagram.puml" width="550" />
+
+The `CreateDeadlineCommand` class,
+* adds deadline task to specified student(s)/group(s)
+
+#### EditCommand
+
+<puml src="diagrams/EditCommandSequenceDiagram.puml" width="550" />
+
+The `EditCommand` class,
+* edits the fields of specified student or group
+
 
 ### Common classes
 
@@ -441,3 +468,50 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+<br>
+
+## **Appendix: Effort**
+
+### **Project Overview**
+
+Our project, ProfBook, underwent a significant transformation with the primary objective of providing robust **student organization** and **task management** features. The project also aimed to create a **terminal-like application**, complete with a terminal-like user interface and the ability to navigate through a hierarchical structure.
+
+### **Difficulty Level <span class="badge bg-danger">Challenging</span>**
+
+The project was classified as **challenging** due to:
+
+- **Terminal-Like Functionality:** Creating a terminal-like interface and functionality from scratch was a complex task, requiring a deep understanding of terminal behavior and navigation.
+
+- **Hierarchical Structure:** Our application features a hierarchical structure, with ProfBook serving as the root entity. Under ProfBook, there are groups, and each group contains students. Managing this hierarchical structure added complexity to the project.
+
+- **Diverse Classes:** Unlike AB3, our project needed to handle a more extensive range of classes, including Student, Group, and Task. This expansion added complexity as we had to provide functionality for student organization and task management within the same application.
+
+### **Effort Required**
+
+The project demanded an estimated total effort of **approximately one month**. The effort was distributed across various project phases:
+
+- **Design and Architecture:** This phase focused on designing the terminal-like user interface, defining terminal behavior, and integrating the hierarchical structure. Additionally, it involved accommodating and ensuring the smooth interaction of multiple entity types within the application.
+
+- **Implementation and Coding:** The implementation phase was dedicated to building custom components and functionalities essential for realizing terminal behavior, hierarchical structure navigation, and handling diverse classes.
+
+- **Testing and Quality Assurance:** This critical phase aimed to ensure the terminal-like interface worked seamlessly, the hierarchical structure navigation functionality was error-free, and the application effectively managed the different entity types.
+
+- **Documentation:** Preparing comprehensive documentation was essential for guiding both users and developers in understanding and utilizing the terminal-like application.
+
+### **Effort Savings through Reuse**
+
+A notable aspect of our project was the efficient use of custom components, which contributed to a significant reduction in the overall effort.
+
+- **Path Component:** We introduced the `Path` component, which includes subclasses for managing both **absolute** and **relative** paths. This component played a crucial role in managing navigation and executing dynamic commands within our application.
+
+- **ChildrenManager Component:** The component was instrumental in representing the hierarchical structure in our application. We successfully leveraged this component to perform operations related to child entities, optimizing the handling of students within groups and groups within the ProfBook.
+
+- **TaskListManager Component:** This component streamlines task management and allocation by providing a consistent and unified interface for handling tasks throughout the application.
+
+
+Reusing these components enhanced project efficiency and maintainability.

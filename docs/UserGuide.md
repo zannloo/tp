@@ -81,16 +81,12 @@ GitHub Repository if desired.
    open the help window.<br>
    Some example commands you can try:
 
-    - `list` : Lists all contacts.
+    - `cat grp-001` : Lists all tasks belonging to grp-001.
 
-    - `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe`
-      to the Address Book.
+    - `touch grp-001/stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh`
+      : Adds a student named `Bob` to the grp-001.
 
-    - `delete 3` : Deletes the 3rd contact shown in the current list.
-
-    - `clear` : Deletes all contacts.
-
-    - `exit` : Exits the app.
+    - `rm grp-001` : Deletes grp-001.
 
 1. Refer to the [Features](#features) below for details of each command.
 
@@ -182,6 +178,9 @@ GitHub Repository if desired.
 `ADDRESS`:
 
 - must be a non-empty string
+
+`TASK_INDEX`:
+- must be a valid index starts from 1
 </box>
 
 ---
@@ -192,12 +191,9 @@ GitHub Repository if desired.
 
 ## General Commands
 
-### View help : `help` (//TODO Update)
+### View help : `help`
 
 Shows a message explaning how to access the help page.
-
-// TODO Update
-![help message](images/helpMessage.png)
 
 Format: `help`
 
@@ -297,13 +293,13 @@ Specified path:
 
 #### Output if command fails:
 
-- Pop up message indicating either:
+- Displays message indicating either:
     - Invalid command format
     - Invalid path
 
 #### Output if command succeeds:
 
-- Pop up message indicating successful creation together with information of created student
+- Displays message indicating successful creation together with information of created student
 
 #### To note:
 
@@ -334,13 +330,13 @@ Specified path:
 
 #### Output if command fails:
 
-- Pop up message indicating either:
+- Displays message indicating either:
     - Invalid command format
     - No such target to delete
 
 #### Output if command succeeds
 
-- Pop up message indicating target successfully removed
+- Displays message indicating target successfully removed
 
 #### Examples:
 
@@ -353,60 +349,64 @@ Specified path:
 
 ### Move Student or Group: `mv`
 
-Moves student from a group to another group
+Moves student from one group to another group
 
-Format `mv [StudentID] -source [source group]  -dest [destination group]`
+Format: `mv SPECIFIED_PATH SPECIFIED_PATH`
 
-Acceptable values for each parameter:
-StudentID:
+#### Acceptable values for each parameter:
 
-- must be a 4 digits number follow with any letter
+SPECIFIED_PATH:
 
-source group:
+- must be a valid path to a student
 
-- must be a valid non-empty string starting with grp-
+SPECIFIED_PATH:
 
-destination group:
+- must be a valid path to a group
 
-- must be a valid non-empty string starting with grp-
+#### Output if command fails
 
-Output if command fails
+- Displays message indicating either:
+    - Invalid command format
+    - No such student to move
+    - Invalid destination path
 
-- pop up message indicate error when moving student with id 0123Y from grp-1 to grp-2
+#### Output if command succeeds
 
-Output if command succeeds
+- Displays message to indicate the successful transfer of a student from one group to another group
 
-- pop up message indicates successfully moving student with id 0123Y from grp-1 to grp-2
+#### Examples:
+- When user is at the root directory `~` and keys in the following command, student with specified path `~/grp-001/0123Y` will be moved from grp-001 to grp-002:
+  - `mv grp-001/0123Y grp-002`
 
-Examples:
-`mv 0123Y -source grp-1 -dest grp-2`
-
-- This command will move a student with value id 0123Y within the groups or from Ungroup to Group.
+- When user is at the group directory `~/grp-001` and keys in the following command, student with specified path `~/grp-001/0123Y` will be moved from grp-001 to grp-002:
+  - `mv 0123Y ../grp-002`
 
 ### Create Group : `mkdir`
 
-Creates a group consists of a maximum of five students
+Creates a group consists of students
 
-Format: `mkdir [groupId]`
+Format: `mkdir PATH_TO_THE_GROUP`
 
-Acceptable values for each parameter:
-groupId:
+#### Acceptable values for each parameter:
 
-- groupId must be a non-empty string starting with grp-
+PATH_TO_THE_GROUP:
 
-Output if command fails
+- must be a valid path to a group
 
-- pop up message indicates error when creating new group
+#### Output if command fails
 
-Output if command succeeds
+- Displays message indicating either:
+    - Invalid command format
+    - Invalid path to a group
+
+#### Output if command succeeds
 
 - pop up message indicates group with specific groupId was created successfully.
 
-Examples:
-`mkdir grp-1`
+#### Examples:
 
-- This command will create a group with groupId which is a string called 1 and only consists the creator at that
-  instance of creating the group
+- When user is at the root directory `~` and keys in the following command, a group with groupId called grp-001 will be created
+  - `mkdir grp-001`
 
 ---
 
@@ -428,13 +428,13 @@ Format: `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY`
 
 #### Output if command fails:
 
-- Pop up message indicating either:
+- Displays message indicating either:
     - Invalid command format
     - Invalid path
 
 #### Output if command succeeds
 
-- Pop up message indicating todo task created successfully.
+- Displays message indicating todo task created successfully.
 
 #### Examples:
 
@@ -455,19 +455,19 @@ Creates task with a deadline for specific student(s) or group(s).
 Format `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`
 
 - `--desc` / `-d` : Description of the deadline task
-- `--datetime` / `-dt` : The duedate of the task. In the following format: `YYYY-MM-DD HH:MM`
+- `--datetime` / `-dt` : The duedate of the task. In the following format: `yyyy-MM-dd HH:mm`
 - `--all` / `-al` : (Optional) Either `allStu` or `allGrp` to add a deadline task to all students/groups in the
   specified path
 
 #### Output if command fails:
 
-- Pop up message indicating either:
+- Displays message indicating either:
     - Invalid command format
     - Invalid path
 
 #### Output if command succeeds
 
-- Pop up message indicating deadline task created successfully.
+- Displays message indicating deadline task created successfully.
 
 #### Examples:
 
@@ -481,37 +481,63 @@ Format `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --al
   for the task with description `Assignment 1`, will be allocated to all students in path `~/grp-001`.
     - `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`
 
-### Mark/Unmark tasks as completed: `mark`
+### Mark tasks as completed: `mark`
 
-Marks specific tasks as done for each student/tutorial group
+Marks the specified task as done for the student
 
-Format: `mark -d [task] -level [student/group] -target [StudentID/groupId] `
+Format: `mark TASK_INDEX`
 
-Acceptable parameter should be:
-task:
+#### Acceptable parameter should be:
 
-- must be a valid non empty String
+taskIndex:
 
-student:
+- must be a valid index starts from 1
 
-- String should be "student" or "group"
+#### Output if command fails
 
-StudentID:
+- Displays message indicating either:
+  - Invalid command format
+  - Invalid task index
+  - The display panel is not showing task list
 
-- must be a valid non empty String starting with
+#### Output if command succeeds
 
-Output if command fails
+- Displays message indicating mark is done successfully as well as specific task that is marked
 
-- pop up message saying mark is not done as well as specific task that is unchanged
+#### Examples:
 
-Output if command succeeds
+- When user is at the group directory `~/grp-001` and keys in the following command, the task list of a student with specified path `~/grp-001/0123Y` will be shown after entering the command `cat 0123Y`. Then, user can mark task by specifying the task index:
+  - `cat 0123Y`
+  - `mark 1`
 
-- pop up message saying mark is done successfully as well as specific task that is marked
+### Unmark completed task: `unmark`
 
-Examples:
-`mark -d Assignment 1 -level student -target 0123Y`
+Unmarks the specified task for the student
 
-- This command will mark 0123Y's Assignment 1 as done
+Format: `unmark TASK_INDEX`
+
+#### Acceptable parameter should be:
+
+task index:
+
+- must be a valid index starts from 1
+
+#### Output if command fails
+
+- Displays message indicating either:
+  - Invalid command format
+  - Invalid task index
+  - The display panel is not showing task list
+
+#### Output if command succeeds
+
+- Displays message indicating unmark is done successfully as well as specific task that is unmarked
+
+#### Examples:
+
+- When user is at the group directory `~/grp-001` and keys in the following command, the task list of a student with specified path `~/grp-001/0123Y` will be shown after entering the command `cat 0123Y`. Then, user can unmark task by specifying the task index:
+  - `cat 0123Y`
+  - `unmark 1`
 
 ### Save the data
 
@@ -520,7 +546,7 @@ manually.
 
 ### Edit the data file
 
-ProfBook data are saved automatically as a JSON file `[JAR file location]/data/ProfBook.json`. Advanced users are
+ProfBook data are saved automatically as a JSON file `[JAR file location]/data/profBook.json`. Advanced users are
 welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
@@ -561,17 +587,19 @@ the data of your previous ProfBook home folder.
 
 
 ## Command summary
+| Action              | Format, Examples                                                                                                                                                                  |
+|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Help**            | `help`                                                                                                                                                                            |
+| **List**            | `ls`                                                                                                                                                                              |
+| **Clear**           | `clear`                                                                                                                                                                           |
+| **Exit**            | `exit`                                                                                                                                                                            |
+| **Add**             | `touch SPECIFIED_PATH -n NAME -e EMAIL - p PHONE_NUMBER -a ADDRESS` <br> e.g., `touch stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh ` |
+| **Create Group**    | `mkdir [groupId]` <br> e.g., `mkdir grp-1`                                                                                                                                        |
+| **Delete**          | `rm SPECIFIED_PATH` <br> e.g., `rm 0123Y`                                                                                                                                         |
+| **Create Todo**     | `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY` <br> e.g., `todo stu-001 --desc Assignment 1 `                                                                           |
+| **Create Deadline** | `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`<br> e.g., `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `               |
+| **Mark**            | `mark TASK_INDEX`<br> e.g.,`mark 1`                                                                                                                                                                |
+| **Unmark**          | `unmark TASK_INDEX`<br> e.g.,`unmark 2`                                                                                                                                           |
+| **Find**            | `find [task]`<br> e.g., `find grade proposal`                                                                                                                                     |
+| **cat**             | `cat SPECIFIED_PATH`<br> e.g., `cat 1234A, cat grp-001`                                                                                                                           |
 
-Action     | Format, Examples |
-:-----     | :-------
-**Help**| `help`
-**Change Directory**| `cd SPECIFIED_PATH` <br> e.g., `cd ../grp-002`
-**List Directories**| `ls SPECIFIED_PATH` <br> e.g. `ls grp-001`
-**Add Student**     | `touch SPECIFIED_PATH -n NAME -id STUDENTID` <br> e.g., `touch grp-001/stu-001 -n Gary -id 1234Y`
-**Move Student**    | `mv SPECIFIED_PATH SPECIFIED_PATH` <br> e.g., `mv grp-001/stu-001 grp-002`
-**Create Group**    | `mkdir SPECIFIED_PATH` <br> e.g., `mkdir grp-001`
-**Remove**          | `rm SPECIFIED_PATH` <br> e.g., `rm grp-001/stu-001`
-**Create Todo**     | `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY` <br> e.g., `todo stu-001 --desc Assignment 1`
-**Create Deadline** | `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`<br> e.g., `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59`
-**Mark**            | `mark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`mark -d Assignment 1 -level student -target 0123Y`
-**Unmark**            | `unmark -d [task] -level [student/group] -target [StudentID/groupId]`<br> e.g.,`unmark -d Assignment 1 -level student -target 0123Y`

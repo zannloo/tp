@@ -4,13 +4,11 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Map;
 
-import javafx.scene.layout.Region;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.ui.GroupCard;
-import seedu.address.ui.UiPart;
 
 /**
  * Encapsulates logic for a group within a tutorial group
@@ -71,7 +69,7 @@ public class Group extends ChildrenAndTaskListManager<Student> {
     }
 
     @Override
-    public UiPart<Region> getDisplayCard(int displayedIndex) {
+    public GroupCard getDisplayCard(int displayedIndex) {
         return new GroupCard(this, displayedIndex);
     }
 
