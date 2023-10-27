@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.statemanager.State;
 
 /**
  * Show Task List.
@@ -37,33 +37,33 @@ public class ShowTaskListCommand extends Command {
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
+    public CommandResult execute(Model model) throws CommandException {
         if (target == null) {
-            AbsolutePath currPath = state.getCurrPath();
-            if (!state.hasTaskListInCurrentPath()) {
+            AbsolutePath currPath = model.getCurrPath();
+            if (!model.hasTaskListInCurrentPath()) {
                 throw new CommandException(String.format(MESSAGE_NOT_TASK_MANAGER, currPath.toString()));
             }
-            state.setDisplayPath(currPath);
-            state.showTaskList();
+            model.setDisplayPath(currPath);
+            model.showTaskList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, currPath.toString()));
         }
 
         // Check path exists in ProfBook
-        if (!state.hasPath(target)) {
-            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, target.toString()));
+        if (!model.hasPath(target)) {
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, target));
         }
 
         // Check path is task manager
-        if (!state.hasTaskListInPath(target)) {
-            throw new CommandException(String.format(MESSAGE_NOT_TASK_MANAGER, target.toString()));
+        if (!model.hasTaskListInPath(target)) {
+            throw new CommandException(String.format(MESSAGE_NOT_TASK_MANAGER, target));
         }
 
-        state.setDisplayPath(target);
-        state.showTaskList();
+        model.setDisplayPath(target);
+        model.showTaskList();
 
-        logger.fine("Showing task list for path: " + target.toString());
+        logger.fine("Showing task list for path: " + target);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, target.toString()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, target));
     }
 
     /**
@@ -79,10 +79,7 @@ public class ShowTaskListCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof ShowTaskListCommand)) {
-            return false;
-        }
-        return true;
+        return other instanceof ShowTaskListCommand;
     }
 
     /**

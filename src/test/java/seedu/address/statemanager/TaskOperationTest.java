@@ -14,6 +14,9 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.TaskOperation;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
@@ -24,9 +27,6 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Deadline;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
@@ -43,7 +43,7 @@ public class TaskOperationTest {
     private AbsolutePath rootPath;
     private AbsolutePath grpPath;
     private AbsolutePath stuPath;
-    private State state;
+    private Model model;
     private final Task task = new Deadline("Assignment 3", LocalDateTime.parse("2023-12-03T23:59"));
 
     @BeforeEach
@@ -68,19 +68,19 @@ public class TaskOperationTest {
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), this.group);
         this.root = new Root(groups);
-        state = new StateManager(rootPath, root, new UserPrefs());
+        model = new ModelManager(rootPath, root, new UserPrefs());
     }
 
     @Test
     public void getTaskOperation_noErrorReturn() {
-        assertEquals(new TaskOperation(this.group.getTaskListManager()), state.taskOperation(grpPath));
-        assertEquals(new TaskOperation(this.student), state.taskOperation(stuPath));
+        assertEquals(new TaskOperation(this.group.getTaskListManager()), model.taskOperation(grpPath));
+        assertEquals(new TaskOperation(this.student), model.taskOperation(stuPath));
     }
 
     @Test
     public void taskOperationVerifyDeleteMethod_noErrorReturn() {
         TaskOperation opr;
-        opr = state.taskOperation(stuPath);
+        opr = model.taskOperation(stuPath);
         assertTrue(this.student.checkDuplicates(task));
         try {
             for (Task t : this.student.getAllTask()) {
@@ -100,7 +100,7 @@ public class TaskOperationTest {
     @Test
     public void taskOperationVerifyAdd_noErrorReturn() {
         TaskOperation opr;
-        opr = state.taskOperation(stuPath);
+        opr = model.taskOperation(stuPath);
         opr.deleteTask(1);
         assertFalse(opr.hasTask(task));
         opr.addTask(task);
@@ -110,7 +110,7 @@ public class TaskOperationTest {
     @Test
     public void taskOperationVerifyMarkUnmark_noErrorReturn() {
         TaskOperation opr;
-        opr = state.taskOperation(stuPath);
+        opr = model.taskOperation(stuPath);
         List<Task> ret = opr.findTask("Assignment");
         assertEquals(ret.get(0), this.task);
         ret = opr.findTask("not here");
@@ -120,14 +120,14 @@ public class TaskOperationTest {
     @Test
     public void taskOperationVerifyGetTasks_noErrorReturn() {
         TaskOperation opr;
-        opr = state.taskOperation(stuPath);
+        opr = model.taskOperation(stuPath);
         assertEquals(opr.getTask(1), this.task);
     }
 
     @Test
     public void taskOperationVerifyGetAllTasks_noErrorReturn() {
         TaskOperation opr;
-        opr = state.taskOperation(stuPath);
+        opr = model.taskOperation(stuPath);
         ArrayList<Task> list = new ArrayList<>();
         list.add(this.task);
         assertEquals(opr.getAllTasks(), list);

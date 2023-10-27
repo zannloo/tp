@@ -5,12 +5,12 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
+import seedu.address.model.Model;
+import seedu.address.model.TaskOperation;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.ChildOperation;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.ToDo;
 
 /**
@@ -59,9 +59,9 @@ public class CreateTodoCommand extends Command {
     /**
      * Constructs a {@code CreateTodoCommand} with the specified absolute path and "ToDo" task details.
      *
-     * @param target The absolute path to the group where the "ToDo" task will be added.
-     * @param todo         The details of the "ToDo" task to be created.
-     * @param category     The specific category of people to add ToDo task to each.
+     * @param target   The absolute path to the group where the "ToDo" task will be added.
+     * @param todo     The details of the "ToDo" task to be created.
+     * @param category The specific category of people to add ToDo task to each.
      */
     public CreateTodoCommand(AbsolutePath target, ToDo todo, String category) {
         requireAllNonNull(target, todo, category);
@@ -78,15 +78,15 @@ public class CreateTodoCommand extends Command {
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
-        requireNonNull(state);
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
         if (this.category == null) {
-            TaskOperation taskOperation = state.taskOperation(target);
+            TaskOperation taskOperation = model.taskOperation(target);
             if (taskOperation.hasTask(this.todo)) {
                 throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
             }
             taskOperation.addTask(this.todo);
-            state.updateList();
+            model.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, target));
         }
 
@@ -94,19 +94,19 @@ public class CreateTodoCommand extends Command {
             if (!target.isGroupDirectory()) {
                 throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
             }
-            ChildOperation<Student> groupOper = state.groupChildOperation(target);
+            ChildOperation<Student> groupOper = model.groupChildOperation(target);
             groupOper.addTaskToAllChildren(todo, 1);
-            state.updateList();
+            model.updateList();
             return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
         }
 
         if (!target.isRootDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
-        ChildOperation<Group> rootOper = state.rootChildOperation();
-        rootOper.addTaskToAllChildren(todo, 1);;
+        ChildOperation<Group> rootOper = model.rootChildOperation();
+        rootOper.addTaskToAllChildren(todo, 1);
 
-        state.updateList();
+        model.updateList();
 
         return new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
     }

@@ -1,4 +1,4 @@
-package seedu.address.model.statemanager;
+package seedu.address.model;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ public interface IChildOperation<T extends IChildElement> {
      * Adds a task to children within the hierarchy up to a specified depth level.
      * e.g. if target is root and level is 2, task will be added to all student
      */
-    public void addTaskToAllChildren(Task task, int level);
+    void addTaskToAllChildren(Task task, int level);
 
     /**
      * Returns Number of current children

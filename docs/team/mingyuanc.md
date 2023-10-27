@@ -26,12 +26,12 @@ Given below are my contributions to the project.
         * Implementation were also made generic to allow for future extensions if needed.
         * Implementation was challenging as it required modifying the whole flow and structure of the application
 
-* **Streamline state modifications**:
-    * What it does: Provide a safe way for the command to modify the state
+* **Streamline model modifications**:
+    * What it does: Provide a safe way for the command to modify the model
     * Justification:
-        * Modification of the state should be done through a state manager instead of directly being modified by an
+        * Modification of the model should be done through a model manager instead of directly being modified by an
           external class in accordance with OOP principals
-        * Allow for the future migration to immutable state
+        * Allow for the future migration to immutable model
     * Highlights:
         * Implementation of this required an in-depth analysis of design alternative as there was a need for a generic
           way to modify all the current different classes alongside future classes.
@@ -69,9 +69,9 @@ Given below are my contributions to the project.
     * Provides the logic to safely manipulate data stored in Student/Group/Root
     * Ensure separation of concern by implementing other two other classes, TaskOperation and ChildOperation,
       each handling their own operation.
-        * Ensure the expected behaviour with regard to manipulating the state
+        * Ensure the expected behaviour with regard to manipulating the model
             * Path given matches the expected outcome
-            * Commands are unable to directly modify the state
+            * Commands are unable to directly modify the model
 
 ### **Code contributed**:
 

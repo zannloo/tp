@@ -13,7 +13,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.ProfBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.statemanager.State;
+import seedu.address.model.Model;
 import seedu.address.storage.ProfBookStorage;
 import seedu.address.ui.Displayable;
 
@@ -28,7 +28,7 @@ public class LogicManager implements Logic {
 
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
 
-    private final State state;
+    private final Model model;
 
     private final ProfBookStorage storage;
     private final ProfBookParser profBookParser;
@@ -36,10 +36,10 @@ public class LogicManager implements Logic {
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
      */
-    public LogicManager(State state, ProfBookStorage storage) {
+    public LogicManager(Model model, ProfBookStorage storage) {
         //todo : storage;
         this.storage = storage;
-        this.state = state;
+        this.model = model;
         profBookParser = new ProfBookParser();
     }
 
@@ -48,11 +48,11 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = profBookParser.parseCommand(commandText, state.getCurrPath());
-        commandResult = command.execute(state);
+        Command command = profBookParser.parseCommand(commandText, model.getCurrPath());
+        commandResult = command.execute(model);
 
         try {
-            storage.saveProfBook(state.getRoot());
+            storage.saveProfBook(model.getRoot());
         } catch (AccessDeniedException e) {
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
@@ -64,26 +64,26 @@ public class LogicManager implements Logic {
 
     @Override
     public ObservableList<Displayable> getDisplayList() {
-        return state.getDisplayList();
+        return model.getDisplayList();
     }
 
     @Override
     public String getCurrPath() {
-        return state.getCurrPath().toString();
+        return model.getCurrPath().toString();
     }
 
     @Override
     public Path getAddressBookFilePath() {
-        return state.getProfBookFilePath();
+        return model.getProfBookFilePath();
     }
 
     @Override
     public GuiSettings getGuiSettings() {
-        return state.getGuiSettings();
+        return model.getGuiSettings();
     }
 
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
-        state.setGuiSettings(guiSettings);
+        model.setGuiSettings(guiSettings);
     }
 }

@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.statemanager.State;
+import seedu.address.model.Model;
 
 /**
  * The HelpCommand class represents a command to display program usage instructions to the user.
@@ -32,12 +32,12 @@ public class HelpCommand extends Command {
     /**
      * Executes the HelpCommand to display program usage instructions.
      *
-     * @param state The current program state.
+     * @param model The current program model.
      * @return A CommandResult containing the help message and related flags.
      * @throws CommandException If there is an error executing the command.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
+    public CommandResult execute(Model model) throws CommandException {
         return new CommandResult(SHOWING_HELP_MESSAGE, true, false);
     }
 }
