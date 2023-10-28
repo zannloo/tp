@@ -5,10 +5,10 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
+import seedu.address.model.Model;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.statemanager.ChildOperation;
-import seedu.address.model.statemanager.State;
 
 /**
  * Represents a command for creating a new group within ProfBook.
@@ -43,15 +43,15 @@ public class CreateGroupCommand extends Command {
     /**
      * Executes the CreateGroupCommand to create a new group within ProfBook at the specified path.
      *
-     * @param state The current state of the application.
+     * @param model The current model of the application.
      * @return A CommandResult indicating the outcome of the execution.
      * @throws CommandException If an error occurs while executing the command.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
-        requireNonNull(state);
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
 
-        ChildOperation<Group> rootOperation = state.rootChildOperation();
+        ChildOperation<Group> rootOperation = model.rootChildOperation();
 
         // Check duplicate group
         if (rootOperation.hasChild(dest.getGroupId().get())) {
@@ -59,7 +59,7 @@ public class CreateGroupCommand extends Command {
         }
 
         rootOperation.addChild(this.group.getId(), this.group);
-        state.updateList();
+        model.updateList();
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, this.group));
     }

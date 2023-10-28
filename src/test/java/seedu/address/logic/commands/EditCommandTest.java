@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.HashMap;
@@ -10,6 +10,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.field.EditGroupDescriptor;
 import seedu.address.model.field.EditStudentDescriptor;
@@ -18,8 +20,6 @@ import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 
 public class EditCommandTest {
 
@@ -41,7 +41,7 @@ public class EditCommandTest {
         EditCommand firstEditCommand = new EditCommand(path1, editGroupDescriptor);
         EditCommand secondEditCommand = new EditCommand(path2, editGroupDescriptor);
 
-        assertFalse(firstEditCommand.equals(secondEditCommand));
+        assertNotEquals(firstEditCommand, secondEditCommand);
     }
 
     @Test
@@ -61,12 +61,12 @@ public class EditCommandTest {
         Root root = new Root(children);
         AbsolutePath currPath = new AbsolutePath("~/");
         AbsolutePath path = new AbsolutePath("~/grp-001");
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
 
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
         EditCommand editCommand = new EditCommand(path, editStudentDescriptor);
 
-        assertThrows(CommandException.class, EditCommand.MESSAGE_NO_SUCH_PATH, () -> editCommand.execute(state));
+        assertThrows(CommandException.class, EditCommand.MESSAGE_NO_SUCH_PATH, () -> editCommand.execute(model));
     }
 
     @Test
@@ -75,12 +75,12 @@ public class EditCommandTest {
         Root root = new Root(children);
         AbsolutePath currPath = new AbsolutePath("~/");
         AbsolutePath path = new AbsolutePath("~/");
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
 
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
         EditCommand editCommand = new EditCommand(path, editStudentDescriptor);
 
         assertThrows(CommandException.class,
-                EditCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR, () -> editCommand.execute(state));
+                EditCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR, () -> editCommand.execute(model));
     }
 }

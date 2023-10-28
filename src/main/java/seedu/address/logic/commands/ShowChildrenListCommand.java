@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.statemanager.State;
 
 /**
  * Show Task List.
@@ -37,32 +37,32 @@ public class ShowChildrenListCommand extends Command {
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
+    public CommandResult execute(Model model) throws CommandException {
         if (target == null) {
-            if (!state.hasChildrenListInCurrentPath()) {
+            if (!model.hasChildrenListInCurrentPath()) {
                 throw new CommandException(MESSAGE_NOT_CHILDREN_MANAGER);
             }
-            state.setDisplayPath(state.getCurrPath());
-            state.showChildrenList();
+            model.setDisplayPath(model.getCurrPath());
+            model.showChildrenList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, "current directory"));
         }
 
         // Check path exists in ProfBook
-        if (!state.hasPath(target)) {
-            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, target.toString()));
+        if (!model.hasPath(target)) {
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, target));
         }
 
         // Check path is children manager
-        if (!state.hasChildrenListInPath(target)) {
-            throw new CommandException(String.format(MESSAGE_NOT_CHILDREN_MANAGER, target.toString()));
+        if (!model.hasChildrenListInPath(target)) {
+            throw new CommandException(String.format(MESSAGE_NOT_CHILDREN_MANAGER, target));
         }
 
-        state.setDisplayPath(target);
-        state.showChildrenList();
+        model.setDisplayPath(target);
+        model.showChildrenList();
 
-        logger.fine("Showing children list for path: " + target.toString());
+        logger.fine("Showing children list for path: " + target);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, target.toString()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, target));
     }
 
     /**
@@ -78,10 +78,7 @@ public class ShowChildrenListCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof ShowChildrenListCommand)) {
-            return false;
-        }
-        return true;
+        return other instanceof ShowChildrenListCommand;
     }
 
     /**

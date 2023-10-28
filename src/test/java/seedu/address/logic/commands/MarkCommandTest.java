@@ -1,8 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalIndexes.FIRST_INDEX;
@@ -13,21 +12,21 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.TaskOperation;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.util.SampleProfBook;
 
 public class MarkCommandTest {
 
-    private State actualState;
+    private Model actualModel;
 
-    private State expectedState;
+    private Model expectedModel;
 
     private TaskOperation taskOperation;
 
@@ -36,18 +35,18 @@ public class MarkCommandTest {
         AbsolutePath currentPath = new AbsolutePath("~/");
         Root root1 = SampleProfBook.getRoot();
         Root root2 = SampleProfBook.getRoot();
-        actualState = new StateManager(currentPath, root1, new UserPrefs());
+        actualModel = new ModelManager(currentPath, root1, new UserPrefs());
 
-        expectedState = new StateManager(currentPath, root2, new UserPrefs());
+        expectedModel = new ModelManager(currentPath, root2, new UserPrefs());
 
         // Display task
         AbsolutePath displayPath = new AbsolutePath("~/grp-002/");
-        actualState.setDisplayPath(displayPath);
-        actualState.showTaskList();
-        expectedState.setDisplayPath(displayPath);
-        expectedState.showTaskList();
+        actualModel.setDisplayPath(displayPath);
+        actualModel.showTaskList();
+        expectedModel.setDisplayPath(displayPath);
+        expectedModel.showTaskList();
 
-        taskOperation = expectedState.taskOperation(displayPath);
+        taskOperation = expectedModel.taskOperation(displayPath);
     }
 
     @Test
@@ -59,9 +58,9 @@ public class MarkCommandTest {
                 taskToMark.toString());
 
         taskOperation.markTask(FIRST_INDEX.getOneBased());
-        expectedState.updateList();
+        expectedModel.updateList();
 
-        assertCommandSuccess(markCommand, actualState, expectedMessage, expectedState);
+        assertCommandSuccess(markCommand, actualModel, expectedMessage, expectedModel);
     }
 
     @Test
@@ -69,8 +68,8 @@ public class MarkCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(taskOperation.getTaskListSize() + 1);
         MarkCommand markCommand = new MarkCommand(outOfBoundIndex);
 
-        assertCommandFailure(markCommand, actualState,
-                Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, expectedState);
+        assertCommandFailure(markCommand, actualModel,
+                Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, expectedModel);
     }
 
     @Test
@@ -79,20 +78,20 @@ public class MarkCommandTest {
         MarkCommand secondMarkCommand = new MarkCommand(SECOND_INDEX);
 
         // same object -> returns true
-        assertTrue(firstMarkCommand.equals(firstMarkCommand));
+        assertEquals(firstMarkCommand, firstMarkCommand);
 
         // same values -> returns true
         MarkCommand firstMarkCommandCopy = new MarkCommand(FIRST_INDEX);
-        assertTrue(firstMarkCommand.equals(firstMarkCommandCopy));
+        assertEquals(firstMarkCommand, firstMarkCommandCopy);
 
         // different types -> returns false
-        assertFalse(firstMarkCommand.equals(1));
+        assertNotEquals(1, firstMarkCommand);
 
         // null -> returns false
-        assertFalse(firstMarkCommand.equals(null));
+        assertNotEquals(null, firstMarkCommand);
 
         // different object -> returns false
-        assertFalse(firstMarkCommand.equals(secondMarkCommand));
+        assertNotEquals(firstMarkCommand, secondMarkCommand);
     }
 
     @Test
