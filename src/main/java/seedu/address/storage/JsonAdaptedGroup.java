@@ -19,8 +19,8 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.task.Deadline;
+import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
-import seedu.address.model.task.TaskList;
 import seedu.address.model.task.ToDo;
 
 /**
@@ -110,7 +110,7 @@ public class JsonAdaptedGroup {
         }
         final GroupId grpId = new GroupId(id);
 
-        final TaskList modelTList = new TaskList(taskList);
+        final ReadOnlyTaskList modelTList = new ReadOnlyTaskList(taskList);
 
         return new Group(modelTList, studentMap, modelName, grpId);
     }

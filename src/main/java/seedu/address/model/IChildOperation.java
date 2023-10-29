@@ -15,7 +15,7 @@ import seedu.address.model.task.Task;
  *
  * @param <T> Type of the child
  */
-public interface IChildOperation<T extends IChildElement> {
+public interface IChildOperation<T extends IChildElement<T>> {
     /**
      * Adds the child to list of children
      *

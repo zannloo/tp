@@ -23,7 +23,7 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.TaskList;
+import seedu.address.model.task.ReadOnlyTaskList;
 
 public class CreateGroupCommandTest {
 
@@ -37,7 +37,8 @@ public class CreateGroupCommandTest {
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
-        Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
+        Group group = new Group(new ReadOnlyTaskList(new ArrayList<>()), students,
+                new Name("Group1"), new GroupId("grp-001"));
         AbsolutePath currPath = new AbsolutePath("~/");
         Model model = new ModelManager(currPath, root, new UserPrefs());
 
@@ -53,7 +54,8 @@ public class CreateGroupCommandTest {
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
-        Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
+        Group group = new Group(new ReadOnlyTaskList(new ArrayList<>()),
+                students, new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
         AbsolutePath currPath = new AbsolutePath("~/");
         AbsolutePath target = new AbsolutePath("~/grp-001");
@@ -65,7 +67,7 @@ public class CreateGroupCommandTest {
 
     @Test
     public void equals_sameInstance_success() throws InvalidPathException {
-        TaskList taskList = new TaskList(new ArrayList<>());
+        ReadOnlyTaskList taskList = new ReadOnlyTaskList(new ArrayList<>());
         Map<Id, Student> students = new HashMap<>();
         Name name = new Name("Group 1");
         GroupId id = new GroupId("grp-001");

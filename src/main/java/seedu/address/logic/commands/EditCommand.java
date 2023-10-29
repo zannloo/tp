@@ -25,7 +25,7 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.TaskList;
+import seedu.address.model.task.ReadOnlyTaskList;
 
 /**
  * EditCommand is a class representing a command to edit the details of a person (either a student or a group) in
@@ -106,7 +106,7 @@ public class EditCommand extends Command {
         Email updatedEmail = editStudentDescriptor.getEmail().orElse(studentToEdit.getEmail());
         Address updatedAddress = editStudentDescriptor.getAddress().orElse(studentToEdit.getAddress());
         StudentId updatedId = editStudentDescriptor.getId().orElse(studentToEdit.getId());
-        TaskList taskList = new TaskList(studentToEdit.getAllTask());
+        ReadOnlyTaskList taskList = new ReadOnlyTaskList(studentToEdit.getAllTasks());
         return new Student(taskList, updatedName, updatedEmail, updatedPhone, updatedAddress, updatedId);
     }
 
@@ -119,7 +119,7 @@ public class EditCommand extends Command {
 
         Name updatedName = editGroupDescriptor.getName().orElse(groupToEdit.getName());
         GroupId updatedId = editGroupDescriptor.getId().orElse(groupToEdit.getId());
-        TaskList taskList = new TaskList(groupToEdit.getAllTask());
+        ReadOnlyTaskList taskList = new ReadOnlyTaskList(groupToEdit.getAllTask());
         Map<Id, Student> students = groupToEdit.getChildren();
         return new Group(taskList, students, updatedName, updatedId);
     }

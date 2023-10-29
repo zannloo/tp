@@ -12,8 +12,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_STUDENT_DIR_PREAMBLE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.CommandTestUtil;
@@ -24,7 +22,7 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.TaskList;
+import seedu.address.model.task.ReadOnlyTaskList;
 
 public class CreateStudentCommandParserTest {
     private CreateStudentCommandParser parser = new CreateStudentCommandParser();
@@ -32,7 +30,7 @@ public class CreateStudentCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() {
         Student expectedStu = new Student(
-                new TaskList(new ArrayList<>()),
+                new ReadOnlyTaskList(),
                 new Name(VALID_NAME_AMY),
                 new Email(VALID_EMAIL_AMY),
                 new Phone(VALID_PHONE_AMY),

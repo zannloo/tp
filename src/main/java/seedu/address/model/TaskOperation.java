@@ -34,12 +34,12 @@ public class TaskOperation implements ITaskOperations {
 
     @Override
     public int getTaskListSize() {
-        return this.baseDir.getTaskListSize();
+        return this.baseDir.size();
     }
 
     @Override
     public boolean hasTask(Task t) {
-        return this.baseDir.checkDuplicates(t);
+        return this.baseDir.contains(t);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class TaskOperation implements ITaskOperations {
     @Override
     public List<Task> getAllTasks() {
         this.stateLogger("getting all ");
-        return this.baseDir.getAllTask();
+        return this.baseDir.getAllTasks();
     }
 
     @Override

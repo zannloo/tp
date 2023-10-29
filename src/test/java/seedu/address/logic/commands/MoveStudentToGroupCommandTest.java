@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.TaskList;
+import seedu.address.model.task.ReadOnlyTaskList;
 
 public class MoveStudentToGroupCommandTest {
     public static final String ERROR_MESSAGE_INCORRECT_DIRECTORY = "Directory is invalid";
@@ -36,7 +35,8 @@ public class MoveStudentToGroupCommandTest {
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
-        Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
+        Group group = new Group(new ReadOnlyTaskList(),
+                students, new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
         AbsolutePath currPath = new AbsolutePath("~/");
         AbsolutePath sourcePath = new AbsolutePath("~/");

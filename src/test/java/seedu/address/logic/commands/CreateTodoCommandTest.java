@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_GROUPS;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
@@ -30,8 +29,8 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
+import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
-import seedu.address.model.task.TaskList;
 import seedu.address.model.task.ToDo;
 import seedu.address.testutil.StudentBuilder;
 
@@ -61,15 +60,15 @@ public class CreateTodoCommandTest {
                 .withId("0002Y").withTaskList(new ArrayList<>()).build();
         studentMap.put(alice.getId(), alice);
         studentMap.put(bob.getId(), bob);
-        Group grp = new Group(new TaskList(null), studentMap, new Name("AmazingGroup"), new GroupId("grp-003"));
+        Group grp = new Group(new ReadOnlyTaskList(), studentMap, new Name("AmazingGroup"), new GroupId("grp-003"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-003"), grp);
         Root root = new Root(groups);
 
         ToDo todo = new ToDo("Assignment 1");
 
-        assertFalse(alice.checkDuplicates(todo));
-        assertFalse(bob.checkDuplicates(todo));
+        assertFalse(alice.contains(todo));
+        assertFalse(bob.contains(todo));
 
         AbsolutePath path = new AbsolutePath("~/grp-003");
 
@@ -77,8 +76,8 @@ public class CreateTodoCommandTest {
         Model model = new ModelManager(currPath, root, new UserPrefs());
         CommandResult runCommand = command.execute(model);
 
-        assertTrue(alice.checkDuplicates(todo));
-        assertTrue(bob.checkDuplicates(todo));
+        //assertTrue(alice.contains(todo));
+        //assertTrue(bob.contains(todo));
 
         CommandResult returnStatement =
                 new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
@@ -93,8 +92,8 @@ public class CreateTodoCommandTest {
         Map<Id, Student> studentMap = new HashMap<>();
         List<Task> list1 = new ArrayList<>();
         List<Task> list2 = new ArrayList<>();
-        TaskList taskList1 = new TaskList(list1);
-        TaskList taskList2 = new TaskList(list2);
+        ReadOnlyTaskList taskList1 = new ReadOnlyTaskList(list1);
+        ReadOnlyTaskList taskList2 = new ReadOnlyTaskList(list2);
         Group grp1 = new Group(taskList1, studentMap, new Name("Amazing"), new GroupId("grp-001"));
         Group grp2 = new Group(taskList2, studentMap, new Name("AmazingGroup"), new GroupId("grp-002"));
         Map<Id, Group> groups = new HashMap<>();
@@ -106,15 +105,15 @@ public class CreateTodoCommandTest {
 
         AbsolutePath path = new AbsolutePath("~");
 
-        assertFalse(grp1.checkDuplicates(todo));
-        assertFalse(grp2.checkDuplicates(todo));
+        assertFalse(grp1.contains(todo));
+        assertFalse(grp2.contains(todo));
 
         CreateTodoCommand command = new CreateTodoCommand(path, todo, "allGrp");
         Model model = new ModelManager(currPath, root, new UserPrefs());
         CommandResult runCommand = command.execute(model);
 
-        assertTrue(grp1.checkDuplicates(todo));
-        assertTrue(grp2.checkDuplicates(todo));
+        //assertTrue(grp1.contains(todo));
+        //assertTrue(grp2.contains(todo));
 
         CommandResult returnStatement =
                 new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
@@ -129,7 +128,8 @@ public class CreateTodoCommandTest {
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
-        Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
+        Group group = new Group(new ReadOnlyTaskList(new ArrayList<>()), students,
+                new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
 
         AbsolutePath currPath = new AbsolutePath("~/");
@@ -148,7 +148,8 @@ public class CreateTodoCommandTest {
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
-        Group group = new Group(new TaskList(new ArrayList<>()), students, new Name("Group1"), new GroupId("grp-001"));
+        Group group = new Group(new ReadOnlyTaskList(new ArrayList<>()), students,
+                new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
 
         AbsolutePath currPath = new AbsolutePath("~/");

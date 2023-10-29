@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.ChildrenAndTaskListManager;
 import seedu.address.model.profbook.ChildrenManager;
@@ -21,11 +20,11 @@ import seedu.address.model.task.TaskListManager;
  *
  * @param <T> The type of child that is required
  */
-public class ChildOperation<T extends IChildElement> implements IChildOperation<T> {
+public class ChildOperation<T extends IChildElement<T>> implements IChildOperation<T> {
 
     private final ChildrenManager<T> baseDir;
 
-    private final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+    private final Logger logger = LogsCenter.getLogger(ChildOperation.class);
 
     public ChildOperation(ChildrenManager<T> baseDir) {
         this.baseDir = baseDir;
@@ -121,15 +120,17 @@ public class ChildOperation<T extends IChildElement> implements IChildOperation<
 
     @Override
     public void addTaskToAllChildren(Task task, int level) {
-        List<IChildElement> children = new ArrayList<>(getAllChildren());
+        List<IChildElement<?>> children = new ArrayList<>(getAllChildren());
         level--;
 
         while (level > 0) {
-            List<IChildElement> list = new ArrayList<>();
-            for (IChildElement child : children) {
-                if (child instanceof ChildrenAndTaskListManager) {
-                    ChildrenAndTaskListManager<?> ctlm = (ChildrenAndTaskListManager<?>) child;
+            List<IChildElement<?>> list = new ArrayList<>();
+            for (IChildElement<?> child : children) {
+                if (child instanceof ChildrenAndTaskListManager<?, ?>) {
+                    ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
                     list.addAll(ctlm.getAllChildren());
+                } else {
+                    throw new IllegalArgumentException("Invalid level.");
                 }
             }
             children = new ArrayList<>(list);
@@ -139,14 +140,15 @@ public class ChildOperation<T extends IChildElement> implements IChildOperation<
         addAllTaskToAllChildren(task, children);
     }
 
-    private void addAllTaskToAllChildren(Task task, List<? extends IChildElement> children) {
-        for (IChildElement child : children) {
+    private void addAllTaskToAllChildren(Task task, List<? extends IChildElement<?>> children) {
+        for (IChildElement<?> child : children) {
+            logger.info("Adding task to: " + child.toString());
             Task clonedTask = task.clone();
             if (child instanceof TaskListManager) {
                 TaskListManager tlm = (TaskListManager) child;
                 tlm.addTask(clonedTask);
             } else if (child instanceof ChildrenAndTaskListManager) {
-                ChildrenAndTaskListManager<?> ctlm = (ChildrenAndTaskListManager<?>) child;
+                ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
                 ctlm.addTask(clonedTask);
             } else {
                 throw new IllegalArgumentException("All children must be task list manager.");

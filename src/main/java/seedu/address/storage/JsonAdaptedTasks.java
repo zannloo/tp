@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import seedu.address.model.task.Task;
-import seedu.address.model.task.TaskList;
 
 /**
  * Jackson-friendly version of {@link TaskList}.

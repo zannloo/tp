@@ -12,8 +12,8 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.task.Deadline;
+import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
-import seedu.address.model.task.TaskList;
 
 /**
  * A utility class to help with building Group objects.
@@ -23,7 +23,7 @@ public class GroupBuilder {
     public static final String DEFAULT_NAME = "Group ProfBook";
     public static final String DEFAULT_ID = "grp-001";
 
-    private TaskList taskList;
+    private ReadOnlyTaskList taskList;
     private Map<Id, Student> students;
     private GroupId id;
     private Name name;
@@ -34,7 +34,7 @@ public class GroupBuilder {
     public GroupBuilder() {
         List<Task> defaultTaskList = new ArrayList<>();
         defaultTaskList.add(DEFAULT_TASK);
-        taskList = new TaskList(defaultTaskList);
+        taskList = new ReadOnlyTaskList(defaultTaskList);
         students = new HashMap<>();
         Student stu1 = new StudentBuilder().build();
         Student stu2 = new StudentBuilder()
@@ -60,7 +60,7 @@ public class GroupBuilder {
      */
     public Group buildEmptyTask() {
         List<Task> emptyList = new ArrayList<>();
-        TaskList emptyTaskList = new TaskList(emptyList);
+        ReadOnlyTaskList emptyTaskList = new ReadOnlyTaskList(emptyList);
         return new Group(emptyTaskList, students, name, id);
     }
 
