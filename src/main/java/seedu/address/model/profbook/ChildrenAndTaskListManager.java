@@ -7,15 +7,15 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
+import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
-import seedu.address.model.task.TaskList;
 import seedu.address.model.task.TaskListManager;
 import seedu.address.model.task.exceptions.NoSuchTaskException;
 
 /**
  * A child element that is both Children and TaskList Manager.
  */
-public abstract class ChildrenAndTaskListManager<T extends IChildElement> implements IChildElement {
+public abstract class ChildrenAndTaskListManager<R, T extends IChildElement<T>> implements IChildElement<R> {
     private ChildrenManager<T> childrenManager;
     private TaskListManager taskListManager;
 
@@ -30,9 +30,17 @@ public abstract class ChildrenAndTaskListManager<T extends IChildElement> implem
     /**
      * Construct a new children and tasklist manager with given children and tasklist.
      */
-    public ChildrenAndTaskListManager(Map<Id, T> children, TaskList taskList) {
+    public ChildrenAndTaskListManager(Map<Id, T> children, ReadOnlyTaskList taskList) {
         childrenManager = new ChildrenManager<>(children);
         taskListManager = new TaskListManager(taskList);
+    }
+
+    /**
+     * Construcst a {@code ChildrenAndTaskListManager} with the data in {@code toBeCopied}.
+     */
+    public ChildrenAndTaskListManager(ChildrenAndTaskListManager<R, T> toBeCopied) {
+        this.childrenManager = new ChildrenManager<>(toBeCopied.childrenManager);
+        this.taskListManager = new TaskListManager(toBeCopied.taskListManager);
     }
 
     public ChildrenManager<T> getChildrenManger() {
@@ -181,11 +189,11 @@ public abstract class ChildrenAndTaskListManager<T extends IChildElement> implem
      * @return A list of all Tasks
      */
     public List<Task> getAllTask() {
-        return taskListManager.getAllTask();
+        return taskListManager.getAllTasks();
     }
 
-    public boolean checkDuplicates(Task t) {
-        return taskListManager.checkDuplicates(t);
+    public boolean contains(Task t) {
+        return taskListManager.contains(t);
     }
 
     @Override
@@ -203,11 +211,11 @@ public abstract class ChildrenAndTaskListManager<T extends IChildElement> implem
         }
 
         // instanceof handles nulls
-        if (!(other instanceof ChildrenAndTaskListManager<?>)) {
+        if (!(other instanceof ChildrenAndTaskListManager<?, ?>)) {
             return false;
         }
 
-        ChildrenAndTaskListManager<?> otherChildrenAndTaskListManager = (ChildrenAndTaskListManager<?>) other;
+        ChildrenAndTaskListManager<?, ?> otherChildrenAndTaskListManager = (ChildrenAndTaskListManager<?, ?>) other;
         return this.childrenManager.equals(otherChildrenAndTaskListManager.childrenManager)
                 && this.taskListManager.equals(otherChildrenAndTaskListManager.taskListManager);
     }

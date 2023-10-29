@@ -7,13 +7,13 @@ import java.util.Map;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
-import seedu.address.model.task.TaskList;
+import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.ui.GroupCard;
 
 /**
  * Encapsulates logic for a group within a tutorial group
  */
-public class Group extends ChildrenAndTaskListManager<Student> {
+public class Group extends ChildrenAndTaskListManager<Group, Student> {
 
     /**
      * Name of the group
@@ -33,7 +33,7 @@ public class Group extends ChildrenAndTaskListManager<Student> {
      * @param name     - The group name
      * @param id       - Unique identifier of the group
      */
-    public Group(TaskList taskList, Map<Id, Student> students, Name name, GroupId id) {
+    public Group(ReadOnlyTaskList taskList, Map<Id, Student> students, Name name, GroupId id) {
         super(students, taskList);
         requireAllNonNull(name, id);
         this.name = name;
@@ -41,12 +41,21 @@ public class Group extends ChildrenAndTaskListManager<Student> {
     }
 
     /**
-     * Constructs a new Group instance without task list and student map.
+     * Constructs a new {@code Group} without task list and student map.
      */
     public Group(Name name, GroupId id) {
         super();
         this.name = name;
         this.id = id;
+    }
+
+    /**
+     * Create a {@code Group} with the data in {@code toBeCopied}.
+     */
+    public Group(Group toBeCopied) {
+        super(toBeCopied);
+        this.name = toBeCopied.name;
+        this.id = toBeCopied.id;
     }
 
     public GroupId getId() {
@@ -57,15 +66,9 @@ public class Group extends ChildrenAndTaskListManager<Student> {
         return name;
     }
 
-    /**
-     * Creates a clone of the current element, this is to achieve immutability
-     *
-     * @return The clone of the IChildElement
-     */
     @Override
-    public Group getClone() {
-        return new Group(new TaskList(getAllTask()), this.getChildren(),
-                new Name(this.name.fullName), this.id);
+    public Group deepCopy() {
+        return new Group(this);
     }
 
     @Override
