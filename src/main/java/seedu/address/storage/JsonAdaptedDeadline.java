@@ -2,6 +2,7 @@ package seedu.address.storage;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,7 +44,7 @@ public class JsonAdaptedDeadline extends JsonAdaptedTasks {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy hh:mm a");
         LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
         Task t = null;
-        if (isDone == "true") {
+        if (isDone.equals("true")) {
             t = new Deadline(description, parsedDateTime, true);
         } else {
             t = new Deadline(description, parsedDateTime);
