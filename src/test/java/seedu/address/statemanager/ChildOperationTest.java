@@ -27,7 +27,7 @@ import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.testutil.StudentBuilder;
 
 public class ChildOperationTest {
@@ -59,7 +59,7 @@ public class ChildOperationTest {
                 .withId("0001Y").build();
         Map<Id, Student> studentMap = new HashMap<>();
         studentMap.put(new StudentId("0001Y"), this.student);
-        this.group = new Group(new TaskList(null), studentMap, new Name("gary"), new GroupId("grp-001"));
+        this.group = new Group(new ReadOnlyTaskList(), studentMap, new Name("gary"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), this.group);
         this.root = new Root(groups);

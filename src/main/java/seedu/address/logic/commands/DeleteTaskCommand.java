@@ -10,7 +10,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.TaskOperation;
-import seedu.address.model.taskmanager.Task;
+import seedu.address.model.task.Task;
 
 /**
  * Deletes a task identified using it's displayed index on display panel.

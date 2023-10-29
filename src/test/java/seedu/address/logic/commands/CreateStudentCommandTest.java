@@ -23,7 +23,7 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.testutil.GroupBuilder;
 import seedu.address.testutil.StudentBuilder;
 
@@ -83,7 +83,7 @@ class CreateStudentCommandTest {
                 .withId("0001Y").build();
         Map<Id, Student> studentMap = new HashMap<>();
         studentMap.put(duplicatedStudent.getId(), duplicatedStudent);
-        Group grp = new Group(new TaskList(null), studentMap, new Name("ProfBook"), new GroupId("grp-001"));
+        Group grp = new Group(new ReadOnlyTaskList(), studentMap, new Name("ProfBook"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), grp);
         Root root = new Root(groups);

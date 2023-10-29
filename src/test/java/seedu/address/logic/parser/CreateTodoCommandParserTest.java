@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.logic.commands.CreateTodoCommand;
-import seedu.address.model.taskmanager.ToDo;
+import seedu.address.model.task.ToDo;
 
 public class CreateTodoCommandParserTest {
     private CreateTodoCommandParser parser = new CreateTodoCommandParser();

@@ -11,7 +11,7 @@ import seedu.address.model.TaskOperation;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.ToDo;
+import seedu.address.model.task.ToDo;
 
 /**
  * Represents a command for creating a new "ToDo" task in ProfBook.

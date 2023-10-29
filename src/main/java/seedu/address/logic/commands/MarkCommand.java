@@ -11,7 +11,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.TaskOperation;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.taskmanager.Task;
+import seedu.address.model.task.Task;
 
 /**
  * The MarkCommand class represents a command for marking a task in the task list.
