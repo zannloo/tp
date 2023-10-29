@@ -13,7 +13,7 @@ import seedu.address.ui.DeadlineCard;
 public class Deadline extends Task {
     private static final DateTimeFormatter OUTPUT_DATETIME_FORMATTER =
         DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy h:mm a");
-    private LocalDateTime dueBy;
+    private final LocalDateTime dueBy;
 
     /**
      * Constructs a new Deadline object with the given description and deadline.
@@ -26,24 +26,26 @@ public class Deadline extends Task {
     }
 
     /**
-     * Marks the task as done
+     * Constructs a {@code Deadline} with given {@code description},
+     * {@code deadline} and {@code status}.
      */
-    public void mark() {
-        this.isDone = true;
-        assert this.isDone;
-
-    }
-
-    /**
-     * Unmarks the task as done
-     */
-    public void unmark() {
-        this.isDone = false;
-        assert !this.isDone;
+    public Deadline(String description, LocalDateTime deadline, boolean status) {
+        super(description, status);
+        this.dueBy = deadline;
     }
 
     public String getDeadline() {
         return this.dueBy.format(OUTPUT_DATETIME_FORMATTER);
+    }
+
+    @Override
+    public Deadline mark() {
+        return new Deadline(description, dueBy, true);
+    }
+
+    @Override
+    public Deadline unmark() {
+        return new Deadline(description, dueBy, false);
     }
 
     @Override

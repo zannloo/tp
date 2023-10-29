@@ -32,9 +32,11 @@ public class JsonAdaptedToDo extends JsonAdaptedTasks {
 
     @Override
     public Task toModelType() {
-        Task t = new ToDo(description);
+        Task t = null;
         if (isDone == "true") {
-            t.mark();
+            t = new ToDo(description, true);
+        } else {
+            t = new ToDo(description, false);
         }
         return t;
     }

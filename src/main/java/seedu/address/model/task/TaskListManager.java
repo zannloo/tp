@@ -65,8 +65,9 @@ public class TaskListManager extends ReadOnlyTaskList {
     public Task markTask(int index) throws NoSuchTaskException {
         verifyIsValidIndex(index);
         Task task = this.taskList.get(index - 1);
-        task.mark();
-        return task;
+        Task markedTask = task.mark();
+        this.taskList.set(index - 1, markedTask);
+        return markedTask;
     }
 
     /**
@@ -79,8 +80,9 @@ public class TaskListManager extends ReadOnlyTaskList {
     public Task unmarkTask(int index) throws NoSuchTaskException {
         verifyIsValidIndex(index);
         Task task = this.taskList.get(index - 1);
-        task.unmark();
-        return task;
+        Task unmarkedTask = task.unmark();
+        this.taskList.set(index - 1, unmarkedTask);
+        return unmarkedTask;
     }
 
     /**

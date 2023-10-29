@@ -8,8 +8,8 @@ import seedu.address.ui.Displayable;
  * It is an abstract class that provides a common interface for different types of tasks.
  */
 public abstract class Task implements Displayable {
-    protected String description;
-    protected Boolean isDone;
+    protected final String description;
+    protected final Boolean isDone;
 
     /**
      * Constructs a {@code Task}.
@@ -21,9 +21,28 @@ public abstract class Task implements Displayable {
         this.isDone = false;
     }
 
-    public abstract void mark();
+    /**
+     * Constructs a {@code Task} with given description is status.
+     */
+    public Task(String desc, boolean status) {
+        this.description = desc;
+        this.isDone = status;
+    }
 
-    public abstract void unmark();
+    /**
+     * Marks the task as done.
+     */
+    abstract Task mark();
+
+    /**
+     * Marks the task as not done.
+     */
+    abstract Task unmark();
+
+    /**
+     * Returns a clone of the task.
+     */
+    public abstract Task clone();
 
     public String getDesc() {
         return description;
@@ -34,10 +53,7 @@ public abstract class Task implements Displayable {
     }
 
     /**
-     * This method checks the status of a task.
-     *
-     * @return A string representation of the status.
-     *         Returns "true" if the task is done, "false" otherwise.
+     * Returns "true" if task is done else "false".
      */
     public String statusString() {
         if (isDone) {
@@ -46,11 +62,12 @@ public abstract class Task implements Displayable {
         return "false";
     }
 
+    /**
+     * Return "X" if task is done else " ".
+     */
     public String getStatusIcon() {
         return (this.isDone ? "X" : " ");
     }
-
-    public abstract Task clone();
 
     @Override
     public boolean equals(Object other) {
