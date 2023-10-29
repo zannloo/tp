@@ -13,6 +13,9 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.ChildOperation;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
@@ -24,9 +27,6 @@ import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
-import seedu.address.model.statemanager.ChildOperation;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.testutil.StudentBuilder;
 
@@ -39,7 +39,7 @@ public class ChildOperationTest {
     private AbsolutePath grpPath;
     private AbsolutePath stuPath;
 
-    private State state;
+    private Model model;
 
     @BeforeEach
     public void init() {
@@ -63,25 +63,25 @@ public class ChildOperationTest {
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), this.group);
         this.root = new Root(groups);
-        state = new StateManager(rootPath, root, new UserPrefs());
+        model = new ModelManager(rootPath, root, new UserPrefs());
     }
 
     @Test
     public void getChildOperation_noErrorReturn() {
-        assertEquals(new ChildOperation<>(this.root), state.rootChildOperation());
-        assertEquals(new ChildOperation<>(this.group.getChildrenManger()), state.groupChildOperation(grpPath));
-        assertEquals(new ChildOperation<>(this.group.getChildrenManger()), state.groupChildOperation(stuPath));
+        assertEquals(new ChildOperation<>(this.root), model.rootChildOperation());
+        assertEquals(new ChildOperation<>(this.group.getChildrenManger()), model.groupChildOperation(grpPath));
+        assertEquals(new ChildOperation<>(this.group.getChildrenManger()), model.groupChildOperation(stuPath));
     }
 
     @Test
     public void getGroupChildOperationWithRoot_exceptionThrown() {
-        assertThrows(IllegalArgumentException.class, () -> state.groupChildOperation(rootPath));
+        assertThrows(IllegalArgumentException.class, () -> model.groupChildOperation(rootPath));
     }
 
     @Test
     public void childOperationVerifyDeleteAndAdd_noError() {
         StudentId stu = new StudentId("0001Y");
-        ChildOperation<Student> opr = state.groupChildOperation(grpPath);
+        ChildOperation<Student> opr = model.groupChildOperation(grpPath);
         assertTrue(opr.hasChild(stu));
         opr.deleteChild(stu);
         assertFalse(opr.hasChild(stu));
@@ -92,7 +92,7 @@ public class ChildOperationTest {
     @Test
     public void childOperationVerifyGet_noError() {
         StudentId stu = new StudentId("0001Y");
-        ChildOperation<Student> opr = state.groupChildOperation(grpPath);
+        ChildOperation<Student> opr = model.groupChildOperation(grpPath);
         assertTrue(opr.hasChild(stu));
         assertEquals(this.student, opr.getChild(stu));
     }
@@ -101,7 +101,7 @@ public class ChildOperationTest {
     public void childOperationAddDuplicateChild_exceptionThrown() {
         StudentId stu = new StudentId("0001Y");
         try {
-            ChildOperation<Student> opr = state.groupChildOperation(grpPath);
+            ChildOperation<Student> opr = model.groupChildOperation(grpPath);
             assertTrue(opr.hasChild(stu));
             opr.addChild(stu, this.student);
             fail();
@@ -112,7 +112,7 @@ public class ChildOperationTest {
 
     @Test
     public void childOperationVerifyGetAll_noError() {
-        ChildOperation<Student> opr = state.groupChildOperation(grpPath);
+        ChildOperation<Student> opr = model.groupChildOperation(grpPath);
         ArrayList<Student> list = new ArrayList<>();
         list.add(this.student);
         assertEquals(opr.getAllChildren(), list);
@@ -127,7 +127,7 @@ public class ChildOperationTest {
                 .withPhone("1234567")
                 .withAddress("311, Clementi Ave 2, #02-25")
                 .withId("0001Y").build();
-        ChildOperation<Student> opr = state.groupChildOperation(grpPath);
+        ChildOperation<Student> opr = model.groupChildOperation(grpPath);
         assertTrue(opr.hasChild(stu));
         opr.updateChild(stu, newStu);
         assertEquals(newStu, opr.getChild(stu));

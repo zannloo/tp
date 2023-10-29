@@ -5,6 +5,8 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
+import seedu.address.model.Model;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
@@ -13,8 +15,7 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
-import seedu.address.model.statemanager.ChildOperation;
-import seedu.address.model.statemanager.State;
+
 /**
  * Deletes a {@code Student} or {@code Group} according to the targeted path.
  */
@@ -51,55 +52,55 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
      * Executes an DeleteForStudentsAndGroupsCommand to delete a {@code Student} or {@code Group}
      *
      * @return Command result which represents the outcome of the command execution.
-     * @throws CommandException Exception thrown when error occurs during command execution.
-     * @throws InvalidPathException Exception thrown when error occurs due to invalid path.
+     * @throws CommandException                  Exception thrown when error occurs during command execution.
+     * @throws InvalidPathException              Exception thrown when error occurs due to invalid path.
      * @throws UnsupportedPathOperationException Exception thrown when error occurs due to unsupported path execution.
-     * @throws NoSuchChildException Exception thrown when child specified does not exist.
+     * @throws NoSuchChildException              Exception thrown when child specified does not exist.
      */
     @Override
-    public CommandResult execute(State state) throws CommandException {
-        requireNonNull(state);
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
 
         if (toBeDeleted.isRootDirectory()) {
             throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
         }
 
         // Check if to be deleted path is current path.
-        if (toBeDeleted.equals(state.getCurrPath())) {
+        if (toBeDeleted.equals(model.getCurrPath())) {
             throw new CommandException(MESSAGE_DELETE_CURRENT_PATH);
         }
 
         // Check if to be deleted path is diplay path.
-        if (toBeDeleted.equals(state.getDisplayPath())) {
+        if (toBeDeleted.equals(model.getDisplayPath())) {
             throw new CommandException(MESSAGE_DELETE_DISPLAY_PATH);
         }
 
         // Check path exists in ProfBook
-        if (!state.hasPath(toBeDeleted)) {
+        if (!model.hasPath(toBeDeleted)) {
             throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
         }
 
         if (toBeDeleted.isStudentDirectory()) {
-            ChildOperation<Student> target = state.groupChildOperation(toBeDeleted);
+            ChildOperation<Student> target = model.groupChildOperation(toBeDeleted);
             StudentId studentId = toBeDeleted.getStudentId().get();
             if (!target.hasChild(studentId)) {
                 throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
             }
             stu = target.getChild(studentId);
             target.deleteChild(studentId);
-            state.updateList();
+            model.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_STUDENT, Messages.format(stu)));
         }
 
         if (toBeDeleted.isGroupDirectory()) {
-            ChildOperation<Group> target = state.rootChildOperation();
+            ChildOperation<Group> target = model.rootChildOperation();
             GroupId groupId = toBeDeleted.getGroupId().get();
             if (!target.hasChild(groupId)) {
                 throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
             }
             grp = target.getChild(groupId);
             target.deleteChild(groupId);
-            state.updateList();
+            model.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_GROUP, Messages.format(grp)));
         }
 

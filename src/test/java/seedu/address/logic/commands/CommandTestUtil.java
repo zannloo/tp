@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.Model;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.statemanager.State;
 
 /**
  * Contains helper methods for testing commands.
@@ -69,13 +69,13 @@ public class CommandTestUtil {
             + OPTION_ADDRESS + " "; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + OPTION_TAG + " " + "hubby*"; // '*' not allowed in tags
 
-    private static RelativePath validRootRelativePath;
-    private static RelativePath validGroupRelativePath;
-    private static RelativePath validStudentRelativePath;
-    private static AbsolutePath validRootAbsolutePath;
-    private static AbsolutePath validGroupAbsolutePath;
-    private static AbsolutePath validStudentAbsolutePath;
-    private static LocalDateTime validDateTime;
+    private static final RelativePath validRootRelativePath;
+    private static final RelativePath validGroupRelativePath;
+    private static final RelativePath validStudentRelativePath;
+    private static final AbsolutePath validRootAbsolutePath;
+    private static final AbsolutePath validGroupAbsolutePath;
+    private static final AbsolutePath validStudentAbsolutePath;
+    private static final LocalDateTime validDateTime;
 
     static {
         try {
@@ -122,38 +122,38 @@ public class CommandTestUtil {
     /**
      * Executes the given {@code command}, confirms that <br>
      * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
-     * - the {@code actualState} matches {@code expectedState}
+     * - the {@code actualModel} matches {@code expectedModel}
      */
-    public static void assertCommandSuccess(Command command, State actualState, CommandResult expectedCommandResult,
-            State expectedState) {
+    public static void assertCommandSuccess(Command command, Model actualModel, CommandResult expectedCommandResult,
+                                            Model expectedModel) {
         try {
-            CommandResult result = command.execute(actualState);
+            CommandResult result = command.execute(actualModel);
             assertEquals(expectedCommandResult, result);
-            assertEquals(expectedState, actualState);
+            assertEquals(expectedModel, actualModel);
         } catch (CommandException ce) {
             throw new AssertionError("Execution of command should not fail.", ce);
         }
     }
 
     /**
-     * Convenience wrapper to {@link #assertCommandSuccess(Command, State, CommandResult, State)}
+     * Convenience wrapper to {@link #assertCommandSuccess(Command, Model, CommandResult, Model)}
      * that takes a string {@code expectedMessage}.
      */
-    public static void assertCommandSuccess(Command command, State actualState, String expectedMessage,
-            State expectedState) {
+    public static void assertCommandSuccess(Command command, Model actualModel, String expectedMessage,
+                                            Model expectedModel) {
         CommandResult expectedCommandResult = new CommandResult(expectedMessage);
-        assertCommandSuccess(command, actualState, expectedCommandResult, expectedState);
+        assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
     }
 
     /**
      * Executes the given {@code command}, confirms that <br>
      * - a {@code CommandException} is thrown <br>
      * - the CommandException message matches {@code expectedMessage} <br>
-     * - the {@code actualState} remain unchanged
+     * - the {@code actualModel} remain unchanged
      */
-    public static void assertCommandFailure(Command command, State actualState,
-            String expectedMessage, State unchangedState) {
-        assertThrows(CommandException.class, () -> command.execute(actualState), expectedMessage);
-        assertEquals(unchangedState, actualState);
+    public static void assertCommandFailure(Command command, Model actualModel,
+                                            String expectedMessage, Model unchangedModel) {
+        assertThrows(CommandException.class, () -> command.execute(actualModel), expectedMessage);
+        assertEquals(unchangedModel, actualModel);
     }
 }

@@ -1,4 +1,4 @@
-package seedu.address.model.statemanager;
+package seedu.address.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,7 +144,7 @@ public class ChildOperation<T extends IChildElement> implements IChildOperation<
             Task clonedTask = task.clone();
             if (child instanceof TaskListManager) {
                 TaskListManager tlm = (TaskListManager) child;
-                tlm.addTask(clonedTask);;
+                tlm.addTask(clonedTask);
             } else if (child instanceof ChildrenAndTaskListManager) {
                 ChildrenAndTaskListManager<?> ctlm = (ChildrenAndTaskListManager<?>) child;
                 ctlm.addTask(clonedTask);

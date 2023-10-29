@@ -1,4 +1,4 @@
-package seedu.address.model.statemanager;
+package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
@@ -14,8 +14,6 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
@@ -28,9 +26,9 @@ import seedu.address.ui.Displayable;
 /**
  * Represents the in-memory model of the ProfBook data.
  */
-public class StateManager implements State {
+public class ModelManager implements Model {
 
-    private static final Logger logger = LogsCenter.getLogger(State.class);
+    private static final Logger logger = LogsCenter.getLogger(Model.class);
     private static final String MESSAGE_INTERNAL_ERROR = "Internal error: %1$s";
     private final Root root;
     private final UserPrefs userPrefs;
@@ -40,9 +38,9 @@ public class StateManager implements State {
     private AbsolutePath displayPath;
 
     /**
-     * Construct a state manager with curren path, root (ProfBook) and userPrefs.
+     * Construct a model manager with curren path, root (ProfBook) and userPrefs.
      */
-    public StateManager(AbsolutePath currentPath, Root root, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(AbsolutePath currentPath, Root root, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(currentPath, root, userPrefs);
         this.currentPath = currentPath;
         this.displayPath = currentPath;
@@ -79,7 +77,7 @@ public class StateManager implements State {
         userPrefs.setAddressBookFilePath(addressBookFilePath);
     }
 
-    //=========== ProfBook State ================================================================================
+    //=========== ProfBook Model ================================================================================
     @Override
     public AbsolutePath getCurrPath() {
         return this.currentPath;
@@ -221,7 +219,7 @@ public class StateManager implements State {
         updateList();
     }
 
-    //=========== State Management Operation =============================================================
+    //=========== Model Management Operation =============================================================
     @Override
     public ChildOperation<Group> rootChildOperation() {
         return new ChildOperation<>(root);
@@ -314,11 +312,11 @@ public class StateManager implements State {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof StateManager)) {
+        if (!(other instanceof ModelManager)) {
             return false;
         }
 
-        StateManager otherStateManager = (StateManager) other;
+        ModelManager otherStateManager = (ModelManager) other;
         return this.showTaskList == otherStateManager.showTaskList
                 && this.currentPath.equals(otherStateManager.currentPath)
                 && this.displayList.equals(otherStateManager.displayList)

@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_GROUPS;
@@ -16,6 +17,9 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.TaskOperation;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
@@ -26,9 +30,6 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
-import seedu.address.model.statemanager.TaskOperation;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.TaskList;
 import seedu.address.model.taskmanager.ToDo;
@@ -73,8 +74,8 @@ public class CreateTodoCommandTest {
         AbsolutePath path = new AbsolutePath("~/grp-003");
 
         CreateTodoCommand command = new CreateTodoCommand(path, todo, "allStu");
-        State state = new StateManager(currPath, root, new UserPrefs());
-        CommandResult runCommand = command.execute(state);
+        Model model = new ModelManager(currPath, root, new UserPrefs());
+        CommandResult runCommand = command.execute(model);
 
         assertTrue(alice.checkDuplicates(todo));
         assertTrue(bob.checkDuplicates(todo));
@@ -109,8 +110,8 @@ public class CreateTodoCommandTest {
         assertFalse(grp2.checkDuplicates(todo));
 
         CreateTodoCommand command = new CreateTodoCommand(path, todo, "allGrp");
-        State state = new StateManager(currPath, root, new UserPrefs());
-        CommandResult runCommand = command.execute(state);
+        Model model = new ModelManager(currPath, root, new UserPrefs());
+        CommandResult runCommand = command.execute(model);
 
         assertTrue(grp1.checkDuplicates(todo));
         assertTrue(grp2.checkDuplicates(todo));
@@ -120,6 +121,7 @@ public class CreateTodoCommandTest {
 
         assertEquals(runCommand, returnStatement);
     }
+
     @Test
     public void execute_createTodoTask_success() throws CommandException, InvalidPathException,
             UnsupportedPathOperationException {
@@ -131,12 +133,12 @@ public class CreateTodoCommandTest {
         root.addChild(group.getId(), group);
 
         AbsolutePath currPath = new AbsolutePath("~/");
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
         AbsolutePath target = new AbsolutePath("~/grp-001");
         CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
 
         CommandResult successCommandResult = new CommandResult(String.format(MESSAGE_SUCCESS, target));
-        assertEquals(successCommandResult, createTodoCommand.execute(state));
+        assertEquals(successCommandResult, createTodoCommand.execute(model));
     }
 
     @Test
@@ -150,16 +152,16 @@ public class CreateTodoCommandTest {
         root.addChild(group.getId(), group);
 
         AbsolutePath currPath = new AbsolutePath("~/");
-        State state = new StateManager(currPath, root, new UserPrefs());
+        Model model = new ModelManager(currPath, root, new UserPrefs());
 
         AbsolutePath target = new AbsolutePath("~/grp-001");
-        TaskOperation taskOperation = state.taskOperation(target);
+        TaskOperation taskOperation = model.taskOperation(target);
         taskOperation.addTask(todo);
 
         CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
 
         assertThrows(CommandException.class,
-                CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK_STUDENT, () -> createTodoCommand.execute(state));
+                CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK_STUDENT, () -> createTodoCommand.execute(model));
     }
 
     @Test
@@ -168,7 +170,7 @@ public class CreateTodoCommandTest {
         AbsolutePath target = new AbsolutePath("~/grp-001");
         CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
         CreateTodoCommand duplicateCreateTodoCommand = new CreateTodoCommand(target, todo);
-        assertTrue(createTodoCommand.equals(duplicateCreateTodoCommand));
+        assertEquals(createTodoCommand, duplicateCreateTodoCommand);
     }
 
     @Test
@@ -178,7 +180,7 @@ public class CreateTodoCommandTest {
         AbsolutePath target = new AbsolutePath("~/grp-001");
         CreateTodoCommand createTodoCommand1 = new CreateTodoCommand(target, todoTest1);
         CreateTodoCommand createTodoCommand2 = new CreateTodoCommand(target, todoTest2);
-        assertFalse(createTodoCommand1.equals(createTodoCommand2));
+        assertNotEquals(createTodoCommand1, createTodoCommand2);
     }
 
     @Test
