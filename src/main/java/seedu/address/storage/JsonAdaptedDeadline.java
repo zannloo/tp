@@ -44,7 +44,7 @@ public class JsonAdaptedDeadline extends JsonAdaptedTasks {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy hh:mm a");
         LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
         Task t = new Deadline(description, parsedDateTime);
-        if (Objects.equals(isDone, "true")) {
+        if (isDone.equals("true")) {
             t.mark();
         }
         return t;
