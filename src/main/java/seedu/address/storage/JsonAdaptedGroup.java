@@ -103,7 +103,7 @@ public class JsonAdaptedGroup {
 
         if (id == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    StudentId.class.getSimpleName()));
+                    GroupId.class.getSimpleName()));
         }
         if (!GroupId.isValidGroupId(id)) {
             throw new IllegalValueException(GroupId.MESSAGE_CONSTRAINTS);
