@@ -1,7 +1,5 @@
 package seedu.address.model.task;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,119 +11,96 @@ import seedu.address.model.task.exceptions.NoSuchTaskException;
  * Encapsulate the logic of a prof book model, mainly the need for a task list
  * at every level
  */
-public class TaskListManager {
-    /**
-     * Task list instance of this class
-     */
-    private final TaskList taskList;
-
-
-    /**
-     * Constructs a task list manager with task list given
-     */
-    public TaskListManager(TaskList taskList) {
-        requireAllNonNull(taskList);
-        this.taskList = taskList;
-    }
+public class TaskListManager extends ReadOnlyTaskList {
 
     /**
      * Constructs a new task list manager
      */
     public TaskListManager() {
-        taskList = new TaskList(new ArrayList<>());
+        super();
     }
 
     /**
-     * Check if index is between 0 and task list size.
+     * Constructs a new {@code TaskListManager} with the data in {@code taskList}.
+     * @param taskList
      */
-    public boolean isValidIndex(int index) {
-        return index > 0 && index <= taskList.size();
+    public TaskListManager(ReadOnlyTaskList taskList) {
+        super(taskList);
     }
 
     /**
-     * Return task list size.
-     */
-    public int getTaskListSize() {
-        return taskList.size();
-    }
-
-    /**
-     * Adds a new tasks to the task list
+     * Adds a task to the task list.
      *
-     * @param t
+     * @param t The task to be added.
      */
     public void addTask(Task t) {
-        this.taskList.add(t);
+        int initialSize = this.taskList.size();
+        taskList.add(t);
+        assert this.taskList.size() == initialSize + 1 : "Task Deadline should be added to the list";
     }
 
     /**
-     * Deletes the task at the specified index
+     * Deletes a task from the task list.
      *
-     * @param index - The index of the targeted class
-     * @return The deleted class
-     * @throws NoSuchTaskException if no task can be found by the index
+     * @param index The index of the task to be deleted.
+     * @return The deleted task.
+     * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
      */
     public Task deleteTask(int index) throws NoSuchTaskException {
-        return this.taskList.delete(index);
+        verifyIsValidIndex(index);
+        int initialSize = this.taskList.size();
+        Task task = this.taskList.get(index - 1);
+        this.taskList.remove(index - 1);
+        assert this.taskList.size() == initialSize - 1 : "Task should be removed from the list";
+        return task;
     }
 
     /**
-     * Marks the task at the specified index as completed
+     * Marks a task as done.
      *
-     * @param index - The index of the targeted class
-     * @return The marked task
-     * @throws NoSuchTaskException if no task can be found by the index
+     * @param index The index of the task to be marked.
+     * @return The marked task.
+     * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
      */
     public Task markTask(int index) throws NoSuchTaskException {
-        return this.taskList.mark(index);
+        verifyIsValidIndex(index);
+        Task task = this.taskList.get(index - 1);
+        task.mark();
+        return task;
     }
 
     /**
-     * Marks the task at the specified index as not completed
+     * Unmarks a task.
      *
-     * @param index - The index of the targeted class
-     * @return The un-marked task
-     * @throws NoSuchTaskException if no task can be found by the index
+     * @param index The number of the task to be unmarked.
+     * @return The unmarked task.
+     * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
      */
     public Task unmarkTask(int index) throws NoSuchTaskException {
-        return this.taskList.mark(index);
+        verifyIsValidIndex(index);
+        Task task = this.taskList.get(index - 1);
+        task.unmark();
+        return task;
     }
 
     /**
-     * Finds all matching task, compares by the task's description
+     * Finds tasks that match the given query.
      *
-     * @param query - The String to match
-     * @return A list of all matching Tasks
+     * @param query The query to match.
+     * @return A list of tasks that match the query.
+     * @throws NoSuchTaskException If there are no tasks at this level.
      */
     public List<Task> findTask(String query) throws NoSuchTaskException {
-        return this.taskList.find(query);
-    }
-
-    /**
-     * Returns the task at the specified index
-     *
-     * @param index - The index of the targeted class
-     * @return The specified task
-     * @throws NoSuchTaskException if no task can be found by the index
-     */
-    public Task getTask(int index) throws NoSuchTaskException {
-        return this.taskList.get(index);
-    }
-
-    /**
-     * Returns all current task
-     *
-     * @return A list of all Tasks
-     */
-    public List<Task> getAllTask() {
-        if (taskList.size() == 0) {
-            return new ArrayList<>();
+        if (isEmpty()) {
+            throw new NoSuchTaskException("No task in the task list.");
         }
-        return this.taskList.getAllTask();
-    }
-
-    public boolean checkDuplicates(Task t) {
-        return this.taskList.containsDuplicates(t);
+        List<Task> list = new ArrayList<>();
+        for (Task task : this.taskList) {
+            if (task.description.contains(query)) {
+                list.add(task);
+            }
+        }
+        return list;
     }
 
     @Override
@@ -147,6 +122,6 @@ public class TaskListManager {
         }
 
         TaskListManager otherTaskListManager = (TaskListManager) other;
-        return this.taskList.equals(otherTaskListManager.taskList);
+        return super.equals(otherTaskListManager);
     }
 }
