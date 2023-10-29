@@ -90,7 +90,7 @@ public class TaskListManager {
      * @throws NoSuchTaskException if no task can be found by the index
      */
     public Task unmarkTask(int index) throws NoSuchTaskException {
-        return this.taskList.mark(index);
+        return this.taskList.unmark(index);
     }
 
     /**
