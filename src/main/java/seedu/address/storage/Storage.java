@@ -5,12 +5,19 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.profbook.Root;
 
 /**
- * The interface ProfBookStorage provides methods to interact with the storage of the ProfBook.
+ * This interface defines the methods that classes responsible for handling storage operations should implement.
  */
-public interface ProfBookStorage {
+public interface Storage extends ProfBookStorage, UserPrefsStorage {
+    @Override
+    Optional<UserPrefs> readUserPrefs() throws DataLoadingException;
+
+    @Override
+    void saveUserPrefs(ReadOnlyUserPrefs userPrefs) throws IOException;
 
     /**
      * Returns the file path of the data file.
@@ -37,3 +44,4 @@ public interface ProfBookStorage {
      */
     void saveProfBook(Root profBook, Path filePath) throws IOException;
 }
+

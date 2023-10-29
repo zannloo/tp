@@ -27,6 +27,7 @@ import seedu.address.storage.JsonProfBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.ProfBookStorage;
 import seedu.address.storage.ProfBookStorageManager;
+import seedu.address.storage.Storage;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
@@ -42,7 +43,7 @@ public class MainApp extends Application {
 
     protected Ui ui;
     protected Logic logic;
-    protected ProfBookStorage storage;
+    protected Storage storage;
     protected Model model;
     protected Config config;
 
