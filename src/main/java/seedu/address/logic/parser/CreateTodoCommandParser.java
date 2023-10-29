@@ -9,7 +9,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.taskmanager.ToDo;
+import seedu.address.model.task.ToDo;
 
 /**
  * Parses input arguments and creates a new CreateTodoForGroupCommand object

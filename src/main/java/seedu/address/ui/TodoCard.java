@@ -1,6 +1,6 @@
 package seedu.address.ui;
 
-import seedu.address.model.taskmanager.ToDo;
+import seedu.address.model.task.ToDo;
 
 /**
  * An UI component that displays information of a {@code Student}.

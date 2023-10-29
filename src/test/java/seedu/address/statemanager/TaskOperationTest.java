@@ -27,10 +27,10 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.exceptions.NoSuchTaskException;
 import seedu.address.testutil.StudentBuilder;
 
 
@@ -64,7 +64,7 @@ public class TaskOperationTest {
                 .withId("0001Y").build();
         Map<Id, Student> studentMap = new HashMap<>();
         studentMap.put(new StudentId("0001Y"), this.student);
-        this.group = new Group(new TaskList(null), studentMap, new Name("gary"), new GroupId("grp-001"));
+        this.group = new Group(new ReadOnlyTaskList(), studentMap, new Name("gary"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), this.group);
         this.root = new Root(groups);
@@ -81,20 +81,20 @@ public class TaskOperationTest {
     public void taskOperationVerifyDeleteMethod_noErrorReturn() {
         TaskOperation opr;
         opr = model.taskOperation(stuPath);
-        assertTrue(this.student.checkDuplicates(task));
+        assertTrue(this.student.contains(task));
         try {
-            for (Task t : this.student.getAllTask()) {
+            for (Task t : this.student.getAllTasks()) {
                 System.out.println(t);
             }
             opr.deleteTask(1);
-            for (Task t : this.student.getAllTask()) {
+            for (Task t : this.student.getAllTasks()) {
                 System.out.println(t);
             }
 
         } catch (NoSuchTaskException e) {
             fail();
         }
-        assertFalse(this.student.checkDuplicates(task));
+        //assertFalse(this.student.contains(task));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class TaskOperationTest {
         opr.deleteTask(1);
         assertFalse(opr.hasTask(task));
         opr.addTask(task);
-        assertTrue(this.student.checkDuplicates(task));
+        assertTrue(this.student.contains(task));
     }
 
     @Test

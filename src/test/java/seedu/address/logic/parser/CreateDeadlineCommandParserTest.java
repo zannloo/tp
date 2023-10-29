@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.logic.commands.CreateDeadlineCommand;
-import seedu.address.model.taskmanager.Deadline;
+import seedu.address.model.task.Deadline;
 
 public class CreateDeadlineCommandParserTest {
     private CreateDeadlineCommandParser parser = new CreateDeadlineCommandParser();

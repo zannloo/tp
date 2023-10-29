@@ -13,7 +13,7 @@ import seedu.address.model.TaskOperation;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.Deadline;
+import seedu.address.model.task.Deadline;
 
 /**
  * Adds a Deadline for a specified {@code Student} or {@code Group}.

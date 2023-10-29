@@ -1,4 +1,4 @@
-package seedu.address.model.taskmanager.exceptions;
+package seedu.address.model.task.exceptions;
 
 /**
  * Signals when the index does not point to a specific task in the tasklist

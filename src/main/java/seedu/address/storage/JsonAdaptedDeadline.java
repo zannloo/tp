@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Task;
 
 /**
  * A class to adapt a Deadline object into a format suitable for JSON storage.
@@ -42,9 +42,11 @@ public class JsonAdaptedDeadline extends JsonAdaptedTasks {
     public Task toModelType() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy hh:mm a");
         LocalDateTime parsedDateTime = LocalDateTime.parse(date, formatter);
-        Task t = new Deadline(description, parsedDateTime);
-        if (isDone == "true") {
-            t.mark();
+        Task t = null;
+        if (isDone.equals("true")) {
+            t = new Deadline(description, parsedDateTime, true);
+        } else {
+            t = new Deadline(description, parsedDateTime);
         }
         return t;
     }
