@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Task;
 
 /**
  * A class to adapt a Deadline object into a format suitable for JSON storage.

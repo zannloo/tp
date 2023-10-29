@@ -4,7 +4,8 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.StudentId;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.task.TaskList;
+import seedu.address.model.task.TaskListManager;
 import seedu.address.ui.StudentCard;
 
 /**

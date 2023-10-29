@@ -16,10 +16,10 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
-import seedu.address.model.taskmanager.ToDo;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskList;
+import seedu.address.model.task.ToDo;
 
 /**
  * Jackson-friendly version of {@link Student}.
@@ -131,7 +131,7 @@ public class JsonAdaptedStudent {
         }
         final seedu.address.model.id.StudentId studId = new StudentId(id);
 
-        final seedu.address.model.taskmanager.TaskList modelTList = new TaskList(taskList);
+        final seedu.address.model.task.TaskList modelTList = new TaskList(taskList);
 
         return new Student(modelTList, modelName, modelEmail, modelPhone, modelAddress, studId);
     }

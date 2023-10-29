@@ -27,10 +27,10 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskList;
+import seedu.address.model.task.exceptions.NoSuchTaskException;
 import seedu.address.testutil.StudentBuilder;
 
 

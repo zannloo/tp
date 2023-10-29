@@ -11,10 +11,10 @@ import seedu.address.model.id.Id;
 import seedu.address.model.profbook.ChildrenAndTaskListManager;
 import seedu.address.model.profbook.ChildrenManager;
 import seedu.address.model.profbook.IChildElement;
-import seedu.address.model.profbook.TaskListManager;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
-import seedu.address.model.taskmanager.Task;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskListManager;
 
 /**
  * Encapsulates the logic to perform a generic child operation for child manager

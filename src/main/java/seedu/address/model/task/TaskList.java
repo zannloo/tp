@@ -1,9 +1,9 @@
-package seedu.address.model.taskmanager;
+package seedu.address.model.task;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+import seedu.address.model.task.exceptions.NoSuchTaskException;
 
 
 /**

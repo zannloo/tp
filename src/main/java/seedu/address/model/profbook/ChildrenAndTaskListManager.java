@@ -7,9 +7,10 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskList;
+import seedu.address.model.task.TaskListManager;
+import seedu.address.model.task.exceptions.NoSuchTaskException;
 
 /**
  * A child element that is both Children and TaskList Manager.

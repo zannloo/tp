@@ -6,7 +6,7 @@ import seedu.address.model.id.Id;
 import seedu.address.model.profbook.IChildElement;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
-import seedu.address.model.taskmanager.Task;
+import seedu.address.model.task.Task;
 
 /**
  * Interface for classes that operations that involve children, ensures that all

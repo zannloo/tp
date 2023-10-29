@@ -1,4 +1,4 @@
-package seedu.address.model.taskmanager;
+package seedu.address.model.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+import seedu.address.model.task.exceptions.NoSuchTaskException;
 
 
 public class TaskListTest {

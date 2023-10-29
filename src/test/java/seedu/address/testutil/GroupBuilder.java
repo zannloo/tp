@@ -11,9 +11,9 @@ import seedu.address.model.id.Id;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskList;
 
 /**
  * A utility class to help with building Group objects.

@@ -19,7 +19,7 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.taskmanager.Task;
+import seedu.address.model.task.Task;
 import seedu.address.model.util.SampleProfBook;
 
 public class MarkCommandTest {

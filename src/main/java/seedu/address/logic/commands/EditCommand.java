@@ -25,7 +25,7 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.task.TaskList;
 
 /**
  * EditCommand is a class representing a command to edit the details of a person (either a student or a group) in

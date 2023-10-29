@@ -1,4 +1,4 @@
-package seedu.address.model.taskmanager;
+package seedu.address.model.task;
 
 
 import java.time.LocalDateTime;

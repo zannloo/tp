@@ -12,7 +12,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.taskmanager.Deadline;
+import seedu.address.model.task.Deadline;
 
 /**
  * Parses input arguments and creates a new CreateDeadlineForGroupCommand object

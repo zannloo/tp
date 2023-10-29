@@ -7,7 +7,7 @@ import java.util.Map;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.task.TaskList;
 import seedu.address.ui.GroupCard;
 
 /**

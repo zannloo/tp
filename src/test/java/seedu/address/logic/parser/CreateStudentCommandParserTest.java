@@ -24,7 +24,7 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.task.TaskList;
 
 public class CreateStudentCommandParserTest {
     private CreateStudentCommandParser parser = new CreateStudentCommandParser();

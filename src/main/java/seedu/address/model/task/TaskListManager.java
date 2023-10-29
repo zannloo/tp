@@ -1,4 +1,4 @@
-package seedu.address.model.profbook;
+package seedu.address.model.task;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+import seedu.address.model.task.exceptions.NoSuchTaskException;
 
 
 /**

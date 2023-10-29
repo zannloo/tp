@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
-import seedu.address.model.profbook.TaskListManager;
-import seedu.address.model.taskmanager.Task;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskListManager;
 
 /**
  * Encapsulates the required logic for task operation
