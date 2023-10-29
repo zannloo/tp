@@ -56,6 +56,7 @@ public class StudentBuilder {
         phone = studentToCopy.getPhone();
         email = studentToCopy.getEmail();
         address = studentToCopy.getAddress();
+        taskList = new ReadOnlyTaskList(studentToCopy.getAllTasks());
     }
 
     /**
@@ -102,8 +103,8 @@ public class StudentBuilder {
     /**
      * Sets the {@code TaskList} of the {@code Student} that we are building.
      */
-    public StudentBuilder withTaskList(List<Task> taskList) {
-        this.taskList = new ReadOnlyTaskList(taskList);
+    public StudentBuilder withTaskList(ReadOnlyTaskList tasklist) {
+        this.taskList = tasklist;
         return this;
     }
 
@@ -114,16 +115,5 @@ public class StudentBuilder {
      */
     public Student build() {
         return new Student(taskList, name, email, phone, address, id);
-    }
-
-    /**
-     * Builds a `Student` object with an empty task list and the specified attributes.
-     *
-     * @return The `Student` object with an empty task list.
-     */
-    public Student buildEmptyTask() {
-        List<Task> emptyList = new ArrayList<>();
-        ReadOnlyTaskList emptyTaskList = new ReadOnlyTaskList(emptyList);
-        return new Student(emptyTaskList, name, email, phone, address, id);
     }
 }
