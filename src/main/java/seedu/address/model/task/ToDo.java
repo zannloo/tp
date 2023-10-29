@@ -1,4 +1,4 @@
-package seedu.address.model.taskmanager;
+package seedu.address.model.task;
 
 import seedu.address.ui.TodoCard;
 
@@ -7,24 +7,29 @@ import seedu.address.ui.TodoCard;
  * It extends the Task class and provides additional methods specific to ToDo tasks.
  */
 public class ToDo extends Task {
-    public ToDo(String s) {
-        super(s);
+
+    /**
+     * Constructs a {@code ToDo} with given {@code description}.
+     */
+    public ToDo(String description) {
+        super(description);
     }
 
     /**
-     * Marks the task as done and displays a message to the user.
+     * Costructs a {@code ToDo} with given {@code description} and {@code status}.
      */
-    public void mark() {
-        this.isDone = true;
-        assert this.isDone;
+    public ToDo(String description, boolean status) {
+        super(description, status);
     }
 
-    /**
-     * Unmarks the task as done and displays a message to the user.
-     */
-    public void unmark() {
-        this.isDone = false;
-        assert !this.isDone;
+    @Override
+    public ToDo mark() {
+        return new ToDo(description, true);
+    }
+
+    @Override
+    public ToDo unmark() {
+        return new ToDo(description, false);
     }
 
     @Override

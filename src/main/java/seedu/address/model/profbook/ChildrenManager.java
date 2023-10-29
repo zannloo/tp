@@ -4,6 +4,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import seedu.address.model.profbook.exceptions.NoSuchChildException;
  *
  * @param <T> to represent the children type, as of v1.2 only student and group
  */
-public class ChildrenManager<T extends IChildElement> {
+public class ChildrenManager<T extends IChildElement<T>> {
     /**
      * Maps the id to the children
      */
@@ -28,15 +29,29 @@ public class ChildrenManager<T extends IChildElement> {
      */
     public ChildrenManager(Map<Id, T> children) {
         requireAllNonNull(children);
-        this.children = children;
+        Map<Id, T> tempMap = new HashMap<>();
+        Id key;
+        Iterator<Id> it = children.keySet().iterator();
+        while (it.hasNext()) {
+            key = it.next();
+            tempMap.put(key, children.get(key).deepCopy());
+        }
+        this.children = tempMap;
     }
 
     /**
      * Construct a new children manager.
      */
     public ChildrenManager() {
-        super();
         children = new HashMap<>();
+    }
+
+    /**
+     * Constructs a {@code ChildrenManager} with the data in {@code toBeCopied}.
+     * @param toBeCopied
+     */
+    public ChildrenManager(ChildrenManager<T> toBeCopied) {
+        this(toBeCopied.children);
     }
 
     /**

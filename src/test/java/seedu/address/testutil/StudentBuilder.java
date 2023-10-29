@@ -10,9 +10,9 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.Task;
 
 /**
  * A utility class to help with building Student objects.
@@ -26,7 +26,7 @@ public class StudentBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final Task DEFAULT_TASK = new Deadline("Assignment 3", LocalDateTime.parse("2023-12-03T23:59"));
 
-    private TaskList taskList;
+    private ReadOnlyTaskList taskList;
     private StudentId id;
     private Name name;
     private Phone phone;
@@ -44,7 +44,7 @@ public class StudentBuilder {
         address = new Address(DEFAULT_ADDRESS);
         List<Task> defaultTaskList = new ArrayList<>();
         defaultTaskList.add(DEFAULT_TASK);
-        taskList = new TaskList(defaultTaskList);
+        taskList = new ReadOnlyTaskList(defaultTaskList);
     }
 
     /**
@@ -103,7 +103,7 @@ public class StudentBuilder {
      * Sets the {@code TaskList} of the {@code Student} that we are building.
      */
     public StudentBuilder withTaskList(List<Task> taskList) {
-        this.taskList = new TaskList(taskList);
+        this.taskList = new ReadOnlyTaskList(taskList);
         return this;
     }
 
@@ -123,7 +123,7 @@ public class StudentBuilder {
      */
     public Student buildEmptyTask() {
         List<Task> emptyList = new ArrayList<>();
-        TaskList emptyTaskList = new TaskList(emptyList);
+        ReadOnlyTaskList emptyTaskList = new ReadOnlyTaskList(emptyList);
         return new Student(emptyTaskList, name, email, phone, address, id);
     }
 }

@@ -2,8 +2,8 @@ package seedu.address.model;
 
 import java.util.List;
 
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.exceptions.NoSuchTaskException;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.exceptions.NoSuchTaskException;
 
 /**
  * Interface for classes that operations that involve a task list, ensures that all basic functions are present to

@@ -18,7 +18,6 @@ import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.IChildElement;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.ui.Displayable;
@@ -168,17 +167,15 @@ public class ModelManager implements Model {
 
     @Override
     public void updateList() {
-        List<? extends Displayable> temp;
+        List<? extends Displayable> temp = new ArrayList<>();
         if (showTaskList) {
             TaskOperation taskOperation = taskOperation(displayPath);
             temp = new ArrayList<>(taskOperation.getAllTasks());
-        } else {
-            ChildOperation<? extends IChildElement> childOperation = null;
-            if (displayPath.isRootDirectory()) {
-                childOperation = rootChildOperation();
-            } else {
-                childOperation = groupChildOperation(displayPath);
-            }
+        } else if (displayPath.isRootDirectory()) {
+            ChildOperation<Group> childOperation = rootChildOperation();
+            temp = new ArrayList<>(childOperation.getAllChildren());
+        } else if (displayPath.isGroupDirectory()) {
+            ChildOperation<Student> childOperation = groupChildOperation(displayPath);
             temp = new ArrayList<>(childOperation.getAllChildren());
         }
         displayList.clear();

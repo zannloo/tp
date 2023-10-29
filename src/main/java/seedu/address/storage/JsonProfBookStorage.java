@@ -19,7 +19,7 @@ import seedu.address.model.profbook.Root;
 /**
  * A class for handling storage of ProfBook in JSON format.
  */
-public class JsonProfBookStorage implements ProfBookStorage {
+public class JsonProfBookStorage implements Storage {
 
     private static final Logger logger = LogsCenter.getLogger(JsonProfBookStorage.class);
 

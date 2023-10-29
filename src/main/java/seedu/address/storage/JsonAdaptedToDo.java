@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.ToDo;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.ToDo;
 
 /**
  * A class to adapt a ToDo object into a format suitable for JSON storage.
@@ -32,9 +32,11 @@ public class JsonAdaptedToDo extends JsonAdaptedTasks {
 
     @Override
     public Task toModelType() {
-        Task t = new ToDo(description);
-        if (isDone == "true") {
-            t.mark();
+        Task t = null;
+        if (isDone.equals("true")) {
+            t = new ToDo(description, true);
+        } else {
+            t = new ToDo(description, false);
         }
         return t;
     }

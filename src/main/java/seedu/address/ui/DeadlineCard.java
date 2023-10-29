@@ -2,7 +2,7 @@ package seedu.address.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import seedu.address.model.taskmanager.Deadline;
+import seedu.address.model.task.Deadline;
 
 /**
  * An UI component that displays information of a {@code Student}.

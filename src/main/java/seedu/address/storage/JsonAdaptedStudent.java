@@ -16,10 +16,10 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
-import seedu.address.model.taskmanager.ToDo;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.ToDo;
 
 /**
  * Jackson-friendly version of {@link Student}.
@@ -66,7 +66,7 @@ public class JsonAdaptedStudent {
         this.email = source.getEmail().toString();
         this.address = source.getAddress().toString();
         this.id = source.getId().toString();
-        tasks.addAll(source.getAllTask().stream()
+        tasks.addAll(source.getAllTasks().stream()
                 .map(task -> (task instanceof ToDo)
                         ? new JsonAdaptedToDo((ToDo) task)
                         : new JsonAdaptedDeadline((Deadline) task))
@@ -93,7 +93,7 @@ public class JsonAdaptedStudent {
         if (!seedu.address.model.profbook.Name.isValidName(name)) {
             throw new IllegalValueException(seedu.address.model.profbook.Name.MESSAGE_CONSTRAINTS);
         }
-        final seedu.address.model.profbook.Name modelName = new Name(name);
+        final Name modelName = new Name(name);
 
         if (phone == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -102,7 +102,7 @@ public class JsonAdaptedStudent {
         if (!seedu.address.model.profbook.Phone.isValidPhone(phone)) {
             throw new IllegalValueException(seedu.address.model.profbook.Phone.MESSAGE_CONSTRAINTS);
         }
-        final seedu.address.model.profbook.Phone modelPhone = new Phone(phone);
+        final Phone modelPhone = new Phone(phone);
 
         if (email == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -111,7 +111,7 @@ public class JsonAdaptedStudent {
         if (!seedu.address.model.profbook.Email.isValidEmail(email)) {
             throw new IllegalValueException(seedu.address.model.profbook.Email.MESSAGE_CONSTRAINTS);
         }
-        final seedu.address.model.profbook.Email modelEmail = new Email(email);
+        final Email modelEmail = new Email(email);
 
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -120,7 +120,7 @@ public class JsonAdaptedStudent {
         if (!seedu.address.model.profbook.Address.isValidAddress(address)) {
             throw new IllegalValueException(seedu.address.model.profbook.Address.MESSAGE_CONSTRAINTS);
         }
-        final seedu.address.model.profbook.Address modelAddress = new Address(address);
+        final Address modelAddress = new Address(address);
 
         if (id == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -129,9 +129,9 @@ public class JsonAdaptedStudent {
         if (!seedu.address.model.id.StudentId.isValidStudentId(id)) {
             throw new IllegalValueException(seedu.address.model.id.StudentId.MESSAGE_CONSTRAINTS);
         }
-        final seedu.address.model.id.StudentId studId = new StudentId(id);
+        final StudentId studId = new StudentId(id);
 
-        final seedu.address.model.taskmanager.TaskList modelTList = new TaskList(taskList);
+        final ReadOnlyTaskList modelTList = new ReadOnlyTaskList(taskList);
 
         return new Student(modelTList, modelName, modelEmail, modelPhone, modelAddress, studId);
     }

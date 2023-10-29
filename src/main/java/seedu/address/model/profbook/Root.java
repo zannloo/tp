@@ -25,6 +25,13 @@ public class Root extends ChildrenManager<Group> {
         super();
     }
 
+    /**
+     * Constructs a {@code Root} with the data in {@code toBeCopied}
+     */
+    public Root(Root toBeCopied) {
+        super(toBeCopied);
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
