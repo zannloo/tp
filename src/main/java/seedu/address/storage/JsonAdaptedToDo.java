@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import seedu.address.model.taskmanager.Task;
 import seedu.address.model.taskmanager.ToDo;
 
-import java.util.Objects;
+
 
 /**
  * A class to adapt a ToDo object into a format suitable for JSON storage.
@@ -35,7 +35,7 @@ public class JsonAdaptedToDo extends JsonAdaptedTasks {
     @Override
     public Task toModelType() {
         Task t = new ToDo(description);
-        if (Objects.equals(isDone, "true")) {
+        if (isDone.equals("true")) {
             t.mark();
         }
         return t;
