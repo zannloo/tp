@@ -14,7 +14,7 @@ import seedu.address.model.profbook.Root;
 /**
  * A class to manage the storage of ProfBook.
  **/
-public class ProfBookStorageManager implements ProfBookStorage {
+public class ProfBookStorageManager implements Storage {
 
     private static final Logger logger = LogsCenter.getLogger(ProfBookStorageManager.class);
     private ProfBookStorage profBookStorage;
