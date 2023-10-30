@@ -29,15 +29,21 @@ public class CreateTodoCommand extends Command {
             "This ToDo task has already been allocated to this group in ProfBook";
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New ToDo task added to all students in group: %1$s";
+    public static final String MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING =
+            "Warning: Some student(s) already have the task. \n"
+            + "New ToDo task has been added to the rest.";
     public static final String MESSAGE_SUCCESS_ALL_GROUPS =
             "New ToDo task added to all groups in root: %1$s";
-
+    public static final String MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING =
+            "Warning: Some group(s) already have the task. \n"
+            + "New ToDo task has been added to the rest.";
     public static final String MESSAGE_ERROR = "Invalid target encountered while creating this todo task";
     public static final String MESSAGE_SUCCESS = "New ToDo task has been added to: %1$s";
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
     public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "All stu flag is only allowed for group path";
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "All Group flag is only allowed for root path";
+    public static final String MESSAGE_ALL_CHILDREN_HAVE_TASK = "All %1$ss already have the task.";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
 
     private final AbsolutePath target;
@@ -95,20 +101,43 @@ public class CreateTodoCommand extends Command {
                 throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
             }
             ChildOperation<Student> groupOper = model.groupChildOperation(target);
+
+            // Check whether all children already have the task
+            if (groupOper.checkIfAllChildrenHaveTask(todo, 1)) {
+                throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
+            }
+
+            // Check whether at least one of the children has the task
+            boolean warning = false;
+            if (groupOper.checkIfAnyChildHasTask(todo, 1)) {
+                warning = true;
+            }
+
             groupOper.addTaskToAllChildren(todo, 1);
             model.updateList();
-            return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
+            return new CommandResult(
+                    warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING : MESSAGE_SUCCESS_ALL_STUDENTS);
         }
 
         if (!target.isRootDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
         ChildOperation<Group> rootOper = model.rootChildOperation();
+
+        // Check whether all children already have the task
+        if (rootOper.checkIfAllChildrenHaveTask(todo, 1)) {
+            throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
+        }
+
+        // Check whether at least one of the children has the task
+        boolean warning = false;
+        if (rootOper.checkIfAnyChildHasTask(todo, 1)) {
+            warning = true;
+        }
+
         rootOper.addTaskToAllChildren(todo, 1);
-
         model.updateList();
-
-        return new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
+        return new CommandResult(warning ? MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING : MESSAGE_SUCCESS_ALL_GROUPS);
     }
 
     /**
