@@ -1,6 +1,7 @@
 package seedu.address.model.task;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.TypicalTasks.TODO_1;
 import static seedu.address.testutil.TypicalTasks.TODO_2;
@@ -29,6 +30,7 @@ public class ToDoTest {
     public void markTask_taskIsMarked_returnsMarkedTask() {
         ToDo markedTask = todo1.mark();
         assertTrue(markedTask.getStatus());
+        assertNotSame(todo1, markedTask);
     }
 
     @Test
