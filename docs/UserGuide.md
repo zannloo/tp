@@ -133,7 +133,7 @@ or group** and track their progress.
 
 <box type="info" theme="warning">
 
-**Acceptable values for each parameter:**
+**Acceptable values for each Id:**
 
 `GroupId`:
 - Must be in the format `grp-XXX` where `XXX` is replaceable with any 3 digit number
@@ -321,10 +321,14 @@ Displays all tasks depending on the directory you are at.
 #### Example(s):
 - When you are at the directory `~/grp-001` and would like to see all tasks allocated to `grp-001`,
   - `cat` will return all the tasks allocated to grp-001.
+
 <box type="tip">
+
 If you are at the directory `~/grp-001` and would like take a quick look of the tasks allocated to student `0010Y`,
 - `cat 0010Y` will return all the tasks allocated to student of studentId, `0010Y`.
+
 <box>
+
 ---
 
 <div class="page-break-before">
