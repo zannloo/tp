@@ -16,7 +16,7 @@ import seedu.address.model.profbook.Phone;
 public class EditStudentDescriptorTest {
 
     @Test
-    public void testCopyConstructor() {
+    public void constructor_descriptorToBeCopied_descriptorCopiedSuccess() {
         EditStudentDescriptor originalDescriptor = new EditStudentDescriptor();
         originalDescriptor.setName(new Name("Ben"));
         originalDescriptor.setPhone(new Phone("656321"));
@@ -30,84 +30,132 @@ public class EditStudentDescriptorTest {
     }
 
     @Test
-    public void testIsAnyFieldEdited() {
+    public void isAnyFieldEdited_oneFieldEdited_true() {
+        EditStudentDescriptor descriptor = new EditStudentDescriptor();
+
+        descriptor.setName(new Name("Ben"));
+        assertTrue(descriptor.isAnyFieldEdited());
+    }
+
+    @Test
+    public void isAnyFieldEdited_noFieldEdited_false() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
 
         // No fields edited, so it should return false
         assertFalse(descriptor.isAnyFieldEdited());
-
-        descriptor.setName(new Name("Ben"));
-        assertTrue(descriptor.isAnyFieldEdited());
-
-        // Reset the name to null
-        descriptor.setName(null);
-        assertFalse(descriptor.isAnyFieldEdited());
     }
 
     @Test
-    public void testSetNameAndGetName() {
+    public void setName_setNameForEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Name name = new Name("Ben");
 
-        assertFalse(descriptor.getName().isPresent());
-
-        // Set the name
         descriptor.setName(name);
         assertTrue(descriptor.getName().isPresent());
         assertEquals(name, descriptor.getName().get());
     }
 
     @Test
-    public void testSetPhoneAndGetPhone() {
+    public void getName_getNameOfEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
-        Phone phone = new Phone("656321");
+        Name name = new Name("Ben");
 
-        assertFalse(descriptor.getPhone().isPresent());
+        descriptor.setName(name);
+        assertTrue(descriptor.getName().isPresent());
+        assertEquals(name, descriptor.getName().get());
+    }
 
-        // Set the phone
+    @Test
+    public void setPhone_setPhoneForEditStudentDescriptor_nonEmptyOptional() {
+        EditStudentDescriptor descriptor = new EditStudentDescriptor();
+        Phone phone = new Phone("95427854");
+
         descriptor.setPhone(phone);
         assertTrue(descriptor.getPhone().isPresent());
         assertEquals(phone, descriptor.getPhone().get());
     }
 
     @Test
-    public void testSetAddressAndGetAddress() {
+    public void getPhone_getPhoneOfEditStudentDescriptor_nonEmptyOptional() {
+        EditStudentDescriptor descriptor = new EditStudentDescriptor();
+        Phone phone = new Phone("95427854");
+
+        descriptor.setPhone(phone);
+        assertTrue(descriptor.getPhone().isPresent());
+        assertEquals(phone, descriptor.getPhone().get());
+    }
+
+    @Test
+    public void setAddress_setAddressForEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Address address = new Address("123, Jurong West Ave 6, #08-111");
 
-        assertFalse(descriptor.getAddress().isPresent());
-
-        // Set the address
         descriptor.setAddress(address);
         assertTrue(descriptor.getAddress().isPresent());
         assertEquals(address, descriptor.getAddress().get());
     }
 
     @Test
-    public void testSetEmailAndGetEmail() {
+    public void getAddress_getAddressOfEditStudentDescriptor_nonEmptyOptional() {
+        EditStudentDescriptor descriptor = new EditStudentDescriptor();
+        Address address = new Address("123, Jurong West Ave 6, #08-111");
+
+        descriptor.setAddress(address);
+        assertTrue(descriptor.getAddress().isPresent());
+        assertEquals(address, descriptor.getAddress().get());
+    }
+
+    @Test
+    public void setEmail_setEmailForEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Email email = new Email("ben@gmail.com");
 
-        assertFalse(descriptor.getEmail().isPresent());
-
-        // Set the email
         descriptor.setEmail(email);
         assertTrue(descriptor.getEmail().isPresent());
         assertEquals(email, descriptor.getEmail().get());
     }
 
     @Test
-    public void testSetIdAndGetId() {
+    public void getEmail_getEmailOfEditStudentDescriptor_nonEmptyOptional() {
+        EditStudentDescriptor descriptor = new EditStudentDescriptor();
+        Email email = new Email("ben@gmail.com");
+
+        descriptor.setEmail(email);
+        assertTrue(descriptor.getEmail().isPresent());
+        assertEquals(email, descriptor.getEmail().get());
+    }
+
+    @Test
+    public void setId_setIdForEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         StudentId studentId = new StudentId("0001Y");
 
-        assertFalse(descriptor.getId().isPresent());
-
-        // Set the id
         descriptor.setId(studentId);
         assertTrue(descriptor.getId().isPresent());
         assertEquals(studentId, descriptor.getId().get());
     }
+
+    @Test
+    public void getId_getIdOfEditStudentDescriptor_nonEmptyOptional() {
+        EditStudentDescriptor descriptor = new EditStudentDescriptor();
+        StudentId studentId = new StudentId("0001Y");
+
+        descriptor.setId(studentId);
+        assertTrue(descriptor.getId().isPresent());
+        assertEquals(studentId, descriptor.getId().get());
+    }
+
+    @Test
+    public void get_getFieldsOfEditGroupDescriptor_emptyOptional() {
+        EditStudentDescriptor descriptor = new EditStudentDescriptor();
+
+        assertFalse(descriptor.getName().isPresent());
+        assertFalse(descriptor.getPhone().isPresent());
+        assertFalse(descriptor.getAddress().isPresent());
+        assertFalse(descriptor.getEmail().isPresent());
+        assertFalse(descriptor.getId().isPresent());
+    }
+
 
     @Test
     public void equals() {

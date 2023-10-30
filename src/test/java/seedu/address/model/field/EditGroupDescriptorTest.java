@@ -10,11 +10,10 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.profbook.Name;
 
-
 public class EditGroupDescriptorTest {
 
     @Test
-    public void testCopyConstructor() {
+    public void constructor_descriptorToBeCopied_descriptorCopiedSuccess() {
         EditGroupDescriptor originalDescriptor = new EditGroupDescriptor();
         originalDescriptor.setName(new Name("Group 1"));
         originalDescriptor.setId(new GroupId("grp-001"));
@@ -25,26 +24,25 @@ public class EditGroupDescriptorTest {
     }
 
     @Test
-    public void testIsAnyFieldEdited() {
+    public void isAnyFieldEdited_oneFieldEdited_true() {
+        EditGroupDescriptor descriptor = new EditGroupDescriptor();
+
+        descriptor.setName(new Name("Group 1"));
+        assertTrue(descriptor.isAnyFieldEdited());
+    }
+
+    @Test
+    public void isAnyFieldEdited_noFieldEdited_false() {
         EditGroupDescriptor descriptor = new EditGroupDescriptor();
 
         // No fields edited, so it should return false
         assertFalse(descriptor.isAnyFieldEdited());
-
-        descriptor.setName(new Name("Group 1"));
-        assertTrue(descriptor.isAnyFieldEdited());
-
-        // Reset the name to null
-        descriptor.setName(null);
-        assertFalse(descriptor.isAnyFieldEdited());
     }
 
     @Test
-    public void testSetNameAndGetName() {
+    public void setName_setNameForEditGroupDescriptor_nonEmptyOptional() {
         EditGroupDescriptor descriptor = new EditGroupDescriptor();
         Name name = new Name("Group 1");
-
-        assertFalse(descriptor.getName().isPresent());
 
         // Set the name
         descriptor.setName(name);
@@ -53,16 +51,45 @@ public class EditGroupDescriptorTest {
     }
 
     @Test
-    public void testSetIdAndGetId() {
+    public void getName_getNameOfEditGroupDescriptor_nonEmptyOptional() {
+        EditGroupDescriptor descriptor = new EditGroupDescriptor();
+        Name name = new Name("Group 1");
+
+        // Set the name
+        descriptor.setName(name);
+        assertTrue(descriptor.getName().isPresent());
+        assertEquals(name, descriptor.getName().get());
+    }
+
+    @Test
+    public void setId_setIdForEditGroupDescriptor_nonEmptyOptional() {
         EditGroupDescriptor descriptor = new EditGroupDescriptor();
         GroupId groupId = new GroupId("grp-001");
-
-        assertFalse(descriptor.getId().isPresent());
 
         // Set the id
         descriptor.setId(groupId);
         assertTrue(descriptor.getId().isPresent());
         assertEquals(groupId, descriptor.getId().get());
+    }
+
+    @Test
+    public void getId_getIdOfEditGroupDescriptor_nonEmptyOptional() {
+        EditGroupDescriptor descriptor = new EditGroupDescriptor();
+        GroupId groupId = new GroupId("grp-001");
+
+        // Set the name
+        descriptor.setId(groupId);
+        assertTrue(descriptor.getId().isPresent());
+        assertEquals(groupId, descriptor.getId().get());
+    }
+
+    @Test
+    public void get_getFieldsOfEditGroupDescriptor_emptyOptional() {
+        EditGroupDescriptor descriptor = new EditGroupDescriptor();
+
+        assertFalse(descriptor.getName().isPresent());
+        assertFalse(descriptor.getId().isPresent());
+
     }
 
     @Test
