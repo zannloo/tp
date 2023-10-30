@@ -37,14 +37,15 @@ public class Messages {
      */
     public static String format(Student student) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(student.getName())
-                .append("; Phone: ")
+        builder.append("\n Name: ")
+                .append(student.getName())
+                .append("\n Phone: ")
                 .append(student.getPhone())
-                .append("; Email: ")
+                .append("\n Email: ")
                 .append(student.getEmail())
-                .append("; Address: ")
+                .append("\n Address: ")
                 .append(student.getAddress())
-                .append("; StudentId: ")
+                .append("\n StudentId: ")
                 .append(student.getId());
         return builder.toString();
     }
@@ -54,8 +55,9 @@ public class Messages {
      */
     public static String format(Group group) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(group.getName())
-                .append("; GroupId: ")
+        builder.append("\n Name: ")
+                .append(group.getName())
+                .append("\n GroupId: ")
                 .append(group.getId());
         return builder.toString();
     }
