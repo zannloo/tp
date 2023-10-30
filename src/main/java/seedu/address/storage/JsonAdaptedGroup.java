@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Student;

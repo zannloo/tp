@@ -1,4 +1,4 @@
-package seedu.address.statemanager;
+package seedu.address.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -13,10 +13,6 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.ChildOperation;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
@@ -132,4 +128,33 @@ public class ChildOperationTest {
         opr.updateChild(stu, newStu);
         assertEquals(newStu, opr.getChild(stu));
     }
+
+    @Test
+    public void numOfChildren_nonEmptyBaseDir_returnsCorrectCount() {
+        ChildOperation<Student> opr = model.groupChildOperation(grpPath);
+        assertEquals(1, opr.numOfChildren());
+    }
+
+    @Test
+    public void hashCode_equalChildOperations_returnsSameHashCode() {
+        ChildOperation<Student> opr = model.groupChildOperation(grpPath);
+        ChildOperation<Student> opr2 = model.groupChildOperation(grpPath);
+
+        assertEquals(opr.hashCode(), opr2.hashCode());
+    }
+
+    @Test
+    public void equals_equalChildOperations_returnsTrue() {
+        ChildOperation<Student> opr = model.groupChildOperation(grpPath);
+        ChildOperation<Student> opr2 = model.groupChildOperation(grpPath);
+        assertTrue(opr.equals(opr2));
+    }
+
+    @Test
+    public void equals_nullChildOperations_returnsTrue() {
+        ChildOperation<Student> opr = model.groupChildOperation(grpPath);
+        assertFalse(opr.equals(null));
+    }
+
+
 }

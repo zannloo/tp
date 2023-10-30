@@ -1,12 +1,11 @@
 package seedu.address.model.task;
 
-import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.Test;
 public class DeadlineTest {
 
     private static final String VALID_DESCRIPTION = "Finish project";

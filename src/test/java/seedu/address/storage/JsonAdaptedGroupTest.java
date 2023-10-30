@@ -1,9 +1,11 @@
 package seedu.address.storage;
 
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.storage.JsonAdaptedGroup.MISSING_FIELD_MESSAGE_FORMAT;
+import static org.junit.jupiter.api.Assertions.fail;
 import static seedu.address.model.profbook.Name.MESSAGE_CONSTRAINTS;
+import static seedu.address.storage.JsonAdaptedGroup.MISSING_FIELD_MESSAGE_FORMAT;
+
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,11 +13,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
-import seedu.address.model.task.Task;
 import seedu.address.testutil.GroupBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class JsonAdaptedGroupTest {
@@ -74,7 +72,7 @@ public class JsonAdaptedGroupTest {
 
     @Test
     public void toModelType_nullId_throwsIllegalValueException() {
-        JsonAdaptedGroup grp = new JsonAdaptedGroup("123",null, new ArrayList<JsonAdaptedStudent>(),
+        JsonAdaptedGroup grp = new JsonAdaptedGroup("123", null, new ArrayList<JsonAdaptedStudent>(),
                 new ArrayList<JsonAdaptedTasks>());
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, GroupId.class.getSimpleName());
         try {
