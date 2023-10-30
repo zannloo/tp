@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.CreateGroupCommand.MESSAGE_DUPLICATE_GROUP;
+import static seedu.address.logic.commands.CreateGroupCommand.MESSAGE_DUPLICATE_GROUP_ID;
 import static seedu.address.logic.commands.CreateGroupCommand.MESSAGE_SUCCESS;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -67,7 +67,7 @@ public class CreateGroupCommandTest {
         model.updateList();
 
         CreateGroupCommand command = new CreateGroupCommand(groupTwoAbsolutePath, toBeAdded);
-        String expectedMessage = MESSAGE_DUPLICATE_GROUP;
+        String expectedMessage = MESSAGE_DUPLICATE_GROUP_ID;
 
         assertCommandFailure(command, model, expectedMessage);
     }

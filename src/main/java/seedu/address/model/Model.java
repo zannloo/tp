@@ -4,6 +4,8 @@ import java.nio.file.Path;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
@@ -65,6 +67,28 @@ public interface Model {
     boolean hasChildrenListInCurrentPath();
 
     /**
+     * Returns true if there is group in ProfBook with the given id.
+     */
+    boolean hasGroupWithId(GroupId id);
+
+    /**
+     * Returns true if there is student in ProfBook with the given id.
+     */
+    boolean hasStudentWithId(StudentId id);
+
+    /**
+     * Returns {@code Group} with given {@code id}.
+     * {@code id} must exist in ProfBook.
+     */
+    Group getGroupWithId(GroupId id);
+
+    /**
+     * Returns {@code Student} with given {@code id}.
+     * {@code id} must exist in ProfBook.
+     */
+    Student getStudentWithId(StudentId id);
+
+    /**
      * Returns true if group in given path exists in the ProfBook.
      * {@code path} must be path with group information.
      * i.e. Group directory or Student Directory.
@@ -83,7 +107,7 @@ public interface Model {
     boolean hasPath(AbsolutePath path);
 
     /**
-     * Change directory to destination path
+     * Changes directory to destination path
      * {@code path} must exist in ProfBook and is not student path.
      */
     void changeDirectory(AbsolutePath path);

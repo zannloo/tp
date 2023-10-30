@@ -135,6 +135,40 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasGroupWithId(GroupId id) {
+        return this.root.hasChild(id);
+    }
+
+    @Override
+    public boolean hasStudentWithId(StudentId id) {
+        for (Group group : this.root.getAllChildren()) {
+            if (group.hasChild(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Group getGroupWithId(GroupId id) {
+        checkArgument(hasGroupWithId(id),
+                String.format(MESSAGE_INTERNAL_ERROR, "Group Id must exist in ProfBook"));
+        return this.root.getChild(id);
+    }
+
+    @Override
+    public Student getStudentWithId(StudentId id) {
+        checkArgument(hasStudentWithId(id),
+                String.format(MESSAGE_INTERNAL_ERROR, "Student Id must exist in ProfBook"));
+        for (Group group : this.root.getAllChildren()) {
+            if (group.hasChild(id)) {
+                return group.getChild(id);
+            }
+        }
+        throw new IllegalArgumentException(String.format(MESSAGE_INTERNAL_ERROR, "Unexpected error occurred."));
+    }
+
+    @Override
     public boolean hasGroup(AbsolutePath path) {
         requireNonNull(path);
         checkArgument(!path.isRootDirectory(),
