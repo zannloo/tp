@@ -94,7 +94,7 @@ public class ProfBookParser {
             return new EditCommandParser().parse(arguments, currPath);
 
         case HelpCommand.COMMAND_WORD:
-            return new HelpCommandParser().parse(arguments, currPath);
+            return new HelpCommand();
 
         case DeleteTaskCommand.COMMAND_WORD:
             return new DeleteTaskCommandParser().parse(arguments, currPath);
