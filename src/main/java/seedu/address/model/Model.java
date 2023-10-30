@@ -77,6 +77,18 @@ public interface Model {
     boolean hasStudentWithId(StudentId id);
 
     /**
+     * Returns {@code Group} with given {@code id}.
+     * {@code id} must exist in ProfBook.
+     */
+    Group getGroupWithId(GroupId id);
+
+    /**
+     * Returns {@code Student} with given {@code id}.
+     * {@code id} must exist in ProfBook.
+     */
+    Student getStudentWithId(StudentId id);
+
+    /**
      * Returns true if group in given path exists in the ProfBook.
      * {@code path} must be path with group information.
      * i.e. Group directory or Student Directory.
