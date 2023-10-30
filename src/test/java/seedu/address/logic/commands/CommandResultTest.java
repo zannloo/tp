@@ -8,16 +8,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CommandResultTest {
+    private static String feedback = "Test";
+
+    private static Boolean showHelp = true;
+    private static Boolean exit = false;
     private CommandResult commonCommandResult;
-
-    private static String FEEDBACK = "Test";
-
-    private static Boolean SHOW_HELP = true;
-    private static Boolean EXIT = false;
 
     @BeforeEach
     public void setUp() {
-        commonCommandResult = createCommandResult(FEEDBACK, SHOW_HELP, EXIT);
+        commonCommandResult = createCommandResult(feedback, showHelp, exit);
     }
 
     @Test
@@ -50,7 +49,8 @@ public class CommandResultTest {
 
     @Test
     public void toString_correctOutput() {
-        String expectedOutput = CommandResult.class.getCanonicalName() + "{feedbackToUser=Test, showHelp=true, exit=false}";
+        String expectedOutput = CommandResult.class.getCanonicalName()
+                + "{feedbackToUser=Test, showHelp=true, exit=false}";
         assertEquals(expectedOutput, commonCommandResult.toString());
     }
 
@@ -60,7 +60,7 @@ public class CommandResultTest {
 
     @Test
     public void getFeedback_correctOutput() {
-        assertEquals(commonCommandResult.getFeedbackToUser(), FEEDBACK);
+        assertEquals(commonCommandResult.getFeedbackToUser(), feedback);
     }
 
     @Test
