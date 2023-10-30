@@ -40,7 +40,7 @@ public class Email {
      */
     public Email(String email) {
         requireNonNull(email);
-        value = email;
+        value = email.toLowerCase();
     }
 
     /**

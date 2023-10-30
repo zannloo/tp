@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.CreateStudentCommand.MESSAGE_DUPLICATE_STUDENT;
+import static seedu.address.logic.commands.CreateStudentCommand.MESSAGE_DUPLICATE_STUDENT_ID;
 import static seedu.address.logic.commands.CreateStudentCommand.MESSAGE_SUCCESS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalGroups.GROUP_ONE;
@@ -74,7 +74,7 @@ class CreateStudentCommandTest {
         operation.addChild(toBeAdded.getId(), toBeAdded);
 
         CreateStudentCommand command = new CreateStudentCommand(targetAbsolutePath, toBeAdded);
-        String expectedMessage = MESSAGE_DUPLICATE_STUDENT;
+        String expectedMessage = MESSAGE_DUPLICATE_STUDENT_ID;
 
         assertCommandFailure(command, model, expectedMessage);
     }
