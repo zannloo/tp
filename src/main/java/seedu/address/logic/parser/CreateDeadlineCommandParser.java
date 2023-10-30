@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import java.time.LocalDateTime;
 
+import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CreateDeadlineCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
@@ -50,10 +51,9 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
         Deadline deadline = new Deadline(argMultimap.getValue(OPTION_DESC).get(), by);
 
         if (argMultimap.getValue(OPTION_ALL).isEmpty()) {
-            return new CreateDeadlineCommand(targetPath, deadline);
-        } else {
-            String category = ParserUtil.parseCategory(argMultimap.getValue(OPTION_ALL).get());
-            return new CreateDeadlineCommand(targetPath, deadline, category);
+            return new CreateDeadlineCommand(targetPath, deadline, Category.NONE);
         }
+        Category category = ParserUtil.parseCategory(argMultimap.getValue(OPTION_ALL).get());
+        return new CreateDeadlineCommand(targetPath, deadline, category);
     }
 }
