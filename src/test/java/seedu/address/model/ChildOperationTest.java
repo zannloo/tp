@@ -144,7 +144,7 @@ public class ChildOperationTest {
     }
 
     @Test
-    public void equals_equalChildOperations_returnsTrue() {
+    public void equals_sameChildOperations_returnsTrue() {
         ChildOperation<Student> opr = model.groupChildOperation(grpPath);
         ChildOperation<Student> opr2 = model.groupChildOperation(grpPath);
         assertTrue(opr.equals(opr2));

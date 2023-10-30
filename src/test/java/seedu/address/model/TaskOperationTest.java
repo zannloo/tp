@@ -128,4 +128,31 @@ public class TaskOperationTest {
         list.add(this.task);
         assertEquals(opr.getAllTasks(), list);
     }
+
+    @Test
+    public void taskOperation_checkHashCode() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        TaskOperation opr2 = model.taskOperation(stuPath);
+        assertEquals(opr1.hashCode(), opr2.hashCode());
+    }
+
+    @Test
+    public void equals_sameTaskOperations_returnsTrue() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        TaskOperation opr2 = model.taskOperation(stuPath);
+        assertTrue(opr1.equals(opr2));
+    }
+
+    @Test
+    public void equals_nullTaskOperations_returnsTrue() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        assertFalse(opr1.equals(null));
+    }
+
+    @Test
+    public void toStringTest() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        System.out.println(opr1.toString());
+    }
+
 }
