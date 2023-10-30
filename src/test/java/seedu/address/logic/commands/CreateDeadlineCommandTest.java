@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -79,7 +80,7 @@ class CreateDeadlineCommandTest {
         operation.addTaskToAllChildren(toBeAdded, 1);
 
         CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.ALLSTU);
-        String expectedMessage = CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
+        String expectedMessage = String.format(MESSAGE_SUCCESS_ALL_STUDENTS, targetGroup.getId());
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }

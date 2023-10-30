@@ -63,7 +63,7 @@ public class CreateTodoCommandTest {
         operation.addTaskToAllChildren(toBeAdded, 1);
 
         CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, Category.ALLSTU);
-        String expectedMessage = MESSAGE_SUCCESS_ALL_STUDENTS;
+        String expectedMessage = String.format(MESSAGE_SUCCESS_ALL_STUDENTS, targetGroup.getId());
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
