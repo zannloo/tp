@@ -2,142 +2,110 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CreateStudentCommand.MESSAGE_DUPLICATE_STUDENT;
+import static seedu.address.logic.commands.CreateStudentCommand.MESSAGE_SUCCESS;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalStudents.ALICE;
+import static seedu.address.testutil.TypicalGroups.GROUP_ONE;
+import static seedu.address.testutil.TypicalRoots.PROFBOOK_WITH_TWO_GROUPS;
+import static seedu.address.testutil.TypicalStudents.KAREN;
+import static seedu.address.testutil.TypicalStudents.LEO;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.ReadOnlyTaskList;
-import seedu.address.testutil.GroupBuilder;
-import seedu.address.testutil.StudentBuilder;
 
 class CreateStudentCommandTest {
-    private final Student validStudent = new StudentBuilder().build();
+    private Model model;
+    private Model expectedModel;
+    private AbsolutePath rootPath = CommandTestUtil.getValidRootAbsolutePath();
+    private Student toBeAdded = KAREN;
+    private Group targetGroup = GROUP_ONE;
+    private RelativePath groupPath;
+    private RelativePath studentPath;
+    private AbsolutePath targetAbsolutePath;
+
+
+    @BeforeEach
+    public void setup() throws InvalidPathException {
+        Root root = PROFBOOK_WITH_TWO_GROUPS;
+        model = new ModelManager(rootPath, new Root(root), new UserPrefs());
+        expectedModel = new ModelManager(rootPath, new Root(root), new UserPrefs());
+
+        groupPath = new RelativePath(targetGroup.getId().toString());
+        studentPath = new RelativePath(toBeAdded.getId().toString());
+        targetAbsolutePath = rootPath.resolve(groupPath).resolve(studentPath);
+    }
 
     @Test
-    public void constructor_nullPersonNullPath_throwsNullPointerException() {
+    public void constructor_nullArgs_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new CreateStudentCommand(null, null));
-    }
-
-    @Test
-    public void constructor_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, (
-        ) -> new CreateStudentCommand(new AbsolutePath("~/grp-001/0001Y"), null));
-    }
-
-    @Test
-    public void constructor_nullPath_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new CreateStudentCommand(null, validStudent));
+                ) -> new CreateStudentCommand(new AbsolutePath("~/grp-001/0001Y"), null));
+        assertThrows(NullPointerException.class, () -> new CreateStudentCommand(null, KAREN));
     }
 
     @Test
     void execute_studentAcceptedByGroup_success() throws Exception {
-        AbsolutePath currPath = new AbsolutePath("~/grp-001/");
+        ChildOperation<Student> operation = expectedModel.groupChildOperation(targetAbsolutePath);
+        operation.addChild(toBeAdded.getId(), toBeAdded);
 
-        Map<Id, Group> groups = new HashMap<>();
-        Group grp = new GroupBuilder().build();
-        groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(groups);
+        CreateStudentCommand command = new CreateStudentCommand(targetAbsolutePath, toBeAdded);
+        String expectedMessage = String.format(MESSAGE_SUCCESS, Messages.format(toBeAdded));
 
-        AbsolutePath path = new AbsolutePath("~/grp-001/0002Y");
-
-        Student bob = new StudentBuilder()
-                .withName("Bob")
-                .withEmail("bobthebuilder@example.com")
-                .withPhone("98765432")
-                .withAddress("311, Clementi Ave 2, #02-25")
-                .withId("0002Y").build();
-
-        CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, bob);
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        CommandResult commandResult = createStudentCommand.execute(model);
-
-        assertEquals(String.format(CreateStudentCommand.MESSAGE_SUCCESS, Messages.format(bob)),
-                commandResult.getFeedbackToUser());
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_duplicateStudent_throwsCommandException() throws InvalidPathException {
-        AbsolutePath currPath = new AbsolutePath("~/grp-001/");
-        Student duplicatedStudent = new StudentBuilder()
-                .withName("alice")
-                .withEmail("aliceinwonderland@example.com")
-                .withPhone("98765432")
-                .withAddress("311, Clementi Ave 2, #02-25")
-                .withId("0001Y").build();
-        Map<Id, Student> studentMap = new HashMap<>();
-        studentMap.put(duplicatedStudent.getId(), duplicatedStudent);
-        Group grp = new Group(new ReadOnlyTaskList(), studentMap, new Name("ProfBook"), new GroupId("grp-001"));
-        Map<Id, Group> groups = new HashMap<>();
-        groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(groups);
+        ChildOperation<Student> operation = model.groupChildOperation(targetAbsolutePath);
+        operation.addChild(toBeAdded.getId(), toBeAdded);
 
-        AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
+        CreateStudentCommand command = new CreateStudentCommand(targetAbsolutePath, toBeAdded);
+        String expectedMessage = MESSAGE_DUPLICATE_STUDENT;
 
-        CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, validStudent);
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        assertThrows(CommandException.class,
-                CreateStudentCommand.MESSAGE_DUPLICATE_STUDENT, (
-                ) -> createStudentCommand.execute(model)
-        );
+        assertCommandFailure(command, model, expectedMessage);
     }
 
     @Test
-    void testEquals() throws InvalidPathException {
-        AbsolutePath path = new AbsolutePath("~/grp-001");
-        Student alice = new StudentBuilder()
-                .withName("Alice")
-                .withEmail("alice@example.com")
-                .withPhone("94351253")
-                .withAddress("123, Jurong West Ave 6, #08-111")
-                .withId("0001Y").build();
-        Student bob = new StudentBuilder()
-                .withName("Bob")
-                .withEmail("johnd@example.com")
-                .withPhone("98765432")
-                .withAddress("311, Clementi Ave 2, #02-25")
-                .withId("0002Y").build();
-        CreateStudentCommand createAliceCommand = new CreateStudentCommand(path, alice);
-        CreateStudentCommand createBobCommand = new CreateStudentCommand(path, bob);
+    public void equals() {
+        CreateStudentCommand createStudentCommand1 = new CreateStudentCommand(targetAbsolutePath, KAREN);
+        CreateStudentCommand createStudentCommand2 = new CreateStudentCommand(targetAbsolutePath, LEO);
 
         // same object -> returns true
-        assertEquals(createAliceCommand, createAliceCommand);
+        assertEquals(createStudentCommand1, createStudentCommand1);
 
         // same values -> returns true
-        CreateStudentCommand createAliceCommandCopy = new CreateStudentCommand(path, alice);
-        assertEquals(createAliceCommand, createAliceCommandCopy);
+        CreateStudentCommand createStudentCommand1Copy = new CreateStudentCommand(targetAbsolutePath, KAREN);
+        assertEquals(createStudentCommand1, createStudentCommand1Copy);
 
         // different types -> returns false
-        assertNotEquals(1, createAliceCommand);
+        assertNotEquals(1, createStudentCommand1);
 
         // null -> returns false
-        assertNotEquals(null, createAliceCommand);
+        assertNotEquals(null, createStudentCommand1);
 
-        // different person -> returns false
-        assertNotEquals(createAliceCommand, createBobCommand);
+        // different values
+        assertNotEquals(createStudentCommand1, createStudentCommand2);
     }
 
     @Test
-    void toString_sameString_success() throws InvalidPathException {
-        AbsolutePath path = new AbsolutePath("~/grp-001");
-        CreateStudentCommand createStudentCommand = new CreateStudentCommand(path, ALICE);
-        String expected = CreateStudentCommand.class.getCanonicalName() + "{toCreateStudent=" + ALICE + "}";
+    public void toStringMethod() {
+        CreateStudentCommand createStudentCommand = new CreateStudentCommand(targetAbsolutePath, KAREN);
+        String expected = CreateStudentCommand.class.getCanonicalName()
+            + "{toCreateStudent=" + KAREN + "}";
         assertEquals(expected, createStudentCommand.toString());
     }
 }

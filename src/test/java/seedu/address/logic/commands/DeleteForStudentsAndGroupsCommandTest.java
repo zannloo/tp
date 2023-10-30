@@ -1,188 +1,151 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR;
+import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.MESSAGE_NO_SUCH_STUDENT_OR_GROUP;
+import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS_FOR_GROUP;
+import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS_FOR_STUDENT;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalGroups.GROUP_ONE;
+import static seedu.address.testutil.TypicalGroups.GROUP_TWO;
+import static seedu.address.testutil.TypicalStudents.ELLE;
+import static seedu.address.testutil.TypicalStudents.FIONA;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.Id;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.testutil.GroupBuilder;
-import seedu.address.testutil.StudentBuilder;
+import seedu.address.testutil.RootBuilder;
 
 class DeleteForStudentsAndGroupsCommandTest {
+    private Model model;
+    private Model expectedModel;
+    private AbsolutePath rootPath = CommandTestUtil.getValidRootAbsolutePath();
+
+    @BeforeEach
+    public void setup() {
+        Root root = new RootBuilder().withGroup(GROUP_ONE).build();
+        model = new ModelManager(rootPath, new Root(root), new UserPrefs());
+        expectedModel = new ModelManager(rootPath, new Root(root), new UserPrefs());
+    }
+
     public void constructor_nullPath_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new DeleteForStudentsAndGroupsCommand(null));
     }
 
     @Test
     void execute_deleteStudent_success() throws InvalidPathException, CommandException {
-        AbsolutePath currPath = new AbsolutePath("~/grp-001/");
+        Student toBeDeleted = ELLE;
+        Group elleGroup = GROUP_ONE;
 
-        Map<Id, Group> groups = new HashMap<>();
-        Group grp = new GroupBuilder().build();
-        groups.put(grp.getId(), grp);
-        Root root = new Root(groups);
+        RelativePath groupPath = new RelativePath(elleGroup.getId().toString());
+        RelativePath stuPath = new RelativePath(toBeDeleted.getId().toString());
+        AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath).resolve(stuPath);
 
-        AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
-        Student stu = new StudentBuilder().build();
-        StudentId studentId = new StudentId("0001Y");
-        assertTrue(grp.hasChild(studentId));
+        ChildOperation<Student> operation = expectedModel.groupChildOperation(targetAbsolutePath);
+        operation.deleteChild(toBeDeleted.getId());
 
-        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        CommandResult commandResult = command.execute(model);
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
+        String expectedMessage = String.format(MESSAGE_SUCCESS_FOR_STUDENT, Messages.format(toBeDeleted));
 
-        assertFalse(root.hasChild(studentId));
-
-        assertEquals(String.format(DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS_FOR_STUDENT, Messages.format(stu)),
-                commandResult.getFeedbackToUser());
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     void execute_deleteGroup_success() throws InvalidPathException, CommandException {
-        AbsolutePath currPath = new AbsolutePath("~/");
+        Group toBeDeleted = GROUP_ONE;
 
-        Map<Id, Group> groups = new HashMap<>();
-        Group grp = new GroupBuilder().build();
-        groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(groups);
+        RelativePath groupPath = new RelativePath(toBeDeleted.getId().toString());
+        AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath);
 
-        AbsolutePath path = new AbsolutePath("~/grp-001/");
+        ChildOperation<Group> operation = expectedModel.rootChildOperation();
+        operation.deleteChild(toBeDeleted.getId());
+        expectedModel.updateList();
 
-        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        CommandResult commandResult = command.execute(model);
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
+        String expectedMessage = String.format(MESSAGE_SUCCESS_FOR_GROUP, Messages.format(toBeDeleted));
 
-        GroupId groupId = new GroupId("grp-001");
-        assertFalse(root.hasChild(groupId));
-
-        assertEquals(String.format(DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS_FOR_GROUP, Messages.format(grp)),
-                commandResult.getFeedbackToUser());
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_noSuchStudent_throwsCommandException() throws InvalidPathException {
-        AbsolutePath currPath = new AbsolutePath("~/grp-001/");
+        Student studentNotInGroupOne = FIONA;
 
-        Map<Id, Group> groups = new HashMap<>();
-        Group grp = new GroupBuilder().build();
-        groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(groups);
+        RelativePath groupPath = new RelativePath(GROUP_ONE.getId().toString());
+        RelativePath stuPath = new RelativePath(studentNotInGroupOne.getId().toString());
+        AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath).resolve(stuPath);
 
-        AbsolutePath path = new AbsolutePath("~/grp-001/0002Y");
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
+        String expectedMessage = MESSAGE_NO_SUCH_STUDENT_OR_GROUP;
 
-        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        assertThrows(CommandException.class,
-                DeleteForStudentsAndGroupsCommand.MESSAGE_NO_SUCH_STUDENT_OR_GROUP, (
-                ) -> command.execute(model)
-        );
+        assertCommandFailure(command, model, expectedMessage);
     }
 
     @Test
     public void execute_noSuchGroup_throwsCommandException() throws InvalidPathException {
-        AbsolutePath currPath = new AbsolutePath("~/");
+        Group groupNotInRoot = GROUP_TWO;
 
-        Map<Id, Group> groups = new HashMap<>();
-        Group grp = new GroupBuilder().build();
-        groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(groups);
+        RelativePath groupPath = new RelativePath(groupNotInRoot.getId().toString());
+        AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath);
 
-        AbsolutePath path = new AbsolutePath("~/grp-002/");
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
+        String expectedMessage = MESSAGE_NO_SUCH_STUDENT_OR_GROUP;
 
-        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        assertThrows(CommandException.class,
-                DeleteForStudentsAndGroupsCommand.MESSAGE_NO_SUCH_STUDENT_OR_GROUP, (
-                ) -> command.execute(model)
-        );
+        assertCommandFailure(command, model, expectedMessage);
     }
 
     @Test
     public void execute_incorrectDirectory_throwsCommandException() throws InvalidPathException {
-        AbsolutePath currPath = new AbsolutePath("~/");
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(rootPath);
+        String expectedMessage = MESSAGE_INCORRECT_DIRECTORY_ERROR;
 
-        Map<Id, Group> groups = new HashMap<>();
-        Group grp = new GroupBuilder().build();
-        groups.put(new GroupId("grp-001"), grp);
-        Root root = new Root(groups);
-
-        AbsolutePath path = new AbsolutePath("~/");
-
-        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        assertThrows(CommandException.class,
-                DeleteForStudentsAndGroupsCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR, (
-                ) -> command.execute(model)
-        );
+        assertCommandFailure(command, model, expectedMessage);
     }
 
 
     @Test
-    void testEquals() throws InvalidPathException {
-        AbsolutePath pathGrp001 = new AbsolutePath("~/grp-001");
-        AbsolutePath pathGrp002 = new AbsolutePath("~/grp-002");
-        AbsolutePath pathStu001 = new AbsolutePath("~/grp-001/0001Y");
-        AbsolutePath pathStu002 = new AbsolutePath("~/grp-002/0002Y");
+    public void equals() throws InvalidPathException {
+        DeleteForStudentsAndGroupsCommand command1 = new DeleteForStudentsAndGroupsCommand(rootPath);
+        DeleteForStudentsAndGroupsCommand command2 = new DeleteForStudentsAndGroupsCommand(
+                new AbsolutePath("~/grp-001"));
 
-        DeleteForStudentsAndGroupsCommand deleteG001 = new DeleteForStudentsAndGroupsCommand(pathGrp001);
-        DeleteForStudentsAndGroupsCommand deleteG002 = new DeleteForStudentsAndGroupsCommand(pathGrp002);
-        DeleteForStudentsAndGroupsCommand deleteS001 = new DeleteForStudentsAndGroupsCommand(pathStu001);
-        DeleteForStudentsAndGroupsCommand deleteS002 = new DeleteForStudentsAndGroupsCommand(pathStu002);
+        // same object -> returns true
+        assertEquals(command1, command1);
 
-        // same object(Group) -> returns true
-        assertEquals(deleteG001, deleteG001);
-        // same object(Student) -> returns true
-        assertEquals(deleteS001, deleteS001);
-
-        // same values(Group) -> returns true
-        DeleteForStudentsAndGroupsCommand deleteG001Copy = new DeleteForStudentsAndGroupsCommand(pathGrp001);
-        assertEquals(deleteG001, deleteG001Copy);
-        // same values(Student) -> returns true
-        DeleteForStudentsAndGroupsCommand deleteS001Copy = new DeleteForStudentsAndGroupsCommand(pathStu001);
-        assertEquals(deleteS001, deleteS001Copy);
+        // same values -> returns true
+        DeleteForStudentsAndGroupsCommand command1Copy = new DeleteForStudentsAndGroupsCommand(rootPath);
+        assertEquals(command1, command1Copy);
 
         // different types -> returns false
-        assertNotEquals(1, deleteG001);
-        assertNotEquals(1, deleteS001);
-        // null -> returns false
-        assertNotEquals(null, deleteG001);
-        assertNotEquals(null, deleteS001);
+        assertNotEquals(1, command1);
 
-        // different group -> returns false
-        assertNotEquals(deleteG001, deleteG002);
-        // different student -> returns false
-        assertNotEquals(deleteS001, deleteS002);
-        // different area to delete -> returns false
-        assertNotEquals(deleteG001, deleteS001);
-        // different student -> returns false
-        assertNotEquals(deleteS001, deleteS002);
+        // null -> returns false
+        assertNotEquals(null, command1);
+
+        // different values
+        assertNotEquals(command1, command2);
     }
 
     @Test
-    void toString_sameString_success() throws InvalidPathException {
-        AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
-        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(path);
+    public void toStringMethod() {
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(rootPath);
         String expected = DeleteForStudentsAndGroupsCommand.class.getCanonicalName()
-                + "{toDeleteStudentOrGroup=" + path + "}";
+            + "{toDeleteStudentOrGroup=" + rootPath + "}";
         assertEquals(expected, command.toString());
     }
 }

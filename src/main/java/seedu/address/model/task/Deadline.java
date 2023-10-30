@@ -12,7 +12,7 @@ import seedu.address.ui.DeadlineCard;
  */
 public class Deadline extends Task {
     private static final DateTimeFormatter OUTPUT_DATETIME_FORMATTER =
-        DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy h:mm a");
+        DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy hh:mm a");
     private final LocalDateTime dueBy;
 
     /**

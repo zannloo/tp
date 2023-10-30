@@ -37,15 +37,26 @@ public class ModelManager implements Model {
     private AbsolutePath displayPath;
 
     /**
-     * Construct a model manager with curren path, root (ProfBook) and userPrefs.
+     * Construct a model manager with current path, root (ProfBook) and userPrefs.
      */
     public ModelManager(AbsolutePath currentPath, Root root, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(currentPath, root, userPrefs);
         this.currentPath = currentPath;
         this.displayPath = currentPath;
-        this.root = root;
-        updateList();
+        this.root = new Root(root);
         this.userPrefs = new UserPrefs(userPrefs);
+        updateList();
+    }
+
+    /**
+     * Constructs a model manager with all fields.
+     */
+    public ModelManager(AbsolutePath currPath, Root root, ReadOnlyUserPrefs usePrefs,
+            AbsolutePath displayPath, boolean showTaskList) {
+        this(currPath, root, usePrefs);
+        this.displayPath = displayPath;
+        this.showTaskList = showTaskList;
+        updateList();
     }
 
     //=========== UserPrefs ==================================================================================

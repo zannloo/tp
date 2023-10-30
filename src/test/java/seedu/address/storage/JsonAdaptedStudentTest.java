@@ -19,7 +19,7 @@ public class JsonAdaptedStudentTest {
 
     @Test
     public void toModelType_emptyTask_returnsStudent() throws Exception {
-        Student grp = new StudentBuilder().buildEmptyTask();
+        Student grp = new StudentBuilder().build();
         JsonAdaptedStudent student = new JsonAdaptedStudent(grp);
         assertEquals(grp, student.toModelType());
     }
