@@ -1,31 +1,41 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.logic.commands.CreateGroupCommand.MESSAGE_DUPLICATE_GROUP;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CreateGroupCommand.MESSAGE_DUPLICATE_GROUP_ID;
 import static seedu.address.logic.commands.CreateGroupCommand.MESSAGE_SUCCESS;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.profbook.Student;
-import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.testutil.RootBuilder;
+import seedu.address.testutil.TypicalGroups;
 
 public class CreateGroupCommandTest {
+    private Model model;
+    private Model expectedModel;
+    private AbsolutePath rootPath = CommandTestUtil.getValidRootAbsolutePath();
+    private Group toBeAdded = TypicalGroups.GROUP_TWO;
+
+    @BeforeEach
+    public void setup() {
+        Root root = new RootBuilder().withGroup(TypicalGroups.GROUP_ONE).build();
+        model = new ModelManager(rootPath, new Root(root), new UserPrefs());
+        expectedModel = new ModelManager(rootPath, new Root(root), new UserPrefs());
+    }
 
     @Test
     public void constructor_nullRelativePathAndGroup_throwsNullPointerException() {
@@ -34,48 +44,53 @@ public class CreateGroupCommandTest {
 
     @Test
     public void execute_createGroup_success() throws CommandException, InvalidPathException {
-        Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(children);
-        Map<Id, Student> students = new HashMap<>();
-        Group group = new Group(new ReadOnlyTaskList(new ArrayList<>()), students,
-                new Name("Group1"), new GroupId("grp-001"));
-        AbsolutePath currPath = new AbsolutePath("~/");
-        Model model = new ModelManager(currPath, root, new UserPrefs());
+        RelativePath groupTwo = new RelativePath(toBeAdded.getId().toString());
+        AbsolutePath groupTwoAbsolutePath = rootPath.resolve(groupTwo);
 
-        AbsolutePath target = new AbsolutePath("~/grp-001");
-        CreateGroupCommand createGroupCommand = new CreateGroupCommand(target, group);
-        CommandResult successCommandResult = new CommandResult(String.format(MESSAGE_SUCCESS, group));
+        ChildOperation<Group> operation = expectedModel.rootChildOperation();
+        operation.addChild(toBeAdded.getId(), toBeAdded);
+        expectedModel.updateList();
 
-        assertEquals(successCommandResult, createGroupCommand.execute(model));
+        CreateGroupCommand command = new CreateGroupCommand(groupTwoAbsolutePath, toBeAdded);
+        String expectedMessage = String.format(MESSAGE_SUCCESS, toBeAdded);
+
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_duplicateGroup_throwCommandException() throws InvalidPathException {
-        Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(children);
-        Map<Id, Student> students = new HashMap<>();
-        Group group = new Group(new ReadOnlyTaskList(new ArrayList<>()),
-                students, new Name("Group1"), new GroupId("grp-001"));
-        root.addChild(group.getId(), group);
-        AbsolutePath currPath = new AbsolutePath("~/");
-        AbsolutePath target = new AbsolutePath("~/grp-001");
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        CreateGroupCommand createGroupCommand = new CreateGroupCommand(target, group);
+        RelativePath groupTwo = new RelativePath(toBeAdded.getId().toString());
+        AbsolutePath groupTwoAbsolutePath = rootPath.resolve(groupTwo);
 
-        assertThrows(CommandException.class, MESSAGE_DUPLICATE_GROUP, () -> createGroupCommand.execute(model));
+        ChildOperation<Group> operation = model.rootChildOperation();
+        operation.addChild(toBeAdded.getId(), toBeAdded);
+        model.updateList();
+
+        CreateGroupCommand command = new CreateGroupCommand(groupTwoAbsolutePath, toBeAdded);
+        String expectedMessage = MESSAGE_DUPLICATE_GROUP_ID;
+
+        assertCommandFailure(command, model, expectedMessage);
     }
 
     @Test
-    public void equals_sameInstance_success() throws InvalidPathException {
-        ReadOnlyTaskList taskList = new ReadOnlyTaskList(new ArrayList<>());
-        Map<Id, Student> students = new HashMap<>();
-        Name name = new Name("Group 1");
-        GroupId id = new GroupId("grp-001");
-        Group group = new Group(taskList, students, name, id);
+    public void equals() {
+        CreateGroupCommand createGroupCommand1 = new CreateGroupCommand(rootPath, TypicalGroups.GROUP_ONE);
+        CreateGroupCommand createGroupCommand2 = new CreateGroupCommand(rootPath, TypicalGroups.GROUP_TWO);
 
-        AbsolutePath target = new AbsolutePath("~/grp-001");
-        CreateGroupCommand createGroupCommand = new CreateGroupCommand(target, group);
-        CreateGroupCommand duplicateCreateGroupCommand = new CreateGroupCommand(target, group);
-        assertEquals(createGroupCommand, duplicateCreateGroupCommand);
+        // same object -> returns true
+        assertEquals(createGroupCommand1, createGroupCommand1);
+
+        // same values -> returns true
+        CreateGroupCommand createGroupCommand1Copy = new CreateGroupCommand(rootPath, TypicalGroups.GROUP_ONE);
+        assertEquals(createGroupCommand1, createGroupCommand1Copy);
+
+        // different types -> returns false
+        assertNotEquals(1, createGroupCommand1);
+
+        // null -> returns false
+        assertNotEquals(null, createGroupCommand1);
+
+        // different values
+        assertNotEquals(createGroupCommand1, createGroupCommand2);
     }
 }
