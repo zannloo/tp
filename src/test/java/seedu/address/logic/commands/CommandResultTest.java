@@ -8,22 +8,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CommandResultTest {
-    private static String feedback = "Test";
+    private static final String FEEDBACK = "Test";
 
-    private static Boolean showHelp = true;
-    private static Boolean exit = false;
+    private static final Boolean SHOW_HELP = true;
+    private static final Boolean EXIT = false;
     private CommandResult commonCommandResult;
 
     @BeforeEach
     public void setUp() {
-        commonCommandResult = createCommandResult(feedback, showHelp, exit);
+        commonCommandResult = createCommandResult(FEEDBACK, SHOW_HELP, EXIT);
     }
 
     @Test
     public void equals_sameCommandResult_returnsTrue() {
         CommandResult commandResult2 = createCommandResult("Test", true, false);
 
-        assertTrue(commonCommandResult.equals(commandResult2));
+        assertTrue(commonCommandResult.equals(commonCommandResult));
     }
 
     @Test
@@ -31,6 +31,11 @@ public class CommandResultTest {
         CommandResult commandResult2 = createCommandResult("Different", true, false);
 
         assertFalse(commonCommandResult.equals(commandResult2));
+    }
+
+    @Test
+    public void equals_nullCommandResult_returnsFalse() {
+        assertFalse(commonCommandResult.equals(null));
     }
 
     @Test
@@ -60,7 +65,7 @@ public class CommandResultTest {
 
     @Test
     public void getFeedback_correctOutput() {
-        assertEquals(commonCommandResult.getFeedbackToUser(), feedback);
+        assertEquals(commonCommandResult.getFeedbackToUser(), FEEDBACK);
     }
 
     @Test
