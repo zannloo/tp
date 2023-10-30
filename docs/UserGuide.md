@@ -14,7 +14,7 @@ As current students of CS2103T, we understand that CS2103T tutors have a high ad
 existing tutor duties. On top of that, any administrative mistakes or oversights can increase that workload 
 exponentially and may adversely impact student's learning. We deeply appreciate your role, and it is precisely to 
 address these aforementioned issues that we designed ProfBook. ProfBook aims to
-**drastically decrease administrative mistakes and your administrative workload**.
+**drastically decrease administrative mistakes and your workload**.
 
 ProfBook is optimized for tutors' use via a **familiar Command Line Interface (CLI) that uses linux-styled commands** 
 while retaining the benefits of a Graphical User Interface (GUI). If you are a fast typer, ProfBook will empower you 
@@ -27,20 +27,20 @@ with a gentle learning curve.
 
 ### Consolidated Information
 
-As a project-based module, CS2103T tutors have to juggle multiple groups **within** multiple tutorial slots. ProfBook
-aims to expedite this process by allowing you keep track of all your groups and their progress within a centralised 
+As a project-based module, CS2103T tutors have to juggle multiple groups. ProfBook
+aims to expedite this process by allowing you to keep track of all your groups and their progress within a centralised 
 location. You would be able to traverse between the different groups quickly through familiar Linux commands.
 
 ### Student and Group Management
 
 ProfBook aids with the **management of student and group information**. ProfBook efficiently encapsulates information of 
-every project group so that you can easily monitor their progress and relevant information seamlessly.  You can 
+every project group so that you can easily monitor their progress and relevant information.  You can 
 effortlessly **add, delete and edit students or groups** and even **move students from one group to another**.
 
 ### Task Management
 
-ProfBook aids with the **management of task information**.  You can quickly **allocate tasks to specific student 
-or group** and track their progress. 
+ProfBook aids with the **management of task information**.  You can quickly and seamlessly **allocate tasks to 
+specific student or group** and track their progress. 
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
@@ -68,8 +68,6 @@ or group** and track their progress.
 
 1. Ensure you have Java `11` or above installed in your computer.
 
-1. ProfBook supports all operating systems.
-
 1. Download the latest `ProfBook.jar` from [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your ProfBook.
@@ -93,7 +91,7 @@ or group** and track their progress.
 
     - `rm grp-001` : Deletes grp-001.
 
-1. Refer to the [General Commands](#general-commands), [Student/ Group Commands](#student-or-group-commands), [Task Commands](#tasks-command) below for details of each command.
+1. Refer to the [General Commands](#general-commands), [Student or Group Commands](#student-or-group-commands), [Tasks Commands](#tasks-command) below for details of each command.
 
 ---
 
@@ -159,11 +157,11 @@ or group** and track their progress.
 
 **Notes about the command format:**<br>
 
-- Words in `UPPER_CASE` are the parameters to be supplied by the user.
-  - e.g. In `touch SPECIFIED_PATH -n NAME`, `SPECIFIED_PATH` and the other fields in `UPPER_CASE` can be substituted 
+- Words in `UPPER_CASE` are the parameters to be supplied by you.
+  - e.g. In `touch SPECIFIED_PATH -n NAME`, `SPECIFIED_PATH` and the other field in `UPPER_CASE` can be substituted 
     with the desired details to form `touch stu-200 --name Bob`.
 
-- Words in `UPPER_CASE` and surrounded by `[square brackets]` are optional parameters to be supplied by the user.
+- Words in `UPPER_CASE` that are surrounded by `[square brackets]` are optional parameters to be supplied by you.
   - e.g. In `cat [SPECIFIED_PATH]`, `[SPECIFIED_PATH]` can be substituted with details or left empty, 
     `cat stu-200` and `cat` are acceptable commands. 
 
@@ -182,16 +180,18 @@ multiple lines as space characters surrounding line-breaks may be omitted when c
 <box type="info">
 
 **Flags:**
-Flags comes before essential details required by the command and come in both long and short forms:
+Flags come before essential details required by the command and come in both long and short forms:
 
 - `--name` / `-n` followed by name of student or group specified by command.
 - `--email` / `-e` followed by email of student. 
 - `--desc` followed by description of task specified by command.
 - `--phone` / `-p` followed by phone number of student.
 - `--datetime` / `-dt` followed by due date of a deadline task in the `yyyy-MM-dd HH:mm` format.  
-- `--all` / `-al` followed by either `allStu` or `allGrp` to add a task to all students or groups in the  
-  - `allStu` can only be used at a group directory.  
-  - `allGrp` can only be used at root directory.  <box type="info" theme="warning">
+- `--all` / `-al` followed by either: 
+  - `allStu` to add a task to all students.
+    - can only be used at a group directory.  
+  - `allGrp` to add a task to all groups.
+    - can only be used at root directory.
 
 </box>
 
@@ -268,12 +268,12 @@ Shows the list of children in specified directory.
 #### Acceptable values for each parameter:
 
 `[SPECIFIED_PATH]`:
-- (Optional)
+- (Optional) 
 - Must be a valid path to a group or root.
 
 <box type="info">
   
-  If `[SPECIFIED_PATH]` is not provided, the `ls` command show the list of children in the current directory.
+  If `[SPECIFIED_PATH]` is not provided, the `ls` command shows the list of children in the current directory.
 
 </box>
 
@@ -451,7 +451,9 @@ at the directory `~/grp-001`, to make the necessary changes.
 When you are at the root directory `~/` and would like to edit the same student's phone number,
 - You could use the command `edit ~/grp-001/0010Y --phone 91919191` to save yourself the trouble for having to change 
 directory before executing the `touch` command! 
- 
+    
+</box>
+
 ### Deletes a Student or Group: `rm`
 
 Removes a student or group from the specified directory.
