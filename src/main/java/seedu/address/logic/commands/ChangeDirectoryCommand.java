@@ -21,7 +21,9 @@ public class ChangeDirectoryCommand extends Command {
 
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]\n"
+            + "Example: " + COMMAND_WORD
+            + " grp-001 ";;
 
     private final AbsolutePath dest;
 

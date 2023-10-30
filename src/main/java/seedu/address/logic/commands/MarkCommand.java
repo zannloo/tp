@@ -28,7 +28,11 @@ public class MarkCommand extends Command {
 
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Marked task: %1$s";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " [task index]";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Mark a task with the given task index as done.\n"
+            + "Constraint: Task list must be shown on display panel using \"cat\" command.\n"
+            + "Example: " + COMMAND_WORD
+            + " 1";
 
     private static final Logger logger = LogsCenter.getLogger(MarkCommand.class);
 

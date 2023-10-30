@@ -2,6 +2,8 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -51,8 +53,21 @@ public class CreateTodoCommand extends Command {
 
     public static final String MESSAGE_ALL_CHILDREN_HAVE_TASK = "All %1$ss already have the task.";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
-
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Creates a todo task for student/group in specified directory.\n"
+            + "Parameters: "
+            + "specified path\n"
+            + "[" + OPTION_DESC + " DESCRIPTION] "
+            + "[" + OPTION_ALL + " CATERGORY]\n"
+            + "Example: " + COMMAND_WORD
+            + " 0001Y "
+            + OPTION_DESC + " Assignment 1 /\n"
+            + COMMAND_WORD + " 0001Y "
+            + OPTION_DESC + " Assignment 1 "
+            + OPTION_ALL + " allGrp /\n"
+            + COMMAND_WORD + " 0001Y "
+            + OPTION_DESC + " Assignment 1 "
+            + OPTION_ALL + " allStu";
     private final AbsolutePath target;
 
     private final ToDo todo;

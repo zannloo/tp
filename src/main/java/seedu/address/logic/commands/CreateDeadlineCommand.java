@@ -29,10 +29,17 @@ public class CreateDeadlineCommand extends Command {
             + "[" + OPTION_DESC + " DESCRIPTION] "
             + "[" + OPTION_DATETIME + " DATE_AND_TIME] "
             + "[" + OPTION_ALL + " CATERGORY]\n"
-            + "Example: " + COMMAND_WORD
-            + " stu-001 "
+            + "Example: " + COMMAND_WORD + " 0001Y "
             + OPTION_DESC + " Assignment 1 "
-            + OPTION_DATETIME + " 2023-10-11 23:59 ";
+            + OPTION_DATETIME + " 2023-10-11 23:59\n"
+            + COMMAND_WORD + " 0001Y "
+            + OPTION_DESC + " Assignment 1 "
+            + OPTION_DATETIME + " 2023-10-11 23:59 "
+            + OPTION_ALL + " allGrp /\n"
+            + COMMAND_WORD + " 0001Y "
+            + OPTION_DESC + " Assignment 1 "
+            + OPTION_DATETIME + " 2023-10-11 23:59 "
+            + OPTION_ALL + " allStu";
 
     public static final String MESSAGE_SUCCESS = "New Deadline task added to Student/Group: %1$s";
 

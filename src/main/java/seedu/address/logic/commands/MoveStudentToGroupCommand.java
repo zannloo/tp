@@ -27,7 +27,10 @@ public class MoveStudentToGroupCommand extends Command {
 
     public static final String MESSAGE_INVALID_MOVE_COMMAND = "Move command is invalid.";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Move a student with the given StudentId from source group to destination group.\n"
+            + "Example: " + COMMAND_WORD
+            + " 0001Y ../grp-001 ";
 
     private final AbsolutePath source;
 

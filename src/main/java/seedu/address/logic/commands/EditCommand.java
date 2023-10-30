@@ -38,10 +38,6 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
-    public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
-
-    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
-
     public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
 
     public static final String MESSAGE_EDIT_GROUP_SUCCESS = "Field(s) of group has been edited successfully.";
@@ -55,9 +51,8 @@ public class EditCommand extends Command {
             + "[" + OPTION_NAME + " NAME] "
             + "[" + OPTION_PHONE + " PHONE] "
             + "[" + OPTION_EMAIL + " EMAIL] "
-            + "[" + OPTION_ADDRESS + " ADDRESS] "
-            + "[" + OPTION_TAG + " TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1 "
+            + "[" + OPTION_ADDRESS + " ADDRESS]\n"
+            + "Example: " + COMMAND_WORD + " 0001Y "
             + OPTION_PHONE + " 91234567 "
             + OPTION_EMAIL + " johndoe@example.com";
 
