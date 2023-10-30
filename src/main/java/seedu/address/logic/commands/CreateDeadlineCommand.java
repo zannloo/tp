@@ -151,7 +151,6 @@ public class CreateDeadlineCommand extends Command {
         model.updateList();
         return new CommandResult(
                 warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING : MESSAGE_SUCCESS_ALL_STUDENTS);
-        
     }
 
     private CommandResult handleAllGrp(Model model) throws CommandException {
