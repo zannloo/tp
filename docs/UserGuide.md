@@ -3,44 +3,44 @@ layout: default.md
 title: "User Guide"
 pageNav: 3
 ---
-
 # ProfBook User Guide
 
-ProfBook is a **student management system** specially made for **CS2103T tutors**, built by CS2103T students. As current
-students of CS2103T, we understand that CS2103T tutors have a high administrative workload on top of their existing
-tutor duties. On top of that, any administrative mistakes or oversights can increase that workload exponentially and may
-adversely impact student's learning. To address the aforementioned issues, Profbook was designed as a student management
-system which can **dramatically decrease administrative mistakes and workload**.
+Welcome to ProfBook, a specialised **student management system** exclusively tailored for **CS2103T tutors** by CS2103T 
+students.  This guide is your gateway to unlocking the potential of ProfBook, where you will discover how ProfBook can 
+help streamline your administrative tasks, alleviate workload and most importantly reduce any administrative errors.
 
-It is optimized for tutors use via a **familiar Command Line Interface (CLI) that uses linux-styled commands** while
-still having the benefits of a Graphical User Interface (GUI). If you can type fast, ProfBook can track and manage your
-student's progress and tasks much faster than traditional GUI apps with a gentle learning curve.
+## What can ProfBook do
+As current students of CS2103T, we understand that CS2103T tutors have a high administrative workload on top of their 
+existing tutor duties. On top of that, any administrative mistakes or oversights can increase that workload 
+exponentially and may adversely impact student's learning. We deeply appreciate your role, and it is precisely to 
+address these aforementioned issues that we designed Profbook as a student management system which can 
+**dramatically decrease administrative mistakes and workload**.
 
----
+ProfBook is optimized for tutors' use via a **familiar Command Line Interface (CLI) that uses linux-styled commands** 
+while retaining the benefits of a Graphical User Interface (GUI). If you are a fast typer, ProfBook will empower you 
+to efficiently track and manage students' progress and tasks, surpassing the capabilities of traditional GUI apps 
+with a gentle learning curve.
+  
+---  
 
 ## Features overview
 
 ### Consolidated Information
 
-As a project based module, CS2103T tutors have to juggle multiple groups **within** multiple tutorial slots. ProfBook
-aims to expedite this process by allowing tutors to keep track of all their tutorial groups and all the project groups
-within that in a centralised location. Tutors are able to traverse between tutorial slots and groups quickly through
-familiar linux commands.
+As a project-based module, CS2103T tutors have to juggle multiple groups **within** multiple tutorial slots. ProfBook  
+aims to expedite this process by allowing you keep track of all your groups and their progress within a centralised 
+location. You would be able to traverse between the different groups quickly through familiar linux commands.
 
-### Student Information Management
+### Student and Group Management
 
-ProfBook aids with the **management of student information**. Student's information can be **readily** added, edited,
-deleted quickly. In addition, ProfBook supports the managment of additional information vital for a tutor. Tutors can
-track their student progress through creating various tasks such as Todo and Deadline. Furthermore, Tutors can store
-short description of a student or links to their GitHub Repository if desired.
+ProfBook aids with the **management of student and group information**.Profbook efficiently encapsulates information of 
+every project group so that you can easily monitor their progress and relevant information **seamlessly**.  You can 
+effortlessly **add, delete and edit students or group** and even **move students from one group to another**.
 
-### Tutorial and Groups Information Management
+### Task Management
 
-ProfBook aids with the **management of Tutorial and Groups information**. Profbook efficiently encapsulates information
-of every tutorial group and every project group so that tutors can management their progress and relevant information *
-*seamlessly**. Tutors can easily add, move, delete students from groups. Similiar to students, tutors are able to track
-each group progress through tasks. In addition, Tutors can store short description of the groups or links to their
-GitHub Repository if desired.
+ProfBook aids with the **management of task information**.  You can easily **allocate tasks to specific student 
+or group** and track their progress. 
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
