@@ -27,6 +27,11 @@ public class ToDoTest {
     }
 
     @Test
+    public void equals_sameToDos_returnsTrue() {
+        assertTrue(toDo2.equals(toDo2));
+    }
+
+    @Test
     public void markTask_taskIsMarked_returnsMarkedTask() {
         ToDo markedTask = todo1.mark();
         assertTrue(markedTask.getStatus());
