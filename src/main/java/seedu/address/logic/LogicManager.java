@@ -73,6 +73,16 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public String getDisplayPath() {
+        return model.getDisplayPath().toString();
+    }
+
+    @Override
+    public boolean isShowTaskList() {
+        return model.isShowTaskList();
+    }
+
+    @Override
     public Path getAddressBookFilePath() {
         return model.getProfBookFilePath();
     }
