@@ -29,8 +29,8 @@ public class ModelManager implements Model {
 
     private static final Logger logger = LogsCenter.getLogger(Model.class);
     private static final String MESSAGE_INTERNAL_ERROR = "Internal error: %1$s";
-    private final UserPrefs userPrefs;
     private final ObservableList<Displayable> displayList = FXCollections.observableArrayList();
+    private final UserPrefs userPrefs;
     private Root root;
     private AbsolutePath currentPath;
     private boolean showTaskList = false;
@@ -104,6 +104,8 @@ public class ModelManager implements Model {
     public void setRoot(Root root) {
         this.root = root;
         this.currentPath = AbsolutePath.ROOT_PATH;
+        this.displayPath = AbsolutePath.ROOT_PATH;
+        this.showTaskList = false;
         this.updateList();
     }
 
