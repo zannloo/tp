@@ -9,7 +9,7 @@ Welcome to ProfBook, a specialised **student management system** exclusively tai
 students.  This guide is your gateway to unlocking the potential of ProfBook, where you will discover how ProfBook can 
 help streamline your administrative tasks, alleviate workload and most importantly reduce any administrative errors.
 
-## What can ProfBook do
+## What can ProfBook do :monocle_face:
 As current students of CS2103T, we understand that CS2103T tutors have a high administrative workload on top of their 
 existing tutor duties. On top of that, any administrative mistakes or oversights can increase that workload 
 exponentially and may adversely impact student's learning. We deeply appreciate your role, and it is precisely to 
