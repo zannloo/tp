@@ -179,7 +179,23 @@ multiple lines as space characters surrounding line-breaks may be omitted when c
 
 </box>
 
-<box type="info" theme="warning">
+<box type="info">
+
+**Flags:**
+Flags comes before essential details required by the command and come in both long and short forms:
+
+- `--name` / `-n` followed by name of student or group specified by command.
+- `--email` / `-e` followed by email of student. 
+- `--desc` followed by description of task specified by command.
+- `--phone` / `-p` followed by phone number of student.
+- `--datetime` / `-dt` followed by due date of a deadline task in the `yyyy-MM-dd HH:mm` format.  
+- `--all` / `-al` followed by either `allStu` or `allGrp` to add a task to all students or groups in the  
+  - `allStu` can only be used at a group directory.  
+  - `allGrp` can only be used at root directory.  <box type="info" theme="warning">
+
+</box>
+
+<box type="info" theme = "warning"> 
 
 **Acceptable values for each parameter:**
 
@@ -257,7 +273,7 @@ Shows the list of children in specified directory.
 
 <box type="info">
   
-  If `[SPECIFIED_PATH]` is provided, the `ls` command show the list of children in the current directory.
+  If `[SPECIFIED_PATH]` is not provided, the `ls` command show the list of children in the current directory.
 
 </box>
 
@@ -287,7 +303,7 @@ Displays message indicating either:
 - When you are at the root directory `~/` and would like to see all the groups you have,
     - `ls` will return all the current groups.
 
-### Displays all tasks: `cat`
+### Display all tasks: `cat`
 
 Displays all tasks depending on the directory you are at.
 
@@ -343,11 +359,6 @@ Adds a student into the specified directory.
 
 **Format:** `touch SPECIFIED_PATH -n NAME [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]`
 
-- `--name` / `-n` : Name of Student
-- `--email` / `-e` : Email of Student
-- `--phone` / `-p`: Phone number of Student
-- `--address` / `-a`: Address of Student
-
 #### Acceptable values for each parameter:
 
 `SPECIFIED_PATH`:
@@ -392,6 +403,55 @@ student within that group.
 - However, if the command is executed outside a specific group, the specified path must extend to encompass both the 
 group and the student to ensure accurate execution.
 
+### Edit a student: `edit`
+Edits a student's details including name, email, phone or address in the specified path. 
+One or more fields can be edited in a single command.
+
+**Format:** `edit [SPECIFIED_PATH] [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]`
+
+#### Acceptable values for each parameter:
+
+`SPECIFIED_PATH`:  
+- Must be a valid path to a student.
+
+<box type="info">
+
+If `[SPECIFIED_PATH]` is not provided, current directory must be a student directory.
+The `edit` command will edit the student at current directory.  
+</box>
+
+<box type="warning">
+
+At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER` or `ADDRESS`) must be provided.
+</box>  
+<box type="success" seamless>
+
+#### Output if command succeeds: 
+- Displays message indicating successful edition of specified student. 
+
+</box>
+
+<box type="wrong" seamless> 
+
+#### Output if command fails: 
+- Displays message indicating either:
+  - Invalid command format.  
+  - Invalid path. 
+  - At least one field to edit must be provided.
+
+</box>
+
+#### Example(s):        
+  
+- If a student in `grp-001` of StudentId `0010Y` changes his phone number, you could execute the following command 
+at the directory `~/grp-001`, to make the necessary changes. 
+  - `edit 0010Y --phone 91919191`
+<box type="tip">  
+
+When you are at the root directory `~/` and would like to edit the same student's phone number,
+- You could use the command `edit ~/grp-001/0010Y --phone 91919191` to save yourself the trouble for having to change 
+directory before executing the `touch` command! 
+ 
 ### Deletes a Student or Group: `rm`
 
 Removes a student or group from the specified directory.
@@ -428,8 +488,8 @@ Removes a student or group from the specified directory.
 
 <box type="tip">
 
-- When you are at the directory `~/` and would like to remove the student with the StudentId, `0123Y`, in `~/grp-001`,
-  - You could use the command `rm ~/grp-001/0123Y` to save yourself the hassle for having to change directory!
+When you are at the directory `~/` and would like to remove the student with the StudentId, `0123Y`, in `~/grp-001`,
+- You could use the command `rm ~/grp-001/0123Y` to save yourself the hassle for having to change directory!
 
 </box>
 
@@ -476,9 +536,9 @@ Moves student from one group to another group.
 
 <box type="tip">
 
-- When you are at the directory `~/grp-001` and would like to move a student to `grp-002` without changing to the 
+When you are at the directory `~/grp-001` and would like to move a student to `grp-002` without changing to the 
 root directory,
-  - You could use the command `mv 0123Y ../grp-002`!
+- You could use the command `mv 0123Y ../grp-002`!
 
 </box>
 
@@ -557,14 +617,18 @@ positioned in the top-left corner of the window.
 
 Creates todo tasks for specific student(s) or group(s).
 
-**Format:** `todo SPECIFIED_PATH --desc DESCRIPTION [--all CATERGORY]`
+**Format:** `todo [SPECIFIED_PATH] --desc DESCRIPTION [--all CATERGORY]`
 
-- `--desc` / `-d` : Description of the todo task
-- `--all` / `-al` : (Optional) Either `allStu` or `allGrp` to add a todo task to all students/groups in the
-  specified path
-  - `allStu` can only be used at a group directory.
-  - `allGrp` can only be used at root directory.
+#### Acceptable values for each parameter: 
 
+`[SPECIFIED_PATH]`:    
+- Must be a valid path to a student or group. 
+
+<box type="info">
+
+If `[SPECIFIED_PATH]` is not provided, current directory must be a student or group directory.
+The `todo` command will create todo task for the student or group at current directory.
+</box>
 
 <box type="success" seamless>
 
@@ -592,9 +656,9 @@ Creates todo tasks for specific student(s) or group(s).
 
 <box type="tip">
 
-- When you have an assignment, `Assignment 1` to be allocated to **all your students** in `grp-001`, you could use the 
+When you have an assignment, `Assignment 1` to be allocated to **all your students** in `grp-001`, you could use the 
 following command, 
-  - `todo ~/grp-001 --desc Assignment 1 --all allStu`
+- `todo ~/grp-001 --desc Assignment 1 --all allStu`
 
 </box>
 
@@ -603,24 +667,17 @@ following command,
 
 Creates task with a deadline for specific student(s) or group(s).
 
-**Format:** `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME [--all CATERGORY]`
+**Format:** `deadline [SPECIFIED_PATH] --desc DESCRIPTION --datetime DATE_AND_TIME [--all CATERGORY]`
 
-- `--desc` / `-d` : Description of the deadline task
-- `--datetime` / `-dt` : Duedate of task in `yyyy-MM-dd HH:mm` format. 
-- `--all` / `-al` : (Optional) Either `allStu` or `allGrp` to add a deadline task to all students/groups in the
-  specified path
-  - `allStu` can only be used at a group directory.
-  - `allGrp` can only be used at root directory.
+#### Acceptable values for each parameter:  
+`[SPECIFIED_PATH]`:
+- Must be a valid path to a student.
 
-<box type="success" seamless>
+<box type="info">
 
-#### Output if command succeeds
-
-- Displays message indicating the successful creation of the deadline task.
-
-</box>
-
-<box type="wrong" seamless>
+If `[SPECIFIED_PATH]` is not provided, current directory must be a student or group directory.
+The `deadline` command will create task with deadline for the student or group at current directory.
+</box> 
 
 #### Output if command fails:
 
@@ -638,9 +695,9 @@ you could use the following command when you are in the directory `~/grp-001`,
 
 <box type="tip">
 
-- When you have a task, `Project 1 submission` with a deadline to be allocated to **all your groups**, 
+When you have a task, `Project 1 submission` with a deadline to be allocated to **all your groups**, 
 you could use the following command at the root directory, `~/`,
-  - `deadline ~/ --desc Project 1 submission --datetime 2023-10-11 23:59 --all allGrp`
+- `deadline ~/ --desc Project 1 submission --datetime 2023-10-11 23:59 --all allGrp`
 
 </box>
 
@@ -769,11 +826,12 @@ the data of your previous ProfBook home folder.
 |:------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Help**                | `help`                                                                                                                                                                                  |
 | **Clear all entries**   | `clear`                                                                                                                                                                                 |
-| **Exits the program**   | `exit`                                                                                                                                                                                  |
+| **Exit the program**    | `exit`                                                                                                                                                                                  |
 | **Change Directory**    | `cd SPECIFIED_PATH` <br> e.g., `cd ../grp-001`                                                                                                                                          |
 | **Display Directories** | `ls [SPECIFIED_PATH]` <br> e.g., `ls grp-001`                                                                                                                                           |
 | **Display Task List**   | `cat [SPECIFIED_PATH]`<br> e.g., `cat 1234A, cat grp-001`                                                                                                                               |
 | **Add Student**         | `touch SPECIFIED_PATH -n NAME [-e EMAIL] [- p PHONE_NUMBER] [-a ADDRESS]` <br> e.g., `touch stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh ` |
+| **Edit Student**        | `edit SPECIFIED_PATH [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]` <br> e.g., `edit 0010Y --phone 91919191`                                                                      |
 | **Create Group**        | `mkdir [groupId]` <br> e.g., `mkdir grp-1`                                                                                                                                              |
 | **Delete**              | `rm SPECIFIED_PATH` <br> e.g., `rm 0123Y`, `rm grp-002`                                                                                                                                 |
 | **Create Todo**         | `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY` <br> e.g., `todo stu-001 --desc Assignment 1                                                                                   |
