@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.logic.commands.CreateTodoCommand;
 import seedu.address.model.task.ToDo;
@@ -20,7 +21,8 @@ public class CreateTodoCommandParserTest {
         assertParseSuccess(parser,
                 VALID_STUDENT_DIR_PREAMBLE + TASK_DESC_DESC,
                 CommandTestUtil.getValidRootAbsolutePath(),
-                new CreateTodoCommand(CommandTestUtil.getValidStudentAbsolutePath(), new ToDo(VALID_TASK_DESC)));
+                new CreateTodoCommand(CommandTestUtil.getValidStudentAbsolutePath(), new ToDo(VALID_TASK_DESC),
+                Category.NONE));
     }
 
     @Test
@@ -29,6 +31,7 @@ public class CreateTodoCommandParserTest {
                 VALID_STUDENT_DIR_PREAMBLE + TASK_DESC_DESC + VALID_CATEGORY_STUDENT,
                 CommandTestUtil.getValidRootAbsolutePath(),
                 new CreateTodoCommand(CommandTestUtil.getValidStudentAbsolutePath(),
-                        new ToDo(VALID_TASK_DESC), "allStu"));
+                        new ToDo(VALID_TASK_DESC),
+                        Category.ALLSTU));
     }
 }
