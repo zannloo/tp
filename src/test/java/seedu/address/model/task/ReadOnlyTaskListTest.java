@@ -1,7 +1,7 @@
 package seedu.address.model.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.TypicalTasks.TASK_LIST_1;
@@ -28,12 +28,17 @@ public class ReadOnlyTaskListTest {
     @Test
     public void equals_sameTaskList() {
         ReadOnlyTaskList taskListCopy = TASK_LIST_1;
-        assertEquals(taskList1, taskListCopy);
+        assertTrue(taskList1.equals(taskListCopy));
+    }
+
+    @Test
+    public void equals_nullTaskList() {
+        assertFalse(taskList1.equals(null));
     }
 
     @Test
     public void equals_differentTaskLists() {
-        assertNotEquals(taskList1, taskList2);
+        assertFalse(taskList1.equals(taskList2));
     }
 
     @Test
