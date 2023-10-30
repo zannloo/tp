@@ -213,7 +213,11 @@ public class ParserUtil {
      * {@code ArgumentMultimap}.
      */
     public static boolean areOptionsPresent(ArgumentMultimap argumentMultimap, Option... options) {
-        return Stream.of(options).allMatch(option -> argumentMultimap.getValue(option).isPresent());
+        return Stream.of(options).allMatch(option -> isOptionPresent(argumentMultimap, option));
+    }
+
+    public static boolean isOptionPresent(ArgumentMultimap argumentMultimap, Option option) {
+        return argumentMultimap.getValue(option).isPresent();
     }
 
     /**
