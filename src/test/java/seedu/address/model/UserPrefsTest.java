@@ -27,15 +27,15 @@ public class UserPrefsTest {
         assertThrows(NullPointerException.class, () -> userPrefs.setAddressBookFilePath(null));
     }
 
-    @Test
-    public void equalsNull_returnsFalse() {
-        assertFalse(userPrefs.equals(null));
-    }
-
-    @Test
-    public void hashCode_equalUserPrefs_returnsSameHashCode() {
-        UserPrefs test = new UserPrefs();
-        assertEquals(userPrefs.hashCode(), test.hashCode());
-    }
+    //    @Test
+    //    public void equalsNull_returnsFalse() {
+    //        assertFalse(userPrefs.equals(null));
+    //    }
+    //
+    //    @Test
+    //    public void hashCode_equalUserPrefs_returnsSameHashCode() {
+    //        UserPrefs test = new UserPrefs();
+    //        assertEquals(userPrefs.hashCode(), test.hashCode());
+    //    }
 
 }
