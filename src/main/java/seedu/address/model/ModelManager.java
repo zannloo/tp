@@ -29,9 +29,9 @@ public class ModelManager implements Model {
 
     private static final Logger logger = LogsCenter.getLogger(Model.class);
     private static final String MESSAGE_INTERNAL_ERROR = "Internal error: %1$s";
-    private final Root root;
-    private final UserPrefs userPrefs;
     private final ObservableList<Displayable> displayList = FXCollections.observableArrayList();
+    private final UserPrefs userPrefs;
+    private Root root;
     private AbsolutePath currentPath;
     private boolean showTaskList = false;
     private AbsolutePath displayPath;
@@ -54,8 +54,20 @@ public class ModelManager implements Model {
     public ModelManager(AbsolutePath currPath, Root root, ReadOnlyUserPrefs usePrefs,
             AbsolutePath displayPath, boolean showTaskList) {
         this(currPath, root, usePrefs);
+        requireAllNonNull(displayPath, showTaskList);
         this.displayPath = displayPath;
         this.showTaskList = showTaskList;
+        updateList();
+    }
+
+    /**
+     * Constructs a new model manager with empty data.
+     */
+    public ModelManager() {
+        this.currentPath = AbsolutePath.ROOT_PATH;
+        this.displayPath = AbsolutePath.ROOT_PATH;
+        this.root = new Root();
+        this.userPrefs = new UserPrefs();
         updateList();
     }
 
@@ -88,6 +100,15 @@ public class ModelManager implements Model {
     }
 
     //=========== ProfBook Model ================================================================================
+    @Override
+    public void setRoot(Root root) {
+        this.root = root;
+        this.currentPath = AbsolutePath.ROOT_PATH;
+        this.displayPath = AbsolutePath.ROOT_PATH;
+        this.showTaskList = false;
+        this.updateList();
+    }
+
     @Override
     public AbsolutePath getCurrPath() {
         return this.currentPath;

@@ -28,35 +28,39 @@ public interface Model {
     void setAddressBookFilePath(Path addressBookFilePath);
 
     //=========== ProfBook Model ================================================================================
+    /**
+     * Sets root of ProfBook to the given root and set the current path to root path.
+     */
+    void setRoot(Root root);
 
     /**
-     * Return current directory.
+     * Returns current directory.
      */
     AbsolutePath getCurrPath();
 
     /**
-     * Return Root.
+     * Returns Root.
      */
     Root getRoot();
 
     /**
-     * Return current display path.
+     * Returns current display path.
      */
     AbsolutePath getDisplayPath();
 
     /**
-     * Return true if display panel is showing task list.
+     * Returns true if display panel is showing task list.
      */
     boolean isShowTaskList();
 
 
     /**
-     * Return true if current path has task list.
+     * Returns true if current path has task list.
      */
     boolean hasTaskListInCurrentPath();
 
     /**
-     * Return true if current path has children list.
+     * Returns true if current path has children list.
      */
     boolean hasChildrenListInCurrentPath();
 
