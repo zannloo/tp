@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
@@ -35,7 +36,7 @@ public class CreateDeadlineCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New Deadline task added to Student/Group: %1$s";
 
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
-            "New Deadline task added to all students in group: %1$s";
+            "New Deadline task added to all students in group with %1$s";
     public static final String MESSAGE_SUCCESS_ALL_GROUPS =
             "New Deadline task added to all groups in root: %1$s";
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
@@ -108,7 +109,8 @@ public class CreateDeadlineCommand extends Command {
             ChildOperation<Student> groupOper = model.groupChildOperation(path);
             groupOper.addTaskToAllChildren(deadline, 1);
             model.updateList();
-            return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
+            return new CommandResult(String.format(MESSAGE_SUCCESS_ALL_STUDENTS,
+                    Messages.format(path.getGroupId().get())));
         }
 
         if (!path.isRootDirectory()) {
@@ -119,7 +121,7 @@ public class CreateDeadlineCommand extends Command {
         rootOper.addTaskToAllChildren(deadline, 1);
         model.updateList();
 
-        return new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
+        return new CommandResult(String.format(MESSAGE_SUCCESS_ALL_GROUPS, Messages.format(path.getGroupId().get())));
     }
 
     /**

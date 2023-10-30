@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
@@ -28,7 +29,7 @@ public class CreateTodoCommand extends Command {
     public static final String MESSAGE_DUPLICATE_TODO_TASK_GROUP =
             "This ToDo task has already been allocated to this group in ProfBook";
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
-            "New ToDo task added to all students in group: %1$s";
+            "New ToDo task added to all students in group with %1$s";
     public static final String MESSAGE_SUCCESS_ALL_GROUPS =
             "New ToDo task added to all groups in root: %1$s";
 
@@ -47,7 +48,7 @@ public class CreateTodoCommand extends Command {
     /**
      * Constructs a {@code CreateTodoCommand} with the specified relative path and "ToDo" task details.
      *
-     * @param relativePath The relative path to the group where the "ToDo" task will be added.
+     * @param target The absolute path to the group where the "ToDo" task will be added.
      * @param todo         The details of the "ToDo" task to be created.
      */
     public CreateTodoCommand(AbsolutePath target, ToDo todo) {
@@ -97,7 +98,8 @@ public class CreateTodoCommand extends Command {
             ChildOperation<Student> groupOper = model.groupChildOperation(target);
             groupOper.addTaskToAllChildren(todo, 1);
             model.updateList();
-            return new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
+            return new CommandResult(String.format(MESSAGE_SUCCESS_ALL_STUDENTS,
+                    Messages.format(target.getGroupId().get())));
         }
 
         if (!target.isRootDirectory()) {

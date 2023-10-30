@@ -47,9 +47,9 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Field(s) of student has been edited successfully.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
-            + "by the index number used in the displayed person list. "
+            + "by the student id. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
+            + "Parameters: student id "
             + "[" + OPTION_NAME + " NAME] "
             + "[" + OPTION_PHONE + " PHONE] "
             + "[" + OPTION_EMAIL + " EMAIL] "
@@ -169,7 +169,6 @@ public class EditCommand extends Command {
         } else {
             throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
         }
-
     }
 
     /**

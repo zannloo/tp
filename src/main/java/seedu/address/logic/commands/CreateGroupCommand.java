@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
@@ -61,7 +62,7 @@ public class CreateGroupCommand extends Command {
         rootOperation.addChild(this.group.getId(), this.group);
         model.updateList();
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, this.group));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(this.group)));
     }
 
     /**
