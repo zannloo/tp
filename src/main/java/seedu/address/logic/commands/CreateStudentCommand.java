@@ -37,7 +37,7 @@ public class CreateStudentCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
     public static final String MESSAGE_DUPLICATE_STUDENT_ID =
-            "StudentID %1$s has already been used by the student: %2$s";
+            "StudentId %1$s has already been used by the student: %2$s";
     public static final String MESSAGE_INVALID_PATH = "Path provided should be a valid student path";
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
     public static final String MESSAGE_GROUP_NOT_FOUND = "Group %1$s does not exist in ProfBook";

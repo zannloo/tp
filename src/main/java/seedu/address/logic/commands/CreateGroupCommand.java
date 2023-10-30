@@ -19,7 +19,7 @@ public class CreateGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mkdir";
     public static final String MESSAGE_DUPLICATE_GROUP_ID =
-            "GroupID %1$s has already been used by the group: %2$s";
+            "GroupId %1$s has already been used by the group: %2$s";
     public static final String MESSAGE_SUCCESS = "New group added: %1$s";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": group";
     private final AbsolutePath dest;
