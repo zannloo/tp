@@ -327,7 +327,7 @@ Displays all tasks depending on the directory you are at.
 If you are at the directory `~/grp-001` and would like take a quick look of the tasks allocated to student `0010Y`,
 - `cat 0010Y` will return all the tasks allocated to student of studentId, `0010Y`.
 
-<box>
+</box>
 
 ---
 
@@ -377,7 +377,7 @@ Adds a student into the specified directory.
   - `touch stu-200 --name Bob`
 
 <box type="tip">
-##### ProTip:
+
 When you are at the directory `~/grp-001` and would like to add a new student, Bob, to another directory 
 `~/grp-002`, 
 - You could use the command `touch ~/grp-002/0200Y --name Bob` to save yourself the trouble for having to change 
