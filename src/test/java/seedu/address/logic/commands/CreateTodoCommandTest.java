@@ -48,7 +48,7 @@ public class CreateTodoCommandTest {
 
     @Test
     public void constructor_nullRelativePathAndTodo_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new CreateTodoCommand(null, null));
+        assertThrows(NullPointerException.class, () -> new CreateTodoCommand(null, null, null));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class CreateTodoCommandTest {
         ChildOperation<Student> operation = expectedModel.groupChildOperation(absoluteTargetPath);
         operation.addTaskToAllChildren(toBeAdded, 1);
 
-        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, "allStu");
+        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, Category.ALLSTU);
         String expectedMessage = MESSAGE_SUCCESS_ALL_STUDENTS;
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -74,7 +74,7 @@ public class CreateTodoCommandTest {
         ChildOperation<Group> operation = expectedModel.rootChildOperation();
         operation.addTaskToAllChildren(toBeAdded, 1);
 
-        CreateTodoCommand command = new CreateTodoCommand(rootPath, toBeAdded, "allGrp");
+        CreateTodoCommand command = new CreateTodoCommand(rootPath, toBeAdded, Category.ALLGRP);
         String expectedMessage = MESSAGE_SUCCESS_ALL_GROUPS;
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -94,7 +94,7 @@ public class CreateTodoCommandTest {
         TaskOperation operation = expectedModel.taskOperation(absoluteTargetPath);
         operation.addTask(toBeAdded);
 
-        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded);
+        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, Category.NONE);
         String expectedMessage = String.format(MESSAGE_SUCCESS, absoluteTargetPath);
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -114,7 +114,7 @@ public class CreateTodoCommandTest {
         TaskOperation operation = model.taskOperation(absoluteTargetPath);
         operation.addTask(toBeAdded);
 
-        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded);
+        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, Category.NONE);
         String expectedMessage = MESSAGE_DUPLICATE_TODO_TASK_STUDENT;
 
         assertCommandFailure(command, model, expectedMessage);
@@ -122,14 +122,14 @@ public class CreateTodoCommandTest {
 
     @Test
     public void equals() {
-        CreateTodoCommand createTodoCommand1 = new CreateTodoCommand(rootPath, TODO_1);
-        CreateTodoCommand createTodoCommand2 = new CreateTodoCommand(rootPath, TODO_2);
+        CreateTodoCommand createTodoCommand1 = new CreateTodoCommand(rootPath, TODO_1, Category.NONE);
+        CreateTodoCommand createTodoCommand2 = new CreateTodoCommand(rootPath, TODO_2, Category.NONE);
 
         // same object -> returns true
         assertEquals(createTodoCommand1, createTodoCommand1);
 
         // same values -> returns true
-        CreateTodoCommand createDeadlineCommand1Copy = new CreateTodoCommand(rootPath, TODO_1);
+        CreateTodoCommand createDeadlineCommand1Copy = new CreateTodoCommand(rootPath, TODO_1, Category.NONE);
         assertEquals(createTodoCommand1, createDeadlineCommand1Copy);
 
         // different types -> returns false
@@ -144,7 +144,7 @@ public class CreateTodoCommandTest {
 
     @Test
     public void toStringMethod() {
-        CreateTodoCommand createDeadlineCommand = new CreateTodoCommand(rootPath, TODO_1);
+        CreateTodoCommand createDeadlineCommand = new CreateTodoCommand(rootPath, TODO_1, Category.NONE);
         String expected = CreateTodoCommand.class.getCanonicalName()
             + "{toCreateTodo=" + TODO_1 + "}";
         assertEquals(expected, createDeadlineCommand.toString());

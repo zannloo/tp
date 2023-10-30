@@ -43,7 +43,7 @@ class CreateDeadlineCommandTest {
 
     @Test
     public void constructor_nullArgs_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new CreateDeadlineCommand(null, null));
+        assertThrows(NullPointerException.class, () -> new CreateDeadlineCommand(null, null, null));
     }
 
     @Test
@@ -60,7 +60,7 @@ class CreateDeadlineCommandTest {
         TaskOperation operation = expectedModel.taskOperation(absoluteTargetPath);
         operation.addTask(toBeAdded);
 
-        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded);
+        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.NONE);
         String expectedMessage = String.format(CreateDeadlineCommand.MESSAGE_SUCCESS,
                 toBeAdded);
 
@@ -78,7 +78,7 @@ class CreateDeadlineCommandTest {
         ChildOperation<Student> operation = expectedModel.groupChildOperation(absoluteTargetPath);
         operation.addTaskToAllChildren(toBeAdded, 1);
 
-        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, "allStu");
+        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.ALLSTU);
         String expectedMessage = CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -90,7 +90,7 @@ class CreateDeadlineCommandTest {
         ChildOperation<Group> operation = expectedModel.rootChildOperation();
         operation.addTaskToAllChildren(toBeAdded, 1);
 
-        CreateDeadlineCommand command = new CreateDeadlineCommand(rootPath, toBeAdded, "allGrp");
+        CreateDeadlineCommand command = new CreateDeadlineCommand(rootPath, toBeAdded, Category.ALLGRP);
         String expectedMessage = CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_GROUPS;
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -109,7 +109,7 @@ class CreateDeadlineCommandTest {
         TaskOperation operation = model.taskOperation(absoluteTargetPath);
         operation.addTask(toBeAdded);
 
-        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded);
+        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.NONE);
         String expectedMessage = CreateDeadlineCommand.MESSAGE_DUPLICATE_DEADLINE_TASK;
 
         assertCommandFailure(command, model, expectedMessage);
@@ -117,14 +117,17 @@ class CreateDeadlineCommandTest {
 
     @Test
     public void equals() {
-        CreateDeadlineCommand createDeadlineCommand1 = new CreateDeadlineCommand(rootPath, TypicalTasks.DEADLINE_1);
-        CreateDeadlineCommand createDeadlineCommand2 = new CreateDeadlineCommand(rootPath, TypicalTasks.DEADLINE_2);
+        CreateDeadlineCommand createDeadlineCommand1 = new CreateDeadlineCommand(
+                rootPath, TypicalTasks.DEADLINE_1, Category.NONE);
+        CreateDeadlineCommand createDeadlineCommand2 = new CreateDeadlineCommand(
+                rootPath, TypicalTasks.DEADLINE_2, Category.NONE);
 
         // same object -> returns true
         assertEquals(createDeadlineCommand1, createDeadlineCommand1);
 
         // same values -> returns true
-        CreateDeadlineCommand createDeadlineCommand1Copy = new CreateDeadlineCommand(rootPath, TypicalTasks.DEADLINE_1);
+        CreateDeadlineCommand createDeadlineCommand1Copy = new CreateDeadlineCommand(
+                rootPath, TypicalTasks.DEADLINE_1, Category.NONE);
         assertEquals(createDeadlineCommand1, createDeadlineCommand1Copy);
 
         // different types -> returns false
@@ -139,7 +142,8 @@ class CreateDeadlineCommandTest {
 
     @Test
     public void toStringMethod() {
-        CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(rootPath, TypicalTasks.DEADLINE_1);
+        CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(
+                rootPath, TypicalTasks.DEADLINE_1, Category.NONE);
         String expected = CreateDeadlineCommand.class.getCanonicalName()
             + "{toCreateDeadline=" + TypicalTasks.DEADLINE_1 + "}";
         assertEquals(expected, createDeadlineCommand.toString());
