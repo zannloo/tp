@@ -40,7 +40,7 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
                 ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
 
         //todo: need usage format from command class
-        if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME, OPTION_ADDRESS, OPTION_PHONE, OPTION_EMAIL)
+        if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME)
                 || argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(
                     MESSAGE_INVALID_COMMAND_FORMAT, CreateStudentCommand.MESSAGE_USAGE));
@@ -62,10 +62,16 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
         }
 
         Name name = ParserUtil.parseName(argMultimap.getValue(OPTION_NAME).get());
-        Phone phone = ParserUtil.parsePhone(argMultimap.getValue(OPTION_PHONE).get());
-        Email email = ParserUtil.parseEmail(argMultimap.getValue(OPTION_EMAIL).get());
-        Address address = ParserUtil.parseAddress(argMultimap.getValue(OPTION_ADDRESS).get());
         StudentId id = ParserUtil.parseStudentId(targetPath);
+        Phone phone = ParserUtil.isOptionPresent(argMultimap, OPTION_PHONE)
+                ? ParserUtil.parsePhone(argMultimap.getValue(OPTION_PHONE).get())
+                : Phone.PLACEHOLDER;
+        Email email = ParserUtil.isOptionPresent(argMultimap, OPTION_EMAIL)
+                ? ParserUtil.parseEmail(argMultimap.getValue(OPTION_EMAIL).get())
+                : Email.PLACEHOLDER;
+        Address address = ParserUtil.isOptionPresent(argMultimap, OPTION_ADDRESS)
+                ? ParserUtil.parseAddress(argMultimap.getValue(OPTION_ADDRESS).get())
+                : Address.PLACEHOLDER;
 
         Student student = new Student(new ReadOnlyTaskList(new ArrayList<>()), name, email, phone, address, id);
 

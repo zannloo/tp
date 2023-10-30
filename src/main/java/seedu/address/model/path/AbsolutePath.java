@@ -20,7 +20,16 @@ import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
  * Absolute Path for storing group and student id.
  */
 public class AbsolutePath extends Path {
+    public static final AbsolutePath ROOT_PATH;
     private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+
+    static {
+        try {
+            ROOT_PATH = new AbsolutePath("~");
+        } catch (InvalidPathException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
 
     /**
      * Construct {@code AbsolutePath} from a path string.

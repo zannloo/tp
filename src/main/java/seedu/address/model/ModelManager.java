@@ -29,23 +29,46 @@ public class ModelManager implements Model {
 
     private static final Logger logger = LogsCenter.getLogger(Model.class);
     private static final String MESSAGE_INTERNAL_ERROR = "Internal error: %1$s";
-    private final Root root;
-    private final UserPrefs userPrefs;
     private final ObservableList<Displayable> displayList = FXCollections.observableArrayList();
+    private final UserPrefs userPrefs;
+    private Root root;
     private AbsolutePath currentPath;
     private boolean showTaskList = false;
     private AbsolutePath displayPath;
 
     /**
-     * Construct a model manager with curren path, root (ProfBook) and userPrefs.
+     * Construct a model manager with current path, root (ProfBook) and userPrefs.
      */
     public ModelManager(AbsolutePath currentPath, Root root, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(currentPath, root, userPrefs);
         this.currentPath = currentPath;
         this.displayPath = currentPath;
-        this.root = root;
-        updateList();
+        this.root = new Root(root);
         this.userPrefs = new UserPrefs(userPrefs);
+        updateList();
+    }
+
+    /**
+     * Constructs a model manager with all fields.
+     */
+    public ModelManager(AbsolutePath currPath, Root root, ReadOnlyUserPrefs usePrefs,
+            AbsolutePath displayPath, boolean showTaskList) {
+        this(currPath, root, usePrefs);
+        requireAllNonNull(displayPath, showTaskList);
+        this.displayPath = displayPath;
+        this.showTaskList = showTaskList;
+        updateList();
+    }
+
+    /**
+     * Constructs a new model manager with empty data.
+     */
+    public ModelManager() {
+        this.currentPath = AbsolutePath.ROOT_PATH;
+        this.displayPath = AbsolutePath.ROOT_PATH;
+        this.root = new Root();
+        this.userPrefs = new UserPrefs();
+        updateList();
     }
 
     //=========== UserPrefs ==================================================================================
@@ -77,6 +100,15 @@ public class ModelManager implements Model {
     }
 
     //=========== ProfBook Model ================================================================================
+    @Override
+    public void setRoot(Root root) {
+        this.root = root;
+        this.currentPath = AbsolutePath.ROOT_PATH;
+        this.displayPath = AbsolutePath.ROOT_PATH;
+        this.showTaskList = false;
+        this.updateList();
+    }
+
     @Override
     public AbsolutePath getCurrPath() {
         return this.currentPath;
