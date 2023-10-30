@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.ChangeDirectoryCommand;
+import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CreateDeadlineCommand;
 import seedu.address.logic.commands.CreateGroupCommand;
@@ -106,6 +107,9 @@ public class ProfBookParser {
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
+
+        case ClearCommand.COMMAND_WORD:
+            return new ClearCommand();
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

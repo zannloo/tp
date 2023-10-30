@@ -29,7 +29,7 @@ public class ModelManager implements Model {
 
     private static final Logger logger = LogsCenter.getLogger(Model.class);
     private static final String MESSAGE_INTERNAL_ERROR = "Internal error: %1$s";
-    private final Root root;
+    private Root root;
     private final UserPrefs userPrefs;
     private final ObservableList<Displayable> displayList = FXCollections.observableArrayList();
     private AbsolutePath currentPath;
@@ -88,6 +88,13 @@ public class ModelManager implements Model {
     }
 
     //=========== ProfBook Model ================================================================================
+    @Override
+    public void setRoot(Root root) {
+        this.root = root;
+        this.currentPath = AbsolutePath.ROOT_PATH;
+        this.updateList();
+    }
+
     @Override
     public AbsolutePath getCurrPath() {
         return this.currentPath;
