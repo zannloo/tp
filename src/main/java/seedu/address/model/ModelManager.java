@@ -135,6 +135,21 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasGroupWithId(GroupId id) {
+        return this.root.hasChild(id);
+    }
+
+    @Override
+    public boolean hasStudentWithId(StudentId id) {
+        for (Group group : this.root.getAllChildren()) {
+            if (group.hasChild(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public boolean hasGroup(AbsolutePath path) {
         requireNonNull(path);
         checkArgument(!path.isRootDirectory(),
