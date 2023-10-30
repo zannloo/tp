@@ -12,11 +12,17 @@ import seedu.address.model.path.AbsolutePath;
  * Show Task List.
  */
 public class ShowTaskListCommand extends Command {
+
     public static final String COMMAND_WORD = "cat";
+
     public static final String MESSAGE_SUCCESS = "Show task list of %1$s";
+
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook: %1$s";
+
     public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot show task list for this path: %1$s";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD;
+
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
 
     private final AbsolutePath target;

@@ -12,9 +12,13 @@ import seedu.address.model.path.AbsolutePath;
  * Change directory to target path.
  */
 public class ChangeDirectoryCommand extends Command {
+
     public static final String COMMAND_WORD = "cd";
+
     public static final String MESSAGE_SUCCESS = "Changed directory to: %1$s";
+
     public static final String MESSAGE_INVALID_DEST = "Student path is not navigable.";
+
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]";
@@ -24,7 +28,6 @@ public class ChangeDirectoryCommand extends Command {
     /**
      * Constructs a {@code MoveStudentToGroupCommand} with the specified source and destination paths.
      *
-     * @param source The relative path to the source group from which the student will be moved.
      * @param dest   The relative path to the destination group to which the student will be moved.
      */
     public ChangeDirectoryCommand(AbsolutePath dest) {

@@ -18,16 +18,19 @@ import seedu.address.model.profbook.Student;
 public class MoveStudentToGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mv";
-    public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in the group";
-    public static final String MESSAGE_SOURCE_IS_NOT_STUDENT = "Source path must be a student directory";
-    public static final String MESSAGE_DEST_IS_NOT_GROUP = "Destination path must be a group directory";
+
     public static final String MESSAGE_STUDENT_NOT_FOUND = "Source student not found in ProfBook";
+
     public static final String MESSAGE_GROUP_NOT_FOUND = "Destination Group not found in ProfBook";
-    public static final String MESSAGE_MOVE_STUDENT_SUCCESS = "Student $1$s is moved to this group: %2$s";
+
+    public static final String MESSAGE_MOVE_STUDENT_SUCCESS = "Student %1$s is moved to this group: %2$s";
+
     public static final String MESSAGE_INVALID_MOVE_COMMAND = "Move command is invalid.";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
 
     private final AbsolutePath source;
+
     private final AbsolutePath dest;
 
     /**

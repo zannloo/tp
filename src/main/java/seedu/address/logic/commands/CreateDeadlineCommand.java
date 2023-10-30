@@ -21,6 +21,7 @@ import seedu.address.model.task.Deadline;
 public class CreateDeadlineCommand extends Command {
 
     public static final String COMMAND_WORD = "deadline";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Creates a deadline task for student/group in specified directory\n"
             + "Parameters: "
@@ -32,28 +33,40 @@ public class CreateDeadlineCommand extends Command {
             + " stu-001 "
             + OPTION_DESC + " Assignment 1 "
             + OPTION_DATETIME + " 2023-10-11 23:59 ";
+
     public static final String MESSAGE_SUCCESS = "New Deadline task added to Student/Group: %1$s";
 
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New Deadline task added to all students in group: %1$s";
+
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING =
             "Warning: Some student(s) already have the task. \n"
             + "New Deadline task has been added to the rest.";
+
     public static final String MESSAGE_SUCCESS_ALL_GROUPS =
             "New Deadline task added to all groups in root directory.";
+
     public static final String MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING =
             "Warning: Some group(s) already have the task. \n"
             + "New Deadline task has been added to the rest.";
+
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
             "This Deadline task has already been allocated";
+
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
+
     public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
+
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "AllStu flag is only allowed for root and group path";
+
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "AllGrp flag is only allowed for root path";
+
     public static final String MESSAGE_ALL_CHILDREN_HAVE_TASK = "All %1$ss already have the task.";
 
     private final AbsolutePath path;
+
     private final Deadline deadline;
+
     private Category category;
 
     /**

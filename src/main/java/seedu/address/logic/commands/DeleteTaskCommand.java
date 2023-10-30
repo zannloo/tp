@@ -16,15 +16,21 @@ import seedu.address.model.task.Task;
  * Deletes a task identified using it's displayed index on display panel.
  */
 public class DeleteTaskCommand extends Command {
+
     public static final String COMMAND_WORD = "rmt";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + "[display index] + \n"
             + "Constraint: Task list must be shown on display panel using \"cat\" command. + \n"
             + "Parameters: display index (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
+
     public static final String MESSAGE_TASK_LIST_NOT_SHOWN = "Current display panel is not displaying task list.";
+
     public static final String MESSAGE_INVALID_INDEX = "Index %1$s is invalid for task list with size %2$s";
+
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted task: %1$s";
+
     private static final Logger logger = LogsCenter.getLogger(DeleteTaskCommand.class);
 
     private final Index targetIndex;

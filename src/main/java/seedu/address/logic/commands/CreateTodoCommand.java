@@ -20,34 +20,43 @@ import seedu.address.model.task.ToDo;
 public class CreateTodoCommand extends Command {
 
     public static final String COMMAND_WORD = "todo";
-    public static final String ERROR_MESSAGE_DUPLICATE = "This Todo task has already been allocated";
-    public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
-    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
+
     public static final String MESSAGE_DUPLICATE_TODO_TASK_STUDENT =
             "This ToDo task has already been allocated to this student in ProfBook";
+
     public static final String MESSAGE_DUPLICATE_TODO_TASK_GROUP =
             "This ToDo task has already been allocated to this group in ProfBook";
+
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New ToDo task added to all students in group: %1$s";
+
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING =
             "Warning: Some student(s) already have the task. \n"
             + "New ToDo task has been added to the rest.";
+
     public static final String MESSAGE_SUCCESS_ALL_GROUPS =
             "New ToDo task added to all groups in root directory.";
+
     public static final String MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING =
             "Warning: Some group(s) already have the task. \n"
             + "New ToDo task has been added to the rest.";
-    public static final String MESSAGE_ERROR = "Invalid target encountered while creating this todo task";
+
     public static final String MESSAGE_SUCCESS = "New ToDo task has been added to: %1$s";
+
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
-    public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
+
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "AllStu flag is only allowed for root and group path";
+
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "AllGrp flag is only allowed for root path";
+
     public static final String MESSAGE_ALL_CHILDREN_HAVE_TASK = "All %1$ss already have the task.";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
 
     private final AbsolutePath target;
+
     private final ToDo todo;
+
     private Category category;
 
     /**
