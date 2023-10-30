@@ -17,6 +17,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
@@ -151,8 +152,9 @@ public class CommandTestUtil {
      * - the CommandException message matches {@code expectedMessage} <br>
      * - the {@code actualModel} remain unchanged
      */
-    public static void assertCommandFailure(Command command, Model actualModel,
-                                            String expectedMessage, Model unchangedModel) {
+    public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
+        Model unchangedModel = new ModelManager(actualModel.getCurrPath(), actualModel.getRoot(),
+                actualModel.getUserPrefs(), actualModel.getDisplayPath(), actualModel.isShowTaskList());
         assertThrows(CommandException.class, () -> command.execute(actualModel), expectedMessage);
         assertEquals(unchangedModel, actualModel);
     }

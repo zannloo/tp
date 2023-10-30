@@ -1,7 +1,6 @@
 package seedu.address.model.profbook;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's address in the address book.
@@ -10,6 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Address {
 
     public static final String MESSAGE_CONSTRAINTS = "Addresses can take any values, and it should not be blank";
+    public static final Address PLACEHOLDER = new Address("N/A");
 
     /*
      * The first character of the address must not be a whitespace,
@@ -26,7 +26,6 @@ public class Address {
      */
     public Address(String address) {
         requireNonNull(address);
-        checkArgument(isValidAddress(address), MESSAGE_CONSTRAINTS);
         value = address;
     }
 

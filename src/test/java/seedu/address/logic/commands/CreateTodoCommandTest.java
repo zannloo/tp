@@ -1,40 +1,50 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK_STUDENT;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_GROUPS;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalTasks.TODO_1;
+import static seedu.address.testutil.TypicalTasks.TODO_2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.TaskOperation;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.id.GroupId;
-import seedu.address.model.id.Id;
 import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.ReadOnlyTaskList;
-import seedu.address.model.task.Task;
 import seedu.address.model.task.ToDo;
-import seedu.address.testutil.StudentBuilder;
+import seedu.address.testutil.TypicalGroups;
+import seedu.address.testutil.TypicalRoots;
+import seedu.address.testutil.TypicalStudents;
 
 public class CreateTodoCommandTest {
+    private Model model;
+    private Model expectedModel;
+    private AbsolutePath rootPath = CommandTestUtil.getValidRootAbsolutePath();
+    private ToDo toBeAdded = TODO_1;
+
+    @BeforeEach
+    public void setup() {
+        model = new ModelManager(rootPath, new Root(TypicalRoots.PROFBOOK_WITH_TWO_GROUPS), new UserPrefs());
+        expectedModel = new ModelManager(rootPath, new Root(TypicalRoots.PROFBOOK_WITH_TWO_GROUPS), new UserPrefs());
+    }
+
 
     @Test
     public void constructor_nullRelativePathAndTodo_throwsNullPointerException() {
@@ -44,153 +54,99 @@ public class CreateTodoCommandTest {
     @Test
     public void execute_todoForAllStudentsInGroupAccepted_addSuccessful()
             throws InvalidPathException, CommandException {
-        AbsolutePath currPath = new AbsolutePath("~");
-        Map<Id, Student> studentMap = new HashMap<>();
-        Student alice = new StudentBuilder()
-                .withName("Alice")
-                .withEmail("alice@example.com")
-                .withPhone("94351253")
-                .withAddress("123, Jurong West Ave 6, #08-111")
-                .withId("0001Y").withTaskList(new ArrayList<>()).build();
-        Student bob = new StudentBuilder()
-                .withName("Bob")
-                .withEmail("johnd@example.com")
-                .withPhone("98765432")
-                .withAddress("311, Clementi Ave 2, #02-25")
-                .withId("0002Y").withTaskList(new ArrayList<>()).build();
-        studentMap.put(alice.getId(), alice);
-        studentMap.put(bob.getId(), bob);
-        Group grp = new Group(new ReadOnlyTaskList(), studentMap, new Name("AmazingGroup"), new GroupId("grp-003"));
-        Map<Id, Group> groups = new HashMap<>();
-        groups.put(new GroupId("grp-003"), grp);
-        Root root = new Root(groups);
+        Group targetGroup = TypicalGroups.GROUP_ONE;
 
-        ToDo todo = new ToDo("Assignment 1");
+        RelativePath groupPath = new RelativePath(targetGroup.getId().toString());
+        AbsolutePath absoluteTargetPath = rootPath.resolve(groupPath);
 
-        assertFalse(alice.contains(todo));
-        assertFalse(bob.contains(todo));
+        ChildOperation<Student> operation = expectedModel.groupChildOperation(absoluteTargetPath);
+        operation.addTaskToAllChildren(toBeAdded, 1);
 
-        AbsolutePath path = new AbsolutePath("~/grp-003");
+        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, "allStu");
+        String expectedMessage = MESSAGE_SUCCESS_ALL_STUDENTS;
 
-        CreateTodoCommand command = new CreateTodoCommand(path, todo, "allStu");
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        CommandResult runCommand = command.execute(model);
-
-        //assertTrue(alice.contains(todo));
-        //assertTrue(bob.contains(todo));
-
-        CommandResult returnStatement =
-                new CommandResult(MESSAGE_SUCCESS_ALL_STUDENTS);
-
-        assertEquals(runCommand, returnStatement);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_deadlineForAllGroupsInRootAccepted_addSuccessful()
             throws InvalidPathException, CommandException {
-        AbsolutePath currPath = new AbsolutePath("~");
-        Map<Id, Student> studentMap = new HashMap<>();
-        List<Task> list1 = new ArrayList<>();
-        List<Task> list2 = new ArrayList<>();
-        ReadOnlyTaskList taskList1 = new ReadOnlyTaskList(list1);
-        ReadOnlyTaskList taskList2 = new ReadOnlyTaskList(list2);
-        Group grp1 = new Group(taskList1, studentMap, new Name("Amazing"), new GroupId("grp-001"));
-        Group grp2 = new Group(taskList2, studentMap, new Name("AmazingGroup"), new GroupId("grp-002"));
-        Map<Id, Group> groups = new HashMap<>();
-        groups.put(new GroupId("grp-001"), grp1);
-        groups.put(new GroupId("grp-002"), grp2);
-        Root root = new Root(groups);
+        ChildOperation<Group> operation = expectedModel.rootChildOperation();
+        operation.addTaskToAllChildren(toBeAdded, 1);
 
-        ToDo todo = new ToDo("Assignment 3");
+        CreateTodoCommand command = new CreateTodoCommand(rootPath, toBeAdded, "allGrp");
+        String expectedMessage = MESSAGE_SUCCESS_ALL_GROUPS;
 
-        AbsolutePath path = new AbsolutePath("~");
-
-        assertFalse(grp1.contains(todo));
-        assertFalse(grp2.contains(todo));
-
-        CreateTodoCommand command = new CreateTodoCommand(path, todo, "allGrp");
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        CommandResult runCommand = command.execute(model);
-
-        //assertTrue(grp1.contains(todo));
-        //assertTrue(grp2.contains(todo));
-
-        CommandResult returnStatement =
-                new CommandResult(MESSAGE_SUCCESS_ALL_GROUPS);
-
-        assertEquals(runCommand, returnStatement);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_createTodoTask_success() throws CommandException, InvalidPathException,
             UnsupportedPathOperationException {
-        ToDo todo = new ToDo("Todo read book");
-        Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(children);
-        Map<Id, Student> students = new HashMap<>();
-        Group group = new Group(new ReadOnlyTaskList(new ArrayList<>()), students,
-                new Name("Group1"), new GroupId("grp-001"));
-        root.addChild(group.getId(), group);
+        Student alice = TypicalStudents.ALICE;
+        Group aliceGroup = TypicalGroups.GROUP_ONE;
 
-        AbsolutePath currPath = new AbsolutePath("~/");
-        Model model = new ModelManager(currPath, root, new UserPrefs());
-        AbsolutePath target = new AbsolutePath("~/grp-001");
-        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
+        RelativePath groupPath = new RelativePath(aliceGroup.getId().toString());
+        RelativePath alicePath = new RelativePath(alice.getId().toString());
+        AbsolutePath absoluteTargetPath = rootPath.resolve(groupPath).resolve(alicePath);
 
-        CommandResult successCommandResult = new CommandResult(String.format(MESSAGE_SUCCESS, target));
-        assertEquals(successCommandResult, createTodoCommand.execute(model));
+        // Add task to expectedModel
+        TaskOperation operation = expectedModel.taskOperation(absoluteTargetPath);
+        operation.addTask(toBeAdded);
+
+        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded);
+        String expectedMessage = String.format(MESSAGE_SUCCESS, absoluteTargetPath);
+
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_duplicateTodoTask_throwCommandException() throws InvalidPathException,
             UnsupportedPathOperationException {
-        ToDo todo = new ToDo("Todo read book");
-        Map<Id, Group> children = new HashMap<>();
-        Root root = new Root(children);
-        Map<Id, Student> students = new HashMap<>();
-        Group group = new Group(new ReadOnlyTaskList(new ArrayList<>()), students,
-                new Name("Group1"), new GroupId("grp-001"));
-        root.addChild(group.getId(), group);
+        Student alice = TypicalStudents.ALICE;
+        Group aliceGroup = TypicalGroups.GROUP_ONE;
 
-        AbsolutePath currPath = new AbsolutePath("~/");
-        Model model = new ModelManager(currPath, root, new UserPrefs());
+        RelativePath groupPath = new RelativePath(aliceGroup.getId().toString());
+        RelativePath alicePath = new RelativePath(alice.getId().toString());
+        AbsolutePath absoluteTargetPath = rootPath.resolve(groupPath).resolve(alicePath);
 
-        AbsolutePath target = new AbsolutePath("~/grp-001");
-        TaskOperation taskOperation = model.taskOperation(target);
-        taskOperation.addTask(todo);
+        // Add task to model first
+        TaskOperation operation = model.taskOperation(absoluteTargetPath);
+        operation.addTask(toBeAdded);
 
-        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
+        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded);
+        String expectedMessage = MESSAGE_DUPLICATE_TODO_TASK_STUDENT;
 
-        assertThrows(CommandException.class,
-                CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK_STUDENT, () -> createTodoCommand.execute(model));
+        assertCommandFailure(command, model, expectedMessage);
     }
 
     @Test
-    public void equals_sameInstance_success() throws InvalidPathException {
-        ToDo todo = new ToDo("Todo test");
-        AbsolutePath target = new AbsolutePath("~/grp-001");
-        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
-        CreateTodoCommand duplicateCreateTodoCommand = new CreateTodoCommand(target, todo);
-        assertEquals(createTodoCommand, duplicateCreateTodoCommand);
-    }
+    public void equals() {
+        CreateTodoCommand createTodoCommand1 = new CreateTodoCommand(rootPath, TODO_1);
+        CreateTodoCommand createTodoCommand2 = new CreateTodoCommand(rootPath, TODO_2);
 
-    @Test
-    public void equals_differentTodoTask_fail() throws InvalidPathException {
-        ToDo todoTest1 = new ToDo("Todo test1");
-        ToDo todoTest2 = new ToDo("Todo test2");
-        AbsolutePath target = new AbsolutePath("~/grp-001");
-        CreateTodoCommand createTodoCommand1 = new CreateTodoCommand(target, todoTest1);
-        CreateTodoCommand createTodoCommand2 = new CreateTodoCommand(target, todoTest2);
+        // same object -> returns true
+        assertEquals(createTodoCommand1, createTodoCommand1);
+
+        // same values -> returns true
+        CreateTodoCommand createDeadlineCommand1Copy = new CreateTodoCommand(rootPath, TODO_1);
+        assertEquals(createTodoCommand1, createDeadlineCommand1Copy);
+
+        // different types -> returns false
+        assertNotEquals(1, createTodoCommand1);
+
+        // null -> returns false
+        assertNotEquals(null, createTodoCommand1);
+
+        // different values
         assertNotEquals(createTodoCommand1, createTodoCommand2);
     }
 
     @Test
-    public void toString_validateOutputString_correctStringRepresentation() throws InvalidPathException {
-        ToDo todo = new ToDo("Todo test");
-        AbsolutePath target = new AbsolutePath("~/grp-001");
-        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, todo);
-        String expected = "seedu.address.logic.commands.CreateTodoCommand{toCreateTodo="
-                + "[T][ ] Todo test}";
-        assertEquals(expected, createTodoCommand.toString());
+    public void toStringMethod() {
+        CreateTodoCommand createDeadlineCommand = new CreateTodoCommand(rootPath, TODO_1);
+        String expected = CreateTodoCommand.class.getCanonicalName()
+            + "{toCreateTodo=" + TODO_1 + "}";
+        assertEquals(expected, createDeadlineCommand.toString());
     }
 }
