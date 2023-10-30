@@ -5,7 +5,6 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
-import static seedu.address.logic.parser.CliSyntax.OPTION_TAG;
 
 import java.util.Map;
 import java.util.Optional;
