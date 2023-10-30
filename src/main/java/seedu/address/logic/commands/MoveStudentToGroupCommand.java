@@ -76,7 +76,7 @@ public class MoveStudentToGroupCommand extends Command {
             sourceGroup.deleteChild(toBeMovedId);
             model.updateList();
             return new CommandResult(String.format(
-                    MESSAGE_MOVE_STUDENT_SUCCESS, source.getStudentId().get(), dest.getGroupId().get()));
+                    MESSAGE_MOVE_STUDENT_SUCCESS, toBeMovedId, dest.getGroupId().get()));
         }
 
         throw new CommandException(MESSAGE_INVALID_MOVE_COMMAND);

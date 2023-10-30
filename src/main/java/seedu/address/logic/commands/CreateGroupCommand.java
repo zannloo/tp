@@ -21,7 +21,9 @@ public class CreateGroupCommand extends Command {
     public static final String MESSAGE_DUPLICATE_GROUP_ID =
             "GroupId %1$s has already been used by the group: %2$s";
     public static final String MESSAGE_SUCCESS = "New group added: %1$s";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": group";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " GroupId\n"
+            + "Example: " + COMMAND_WORD
+            + " grp-001 ";
     private final AbsolutePath dest;
     private final Group group;
 

@@ -30,11 +30,11 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
 
     public static final String MESSAGE_SUCCESS_FOR_STUDENT = "Student removed: %1$s";
     public static final String MESSAGE_SUCCESS_FOR_GROUP = "Group removed: %1$s";
-    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid";
+    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid.";
     public static final String MESSAGE_INVALID_PATH = "Path is invalid";
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
-    public static final String MESSAGE_NO_SUCH_STUDENT_OR_GROUP = "There is no such student or group to delete";
-    public static final String MESSAGE_DELETE_CURRENT_PATH = "Current path cannot be deleted";
+    public static final String MESSAGE_NO_SUCH_STUDENT_OR_GROUP = "There is no such student or group to delete.";
+    public static final String MESSAGE_DELETE_CURRENT_PATH = "Current path cannot be deleted.";
     public static final String MESSAGE_DELETE_DISPLAY_PATH = "Current display path cannot be deleted.";
     protected Student stu;
     protected Group grp;

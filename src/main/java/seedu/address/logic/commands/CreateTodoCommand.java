@@ -33,7 +33,7 @@ public class CreateTodoCommand extends Command {
             "Warning: Some student(s) already have the task. \n"
             + "New ToDo task has been added to the rest.";
     public static final String MESSAGE_SUCCESS_ALL_GROUPS =
-            "New ToDo task added to all groups in root: %1$s";
+            "New ToDo task added to all groups in root directory.";
     public static final String MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING =
             "Warning: Some group(s) already have the task. \n"
             + "New ToDo task has been added to the rest.";
@@ -122,7 +122,8 @@ public class CreateTodoCommand extends Command {
             groupOper.addTaskToAllChildren(todo, 1);
             model.updateList();
             return new CommandResult(
-                    warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING : MESSAGE_SUCCESS_ALL_STUDENTS);
+                    warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
+                            : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, target.getGroupId().get()));
         }
 
         ChildOperation<Group> operation = model.rootChildOperation();
@@ -141,7 +142,8 @@ public class CreateTodoCommand extends Command {
         operation.addTaskToAllChildren(todo, 2);
         model.updateList();
         return new CommandResult(
-                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING : MESSAGE_SUCCESS_ALL_STUDENTS);
+                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
+                        : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, target.getGroupId().get()));
     }
 
     private CommandResult handleAllGrp(Model model) throws CommandException {
