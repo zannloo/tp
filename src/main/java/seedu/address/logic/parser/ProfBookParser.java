@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.ChangeDirectoryCommand;
+import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CreateDeadlineCommand;
 import seedu.address.logic.commands.CreateGroupCommand;
@@ -17,6 +18,7 @@ import seedu.address.logic.commands.CreateTodoCommand;
 import seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand;
 import seedu.address.logic.commands.DeleteTaskCommand;
 import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.MarkCommand;
 import seedu.address.logic.commands.MoveStudentToGroupCommand;
@@ -92,7 +94,7 @@ public class ProfBookParser {
             return new EditCommandParser().parse(arguments, currPath);
 
         case HelpCommand.COMMAND_WORD:
-            return new HelpCommandParser().parse(arguments, currPath);
+            return new HelpCommand();
 
         case DeleteTaskCommand.COMMAND_WORD:
             return new DeleteTaskCommandParser().parse(arguments, currPath);
@@ -102,6 +104,12 @@ public class ProfBookParser {
 
         case UnmarkCommand.COMMAND_WORD:
             return new UnmarkCommandParser().parse(arguments, currPath);
+
+        case ExitCommand.COMMAND_WORD:
+            return new ExitCommand();
+
+        case ClearCommand.COMMAND_WORD:
+            return new ClearCommand();
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

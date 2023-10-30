@@ -4,6 +4,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
+import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CreateTodoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
@@ -47,10 +48,9 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
         ToDo todo = new ToDo(argMultimap.getValue(OPTION_DESC).get());
 
         if (argMultimap.getValue(OPTION_ALL).isEmpty()) {
-            return new CreateTodoCommand(targetPath, todo);
-        } else {
-            String category = ParserUtil.parseCategory(argMultimap.getValue(OPTION_ALL).get());
-            return new CreateTodoCommand(targetPath, todo, category);
+            return new CreateTodoCommand(targetPath, todo, Category.NONE);
         }
+        Category category = ParserUtil.parseCategory(argMultimap.getValue(OPTION_ALL).get());
+        return new CreateTodoCommand(targetPath, todo, category);
     }
 }

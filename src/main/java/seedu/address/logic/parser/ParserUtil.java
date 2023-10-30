@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.commands.Category;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
@@ -226,12 +227,18 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code cat} is invalid.
      */
-    public static String parseCategory(String cat) throws ParseException {
+    public static Category parseCategory(String cat) throws ParseException {
         requireNonNull(cat);
         String trimmedCat = cat.trim();
-        if (!(cat.equals("allStu")) && !(cat.equals("allGrp"))) {
-            throw new ParseException("Format is invalid. Should be allStu or allGrp");
+
+        if (trimmedCat.equals("allStu")) {
+            return Category.ALLSTU;
         }
-        return new String(trimmedCat);
+
+        if (trimmedCat.equals("allGrp")) {
+            return Category.ALLGRP;
+        }
+
+        throw new ParseException("Format is invalid. Should be allStu or allGrp");
     }
 }

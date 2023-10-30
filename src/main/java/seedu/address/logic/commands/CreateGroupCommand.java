@@ -18,15 +18,11 @@ import seedu.address.model.profbook.Group;
 public class CreateGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mkdir";
-
-    public static final String MESSAGE_DUPLICATE_GROUP = "This group already exists in ProfBook";
-
+    public static final String MESSAGE_DUPLICATE_GROUP_ID =
+            "GroupId %1$s has already been used by the group: %2$s";
     public static final String MESSAGE_SUCCESS = "New group added: %1$s";
-
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": group";
-
     private final AbsolutePath dest;
-
     private final Group group;
 
     /**
@@ -54,9 +50,11 @@ public class CreateGroupCommand extends Command {
 
         ChildOperation<Group> rootOperation = model.rootChildOperation();
 
-        // Check duplicate group
-        if (rootOperation.hasChild(dest.getGroupId().get())) {
-            throw new CommandException(MESSAGE_DUPLICATE_GROUP);
+        // Check duplicate group id
+        if (model.hasGroupWithId(group.getId())) {
+            Group groupWithSameId = model.getGroupWithId(group.getId());
+            throw new CommandException(String.format(
+                    MESSAGE_DUPLICATE_GROUP_ID, group.getId().toString(), Messages.format(groupWithSameId)));
         }
 
         rootOperation.addChild(this.group.getId(), this.group);

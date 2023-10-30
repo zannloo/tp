@@ -6,7 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
@@ -36,34 +35,32 @@ public class CreateDeadlineCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New Deadline task added to Student/Group: %1$s";
 
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
-            "New Deadline task added to all students in group with %1$s";
+            "New Deadline task added to all students in group: %1$s";
+    public static final String MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING =
+            "Warning: Some student(s) already have the task. \n"
+            + "New Deadline task has been added to the rest.";
     public static final String MESSAGE_SUCCESS_ALL_GROUPS =
             "New Deadline task added to all groups in root: %1$s";
+    public static final String MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING =
+            "Warning: Some group(s) already have the task. \n"
+            + "New Deadline task has been added to the rest.";
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
             "This Deadline task has already been allocated";
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
     public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
-    public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "All stu flag is only allowed for group path";
-    public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "All Group flag is only allowed for root path";
+    public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "AllStu flag is only allowed for root and group path";
+    public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "AllGrp flag is only allowed for root path";
+    public static final String MESSAGE_ALL_CHILDREN_HAVE_TASK = "All %1$ss already have the task.";
 
     private final AbsolutePath path;
     private final Deadline deadline;
-    private String category = null;
-
-    /**
-     * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
-     */
-    public CreateDeadlineCommand(AbsolutePath path, Deadline deadline) {
-        requireAllNonNull(path, deadline);
-        this.path = path;
-        this.deadline = deadline;
-    }
+    private Category category;
 
     /**
      * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
      * User has input a category as well.
      */
-    public CreateDeadlineCommand(AbsolutePath path, Deadline deadline, String category) {
+    public CreateDeadlineCommand(AbsolutePath path, Deadline deadline, Category category) {
         requireAllNonNull(path, deadline, category);
         this.path = path;
         this.deadline = deadline;
@@ -83,45 +80,100 @@ public class CreateDeadlineCommand extends Command {
             throw new CommandException(MESSAGE_PATH_NOT_FOUND);
         }
 
-        if (this.category == null) {
-            // Check target path is task manager
-            if (!model.hasTaskListInPath(path)) {
-                throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
-            }
+        switch(category) {
+        case NONE:
+            return handleNone(model);
+        case ALLSTU:
+            return handleAllStu(model);
+        default:
+            return handleAllGrp(model);
+        }
+    }
 
-            TaskOperation target = model.taskOperation(path);
-
-            // Check duplicate deadline
-            if (target.hasTask(this.deadline)) {
-                throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
-            }
-
-            target.addTask(this.deadline);
-            model.updateList();
-
-            return new CommandResult(String.format(MESSAGE_SUCCESS, this.deadline));
+    private CommandResult handleNone(Model model) throws CommandException {
+        // Check target path is task manager
+        if (!model.hasTaskListInPath(path)) {
+            throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
         }
 
-        if (this.category.equals("allStu")) {
-            if (!path.isGroupDirectory()) {
-                throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
-            }
+        TaskOperation target = model.taskOperation(path);
+
+        // Check duplicate deadline
+        if (target.hasTask(this.deadline)) {
+            throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
+        }
+
+        target.addTask(this.deadline);
+        model.updateList();
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, this.deadline));
+    }
+
+    private CommandResult handleAllStu(Model model) throws CommandException {
+        if (path.isStudentDirectory()) {
+            throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
+        }
+
+        if (path.isGroupDirectory()) {
             ChildOperation<Student> groupOper = model.groupChildOperation(path);
+
+            // Check whether all children already have the task
+            if (groupOper.checkIfAllChildrenHaveTask(deadline, 1)) {
+                throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
+            }
+
+            // Check whether at least one of the children has the task
+            boolean warning = false;
+            if (groupOper.checkIfAnyChildHasTask(deadline, 1)) {
+                warning = true;
+            }
+
             groupOper.addTaskToAllChildren(deadline, 1);
             model.updateList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS_ALL_STUDENTS,
-                    Messages.format(path.getGroupId().get())));
+            return new CommandResult(
+                    warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING : MESSAGE_SUCCESS_ALL_STUDENTS);
         }
 
+        ChildOperation<Group> operation = model.rootChildOperation();
+
+        // Check whether all children already have the task
+        if (operation.checkIfAllChildrenHaveTask(deadline, 2)) {
+            throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
+        }
+
+        // Check whether at least one of the children has the task
+        boolean warning = false;
+        if (operation.checkIfAnyChildHasTask(deadline, 2)) {
+            warning = true;
+        }
+
+        operation.addTaskToAllChildren(deadline, 2);
+        model.updateList();
+        return new CommandResult(
+                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING : MESSAGE_SUCCESS_ALL_STUDENTS);
+    }
+
+    private CommandResult handleAllGrp(Model model) throws CommandException {
         if (!path.isRootDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
 
         ChildOperation<Group> rootOper = model.rootChildOperation();
+
+        // Check whether all children already have the task
+        if (rootOper.checkIfAllChildrenHaveTask(deadline, 1)) {
+            throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "group"));
+        }
+
+        // Check whether at least one of the children has the task
+        boolean warning = false;
+        if (rootOper.checkIfAnyChildHasTask(deadline, 1)) {
+            warning = true;
+        }
+
         rootOper.addTaskToAllChildren(deadline, 1);
         model.updateList();
-
-        return new CommandResult(String.format(MESSAGE_SUCCESS_ALL_GROUPS, Messages.format(path.getGroupId().get())));
+        return new CommandResult(warning ? MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING : MESSAGE_SUCCESS_ALL_GROUPS);
     }
 
     /**
