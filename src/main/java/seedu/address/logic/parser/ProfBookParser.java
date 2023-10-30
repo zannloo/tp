@@ -17,6 +17,7 @@ import seedu.address.logic.commands.CreateTodoCommand;
 import seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand;
 import seedu.address.logic.commands.DeleteTaskCommand;
 import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.MarkCommand;
 import seedu.address.logic.commands.MoveStudentToGroupCommand;
@@ -102,6 +103,9 @@ public class ProfBookParser {
 
         case UnmarkCommand.COMMAND_WORD:
             return new UnmarkCommandParser().parse(arguments, currPath);
+
+        case ExitCommand.COMMAND_WORD:
+            return new ExitCommand();
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
