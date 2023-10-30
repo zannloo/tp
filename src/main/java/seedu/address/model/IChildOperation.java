@@ -73,6 +73,20 @@ public interface IChildOperation<T extends IChildElement<T>> {
     void addTaskToAllChildren(Task task, int level);
 
     /**
+     * Returns {@code true} if all children at {@code level} have the task.
+     * The {@code level} must be level of task list manager.
+     * e.g. Group level and student level.
+     */
+    boolean checkIfAllChildrenHaveTask(Task task, int level);
+
+    /**
+     * Returns {@code true} if at least one child at {@code level} has the task.
+     * The {@code level} must be level of task list manager.
+     * e.g. Group level and student level.
+     */
+    boolean checkIfAnyChildHasTask(Task task, int level);
+
+    /**
      * Returns Number of current children
      *
      * @return The Number of current children
