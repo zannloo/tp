@@ -7,8 +7,6 @@ import static seedu.address.testutil.TypicalTasks.TODO_2;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-
 public class ToDoTest {
     private ToDo todo1 = TODO_1;
     private ToDo toDo2 = TODO_2;
