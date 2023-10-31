@@ -31,7 +31,7 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args, AbsolutePath currPath) throws ParseException {
         requireAllNonNull(args, currPath);
 
-        String preamble = ArgumentTokenizer.extractPreamble(args);        
+        String preamble = ArgumentTokenizer.extractPreamble(args);
 
         RelativePath path = ParserUtil.parseRelativePath(preamble);
         AbsolutePath targetPath = null;
