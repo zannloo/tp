@@ -59,10 +59,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "This directory cannot be edited.";
 
-    public static final String MESSAGE_NOT_EDITED_IN_GROUP = "Only group name can be edited. "
-            + "Example: " + COMMAND_WORD + " Group 2";
-
-    public static final String MESSAGE_NOT_EDITED_IN_STUDENT = "At least one field to edit must be provided.";
+    public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
     public static final String MESSAGE_NO_SUCH_PATH = "Path does not exist in ProfBook.";
 
