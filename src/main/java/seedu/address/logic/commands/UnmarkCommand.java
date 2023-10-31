@@ -21,18 +21,16 @@ import seedu.address.model.task.Task;
 public class UnmarkCommand extends Command {
 
     public static final String COMMAND_WORD = "unmark";
-
     public static final String MESSAGE_INCORRECT_STATE = "The current model is not showing task list.";
-
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Unmarked task: %1$s";
-
     public static final String MESSAGE_USAGE = COMMAND_WORD + " [task index]";
-
     public static final String MESSAGE_INVALID_INDEX = "The task index provided is invalid.";
+    public static final UnmarkCommand HELP_MESSAGE = new UnmarkCommand();
 
     private static final Logger logger = LogsCenter.getLogger(UnmarkCommand.class);
 
     private final Index index;
+    private final boolean isHelp;
 
     /**
      * Constructs an UnmarkCommand with the specified task index to be unmarked.
@@ -42,6 +40,12 @@ public class UnmarkCommand extends Command {
     public UnmarkCommand(Index index) {
         requireNonNull(index);
         this.index = index;
+        isHelp = false;
+    }
+
+    private UnmarkCommand() {
+        this.index = null;
+        isHelp = true;
     }
 
     /**
@@ -54,6 +58,10 @@ public class UnmarkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
 
         logger.info("Executing unmark task command...");
 

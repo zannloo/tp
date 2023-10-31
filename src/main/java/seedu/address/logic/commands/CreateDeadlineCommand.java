@@ -51,10 +51,12 @@ public class CreateDeadlineCommand extends Command {
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "AllStu flag is only allowed for root and group path";
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "AllGrp flag is only allowed for root path";
     public static final String MESSAGE_ALL_CHILDREN_HAVE_TASK = "All %1$ss already have the task.";
+    public static final CreateDeadlineCommand HELP_MESSAGE = new CreateDeadlineCommand();
 
     private final AbsolutePath path;
     private final Deadline deadline;
-    private Category category;
+    private final Category category;
+    private final boolean isHelp;
 
     /**
      * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
@@ -65,6 +67,14 @@ public class CreateDeadlineCommand extends Command {
         this.path = path;
         this.deadline = deadline;
         this.category = category;
+        this.isHelp = false;
+    }
+
+    private CreateDeadlineCommand() {
+        this.path = null;
+        this.deadline = null;
+        this.category = null;
+        this.isHelp = true;
     }
 
     /**
@@ -75,6 +85,11 @@ public class CreateDeadlineCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
+
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+
         // Check path exists in ProfBook
         if (!model.hasPath(path)) {
             throw new CommandException(MESSAGE_PATH_NOT_FOUND);

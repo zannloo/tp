@@ -21,18 +21,15 @@ import seedu.address.model.task.Task;
 public class MarkCommand extends Command {
 
     public static final String COMMAND_WORD = "mark";
-
     public static final String MESSAGE_INCORRECT_STATE = "The current model is not showing task list.";
-
     public static final String MESSAGE_INVALID_INDEX = "The task index provided is invalid.";
-
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Marked task: %1$s";
-
     public static final String MESSAGE_USAGE = COMMAND_WORD + " [task index]";
+    public static final MarkCommand HELP_MESSAGE = new MarkCommand();
 
     private static final Logger logger = LogsCenter.getLogger(MarkCommand.class);
-
     private final Index index;
+    private final boolean isHelp;
 
     /**
      * Constructs a MarkCommand with the specified task index to be marked.
@@ -42,6 +39,12 @@ public class MarkCommand extends Command {
     public MarkCommand(Index index) {
         requireNonNull(index);
         this.index = index;
+        this.isHelp = false;
+    }
+
+    private MarkCommand() {
+        this.index = null;
+        this.isHelp = true;
     }
 
     /**
@@ -54,6 +57,10 @@ public class MarkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
 
         logger.info("Executing mark task command...");
 

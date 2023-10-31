@@ -1,10 +1,11 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
+
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.MarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
@@ -27,9 +28,12 @@ public class MarkCommandParser implements Parser<MarkCommand> {
      */
     public MarkCommand parse(String args, AbsolutePath currPath) throws ParseException {
         logger.fine("Parsing mark task command with arguments: " + args);
-        if (!ArgumentTokenizer.extractAllOptionNames(args).isEmpty()) {
-            throw new ParseException(String.format(Messages.MESSAGE_NO_OPTIONS,
-                    MarkCommand.COMMAND_WORD));
+        ParserUtil.verifyAllOptionsValid(args, OPTION_HELP);
+
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return MarkCommand.HELP_MESSAGE;
         }
 
         Index index = ParserUtil.parseIndex(args);
