@@ -246,9 +246,9 @@ public class CreateTodoCommandTest {
 
     @Test
     public void toStringMethod() {
-        CreateTodoCommand createDeadlineCommand = new CreateTodoCommand(rootPath, TODO_1, Category.NONE);
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(rootPath, TODO_1, Category.NONE);
         String expected = CreateTodoCommand.class.getCanonicalName()
             + "{toCreateTodo=" + TODO_1 + "}";
-        assertEquals(expected, createDeadlineCommand.toString());
+        assertEquals(expected, createTodoCommand.toString());
     }
 }
