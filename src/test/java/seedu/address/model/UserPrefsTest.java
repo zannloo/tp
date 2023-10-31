@@ -3,6 +3,7 @@ package seedu.address.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,17 @@ public class UserPrefsTest {
     public void hashCode_equalUserPrefs_returnsSameHashCode() {
         UserPrefs test = new UserPrefs();
         assertEquals(userPrefs.hashCode(), test.hashCode());
+    }
+
+    @Test
+    public void equals_equalUserPrefs_returnsTrue() {
+        UserPrefs test = new UserPrefs();
+        assertTrue(userPrefs.equals(test));
+    }
+
+    @Test
+    public void equals_nullUserPrefs_returnsFalse() {
+        assertFalse(userPrefs.equals(null));
     }
 
 }
