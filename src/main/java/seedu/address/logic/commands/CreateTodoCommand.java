@@ -47,6 +47,8 @@ public class CreateTodoCommand extends Command {
 
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
 
+    public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
+
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "AllStu flag is only allowed for root and group path";
 
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "AllGrp flag is only allowed for root path";
