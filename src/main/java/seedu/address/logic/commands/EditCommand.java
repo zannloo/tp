@@ -40,7 +40,7 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
-    public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
+    public static final String ERROR_MESSAGE_INVALID_PATH = "This path cannot be edited.";
 
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
@@ -164,11 +164,13 @@ public class EditCommand extends Command {
         rootOperation.addChild(editedGroup.getId(), editedGroup);
 
         // If edited group is current path, need to redirect with new Id.
-        try {
-            model.changeDirectory(model.getCurrPath().resolve(RelativePath.PARENT));
-            model.changeDirectory(model.getCurrPath().resolve(new RelativePath(editedGroup.getId().toString())));
-        } catch (InvalidPathException e) {
-            throw new IllegalArgumentException("Internal Error: " + e.getMessage());
+        if (target.equals(model.getCurrPath())) {
+            try {
+                model.changeDirectory(model.getCurrPath().resolve(RelativePath.PARENT));
+                model.changeDirectory(model.getCurrPath().resolve(new RelativePath(editedGroup.getId().toString())));
+            } catch (InvalidPathException e) {
+                throw new IllegalArgumentException("Internal Error: " + e.getMessage());
+            }
         }
 
         model.updateList();

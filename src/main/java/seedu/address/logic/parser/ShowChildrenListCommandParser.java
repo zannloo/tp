@@ -3,6 +3,8 @@ package seedu.address.logic.parser;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.DeleteTaskCommand;
 import seedu.address.logic.commands.ShowChildrenListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
@@ -26,6 +28,11 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
      * @throws ParseException if the user input does not conform the expected format
      */
     public ShowChildrenListCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        if (!ArgumentTokenizer.extractAllOptionNames(args).isEmpty()) {
+            throw new ParseException(String.format(Messages.MESSAGE_NO_OPTIONS,
+                    DeleteTaskCommand.COMMAND_WORD));
+        }
+
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args);
 
