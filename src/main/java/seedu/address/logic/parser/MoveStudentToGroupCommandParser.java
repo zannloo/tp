@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.DeleteTaskCommand;
 import seedu.address.logic.commands.MoveStudentToGroupCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
@@ -23,6 +25,11 @@ public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGrou
      * @throws ParseException if the user input does not conform the expected format
      */
     public MoveStudentToGroupCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        if (!ArgumentTokenizer.extractAllOptionNames(args).isEmpty()) {
+            throw new ParseException(String.format(Messages.MESSAGE_NO_OPTIONS,
+                    DeleteTaskCommand.COMMAND_WORD));
+        }
+
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args);
 

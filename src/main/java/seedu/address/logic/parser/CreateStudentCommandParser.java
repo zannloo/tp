@@ -36,10 +36,11 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateStudentCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        ParserUtil.verifyAllOptionsValid(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
+
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
 
-        //todo: need usage format from command class
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME)
                 || argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(
@@ -56,7 +57,6 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
             throw new ParseException(e.getMessage());
         }
 
-        //todo: is possible to create student without provide id -> will auto generate id
         if (!targetPath.isStudentDirectory()) {
             throw new ParseException(INVALID_PATH_MESSAGE);
         }

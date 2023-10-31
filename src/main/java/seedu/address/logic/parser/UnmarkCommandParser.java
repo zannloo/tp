@@ -1,11 +1,11 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.DeleteTaskCommand;
 import seedu.address.logic.commands.UnmarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
@@ -30,14 +30,12 @@ public class UnmarkCommandParser implements Parser<UnmarkCommand> {
 
         logger.fine("Parsing unmark task command with arguments: " + args);
 
-        try {
-            Index index = ParserUtil.parseIndex(args);
-            logger.fine("Index parsed (One Based): " + index.getOneBased());
-            return new UnmarkCommand(index);
-        } catch (ParseException pe) {
-            logger.warning("Error parsing unmark task command: " + pe.getMessage());
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnmarkCommand.MESSAGE_USAGE), pe);
+        if (!ArgumentTokenizer.extractAllOptionNames(args).isEmpty()) {
+            throw new ParseException(String.format(Messages.MESSAGE_NO_OPTIONS,
+                    DeleteTaskCommand.COMMAND_WORD));
         }
+        Index index = ParserUtil.parseIndex(args);
+        logger.fine("Index parsed (One Based): " + index.getOneBased());
+        return new UnmarkCommand(index);
     }
 }

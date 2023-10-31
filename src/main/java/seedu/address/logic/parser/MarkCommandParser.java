@@ -1,11 +1,11 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.DeleteTaskCommand;
 import seedu.address.logic.commands.MarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
@@ -27,17 +27,14 @@ public class MarkCommandParser implements Parser<MarkCommand> {
      * @throws ParseException If the input does not conform to the expected format.
      */
     public MarkCommand parse(String args, AbsolutePath currPath) throws ParseException {
-
         logger.fine("Parsing mark task command with arguments: " + args);
-
-        try {
-            Index index = ParserUtil.parseIndex(args);
-            logger.fine("Index parsed (One Based): " + index.getOneBased());
-            return new MarkCommand(index);
-        } catch (ParseException pe) {
-            logger.warning("Error parsing mark task command: " + pe.getMessage());
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE), pe);
+        if (!ArgumentTokenizer.extractAllOptionNames(args).isEmpty()) {
+            throw new ParseException(String.format(Messages.MESSAGE_NO_OPTIONS,
+                    DeleteTaskCommand.COMMAND_WORD));
         }
+
+        Index index = ParserUtil.parseIndex(args);
+        logger.fine("Index parsed (One Based): " + index.getOneBased());
+        return new MarkCommand(index);
     }
 }
