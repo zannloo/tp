@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.DeleteTaskCommand;
 import seedu.address.logic.commands.UnmarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
@@ -32,7 +31,7 @@ public class UnmarkCommandParser implements Parser<UnmarkCommand> {
 
         if (!ArgumentTokenizer.extractAllOptionNames(args).isEmpty()) {
             throw new ParseException(String.format(Messages.MESSAGE_NO_OPTIONS,
-                    DeleteTaskCommand.COMMAND_WORD));
+                    UnmarkCommand.COMMAND_WORD));
         }
         Index index = ParserUtil.parseIndex(args);
         logger.fine("Index parsed (One Based): " + index.getOneBased());
