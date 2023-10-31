@@ -1,5 +1,6 @@
 package seedu.address.model.field;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import seedu.address.commons.util.CollectionUtil;
@@ -33,7 +34,7 @@ public class EditGroupDescriptor {
      * Returns true if at least one field is edited.
      */
     public boolean isAnyFieldEdited() {
-        return CollectionUtil.isAnyNonNull(name);
+        return CollectionUtil.isAnyNonNull(name, id);
     }
 
     /**
@@ -90,13 +91,9 @@ public class EditGroupDescriptor {
         }
 
         EditGroupDescriptor otherEditGroupDescriptor = (EditGroupDescriptor) other;
-        if (this.name == null || otherEditGroupDescriptor.name == null) {
-            return false;
-        }
-        if (this.id == null || otherEditGroupDescriptor.id == null) {
-            return false;
-        }
-        return this.name.equals(otherEditGroupDescriptor.name) && this.id.equals(otherEditGroupDescriptor.id);
+
+        return Objects.equals(this.name, otherEditGroupDescriptor.name)
+                && Objects.equals(this.id, otherEditGroupDescriptor.id);
     }
 
     /**
