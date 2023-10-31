@@ -1,17 +1,18 @@
 package seedu.address.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+
 
 public class UserPrefsTest {
     private UserPrefs userPrefs;
     @BeforeEach
     public void setup() {
-         userPrefs = new UserPrefs();
+        userPrefs = new UserPrefs();
     }
 
     @Test
