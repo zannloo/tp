@@ -1,5 +1,8 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
+
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -23,6 +26,19 @@ public class DeleteTaskCommandParser implements Parser<DeleteTaskCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeleteTaskCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        ParserUtil.verifyAllOptionsValid(args, OPTION_HELP);
+
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return DeleteTaskCommand.HELP_MESSAGE;
+        }
+
+        if (argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(
+                    MESSAGE_INVALID_COMMAND_FORMAT, DeleteTaskCommand.MESSAGE_USAGE));
+        }
+
         logger.fine("Parsing delete task command with arguments: " + args);
         if (!ArgumentTokenizer.extractAllOptionNames(args).isEmpty()) {
             throw new ParseException(String.format(Messages.MESSAGE_NO_OPTIONS,

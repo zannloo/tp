@@ -5,6 +5,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import java.time.LocalDateTime;
 
@@ -32,10 +33,14 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
         requireAllNonNull(args, currPath);
 
         ParserUtil.verifyAllOptionsValid(args,
-                OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
+                OPTION_DESC, OPTION_DATETIME, OPTION_ALL, OPTION_HELP);
 
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
+                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME, OPTION_ALL, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return CreateDeadlineCommand.HELP_MESSAGE;
+        }
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC, OPTION_DATETIME)) {
             throw new ParseException(String.format(

@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ID;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
@@ -31,13 +32,19 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args, AbsolutePath currPath) throws ParseException {
         requireAllNonNull(args, currPath);
 
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return EditCommand.HELP_MESSAGE;
+        }
+
         String preamble = ArgumentTokenizer.extractPreamble(args);
 
-        RelativePath path = ParserUtil.parseRelativePath(preamble);
         AbsolutePath targetPath = null;
         if (preamble.isEmpty()) {
             targetPath = currPath;
         } else {
+            RelativePath path = ParserUtil.parseRelativePath(preamble);
             targetPath = ParserUtil.resolvePath(currPath, path);
         }
 
@@ -57,7 +64,8 @@ public class EditCommandParser implements Parser<EditCommand> {
                 OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
 
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
+                ArgumentTokenizer.tokenize(args,
+                OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
 
