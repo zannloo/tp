@@ -84,17 +84,11 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
      *
      * @param id    - Unique identifier of the child
      * @param child - The new child to replace old child
-     * @throws NoSuchChildException If there is no such Child found
      */
     @Override
-    public void updateChild(Id id, T child) throws NoSuchChildException {
+    public void updateChild(Id id, T child) {
         this.baseDir.deleteChild(id);
-        try {
-            this.baseDir.addChild(id, child);
-        } catch (DuplicateChildException e) {
-            this.logger.warning("In updateChild, unexpected duplicate error");
-            throw new RuntimeException("ERROR: Code should not reach here");
-        }
+        this.baseDir.addChild(id, child);
     }
 
     /**

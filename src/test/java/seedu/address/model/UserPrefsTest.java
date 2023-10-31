@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class UserPrefsTest {
     private UserPrefs userPrefs;
     @BeforeEach
     public void setup() {
-        UserPrefs userPref = new UserPrefs();
+         userPrefs = new UserPrefs();
     }
 
     @Test
@@ -22,15 +24,15 @@ public class UserPrefsTest {
         assertThrows(NullPointerException.class, () -> userPrefs.setAddressBookFilePath(null));
     }
 
-    //        @Test
-    //        public void equalsNull_returnsFalse() {
-    //            assertFalse(userPrefs.equals(null));
-    //        }
-    //
-    //        @Test
-    //        public void hashCode_equalUserPrefs_returnsSameHashCode() {
-    //            UserPrefs test = new UserPrefs();
-    //            assertEquals(userPrefs.hashCode(), test.hashCode());
-    //        }
+    @Test
+    public void equalsNull_returnsFalse() {
+        assertFalse(userPrefs.equals(null));
+    }
+
+    @Test
+    public void hashCode_equalUserPrefs_returnsSameHashCode() {
+        UserPrefs test = new UserPrefs();
+        assertEquals(userPrefs.hashCode(), test.hashCode());
+    }
 
 }
