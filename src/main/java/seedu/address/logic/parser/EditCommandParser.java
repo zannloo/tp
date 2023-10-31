@@ -1,7 +1,6 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ID;
@@ -14,7 +13,6 @@ import seedu.address.model.field.EditGroupDescriptor;
 import seedu.address.model.field.EditStudentDescriptor;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
  * Parses user input to create an `EditCommand` for editing student or group details.
@@ -35,38 +33,35 @@ public class EditCommandParser implements Parser<EditCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
 
-        if (argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
-        }
-
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
 
-        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
+        // If no path given, default to current path.
+        AbsolutePath fullTargetPath = null;
+        if (argMultimap.getPreamble().isEmpty()) {
+            fullTargetPath = currPath;
+        } else {
+            RelativePath target = ParserUtil.parseRelativePath(argMultimap.getPreamble());
+            fullTargetPath = ParserUtil.resolvePath(currPath, target);
         }
 
-        if (targetPath.isStudentDirectory()) {
+        if (fullTargetPath.isStudentDirectory()) {
             EditStudentDescriptor editStudentDescriptor = getEditStudentDescriptor(argMultimap);
             if (!editStudentDescriptor.isAnyFieldEdited()) {
                 throw new ParseException(EditCommand.MESSAGE_NOT_EDITED_IN_STUDENT);
             }
-            return new EditCommand(targetPath, editStudentDescriptor);
+            return new EditCommand(fullTargetPath, editStudentDescriptor);
         }
 
         // bug: what if user pass phone option?
-        if (targetPath.isGroupDirectory()) {
+        if (fullTargetPath.isGroupDirectory()) {
             EditGroupDescriptor editGroupDescriptor = getEditGrouDescriptor(argMultimap);
             if (!editGroupDescriptor.isAnyFieldEdited()) {
                 throw new ParseException(EditCommand.MESSAGE_NOT_EDITED_IN_GROUP);
             }
-            return new EditCommand(targetPath, editGroupDescriptor);
+            return new EditCommand(fullTargetPath, editGroupDescriptor);
         }
 
-        return null;
+        throw new ParseException(EditCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR);
     }
 
     private EditStudentDescriptor getEditStudentDescriptor(ArgumentMultimap argMultimap) throws ParseException {

@@ -98,6 +98,10 @@ public class CreateTodoCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        // Check path exists in ProfBook
+        if (!model.hasPath(target)) {
+            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+        }
 
         switch(category) {
         case NONE:
@@ -110,9 +114,9 @@ public class CreateTodoCommand extends Command {
     }
 
     private CommandResult handleNone(Model model) throws CommandException {
-        // Check path exists in ProfBook
-        if (!model.hasPath(target)) {
-            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+        // Check target path is task manager
+        if (!model.hasTaskListInPath(target)) {
+            throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
         }
 
         TaskOperation taskOperation = model.taskOperation(target);

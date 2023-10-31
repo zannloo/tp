@@ -11,7 +11,16 @@ import seedu.address.model.path.exceptions.InvalidPathException;
  * Relative Path for storing group and student id.
  */
 public class RelativePath extends Path {
+    public static final RelativePath PARENT;
     private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+
+    static {
+        try {
+            PARENT = new RelativePath("..");
+        } catch (InvalidPathException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
 
     /**
      * Construct {@code RelativePath} from a path string.
