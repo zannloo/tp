@@ -1,5 +1,6 @@
 package seedu.address.model.field;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import seedu.address.commons.util.CollectionUtil;
@@ -152,11 +153,11 @@ public class EditStudentDescriptor {
         }
 
         EditStudentDescriptor otherEditStudentDescriptor = (EditStudentDescriptor) other;
-        return this.name.equals(otherEditStudentDescriptor.name)
-                && this.phone.equals(otherEditStudentDescriptor.phone)
-                && this.email.equals(otherEditStudentDescriptor.email)
-                && this.address.equals(otherEditStudentDescriptor.address)
-                && this.id.equals(otherEditStudentDescriptor.id);
+        return Objects.equals(this.name, otherEditStudentDescriptor.name)
+                && Objects.equals(this.phone, otherEditStudentDescriptor.phone)
+                && Objects.equals(this.email, otherEditStudentDescriptor.email)
+                && Objects.equals(this.address, otherEditStudentDescriptor.address)
+                && Objects.equals(this.id, otherEditStudentDescriptor.id);
     }
 
     /**
