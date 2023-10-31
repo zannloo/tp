@@ -144,7 +144,7 @@ public class TaskOperationTest {
     }
 
     @Test
-    public void equals_nullTaskOperations_returnsTrue() {
+    public void equals_nullTaskOperations_returnsFalse() {
         TaskOperation opr1 = model.taskOperation(stuPath);
         assertFalse(opr1.equals(null));
     }
@@ -152,7 +152,12 @@ public class TaskOperationTest {
     @Test
     public void toStringTest() {
         TaskOperation opr1 = model.taskOperation(stuPath);
-        System.out.println(opr1.toString());
+        String expectedMessage = "seedu.address.model.profbook.Student"
+                + "{Student Id=0001Y, name=zann, phone=98765432,"
+                + " email=zannwhatudoing@example.com, address=311, Clementi Ave 2,"
+                + " #02-25, Task List=seedu.address.model.profbook.Student"
+                + "{Task List=[[D][ ] Assignment 3(by: 2023-12-03 23:59)]}}";
+        assertEquals(opr1.toString(), expectedMessage);
     }
 
 }
