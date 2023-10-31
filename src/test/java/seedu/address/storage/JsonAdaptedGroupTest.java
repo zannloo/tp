@@ -18,8 +18,6 @@ import seedu.address.testutil.GroupBuilder;
 
 public class JsonAdaptedGroupTest {
 
-    private static final String VALID_NAME = "hello";
-
     @Test
     public void toModelType_validGroupDetails_returnsGroup() throws Exception {
         Group grp = new GroupBuilder().build();
