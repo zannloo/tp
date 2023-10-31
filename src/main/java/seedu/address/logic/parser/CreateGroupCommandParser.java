@@ -27,6 +27,8 @@ public class CreateGroupCommandParser implements Parser<CreateGroupCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateGroupCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        ParserUtil.verifyAllOptionsValid(args, OPTION_NAME);
+
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, OPTION_NAME);
 

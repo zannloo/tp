@@ -26,6 +26,8 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateTodoCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        ParserUtil.verifyAllOptionsValid(args, OPTION_DESC, OPTION_ALL);
+
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_ALL);
 
