@@ -39,6 +39,10 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
+    public static final String ERROR_MESSAGE_INVALID_PATH = "This path cannot be edited.";
+
+    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
+
     public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
 
     public static final String MESSAGE_EDIT_GROUP_SUCCESS = "Field(s) of group has been edited successfully.";
@@ -74,11 +78,12 @@ public class EditCommand extends Command {
     public static final String MESSAGE_NO_CHANGES_MADE =
             "The value(s) you provided is the same as the current value(s). No changes have been made.";
 
+    public static final EditCommand HELP_MESSAGE = new EditCommand();
+
     private final AbsolutePath target;
-
-    private EditGroupDescriptor editGroupDescriptor;
-
-    private EditStudentDescriptor editStudentDescriptor;
+    private final EditGroupDescriptor editGroupDescriptor;
+    private final EditStudentDescriptor editStudentDescriptor;
+    private final boolean isHelp;
 
     /**
      * Constructs an EditCommand for editing a group's details.
@@ -89,6 +94,8 @@ public class EditCommand extends Command {
     public EditCommand(AbsolutePath target, EditGroupDescriptor editGroupDescriptor) {
         this.target = target;
         this.editGroupDescriptor = new EditGroupDescriptor(editGroupDescriptor);
+        this.editStudentDescriptor = null;
+        this.isHelp = false;
     }
 
     /**
@@ -100,6 +107,15 @@ public class EditCommand extends Command {
     public EditCommand(AbsolutePath target, EditStudentDescriptor editStudentDescriptor) {
         this.target = target;
         this.editStudentDescriptor = new EditStudentDescriptor(editStudentDescriptor);
+        this.editGroupDescriptor = null;
+        this.isHelp = false;
+    }
+
+    private EditCommand() {
+        this.target = null;
+        this.editGroupDescriptor = null;
+        this.editStudentDescriptor = null;
+        this.isHelp = true;
     }
 
     /**
@@ -112,6 +128,10 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (this.isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
 
         // Check path exists in ProfBook
         if (!model.hasPath(target)) {
@@ -158,11 +178,13 @@ public class EditCommand extends Command {
         rootOperation.addChild(editedGroup.getId(), editedGroup);
 
         // If edited group is current path, need to redirect with new Id.
-        try {
-            model.changeDirectory(model.getCurrPath().resolve(RelativePath.PARENT));
-            model.changeDirectory(model.getCurrPath().resolve(new RelativePath(editedGroup.getId().toString())));
-        } catch (InvalidPathException e) {
-            throw new IllegalArgumentException("Internal Error: " + e.getMessage());
+        if (target.equals(model.getCurrPath())) {
+            try {
+                model.changeDirectory(model.getCurrPath().resolve(RelativePath.PARENT));
+                model.changeDirectory(model.getCurrPath().resolve(new RelativePath(editedGroup.getId().toString())));
+            } catch (InvalidPathException e) {
+                throw new IllegalArgumentException("Internal Error: " + e.getMessage());
+            }
         }
 
         model.updateList();

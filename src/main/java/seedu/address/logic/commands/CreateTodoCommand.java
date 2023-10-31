@@ -55,6 +55,8 @@ public class CreateTodoCommand extends Command {
 
     public static final String MESSAGE_ALL_CHILDREN_HAVE_TASK = "All %1$ss already have the task.";
 
+    public static final CreateTodoCommand HELP_MESSAGE = new CreateTodoCommand();
+
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Creates a todo task for student/group in specified directory.\n"
             + "Parameters: "
@@ -74,7 +76,9 @@ public class CreateTodoCommand extends Command {
 
     private final ToDo todo;
 
-    private Category category;
+    private final Category category;
+
+    private final boolean isHelp;
 
     /**
      * Constructs a {@code CreateTodoCommand} with the specified absolute path and "ToDo" task details.
@@ -88,6 +92,14 @@ public class CreateTodoCommand extends Command {
         this.target = target;
         this.todo = todo;
         this.category = category;
+        this.isHelp = false;
+    }
+
+    private CreateTodoCommand() {
+        this.target = null;
+        this.todo = null;
+        this.category = null;
+        this.isHelp = true;
     }
 
     /**
@@ -100,6 +112,11 @@ public class CreateTodoCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+
         // Check path exists in ProfBook
         if (!model.hasPath(target)) {
             throw new CommandException(MESSAGE_PATH_NOT_FOUND);

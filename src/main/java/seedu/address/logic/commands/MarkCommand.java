@@ -28,6 +28,8 @@ public class MarkCommand extends Command {
 
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Marked task: %1$s";
 
+    public static final MarkCommand HELP_MESSAGE = new MarkCommand();
+
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Mark a task with the given task index as done.\n"
             + "Constraint: Task list must be shown on display panel using \"cat\" command.\n"
@@ -38,6 +40,8 @@ public class MarkCommand extends Command {
 
     private final Index index;
 
+    private final boolean isHelp;
+
     /**
      * Constructs a MarkCommand with the specified task index to be marked.
      *
@@ -46,6 +50,12 @@ public class MarkCommand extends Command {
     public MarkCommand(Index index) {
         requireNonNull(index);
         this.index = index;
+        this.isHelp = false;
+    }
+
+    private MarkCommand() {
+        this.index = null;
+        this.isHelp = true;
     }
 
     /**
@@ -58,6 +68,10 @@ public class MarkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
 
         logger.info("Executing mark task command...");
 

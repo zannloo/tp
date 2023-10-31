@@ -23,16 +23,32 @@ public class ShowTaskListCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD;
 
+    public static final ShowTaskListCommand HELP_MESSAGE = new ShowTaskListCommand(true);
+
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
 
     private final AbsolutePath target;
+    private final boolean isHelp;
 
+    /**
+     * Constructs {@code ShowChildrenListCommand} that show task list of current directory.
+     */
     public ShowTaskListCommand() {
         target = null;
+        isHelp = false;
     }
 
+    /**
+     * Constructs {@code ShowChildrenListCommand} that show children list of path given.
+     */
     public ShowTaskListCommand(AbsolutePath path) {
         target = path;
+        isHelp = false;
+    }
+
+    private ShowTaskListCommand(boolean isHelp) {
+        target = null;
+        this.isHelp = true;
     }
 
     /**
@@ -44,6 +60,10 @@ public class ShowTaskListCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+
         if (target == null) {
             AbsolutePath currPath = model.getCurrPath();
             if (!model.hasTaskListInCurrentPath()) {

@@ -46,10 +46,12 @@ public class CreateStudentCommand extends Command {
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
     public static final String MESSAGE_GROUP_NOT_FOUND = "Group %1$s does not exist in ProfBook";
+    public static final CreateStudentCommand HELP_MESSAGE = new CreateStudentCommand();
 
     private final AbsolutePath path;
 
     private final Student student;
+    private final boolean isHelp;
 
     /**
      * Creates an CreateStudentCommand to add the specified {@code Student}
@@ -58,6 +60,13 @@ public class CreateStudentCommand extends Command {
         requireAllNonNull(path, student);
         this.path = path;
         this.student = student;
+        this.isHelp = false;
+    }
+
+    private CreateStudentCommand() {
+        this.path = null;
+        this.student = null;
+        this.isHelp = true;
     }
 
     /**
@@ -69,6 +78,10 @@ public class CreateStudentCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
 
         if (!path.isStudentDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH);

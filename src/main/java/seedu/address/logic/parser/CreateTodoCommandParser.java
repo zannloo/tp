@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CreateTodoCommand;
@@ -26,8 +27,14 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateTodoCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        ParserUtil.verifyAllOptionsValid(args, OPTION_DESC, OPTION_ALL, OPTION_HELP);
+
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_ALL);
+                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_ALL, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return CreateTodoCommand.HELP_MESSAGE;
+        }
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC)) {
             throw new ParseException(String.format(

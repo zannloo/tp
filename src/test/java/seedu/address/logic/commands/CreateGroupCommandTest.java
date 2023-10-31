@@ -44,6 +44,19 @@ public class CreateGroupCommandTest {
     }
 
     @Test
+    public void constructor_nullRelativePath_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new CreateGroupCommand(null, toBeAdded));
+    }
+
+    @Test
+    public void constructor_nullGroup_throwsNullPointerException() throws InvalidPathException {
+        RelativePath groupTwo = new RelativePath(toBeAdded.getId().toString());
+        AbsolutePath groupTwoAbsolutePath = rootPath.resolve(groupTwo);
+
+        assertThrows(NullPointerException.class, () -> new CreateGroupCommand(groupTwoAbsolutePath, null));
+    }
+
+    @Test
     public void execute_createGroup_success() throws CommandException, InvalidPathException {
         RelativePath groupTwo = new RelativePath(toBeAdded.getId().toString());
         AbsolutePath groupTwoAbsolutePath = rootPath.resolve(groupTwo);
@@ -56,6 +69,16 @@ public class CreateGroupCommandTest {
         String expectedMessage = String.format(MESSAGE_SUCCESS, Messages.format(toBeAdded));
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_nullModel_throwCommandException() throws InvalidPathException {
+        RelativePath groupTwo = new RelativePath(toBeAdded.getId().toString());
+        AbsolutePath groupTwoAbsolutePath = rootPath.resolve(groupTwo);
+
+        CreateGroupCommand command = new CreateGroupCommand(groupTwoAbsolutePath, toBeAdded);
+
+        assertThrows(NullPointerException.class, () -> command.execute(null));
     }
 
     @Test
@@ -93,5 +116,13 @@ public class CreateGroupCommandTest {
 
         // different values
         assertNotEquals(createGroupCommand1, createGroupCommand2);
+    }
+
+    @Test
+    public void toStringMethod() {
+        CreateGroupCommand createGroupCommand = new CreateGroupCommand(rootPath, TypicalGroups.GROUP_TWO);
+        String expected = CreateGroupCommand.class.getCanonicalName()
+                + "{toCreateGroup=" + toBeAdded + "}";
+        assertEquals(expected, createGroupCommand.toString());
     }
 }

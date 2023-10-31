@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import seedu.address.logic.commands.MoveStudentToGroupCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -23,8 +24,13 @@ public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGrou
      * @throws ParseException if the user input does not conform the expected format
      */
     public MoveStudentToGroupCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args);
+        ParserUtil.verifyAllOptionsValid(args, OPTION_HELP);
+
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return MoveStudentToGroupCommand.HELP_MESSAGE;
+        }
 
         if (argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(

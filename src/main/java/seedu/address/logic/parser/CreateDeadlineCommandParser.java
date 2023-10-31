@@ -1,9 +1,11 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import java.time.LocalDateTime;
 
@@ -28,15 +30,22 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateDeadlineCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        requireAllNonNull(args, currPath);
+
+        ParserUtil.verifyAllOptionsValid(args,
+                OPTION_DESC, OPTION_DATETIME, OPTION_ALL, OPTION_HELP);
+
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
+                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME, OPTION_ALL, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return CreateDeadlineCommand.HELP_MESSAGE;
+        }
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC, OPTION_DATETIME)) {
             throw new ParseException(String.format(
                     MESSAGE_INVALID_COMMAND_FORMAT, CreateDeadlineCommand.MESSAGE_USAGE));
         }
-
-        argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
 
         // If no path given, default to current path.
         AbsolutePath fullTargetPath = null;
@@ -46,6 +55,8 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
             RelativePath target = ParserUtil.parseRelativePath(argMultimap.getPreamble());
             fullTargetPath = ParserUtil.resolvePath(currPath, target);
         }
+
+        argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
 
         LocalDateTime by = ParserUtil.parseDateTime(argMultimap.getValue(OPTION_DATETIME).get());
         Deadline deadline = new Deadline(argMultimap.getValue(OPTION_DESC).get(), by);

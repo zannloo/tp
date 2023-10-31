@@ -21,11 +21,11 @@ public class ChangeDirectoryCommand extends Command {
 
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]\n"
-            + "Example: " + COMMAND_WORD
-            + " grp-001 ";;
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]";
+    public static final ChangeDirectoryCommand HELP_MESSAGE = new ChangeDirectoryCommand();
 
     private final AbsolutePath dest;
+    private final boolean isHelp;
 
     /**
      * Constructs a {@code MoveStudentToGroupCommand} with the specified source and destination paths.
@@ -35,6 +35,12 @@ public class ChangeDirectoryCommand extends Command {
     public ChangeDirectoryCommand(AbsolutePath dest) {
         requireAllNonNull(dest);
         this.dest = dest;
+        this.isHelp = false;
+    }
+
+    private ChangeDirectoryCommand() {
+        this.dest = null;
+        isHelp = true;
     }
 
     /**
@@ -46,6 +52,10 @@ public class ChangeDirectoryCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+
         if (!model.hasPath(dest)) {
             throw new CommandException(MESSAGE_PATH_NOT_FOUND);
         }

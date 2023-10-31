@@ -18,6 +18,7 @@ public class Messages {
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_NO_OPTIONS = "%1$s: does not take any options.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
