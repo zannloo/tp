@@ -106,9 +106,7 @@ public class EditGroupDescriptorTest {
         firstEditGroupDescriptor.setId(groupId);
         firstEditGroupDescriptor.setName(name);
 
-        EditGroupDescriptor firstEditGroupDescriptorCopy = new EditGroupDescriptor();
-        firstEditGroupDescriptorCopy.setId(groupId);
-        firstEditGroupDescriptorCopy.setName(name);
+        EditGroupDescriptor firstEditGroupDescriptorCopy = new EditGroupDescriptor(firstEditGroupDescriptor);
 
         assertEquals(firstEditGroupDescriptor, firstEditGroupDescriptorCopy);
 
@@ -122,5 +120,32 @@ public class EditGroupDescriptorTest {
         secondEditGroupDescriptor.setId(new GroupId("grp-002"));
         secondEditGroupDescriptor.setName(new Name("Group 2"));
         assertNotEquals(firstEditGroupDescriptor, secondEditGroupDescriptor);
+    }
+
+    @Test
+    public void toString_noChangeField_allFieldsNull() {
+        EditGroupDescriptor descriptor = new EditGroupDescriptor();
+        String expected = EditGroupDescriptor.class.getCanonicalName()
+                + "{name=" + null + ", id=" + null + "}";
+        assertEquals(expected, descriptor.toString());
+    }
+
+    @Test
+    public void toString_changeName_nameNotNull() {
+        EditGroupDescriptor descriptor = new EditGroupDescriptor();
+        descriptor.setName(new Name("Group 1"));
+        String expected = EditGroupDescriptor.class.getCanonicalName()
+                + "{name=Group 1" + ", id=" + null + "}";
+        assertEquals(expected, descriptor.toString());
+    }
+
+    @Test
+    public void toString_changeId_idNotNull() {
+        EditGroupDescriptor descriptor = new EditGroupDescriptor();
+        descriptor.setId(new GroupId("grp-001"));
+
+        String expected = EditGroupDescriptor.class.getCanonicalName()
+                + "{name=" + null + ", id=GRP-001" + "}";
+        assertEquals(expected, descriptor.toString());
     }
 }
