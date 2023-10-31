@@ -3,13 +3,13 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.EditCommand.ERROR_MESSAGE_NO_SUCH_GROUP;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_DUPLICATE_STUDENT_ID;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_NO_SUCH_PATH;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CreateGroupCommand.MESSAGE_SUCCESS;
+import static seedu.address.logic.commands.EditCommand.*;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalGroups.GROUP_ONE;
 import static seedu.address.testutil.TypicalGroups.GROUP_TWO;
+import static seedu.address.testutil.TypicalStudents.ELLE;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,13 +20,13 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.field.EditGroupDescriptor;
 import seedu.address.model.field.EditStudentDescriptor;
 import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Name;
-import seedu.address.model.profbook.Root;
+import seedu.address.model.profbook.*;
 import seedu.address.testutil.RootBuilder;
+import seedu.address.testutil.StudentBuilder;
 
 public class EditCommandTest {
     private Model model;
@@ -79,7 +79,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_duplicateStudentId_throwCommandException() throws InvalidPathException {
+    public void execute_duplicateGroupId_throwCommandException() throws InvalidPathException {
         Group groupInRoot = GROUP_ONE;
 
         RelativePath groupPath = new RelativePath(groupInRoot.getId().toString());
@@ -88,6 +88,24 @@ public class EditCommandTest {
         EditGroupDescriptor editGroupDescriptor = new EditGroupDescriptor();
         editGroupDescriptor.setId(new GroupId("grp-001"));
         EditCommand command = new EditCommand(targetAbsolutePath, editGroupDescriptor);
+
+        String expectedMessage = MESSAGE_DUPLICATE_GROUP_ID;
+
+        assertCommandFailure(command, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_duplicateStudentId_throwCommandException() throws InvalidPathException {
+        Student toBeEdited = ELLE;
+        Group elleGroup = GROUP_ONE;
+
+        RelativePath groupPath = new RelativePath(elleGroup.getId().toString());
+        RelativePath stuPath = new RelativePath(toBeEdited.getId().toString());
+        AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath).resolve(stuPath);
+
+        EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
+        editStudentDescriptor.setId(new StudentId("0005Y"));
+        EditCommand command = new EditCommand(targetAbsolutePath, editStudentDescriptor);
 
         String expectedMessage = MESSAGE_DUPLICATE_STUDENT_ID;
 
@@ -95,7 +113,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_noFieldChange_throwCommandException() throws InvalidPathException {
+    public void execute_noFieldChangeForEditGroup_throwCommandException() throws InvalidPathException {
         Group groupInRoot = GROUP_ONE;
 
         RelativePath groupPath = new RelativePath(groupInRoot.getId().toString());
@@ -103,10 +121,32 @@ public class EditCommandTest {
 
         EditGroupDescriptor editGroupDescriptor = new EditGroupDescriptor();
         editGroupDescriptor.setId(new GroupId("grp-001"));
-        editGroupDescriptor.setName(new Name("Group 1"));
+        editGroupDescriptor.setName(new Name("Group One"));
         EditCommand command = new EditCommand(targetAbsolutePath, editGroupDescriptor);
 
-        String expectedMessage = ERROR_MESSAGE_NO_SUCH_GROUP;
+        String expectedMessage = MESSAGE_NO_CHANGES_MADE;
+
+        assertCommandFailure(command, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_noFieldChangeForEditStudent_throwCommandException() throws InvalidPathException {
+        Student toBeEdited = ELLE;
+        Group elleGroup = GROUP_ONE;
+
+        RelativePath groupPath = new RelativePath(elleGroup.getId().toString());
+        RelativePath stuPath = new RelativePath(toBeEdited.getId().toString());
+        AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath).resolve(stuPath);
+
+        EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
+        editStudentDescriptor.setId(new StudentId("0005Y"));
+        editStudentDescriptor.setName(new Name("ELLE"));
+        editStudentDescriptor.setPhone(new Phone("9482224"));
+        editStudentDescriptor.setEmail(new Email("werner@example.com"));
+        editStudentDescriptor.setAddress(new Address("michegan ave"));
+        EditCommand command = new EditCommand(targetAbsolutePath, editStudentDescriptor);
+
+        String expectedMessage = MESSAGE_NO_CHANGES_MADE;
 
         assertCommandFailure(command, model, expectedMessage);
     }
@@ -125,6 +165,24 @@ public class EditCommandTest {
 
         assertCommandFailure(command, model, expectedMessage);
     }
+
+    @Test
+    public void execute_noSuchStudent_throwCommandException() throws InvalidPathException {
+        Student toBeEdited = ELLE;
+        Group elleGroup = GROUP_ONE;
+
+        RelativePath groupPath = new RelativePath(elleGroup.getId().toString());
+        RelativePath stuPath = new RelativePath(toBeEdited.getId().toString());
+        AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath).resolve(stuPath);
+
+        EditStudentDescriptor descriptor = new EditStudentDescriptor();
+        EditCommand command = new EditCommand(targetAbsolutePath, descriptor);
+
+        String expectedMessage = MESSAGE_NO_SUCH_STUDENT;
+
+        assertCommandFailure(command, model, expectedMessage);
+    }
+
 
     @Test
     public void execute_invalidDirectory_throwCommandException() {
