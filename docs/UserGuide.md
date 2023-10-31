@@ -138,7 +138,7 @@ specific student or group** and track their progress.
   - eg. `grp-001`
 
 `StudentId`:
-- Must be in the format `XXXX_` where `XXX` is replaceable with any 4 digit number and `_` is replaceable with any
+- Must be in the format `XXXX_` where `XXXX` is replaceable with any 4 digit number and `_` is replaceable with any
   capitalised alphabet.
 - This format accurately reflects the last 5 place of an NUS student's matriculation number while maintaining privacy and
   security.
@@ -172,6 +172,8 @@ specific student or group** and track their progress.
   ignored.
   - e.g. If the command specifies `help 123`, it will be interpreted as `help`.
 
+- Duplicate can only be detected if all field is exactly the same.
+
 - If you are using a PDF version of this document, please be careful when copying and pasting commands that span 
 multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
@@ -180,12 +182,13 @@ multiple lines as space characters surrounding line-breaks may be omitted when c
 <box type="info">
 
 **Flags:**
-Flags come before essential details required by the command and come in both long and short forms:
+Flags come before essential details required by the command and are compatible in both long and short forms:
 
 - `--name` / `-n` followed by name of student or group specified by command.
 - `--email` / `-e` followed by email of student. 
-- `--desc` followed by description of task specified by command.
 - `--phone` / `-p` followed by phone number of student.
+- `--address` / `-a` followed by address of student.
+- `--desc` followed by description of task specified by command.
 - `--datetime` / `-dt` followed by due date of a deadline task in the `yyyy-MM-dd HH:mm` format.  
 - `--all` / `-al` followed by either: 
   - `allStu` to add a task to all students.
@@ -236,7 +239,7 @@ Changes the current directory in the ProfBook.
 #### Acceptable values for each parameter:
 
 `SPECIFIED_PATH`:
-- Must be a valid path to a group, student or root. 
+- Must be a valid path to a student, group or root. 
 
 <box type="success" seamless>
 
@@ -257,7 +260,7 @@ Changes the current directory in the ProfBook.
 #### Example(s):
 - When you are at the directory `~/grp-001` and would like to change directory from `grp-001` to `grp-002` you could
 use the command:
-  -  `cd ../grp-002`
+  -  `cd ../grp-002` ->  type `..` to step up one level before proceeding to the `grp-002` directory.
 
 ### Display Directories : `ls`
 
@@ -273,7 +276,7 @@ Shows the list of children in specified directory.
 
 <box type="info">
   
-  If `[SPECIFIED_PATH]` is not provided, the `ls` command shows the list of children in the current directory.
+  If `[SPECIFIED_PATH]` is not provided, the `ls` command will show the list of children in the current directory.
 
 </box>
 
@@ -298,11 +301,15 @@ Displays message indicating either:
 
 #### Example(s):
 
-- When you are at the directory `~/grp-001` and would like to see the students under `grp-001`,
-    - `ls` will return all the students in `grp-001`.
 - When you are at the root directory `~/` and would like to see all the groups you have,
     - `ls` will return all the current groups.
 
+<box type="tip">
+
+- When you are at the root directory `~/` and would like to see the students under `grp-001`,
+  - `ls grp-001` will return all the students in `grp-001`.
+</box>
+  
 ### Display all tasks: `cat`
 
 Displays all tasks depending on the directory you are at.
@@ -385,22 +392,20 @@ Adds a student into the specified directory.
 #### Example(s):
 
 - When you are at the directory `~/grp-001`, you could add a new student to this group through this command,
-  - `touch stu-200 --name Bob`
+  - `touch 0200Y --name Bob`
 
 <box type="tip">
 
 When you are at the directory `~/grp-001` and would like to add a new student, Bob, to another directory 
 `~/grp-002`, 
-- You could use the command `touch ~/grp-002/0200Y --name Bob` to save yourself the trouble for having to change 
+- You could use the command `touch ../grp-002/0200Y --name Bob` to save yourself the trouble for having to change 
   directory before executing the `touch` command!
 
 </box>
 
 #### To note:
 
-- When the command is executed from the group directory or if the specified path indicates the group, it creates a 
-student within that group.
-- However, if the command is executed outside a specific group, the specified path must extend to encompass both the 
+- If the command is executed outside a specific group, the specified path must extend to encompass both the 
 group and the student to ensure accurate execution.
 
 ### Edit a student: `edit`
@@ -463,7 +468,7 @@ Removes a student or group from the specified directory.
 #### Acceptable values for each parameter:
 
 `SPECIFIED_PATH`:
-- Must be a valid path to a student or group that user wants to delete.
+- Must be a valid path to a student or group that you would like to delete.
 
 <box type="success" seamless>
 
@@ -490,13 +495,14 @@ Removes a student or group from the specified directory.
 
 <box type="tip">
 
-When you are at the directory `~/` and would like to remove the student with the StudentId, `0123Y`, in `~/grp-001`,
+When you are at the root directory `~/` and would like to remove the student with the StudentId, `0123Y`,
+in `~/grp-001`,
 - You could use the command `rm ~/grp-001/0123Y` to save yourself the hassle for having to change directory!
 
 </box>
 
 
-### Move Student or Group: `mv`
+### Move Student: `mv`
 
 Moves student from one group to another group.
 
@@ -506,11 +512,11 @@ Moves student from one group to another group.
 
 `SPECIFIED_PATH_TO_STUDENT`:
 
-- Must be a valid path to a student.
+- Must be a valid path to a student that you would like to move.
 
 `SPECIFIED_PATH_TO_GROUP`:
 
-- Must be a valid path to a group.
+- Must be a valid path to a group that you would like to move the student to.
 
 <box type="success" seamless>
 
@@ -533,7 +539,7 @@ Moves student from one group to another group.
 
 #### Example(s):
 - In the beginning of the semester, student transfers amongst groups are common. When you are at the root directory 
-`~/` you could move a student, `0123Y` from `grp-001` to `grp-002` through this command,
+`~/` you could move a student, `0123Y`, from `grp-001` to `grp-002` through this command easily,
   - `mv grp-001/0123Y grp-002`
 
 <box type="tip">
@@ -558,7 +564,7 @@ Creates a group that can contain students.
 <box type="success" seamless>
 
 #### Output if command succeeds
-- Displays message indicating group with specific GroupId is created successfully.
+- Displays message indicating successful creation and information of the new group.
 
 </box>
 
@@ -579,13 +585,13 @@ Creates a group that can contain students.
 
 ### View help : `help`
 
-Shows a message explaining how to access the help page.
+Shows a message of some commands you could use.
 
 **Format:** `help`
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from the ProfBook.
 
 **Format:** `clear`
 
@@ -681,6 +687,16 @@ If `[SPECIFIED_PATH]` is not provided, current directory must be a student or gr
 The `deadline` command will create task with deadline for the student or group at current directory.
 </box> 
 
+<box type="success" seamless>
+
+#### Output if command succeeds
+
+- Displays message indicating the successful creation of the deadline task.
+
+</box>
+
+<box type="wrong" seamless>
+
 #### Output if command fails:
 
 - Displays message indicating either:
@@ -699,7 +715,7 @@ you could use the following command when you are in the directory `~/grp-001`,
 
 When you have a task, `Project 1 submission` with a deadline to be allocated to **all your groups**, 
 you could use the following command at the root directory, `~/`,
-- `deadline ~/ --desc Project 1 submission --datetime 2023-10-11 23:59 --all allGrp`
+- `deadline --desc Project 1 submission --datetime 2023-10-11 23:59 --all allGrp`
 
 </box>
 
@@ -731,7 +747,7 @@ Marks the specified task as done for the specified student or group.
 
 <box type="warning">
 
-When using this command, you will first need to `cat` at the path where the task list is at before `mark`.
+When using this command, you will first need to `cat` at the path where the task list is at before executing `mark`.
 </box>
 
 #### Example(s):
@@ -767,7 +783,7 @@ Unmarks the specified task for the student or group.
 
 <box type="warning">
 
-When using this command, you will first need to `cat` at the path where the task list is at before `unmark`.
+When using this command, you will first need to `cat` at the path where the task list is at before executing `unmark`.
 </box>
 
 #### Example(s):
