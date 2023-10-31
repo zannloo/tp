@@ -52,7 +52,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (targetPath.isStudentDirectory()) {
             EditStudentDescriptor editStudentDescriptor = getEditStudentDescriptor(argMultimap);
             if (!editStudentDescriptor.isAnyFieldEdited()) {
-                throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
+                throw new ParseException(EditCommand.MESSAGE_NOT_EDITED_IN_STUDENT);
             }
             return new EditCommand(targetPath, editStudentDescriptor);
         }
@@ -61,7 +61,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (targetPath.isGroupDirectory()) {
             EditGroupDescriptor editGroupDescriptor = getEditGrouDescriptor(argMultimap);
             if (!editGroupDescriptor.isAnyFieldEdited()) {
-                throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
+                throw new ParseException(EditCommand.MESSAGE_NOT_EDITED_IN_GROUP);
             }
             return new EditCommand(targetPath, editGroupDescriptor);
         }
