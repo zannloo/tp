@@ -4,7 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_ALL_CHILDREN_HAVE_TASK;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK_STUDENT;
+import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_INVALID_PATH_FOR_ALL_GROUP;
+import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_INVALID_PATH_FOR_ALL_STU;
+import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_PATH_NOT_FOUND;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_GROUPS;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
@@ -15,7 +19,6 @@ import static seedu.address.testutil.TypicalTasks.TODO_2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -24,7 +27,6 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.path.exceptions.UnsupportedPathOperationException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
@@ -38,22 +40,125 @@ public class CreateTodoCommandTest {
     private Model expectedModel;
     private AbsolutePath rootPath = CommandTestUtil.getValidRootAbsolutePath();
     private ToDo toBeAdded = TODO_1;
-
     @BeforeEach
     public void setup() {
         model = new ModelManager(rootPath, new Root(TypicalRoots.PROFBOOK_WITH_TWO_GROUPS), new UserPrefs());
         expectedModel = new ModelManager(rootPath, new Root(TypicalRoots.PROFBOOK_WITH_TWO_GROUPS), new UserPrefs());
     }
 
-
     @Test
-    public void constructor_nullRelativePathAndTodo_throwsNullPointerException() {
+    public void constructor_nullAbsolutePathAndTodoAndCategory_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new CreateTodoCommand(null, null, null));
     }
 
     @Test
+    public void constructor_nullAbsolutePath_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () ->
+                new CreateTodoCommand(null, toBeAdded, Category.NONE));
+    }
+
+    @Test
+    public void constructor_nullTodo_throwsNullPointerException() throws InvalidPathException {
+        Group targetGroup = TypicalGroups.GROUP_ONE;
+
+        RelativePath groupPath = new RelativePath(targetGroup.getId().toString());
+        AbsolutePath absoluteTargetPath = rootPath.resolve(groupPath);
+
+        assertThrows(NullPointerException.class, () ->
+                new CreateTodoCommand(absoluteTargetPath, null, Category.ALLSTU));
+    }
+
+    @Test
+    public void constructor_nullCategory_throwsNullPointerException() throws InvalidPathException {
+        Group targetGroup = TypicalGroups.GROUP_ONE;
+
+        RelativePath groupPath = new RelativePath(targetGroup.getId().toString());
+        AbsolutePath absoluteTargetPath = rootPath.resolve(groupPath);
+
+        assertThrows(NullPointerException.class, () ->
+                new CreateTodoCommand(absoluteTargetPath, toBeAdded, null));
+    }
+
+    @Test
+    public void execute_invalidPath_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~/grp-123");
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, toBeAdded, Category.NONE);
+        String expectedMessage = MESSAGE_PATH_NOT_FOUND;
+
+        assertCommandFailure(createTodoCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_invalidPathForAllStu_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~/grp-001/0099A");
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, toBeAdded, Category.NONE);
+        String expectedMessage = MESSAGE_INVALID_PATH_FOR_ALL_STU;
+
+        assertCommandFailure(createTodoCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_invalidPathForAllGrp_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, toBeAdded, Category.ALLGRP);
+        String expectedMessage = MESSAGE_INVALID_PATH_FOR_ALL_GROUP;
+
+        assertCommandFailure(createTodoCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_childrenAlreadyHaveTaskForAllStuFromGroup_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        String expectedMessage = MESSAGE_ALL_CHILDREN_HAVE_TASK;
+        model.groupChildOperation(target).addTaskToAllChildren(toBeAdded, 1);
+
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, toBeAdded, Category.ALLSTU);
+        assertCommandFailure(createTodoCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_childrenAlreadyHaveTaskForAllStuFromRoot_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        String expectedMessage = MESSAGE_ALL_CHILDREN_HAVE_TASK;
+        model.rootChildOperation().addTaskToAllChildren(toBeAdded, 2);
+
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, toBeAdded, Category.ALLSTU);
+        assertCommandFailure(createTodoCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_childrenAlreadyHaveTaskForAllGrp_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~");
+        String expectedMessage = MESSAGE_ALL_CHILDREN_HAVE_TASK;
+        model.rootChildOperation().addTaskToAllChildren(toBeAdded, 1);
+
+        CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, toBeAdded, Category.ALLGRP);
+        assertCommandFailure(createTodoCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_todoForAllStudentsInGroupAcceptedFromRoot_addSuccessful()
+            throws InvalidPathException {
+        AbsolutePath absoluteTargetPath = new AbsolutePath("~");
+
+        ChildOperation<Group> operation = expectedModel.rootChildOperation();
+        operation.addTaskToAllChildren(toBeAdded, 2);
+
+        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, Category.ALLSTU);
+        String expectedMessage = MESSAGE_SUCCESS_ALL_STUDENTS;
+
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void execute_todoForAllStudentsInGroupAccepted_addSuccessful()
-            throws InvalidPathException, CommandException {
+            throws InvalidPathException {
         Group targetGroup = TypicalGroups.GROUP_ONE;
 
         RelativePath groupPath = new RelativePath(targetGroup.getId().toString());
@@ -69,8 +174,7 @@ public class CreateTodoCommandTest {
     }
 
     @Test
-    public void execute_deadlineForAllGroupsInRootAccepted_addSuccessful()
-            throws InvalidPathException, CommandException {
+    public void execute_deadlineForAllGroupsInRootAccepted_addSuccessful() {
         ChildOperation<Group> operation = expectedModel.rootChildOperation();
         operation.addTaskToAllChildren(toBeAdded, 1);
 
@@ -81,8 +185,7 @@ public class CreateTodoCommandTest {
     }
 
     @Test
-    public void execute_createTodoTask_success() throws CommandException, InvalidPathException,
-            UnsupportedPathOperationException {
+    public void execute_createTodoTask_success() throws InvalidPathException {
         Student alice = TypicalStudents.ALICE;
         Group aliceGroup = TypicalGroups.GROUP_ONE;
 
@@ -101,8 +204,7 @@ public class CreateTodoCommandTest {
     }
 
     @Test
-    public void execute_duplicateTodoTask_throwCommandException() throws InvalidPathException,
-            UnsupportedPathOperationException {
+    public void execute_duplicateTodoTask_throwCommandException() throws InvalidPathException {
         Student alice = TypicalStudents.ALICE;
         Group aliceGroup = TypicalGroups.GROUP_ONE;
 
