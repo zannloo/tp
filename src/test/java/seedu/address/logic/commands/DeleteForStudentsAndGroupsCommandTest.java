@@ -51,7 +51,7 @@ class DeleteForStudentsAndGroupsCommandTest {
     }
 
     @Test
-    public void execute_nullState_throwCommandException() throws InvalidPathException {
+    public void execute_nullModel_throwCommandException() throws InvalidPathException {
         Group toBeDeleted = GROUP_ONE;
 
         RelativePath groupPath = new RelativePath(toBeDeleted.getId().toString());

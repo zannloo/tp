@@ -71,7 +71,7 @@ public class CreateGroupCommandTest {
     }
 
     @Test
-    public void execute_nullState_throwCommandException() throws InvalidPathException {
+    public void execute_nullModel_throwCommandException() throws InvalidPathException {
         RelativePath groupTwo = new RelativePath(toBeAdded.getId().toString());
         AbsolutePath groupTwoAbsolutePath = rootPath.resolve(groupTwo);
 
