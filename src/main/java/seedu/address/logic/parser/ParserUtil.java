@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -117,6 +118,23 @@ public class ParserUtil {
             throw new ParseException(e.getMessage());
         }
         return relativePath;
+    }
+
+    /**
+     * Resolve the {@code target} against given {@code path}
+     * and returns the fullPath.
+     *
+     * @throws ParseException if there is error when resolving.
+     */
+    public static AbsolutePath resolvePath(AbsolutePath path, RelativePath target) throws ParseException {
+        requireAllNonNull(path, target);
+        AbsolutePath fullPath = null;
+        try {
+            fullPath = path.resolve(target);
+        } catch (InvalidPathException e) {
+            throw new ParseException(e.getMessage());
+        }
+        return fullPath;
     }
 
     /**

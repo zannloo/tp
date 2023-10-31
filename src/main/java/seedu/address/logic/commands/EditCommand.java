@@ -21,6 +21,8 @@ import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Group;
@@ -61,7 +63,7 @@ public class EditCommand extends Command {
             + OPTION_PHONE + " 91234567 "
             + OPTION_EMAIL + " johndoe@example.com";
 
-    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid";
+    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "This directory cannot be edited.";
 
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
@@ -124,11 +126,13 @@ public class EditCommand extends Command {
 
         if (target.isGroupDirectory()) {
             return handleEditGroup(model);
-        } else if (target.isStudentDirectory()) {
-            return handleEditStudent(model);
-        } else {
-            throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
         }
+
+        if (target.isStudentDirectory()) {
+            return handleEditStudent(model);
+        }
+
+        throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
     }
 
     private CommandResult handleEditGroup(Model model) throws CommandException {
@@ -141,10 +145,10 @@ public class EditCommand extends Command {
         // Check if Id is edited, if is edited check whether new id has already been used.
         Optional<GroupId> editedId = editGroupDescriptor.getId();
         boolean isEdited = editedId.isPresent() && (!editedId.get().equals(groupId));
-        if (isEdited && model.hasGroupWithId(groupId)) {
+        if (isEdited && model.hasGroupWithId(editedId.get())) {
             Group groupWithSameId = model.getGroupWithId(groupId);
             throw new CommandException(String.format(
-                MESSAGE_DUPLICATE_STUDENT_ID, editedId.get(), Messages.format(groupWithSameId)));
+                MESSAGE_DUPLICATE_GROUP_ID, editedId.get(), Messages.format(groupWithSameId)));
         }
 
         ChildOperation<Group> rootOperation = model.rootChildOperation();
@@ -157,7 +161,16 @@ public class EditCommand extends Command {
         }
 
         rootOperation.deleteChild(groupId);
-        rootOperation.addChild(groupId, editedGroup);
+        rootOperation.addChild(editedGroup.getId(), editedGroup);
+
+        // If edited group is current path, need to redirect with new Id.
+        try {
+            model.changeDirectory(model.getCurrPath().resolve(RelativePath.PARENT));
+            model.changeDirectory(model.getCurrPath().resolve(new RelativePath(editedGroup.getId().toString())));
+        } catch (InvalidPathException e) {
+            throw new IllegalArgumentException("Internal Error: " + e.getMessage());
+        }
+
         model.updateList();
 
         return new CommandResult(MESSAGE_EDIT_GROUP_SUCCESS);
@@ -173,10 +186,10 @@ public class EditCommand extends Command {
         // Check if Id is edited, if is edited check whether new id has already been used.
         Optional<StudentId> editedId = editStudentDescriptor.getId();
         boolean isEdited = editedId.isPresent() && (!editedId.get().equals(studentId));
-        if (isEdited && model.hasStudentWithId(studentId)) {
+        if (isEdited && model.hasStudentWithId(editedId.get())) {
             Student studentWithSameId = model.getStudentWithId(studentId);
             throw new CommandException(String.format(
-                MESSAGE_DUPLICATE_GROUP_ID, editedId.get(), Messages.format(studentWithSameId)));
+                MESSAGE_DUPLICATE_STUDENT_ID, editedId.get(), Messages.format(studentWithSameId)));
         }
 
         ChildOperation<Student> groupOperation = model.groupChildOperation(target);
@@ -190,6 +203,7 @@ public class EditCommand extends Command {
 
         groupOperation.deleteChild(studentId);
         groupOperation.addChild(editedStudent.getId(), editedStudent);
+
         model.updateList();
 
         return new CommandResult(MESSAGE_EDIT_STUDENT_SUCCESS);
