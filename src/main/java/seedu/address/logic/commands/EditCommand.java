@@ -49,7 +49,7 @@ public class EditCommand extends Command {
             + "Argument: \n"
             + "    path                 Valid path to group or student\n"
             + "\n"
-            + "Option: (Pass in at least one of the fields below to edit)\n"
+            + "Option: (Provide at least one of the following fields for editing)\n"
             + "    -n, --name           Name of the group / student\n"
             + "    -i, --id             Id of the group / student\n"
             + "    -e, --email          Email of the student\n"

@@ -27,7 +27,7 @@ public class ChangeDirectoryCommand extends Command {
             + "Change directory.\n"
             + "\n"
             + "Argument: \n"
-            + "    path                 Valid path to group\n"
+            + "    path                 Navigable path e.g. root and group\n"
             + "\n"
             + "Examples: \n"
             + "cd grp-003";

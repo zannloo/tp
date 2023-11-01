@@ -25,7 +25,7 @@ public class DeleteTaskCommand extends Command {
             + "Delete a task with the specified index number.\n"
             + "\n"
             + "Argument: \n"
-            + "    index                Valid display index for target task\n"
+            + "    index                Valid display index of target task\n"
             + "\n"
             + "Examples: \n"
             + "rmt 1";

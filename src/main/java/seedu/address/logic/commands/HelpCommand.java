@@ -11,14 +11,6 @@ public class HelpCommand extends Command {
 
     public static final String COMMAND_WORD = "help";
 
-    public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + "\n"
-            + "\n"
-            + "Shows program usage instructions.\n"
-            + "\n"
-            + "Examples: \n"
-            + "help";
-
     public static final String SHOWING_HELP_MESSAGE =
             "Use any command with --help for more information.\n"
             + "Change directory: cd\n"

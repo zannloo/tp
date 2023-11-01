@@ -33,7 +33,7 @@ public class CreateGroupCommand extends Command {
             + "\n"
             + "Argument: \n"
             + "    path                 Valid path to a new group\n"
-            + "    name                 Name for the new group\n"
+            + "    -n, --name           Name for the new group\n"
             + "\n"
             + "Examples: \n"
             + "mkdir grp-001 -n Group One";

@@ -27,7 +27,7 @@ public class ShowChildrenListCommand extends Command {
             + "Display the children list.\n"
             + "\n"
             + "Option: \n"
-            + "    path                 Valid path to group\n"
+            + "    path                 Valid path with children e.g. root and group path\n"
             + "\n"
             + "Examples: \n"
             + "ls \n"
