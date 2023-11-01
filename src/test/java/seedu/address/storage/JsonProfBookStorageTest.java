@@ -1,20 +1,17 @@
-package seedu.Prof.storage;
+package seedu.address.storage;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static seedu.address.testutil.Assert.assertThrows;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalRoots.PROFBOOK_WITH_TWO_GROUPS;
-
-import java.nio.file.Path;
-import java.io.IOException;
-import java.nio.file.Paths;
-
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.model.profbook.Root;
-import seedu.address.storage.JsonProfBookStorage;
 
 public class JsonProfBookStorageTest {
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonProfBookStorageTest");
@@ -60,10 +57,10 @@ public class JsonProfBookStorageTest {
     /**
      * Saves {@code ProfBook} at the specified {@code filePath}.
      */
-    private void saveProfBook(Root ProfBook, String filePath) {
+    private void saveProfBook(Root profBook, String filePath) {
         try {
             new JsonProfBookStorage(Paths.get(filePath))
-                    .saveProfBook(ProfBook, addToTestDataPathIfNotNull(filePath));
+                    .saveProfBook(profBook, addToTestDataPathIfNotNull(filePath));
         } catch (IOException ioe) {
             throw new AssertionError("There should not be an error writing to the file.", ioe);
         }
