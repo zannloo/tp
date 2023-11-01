@@ -85,6 +85,14 @@ public class Group extends ChildrenAndTaskListManager<Group, Student> {
                 .toString();
     }
 
+    @Override public int compareTo(Group other) {
+        if (this.id.toString().compareTo(other.id.toString()) != 0) {
+            return this.id.toString().compareTo(other.id.toString());
+        } else {
+            return this.name.fullName.compareTo(other.name.fullName);
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
