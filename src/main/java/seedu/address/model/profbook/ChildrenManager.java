@@ -3,6 +3,7 @@ package seedu.address.model.profbook;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -122,7 +123,9 @@ public class ChildrenManager<T extends IChildElement<T>> {
      * @return list of all current children
      */
     public List<T> getAllChildren() {
-        return new ArrayList<>(this.children.values());
+        List<T> childrenList = new ArrayList<>(this.children.values());
+        Collections.sort(childrenList);
+        return childrenList;
     }
 
     @Override
