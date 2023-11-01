@@ -18,7 +18,7 @@ import seedu.address.model.profbook.exceptions.NoSuchChildException;
  *
  * @param <T> to represent the children type, as of v1.2 only student and group
  */
-public class ChildrenManager<T extends IChildElement<T>> {
+public class ChildrenManager<T extends IChildElement<T>> implements IChildrenManager<T> {
     /**
      * Maps the id to the children
      */
@@ -54,13 +54,7 @@ public class ChildrenManager<T extends IChildElement<T>> {
         this(toBeCopied.children);
     }
 
-    /**
-     * Adds the child to list of children
-     *
-     * @param id    - Unique identifier of the child
-     * @param child - The child in question
-     * @throws DuplicateChildException If attempting to add child with the same ID
-     */
+    @Override
     public void addChild(Id id, T child) throws DuplicateChildException {
         T currChild = this.children.get(id);
         if (currChild != null) {
@@ -69,36 +63,19 @@ public class ChildrenManager<T extends IChildElement<T>> {
         this.children.put(id, child);
     }
 
-    /**
-     * Deletes the child specified by the id
-     *
-     * @param id - Unique identifier of the child
-     * @return The deleted Child
-     * @throws NoSuchChildException If there is no such Child found
-     */
+    @Override
     public T deleteChild(Id id) throws NoSuchChildException {
         T child = this.getChild(id);
         this.children.remove(id);
         return child;
     }
 
-    /**
-     * Checks if the child is present
-     *
-     * @param id - Unique identifier of the child
-     * @return true if the child is present
-     */
+    @Override
     public boolean hasChild(Id id) {
         return this.children.containsKey(id);
     }
 
-    /**
-     * Returns the child specified by the id
-     *
-     * @param id - Unique identifier of the child
-     * @return The specified Child
-     * @throws NoSuchChildException If there is no such Child found
-     */
+    @Override
     public T getChild(Id id) throws NoSuchChildException {
         T child = this.children.get(id);
         if (child == null) {
@@ -107,20 +84,12 @@ public class ChildrenManager<T extends IChildElement<T>> {
         return child;
     }
 
-    /**
-     * Returns Number of current children
-     *
-     * @return The Number of current children
-     */
+    @Override
     public int numOfChildren() {
         return this.children.size();
     }
 
-    /**
-     * Returns a list of all current children
-     *
-     * @return list of all current children
-     */
+    @Override
     public List<T> getAllChildren() {
         return new ArrayList<>(this.children.values());
     }
