@@ -1,11 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
-import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
-import static seedu.address.logic.parser.CliSyntax.OPTION_TAG;
 
 import java.util.Map;
 import java.util.Optional;
@@ -46,22 +41,28 @@ public class EditCommand extends Command {
 
     public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
 
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <path> " + "[OPTION]... \n"
+            + "\n"
+            + "Edit the details of the group or student.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Valid path to group or student\n"
+            + "\n"
+            + "Option: (Provide at least one of the following fields for editing)\n"
+            + "    -n, --name           Name of the group / student\n"
+            + "    -i, --id             Id of the group / student\n"
+            + "    -e, --email          Email of the student\n"
+            + "    -p, --phone          Phone of the student\n"
+            + "    -a, --address        Address of the student\n"
+            + "\n"
+            + "Examples: \n"
+            + "edit grp-001 -n Perfect Group \n"
+            + "edit grp-001 -i grp-002";
     public static final String MESSAGE_EDIT_GROUP_SUCCESS = "Field(s) of group has been edited successfully.";
 
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Field(s) of student has been edited successfully.";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
-            + "by the index number used in the displayed person list. "
-            + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + "[" + OPTION_NAME + " NAME] "
-            + "[" + OPTION_PHONE + " PHONE] "
-            + "[" + OPTION_EMAIL + " EMAIL] "
-            + "[" + OPTION_ADDRESS + " ADDRESS] "
-            + "[" + OPTION_TAG + " TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1 "
-            + OPTION_PHONE + " 91234567 "
-            + OPTION_EMAIL + " johndoe@example.com";
 
     public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "This directory cannot be edited.";
 

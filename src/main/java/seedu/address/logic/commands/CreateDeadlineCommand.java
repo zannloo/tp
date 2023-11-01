@@ -1,9 +1,6 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
-import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
-import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -21,41 +18,63 @@ import seedu.address.model.task.Deadline;
 public class CreateDeadlineCommand extends Command {
 
     public static final String COMMAND_WORD = "deadline";
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Creates a deadline task for student/group in specified directory\n"
-            + "Parameters: "
-            + "specified path\n"
-            + "[" + OPTION_DESC + " DESCRIPTION] "
-            + "[" + OPTION_DATETIME + " DATE_AND_TIME] "
-            + "[" + OPTION_ALL + " CATERGORY]\n"
-            + "Example: " + COMMAND_WORD
-            + " stu-001 "
-            + OPTION_DESC + " Assignment 1 "
-            + OPTION_DATETIME + " 2023-10-11 23:59 ";
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <path>" + " -d <desc>" + " [OPTION]... \n"
+            + "\n"
+            + "Create deadline task.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Valid path to group or student\n"
+            + "    -d, --desc           Description of the deadline task\n"
+            + "    -dt, --datetime      Deadline of the task\n"
+            + "\n"
+            + "Option: \n"
+            + "    -al, --all           Bulk task assignment\n"
+            + "                         Possible value: allStu, allGrp\n"
+            + "\n"
+            + "Examples: \n"
+            + "deadline grp-001/0001Y -d Homework -dt 2023-11-11 11:59\n"
+            + "deadline . -d Homework -dt 2023-11-11 11:59 -al allGrp\n"
+            + "deadline ./grp-001 -d Homework -dt 2023-11-11 11:59 -al allStu";
+
     public static final String MESSAGE_SUCCESS = "New Deadline task added to Student/Group: %1$s";
 
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New Deadline task added to all students in group: %1$s";
+
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING =
             "Warning: Some student(s) already have the task. \n"
             + "New Deadline task has been added to the rest.";
+
     public static final String MESSAGE_SUCCESS_ALL_GROUPS =
-            "New Deadline task added to all groups in root: %1$s";
+            "New Deadline task added to all groups in root directory.";
+
     public static final String MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING =
             "Warning: Some group(s) already have the task. \n"
             + "New Deadline task has been added to the rest.";
+
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
             "This Deadline task has already been allocated";
+
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
+
     public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
+
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "AllStu flag is only allowed for root and group path";
+
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_GROUP = "AllGrp flag is only allowed for root path";
+
     public static final String MESSAGE_ALL_CHILDREN_HAVE_TASK = "All %1$ss already have the task.";
+
     public static final CreateDeadlineCommand HELP_MESSAGE = new CreateDeadlineCommand();
 
     private final AbsolutePath path;
+
     private final Deadline deadline;
+
     private final Category category;
+
     private final boolean isHelp;
 
     /**
@@ -146,7 +165,8 @@ public class CreateDeadlineCommand extends Command {
             groupOper.addTaskToAllChildren(deadline, 1);
             model.updateList();
             return new CommandResult(
-                    warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING : MESSAGE_SUCCESS_ALL_STUDENTS);
+                    warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
+                            : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, path.getGroupId().get()));
         }
 
         ChildOperation<Group> operation = model.rootChildOperation();
@@ -165,7 +185,8 @@ public class CreateDeadlineCommand extends Command {
         operation.addTaskToAllChildren(deadline, 2);
         model.updateList();
         return new CommandResult(
-                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING : MESSAGE_SUCCESS_ALL_STUDENTS);
+                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
+                        : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, path.getGroupId().get()));
     }
 
     private CommandResult handleAllGrp(Model model) throws CommandException {

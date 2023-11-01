@@ -16,15 +16,26 @@ import seedu.address.model.task.Task;
  * Deletes a task identified using it's displayed index on display panel.
  */
 public class DeleteTaskCommand extends Command {
+
     public static final String COMMAND_WORD = "rmt";
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + "[display index] + \n"
-            + "Constraint: Task list must be shown on display panel using \"cat\" command. + \n"
-            + "Parameters: display index (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <index>\n"
+            + "\n"
+            + "Delete a task with the specified index number.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    index                Valid display index of target task\n"
+            + "\n"
+            + "Examples: \n"
+            + "rmt 1";
+
     public static final String MESSAGE_TASK_LIST_NOT_SHOWN = "Current display panel is not displaying task list.";
-    public static final String MESSAGE_INVALID_INDEX = "The task list provided is invalid.";
+
+    public static final String MESSAGE_INVALID_INDEX = "Index %1$s is invalid for task list with size %2$s";
+
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted task: %1$s";
+
     public static final DeleteTaskCommand HELP_MESSAGE = new DeleteTaskCommand();
 
     private static final Logger logger = LogsCenter.getLogger(DeleteTaskCommand.class);
@@ -67,7 +78,8 @@ public class DeleteTaskCommand extends Command {
         // Check if index is valid.
         if (!taskOperation.isValidIndex(targetIndex.getOneBased())) {
             logger.warning("Invalid index: " + targetIndex.getOneBased() + ". Aborting delete task command.");
-            throw new CommandException(MESSAGE_INVALID_INDEX);
+            throw new CommandException(
+                    String.format(MESSAGE_INVALID_INDEX, targetIndex.getOneBased(), taskOperation.getTaskListSize()));
         }
 
         logger.info("Executing delete task command on index " + targetIndex.getOneBased());

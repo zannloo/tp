@@ -21,10 +21,24 @@ import seedu.address.model.task.Task;
 public class UnmarkCommand extends Command {
 
     public static final String COMMAND_WORD = "unmark";
+
     public static final String MESSAGE_INCORRECT_STATE = "The current model is not showing task list.";
+
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Unmarked task: %1$s";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " [task index]";
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <index>\n"
+            + "\n"
+            + "Unmark a task with the given task index.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    index                Valid task index number \n"
+            + "\n"
+            + "Examples: \n"
+            + "unmark 1";
+
     public static final String MESSAGE_INVALID_INDEX = "The task index provided is invalid.";
+
     public static final UnmarkCommand HELP_MESSAGE = new UnmarkCommand();
 
     private static final Logger logger = LogsCenter.getLogger(UnmarkCommand.class);

@@ -20,21 +20,31 @@ import seedu.address.model.profbook.exceptions.NoSuchChildException;
  * Deletes a {@code Student} or {@code Group} according to the targeted path.
  */
 public class DeleteForStudentsAndGroupsCommand extends Command {
-    public static final String COMMAND_WORD = "rm";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes a student/group from the specified directory\n"
-            + "Parameters: "
-            + "specified path\n"
-            + "Example: " + COMMAND_WORD
-            + " stu-200 ";
 
+    public static final String COMMAND_WORD = "rm";
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <path>\n"
+            + "\n"
+            + "Delete a student or group.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Valid path to group or student\n"
+            + "\n"
+            + "Examples: \n"
+            + "rm grp-001 \n"
+            + "rm grp-001/0001Y";
 
     public static final String MESSAGE_SUCCESS_FOR_STUDENT = "Student removed: %1$s";
+
     public static final String MESSAGE_SUCCESS_FOR_GROUP = "Group removed: %1$s";
-    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid";
-    public static final String MESSAGE_INVALID_PATH = "Path is invalid";
-    public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
-    public static final String MESSAGE_NO_SUCH_STUDENT_OR_GROUP = "There is no such student or group to delete";
-    public static final String MESSAGE_DELETE_CURRENT_PATH = "Current path cannot be deleted";
+
+    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Directory is invalid.";
+
+    public static final String MESSAGE_NO_SUCH_STUDENT_OR_GROUP = "There is no such student or group to delete.";
+
+    public static final String MESSAGE_DELETE_CURRENT_PATH = "Current path cannot be deleted.";
+
     public static final String MESSAGE_DELETE_DISPLAY_PATH = "Current display path cannot be deleted.";
     public static final DeleteForStudentsAndGroupsCommand HELP_MESSAGE = new DeleteForStudentsAndGroupsCommand();
 
