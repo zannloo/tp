@@ -46,11 +46,6 @@ class CreateDeadlineCommandTest {
     }
 
     @Test
-    public void constructor_nullArgs_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new CreateDeadlineCommand(null, null, null));
-    }
-
-    @Test
     public void constructor_nullAbsolutePath_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () ->
                 new CreateDeadlineCommand(null, toBeAdded, Category.NONE));
@@ -76,6 +71,11 @@ class CreateDeadlineCommandTest {
 
         assertThrows(NullPointerException.class, () ->
                 new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, null));
+    }
+
+    @Test
+    public void constructor_nullArgs_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new CreateDeadlineCommand(null, null, null));
     }
 
     @Test
