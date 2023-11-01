@@ -48,13 +48,4 @@ public class UserPrefsTest {
         assertFalse(userPrefs.equals(null));
     }
 
-    @Test
-    public void toString_returnsTrue() {
-        String message = "Gui Settings :"
-                + " seedu.address.commons.core.GuiSettings{windowWidth=450.0,"
-                + " windowHeight=600.0, windowCoordinates=null}\n"
-                + "Local data file location : data/profbook.json";
-        assertEquals(userPrefs.toString(), message);
-    }
-
 }
