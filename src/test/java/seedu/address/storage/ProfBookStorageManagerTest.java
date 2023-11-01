@@ -56,4 +56,8 @@ public class ProfBookStorageManagerTest {
         assertNotNull(storageManager.getProfBookFilePath());
     }
 
+    @Test
+    public void getUserPFilePath() {
+        assertNotNull(storageManager.getProfBookFilePath());
+    }
 }
