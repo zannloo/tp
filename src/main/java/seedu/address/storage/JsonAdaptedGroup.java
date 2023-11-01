@@ -21,6 +21,7 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskListManager;
 import seedu.address.model.task.ToDo;
 
 /**
@@ -67,7 +68,7 @@ public class JsonAdaptedGroup {
         name = source.getName().fullName;
         id = source.getId().toString();
         students.addAll(source.getAllChildren().stream().map(JsonAdaptedStudent::new).collect(Collectors.toList()));
-        tasks.addAll(source.getAllTask().stream()
+        tasks.addAll(source.getAllTasks().stream()
                 .map(task -> (task instanceof ToDo)
                         ? new JsonAdaptedToDo((ToDo) task)
                         : new JsonAdaptedDeadline((Deadline) task))
@@ -110,7 +111,7 @@ public class JsonAdaptedGroup {
         }
         final GroupId grpId = new GroupId(id);
 
-        final ReadOnlyTaskList modelTList = new ReadOnlyTaskList(taskList);
+        final ReadOnlyTaskList modelTList = new TaskListManager(taskList);
 
         return new Group(modelTList, studentMap, modelName, grpId);
     }

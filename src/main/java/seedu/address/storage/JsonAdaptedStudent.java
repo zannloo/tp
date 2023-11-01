@@ -19,6 +19,7 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskListManager;
 import seedu.address.model.task.ToDo;
 
 /**
@@ -131,7 +132,7 @@ public class JsonAdaptedStudent {
         }
         final StudentId studId = new StudentId(id);
 
-        final ReadOnlyTaskList modelTList = new ReadOnlyTaskList(taskList);
+        final ReadOnlyTaskList modelTList = new TaskListManager(taskList);
 
         return new Student(modelTList, modelName, modelEmail, modelPhone, modelAddress, studId);
     }
