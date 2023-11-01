@@ -205,9 +205,9 @@ Flags come before essential details required by the command and are compatible i
 </div>
 
 ## How to use the User Guide :heart_eyes:
-We understand that it may be daunting to delve into a completely new user guide. This section designed 
+We understand that it may be daunting to delve into a completely new user guide. This section is designed 
 to make this journey more smooth sailing for you and enhance your understanding of the commonly used icons and boxes. 
-We hope you enjoy your reading experience! :blush::book:
+We hope you enjoy your reading experience! :blush: :book:
 
 <box type="info">
 
@@ -218,7 +218,7 @@ We hope you enjoy your reading experience! :blush::book:
 
 Keep a look-out for **green boxes** like this with a **light bulb icon**, they provide valuable suggestions on
 how you can better make use of the commands for greater efficiency and convenience once you have mastered 
-the basics of the commands. 
+the basics of the command. 
 </box>
 
 <box type="warning">
@@ -229,7 +229,7 @@ It contains crucial cautionary information that is definitely a **must read**.
 
 <box type="success" seamless>
 
-This is utilized to indicate the output if command fails.:ok_woman:
+This is utilized to indicate the output if command succeeds.:ok_woman:
 
 </box>
 
@@ -358,7 +358,7 @@ If `[SPECIFIED_PATH]` is not provided, the `ls` command will show the list of ch
 - If `cat` in root directory,
   - Displays message indicating that task list cannot be shown within root directory.
 
-- If `cat` with invalid parameter, 
+* If `cat` with invalid parameter, 
   - Displays message showing invalid path with user's input Path.
 
 </box>
@@ -438,7 +438,7 @@ One or more fields can be edited in a single command.
 
 #### Acceptable values for each parameter:
 
-`SPECIFIED_PATH`:  
+`[SPECIFIED_PATH]`:  
 - Must be a valid path to a student.
 
 <box type="info">
@@ -446,12 +446,6 @@ One or more fields can be edited in a single command.
 If `[SPECIFIED_PATH]` is not provided, current directory must be a student directory.
 The `edit` command will edit the student at current directory.  
 </box>
-
-<box type="warning">
-
-At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER` or `ADDRESS`) must be provided.
-</box>  
-<box type="success" seamless>
 
 #### Output if command succeeds: 
 - Displays message indicating successful edition of specified student. 
@@ -464,7 +458,7 @@ At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER` or `ADDRESS`) must be provid
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
-  - At least one field to edit must be provided.
+  - At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER` or `ADDRESS`)to edit must be provided.
 
 </box>
 
@@ -776,7 +770,7 @@ Marks the specified task as done for the specified student or group.
 
 <box type="warning">
 
-When using this command, you will first need to [`cat`](#display-all-tasks-cat) at the path where the task list is at before executing `mark`.
+When using this command, you will first need to [cat](#display-all-tasks-cat) at the path where the task list is at before executing `mark`.
 </box>
 
 #### Example(s):
@@ -811,7 +805,7 @@ Unmarks the specified task for the student or group.
 
 <box type="warning">
 
-When using this command, you will first need to [`cat`](#display-all-tasks-cat) at the path where the task list is at before executing `unmark`.
+When using this command, you will first need to [cat](#display-all-tasks-cat) at the path where the task list is at before executing `unmark`.
 </box>
 
 #### Example(s):
@@ -863,8 +857,8 @@ Ensure that the command you enter adheres to the format provided in the user gui
 
 ##### Mistake 2: Invalid path
 **Solution:**
-Please check that the path you have entered is the intended path you wish you utilise, 
-and it exists within ProBook.
+Please check that the path you have entered is the path required by the command. Additionally, do ensure that it is
+the intended path you wish you utilise, and it exists within ProBook.
 
 ##### Mistake 3: No such student or group to delete.
 **Solution:**
