@@ -31,7 +31,7 @@ public class MarkCommand extends Command {
     public static final MarkCommand HELP_MESSAGE = new MarkCommand();
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " <task index>\n"
+            "Usage: " + COMMAND_WORD + " <index>\n"
             + "\n"
             + "Mark a task with the given task index as done.\n"
             + "\n"

@@ -36,7 +36,7 @@ public class HelpCommand extends Command {
             + "Display children list: ls \n"
             + "Display task list: cat\n"
             + "Clear the input field: clear\n"
-            + "Exit the program: exit\n";
+            + "Exit the program: exit";
 
     /**
      * Executes the HelpCommand to display program usage instructions.
