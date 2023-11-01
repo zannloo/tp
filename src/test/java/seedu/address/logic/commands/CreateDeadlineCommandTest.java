@@ -4,6 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_ALL_CHILDREN_HAVE_TASK;
+import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_INVALID_PATH_FOR_ALL_GROUP;
+import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_INVALID_PATH_FOR_ALL_STU;
+import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_NOT_TASK_MANAGER;
+import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +33,6 @@ import seedu.address.testutil.TypicalRoots;
 import seedu.address.testutil.TypicalStudents;
 import seedu.address.testutil.TypicalTasks;
 
-
 class CreateDeadlineCommandTest {
     private Model model;
     private Model expectedModel;
@@ -43,7 +47,112 @@ class CreateDeadlineCommandTest {
 
     @Test
     public void constructor_nullArgs_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new CreateDeadlineCommand(null, null));
+        assertThrows(NullPointerException.class, () -> new CreateDeadlineCommand(null, null, null));
+    }
+
+    @Test
+    public void constructor_nullAbsolutePath_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () ->
+                new CreateDeadlineCommand(null, toBeAdded, Category.NONE));
+    }
+
+    @Test
+    public void constructor_nullTodo_throwsNullPointerException() throws InvalidPathException {
+        Group targetGroup = TypicalGroups.GROUP_ONE;
+
+        RelativePath groupPath = new RelativePath(targetGroup.getId().toString());
+        AbsolutePath absoluteTargetPath = rootPath.resolve(groupPath);
+
+        assertThrows(NullPointerException.class, () ->
+                new CreateDeadlineCommand(absoluteTargetPath, null, Category.ALLSTU));
+    }
+
+    @Test
+    public void constructor_nullCategory_throwsNullPointerException() throws InvalidPathException {
+        Group targetGroup = TypicalGroups.GROUP_ONE;
+
+        RelativePath groupPath = new RelativePath(targetGroup.getId().toString());
+        AbsolutePath absoluteTargetPath = rootPath.resolve(groupPath);
+
+        assertThrows(NullPointerException.class, () ->
+                new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, null));
+    }
+
+    @Test
+    public void execute_invalidPathForNoneCategory_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~");
+        CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(target, toBeAdded, Category.NONE);
+        String expectedMessage = MESSAGE_INVALID_PATH_FOR_ALL_STU;
+
+        assertCommandFailure(createDeadlineCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_invalidPathForAllStu_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~/grp-001/0001Y");
+        CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(target, toBeAdded, Category.ALLSTU);
+        String expectedMessage = MESSAGE_NOT_TASK_MANAGER;
+
+        assertCommandFailure(createDeadlineCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_invalidPathForAllGrp_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(target, toBeAdded, Category.ALLGRP);
+        String expectedMessage = MESSAGE_INVALID_PATH_FOR_ALL_GROUP;
+
+        assertCommandFailure(createDeadlineCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_childrenAlreadyHaveTaskForAllStuFromGroup_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~/grp-001");
+        String expectedMessage = MESSAGE_ALL_CHILDREN_HAVE_TASK;
+        model.groupChildOperation(target).addTaskToAllChildren(toBeAdded, 1);
+
+        CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(target, toBeAdded, Category.ALLSTU);
+        assertCommandFailure(createDeadlineCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_childrenAlreadyHaveTaskForAllStuFromRoot_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~");
+        String expectedMessage = MESSAGE_ALL_CHILDREN_HAVE_TASK;
+        model.rootChildOperation().addTaskToAllChildren(toBeAdded, 2);
+
+        CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(target, toBeAdded, Category.ALLSTU);
+        assertCommandFailure(createDeadlineCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_childrenAlreadyHaveTaskForAllGrpFromRoot_throwsCommandException() throws InvalidPathException {
+        // Test the case where the path doesn't exist
+        AbsolutePath target = new AbsolutePath("~");
+        String expectedMessage = CreateTodoCommand.MESSAGE_ALL_CHILDREN_HAVE_TASK;
+        model.rootChildOperation().addTaskToAllChildren(toBeAdded, 1);
+
+        CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(target, toBeAdded, Category.ALLGRP);
+        assertCommandFailure(createDeadlineCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_deadlineForAllStudentsInGroupAcceptedFromRoot_addSuccessful()
+            throws InvalidPathException {
+        AbsolutePath absoluteTargetPath = new AbsolutePath("~");
+
+        ChildOperation<Group> operation = expectedModel.rootChildOperation();
+        operation.addTaskToAllChildren(toBeAdded, 2);
+
+        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.ALLSTU);
+        String expectedMessage = MESSAGE_SUCCESS_ALL_STUDENTS;
+
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
@@ -60,7 +169,7 @@ class CreateDeadlineCommandTest {
         TaskOperation operation = expectedModel.taskOperation(absoluteTargetPath);
         operation.addTask(toBeAdded);
 
-        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded);
+        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.NONE);
         String expectedMessage = String.format(CreateDeadlineCommand.MESSAGE_SUCCESS,
                 toBeAdded);
 
@@ -78,7 +187,7 @@ class CreateDeadlineCommandTest {
         ChildOperation<Student> operation = expectedModel.groupChildOperation(absoluteTargetPath);
         operation.addTaskToAllChildren(toBeAdded, 1);
 
-        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, "allStu");
+        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.ALLSTU);
         String expectedMessage = CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -90,7 +199,7 @@ class CreateDeadlineCommandTest {
         ChildOperation<Group> operation = expectedModel.rootChildOperation();
         operation.addTaskToAllChildren(toBeAdded, 1);
 
-        CreateDeadlineCommand command = new CreateDeadlineCommand(rootPath, toBeAdded, "allGrp");
+        CreateDeadlineCommand command = new CreateDeadlineCommand(rootPath, toBeAdded, Category.ALLGRP);
         String expectedMessage = CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_GROUPS;
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -109,7 +218,7 @@ class CreateDeadlineCommandTest {
         TaskOperation operation = model.taskOperation(absoluteTargetPath);
         operation.addTask(toBeAdded);
 
-        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded);
+        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.NONE);
         String expectedMessage = CreateDeadlineCommand.MESSAGE_DUPLICATE_DEADLINE_TASK;
 
         assertCommandFailure(command, model, expectedMessage);
@@ -117,14 +226,17 @@ class CreateDeadlineCommandTest {
 
     @Test
     public void equals() {
-        CreateDeadlineCommand createDeadlineCommand1 = new CreateDeadlineCommand(rootPath, TypicalTasks.DEADLINE_1);
-        CreateDeadlineCommand createDeadlineCommand2 = new CreateDeadlineCommand(rootPath, TypicalTasks.DEADLINE_2);
+        CreateDeadlineCommand createDeadlineCommand1 = new CreateDeadlineCommand(
+                rootPath, TypicalTasks.DEADLINE_1, Category.NONE);
+        CreateDeadlineCommand createDeadlineCommand2 = new CreateDeadlineCommand(
+                rootPath, TypicalTasks.DEADLINE_2, Category.NONE);
 
         // same object -> returns true
         assertEquals(createDeadlineCommand1, createDeadlineCommand1);
 
         // same values -> returns true
-        CreateDeadlineCommand createDeadlineCommand1Copy = new CreateDeadlineCommand(rootPath, TypicalTasks.DEADLINE_1);
+        CreateDeadlineCommand createDeadlineCommand1Copy = new CreateDeadlineCommand(
+                rootPath, TypicalTasks.DEADLINE_1, Category.NONE);
         assertEquals(createDeadlineCommand1, createDeadlineCommand1Copy);
 
         // different types -> returns false
@@ -139,7 +251,8 @@ class CreateDeadlineCommandTest {
 
     @Test
     public void toStringMethod() {
-        CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(rootPath, TypicalTasks.DEADLINE_1);
+        CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(
+                rootPath, TypicalTasks.DEADLINE_1, Category.NONE);
         String expected = CreateDeadlineCommand.class.getCanonicalName()
             + "{toCreateDeadline=" + TypicalTasks.DEADLINE_1 + "}";
         assertEquals(expected, createDeadlineCommand.toString());

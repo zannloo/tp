@@ -36,9 +36,10 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     public static final String MESSAGE_NO_SUCH_STUDENT_OR_GROUP = "There is no such student or group to delete";
     public static final String MESSAGE_DELETE_CURRENT_PATH = "Current path cannot be deleted";
     public static final String MESSAGE_DELETE_DISPLAY_PATH = "Current display path cannot be deleted.";
-    protected Student stu;
-    protected Group grp;
+    public static final DeleteForStudentsAndGroupsCommand HELP_MESSAGE = new DeleteForStudentsAndGroupsCommand();
+
     private final AbsolutePath toBeDeleted;
+    private final boolean isHelp;
 
     /**
      * Creates an DeleteForStudentsAndGroupsCommand to specified {@code Student} or {@code Group}
@@ -46,6 +47,12 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     public DeleteForStudentsAndGroupsCommand(AbsolutePath toBeDeleted) { //path will specify which grp/student
         requireNonNull(toBeDeleted);
         this.toBeDeleted = toBeDeleted;
+        this.isHelp = false;
+    }
+
+    private DeleteForStudentsAndGroupsCommand() {
+        this.toBeDeleted = null;
+        this.isHelp = true;
     }
 
     /**
@@ -60,6 +67,10 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
 
         if (toBeDeleted.isRootDirectory()) {
             throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
@@ -86,7 +97,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
             if (!target.hasChild(studentId)) {
                 throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
             }
-            stu = target.getChild(studentId);
+            Student stu = target.getChild(studentId);
             target.deleteChild(studentId);
             model.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_STUDENT, Messages.format(stu)));
@@ -98,7 +109,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
             if (!target.hasChild(groupId)) {
                 throw new CommandException(MESSAGE_NO_SUCH_STUDENT_OR_GROUP);
             }
-            grp = target.getChild(groupId);
+            Group grp = target.getChild(groupId);
             target.deleteChild(groupId);
             model.updateList();
             return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_GROUP, Messages.format(grp)));

@@ -9,6 +9,7 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.logic.commands.CreateDeadlineCommand;
 import seedu.address.model.task.Deadline;
@@ -23,7 +24,8 @@ public class CreateDeadlineCommandParserTest {
                 CommandTestUtil.getValidRootAbsolutePath(),
                 new CreateDeadlineCommand(
                         CommandTestUtil.getValidGroupAbsolutePath(),
-                        new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime())));
+                        new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime()),
+                        Category.NONE));
     }
 
     @Test
@@ -33,6 +35,7 @@ public class CreateDeadlineCommandParserTest {
                 CommandTestUtil.getValidRootAbsolutePath(),
                 new CreateDeadlineCommand(
                         CommandTestUtil.getValidGroupAbsolutePath(),
-                        new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime()), "allStu"));
+                        new Deadline(VALID_TASK_DESC, CommandTestUtil.getValidDateTime()),
+                        Category.ALLSTU));
     }
 }

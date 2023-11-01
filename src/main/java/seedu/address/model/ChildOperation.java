@@ -114,40 +114,76 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
 
     @Override
     public void addTaskToAllChildren(Task task, int level) {
-        List<IChildElement<?>> children = new ArrayList<>(getAllChildren());
-        level--;
+        List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
 
-        while (level > 0) {
-            List<IChildElement<?>> list = new ArrayList<>();
-            for (IChildElement<?> child : children) {
-                if (child instanceof ChildrenAndTaskListManager<?, ?>) {
-                    ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
-                    list.addAll(ctlm.getAllChildren());
-                } else {
-                    throw new IllegalArgumentException("Invalid level.");
-                }
-            }
-            children = new ArrayList<>(list);
-            level--;
-        }
-
-        addAllTaskToAllChildren(task, children);
-    }
-
-    private void addAllTaskToAllChildren(Task task, List<? extends IChildElement<?>> children) {
         for (IChildElement<?> child : children) {
-            logger.info("Adding task to: " + child.toString());
             Task clonedTask = task.clone();
+            if (!(child instanceof TaskListManager) && !(child instanceof ChildrenAndTaskListManager)) {
+                throw new IllegalArgumentException("All children must be task list manager.");
+            }
+
             if (child instanceof TaskListManager) {
                 TaskListManager tlm = (TaskListManager) child;
+                if (tlm.contains(task)) {
+                    continue;
+                }
                 tlm.addTask(clonedTask);
+            }
+
+            if (child instanceof ChildrenAndTaskListManager) {
+                ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
+                if (ctlm.contains(task)) {
+                    continue;
+                }
+                ctlm.addTask(clonedTask);
+            }
+        }
+    }
+
+    @Override
+    public boolean checkIfAllChildrenHaveTask(Task task, int level) {
+        List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
+
+        for (IChildElement<?> child : children) {
+            if (child instanceof TaskListManager) {
+                TaskListManager tlm = (TaskListManager) child;
+                if (!tlm.contains(task)) {
+                    return false;
+                }
             } else if (child instanceof ChildrenAndTaskListManager) {
                 ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
-                ctlm.addTask(clonedTask);
+                if (!ctlm.contains(task)) {
+                    return false;
+                }
             } else {
                 throw new IllegalArgumentException("All children must be task list manager.");
             }
         }
+
+        return true;
+    }
+
+    @Override
+    public boolean checkIfAnyChildHasTask(Task task, int level) {
+        List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
+
+        for (IChildElement<?> child : children) {
+            if (child instanceof TaskListManager) {
+                TaskListManager tlm = (TaskListManager) child;
+                if (tlm.contains(task)) {
+                    return true;
+                }
+            } else if (child instanceof ChildrenAndTaskListManager) {
+                ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
+                if (ctlm.contains(task)) {
+                    return true;
+                }
+            } else {
+                throw new IllegalArgumentException("All children must be task list manager.");
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -165,5 +201,23 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
     @Override
     public int hashCode() {
         return Objects.hash(baseDir);
+    }
+
+    private List<IChildElement<?>> getAllTaskListManagerChildrenAtLevel(int level) {
+        List<IChildElement<?>> children = new ArrayList<>(getAllChildren());
+        while (--level > 0) {
+            List<IChildElement<?>> list = new ArrayList<>();
+            for (IChildElement<?> child : children) {
+                if (child instanceof ChildrenAndTaskListManager<?, ?>) {
+                    ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
+                    list.addAll(ctlm.getAllChildren());
+                } else {
+                    throw new IllegalArgumentException("Invalid level.");
+                }
+            }
+            children = new ArrayList<>(list);
+            level--;
+        }
+        return children;
     }
 }

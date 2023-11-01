@@ -26,9 +26,11 @@ public class MoveStudentToGroupCommand extends Command {
     public static final String MESSAGE_MOVE_STUDENT_SUCCESS = "Student $1$s is moved to this group: %2$s";
     public static final String MESSAGE_INVALID_MOVE_COMMAND = "Move command is invalid.";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
+    public static final MoveStudentToGroupCommand HELP_MESSAGE = new MoveStudentToGroupCommand();
 
     private final AbsolutePath source;
     private final AbsolutePath dest;
+    private final boolean isHelp;
 
     /**
      * Constructs a {@code MoveStudentToGroupCommand} with the specified source and destination paths.
@@ -40,6 +42,13 @@ public class MoveStudentToGroupCommand extends Command {
         requireAllNonNull(source, dest);
         this.source = source;
         this.dest = dest;
+        this.isHelp = false;
+    }
+
+    private MoveStudentToGroupCommand() {
+        this.source = null;
+        this.dest = null;
+        this.isHelp = true;
     }
 
     /**
@@ -52,6 +61,10 @@ public class MoveStudentToGroupCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
 
         // Check move student to group
         if (source.isStudentDirectory() && dest.isGroupDirectory()) {

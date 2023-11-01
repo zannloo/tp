@@ -1,9 +1,9 @@
 package seedu.address.logic.parser;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ID;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
@@ -14,7 +14,6 @@ import seedu.address.model.field.EditGroupDescriptor;
 import seedu.address.model.field.EditStudentDescriptor;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
  * Parses user input to create an `EditCommand` for editing student or group details.
@@ -31,42 +30,67 @@ public class EditCommandParser implements Parser<EditCommand> {
      * @throws ParseException If the command arguments are invalid or if parsing fails.
      */
     public EditCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
+        requireAllNonNull(args, currPath);
 
-        if (argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return EditCommand.HELP_MESSAGE;
         }
 
-        argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
+        String preamble = ArgumentTokenizer.extractPreamble(args);
 
-        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
         AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
+        if (preamble.isEmpty()) {
+            targetPath = currPath;
+        } else {
+            RelativePath path = ParserUtil.parseRelativePath(preamble);
+            targetPath = ParserUtil.resolvePath(currPath, path);
         }
 
         if (targetPath.isStudentDirectory()) {
-            EditStudentDescriptor editStudentDescriptor = getEditStudentDescriptor(argMultimap);
-            if (!editStudentDescriptor.isAnyFieldEdited()) {
-                throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
-            }
-            return new EditCommand(targetPath, editStudentDescriptor);
+            return parseEditStudent(args, targetPath);
         }
 
-        // bug: what if user pass phone option?
         if (targetPath.isGroupDirectory()) {
-            EditGroupDescriptor editGroupDescriptor = getEditGrouDescriptor(argMultimap);
-            if (!editGroupDescriptor.isAnyFieldEdited()) {
-                throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
-            }
-            return new EditCommand(targetPath, editGroupDescriptor);
+            return parseEditGroup(args, targetPath);
         }
 
-        return null;
+        throw new ParseException(EditCommand.ERROR_MESSAGE_INVALID_PATH);
+    }
+
+    private EditCommand parseEditStudent(String args, AbsolutePath target) throws ParseException {
+        ParserUtil.verifyAllOptionsValid(args,
+                OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
+
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args,
+                OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
+
+        argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
+
+        EditStudentDescriptor editStudentDescriptor = getEditStudentDescriptor(argMultimap);
+        if (!editStudentDescriptor.isAnyFieldEdited()) {
+            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
+        }
+
+        return new EditCommand(target, editStudentDescriptor);
+    }
+
+    private EditCommand parseEditGroup(String args, AbsolutePath target) throws ParseException {
+        ParserUtil.verifyAllOptionsValid(args, OPTION_NAME, OPTION_ID);
+
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_ID);
+
+        argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_ID);
+
+        EditGroupDescriptor editGroupDescriptor = getEditGrouDescriptor(argMultimap);
+        if (!editGroupDescriptor.isAnyFieldEdited()) {
+            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
+        }
+
+        return new EditCommand(target, editGroupDescriptor);
     }
 
     private EditStudentDescriptor getEditStudentDescriptor(ArgumentMultimap argMultimap) throws ParseException {
