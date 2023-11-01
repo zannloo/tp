@@ -111,7 +111,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        itemListPanel = new ItemListPanel(logic.getDisplayList());
+        itemListPanel = new ItemListPanel(logic.getDisplayList(), logic.getDisplayPath(), logic.isShowTaskList());
         itemListPanelPlaceholder.getChildren().add(itemListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -184,6 +184,7 @@ public class MainWindow extends UiPart<Stage> {
             }
 
             commandBox.setCurrDirectory(logic.getCurrPath());
+            itemListPanel.setDisplayPath(logic.getDisplayPath(), logic.isShowTaskList());
 
             return commandResult;
         } catch (CommandException | ParseException e) {
