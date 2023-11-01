@@ -19,14 +19,19 @@ public class CreateStudentCommand extends Command {
     public static final String COMMAND_WORD = "touch";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " [PATH_TO_STUDENT]... " + "[NAME]... " + "[EMAIL]... " + "[PHONE]... "
-            + "[ADDRESS]... \n"
-            + "Add a student into the specified directory.\n"
+            "Usage: " + COMMAND_WORD + " <path> " + "-n <value> " + "-e <value> " + "-p <value> " + "-a <value> \n"
             + "\n"
-            + "    -n, --name           name of the student\n"
-            + "    -e, --email          email of the student\n"
-            + "    -p, --phone          phone of the student\n"
-            + "    -a, --address        address of the student\n";
+            + "Add new student.\n"
+            + "\n"
+            + "Arguments: \n"
+            + "    path                 Valid path to student\n"
+            + "    -n, --name           Name of the student\n"
+            + "    -e, --email          Email of the student\n"
+            + "    -p, --phone          Phone of the student\n"
+            + "    -a, --address        Address of the student\n"
+            + "\n"
+            + "Examples: \n"
+            + "touch grp-001/0001Y -n Mary -e mary@gmail.com -p 87652345 -a 4 Loyang Walk Loyang Industrial Estate";
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
 

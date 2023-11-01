@@ -42,15 +42,23 @@ public class EditCommand extends Command {
     public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " [GROUP_ID / STUDENT_ID]... " + "[NAME]... " + "[ID]... " + "[PHONE]... "
-                    + "[EMAIL]... " + "[ADDRESS]... \n"
+            "Usage: " + COMMAND_WORD + " <path> " + "[OPTION]... \n"
+            + "\n"
             + "Edit the details of the group or student.\n"
             + "\n"
-            + "    -n, --name           name of the group / student\n"
-            + "    -i, --id             id of the group / student\n"
-            + "    -e, --email          email of the student\n"
-            + "    -p, --phone          phone of the student\n"
-            + "    -a, --address        address of the student\n";
+            + "Argument: \n"
+            + "    path                 Valid path to group or student\n"
+            + "\n"
+            + "Option: \n"
+            + "    -n, --name           Name of the group / student\n"
+            + "    -i, --id             Id of the group / student\n"
+            + "    -e, --email          Email of the student\n"
+            + "    -p, --phone          Phone of the student\n"
+            + "    -a, --address        Address of the student\n"
+            + "\n"
+            + "Examples: \n"
+            + "edit grp-001 -n Perfect Group \n"
+            + "edit grp-001 -i grp-002";
     public static final String MESSAGE_EDIT_GROUP_SUCCESS = "Field(s) of group has been edited successfully.";
 
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Field(s) of student has been edited successfully.";

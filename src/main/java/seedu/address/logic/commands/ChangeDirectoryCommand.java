@@ -22,9 +22,15 @@ public class ChangeDirectoryCommand extends Command {
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " [destination path]... \n"
-            + "Change.... \n"
-            + "\n";
+            "Usage: " + COMMAND_WORD + " <path> \n"
+            + "\n"
+            + "Change directory.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Valid path to group\n"
+            + "\n"
+            + "Examples: \n"
+            + "cd grp-003";
 
     public static final ChangeDirectoryCommand HELP_MESSAGE = new ChangeDirectoryCommand();
 

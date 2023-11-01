@@ -56,12 +56,22 @@ public class CreateTodoCommand extends Command {
     public static final CreateTodoCommand HELP_MESSAGE = new CreateTodoCommand();
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " [PATH_TO_GROUP / PATH_TO_STUDENT]... " + "[DESCRIPTION]... "
-            + "[CATEGORY]...\n"
-            + "Create a todo task for student/group in specified directory.\n"
+            "Usage: " + COMMAND_WORD + " <path>" + " -d <value>" + " [OPTION]... \n"
             + "\n"
-            + "    -d, --desc           description for the task\n"
-            + "    -al, --all           category of the task\n";
+            + "Create todo task.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Valid path to group or student\n"
+            + "    -d, --desc           Description of the todo task\n"
+            + "\n"
+            + "Option: \n"
+            + "    -al, --all           Bulk task assignment\n"
+            + "                         Possible value: allStu, allGrp\n"
+            + "\n"
+            + "Examples: \n"
+            + "todo grp-001/0001Y -d Homework \n"
+            + "todo . -d Homework -al allGrp \n"
+            + "todo ./grp-001 -d Homework -al allStu";
 
     private final AbsolutePath target;
 

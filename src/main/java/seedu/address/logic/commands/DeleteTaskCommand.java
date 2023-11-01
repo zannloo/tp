@@ -20,8 +20,15 @@ public class DeleteTaskCommand extends Command {
     public static final String COMMAND_WORD = "rmt";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " [TASK_INDEX]...\n"
-            + "Delete a task with the specified index number.\n";
+            "Usage: " + COMMAND_WORD + " <task index>\n"
+            + "\n"
+            + "Delete a task with the specified index number.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    task index           Valid path to group or student\n"
+            + "\n"
+            + "Examples: \n"
+            + "rmt 1";
 
     public static final String MESSAGE_TASK_LIST_NOT_SHOWN = "Current display panel is not displaying task list.";
 

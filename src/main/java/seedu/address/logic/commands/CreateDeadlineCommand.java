@@ -20,13 +20,23 @@ public class CreateDeadlineCommand extends Command {
     public static final String COMMAND_WORD = "deadline";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " [PATH_TO_GROUP / PATH_TO_STUDENT]... " + "[DESCRIPTION]... " + "[DATETIME]... "
-                    + "[CATEGORY]...\n"
-            + "Create a deadline task for student/group in specified directory\n"
+            "Usage: " + COMMAND_WORD + " <path>" + " -d <value>" + " [OPTION]... \n"
             + "\n"
-            + "    -d, --desc           description for the task\n"
-            + "    -dt, --datetime      deadline of the task\n"
-            + "    -al, --all           category of the task\n";
+            + "Create deadline task.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Valid path to group or student\n"
+            + "    -d, --desc           Description of the deadline task\n"
+            + "\n"
+            + "Option: \n"
+            + "    -dt, --datetime      Deadline of the task\n"
+            + "    -al, --all           Bulk task assignment\n"
+            + "                         Possible value: allStu, allGrp\n"
+            + "\n"
+            + "Examples: \n"
+            + "deadline grp-001/0001Y -d Homework -dt 2023-11-11 11:59\n"
+            + "deadline . -d Homework -dt 2023-11-11 11:59 -al allGrp\n"
+            + "deadline ./grp-001 -d Homework -dt 2023-11-11 11:59 -al allStu";
 
     public static final String MESSAGE_SUCCESS = "New Deadline task added to Student/Group: %1$s";
 

@@ -31,9 +31,15 @@ public class MarkCommand extends Command {
     public static final MarkCommand HELP_MESSAGE = new MarkCommand();
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " [TASK_INDEX]...\n"
-            + "Mark a task with the given task index as done.\n";
-
+            "Usage: " + COMMAND_WORD + " <task index>\n"
+            + "\n"
+            + "Mark a task with the given task index as done.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    task index           Valid task index number \n"
+            + "\n"
+            + "Examples: \n"
+            + "mark 1";
     private static final Logger logger = LogsCenter.getLogger(MarkCommand.class);
 
     private final Index index;

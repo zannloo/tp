@@ -27,8 +27,15 @@ public class UnmarkCommand extends Command {
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Unmarked task: %1$s";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " [TASK_INDEX]...\n"
-            + "Unmark a task with the given task index.\n";
+            "Usage: " + COMMAND_WORD + " <task index>\n"
+            + "\n"
+            + "Unmark a task with the given task index.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    task index           Valid task index number \n"
+            + "\n"
+            + "Examples: \n"
+            + "unmark 1";
 
     public static final String MESSAGE_INVALID_INDEX = "The task index provided is invalid.";
 

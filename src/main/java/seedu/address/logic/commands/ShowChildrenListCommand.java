@@ -23,7 +23,11 @@ public class ShowChildrenListCommand extends Command {
 
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + "\n"
-            + "Display the children list.\n";
+            + "\n"
+            + "Display the children list.\n"
+            + "\n"
+            + "Examples: \n"
+            + "ls";
 
     public static final ShowChildrenListCommand HELP_MESSAGE = new ShowChildrenListCommand(true);
 

@@ -24,8 +24,16 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     public static final String COMMAND_WORD = "rm";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " [GROUP_ID / STUDENT_ID]...\n"
-            + "Delete a student / group from the specified directory.\n";
+            "Usage: " + COMMAND_WORD + " <path>\n"
+            + "\n"
+            + "Delete a student or group.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Valid path to group or student\n"
+            + "\n"
+            + "Examples: \n"
+            + "rm grp-001 \n"
+            + "rm grp-001/0001Y";
 
     public static final String MESSAGE_SUCCESS_FOR_STUDENT = "Student removed: %1$s";
 
