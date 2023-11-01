@@ -55,9 +55,8 @@ public interface IChildOperation<T extends IChildElement<T>> {
      *
      * @param id    - Unique identifier of the child
      * @param child - The new child to replace old child
-     * @throws NoSuchChildException If there is no such Child found
      */
-    void updateChild(Id id, T child) throws NoSuchChildException;
+    void updateChild(Id id, T child);
 
     /**
      * Returns a list of all current children
