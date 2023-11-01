@@ -207,7 +207,7 @@ Flags come before essential details required by the command and are compatible i
 ## How to use the User Guide :heart_eyes:
 We understand that it may be daunting to delve into a completely new user guide. This section designed 
 to make this journey more smooth sailing for you and enhance your understanding of the commonly used icons and boxes. 
-We hope you enjoy your reading experience! :relaxed::book:
+We hope you enjoy your reading experience! :blush::book:
 
 <box type="info">
 
