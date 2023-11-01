@@ -2,10 +2,8 @@ package seedu.address.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,8 +37,8 @@ public class JsonAdaptedGroup {
      */
     private final String id;
 
-    private final Set<JsonAdaptedStudent> students = new HashSet<>();
-    private final Set<JsonAdaptedTasks> tasks = new HashSet<>();
+    private final List<JsonAdaptedStudent> students = new ArrayList<>();
+    private final List<JsonAdaptedTasks> tasks = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedGroup} with the given person details.
