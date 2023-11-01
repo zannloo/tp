@@ -3,7 +3,7 @@ layout: default.md
 title: "User Guide"
 pageNav: 3
 ---
-# ProfBook User Guide
+# ProfBook User Guide :bulb:
 
 Welcome to ProfBook, a specialised **student management system** exclusively tailored for **CS2103T tutors** by CS2103T 
 students.  This guide is your gateway to unlocking the potential of ProfBook, where you will discover how ProfBook can 
