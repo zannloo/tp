@@ -56,7 +56,7 @@ public class CreateTodoCommand extends Command {
     public static final CreateTodoCommand HELP_MESSAGE = new CreateTodoCommand();
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " <path>" + " -d <value>" + " [OPTION]... \n"
+            "Usage: " + COMMAND_WORD + " <path>" + " -d <desc>" + " [OPTION]... \n"
             + "\n"
             + "Create todo task.\n"
             + "\n"

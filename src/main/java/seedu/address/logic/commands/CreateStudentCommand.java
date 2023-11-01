@@ -19,13 +19,15 @@ public class CreateStudentCommand extends Command {
     public static final String COMMAND_WORD = "touch";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " <path> " + "-n <value> " + "-e <value> " + "-p <value> " + "-a <value> \n"
+            "Usage: " + COMMAND_WORD + " <path> " + "-n <name> " + "[OPTION]... \n"
             + "\n"
             + "Add new student.\n"
             + "\n"
             + "Arguments: \n"
             + "    path                 Valid path to student\n"
             + "    -n, --name           Name of the student\n"
+            + "\n"
+            + "Option: \n"
             + "    -e, --email          Email of the student\n"
             + "    -p, --phone          Phone of the student\n"
             + "    -a, --address        Address of the student\n"

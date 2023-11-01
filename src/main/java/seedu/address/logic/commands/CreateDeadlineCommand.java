@@ -20,7 +20,7 @@ public class CreateDeadlineCommand extends Command {
     public static final String COMMAND_WORD = "deadline";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " <path>" + " -d <value>" + " [OPTION]... \n"
+            "Usage: " + COMMAND_WORD + " <path>" + " -d <desc>" + " [OPTION]... \n"
             + "\n"
             + "Create deadline task.\n"
             + "\n"

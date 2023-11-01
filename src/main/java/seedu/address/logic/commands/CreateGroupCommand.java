@@ -27,12 +27,12 @@ public class CreateGroupCommand extends Command {
     public static final CreateGroupCommand HELP_MESSAGE = new CreateGroupCommand();
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " <GroupId>" + " -n <name>\n"
+            "Usage: " + COMMAND_WORD + " <path>" + " -n <name>\n"
             + "\n"
             + "Create new group.\n"
             + "\n"
             + "Argument: \n"
-            + "    GroupId              Valid group id for the new group\n"
+            + "    path                 Valid path to a new group\n"
             + "    name                 Name for the new group\n"
             + "\n"
             + "Examples: \n"

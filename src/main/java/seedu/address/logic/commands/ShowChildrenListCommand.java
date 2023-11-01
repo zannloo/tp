@@ -22,12 +22,16 @@ public class ShowChildrenListCommand extends Command {
     public static final String MESSAGE_NOT_CHILDREN_MANAGER = "Cannot show children list for this path: %1$s";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + "\n"
+            "Usage: " + COMMAND_WORD + " [path] \n"
             + "\n"
             + "Display the children list.\n"
             + "\n"
+            + "Option: \n"
+            + "    path                 Valid path to group\n"
+            + "\n"
             + "Examples: \n"
-            + "ls";
+            + "ls \n"
+            + "ls grp-001";
 
     public static final ShowChildrenListCommand HELP_MESSAGE = new ShowChildrenListCommand(true);
 

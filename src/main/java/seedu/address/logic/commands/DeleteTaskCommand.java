@@ -20,12 +20,12 @@ public class DeleteTaskCommand extends Command {
     public static final String COMMAND_WORD = "rmt";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " <task index>\n"
+            "Usage: " + COMMAND_WORD + " <index>\n"
             + "\n"
             + "Delete a task with the specified index number.\n"
             + "\n"
             + "Argument: \n"
-            + "    task index           Valid path to group or student\n"
+            + "    index                Valid display index for target task\n"
             + "\n"
             + "Examples: \n"
             + "rmt 1";

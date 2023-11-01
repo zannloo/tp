@@ -30,13 +30,13 @@ public class MoveStudentToGroupCommand extends Command {
     public static final MoveStudentToGroupCommand HELP_MESSAGE = new MoveStudentToGroupCommand();
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " <source path>" + " <destination path> \n"
+            "Usage: " + COMMAND_WORD + " <source>" + " <destination> \n"
             + "\n"
             + "Move a student from source group to destination group.\n"
             + "\n"
             + "Argument: \n"
-            + "    source path          Valid path to student\n"
-            + "    destination path     Valid path to group\n"
+            + "    source               Valid path to source student\n"
+            + "    destination          Valid path to destination group\n"
             + "\n"
             + "Examples: \n"
             + "mv grp-001/0001Y grp-002";

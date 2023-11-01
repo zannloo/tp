@@ -36,7 +36,7 @@ public class MarkCommand extends Command {
             + "Mark a task with the given task index as done.\n"
             + "\n"
             + "Argument: \n"
-            + "    task index           Valid task index number \n"
+            + "    index                Valid task index number \n"
             + "\n"
             + "Examples: \n"
             + "mark 1";
