@@ -21,7 +21,9 @@ public class ShowTaskListCommand extends Command {
 
     public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot show task list for this path: %1$s";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD;
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [PATH_TO_GROUP / PATH_TO_STUDENT]... \n"
+            + "Display the task list of a group or student.\n";
 
     public static final ShowTaskListCommand HELP_MESSAGE = new ShowTaskListCommand(true);
 

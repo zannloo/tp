@@ -21,7 +21,9 @@ public class ShowChildrenListCommand extends Command {
 
     public static final String MESSAGE_NOT_CHILDREN_MANAGER = "Cannot show children list for this path: %1$s";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD;
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + "\n"
+            + "Display the children list.\n";
 
     public static final ShowChildrenListCommand HELP_MESSAGE = new ShowChildrenListCommand(true);
 

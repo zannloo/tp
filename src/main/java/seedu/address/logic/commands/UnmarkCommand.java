@@ -26,11 +26,9 @@ public class UnmarkCommand extends Command {
 
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Unmarked task: %1$s";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Unmark a task with the given task index.\n"
-            + "Constraint: Task list must be shown on display panel using \"cat\" command.\n"
-            + "Example: " + COMMAND_WORD
-            + " 1";
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [TASK_INDEX]...\n"
+            + "Unmark a task with the given task index.\n";
 
     public static final String MESSAGE_INVALID_INDEX = "The task index provided is invalid.";
 

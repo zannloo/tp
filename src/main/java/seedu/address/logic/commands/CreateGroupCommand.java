@@ -26,9 +26,11 @@ public class CreateGroupCommand extends Command {
 
     public static final CreateGroupCommand HELP_MESSAGE = new CreateGroupCommand();
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " GroupId\n"
-            + "Example: " + COMMAND_WORD
-            + " grp-001 ";
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [GROUP_ID]... " + "[GROUP_NAME]...\n"
+            + "Create new group.\n"
+            + "\n"
+            + "    -n, --name           name of the new group\n";
 
     private final AbsolutePath dest;
 

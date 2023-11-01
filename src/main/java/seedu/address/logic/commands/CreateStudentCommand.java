@@ -2,10 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
-import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -22,19 +18,15 @@ public class CreateStudentCommand extends Command {
 
     public static final String COMMAND_WORD = "touch";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " : Adds a student into the specified directory\n"
-            + "Parameters: "
-            + "specified path "
-            + "[" + OPTION_NAME + " NAME] "
-            + "[" + OPTION_EMAIL + " EMAIL] "
-            + "[" + OPTION_PHONE + " PHONE] "
-            + "[" + OPTION_ADDRESS + " ADDRESS] "
-            + "Example: " + COMMAND_WORD
-            + " stu-200 "
-            + OPTION_NAME + " Bob "
-            + OPTION_EMAIL + " bobby@example.com "
-            + OPTION_PHONE + " 92929292 "
-            + OPTION_ADDRESS + " blk 258 Toa Payoh ";
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [PATH_TO_STUDENT]... " + "[NAME]... " + "[EMAIL]... " + "[PHONE]... "
+            + "[ADDRESS]... \n"
+            + "Add a student into the specified directory.\n"
+            + "\n"
+            + "    -n, --name           name of the student\n"
+            + "    -e, --email          email of the student\n"
+            + "    -p, --phone          phone of the student\n"
+            + "    -a, --address        address of the student\n";
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
 

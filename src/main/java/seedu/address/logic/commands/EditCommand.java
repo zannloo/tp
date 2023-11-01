@@ -1,10 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
-import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 
 import java.util.Map;
 import java.util.Optional;
@@ -45,21 +41,20 @@ public class EditCommand extends Command {
 
     public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
 
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [GROUP_ID / STUDENT_ID]... " + "[NAME]... " + "[ID]... " + "[PHONE]... "
+                    + "[EMAIL]... " + "[ADDRESS]... \n"
+            + "Edit the details of the group or student.\n"
+            + "\n"
+            + "    -n, --name           name of the group / student\n"
+            + "    -i, --id             id of the group / student\n"
+            + "    -e, --email          email of the student\n"
+            + "    -p, --phone          phone of the student\n"
+            + "    -a, --address        address of the student\n";
     public static final String MESSAGE_EDIT_GROUP_SUCCESS = "Field(s) of group has been edited successfully.";
 
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Field(s) of student has been edited successfully.";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
-            + "by the student id. "
-            + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: student id "
-            + "[" + OPTION_NAME + " NAME] "
-            + "[" + OPTION_PHONE + " PHONE] "
-            + "[" + OPTION_EMAIL + " EMAIL] "
-            + "[" + OPTION_ADDRESS + " ADDRESS]\n"
-            + "Example: " + COMMAND_WORD + " 0001Y "
-            + OPTION_PHONE + " 91234567 "
-            + OPTION_EMAIL + " johndoe@example.com";
 
     public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "This directory cannot be edited.";
 

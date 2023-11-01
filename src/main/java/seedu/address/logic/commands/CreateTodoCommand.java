@@ -2,8 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
-import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -57,21 +55,14 @@ public class CreateTodoCommand extends Command {
 
     public static final CreateTodoCommand HELP_MESSAGE = new CreateTodoCommand();
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Creates a todo task for student/group in specified directory.\n"
-            + "Parameters: "
-            + "specified path\n"
-            + "[" + OPTION_DESC + " DESCRIPTION] "
-            + "[" + OPTION_ALL + " CATERGORY]\n"
-            + "Example: " + COMMAND_WORD
-            + " 0001Y "
-            + OPTION_DESC + " Assignment 1 /\n"
-            + COMMAND_WORD + " 0001Y "
-            + OPTION_DESC + " Assignment 1 "
-            + OPTION_ALL + " allGrp /\n"
-            + COMMAND_WORD + " 0001Y "
-            + OPTION_DESC + " Assignment 1 "
-            + OPTION_ALL + " allStu";
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [PATH_TO_GROUP / PATH_TO_STUDENT]... " + "[DESCRIPTION]... "
+            + "[CATEGORY]...\n"
+            + "Create a todo task for student/group in specified directory.\n"
+            + "\n"
+            + "    -d, --desc           description for the task\n"
+            + "    -al, --all           category of the task\n";
+
     private final AbsolutePath target;
 
     private final ToDo todo;

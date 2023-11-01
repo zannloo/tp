@@ -23,11 +23,9 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
 
     public static final String COMMAND_WORD = "rm";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes a student/group from the specified directory\n"
-            + "Parameters: "
-            + "specified path\n"
-            + "Example: " + COMMAND_WORD
-            + " stu-200 ";
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [GROUP_ID / STUDENT_ID]...\n"
+            + "Delete a student / group from the specified directory.\n";
 
     public static final String MESSAGE_SUCCESS_FOR_STUDENT = "Student removed: %1$s";
 

@@ -19,11 +19,9 @@ public class DeleteTaskCommand extends Command {
 
     public static final String COMMAND_WORD = "rmt";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + " [display index]\n"
-            + "Constraint: Task list must be shown on display panel using \"cat\" command.\n"
-            + "Parameters: display index (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [TASK_INDEX]...\n"
+            + "Delete a task with the specified index number.\n";
 
     public static final String MESSAGE_TASK_LIST_NOT_SHOWN = "Current display panel is not displaying task list.";
 

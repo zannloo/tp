@@ -1,9 +1,6 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
-import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
-import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -22,24 +19,14 @@ public class CreateDeadlineCommand extends Command {
 
     public static final String COMMAND_WORD = "deadline";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Creates a deadline task for student/group in specified directory\n"
-            + "Parameters: "
-            + "specified path\n"
-            + "[" + OPTION_DESC + " DESCRIPTION] "
-            + "[" + OPTION_DATETIME + " DATE_AND_TIME] "
-            + "[" + OPTION_ALL + " CATERGORY]\n"
-            + "Example: " + COMMAND_WORD + " 0001Y "
-            + OPTION_DESC + " Assignment 1 "
-            + OPTION_DATETIME + " 2023-10-11 23:59\n"
-            + COMMAND_WORD + " 0001Y "
-            + OPTION_DESC + " Assignment 1 "
-            + OPTION_DATETIME + " 2023-10-11 23:59 "
-            + OPTION_ALL + " allGrp /\n"
-            + COMMAND_WORD + " 0001Y "
-            + OPTION_DESC + " Assignment 1 "
-            + OPTION_DATETIME + " 2023-10-11 23:59 "
-            + OPTION_ALL + " allStu";
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [PATH_TO_GROUP / PATH_TO_STUDENT]... " + "[DESCRIPTION]... " + "[DATETIME]... "
+                    + "[CATEGORY]...\n"
+            + "Create a deadline task for student/group in specified directory\n"
+            + "\n"
+            + "    -d, --desc           description for the task\n"
+            + "    -dt, --datetime      deadline of the task\n"
+            + "    -al, --all           category of the task\n";
 
     public static final String MESSAGE_SUCCESS = "New Deadline task added to Student/Group: %1$s";
 
