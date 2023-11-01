@@ -9,7 +9,7 @@ Welcome to ProfBook, a specialised **student management system** exclusively tai
 students.  This guide is your gateway to unlocking the potential of ProfBook, where you will discover how ProfBook can 
 help streamline your administrative tasks, alleviate workload and most importantly reduce any administrative errors.
 
-## What can ProfBook do
+## What can ProfBook do :raising_hand:
 As current students of CS2103T, we understand that CS2103T tutors have a high administrative workload on top of their 
 existing tutor duties. On top of that, any administrative mistakes or oversights can increase that workload 
 exponentially and may adversely impact student's learning. We deeply appreciate your role, and it is precisely to 
@@ -39,8 +39,10 @@ effortlessly **add, delete and edit students or groups** and even **move student
 
 ### Task Management
 
-ProfBook aids with the **management of task information**.  You can quickly and seamlessly **allocate tasks to 
-specific student or group** and track their progress. 
+In addition to the efficient management of student and group information, ProfBook also aids with the 
+**management of task information**.  You can quickly and seamlessly **allocate tasks to specific student or group** 
+and track their progress. With ProfBook, you can easily monitor each stage of the task journey, 
+from start to finish, ensuring optimal productivity.
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
@@ -99,13 +101,11 @@ specific student or group** and track their progress.
     <!-- Content that will start on a new printed page -->
 </div>
 
-## Understanding ProfBook
+## Understanding ProfBook :books:
 
-<box type="definition">
+### ProfBook Software Structure
 
-  **ProfBook Software Structure** <br>
-
-  ProfBook is organized hierarchically with the following structure:
+ProfBook is organized hierarchically with the following structure:
 
   <tree>
   ~/
@@ -123,65 +123,49 @@ specific student or group** and track their progress.
 
   **Group Directories (e.g., `grp-001`, `grp-002`, ...)**<br>
   Within the Root Directory, there are Group Directories. Each Group Directory is dedicated to managing a specific group of students.
+  
+<box type="info">
 
-  **Student Directories (e.g., `1001Z`, `5815Y`, ...)**<br>
+  **Required format for `GroupId`:**
+  - Must be in the format `grp-XXX` where `XXX` is replaceable with any 3 digit number
+    - eg. `grp-001`
+  
+  </box>
+
+**Student Directories (e.g., `1001Z`, `5815Y`, ...)**<br>
   Inside each Group Directory, you'll find Student Directories. These directories represent individual students within each group.
 
   This hierarchical structure enables a well-organized and efficient way to manage groups and students within ProfBook.
 
-<box type="info" theme="warning">
-
-**Acceptable values for each Id:**
-
-`GroupId`:
-- Must be in the format `grp-XXX` where `XXX` is replaceable with any 3 digit number
-  - eg. `grp-001`
-
-`StudentId`:
-- Must be in the format `XXXX_` where `XXXX` is replaceable with any 4 digit number and `_` is replaceable with any
+  <box type="info">
+  
+  **Required format for `StudentId`:**
+  - Must be in the format `XXXXA` where `XXXX` is replaceable with any 4 digit number and `A` is replaceable with any
   capitalised alphabet.
-- This format accurately reflects the last 5 place of an NUS student's matriculation number while maintaining privacy and
-  security.
-  - eg. `8467U`
+    - This format accurately reflects the last 5 place of an NUS student's matriculation number while maintaining 
+    privacy and security.
+      - eg. `8467U`
+    </box>
 
 
-  </box>
-</box>
-
-<div class="page-break-before">
-    <!-- Content that will start on a new printed page -->
-</div>
-
-
-<box type="info">
-
-**Notes about the command format:**<br>
+### ProfBook Command Format
 
 - Words in `UPPER_CASE` are the parameters to be supplied by you.
-  - e.g. In `touch SPECIFIED_PATH -n NAME`, `SPECIFIED_PATH` and the other field in `UPPER_CASE` can be substituted 
-    with the desired details to form `touch stu-200 --name Bob`.
-
-- Words in `UPPER_CASE` that are surrounded by `[square brackets]` are optional parameters to be supplied by you.
-  - e.g. In `cat [SPECIFIED_PATH]`, `[SPECIFIED_PATH]` can be substituted with details or left empty, 
-    `cat stu-200` and `cat` are acceptable commands. 
-
+  * e.g. In `touch SPECIFIED_PATH -n NAME`, `SPECIFIED_PATH` and the other field in `UPPER_CASE` can be substituted 
+  with the desired details to form `touch 2000Y --name Bob`.
+* Words in `UPPER_CASE` that are surrounded by `[square brackets]` are optional parameters to be supplied by you.
+  * e.g. In `cat [SPECIFIED_PATH]`, `[SPECIFIED_PATH]` can be substituted with details or left empty, 
+      `cat 2000Y` and `cat` are acceptable commands.
 - Parameters can be in any order.
-  - e.g. If the command specifies `-n NAME -e EMAIL`, `-e EMAIL -n NAME` is also acceptable.
-
-- Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be  
-  ignored.
-  - e.g. If the command specifies `help 123`, it will be interpreted as `help`.
-
+  * e.g. If the command specifies `-n NAME -e EMAIL`, `-e EMAIL -n NAME` is also acceptable.
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be  
+  ignored. 
+  * e.g. If the command specifies `help 123`, it will be interpreted as `help`.
 - Duplicate can only be detected if all field is exactly the same.
-
-- If you are using a PDF version of this document, please be careful when copying and pasting commands that span 
+* If you are using a PDF version of this document, please be careful when copying and pasting commands that span 
 multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
-</box>
-
-<box type="info">
-
-**Flags:**
+### Flags :triangular_flag_on_post::triangular_flag_on_post::triangular_flag_on_post:
 Flags come before essential details required by the command and are compatible in both long and short forms:
 
 - `--name` / `-n` followed by name of student or group specified by command.
@@ -196,11 +180,7 @@ Flags come before essential details required by the command and are compatible i
   - `allGrp` to add a task to all groups.
     - can only be used at root directory.
 
-</box>
-
-<box type="info" theme = "warning"> 
-
-**Acceptable values for each parameter:**
+### Acceptable values for each parameter:
 
 `SPECIFIED_PATH`:
 - Must be a valid path.
@@ -219,11 +199,49 @@ Flags come before essential details required by the command and are compatible i
 
 `TASK_INDEX`:
 - Must be a valid index starts from 1.
+---
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
+
+## How to use the User Guide :heart_eyes:
+We understand that it may be daunting to delve into a completely new user guide. This section designed 
+to make this journey more smooth sailing for you and enhance your understanding of the commonly used icons and boxes. 
+We hope you enjoy your reading experience! :relaxed::book:
+
+<box type="info">
+
+**Light blue boxes** like this with an **"i" icon** are designated for information-related content.
+</box>
+
+<box type="tip">
+
+Keep a look-out for **green boxes** like this with a **light bulb icon**, they provide valuable suggestions on
+how you can better make use of the commands for greater efficiency and convenience once you have mastered 
+the basics of the commands. 
+</box>
+
+<box type="warning">
+
+When you come across **yellow boxes** like this with a **"!" icon**, do take extra note and caution! <br>
+It contains crucial cautionary information that is definitely a **must read**.
+</box>
+
+<box type="success" seamless>
+
+This is utilized to indicate the output if command fails.:ok_woman:
+
+</box>
+
+<box type="wrong" seamless>
+
+This is utilized to indicate the output if command fails.:no_good:
+
+- There are [hyperlinks to some commonly made mistakes](#commonly-made-mistake) to help you recover from them!
 
 </box>
 
 ---
-
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
 </div>
@@ -252,8 +270,8 @@ Changes the current directory in the ProfBook.
 
 #### Output if command fails:
 - Displays message indicating either:
-  - Invalid command format
-  - Invalid path
+  - [Invalid command format.](#mistake-1-invalid-command-format)
+  - [Invalid path.](#mistake-2-invalid-path)
 
 </box>
 
@@ -271,7 +289,6 @@ Shows the list of children in specified directory.
 #### Acceptable values for each parameter:
 
 `[SPECIFIED_PATH]`:
-- (Optional) 
 - Must be a valid path to a group or root.
 
 <box type="info">
@@ -294,8 +311,8 @@ Shows the list of children in specified directory.
 #### Output if command fails:
 
 Displays message indicating either:
-  - Invalid command format.
-  - Invalid path.
+  - [Invalid command format.](#mistake-1-invalid-command-format)
+  - [Invalid path.](#mistake-2-invalid-path)
 
 </box>
 
@@ -319,9 +336,14 @@ Displays all tasks depending on the directory you are at.
 #### Acceptable values for parameter:
 
 `[SPECIFIED_PATH]`:
-- (Optional)
 - Must be a valid path to a group or student.
 - Must **not** be a path to root. 
+
+<box type="info">
+
+If `[SPECIFIED_PATH]` is not provided, the `ls` command will show the list of children in the current directory.
+
+</box>
 
 <box type="success" seamless>
 
@@ -358,7 +380,7 @@ If you are at the directory `~/grp-001` and would like take a quick look of the 
     <!-- Content that will start on a new printed page -->
 </div>
 
-## Student or Group Commands
+## Student or Group Commands :family:
 
 ### Add a student: `touch`
 
@@ -384,8 +406,8 @@ Adds a student into the specified directory.
 #### Output if command fails:
 
 - Displays message indicating either:
-  - Invalid command format.
-  - Invalid path.
+  - [Invalid command format.](#mistake-1-invalid-command-format)
+  - [Invalid path.](#mistake-2-invalid-path)
 
 </box>
 
@@ -440,8 +462,8 @@ At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER` or `ADDRESS`) must be provid
 
 #### Output if command fails: 
 - Displays message indicating either:
-  - Invalid command format.  
-  - Invalid path. 
+  - [Invalid command format.](#mistake-1-invalid-command-format)
+  - [Invalid path.](#mistake-2-invalid-path)
   - At least one field to edit must be provided.
 
 </box>
@@ -483,8 +505,8 @@ Removes a student or group from the specified directory.
 #### Output if command fails:
 
 - Displays message indicating either:
-    - Invalid command format.
-    - No such student or group to delete.
+    - [Invalid command format](#mistake-1-invalid-command-format)
+    - [No such student or group to delete.](#mistake-3-no-such-student-or-group-to-delete)
 
 </box>
 
@@ -531,8 +553,8 @@ Moves student from one group to another group.
 #### Output if command fails
 
 - Displays message indicating either:
-  - Invalid command format.
-  - No such student to move.
+  - [Invalid command format](#mistake-1-invalid-command-format)
+  - [No such student to move.](#mistake-4-no-such-student-to-move)
   - Invalid destination path.
 
 </box>
@@ -573,7 +595,7 @@ Creates a group that can contain students.
 #### Output if command fails
 
 - Displays message indicating either:
-    - Invalid command format.
+    - [Invalid command format.](#mistake-1-invalid-command-format)
     - Invalid path to a group.
 
 </box>
@@ -591,9 +613,16 @@ Shows a message of some commands you could use.
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the ProfBook.
+Clears all entries from ProfBook.
 
 **Format:** `clear`
+
+<box type="warning">
+
+The `clear` command, upon confirmation by pressing enter, will clear all entries from ProfBook. 
+It is crucial to note that there is **no way to recover these entries** once the `clear` command has been executed. 
+Therefore, we strongly advise exercising caution when using this command.
+</box>
 
 <box type="tip">
 This command is particularly valuable at the beginning of a new semester when you wish to clear all your previous 
@@ -619,7 +648,7 @@ positioned in the top-left corner of the window.
     <!-- Content that will start on a new printed page -->
 </div>
 
-## Tasks command
+## Tasks command :clipboard:
 
 ### Create Todo Task : `todo`
 
@@ -651,8 +680,8 @@ The `todo` command will create todo task for the student or group at current dir
 #### Output if command fails:
 
 - Displays message indicating either:
-  - Invalid command format.
-  - Invalid path.
+  - [Invalid command format.](#mistake-1-invalid-command-format)
+  - [Invalid path.](#mistake-2-invalid-path)
 
 </box>
 
@@ -700,8 +729,8 @@ The `deadline` command will create task with deadline for the student or group a
 #### Output if command fails:
 
 - Displays message indicating either:
-  - Invalid command format.
-  - Invalid path.
+  - [Invalid command format.](#mistake-1-invalid-command-format)
+  - [Invalid path.](#mistake-2-invalid-path)
 
 </box>
 
@@ -739,15 +768,15 @@ Marks the specified task as done for the specified student or group.
 #### Output if command fails
 
 - Displays message indicating either:
-  - Invalid command format.
-  - Invalid task index.
-  - The display panel is not showing task list.
+  - [Invalid command format](#mistake-1-invalid-command-format)
+  - [Invalid task index.](#mistake-5-invalid-task-index)
+  - [The display panel is not showing task list.](#mistake-6-the-display-panel-is-not-showing-task-list)
 
 </box>
 
 <box type="warning">
 
-When using this command, you will first need to `cat` at the path where the task list is at before executing `mark`.
+When using this command, you will first need to [`cat`](#display-all-tasks-cat) at the path where the task list is at before executing `mark`.
 </box>
 
 #### Example(s):
@@ -766,10 +795,7 @@ Unmarks the specified task for the student or group.
 
 #### Output if command succeeds:
 
-- Displays message indicating either:
-  - Invalid command format.
-  - Invalid task index.
-  - The display panel is not showing task list.
+- Displays message indicating unmark is done successfully as well as specific task that is unmarked.
 
 </box>
 
@@ -777,13 +803,15 @@ Unmarks the specified task for the student or group.
 
 #### Output if command fails:
 
-- Displays message indicating unmark is done successfully as well as specific task that is unmarked.
-
+- Displays message indicating either:
+  - [Invalid command format](#mistake-1-invalid-command-format)
+  - [Invalid task index.](#mistake-5-invalid-task-index)
+  - [The display panel is not showing task list.](#mistake-6-the-display-panel-is-not-showing-task-list)
 </box>
 
 <box type="warning">
 
-When using this command, you will first need to `cat` at the path where the task list is at before executing `unmark`.
+When using this command, you will first need to [`cat`](#display-all-tasks-cat) at the path where the task list is at before executing `unmark`.
 </box>
 
 #### Example(s):
@@ -811,6 +839,51 @@ file at the next run. Hence, it is recommended to take a backup of the file befo
 </box>
 
 _Details coming soon ..._
+
+---
+
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
+
+## Commonly made mistake
+
+<box type="warning">
+
+As Albert Einstein wisely said, "A person who never made a mistake never tried anything new"
+</box>
+
+At ProfBook, we wholeheartedly believe that mistakes are part of the learning journey. We are here to support
+you in your quest of mastering ProfBook, helping you recover from any hiccups that may happen along the way. 
+As such, we have collated a list of some commonly made mistakes and solutions to them. :muscle:
+
+##### Mistake 1: Invalid command format
+**Solution:**
+Ensure that the command you enter adheres to the format provided in the user guide.
+
+##### Mistake 2: Invalid path
+**Solution:**
+Please check that the path you have entered is the intended path you wish you utilise, 
+and it exists within ProBook.
+
+##### Mistake 3: No such student or group to delete.
+**Solution:**
+Verify that the StudentId or GroupId belonging to the student or group you wish to delete is correct
+and that the student or group exists in the specified path from which you wish to delete them.
+
+##### Mistake 4: No such student to move.
+**Solution:**
+Verify that the StudentId belonging to the student you wish to move is correct
+and that the student exists in the specified path from which you wish to move them.
+
+##### Mistake 5: Invalid task index
+**Solution:**
+Task index starts from 1. Check that the index you input is a whole number and falls within the range 
+of 1 to the total number of tasks in the task list.
+
+##### Mistake 6: The display panel is not showing task list
+**Solution:**
+Please do not forget to execute the [`cat`](#display-all-tasks-cat) command prior to executing the required command.
 
 ---
 
@@ -848,11 +921,11 @@ the data of your previous ProfBook home folder.
 | **Change Directory**    | `cd SPECIFIED_PATH` <br> e.g., `cd ../grp-001`                                                                                                                                          |
 | **Display Directories** | `ls [SPECIFIED_PATH]` <br> e.g., `ls grp-001`                                                                                                                                           |
 | **Display Task List**   | `cat [SPECIFIED_PATH]`<br> e.g., `cat 1234A, cat grp-001`                                                                                                                               |
-| **Add Student**         | `touch SPECIFIED_PATH -n NAME [-e EMAIL] [- p PHONE_NUMBER] [-a ADDRESS]` <br> e.g., `touch stu-200 --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh ` |
+| **Add Student**         | `touch SPECIFIED_PATH -n NAME [-e EMAIL] [- p PHONE_NUMBER] [-a ADDRESS]` <br> e.g., `touch 2000Y --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh ` |
 | **Edit Student**        | `edit SPECIFIED_PATH [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]` <br> e.g., `edit 0010Y --phone 91919191`                                                                      |
 | **Create Group**        | `mkdir [groupId]` <br> e.g., `mkdir grp-1`                                                                                                                                              |
 | **Delete**              | `rm SPECIFIED_PATH` <br> e.g., `rm 0123Y`, `rm grp-002`                                                                                                                                 |
-| **Create Todo**         | `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY` <br> e.g., `todo stu-001 --desc Assignment 1                                                                                   |
-| **Create Deadline**     | `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`<br> e.g., `deadline stu-001 --desc Assignment 1 --datetime 2023-10-11 23:59 `                     |
+| **Create Todo**         | `todo SPECIFIED_PATH --desc DESCRIPTION --all CATERGORY` <br> e.g., `todo 2000Y --desc Assignment 1                                                                                   |
+| **Create Deadline**     | `deadline SPECIFIED_PATH --desc DESCRIPTION --datetime DATE_AND_TIME --all CATERGORY`<br> e.g., `deadline 2000Y --desc Assignment 1 --datetime 2023-10-11 23:59 `                     |
 | **Mark**                | `mark TASK_INDEX`<br> e.g.,`mark 1`                                                                                                                                                     |
 | **Unmark**              | `unmark TASK_INDEX`<br> e.g.,`unmark 2`                                                                                                                                                 |
