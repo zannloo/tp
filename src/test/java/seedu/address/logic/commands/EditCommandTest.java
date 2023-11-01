@@ -167,7 +167,6 @@ public class EditCommandTest {
         assertCommandFailure(command, model, expectedMessage);
     }
 
-
     @Test
     public void execute_invalidDirectory_throwCommandException() {
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
@@ -202,15 +201,41 @@ public class EditCommandTest {
 
         // different values
         assertNotEquals(command1, command2);
+
+        EditStudentDescriptor editStudentDescriptor3 = new EditStudentDescriptor();
+        editStudentDescriptor3.setName(new Name("Marry"));
+        EditStudentDescriptor editStudentDescriptor3Copy = new EditStudentDescriptor(editStudentDescriptor3);
+        EditStudentDescriptor editStudentDescriptor4 = new EditStudentDescriptor();
+        editStudentDescriptor4.setId(new StudentId("0999A"));
+
+        EditCommand command3 = new EditCommand(rootPath, editStudentDescriptor3);
+        EditCommand command4 = new EditCommand(rootPath, editStudentDescriptor4);
+
+        // same values -> returns true
+        EditCommand command3copy = new EditCommand(rootPath, editStudentDescriptor3Copy);
+        assertEquals(command3, command3copy);
+
+        // different values
+        assertNotEquals(command3, command4);
     }
 
     @Test
-    public void toStringMethod() {
+    public void toString_editGroupDescriptorNotNull_returnExpectedString() {
         EditGroupDescriptor editGroupDescriptor1 = new EditGroupDescriptor();
         editGroupDescriptor1.setName(new Name("Group 123"));
         EditCommand command = new EditCommand(rootPath, editGroupDescriptor1);
         String expected = EditCommand.class.getCanonicalName()
             + "{toEdit=" + editGroupDescriptor1 + "}";
+        assertEquals(expected, command.toString());
+    }
+
+    @Test
+    public void toString_editStudentDescriptorNotNull_returnExpectedString() {
+        EditStudentDescriptor editStudentDescriptor1 = new EditStudentDescriptor();
+        editStudentDescriptor1.setName(new Name("0999A"));
+        EditCommand command = new EditCommand(rootPath, editStudentDescriptor1);
+        String expected = EditCommand.class.getCanonicalName()
+                + "{toEdit=" + editStudentDescriptor1 + "}";
         assertEquals(expected, command.toString());
     }
 }
