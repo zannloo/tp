@@ -1,5 +1,7 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
+
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -26,8 +28,13 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
      * @throws ParseException if the user input does not conform the expected format
      */
     public ShowChildrenListCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args);
+        ParserUtil.verifyAllOptionsValid(args, OPTION_HELP);
+
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return ShowChildrenListCommand.HELP_MESSAGE;
+        }
 
         if (argMultimap.getPreamble().isEmpty()) {
             logger.fine(String.format(MESSAGE_COMMAND_CREATED, "Current directory"));

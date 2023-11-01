@@ -22,8 +22,11 @@ public class CreateGroupCommand extends Command {
             "GroupId %1$s has already been used by the group: %2$s";
     public static final String MESSAGE_SUCCESS = "New group added: %1$s";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": group";
+    public static final CreateGroupCommand HELP_MESSAGE = new CreateGroupCommand();
+
     private final AbsolutePath dest;
     private final Group group;
+    private final boolean isHelp;
 
     /**
      * Constructs a {@code CreateGroupCommand} with the specified absolute path and group details.
@@ -35,6 +38,13 @@ public class CreateGroupCommand extends Command {
         requireAllNonNull(dest, group);
         this.dest = dest;
         this.group = group;
+        this.isHelp = false;
+    }
+
+    private CreateGroupCommand() {
+        this.isHelp = true;
+        this.dest = null;
+        this.group = null;
     }
 
     /**
@@ -47,6 +57,10 @@ public class CreateGroupCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
 
         ChildOperation<Group> rootOperation = model.rootChildOperation();
 

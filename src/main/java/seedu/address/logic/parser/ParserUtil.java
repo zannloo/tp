@@ -1,11 +1,15 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
@@ -28,6 +32,7 @@ import seedu.address.model.profbook.Phone;
 public class ParserUtil {
     public static final DateTimeFormatter DATE_INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_OPTION = "Invalid option: %1$s";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -117,6 +122,23 @@ public class ParserUtil {
             throw new ParseException(e.getMessage());
         }
         return relativePath;
+    }
+
+    /**
+     * Resolve the {@code target} against given {@code path}
+     * and returns the fullPath.
+     *
+     * @throws ParseException if there is error when resolving.
+     */
+    public static AbsolutePath resolvePath(AbsolutePath path, RelativePath target) throws ParseException {
+        requireAllNonNull(path, target);
+        AbsolutePath fullPath = null;
+        try {
+            fullPath = path.resolve(target);
+        } catch (InvalidPathException e) {
+            throw new ParseException(e.getMessage());
+        }
+        return fullPath;
     }
 
     /**
@@ -210,18 +232,6 @@ public class ParserUtil {
     }
 
     /**
-     * Returns true if none of the options contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    public static boolean areOptionsPresent(ArgumentMultimap argumentMultimap, Option... options) {
-        return Stream.of(options).allMatch(option -> isOptionPresent(argumentMultimap, option));
-    }
-
-    public static boolean isOptionPresent(ArgumentMultimap argumentMultimap, Option option) {
-        return argumentMultimap.getValue(option).isPresent();
-    }
-
-    /**
      * Parses a {@code String cat} into a {@code String}.
      * Leading and trailing whitespaces will be trimmed.
      *
@@ -241,4 +251,32 @@ public class ParserUtil {
 
         throw new ParseException("Format is invalid. Should be allStu or allGrp");
     }
+
+    /**
+     * Checks if all options in {@code argString} are valid.
+     */
+    public static void verifyAllOptionsValid(String args, Option... options) throws ParseException {
+        Set<String> allOptions = ArgumentTokenizer.extractAllOptionNames(args);
+        for (String optionName : allOptions) {
+            Stream<Option> optionStream = Arrays.stream(options);
+            Predicate<Option> pred = option
+                -> optionName.equals(option.getLongName()) || optionName.equals(option.getShortName());
+            if (optionStream.noneMatch(pred)) {
+                throw new ParseException(String.format(MESSAGE_INVALID_OPTION, optionName));
+            }
+        }
+    }
+
+    /**
+     * Returns true if none of the options contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    public static boolean areOptionsPresent(ArgumentMultimap argumentMultimap, Option... options) {
+        return Stream.of(options).allMatch(option -> isOptionPresent(argumentMultimap, option));
+    }
+
+    public static boolean isOptionPresent(ArgumentMultimap argumentMultimap, Option option) {
+        return argumentMultimap.getValue(option).isPresent();
+    }
+
 }
