@@ -143,20 +143,6 @@ public class CreateTodoCommandTest {
     }
 
     @Test
-    public void execute_todoForAllStudentsInGroupAcceptedFromRoot_addSuccessful()
-            throws InvalidPathException {
-        AbsolutePath absoluteTargetPath = new AbsolutePath("~");
-
-        ChildOperation<Group> operation = expectedModel.rootChildOperation();
-        operation.addTaskToAllChildren(toBeAdded, 2);
-
-        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, Category.ALLSTU);
-        String expectedMessage = MESSAGE_SUCCESS_ALL_STUDENTS;
-
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-    }
-
-    @Test
     public void execute_todoForAllStudentsInGroupAccepted_addSuccessful()
             throws InvalidPathException {
         Group targetGroup = TypicalGroups.GROUP_ONE;

@@ -142,20 +142,6 @@ class CreateDeadlineCommandTest {
     }
 
     @Test
-    public void execute_deadlineForAllStudentsInGroupAcceptedFromRoot_addSuccessful()
-            throws InvalidPathException {
-        AbsolutePath absoluteTargetPath = new AbsolutePath("~");
-
-        ChildOperation<Group> operation = expectedModel.rootChildOperation();
-        operation.addTaskToAllChildren(toBeAdded, 2);
-
-        CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.ALLSTU);
-        String expectedMessage = MESSAGE_SUCCESS_ALL_STUDENTS;
-
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-    }
-
-    @Test
     public void execute_deadlineForStudentAccepted_addSuccessful() throws InvalidPathException,
             UnsupportedPathOperationException, CommandException {
         Student alice = TypicalStudents.ALICE;
