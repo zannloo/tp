@@ -24,6 +24,11 @@ public class Messages {
     public static final String MESSAGE_NO_OPTIONS = "%1$s: does not take any options.";
     public static final Function<String, String> MESSAGE_MISSING_ARGUMENT =
             x -> String.format(MESSAGE_INVALID_COMMAND_FORMAT, "missing argument(s)", x);
+    public static final String MESSAGE_INVALID_DATETIME_FORMAT =
+            "Invalid datetime format: Please use the format \'yyyy-MM-dd HH:mm\'"
+            + "\n\n\'yyyy\': year, \'MM\': month,"
+            + " 'dd\': day, \'HH\': hour (24-hour format),"
+            + " 'mm\': minutes.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
