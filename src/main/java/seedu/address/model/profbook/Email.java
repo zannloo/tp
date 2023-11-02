@@ -8,7 +8,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class Email {
 
-    public static final Email PLACEHOLDER = new Email("N/A");
+    public static final Email PLACEHOLDER = new Email("n/a");
     private static final String SPECIAL_CHARACTERS = "+_.-";
     public static final String MESSAGE_CONSTRAINTS = "Emails should be of the format local-part@domain "
         + "and adhere to the following constraints:\n"

@@ -49,14 +49,14 @@ public class Messages {
         final StringBuilder builder = new StringBuilder();
         builder.append("\n Name: ")
                 .append(student.getName())
+                .append("\n StudentId: ")
+                .append(student.getId())
                 .append("\n Phone: ")
                 .append(student.getPhone())
                 .append("\n Email: ")
                 .append(student.getEmail())
                 .append("\n Address: ")
-                .append(student.getAddress())
-                .append("\n StudentId: ")
-                .append(student.getId());
+                .append(student.getAddress());
         return builder.toString();
     }
 
