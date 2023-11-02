@@ -39,6 +39,11 @@ public class ProfBookStorageManagerTest {
         assertEquals(original, retrieved);
     }
 
+    @Test
+    public void getUserPrefFilePath() {
+        assertNotNull(storageManager.getUserPrefsFilePath());
+    }
+
     //    @Test
     //    public void addressBookReadSave() throws Exception {
     //        Root original = SampleProfBook.getRoot();
