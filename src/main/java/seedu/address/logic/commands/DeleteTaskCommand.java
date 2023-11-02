@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_TASK_LIST_NOT_SHOWN;
 
 import java.util.logging.Logger;
 
@@ -32,10 +34,6 @@ public class DeleteTaskCommand extends Command {
             + "\n"
             + "Examples: \n"
             + "rmt 1";
-
-    public static final String MESSAGE_TASK_LIST_NOT_SHOWN = "Current display panel is not displaying task list.";
-
-    public static final String MESSAGE_INVALID_INDEX = "Index %1$s is invalid for task list with size %2$s";
 
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted task: %1$s";
 
@@ -82,7 +80,7 @@ public class DeleteTaskCommand extends Command {
         if (!taskOperation.isValidIndex(targetIndex.getOneBased())) {
             logger.warning("Invalid index: " + targetIndex.getOneBased() + ". Aborting delete task command.");
             throw new CommandException(
-                    String.format(MESSAGE_INVALID_INDEX, targetIndex.getOneBased(), taskOperation.getTaskListSize()));
+                    String.format(MESSAGE_INVALID_INDEX, taskOperation.getTaskListSize(), targetIndex.getOneBased()));
         }
 
         logger.info("Executing delete task command on index " + targetIndex.getOneBased());

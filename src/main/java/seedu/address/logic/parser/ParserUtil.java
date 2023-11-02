@@ -35,7 +35,7 @@ public class ParserUtil {
     public static final DateTimeFormatter DATE_INPUT_FORMATTER = DateTimeFormatter
             .ofPattern("uuuu-MM-dd HH:mm")
             .withResolverStyle(ResolverStyle.STRICT);
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_INDEX = "Index provided is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_OPTION = "Invalid option: %1$s";
 
     /**

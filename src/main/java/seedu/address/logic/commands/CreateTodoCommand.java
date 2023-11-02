@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -21,11 +22,9 @@ public class CreateTodoCommand extends Command {
 
     public static final String COMMAND_WORD = "todo";
 
-    public static final String MESSAGE_DUPLICATE_TODO_TASK_STUDENT =
-            "This ToDo task has already been allocated to this student in ProfBook";
+    public static final String MESSAGE_SUCCESS_STUDENT = "New Todo task added to student: %1$s\n%2$s";
 
-    public static final String MESSAGE_DUPLICATE_TODO_TASK_GROUP =
-            "This ToDo task has already been allocated to this group in ProfBook";
+    public static final String MESSAGE_SUCCESS_GROUP = "New Todo task added to group: %1$s\n%2$s";
 
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New ToDo task added to all students in group: %1$s";
@@ -41,9 +40,7 @@ public class CreateTodoCommand extends Command {
             "Warning: Some group(s) already have the task. \n"
             + "New ToDo task has been added to the rest.";
 
-    public static final String MESSAGE_SUCCESS = "New ToDo task has been added to: %1$s";
-
-    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
+    public static final String MESSAGE_DUPLICATE_TODO_TASK = "This Todo task has already been allocated";
 
     public static final String MESSAGE_TASK_CREATION_FOR_ROOT = "Unable to create task for root directory.";
 
@@ -121,7 +118,7 @@ public class CreateTodoCommand extends Command {
 
         // Check path exists in ProfBook
         if (!model.hasPath(target)) {
-            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, target));
         }
 
         switch(category) {
@@ -142,11 +139,14 @@ public class CreateTodoCommand extends Command {
 
         TaskOperation taskOperation = model.taskOperation(target);
         if (taskOperation.hasTask(this.todo)) {
-            throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK_STUDENT);
+            throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK);
         }
         taskOperation.addTask(this.todo);
         model.updateList();
-        return new CommandResult(String.format(MESSAGE_SUCCESS, target));
+        if (target.isGroupDirectory()) {
+            return new CommandResult(String.format(MESSAGE_SUCCESS_GROUP, target.getGroupId().get(), this.todo));
+        }
+        return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, target.getStudentId().get(), this.todo));
     }
 
     private CommandResult handleAllStu(Model model) throws CommandException {
