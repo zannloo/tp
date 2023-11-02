@@ -1,7 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
-import static seedu.address.logic.commands.CreateDeadlineCommand.COMMAND_WORD;
+import static seedu.address.logic.commands.ChangeDirectoryCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import java.util.logging.Logger;

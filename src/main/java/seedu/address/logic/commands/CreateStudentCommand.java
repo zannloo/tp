@@ -21,7 +21,7 @@ public class CreateStudentCommand extends Command {
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <path> " + "-n <name> " + "[OPTION]... \n"
             + "\n"
-            + "Add new student.\n"
+            + "Create new student.\n"
             + "\n"
             + "Arguments: \n"
             + "    path                 Valid path to student\n"

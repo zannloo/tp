@@ -31,10 +31,11 @@ public class MarkCommand extends Command {
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <index>\n"
             + "\n"
-            + "Mark a task with the given task index as done.\n"
+            + "Mark the task with the given display index as done.\n"
+            + "Must use \'cat\' command before mark task.\n"
             + "\n"
             + "Argument: \n"
-            + "    index                Valid task index number \n"
+            + "    index                Valid task index number\n"
             + "\n"
             + "Option: \n"
             + "    -h, --help           Show this help menu\n"

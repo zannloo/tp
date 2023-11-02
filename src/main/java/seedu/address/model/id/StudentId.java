@@ -11,7 +11,7 @@ import java.util.Objects;
 public class StudentId extends Id {
     public static final String VALIDATION_REGEX = "\\d{4}[a-zA-Z]";
     public static final String MESSAGE_CONSTRAINTS =
-        "The string should be 4 digits number follow with any letter.";
+        "Student Id should be 4 digits number follow by any letter, and it should not be blank.";
 
     /**
      * Constructs a {@code StudentId} object with the valid ID value.
