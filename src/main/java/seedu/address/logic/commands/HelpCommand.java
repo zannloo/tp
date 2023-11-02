@@ -11,23 +11,26 @@ public class HelpCommand extends Command {
 
     public static final String COMMAND_WORD = "help";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows program usage instructions.\n"
-            + "Example: " + COMMAND_WORD;
+    public static final String MESSAGE_USAGE = "To view the list of available commands, please type 'help'.";
 
-    public static final String SHOWING_HELP_MESSAGE = "ChangeDirectoryCommand: cd [targetPath]\n"
-            + "CreateStudentCommand: touch [groupId/studentId] -n [name] -p [phone] -e [email] -a [address]\n"
-            + "CreateGroupCommand: mkdir [groupId] -n [groupName]\n"
-            + "CreateTodoCommand: todo -d [task]\n"
-            + "CreateDeadlineCommand: “deadline -d [task] -dt [yyyy/MM/dd hh:mm]\n"
-            + "DeleteCommand: rm -type [targetType] -target [targetId]\n"
-            + "EditCommand: edit [path]\n"
-            + "MarkCommand: mark -d [task] -level [student/group] -target [StudentID/groupId]\n"
-            + "UnmarkCommand: unmark -d [task] -level [student/group] -target [StudentID/groupId]\n"
-            + "SearchCommand: search [task]\n"
-            + "HelpCommand: help\n"
-            + "MoveStudentToGroupCommand: mv [StudentID] [sourcePath] [destinationPath]\n"
-            + "ShowChildrenListCommand: ls\n"
-            + "ShowTaskListCommand: cat\n";
+    public static final String SHOWING_HELP_MESSAGE =
+            "Use any command with --help for more information.\n"
+            + "Change directory: cd\n"
+            + "Create student: touch\n"
+            + "Create group: mkdir\n"
+            + "Create todo task: todo\n"
+            + "Create deadline task: deadline\n"
+            + "Delete group or student: rm\n"
+            + "Delete task: rmt\n"
+            + "Edit field: edit\n"
+            + "Mark task: mark\n"
+            + "Unmark task: unmark\n"
+            + "Help: help\n"
+            + "Move student from one group to another group: mv\n"
+            + "Display children list: ls \n"
+            + "Display task list: cat\n"
+            + "Clear the input field: clear\n"
+            + "Exit the program: exit";
 
     /**
      * Executes the HelpCommand to display program usage instructions.

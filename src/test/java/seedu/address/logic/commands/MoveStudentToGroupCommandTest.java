@@ -20,7 +20,7 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.TaskListManager;
 
 public class MoveStudentToGroupCommandTest {
     public static final String ERROR_MESSAGE_INCORRECT_DIRECTORY = "Directory is invalid";
@@ -35,7 +35,7 @@ public class MoveStudentToGroupCommandTest {
         Map<Id, Group> children = new HashMap<>();
         Root root = new Root(children);
         Map<Id, Student> students = new HashMap<>();
-        Group group = new Group(new ReadOnlyTaskList(),
+        Group group = new Group(new TaskListManager(),
                 students, new Name("Group1"), new GroupId("grp-001"));
         root.addChild(group.getId(), group);
         AbsolutePath currPath = new AbsolutePath("~/");

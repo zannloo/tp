@@ -12,12 +12,29 @@ import seedu.address.model.path.AbsolutePath;
  * Show Task List.
  */
 public class ShowChildrenListCommand extends Command {
+
     public static final String COMMAND_WORD = "ls";
+
     public static final String MESSAGE_SUCCESS = "Show children List of %1$s";
+
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook: %1$s";
+
     public static final String MESSAGE_NOT_CHILDREN_MANAGER = "Cannot show children list for this path: %1$s";
-    public static final String MESSAGE_USAGE = COMMAND_WORD;
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [path] \n"
+            + "\n"
+            + "Display the children list.\n"
+            + "\n"
+            + "Option: \n"
+            + "    path                 Valid path with children e.g. root and group path\n"
+            + "\n"
+            + "Examples: \n"
+            + "ls \n"
+            + "ls grp-001";
+
     public static final ShowChildrenListCommand HELP_MESSAGE = new ShowChildrenListCommand(true);
+
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
 
     private final AbsolutePath target;

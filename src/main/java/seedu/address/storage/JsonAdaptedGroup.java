@@ -2,10 +2,8 @@ package seedu.address.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -21,6 +19,7 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskListManager;
 import seedu.address.model.task.ToDo;
 
 /**
@@ -39,8 +38,8 @@ public class JsonAdaptedGroup {
      */
     private final String id;
 
-    private final Set<JsonAdaptedStudent> students = new HashSet<>();
-    private final Set<JsonAdaptedTasks> tasks = new HashSet<>();
+    private final List<JsonAdaptedStudent> students = new ArrayList<>();
+    private final List<JsonAdaptedTasks> tasks = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedGroup} with the given person details.
@@ -67,7 +66,7 @@ public class JsonAdaptedGroup {
         name = source.getName().fullName;
         id = source.getId().toString();
         students.addAll(source.getAllChildren().stream().map(JsonAdaptedStudent::new).collect(Collectors.toList()));
-        tasks.addAll(source.getAllTask().stream()
+        tasks.addAll(source.getAllTasks().stream()
                 .map(task -> (task instanceof ToDo)
                         ? new JsonAdaptedToDo((ToDo) task)
                         : new JsonAdaptedDeadline((Deadline) task))
@@ -110,7 +109,7 @@ public class JsonAdaptedGroup {
         }
         final GroupId grpId = new GroupId(id);
 
-        final ReadOnlyTaskList modelTList = new ReadOnlyTaskList(taskList);
+        final ReadOnlyTaskList modelTList = new TaskListManager(taskList);
 
         return new Group(modelTList, studentMap, modelName, grpId);
     }

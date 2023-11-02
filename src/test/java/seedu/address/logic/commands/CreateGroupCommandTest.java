@@ -11,6 +11,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
@@ -65,7 +66,7 @@ public class CreateGroupCommandTest {
         expectedModel.updateList();
 
         CreateGroupCommand command = new CreateGroupCommand(groupTwoAbsolutePath, toBeAdded);
-        String expectedMessage = String.format(MESSAGE_SUCCESS, toBeAdded);
+        String expectedMessage = String.format(MESSAGE_SUCCESS, Messages.format(toBeAdded));
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Option;
+import seedu.address.model.id.GroupId;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
 
@@ -58,6 +59,16 @@ public class Messages {
                 .append(group.getName())
                 .append("\n GroupId: ")
                 .append(group.getId());
+        return builder.toString();
+    }
+
+    /**
+     * Formats the {@code groupId} for display to the user.
+     */
+    public static String format(GroupId groupId) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("GroupId: ")
+                .append(groupId);
         return builder.toString();
     }
 }
