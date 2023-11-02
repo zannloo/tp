@@ -20,7 +20,7 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.TaskListManager;
 
 /**
  * Parses input arguments and creates a new CreateStudentCommand object
@@ -78,7 +78,7 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
                 ? ParserUtil.parseAddress(argMultimap.getValue(OPTION_ADDRESS).get())
                 : Address.PLACEHOLDER;
 
-        Student student = new Student(new ReadOnlyTaskList(new ArrayList<>()), name, email, phone, address, id);
+        Student student = new Student(new TaskListManager(new ArrayList<>()), name, email, phone, address, id);
 
         return new CreateStudentCommand(targetPath, student);
     }
