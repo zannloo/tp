@@ -27,6 +27,9 @@ public class DeleteTaskCommand extends Command {
             + "Argument: \n"
             + "    index                Valid display index of target task\n"
             + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
             + "Examples: \n"
             + "rmt 1";
 

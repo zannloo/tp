@@ -38,6 +38,9 @@ public class MoveStudentToGroupCommand extends Command {
             + "    source               Valid path to source student\n"
             + "    destination          Valid path to destination group\n"
             + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
             + "Examples: \n"
             + "mv grp-001/0001Y grp-002";
 

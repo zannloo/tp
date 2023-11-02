@@ -20,18 +20,19 @@ public class CreateDeadlineCommand extends Command {
     public static final String COMMAND_WORD = "deadline";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " <path>" + " -d <desc>" + " [OPTION]... \n"
+            "Usage: " + COMMAND_WORD + " [path]" + " -d <desc>" + " -dt <deadline>" + " [OPTION]... \n"
             + "\n"
-            + "Create deadline task.\n"
+            + "Create deadline task to the target path (the current directory by default).\n"
             + "\n"
             + "Argument: \n"
-            + "    path                 Valid path to group or student\n"
             + "    -d, --desc           Description of the deadline task\n"
             + "    -dt, --datetime      Deadline of the task\n"
             + "\n"
             + "Option: \n"
+            + "    path                 Valid path to group or student\n"
             + "    -al, --all           Bulk task assignment\n"
             + "                         Possible value: allStu, allGrp\n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "deadline grp-001/0001Y -d Homework -dt 2023-11-11 11:59\n"
@@ -59,7 +60,7 @@ public class CreateDeadlineCommand extends Command {
 
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
 
-    public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
+    public static final String MESSAGE_TASK_CREATION_FOR_ROOT = "Unable to create task for root directory.";
 
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "AllStu flag is only allowed for root and group path";
 
@@ -125,9 +126,9 @@ public class CreateDeadlineCommand extends Command {
     }
 
     private CommandResult handleNone(Model model) throws CommandException {
-        // Check target path is task manager
-        if (!model.hasTaskListInPath(path)) {
-            throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
+        // Check if target path is root
+        if (path.isRootDirectory()) {
+            throw new CommandException(MESSAGE_TASK_CREATION_FOR_ROOT);
         }
 
         TaskOperation target = model.taskOperation(path);

@@ -38,6 +38,9 @@ public class MarkCommand extends Command {
             + "Argument: \n"
             + "    index                Valid task index number \n"
             + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
             + "Examples: \n"
             + "mark 1";
     private static final Logger logger = LogsCenter.getLogger(MarkCommand.class);

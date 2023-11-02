@@ -31,6 +31,9 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
             + "Argument: \n"
             + "    path                 Valid path to group or student\n"
             + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
             + "Examples: \n"
             + "rm grp-001 \n"
             + "rm grp-001/0001Y";

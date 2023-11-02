@@ -35,6 +35,9 @@ public class CreateGroupCommand extends Command {
             + "    path                 Valid path to a new group\n"
             + "    -n, --name           Name for the new group\n"
             + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
             + "Examples: \n"
             + "mkdir grp-001 -n Group One";
     private final AbsolutePath dest;

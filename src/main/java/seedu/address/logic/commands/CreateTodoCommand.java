@@ -45,7 +45,7 @@ public class CreateTodoCommand extends Command {
 
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
 
-    public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
+    public static final String MESSAGE_TASK_CREATION_FOR_ROOT = "Unable to create task for root directory.";
 
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "AllStu flag is only allowed for root and group path";
 
@@ -56,17 +56,18 @@ public class CreateTodoCommand extends Command {
     public static final CreateTodoCommand HELP_MESSAGE = new CreateTodoCommand();
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " <path>" + " -d <desc>" + " [OPTION]... \n"
+            "Usage: " + COMMAND_WORD + " [path]" + " -d <desc>" + " [OPTION]... \n"
             + "\n"
-            + "Create todo task.\n"
+            + "Create todo task to the target path (the current directory by default).\n"
             + "\n"
             + "Argument: \n"
-            + "    path                 Valid path to group or student\n"
             + "    -d, --desc           Description of the todo task\n"
             + "\n"
             + "Option: \n"
+            + "    path                 Valid path to group or student\n"
             + "    -al, --all           Bulk task assignment\n"
             + "                         Possible value: allStu, allGrp\n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "todo grp-001/0001Y -d Homework \n"
@@ -134,9 +135,9 @@ public class CreateTodoCommand extends Command {
     }
 
     private CommandResult handleNone(Model model) throws CommandException {
-        // Check target path is task manager
-        if (!model.hasTaskListInPath(target)) {
-            throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
+        // Check if target path is root
+        if (target.isRootDirectory()) {
+            throw new CommandException(MESSAGE_TASK_CREATION_FOR_ROOT);
         }
 
         TaskOperation taskOperation = model.taskOperation(target);
