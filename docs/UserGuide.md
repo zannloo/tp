@@ -162,7 +162,7 @@ ProfBook is organized hierarchically with the following structure:
   ignored. 
   * e.g. If the command specifies `help 123`, it will be interpreted as `help`.
 - Duplicate can only be detected if all field is exactly the same.
-* If you would like to pass in a field that starts with `-`, you need to use `\` before the start of that field.
+* If you would like to pass in a field that starts with `-` or `--`, you need to use `\` before the start of that field.
   * e.g. To pass in `-Clementi` in the `edit` command, the command would be `edit -a \-Clementi`.
 - If you are using a PDF version of this document, please be careful when copying and pasting commands that span 
 multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
