@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand;
@@ -33,8 +34,7 @@ public class DeleteForStudentsAndGroupsCommandParser implements Parser<DeleteFor
         }
 
         if (argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, DeleteForStudentsAndGroupsCommand.MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
         RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
         AbsolutePath targetPath = null;

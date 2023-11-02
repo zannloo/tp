@@ -1,7 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.commands.CreateDeadlineCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
@@ -43,8 +44,7 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
         }
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC, OPTION_DATETIME)) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, CreateDeadlineCommand.MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
         // If no path given, default to current path.

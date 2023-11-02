@@ -56,6 +56,7 @@ public class EditCommand extends Command {
             + "    -e, --email          Email of the student\n"
             + "    -p, --phone          Phone of the student\n"
             + "    -a, --address        Address of the student\n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "edit grp-001 -n Perfect Group \n"

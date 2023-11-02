@@ -28,6 +28,7 @@ public class ShowChildrenListCommand extends Command {
             + "\n"
             + "Option: \n"
             + "    path                 Valid path with children e.g. root and group path\n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "ls \n"

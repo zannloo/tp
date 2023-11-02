@@ -33,6 +33,7 @@ public class UnmarkCommand extends Command {
             + "\n"
             + "Argument: \n"
             + "    index                Valid task index number \n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "unmark 1";
