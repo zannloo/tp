@@ -2,9 +2,9 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_INDEX;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.DeleteTaskCommand.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.TypicalGroups.GROUP_ONE;
 import static seedu.address.testutil.TypicalIndexes.FIRST_INDEX;
 import static seedu.address.testutil.TypicalIndexes.SECOND_INDEX;

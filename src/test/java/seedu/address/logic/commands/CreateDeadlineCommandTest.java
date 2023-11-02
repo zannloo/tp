@@ -156,7 +156,8 @@ class CreateDeadlineCommandTest {
         operation.addTask(toBeAdded);
 
         CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.NONE);
-        String expectedMessage = String.format(CreateDeadlineCommand.MESSAGE_SUCCESS,
+        String expectedMessage = String.format(CreateDeadlineCommand.MESSAGE_SUCCESS_STUDENT,
+                absoluteTargetPath.getStudentId().get(),
                 toBeAdded);
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);

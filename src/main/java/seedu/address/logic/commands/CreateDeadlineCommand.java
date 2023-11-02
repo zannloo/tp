@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -42,7 +43,9 @@ public class CreateDeadlineCommand extends Command {
             + "deadline . -d Homework -dt 2023-11-11 11:59 -al allGrp\n"
             + "deadline ./grp-001 -d Homework -dt 2023-11-11 11:59 -al allStu";
 
-    public static final String MESSAGE_SUCCESS = "New Deadline task added to Student/Group: %1$s";
+    public static final String MESSAGE_SUCCESS_STUDENT = "New Deadline task added to student: %1$s\n%2$s";
+
+    public static final String MESSAGE_SUCCESS_GROUP = "New Deadline task added to group: %1$s\n%2$s";
 
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New Deadline task added to all students in group: %1$s";
@@ -60,8 +63,6 @@ public class CreateDeadlineCommand extends Command {
 
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
             "This Deadline task has already been allocated";
-
-    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
 
     public static final String MESSAGE_TASK_CREATION_FOR_ROOT = "Unable to create task for root directory.";
 
@@ -115,7 +116,7 @@ public class CreateDeadlineCommand extends Command {
 
         // Check path exists in ProfBook
         if (!model.hasPath(path)) {
-            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, path));
         }
 
         switch(category) {
@@ -144,7 +145,10 @@ public class CreateDeadlineCommand extends Command {
         target.addTask(this.deadline);
         model.updateList();
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, this.deadline));
+        if (path.isGroupDirectory()) {
+            return new CommandResult(String.format(MESSAGE_SUCCESS_GROUP, path.getGroupId().get(), this.deadline));
+        }
+        return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, path.getStudentId().get(), this.deadline));
     }
 
     private CommandResult handleAllStu(Model model) throws CommandException {
