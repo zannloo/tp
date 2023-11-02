@@ -1,6 +1,7 @@
 package seedu.address.logic;
 
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,10 +16,14 @@ import seedu.address.model.profbook.Student;
 public class Messages {
 
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
-    public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
+    public static final String MESSAGE_INVALID_COMMAND_FORMAT =
+            "Invalid command format: %1$s\n"
+            + "Try \'%2$s --help\' for more information.";
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_NO_OPTIONS = "%1$s: does not take any options.";
+    public static final Function<String, String> MESSAGE_MISSING_ARGUMENT =
+            x -> String.format(MESSAGE_INVALID_COMMAND_FORMAT, "missing argument(s)", x);
 
     /**
      * Returns an error message indicating the duplicate prefixes.
