@@ -105,6 +105,14 @@ public class Student extends TaskListManager implements IChildElement<Student> {
         return new Student(this);
     }
 
+    @Override public int compareTo(Student other) {
+        if (this.id.toString().compareTo(other.id.toString()) != 0) {
+            return this.id.toString().compareTo(other.id.toString());
+        } else {
+            return this.name.fullName.compareTo(other.name.fullName);
+        }
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)

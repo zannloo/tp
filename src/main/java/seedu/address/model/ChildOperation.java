@@ -8,12 +8,12 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.ChildrenAndTaskListManager;
-import seedu.address.model.profbook.ChildrenManager;
 import seedu.address.model.profbook.IChildElement;
+import seedu.address.model.profbook.IChildrenManager;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
+import seedu.address.model.task.ITaskListManager;
 import seedu.address.model.task.Task;
-import seedu.address.model.task.TaskListManager;
 
 /**
  * Encapsulates the logic to perform a generic child operation for child manager
@@ -22,11 +22,11 @@ import seedu.address.model.task.TaskListManager;
  */
 public class ChildOperation<T extends IChildElement<T>> implements IChildOperation<T> {
 
-    private final ChildrenManager<T> baseDir;
+    private final IChildrenManager<T> baseDir;
 
     private final Logger logger = LogsCenter.getLogger(ChildOperation.class);
 
-    public ChildOperation(ChildrenManager<T> baseDir) {
+    public ChildOperation(IChildrenManager<T> baseDir) {
         this.baseDir = baseDir;
     }
 
@@ -124,25 +124,15 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
 
         for (IChildElement<?> child : children) {
             Task clonedTask = task.clone();
-            if (!(child instanceof TaskListManager) && !(child instanceof ChildrenAndTaskListManager)) {
+            if (!(child instanceof ITaskListManager)) {
                 throw new IllegalArgumentException("All children must be task list manager.");
             }
 
-            if (child instanceof TaskListManager) {
-                TaskListManager tlm = (TaskListManager) child;
-                if (tlm.contains(task)) {
-                    continue;
-                }
-                tlm.addTask(clonedTask);
+            ITaskListManager tlm = (ITaskListManager) child;
+            if (tlm.contains(task)) {
+                continue;
             }
-
-            if (child instanceof ChildrenAndTaskListManager) {
-                ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
-                if (ctlm.contains(task)) {
-                    continue;
-                }
-                ctlm.addTask(clonedTask);
-            }
+            tlm.addTask(clonedTask);
         }
     }
 
@@ -151,18 +141,12 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
         List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
 
         for (IChildElement<?> child : children) {
-            if (child instanceof TaskListManager) {
-                TaskListManager tlm = (TaskListManager) child;
-                if (!tlm.contains(task)) {
-                    return false;
-                }
-            } else if (child instanceof ChildrenAndTaskListManager) {
-                ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
-                if (!ctlm.contains(task)) {
-                    return false;
-                }
-            } else {
+            if (!(child instanceof ITaskListManager)) {
                 throw new IllegalArgumentException("All children must be task list manager.");
+            }
+            ITaskListManager tlm = (ITaskListManager) child;
+            if (!tlm.contains(task)) {
+                return false;
             }
         }
 
@@ -174,18 +158,12 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
         List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
 
         for (IChildElement<?> child : children) {
-            if (child instanceof TaskListManager) {
-                TaskListManager tlm = (TaskListManager) child;
-                if (tlm.contains(task)) {
-                    return true;
-                }
-            } else if (child instanceof ChildrenAndTaskListManager) {
-                ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
-                if (ctlm.contains(task)) {
-                    return true;
-                }
-            } else {
+            if (!(child instanceof ITaskListManager)) {
                 throw new IllegalArgumentException("All children must be task list manager.");
+            }
+            ITaskListManager tlm = (ITaskListManager) child;
+            if (tlm.contains(task)) {
+                return true;
             }
         }
 

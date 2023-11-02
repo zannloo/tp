@@ -31,6 +31,16 @@ public interface Logic {
     String getCurrPath();
 
     /**
+     * Returns current display path in string format.
+     */
+    String getDisplayPath();
+
+    /**
+     * Returns true if is showing task list.
+     */
+    boolean isShowTaskList();
+
+    /**
      * Retuns current directory in string format.
      */
     Path getAddressBookFilePath();

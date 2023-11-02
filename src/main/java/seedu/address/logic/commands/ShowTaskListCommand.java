@@ -12,12 +12,29 @@ import seedu.address.model.path.AbsolutePath;
  * Show Task List.
  */
 public class ShowTaskListCommand extends Command {
+
     public static final String COMMAND_WORD = "cat";
+
     public static final String MESSAGE_SUCCESS = "Show task list of %1$s";
+
     public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook: %1$s";
+
     public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot show task list for this path: %1$s";
-    public static final String MESSAGE_USAGE = COMMAND_WORD;
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [path] \n"
+            + "\n"
+            + "Display the task list of a group or student.\n"
+            + "\n"
+            + "Option: \n"
+            + "    path                 Valid path to group or student\n"
+            + "\n"
+            + "Examples: \n"
+            + "cat grp-001 \n"
+            + "cat grp-001/0001Y";
+
     public static final ShowTaskListCommand HELP_MESSAGE = new ShowTaskListCommand(true);
+
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
 
     private final AbsolutePath target;

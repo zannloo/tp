@@ -13,6 +13,7 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskListManager;
 
 /**
  * A utility class to help with building Student objects.
@@ -44,7 +45,7 @@ public class StudentBuilder {
         address = new Address(DEFAULT_ADDRESS);
         List<Task> defaultTaskList = new ArrayList<>();
         defaultTaskList.add(DEFAULT_TASK);
-        taskList = new ReadOnlyTaskList(defaultTaskList);
+        taskList = new TaskListManager(defaultTaskList);
     }
 
     /**
@@ -56,7 +57,7 @@ public class StudentBuilder {
         phone = studentToCopy.getPhone();
         email = studentToCopy.getEmail();
         address = studentToCopy.getAddress();
-        taskList = new ReadOnlyTaskList(studentToCopy.getAllTasks());
+        taskList = new TaskListManager(studentToCopy.getAllTasks());
     }
 
     /**
