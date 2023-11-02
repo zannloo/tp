@@ -32,7 +32,9 @@ public class ArgumentTokenizer {
         String[] splitBySpace = argString.split(" ");
         for (String s : splitBySpace) {
             if (s.startsWith("-") || s.startsWith("--")) {
-                list.add(s);
+                if (!s.matches("-?\\d+")) {
+                    list.add(s);
+                }
             }
         }
         return list;
