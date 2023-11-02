@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -256,7 +256,7 @@ public class ParserUtil {
      * Checks if all options in {@code argString} are valid.
      */
     public static void verifyAllOptionsValid(String args, Option... options) throws ParseException {
-        Set<String> allOptions = ArgumentTokenizer.extractAllOptionNames(args);
+        List<String> allOptions = ArgumentTokenizer.extractAllOptionNames(args);
         for (String optionName : allOptions) {
             Stream<Option> optionStream = Arrays.stream(options);
             Predicate<Option> pred = option
