@@ -22,7 +22,7 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.TaskListManager;
 
 public class CreateStudentCommandParserTest {
     private CreateStudentCommandParser parser = new CreateStudentCommandParser();
@@ -30,7 +30,7 @@ public class CreateStudentCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() {
         Student expectedStu = new Student(
-                new ReadOnlyTaskList(),
+                new TaskListManager(),
                 new Name(VALID_NAME_AMY),
                 new Email(VALID_EMAIL_AMY),
                 new Phone(VALID_PHONE_AMY),

@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.JsonUtil;
+import seedu.address.model.task.ITaskListManager;
 import seedu.address.model.task.Task;
-import seedu.address.model.task.TaskListManager;
 
 /**
  * Encapsulates the required logic for task operation
@@ -17,10 +17,10 @@ import seedu.address.model.task.TaskListManager;
 public class TaskOperation implements ITaskOperations {
     private static final String MESSAGE_DUPLICATE_TASK = "Task must not exist in task list.";
     private static final String MESSAGE_TASK_NOT_FOUND = "Task not found in task list.";
-    private final TaskListManager baseDir;
+    private final ITaskListManager baseDir;
     private final Logger logger = LogsCenter.getLogger(JsonUtil.class);
 
-    public TaskOperation(TaskListManager baseDir) {
+    public TaskOperation(ITaskListManager baseDir) {
         this.baseDir = baseDir;
     }
 

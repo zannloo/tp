@@ -295,7 +295,7 @@ public class ModelManager implements Model {
                 String.format(MESSAGE_INTERNAL_ERROR, "Path must have group information"));
         checkArgument(hasGroup(path),
                 String.format(MESSAGE_INTERNAL_ERROR, "Group must exist in ProfBook"));
-        return new ChildOperation<>(getGroupFromPath(path).getChildrenManger());
+        return new ChildOperation<>(getGroupFromPath(path));
     }
 
     @Override
@@ -307,7 +307,7 @@ public class ModelManager implements Model {
                 String.format(MESSAGE_INTERNAL_ERROR, "Path must exist in ProfBook"));
 
         if (path.isGroupDirectory()) {
-            return new TaskOperation(getGroupFromPath(path).getTaskListManager());
+            return new TaskOperation(getGroupFromPath(path));
         }
 
         return new TaskOperation(getStudentFromPath(path));

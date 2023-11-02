@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.commands.MoveStudentToGroupCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import seedu.address.logic.commands.MoveStudentToGroupCommand;
@@ -33,15 +34,13 @@ public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGrou
         }
 
         if (argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, MoveStudentToGroupCommand.MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
         String[] paths = argMultimap.getPreamble().split(" ");
 
         if (paths.length != 2) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, MoveStudentToGroupCommand.MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
         RelativePath source = ParserUtil.parseRelativePath(paths[0]);

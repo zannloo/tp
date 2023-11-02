@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -12,12 +13,29 @@ import seedu.address.model.path.AbsolutePath;
  * Change directory to target path.
  */
 public class ChangeDirectoryCommand extends Command {
-    public static final String COMMAND_WORD = "cd";
-    public static final String MESSAGE_SUCCESS = "Changed directory to: %1$s";
-    public static final String MESSAGE_INVALID_DEST = "Student path is not navigable.";
-    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]";
+    public static final String COMMAND_WORD = "cd";
+
+    public static final String MESSAGE_SUCCESS = "Directory changed to: %1$s";
+
+    public static final String MESSAGE_CURRENT_DIRECTORY = "You are already in the directory: %1$s";
+
+    public static final String MESSAGE_INVALID_DEST = "Student path is not navigable.";
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <path> \n"
+            + "\n"
+            + "Change directory.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Navigable path e.g. root or group\n"
+            + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
+            + "Examples: \n"
+            + "cd grp-003";
+
     public static final ChangeDirectoryCommand HELP_MESSAGE = new ChangeDirectoryCommand();
 
     private final AbsolutePath dest;
@@ -26,7 +44,6 @@ public class ChangeDirectoryCommand extends Command {
     /**
      * Constructs a {@code MoveStudentToGroupCommand} with the specified source and destination paths.
      *
-     * @param source The relative path to the source group from which the student will be moved.
      * @param dest   The relative path to the destination group to which the student will be moved.
      */
     public ChangeDirectoryCommand(AbsolutePath dest) {
@@ -54,7 +71,11 @@ public class ChangeDirectoryCommand extends Command {
         }
 
         if (!model.hasPath(dest)) {
-            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, dest));
+        }
+
+        if (model.getCurrPath().equals(dest)) {
+            throw new CommandException(String.format(MESSAGE_CURRENT_DIRECTORY, model.getCurrPath()));
         }
 
         if (dest.isStudentDirectory()) {

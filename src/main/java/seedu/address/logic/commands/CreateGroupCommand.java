@@ -18,13 +18,30 @@ import seedu.address.model.profbook.Group;
 public class CreateGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mkdir";
+
     public static final String MESSAGE_DUPLICATE_GROUP_ID =
             "GroupId %1$s has already been used by the group: %2$s";
+
     public static final String MESSAGE_SUCCESS = "New group added: %1$s";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": group";
+
     public static final CreateGroupCommand HELP_MESSAGE = new CreateGroupCommand();
 
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <path>" + " -n <name>\n"
+            + "\n"
+            + "Create new group.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Valid path to a new group\n"
+            + "    -n, --name           Name for the new group\n"
+            + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
+            + "Examples: \n"
+            + "mkdir grp-001 -n Group One";
     private final AbsolutePath dest;
+
     private final Group group;
     private final boolean isHelp;
 
@@ -74,7 +91,7 @@ public class CreateGroupCommand extends Command {
         rootOperation.addChild(this.group.getId(), this.group);
         model.updateList();
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, this.group));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(this.group)));
     }
 
     /**

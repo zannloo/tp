@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
@@ -18,15 +19,26 @@ public class ItemListPanel extends UiPart<Region> {
 
     @FXML
     private ListView<Displayable> itemListView;
+    @FXML
+    private Label displayPath;
 
     /**
      * Creates a {@code ListPanel} with the given {@code ObservableList} and FXML file name.
      */
-    public ItemListPanel(ObservableList<Displayable> itemList) {
+    public ItemListPanel(ObservableList<Displayable> itemList, String displayPath, boolean isShowTaskList) {
         super(FXML);
         logger.info(itemList.toString());
         itemListView.setItems(itemList);
         itemListView.setCellFactory(listView -> new ItemListViewCell());
+        setDisplayPath(displayPath, isShowTaskList);
+    }
+
+    /**
+     * Set current directory label
+     */
+    public void setDisplayPath(String displayPath, boolean isShowTaskList) {
+        String text = displayPath + "/>'s " + (isShowTaskList ? "Task List" : "Children List");
+        this.displayPath.setText(text);
     }
 
     /**

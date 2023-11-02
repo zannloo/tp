@@ -1,9 +1,7 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -19,6 +17,7 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskListManager;
 import seedu.address.model.task.ToDo;
 
 /**
@@ -36,7 +35,7 @@ public class JsonAdaptedStudent {
     private final String address;
     private final String id;
 
-    private final Set<JsonAdaptedTasks> tasks = new HashSet<>();
+    private final List<JsonAdaptedTasks> tasks = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedStudent} with the given person details.
@@ -99,28 +98,35 @@ public class JsonAdaptedStudent {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     seedu.address.model.profbook.Phone.class.getSimpleName()));
         }
-        if (!seedu.address.model.profbook.Phone.isValidPhone(phone)) {
+
+        final Phone modelPhone = phone.toLowerCase().equals("n/a") ? Phone.PLACEHOLDER : new Phone(phone);
+
+        if (!modelPhone.equals(Phone.PLACEHOLDER) && !seedu.address.model.profbook.Phone.isValidPhone(phone)) {
             throw new IllegalValueException(seedu.address.model.profbook.Phone.MESSAGE_CONSTRAINTS);
         }
-        final Phone modelPhone = new Phone(phone);
 
         if (email == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     seedu.address.model.profbook.Email.class.getSimpleName()));
         }
-        if (!seedu.address.model.profbook.Email.isValidEmail(email)) {
+
+        final Email modelEmail = email.toLowerCase().equals("n/a") ? Email.PLACEHOLDER : new Email(email);
+
+        if (!modelEmail.equals(Email.PLACEHOLDER) && !seedu.address.model.profbook.Email.isValidEmail(email)) {
             throw new IllegalValueException(seedu.address.model.profbook.Email.MESSAGE_CONSTRAINTS);
         }
-        final Email modelEmail = new Email(email);
 
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     seedu.address.model.profbook.Address.class.getSimpleName()));
         }
-        if (!seedu.address.model.profbook.Address.isValidAddress(address)) {
+
+        final Address modelAddress = address.toLowerCase().equals("n/a") ? Address.PLACEHOLDER : new Address(address);
+
+        if (!modelAddress.equals(Address.PLACEHOLDER)
+                && !seedu.address.model.profbook.Address.isValidAddress(address)) {
             throw new IllegalValueException(seedu.address.model.profbook.Address.MESSAGE_CONSTRAINTS);
         }
-        final Address modelAddress = new Address(address);
 
         if (id == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -129,9 +135,10 @@ public class JsonAdaptedStudent {
         if (!seedu.address.model.id.StudentId.isValidStudentId(id)) {
             throw new IllegalValueException(seedu.address.model.id.StudentId.MESSAGE_CONSTRAINTS);
         }
+
         final StudentId studId = new StudentId(id);
 
-        final ReadOnlyTaskList modelTList = new ReadOnlyTaskList(taskList);
+        final ReadOnlyTaskList modelTList = new TaskListManager(taskList);
 
         return new Student(modelTList, modelName, modelEmail, modelPhone, modelAddress, studId);
     }

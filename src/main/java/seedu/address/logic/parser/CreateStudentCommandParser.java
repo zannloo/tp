@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.commands.CreateStudentCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
@@ -20,7 +21,7 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.TaskListManager;
 
 /**
  * Parses input arguments and creates a new CreateStudentCommand object
@@ -48,8 +49,7 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME)
                 || argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, CreateStudentCommand.MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
@@ -78,7 +78,7 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
                 ? ParserUtil.parseAddress(argMultimap.getValue(OPTION_ADDRESS).get())
                 : Address.PLACEHOLDER;
 
-        Student student = new Student(new ReadOnlyTaskList(new ArrayList<>()), name, email, phone, address, id);
+        Student student = new Student(new TaskListManager(new ArrayList<>()), name, email, phone, address, id);
 
         return new CreateStudentCommand(targetPath, student);
     }

@@ -2,10 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
-import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -21,29 +17,39 @@ import seedu.address.model.profbook.Student;
 public class CreateStudentCommand extends Command {
 
     public static final String COMMAND_WORD = "touch";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " : Adds a student into the specified directory\n"
-            + "Parameters: "
-            + "specified path "
-            + "[" + OPTION_NAME + " NAME] "
-            + "[" + OPTION_EMAIL + " EMAIL] "
-            + "[" + OPTION_PHONE + " PHONE] "
-            + "[" + OPTION_ADDRESS + " ADDRESS] "
-            + "Example: " + COMMAND_WORD
-            + " stu-200 "
-            + OPTION_NAME + " Bob "
-            + OPTION_EMAIL + " bobby@example.com "
-            + OPTION_PHONE + " 92929292 "
-            + OPTION_ADDRESS + " blk 258 Toa Payoh ";
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <path> " + "-n <name> " + "[OPTION]... \n"
+            + "\n"
+            + "Add new student.\n"
+            + "\n"
+            + "Arguments: \n"
+            + "    path                 Valid path to student\n"
+            + "    -n, --name           Name of the student\n"
+            + "\n"
+            + "Option: \n"
+            + "    -e, --email          Email of the student\n"
+            + "    -p, --phone          Phone of the student\n"
+            + "    -a, --address        Address of the student\n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
+            + "Examples: \n"
+            + "touch grp-001/0001Y -n Mary -e mary@gmail.com -p 87652345 -a 4 Loyang Walk Loyang Industrial Estate";
 
     public static final String MESSAGE_SUCCESS = "New student added: %1$s";
+
     public static final String MESSAGE_DUPLICATE_STUDENT_ID =
             "StudentId %1$s has already been used by the student: %2$s";
+
     public static final String MESSAGE_INVALID_PATH = "Path provided should be a valid student path";
+
     public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
+
     public static final String MESSAGE_GROUP_NOT_FOUND = "Group %1$s does not exist in ProfBook";
     public static final CreateStudentCommand HELP_MESSAGE = new CreateStudentCommand();
 
     private final AbsolutePath path;
+
     private final Student student;
     private final boolean isHelp;
 
