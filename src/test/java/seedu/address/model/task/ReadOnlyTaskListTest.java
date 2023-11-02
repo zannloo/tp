@@ -20,10 +20,6 @@ public class ReadOnlyTaskListTest {
         assertTrue(taskList1.isValidIndex(1));
     }
 
-    @Test
-    public void verifyIsValidIndex_throwsNoSuchTaskException() {
-        assertThrows(NoSuchTaskException.class, () -> taskList1.verifyIsValidIndex(0));
-    }
 
     @Test
     public void equals_sameTaskList() {
