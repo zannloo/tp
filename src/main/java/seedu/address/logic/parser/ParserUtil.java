@@ -6,6 +6,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.Category;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.GroupId;
@@ -30,7 +32,9 @@ import seedu.address.model.profbook.Phone;
  * Contains utility methods used for parsing strings in the various *Parser classes.
  */
 public class ParserUtil {
-    public static final DateTimeFormatter DATE_INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final DateTimeFormatter DATE_INPUT_FORMATTER = DateTimeFormatter
+            .ofPattern("uuuu-MM-dd HH:mm")
+            .withResolverStyle(ResolverStyle.STRICT);
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_OPTION = "Invalid option: %1$s";
 
@@ -225,7 +229,11 @@ public class ParserUtil {
         try {
             dateTime = LocalDateTime.parse(trimmedDateTimeStr, DATE_INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new ParseException(e.getMessage());
+            if (e != null && e.getCause() != null) {
+                throw new ParseException(e.getMessage());
+            } else {
+                throw new ParseException(Messages.MESSAGE_INVALID_DATETIME_FORMAT);
+            }
         }
 
         return dateTime;
