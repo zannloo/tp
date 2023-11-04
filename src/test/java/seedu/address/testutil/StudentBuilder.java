@@ -2,9 +2,7 @@ package seedu.address.testutil;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import seedu.address.model.id.StudentId;
 import seedu.address.model.profbook.Address;
@@ -12,11 +10,10 @@ import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.taskmanager.Deadline;
-import seedu.address.model.taskmanager.Task;
-import seedu.address.model.taskmanager.TaskList;
-import seedu.address.model.util.SampleDataUtil;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskListManager;
 
 /**
  * A utility class to help with building Student objects.
@@ -30,13 +27,12 @@ public class StudentBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final Task DEFAULT_TASK = new Deadline("Assignment 3", LocalDateTime.parse("2023-12-03T23:59"));
 
-    private TaskList taskList;
+    private ReadOnlyTaskList taskList;
     private StudentId id;
     private Name name;
     private Phone phone;
     private Email email;
     private Address address;
-    private Set<Tag> tags;
 
     /**
      * Creates a {@code StudentBuilder} with the default details.
@@ -49,8 +45,7 @@ public class StudentBuilder {
         address = new Address(DEFAULT_ADDRESS);
         List<Task> defaultTaskList = new ArrayList<>();
         defaultTaskList.add(DEFAULT_TASK);
-        taskList = new TaskList(defaultTaskList);
-        tags = new HashSet<>();
+        taskList = new TaskListManager(defaultTaskList);
     }
 
     /**
@@ -62,7 +57,7 @@ public class StudentBuilder {
         phone = studentToCopy.getPhone();
         email = studentToCopy.getEmail();
         address = studentToCopy.getAddress();
-        tags = new HashSet<>(studentToCopy.getTags());
+        taskList = new TaskListManager(studentToCopy.getAllTasks());
     }
 
     /**
@@ -81,13 +76,6 @@ public class StudentBuilder {
         return this;
     }
 
-    /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Student} that we are building.
-     */
-    public StudentBuilder withTags(String ... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
-        return this;
-    }
 
     /**
      * Sets the {@code Address} of the {@code Student} that we are building.
@@ -116,11 +104,16 @@ public class StudentBuilder {
     /**
      * Sets the {@code TaskList} of the {@code Student} that we are building.
      */
-    public StudentBuilder withTaskList(ArrayList arrayList) {
-        this.taskList = new TaskList(arrayList);
+    public StudentBuilder withTaskList(ReadOnlyTaskList tasklist) {
+        this.taskList = tasklist;
         return this;
     }
 
+    /**
+     * Builds a `Student` object with the specified attributes.
+     *
+     * @return The `Student` object.
+     */
     public Student build() {
         return new Student(taskList, name, email, phone, address, id);
     }

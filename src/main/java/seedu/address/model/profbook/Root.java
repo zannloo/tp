@@ -12,7 +12,6 @@ public class Root extends ChildrenManager<Group> {
     /**
      * Constructs a profbook instance with task list and children.
      *
-     * @param taskList - The Task list associated with this object
      * @param children - The Groups under the root
      */
     public Root(Map<Id, Group> children) {
@@ -26,11 +25,18 @@ public class Root extends ChildrenManager<Group> {
         super();
     }
 
+    /**
+     * Constructs a {@code Root} with the data in {@code toBeCopied}
+     */
+    public Root(Root toBeCopied) {
+        super(toBeCopied);
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("name", "Root")
-                .add("Students", super.toString())
+                .add("Groups", super.toString())
                 .toString();
     }
 

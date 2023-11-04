@@ -13,16 +13,22 @@ import seedu.address.commons.core.Version;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.ProfBookLogicManager;
+import seedu.address.logic.Logic;
+import seedu.address.logic.LogicManager;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Root;
-import seedu.address.model.statemanager.State;
-import seedu.address.model.statemanager.StateManager;
 import seedu.address.model.util.SampleProfBook;
+import seedu.address.storage.JsonProfBookStorage;
+import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.ProfBookStorage;
+import seedu.address.storage.ProfBookStorageManager;
 import seedu.address.storage.Storage;
+import seedu.address.storage.UserPrefsStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
 
@@ -31,14 +37,14 @@ import seedu.address.ui.UiManager;
  */
 public class MainApp extends Application {
 
-    public static final Version VERSION = new Version(0, 2, 2, true);
+    public static final Version VERSION = new Version(1, 3, 0, true);
 
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     protected Ui ui;
-    protected ProfBookLogicManager logic;
+    protected Logic logic;
     protected Storage storage;
-    protected State state;
+    protected Model model;
     protected Config config;
 
     @Override
@@ -50,18 +56,13 @@ public class MainApp extends Application {
         config = initConfig(appParameters.getConfigPath());
         initLogging(config);
 
-        UserPrefs userPrefs = new UserPrefs();
-        // UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
-        // UserPrefs userPrefs = initPrefs(userPrefsStorage);
-        // AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
-        // storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
+        UserPrefs userPrefs = initPrefs(userPrefsStorage);
+        ProfBookStorage profBookStorage = new JsonProfBookStorage(userPrefs.getProfBookFilePath());
+        storage = new ProfBookStorageManager(profBookStorage, userPrefsStorage);
 
-        //todo: abstract to an init method, and need to read from storage
-        state = initModelManager(userPrefs);
-
-        //todo: Storage
-        logic = new ProfBookLogicManager(state);
-
+        model = initModelManager(userPrefs);
+        logic = new LogicManager(model, storage);
         ui = new UiManager(logic);
     }
 
@@ -70,30 +71,28 @@ public class MainApp extends Application {
      * The data from the sample address book will be used instead if {@code storage}'s address book is not found,
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
-    private State initModelManager(ReadOnlyUserPrefs userPrefs) throws InvalidPathException {
-        //todo: storage
-        // logger.info("Using data file : " + storage.getAddressBookFilePath());
-
-        // Optional<ReadOnlyAddressBook> addressBookOptional;
-        // ReadOnlyAddressBook initialData;
-        // try {
-        //     addressBookOptional = storage.readAddressBook();
-        //     if (!addressBookOptional.isPresent()) {
-        //         logger.info("Creating a new data file " + storage.getAddressBookFilePath()
-        //                 + " populated with a sample AddressBook.");
-        //     }
-        //     initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
-        // } catch (DataLoadingException e) {
-        //     logger.warning("Data file at " + storage.getAddressBookFilePath() + " could not be loaded."
-        //             + " Will be starting with an empty AddressBook.");
-        //     initialData = new AddressBook();
-        // }
-
+    private Model initModelManager(ReadOnlyUserPrefs userPrefs) throws InvalidPathException {
+        logger.info("Using data file : " + storage.getProfBookFilePath());
+        Optional<Root> profBookOptional;
+        Root initialData;
+        try {
+            profBookOptional = storage.readProfBook();
+            if (profBookOptional.isPresent()) {
+                // Set initialData to the value in profBookOptional
+                initialData = profBookOptional.get();
+            } else {
+                logger.info("Creating a new data file " + storage.getProfBookFilePath()
+                        + " populated with a sample ProfBook.");
+                initialData = SampleProfBook.getRoot();
+            }
+        } catch (DataLoadingException e) {
+            logger.warning("Data file at " + storage.getProfBookFilePath() + " could not be loaded."
+                    + " Will be starting with an empty ProfBook.");
+            initialData = new Root();
+        }
         AbsolutePath currentPath = new AbsolutePath("~/");
-        // Use sample data.
-        Root root = SampleProfBook.getRoot();
 
-        return new StateManager(currentPath, root, userPrefs);
+        return new ModelManager(currentPath, initialData, userPrefs);
     }
 
     private void initLogging(Config config) {
@@ -144,32 +143,32 @@ public class MainApp extends Application {
      * or a new {@code UserPrefs} with default configuration if errors occur when
      * reading from the file.
      */
-    // protected UserPrefs initPrefs(UserPrefsStorage storage) {
-    //     Path prefsFilePath = storage.getUserPrefsFilePath();
-    //     logger.info("Using preference file : " + prefsFilePath);
+    protected UserPrefs initPrefs(UserPrefsStorage storage) {
+        Path prefsFilePath = storage.getUserPrefsFilePath();
+        logger.info("Using preference file : " + prefsFilePath);
+        UserPrefs initializedPrefs;
+        try {
+            Optional<UserPrefs> prefsOptional = storage.readUserPrefs();
+            if (!prefsOptional.isPresent()) {
+                logger.info("Creating new preference file " + prefsFilePath);
+            }
+            initializedPrefs = prefsOptional.orElse(new UserPrefs());
+        } catch (DataLoadingException e) {
+            logger.warning("Preference file at " + prefsFilePath + " could not be loaded."
+                    + " Using default preferences.");
+            initializedPrefs = new UserPrefs();
+        }
 
-    //     UserPrefs initializedPrefs;
-    //     try {
-    //         Optional<UserPrefs> prefsOptional = storage.readUserPrefs();
-    //         if (!prefsOptional.isPresent()) {
-    //             logger.info("Creating new preference file " + prefsFilePath);
-    //         }
-    //         initializedPrefs = prefsOptional.orElse(new UserPrefs());
-    //     } catch (DataLoadingException e) {
-    //         logger.warning("Preference file at " + prefsFilePath + " could not be loaded."
-    //                 + " Using default preferences.");
-    //         initializedPrefs = new UserPrefs();
-    //     }
+        //Update prefs file in case it was missing to begin with or there are new/unused fields
+        try {
+            storage.saveUserPrefs(initializedPrefs);
+        } catch (IOException e) {
+            logger.warning("Failed to save config file : " + StringUtil.getDetails(e));
+        }
 
-    //     //Update prefs file in case it was missing to begin with or there are new/unused fields
-    //     try {
-    //         storage.saveUserPrefs(initializedPrefs);
-    //     } catch (IOException e) {
-    //         logger.warning("Failed to save config file : " + StringUtil.getDetails(e));
-    //     }
+        return initializedPrefs;
+    }
 
-    //     return initializedPrefs;
-    // }
     @Override
     public void start(Stage primaryStage) {
         logger.info("Starting AddressBook " + MainApp.VERSION);
@@ -179,10 +178,11 @@ public class MainApp extends Application {
     @Override
     public void stop() {
         logger.info("============================ [ Stopping Address Book ] =============================");
-        // try {
-        //     storage.saveUserPrefs(model.getUserPrefs());
-        // } catch (IOException e) {
-        //     logger.severe("Failed to save preferences " + StringUtil.getDetails(e));
-        // }
+        try {
+            storage.saveUserPrefs(model.getUserPrefs());
+            storage.saveProfBook(model.getRoot());
+        } catch (IOException e) {
+            logger.severe("Failed to save preferences/ProfBook " + StringUtil.getDetails(e));
+        }
     }
 }

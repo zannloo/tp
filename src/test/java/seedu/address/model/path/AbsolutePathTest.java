@@ -57,7 +57,7 @@ public class AbsolutePathTest {
     public void constructor_validPath_returnValidPath() {
         try {
             AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
-            assertEquals("~/grp-001/0001Y", path.toString());
+            assertEquals(new AbsolutePath("~/grp-001/0001Y"), path);
         } catch (InvalidPathException e) {
             fail("Expected no InvalidPathException, but got one.");
         }
@@ -67,7 +67,8 @@ public class AbsolutePathTest {
     public void constructor_pathWithValidNavigation_returnValidPath() {
         try {
             AbsolutePath path = new AbsolutePath("~/grp-001/../grp-002/0001Y");
-            assertEquals("~/grp-002/0001Y", path.toString());
+            logger.info(path.toString());
+            assertEquals(new AbsolutePath("~/grp-002/0001Y"), path);
         } catch (InvalidPathException e) {
             fail("Expected no InvalidPathException, but got one.");
         }
@@ -122,7 +123,7 @@ public class AbsolutePathTest {
 
         AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
 
-        assertEquals("~/grp-001/0002Y", resolvedPath.toString());
+        assertEquals(new AbsolutePath("~/grp-001/0002Y"), resolvedPath);
     }
 
     @Test
@@ -133,7 +134,7 @@ public class AbsolutePathTest {
 
         AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
 
-        assertEquals("~/grp-002", resolvedPath.toString());
+        assertEquals(new AbsolutePath("~/grp-002"), resolvedPath);
     }
 
     @Test
@@ -144,7 +145,7 @@ public class AbsolutePathTest {
 
         AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
 
-        assertEquals("~/grp-001/0002Y", resolvedPath.toString());
+        assertEquals(new AbsolutePath("~/grp-001/0002Y"), resolvedPath);
     }
 
     @Test
@@ -155,7 +156,7 @@ public class AbsolutePathTest {
 
         AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
 
-        assertEquals("~/grp-002/0002Y", resolvedPath.toString());
+        assertEquals(new AbsolutePath("~/grp-002/0002Y"), resolvedPath);
     }
 
     @Test
@@ -166,7 +167,7 @@ public class AbsolutePathTest {
 
         AbsolutePath resolvedPath = absolutePath.resolve(relativePath);
 
-        assertEquals("~/grp-002/0003Y", resolvedPath.toString());
+        assertEquals(new AbsolutePath("~/grp-002/0003Y"), resolvedPath);
     }
 
     @Test
@@ -250,7 +251,7 @@ public class AbsolutePathTest {
             throws InvalidIdException {
         Optional<StudentId> studentId = studentPath.getStudentId();
         assertTrue(studentId.isPresent());
-        assertEquals("0001Y", studentId.get().toString());
+        assertEquals(new StudentId("0001Y"), studentId.get());
     }
 
     @Test
@@ -258,7 +259,7 @@ public class AbsolutePathTest {
             throws InvalidIdException {
         Optional<GroupId> groupId = studentPath.getGroupId();
         assertTrue(groupId.isPresent());
-        assertEquals("GRP-001", groupId.get().toString());
+        assertEquals(new GroupId("GRP-001"), groupId.get());
     }
 
     @Test
@@ -266,7 +267,7 @@ public class AbsolutePathTest {
             throws InvalidIdException {
         Optional<GroupId> groupId = groupPath.getGroupId();
         assertTrue(groupId.isPresent());
-        assertEquals("GRP-001", groupId.get().toString());
+        assertEquals(new GroupId("GRP-001"), groupId.get());
     }
 
     @Test

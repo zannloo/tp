@@ -20,7 +20,7 @@ public class PathElement {
     * @param type The type of the element.
     */
     private PathElement(String elementStr, PathElementType type) {
-        this.elementStr = elementStr;
+        this.elementStr = elementStr.toLowerCase();
         this.type = type;
     }
 

@@ -4,17 +4,16 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Map;
 
-import javafx.scene.layout.Region;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.ui.GroupCard;
-import seedu.address.ui.UiPart;
 
 /**
  * Encapsulates logic for a group within a tutorial group
  */
-public class Group extends ChildrenAndTaskListManager<Student> {
+public class Group extends ChildrenAndTaskListManager<Group, Student> {
 
     /**
      * Name of the group
@@ -24,7 +23,7 @@ public class Group extends ChildrenAndTaskListManager<Student> {
     /**
      * Unique identifier of the group
      */
-    private final Id id;
+    private final GroupId id;
 
     /**
      * Constructs a Group instance with all fields.
@@ -34,7 +33,7 @@ public class Group extends ChildrenAndTaskListManager<Student> {
      * @param name     - The group name
      * @param id       - Unique identifier of the group
      */
-    public Group(TaskList taskList, Map<Id, Student> students, Name name, Id id) {
+    public Group(ReadOnlyTaskList taskList, Map<Id, Student> students, Name name, GroupId id) {
         super(students, taskList);
         requireAllNonNull(name, id);
         this.name = name;
@@ -42,15 +41,24 @@ public class Group extends ChildrenAndTaskListManager<Student> {
     }
 
     /**
-     * Constructs a new Group instance without task list and student map.
+     * Constructs a new {@code Group} without task list and student map.
      */
-    public Group(Name name, Id id) {
+    public Group(Name name, GroupId id) {
         super();
         this.name = name;
         this.id = id;
     }
 
-    public Id getId() {
+    /**
+     * Create a {@code Group} with the data in {@code toBeCopied}.
+     */
+    public Group(Group toBeCopied) {
+        super(toBeCopied);
+        this.name = toBeCopied.name;
+        this.id = toBeCopied.id;
+    }
+
+    public GroupId getId() {
         return id;
     }
 
@@ -58,19 +66,13 @@ public class Group extends ChildrenAndTaskListManager<Student> {
         return name;
     }
 
-    /**
-     * Creates a clone of the current element, this is to achieve immutability
-     *
-     * @return The clone of the IChildElement
-     */
     @Override
-    public Group getClone() {
-        return new Group(new TaskList(getAllTask()), this.getChildren(),
-                new Name(this.name.fullName), this.id);
+    public Group deepCopy() {
+        return new Group(this);
     }
 
     @Override
-    public UiPart<Region> getDisplayCard(int displayedIndex) {
+    public GroupCard getDisplayCard(int displayedIndex) {
         return new GroupCard(this, displayedIndex);
     }
 
@@ -79,8 +81,16 @@ public class Group extends ChildrenAndTaskListManager<Student> {
         return new ToStringBuilder(this)
                 .add("Group Id", id)
                 .add("name", name)
-                .add("Students", super.toString())
+                .add("Task List and Student List", super.toString())
                 .toString();
+    }
+
+    @Override public int compareTo(Group other) {
+        if (this.id.toString().compareTo(other.id.toString()) != 0) {
+            return this.id.toString().compareTo(other.id.toString());
+        } else {
+            return this.name.fullName.compareTo(other.name.fullName);
+        }
     }
 
     @Override

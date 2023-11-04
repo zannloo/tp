@@ -1,10 +1,11 @@
 package seedu.address.model.field;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.id.Id;
+import seedu.address.model.id.GroupId;
 import seedu.address.model.profbook.Name;
 
 /**
@@ -16,7 +17,7 @@ import seedu.address.model.profbook.Name;
 public class EditGroupDescriptor {
     private Name name;
 
-    private Id id;
+    private GroupId id;
 
     public EditGroupDescriptor() {}
 
@@ -33,7 +34,7 @@ public class EditGroupDescriptor {
      * Returns true if at least one field is edited.
      */
     public boolean isAnyFieldEdited() {
-        return CollectionUtil.isAnyNonNull(name);
+        return CollectionUtil.isAnyNonNull(name, id);
     }
 
     /**
@@ -59,7 +60,7 @@ public class EditGroupDescriptor {
      *
      * @param id The new id to set.
      */
-    public void setId(Id id) {
+    public void setId(GroupId id) {
         this.id = id;
     }
 
@@ -68,7 +69,7 @@ public class EditGroupDescriptor {
      *
      * @return An Optional containing the id if it's set, empty otherwise.
      */
-    public Optional<Id> getId() {
+    public Optional<GroupId> getId() {
         return Optional.ofNullable(id);
     }
 
@@ -90,13 +91,9 @@ public class EditGroupDescriptor {
         }
 
         EditGroupDescriptor otherEditGroupDescriptor = (EditGroupDescriptor) other;
-        if (this.name == null || otherEditGroupDescriptor.name == null) {
-            return false;
-        }
-        if (this.id == null || otherEditGroupDescriptor.id == null) {
-            return false;
-        }
-        return this.name.equals(otherEditGroupDescriptor.name) && this.id.equals(otherEditGroupDescriptor.id);
+
+        return Objects.equals(this.name, otherEditGroupDescriptor.name)
+                && Objects.equals(this.id, otherEditGroupDescriptor.id);
     }
 
     /**

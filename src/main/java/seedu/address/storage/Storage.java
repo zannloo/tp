@@ -5,28 +5,43 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataLoadingException;
-import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.profbook.Root;
 
 /**
- * API of the Storage component
+ * This interface defines the methods that classes responsible for handling storage operations should implement.
  */
-public interface Storage extends AddressBookStorage, UserPrefsStorage {
-
+public interface Storage extends ProfBookStorage, UserPrefsStorage {
     @Override
     Optional<UserPrefs> readUserPrefs() throws DataLoadingException;
 
     @Override
     void saveUserPrefs(ReadOnlyUserPrefs userPrefs) throws IOException;
 
-    @Override
-    Path getAddressBookFilePath();
+    /**
+     * Returns the file path of the data file.
+     */
+    Path getProfBookFilePath();
 
-    @Override
-    Optional<ReadOnlyAddressBook> readAddressBook() throws DataLoadingException;
+    /**
+     * Returns {@code Optional.empty()} if storage file is not found.
+     *
+     * @throws DataLoadingException if loading the data from storage failed.
+     */
+    Optional<Root> readProfBook() throws DataLoadingException;
 
-    @Override
-    void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException;
+    Optional<Root> readProfBook(Path filePath) throws DataLoadingException;
 
+    /**
+     * @param profBook cannot be null.
+     * @throws IOException if there was any problem writing to the file.
+     */
+    void saveProfBook(Root profBook) throws IOException;
+
+    /**
+     * @see #saveProfBook(Root)
+     */
+    void saveProfBook(Root profBook, Path filePath) throws IOException;
 }
+

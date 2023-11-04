@@ -1,11 +1,12 @@
 package seedu.address.logic;
 
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Option;
-import seedu.address.model.person.Person;
+import seedu.address.model.id.GroupId;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Student;
 
@@ -14,12 +15,31 @@ import seedu.address.model.profbook.Student;
  */
 public class Messages {
 
-    public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
-    public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
-    public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
-    public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
+    public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command:\n\n%1$s";
+
+    public static final String MESSAGE_INVALID_COMMAND_FORMAT =
+            "Invalid command format: %1$s\n"
+            + "Try \'%2$s --help\' for more information.";
+
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
+
+    public static final String MESSAGE_NO_OPTIONS = "%1$s: does not take any options.";
+
+    public static final Function<String, String> MESSAGE_MISSING_ARGUMENT =
+            x -> String.format(MESSAGE_INVALID_COMMAND_FORMAT, "missing argument(s)", x);
+
+    public static final String MESSAGE_INVALID_DATETIME_FORMAT =
+            "Invalid datetime format: Please use the format \'yyyy-MM-dd HH:mm\'"
+            + "\n\n\'yyyy\': year, \'MM\': month,"
+            + " 'dd\': day, \'HH\': hour (24-hour format),"
+            + " 'mm\': minutes.";
+
+    public static final String MESSAGE_INVALID_INDEX = "Invalid index for task list with size %1$s: %2$s";
+
+    public static final String MESSAGE_TASK_LIST_NOT_SHOWN = "No task list is currently displayed.";
+
+    public static final String MESSAGE_PATH_NOT_FOUND = "Path not found in ProfBook: %1$s";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
@@ -34,36 +54,20 @@ public class Messages {
     }
 
     /**
-     * Formats the {@code person} for display to the user.
-     */
-    public static String format(Person person) {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(person.getName())
-                .append("; Phone: ")
-                .append(person.getPhone())
-                .append("; Email: ")
-                .append(person.getEmail())
-                .append("; Address: ")
-                .append(person.getAddress())
-                .append("; Tags: ");
-        person.getTags().forEach(builder::append);
-        return builder.toString();
-    }
-
-    /**
      * Formats the {@code student} for display to the user.
      */
     public static String format(Student student) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(student.getName())
-                .append("; Phone: ")
+        builder.append("\n Name: ")
+                .append(student.getName())
+                .append("\n StudentId: ")
+                .append(student.getId())
+                .append("\n Phone: ")
                 .append(student.getPhone())
-                .append("; Email: ")
+                .append("\n Email: ")
                 .append(student.getEmail())
-                .append("; Address: ")
-                .append(student.getAddress())
-                .append("; StudentId: ")
-                .append(student.getId());
+                .append("\n Address: ")
+                .append(student.getAddress());
         return builder.toString();
     }
 
@@ -72,9 +76,20 @@ public class Messages {
      */
     public static String format(Group group) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(group.getName())
-                .append("; GroupId: ")
+        builder.append("\n Name: ")
+                .append(group.getName())
+                .append("\n GroupId: ")
                 .append(group.getId());
+        return builder.toString();
+    }
+
+    /**
+     * Formats the {@code groupId} for display to the user.
+     */
+    public static String format(GroupId groupId) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("GroupId: ")
+                .append(groupId);
         return builder.toString();
     }
 }

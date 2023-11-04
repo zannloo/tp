@@ -2,21 +2,16 @@ package seedu.address.model.profbook;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javafx.scene.layout.Region;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.id.StudentId;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.taskmanager.TaskList;
+import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.TaskListManager;
 import seedu.address.ui.StudentCard;
-import seedu.address.ui.UiPart;
 
 /**
  * Encapsulates logic for a student's data
  */
-public class Student extends TaskListManager implements IChildElement {
+public class Student extends TaskListManager implements IChildElement<Student> {
 
     // Identity field
     /**
@@ -28,7 +23,6 @@ public class Student extends TaskListManager implements IChildElement {
 
     // Data fields
     private final Address address;
-    private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Unique identifier of the student
@@ -45,9 +39,9 @@ public class Student extends TaskListManager implements IChildElement {
      * @param address  - Students address
      * @param id       - Unique identifier of the group
      */
-    public Student(TaskList taskList, Name name, Email email, Phone phone, Address address, StudentId id) {
+    public Student(ReadOnlyTaskList taskList, Name name, Email email, Phone phone, Address address, StudentId id) {
         super(taskList);
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name, phone, email, address, id);
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -60,12 +54,24 @@ public class Student extends TaskListManager implements IChildElement {
      */
     public Student(Name name, Email email, Phone phone, Address address, StudentId id) {
         super();
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name, phone, email, address, id);
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.address = address;
         this.id = id;
+    }
+
+    /**
+     * Construcst a new {@code Student} with the data in {@code toBeCopied}.
+     */
+    public Student(Student toBeCopied) {
+        super(toBeCopied);
+        this.name = toBeCopied.name;
+        this.email = toBeCopied.email;
+        this.phone = toBeCopied.phone;
+        this.address = toBeCopied.address;
+        this.id = toBeCopied.id;
     }
 
     public Name getName() {
@@ -88,25 +94,23 @@ public class Student extends TaskListManager implements IChildElement {
         return address;
     }
 
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
     @Override
-    public UiPart<Region> getDisplayCard(int displayedIndex) {
+    public StudentCard getDisplayCard(int displayedIndex) {
         return new StudentCard(this, displayedIndex);
     }
 
 
-    /**
-     * Creates a clone of the current element, this is to achieve immutability
-     *
-     * @return The clone of the IChildElement
-     */
     @Override
-    public Student getClone() {
-        return new Student(new TaskList(getAllTask()), new Name(this.name.fullName),
-                new Email(this.email.value), new Phone(this.phone.value), new Address(this.address.value), this.id);
+    public Student deepCopy() {
+        return new Student(this);
+    }
+
+    @Override public int compareTo(Student other) {
+        if (this.id.toString().compareTo(other.id.toString()) != 0) {
+            return this.id.toString().compareTo(other.id.toString());
+        } else {
+            return this.name.fullName.compareTo(other.name.fullName);
+        }
     }
 
     @Override
@@ -117,7 +121,7 @@ public class Student extends TaskListManager implements IChildElement {
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
-                .add("tags", tags)
+                .add("Task List", super.toString())
                 .toString();
     }
 
@@ -138,7 +142,6 @@ public class Student extends TaskListManager implements IChildElement {
                 && this.email.equals(otherStudent.email)
                 && this.id.equals(otherStudent.id)
                 && this.name.equals(otherStudent.name)
-                && this.phone.equals(otherStudent.phone)
-                && this.tags.equals(otherStudent.tags);
+                && this.phone.equals(otherStudent.phone);
     }
 }

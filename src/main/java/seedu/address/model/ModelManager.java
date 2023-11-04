@@ -1,131 +1,371 @@
 package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.AppUtil.checkArgument;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
-import java.util.function.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.model.person.Person;
+import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.id.GroupId;
+import seedu.address.model.id.StudentId;
+import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.profbook.Group;
+import seedu.address.model.profbook.Root;
+import seedu.address.model.profbook.Student;
+import seedu.address.ui.Displayable;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the ProfBook data.
  */
 public class ModelManager implements Model {
-    private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final AddressBook addressBook;
+    private static final Logger logger = LogsCenter.getLogger(Model.class);
+    private static final String MESSAGE_INTERNAL_ERROR = "Internal error: %1$s";
+    private final ObservableList<Displayable> displayList = FXCollections.observableArrayList();
     private final UserPrefs userPrefs;
-    private final FilteredList<Person> filteredPersons;
+    private Root root;
+    private AbsolutePath currentPath;
+    private boolean showTaskList = false;
+    private AbsolutePath displayPath;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Construct a model manager with current path, root (ProfBook) and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
-        requireAllNonNull(addressBook, userPrefs);
-
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
-
-        this.addressBook = new AddressBook(addressBook);
+    public ModelManager(AbsolutePath currentPath, Root root, ReadOnlyUserPrefs userPrefs) {
+        requireAllNonNull(currentPath, root, userPrefs);
+        this.currentPath = currentPath;
+        this.displayPath = currentPath;
+        this.root = new Root(root);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        updateList();
     }
 
+    /**
+     * Constructs a model manager with all fields.
+     */
+    public ModelManager(AbsolutePath currPath, Root root, ReadOnlyUserPrefs usePrefs,
+            AbsolutePath displayPath, boolean showTaskList) {
+        this(currPath, root, usePrefs);
+        requireAllNonNull(displayPath, showTaskList);
+        this.displayPath = displayPath;
+        this.showTaskList = showTaskList;
+        updateList();
+    }
+
+    /**
+     * Constructs a new model manager with empty data.
+     */
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this.currentPath = AbsolutePath.ROOT_PATH;
+        this.displayPath = AbsolutePath.ROOT_PATH;
+        this.root = new Root();
+        this.userPrefs = new UserPrefs();
+        updateList();
     }
 
     //=========== UserPrefs ==================================================================================
-
-    @Override
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
         requireNonNull(userPrefs);
         this.userPrefs.resetData(userPrefs);
     }
 
-    @Override
     public ReadOnlyUserPrefs getUserPrefs() {
         return userPrefs;
     }
 
-    @Override
     public GuiSettings getGuiSettings() {
         return userPrefs.getGuiSettings();
     }
 
-    @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         requireNonNull(guiSettings);
         userPrefs.setGuiSettings(guiSettings);
     }
 
-    @Override
-    public Path getAddressBookFilePath() {
-        return userPrefs.getAddressBookFilePath();
+    public Path getProfBookFilePath() {
+        return userPrefs.getProfBookFilePath();
     }
 
-    @Override
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
     }
 
-    //=========== AddressBook ================================================================================
-
+    //=========== ProfBook Model ================================================================================
     @Override
-    public void setAddressBook(ReadOnlyAddressBook addressBook) {
-        this.addressBook.resetData(addressBook);
+    public void setRoot(Root root) {
+        this.root = root;
+        this.currentPath = AbsolutePath.ROOT_PATH;
+        this.displayPath = AbsolutePath.ROOT_PATH;
+        this.showTaskList = false;
+        this.updateList();
     }
 
     @Override
-    public ReadOnlyAddressBook getAddressBook() {
-        return addressBook;
+    public AbsolutePath getCurrPath() {
+        return this.currentPath;
     }
 
     @Override
-    public boolean hasPerson(Person person) {
-        requireNonNull(person);
-        return addressBook.hasPerson(person);
+    public AbsolutePath getDisplayPath() {
+        return this.displayPath;
     }
 
     @Override
-    public void deletePerson(Person target) {
-        addressBook.removePerson(target);
+    public boolean isShowTaskList() {
+        return this.showTaskList;
     }
 
     @Override
-    public void addPerson(Person person) {
-        addressBook.addPerson(person);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    public boolean hasTaskListInCurrentPath() {
+        return hasTaskListInPath(currentPath);
     }
 
     @Override
-    public void setPerson(Person target, Person editedPerson) {
-        requireAllNonNull(target, editedPerson);
-
-        addressBook.setPerson(target, editedPerson);
+    public boolean hasChildrenListInCurrentPath() {
+        return hasChildrenListInPath(currentPath);
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    @Override
+    public boolean hasGroupWithId(GroupId id) {
+        return this.root.hasChild(id);
+    }
+
+    @Override
+    public boolean hasStudentWithId(StudentId id) {
+        for (Group group : this.root.getAllChildren()) {
+            if (group.hasChild(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Group getGroupWithId(GroupId id) {
+        checkArgument(hasGroupWithId(id),
+                String.format(MESSAGE_INTERNAL_ERROR, "Group Id must exist in ProfBook"));
+        return this.root.getChild(id);
+    }
+
+    @Override
+    public Student getStudentWithId(StudentId id) {
+        checkArgument(hasStudentWithId(id),
+                String.format(MESSAGE_INTERNAL_ERROR, "Student Id must exist in ProfBook"));
+        for (Group group : this.root.getAllChildren()) {
+            if (group.hasChild(id)) {
+                return group.getChild(id);
+            }
+        }
+        throw new IllegalArgumentException(String.format(MESSAGE_INTERNAL_ERROR, "Unexpected error occurred."));
+    }
+
+    @Override
+    public boolean hasGroup(AbsolutePath path) {
+        requireNonNull(path);
+        checkArgument(!path.isRootDirectory(),
+                String.format(MESSAGE_INTERNAL_ERROR, "path must have group information"));
+        GroupId grpId = path.getGroupId().get();
+        return root.hasChild(grpId);
+    }
+
+    @Override
+    public boolean hasStudent(AbsolutePath path) {
+        requireNonNull(path);
+        checkArgument(path.isStudentDirectory(),
+                String.format(MESSAGE_INTERNAL_ERROR, "path must be student path"));
+
+        if (!hasGroup(path)) {
+            return false;
+        }
+
+        StudentId stuId = path.getStudentId().get();
+        Group grp = getGroupFromPath(path);
+
+        return grp.hasChild(stuId);
+    }
+
+    @Override
+    public boolean hasPath(AbsolutePath path) {
+        requireNonNull(path);
+        if (path.isRootDirectory()) {
+            return true;
+        }
+
+        GroupId grpId = path.getGroupId().get();
+
+        if (path.isGroupDirectory()) {
+            return root.hasChild(grpId);
+        }
+
+        Group grp = getGroupFromPath(path);
+        StudentId stuId = path.getStudentId().get();
+
+        return grp.hasChild(stuId);
+    }
+
+    @Override
+    public void changeDirectory(AbsolutePath path) {
+        requireNonNull(path);
+        checkArgument(hasPath(path),
+                String.format(MESSAGE_INTERNAL_ERROR, "Path must exist in ProfBook"));
+        checkArgument(!path.isStudentDirectory(),
+                String.format(MESSAGE_INTERNAL_ERROR, "Student path is not navigable"));
+        currentPath = path;
+        displayPath = path;
+        logger.fine("Change directory to " + currentPath);
+        showChildrenList();
+    }
+
+    //=========== Display Panel Settings =============================================================
+    @Override
+    public ObservableList<Displayable> getDisplayList() {
+        return displayList;
+    }
+
+    @Override
+    public void updateList() {
+        List<? extends Displayable> temp = new ArrayList<>();
+        if (showTaskList) {
+            TaskOperation taskOperation = taskOperation(displayPath);
+            temp = new ArrayList<>(taskOperation.getAllTasks());
+        } else if (displayPath.isRootDirectory()) {
+            ChildOperation<Group> childOperation = rootChildOperation();
+            temp = new ArrayList<>(childOperation.getAllChildren());
+        } else if (displayPath.isGroupDirectory()) {
+            ChildOperation<Student> childOperation = groupChildOperation(displayPath);
+            temp = new ArrayList<>(childOperation.getAllChildren());
+        }
+        displayList.clear();
+        displayList.setAll(temp);
+    }
+
+    @Override
+    public void setDisplayPath(AbsolutePath path) {
+        requireNonNull(path);
+        checkArgument(hasPath(path),
+                String.format(MESSAGE_INTERNAL_ERROR, "Path must exist in ProfBook"));
+        displayPath = path;
+    }
+
+    @Override
+    public boolean hasTaskListInDisplayPath() {
+        return hasTaskListInPath(displayPath);
+    }
+
+    @Override
+    public boolean hasChildrenListInDisplayPath() {
+        return hasChildrenListInPath(displayPath);
+    }
+
+    @Override
+    public void showChildrenList() {
+        checkArgument(hasChildrenListInDisplayPath(),
+                String.format(MESSAGE_INTERNAL_ERROR, "Current display path must have children list"));
+        showTaskList = false;
+        updateList();
+    }
+
+    @Override
+    public void showTaskList() {
+        checkArgument(hasTaskListInDisplayPath(),
+                String.format(MESSAGE_INTERNAL_ERROR, "Current display path must have task list: " + displayPath));
+        showTaskList = true;
+        updateList();
+    }
+
+    //=========== Model Management Operation =============================================================
+    @Override
+    public ChildOperation<Group> rootChildOperation() {
+        return new ChildOperation<>(root);
+    }
+
+    @Override
+    public ChildOperation<Student> groupChildOperation(AbsolutePath path) {
+        requireNonNull(path);
+        checkArgument(path.isGroupDirectory() || path.isStudentDirectory(),
+                String.format(MESSAGE_INTERNAL_ERROR, "Path must have group information"));
+        checkArgument(hasGroup(path),
+                String.format(MESSAGE_INTERNAL_ERROR, "Group must exist in ProfBook"));
+        return new ChildOperation<>(getGroupFromPath(path));
+    }
+
+    @Override
+    public TaskOperation taskOperation(AbsolutePath path) {
+        requireNonNull(path);
+        checkArgument(hasTaskListInPath(path),
+                String.format(MESSAGE_INTERNAL_ERROR, "Path must have task list"));
+        checkArgument(hasPath(path),
+                String.format(MESSAGE_INTERNAL_ERROR, "Path must exist in ProfBook"));
+
+        if (path.isGroupDirectory()) {
+            return new TaskOperation(getGroupFromPath(path));
+        }
+
+        return new TaskOperation(getStudentFromPath(path));
+    }
+
+    //=========== Helper Method =============================================================
+    @Override
+    public boolean hasTaskListInPath(AbsolutePath path) {
+        requireNonNull(path);
+        return path.isGroupDirectory() || path.isStudentDirectory();
+    }
+
+    @Override
+    public boolean hasChildrenListInPath(AbsolutePath path) {
+        requireNonNull(path);
+        return path.isRootDirectory() || path.isGroupDirectory();
+    }
 
     /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code versionedAddressBook}
+     * Return the group of the given path.
+     * {@code path} must has a valid group info
+     * i.e group exists in ProfBook.
      */
-    @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return filteredPersons;
+    private Group getGroupFromPath(AbsolutePath path) {
+        requireNonNull(path);
+        checkArgument(path.isGroupDirectory() || path.isStudentDirectory(),
+                String.format(MESSAGE_INTERNAL_ERROR, "Path must have group info"));
+        checkArgument(hasGroup(path),
+                String.format(MESSAGE_INTERNAL_ERROR, "Group must exist in ProfBook"));
+
+        GroupId grpId = path.getGroupId().get();
+
+        return root.getChild(grpId);
     }
 
+    /**
+     * Return the group of the given path.
+     * {@code path} must be student path that exists in ProfBook.
+     */
+    private Student getStudentFromPath(AbsolutePath path) {
+        requireNonNull(path);
+        checkArgument(path.isStudentDirectory(),
+                String.format(MESSAGE_INTERNAL_ERROR, "Path must be student directory"));
+        checkArgument(hasStudent(path),
+                String.format(MESSAGE_INTERNAL_ERROR, "Student must exist in ProfBook"));
+
+        GroupId grpId = path.getGroupId().get();
+        StudentId stuId = path.getStudentId().get();
+
+        return root.getChild(grpId).getChild(stuId);
+    }
+
+    /**
+     * Return the Root of addressbook.
+     */
     @Override
-    public void updateFilteredPersonList(Predicate<Person> predicate) {
-        requireNonNull(predicate);
-        filteredPersons.setPredicate(predicate);
+    public Root getRoot() {
+        return this.root;
     }
 
     @Override
@@ -139,10 +379,25 @@ public class ModelManager implements Model {
             return false;
         }
 
-        ModelManager otherModelManager = (ModelManager) other;
-        return addressBook.equals(otherModelManager.addressBook)
-                && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+        ModelManager otherStateManager = (ModelManager) other;
+        return this.showTaskList == otherStateManager.showTaskList
+                && this.currentPath.equals(otherStateManager.currentPath)
+                && this.displayList.equals(otherStateManager.displayList)
+                && this.displayPath.equals(otherStateManager.displayPath)
+                && this.root.equals(otherStateManager.root)
+                && this.userPrefs.equals(otherStateManager.userPrefs);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("showTaskList", showTaskList)
+                .add("Current Path", currentPath)
+                .add("Display List", displayList)
+                .add("Display Path", displayPath)
+                .add("root", root)
+                .add("userPrefs", userPrefs)
+                .toString();
     }
 
 }

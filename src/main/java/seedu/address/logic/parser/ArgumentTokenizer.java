@@ -6,20 +6,45 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Tokenizes arguments string of the form: {@code preamble <option>value <option>value ...}<br>
- *     e.g. {@code some preamble text t/ 11.00 t/12.00 k/ m/ July}  where options are {@code t/ k/ m/}.<br>
- * 1. An argument's value can be an empty string e.g. the value of {@code k/} in the above example.<br>
+ * Tokenizes arguments string of the form: {@code preamble <option> value <option> value ...}<br>
+ *     e.g. {@code some preamble text -t 11.00 -t 12.00 -k -m July}  where options are {@code -t -k -m}.<br>
+ * 1. An argument's value can be an empty string e.g. the value of {@code -k} in the above example.<br>
  * 2. Leading and trailing whitespaces of an argument value will be discarded.<br>
- * 3. An argument may be repeated and all its values will be accumulated e.g. the value of {@code t/}
+ * 3. An argument may be repeated and all its values will be accumulated e.g. the value of {@code -t}
  *    in the above example.<br>
  */
 public class ArgumentTokenizer {
 
     /**
+     * Extracts preamble from the argString.
+     * String before the first "-".
+     */
+    public static String extractPreamble(String argString) {
+        String[] s = argString.split(" -", 2);
+        return s[0].trim();
+    }
+
+    /**
+     * Extracts all option names appear in argString.
+     */
+    public static List<String> extractAllOptionNames(String argString) {
+        List<String> list = new ArrayList<>();
+        String[] splitBySpace = argString.split(" ");
+        for (String s : splitBySpace) {
+            if (s.startsWith("-") || s.startsWith("--")) {
+                if (!s.matches("-?\\d+")) {
+                    list.add(s);
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
      * Tokenizes an arguments string and returns an {@code ArgumentMultimap} object that maps options to their
      * respective argument values. Only the given options will be recognized in the arguments string.
      *
-     * @param argsString Arguments string of the form: {@code preamble <option>value <option>value ...}
+     * @param argsString Arguments string of the form: {@code preamble <option> value <option> value ...}
      * @param options   Options to tokenize the arguments string with
      * @return           ArgumentMultimap object that maps options to their arguments
      */
@@ -32,7 +57,7 @@ public class ArgumentTokenizer {
     /**
      * Finds all zero-based option positions in the given arguments string.
      *
-     * @param argsString Arguments string of the form: {@code preamble <option>value <option>value ...}
+     * @param argsString Arguments string of the form: {@code preamble <option> value <option> value ...}
      * @param options   Options to find in the arguments string
      * @return          List of zero-based option positions in the given arguments string
      */
@@ -77,10 +102,10 @@ public class ArgumentTokenizer {
      * is valid if there is a whitespace before {@code option}. Returns -1 if no
      * such occurrence can be found.
      *
-     * E.g if {@code argsString} = "e/hip/900", {@code option} = "p/" and
+     * E.g if {@code argsString} = "-e hi-p 900", {@code option} = "-p" and
      * {@code fromIndex} = 0, this method returns -1 as there are no valid
-     * occurrences of "p/" with whitespace before it. However, if
-     * {@code argsString} = "e/hi p/900", {@code option} = "p/" and
+     * occurrences of "-p" with whitespace before it. However, if
+     * {@code argsString} = "-e hi -p 900", {@code option} = "-p" and
      * {@code fromIndex} = 0, this method returns 5.
      */
     private static int findOptionPosition(String argsString, String option, int fromIndex) {
@@ -94,7 +119,7 @@ public class ArgumentTokenizer {
      * extracted options to their respective arguments. Options are extracted based on their zero-based positions in
      * {@code argsString}.
      *
-     * @param argsString      Arguments string of the form: {@code preamble <option>value <option>value ...}
+     * @param argsString      Arguments string of the form: {@code preamble <option> value <option> value ...}
      * @param optionPositions Zero-based positions of all options in {@code argsString}
      * @return                ArgumentMultimap object that maps options to their arguments
      */
@@ -139,7 +164,16 @@ public class ArgumentTokenizer {
         int valueStartPos = currentOptionPosition.getStartPosition() + optionLength;
         String value = argsString.substring(valueStartPos, nextOptionPosition.getStartPosition());
 
-        return value.trim();
+        return unescape(value.trim());
+    }
+
+    /**
+     * Unescape special characters e.g. '/' and '-'.
+     */
+    private static String unescape(String input) {
+        // Use regular expression to unescape backslash and hyphen
+        String unescapedInput = input.replaceAll("\\\\(.)", "$1");
+        return unescapedInput;
     }
 
     /**

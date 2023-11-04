@@ -19,10 +19,20 @@ import seedu.address.model.path.exceptions.InvalidPathException;
  * Absolute Path for storing group and student id.
  */
 public class AbsolutePath extends Path {
+    public static final AbsolutePath ROOT_PATH;
     private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+
+    static {
+        try {
+            ROOT_PATH = new AbsolutePath("~");
+        } catch (InvalidPathException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
 
     /**
      * Construct {@code AbsolutePath} from a path string.
+     *
      * @param path The path string.
      * @throws InvalidPathException if the given path string is invalid.
      */
@@ -39,6 +49,7 @@ public class AbsolutePath extends Path {
 
     /**
      * Construct {@code AbsolutePath} with path element list.
+     *
      * @param fullPathElements The list of elements for the full path.
      */
     public AbsolutePath(List<PathElement> fullPathElements) {
@@ -99,7 +110,8 @@ public class AbsolutePath extends Path {
      * Retrieves the student ID from the path directory.
      *
      * @return The student ID.
-     * @throws InvalidIdException If the retrieved ID is invalid.
+     * @throws UnsupportedPathOperationException If the operation is not supported based on the directory's model.
+     * @throws InvalidIdException                If the retrieved ID is invalid.
      */
     public Optional<StudentId> getStudentId() {
         if (this.isGroupDirectory() || this.isRootDirectory()) {

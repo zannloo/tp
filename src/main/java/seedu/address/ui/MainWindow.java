@@ -12,9 +12,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.ProfBookLogicManager;
-import seedu.address.logic.newcommands.CommandResult;
-import seedu.address.logic.newcommands.exceptions.CommandException;
+import seedu.address.logic.Logic;
+import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -28,7 +28,7 @@ public class MainWindow extends UiPart<Stage> {
     private final Logger logger = LogsCenter.getLogger(getClass());
 
     private Stage primaryStage;
-    private ProfBookLogicManager logic;
+    private Logic logic;
 
     // Independent Ui parts residing in this Ui container
     private ItemListPanel itemListPanel;
@@ -54,7 +54,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
      */
-    public MainWindow(Stage primaryStage, ProfBookLogicManager logic) {
+    public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
 
         // Set dependencies
@@ -111,7 +111,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        itemListPanel = new ItemListPanel(logic.getDisplayList());
+        itemListPanel = new ItemListPanel(logic.getDisplayList(), logic.getDisplayPath(), logic.isShowTaskList());
         itemListPanelPlaceholder.getChildren().add(itemListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -179,15 +179,12 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
-            if (commandResult.isShowHelp()) {
-                handleHelp();
-            }
-
             if (commandResult.isExit()) {
                 handleExit();
             }
 
             commandBox.setCurrDirectory(logic.getCurrPath());
+            itemListPanel.setDisplayPath(logic.getDisplayPath(), logic.isShowTaskList());
 
             return commandResult;
         } catch (CommandException | ParseException e) {
