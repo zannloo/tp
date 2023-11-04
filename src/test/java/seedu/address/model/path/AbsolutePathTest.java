@@ -67,7 +67,6 @@ public class AbsolutePathTest {
     public void constructor_pathWithValidNavigation_returnValidPath() {
         try {
             AbsolutePath path = new AbsolutePath("~/grp-001/../grp-002/0001Y");
-            logger.info(path.toString());
             assertEquals(new AbsolutePath("~/grp-002/0001Y"), path);
         } catch (InvalidPathException e) {
             fail("Expected no InvalidPathException, but got one.");
