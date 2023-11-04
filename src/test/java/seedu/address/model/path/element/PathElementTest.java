@@ -16,7 +16,6 @@ public class PathElementTest {
     private PathElement validStudentElement;
     private PathElement validParentElement;
     private PathElement validCurrentElement;
-    private PathElement validTutorialSlotElement;
 
 
     @BeforeEach
@@ -26,7 +25,6 @@ public class PathElementTest {
         validStudentElement = PathElement.parsePathElement("0001Y");
         validParentElement = PathElement.parsePathElement("..");
         validCurrentElement = PathElement.parsePathElement(".");
-        validTutorialSlotElement = PathElement.parsePathElement("tut-001");
     }
 
     @Test
@@ -68,16 +66,12 @@ public class PathElementTest {
 
     @Test
     public void getPriorityDiff_higherPriority_returnsPositiveDifference() throws InvalidPathElementException {
-        assertTrue(validRootElement.getPriorityDiff(validTutorialSlotElement) == 1);
-        assertTrue(validTutorialSlotElement.getPriorityDiff(validGroupElement) == 1);
         assertTrue(validGroupElement.getPriorityDiff(validStudentElement) == 1);
     }
 
     @Test
     public void getPriorityDiff_lowerPriority_returnsNegativeDifference() throws InvalidPathElementException {
         assertTrue(validStudentElement.getPriorityDiff(validGroupElement) == -1);
-        assertTrue(validGroupElement.getPriorityDiff(validTutorialSlotElement) == -1);
-        assertTrue(validTutorialSlotElement.getPriorityDiff(validRootElement) == -1);
     }
 
     @Test
