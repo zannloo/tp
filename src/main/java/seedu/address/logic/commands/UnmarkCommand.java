@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_TASK_LIST_NOT_SHOWN;
 
 import java.util.logging.Logger;
 
@@ -22,22 +24,22 @@ public class UnmarkCommand extends Command {
 
     public static final String COMMAND_WORD = "unmark";
 
-    public static final String MESSAGE_INCORRECT_STATE = "The current model is not showing task list.";
-
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Unmarked task: %1$s";
 
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <index>\n"
             + "\n"
-            + "Unmark a task with the given task index.\n"
+            + "Unmark the task with the given display index.\n"
+            + "Must use \'cat\' command before unmark task.\n"
             + "\n"
             + "Argument: \n"
-            + "    index                Valid task index number \n"
+            + "    index                Valid task index number\n"
+            + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "unmark 1";
-
-    public static final String MESSAGE_INVALID_INDEX = "The task index provided is invalid.";
 
     public static final UnmarkCommand HELP_MESSAGE = new UnmarkCommand();
 
@@ -81,7 +83,7 @@ public class UnmarkCommand extends Command {
 
         if (!model.isShowTaskList()) {
             logger.warning("Task list is not shown. Aborting unmark task command.");
-            throw new CommandException(MESSAGE_INCORRECT_STATE);
+            throw new CommandException(MESSAGE_TASK_LIST_NOT_SHOWN);
         }
 
         AbsolutePath displayPath = model.getDisplayPath();
@@ -90,7 +92,8 @@ public class UnmarkCommand extends Command {
         // Check if index is valid.
         if (!taskOperation.isValidIndex(this.index.getOneBased())) {
             logger.warning("Invalid index: " + this.index.getOneBased() + ". Aborting unmark task command.");
-            throw new CommandException(MESSAGE_INVALID_INDEX);
+            throw new CommandException(
+                    String.format(MESSAGE_INVALID_INDEX, taskOperation.getTaskListSize(), index.getOneBased()));
         }
 
         logger.info("Executing unmark task command on index " + this.index.getOneBased());

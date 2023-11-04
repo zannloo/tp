@@ -2,16 +2,16 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_ALL_CHILDREN_HAVE_TASK;
-import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK_STUDENT;
+import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_DUPLICATE_TODO_TASK;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_INVALID_PATH_FOR_ALL_GROUP;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_INVALID_PATH_FOR_ALL_STU;
-import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_PATH_NOT_FOUND;
-import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_GROUPS;
 import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
+import static seedu.address.logic.commands.CreateTodoCommand.MESSAGE_SUCCESS_STUDENT;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalTasks.TODO_1;
 import static seedu.address.testutil.TypicalTasks.TODO_2;
@@ -84,7 +84,7 @@ public class CreateTodoCommandTest {
         // Test the case where the path doesn't exist
         AbsolutePath target = new AbsolutePath("~/grp-123");
         CreateTodoCommand createTodoCommand = new CreateTodoCommand(target, toBeAdded, Category.NONE);
-        String expectedMessage = MESSAGE_PATH_NOT_FOUND;
+        String expectedMessage = String.format(MESSAGE_PATH_NOT_FOUND, target);
 
         assertCommandFailure(createTodoCommand, model, expectedMessage);
     }
@@ -184,7 +184,8 @@ public class CreateTodoCommandTest {
         operation.addTask(toBeAdded);
 
         CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, Category.NONE);
-        String expectedMessage = String.format(MESSAGE_SUCCESS, absoluteTargetPath);
+        String expectedMessage = String.format(MESSAGE_SUCCESS_STUDENT,
+                absoluteTargetPath.getStudentId().get(), toBeAdded);
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
@@ -203,7 +204,7 @@ public class CreateTodoCommandTest {
         operation.addTask(toBeAdded);
 
         CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, Category.NONE);
-        String expectedMessage = MESSAGE_DUPLICATE_TODO_TASK_STUDENT;
+        String expectedMessage = MESSAGE_DUPLICATE_TODO_TASK;
 
         assertCommandFailure(command, model, expectedMessage);
     }

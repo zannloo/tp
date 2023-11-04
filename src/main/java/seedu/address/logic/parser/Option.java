@@ -56,7 +56,8 @@ public class Option {
 
     @Override
     public String toString() {
-        return this.longName;
+        return this.longName
+                + ((this.shortName != null) ? "/" + this.shortName : "");
     }
 
     @Override

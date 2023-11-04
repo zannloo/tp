@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.commands.CreateTodoCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
@@ -37,8 +38,7 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
         }
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC)) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, CreateTodoCommand.MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_ALL);

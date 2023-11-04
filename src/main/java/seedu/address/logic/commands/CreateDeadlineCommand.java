@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -20,25 +21,31 @@ public class CreateDeadlineCommand extends Command {
     public static final String COMMAND_WORD = "deadline";
 
     public static final String MESSAGE_USAGE =
-            "Usage: " + COMMAND_WORD + " <path>" + " -d <desc>" + " [OPTION]... \n"
+            "Usage: " + COMMAND_WORD + " [path]" + " -d <desc>" + " -dt <deadline>" + " [OPTION]... \n"
             + "\n"
-            + "Create deadline task.\n"
+            + "Create deadline task to the target path (the current directory by default).\n"
             + "\n"
             + "Argument: \n"
-            + "    path                 Valid path to group or student\n"
             + "    -d, --desc           Description of the deadline task\n"
             + "    -dt, --datetime      Deadline of the task\n"
+            + "                         Format: yyyy-MM-dd HH:mm\n"
+            + "                         \'yyyy\': year, \'MM\': month, 'dd\': day,\n"
+            + "                         \'HH\': hour (24-hour format), 'mm\': minutes.\n"
             + "\n"
             + "Option: \n"
+            + "    path                 Valid path to group or student\n"
             + "    -al, --all           Bulk task assignment\n"
             + "                         Possible value: allStu, allGrp\n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "deadline grp-001/0001Y -d Homework -dt 2023-11-11 11:59\n"
             + "deadline . -d Homework -dt 2023-11-11 11:59 -al allGrp\n"
             + "deadline ./grp-001 -d Homework -dt 2023-11-11 11:59 -al allStu";
 
-    public static final String MESSAGE_SUCCESS = "New Deadline task added to Student/Group: %1$s";
+    public static final String MESSAGE_SUCCESS_STUDENT = "New Deadline task added to student: %1$s\n%2$s";
+
+    public static final String MESSAGE_SUCCESS_GROUP = "New Deadline task added to group: %1$s\n%2$s";
 
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New Deadline task added to all students in group: %1$s";
@@ -57,9 +64,7 @@ public class CreateDeadlineCommand extends Command {
     public static final String MESSAGE_DUPLICATE_DEADLINE_TASK =
             "This Deadline task has already been allocated";
 
-    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
-
-    public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot create task for this path.";
+    public static final String MESSAGE_TASK_CREATION_FOR_ROOT = "Unable to create task for root directory.";
 
     public static final String MESSAGE_INVALID_PATH_FOR_ALL_STU = "AllStu flag is only allowed for root and group path";
 
@@ -111,7 +116,7 @@ public class CreateDeadlineCommand extends Command {
 
         // Check path exists in ProfBook
         if (!model.hasPath(path)) {
-            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, path));
         }
 
         switch(category) {
@@ -125,9 +130,9 @@ public class CreateDeadlineCommand extends Command {
     }
 
     private CommandResult handleNone(Model model) throws CommandException {
-        // Check target path is task manager
-        if (!model.hasTaskListInPath(path)) {
-            throw new CommandException(MESSAGE_NOT_TASK_MANAGER);
+        // Check if target path is root
+        if (path.isRootDirectory()) {
+            throw new CommandException(MESSAGE_TASK_CREATION_FOR_ROOT);
         }
 
         TaskOperation target = model.taskOperation(path);
@@ -140,7 +145,10 @@ public class CreateDeadlineCommand extends Command {
         target.addTask(this.deadline);
         model.updateList();
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, this.deadline));
+        if (path.isGroupDirectory()) {
+            return new CommandResult(String.format(MESSAGE_SUCCESS_GROUP, path.getGroupId().get(), this.deadline));
+        }
+        return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, path.getStudentId().get(), this.deadline));
     }
 
     private CommandResult handleAllStu(Model model) throws CommandException {

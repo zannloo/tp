@@ -21,7 +21,7 @@ public class CreateStudentCommand extends Command {
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <path> " + "-n <name> " + "[OPTION]... \n"
             + "\n"
-            + "Add new student.\n"
+            + "Create new student.\n"
             + "\n"
             + "Arguments: \n"
             + "    path                 Valid path to student\n"
@@ -31,6 +31,7 @@ public class CreateStudentCommand extends Command {
             + "    -e, --email          Email of the student\n"
             + "    -p, --phone          Phone of the student\n"
             + "    -a, --address        Address of the student\n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "touch grp-001/0001Y -n Mary -e mary@gmail.com -p 87652345 -a 4 Loyang Walk Loyang Industrial Estate";

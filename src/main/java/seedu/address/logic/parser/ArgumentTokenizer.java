@@ -2,9 +2,7 @@ package seedu.address.logic.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -29,15 +27,17 @@ public class ArgumentTokenizer {
     /**
      * Extracts all option names appear in argString.
      */
-    public static Set<String> extractAllOptionNames(String argString) {
-        Set<String> set = new HashSet<>();
+    public static List<String> extractAllOptionNames(String argString) {
+        List<String> list = new ArrayList<>();
         String[] splitBySpace = argString.split(" ");
         for (String s : splitBySpace) {
             if (s.startsWith("-") || s.startsWith("--")) {
-                set.add(s);
+                if (!s.matches("-?\\d+")) {
+                    list.add(s);
+                }
             }
         }
-        return set;
+        return list;
     }
 
     /**

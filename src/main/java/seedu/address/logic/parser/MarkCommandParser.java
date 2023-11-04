@@ -1,5 +1,7 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.commands.MarkCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import java.util.logging.Logger;
@@ -34,6 +36,10 @@ public class MarkCommandParser implements Parser<MarkCommand> {
 
         if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
             return MarkCommand.HELP_MESSAGE;
+        }
+
+        if (argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
         Index index = ParserUtil.parseIndex(args);

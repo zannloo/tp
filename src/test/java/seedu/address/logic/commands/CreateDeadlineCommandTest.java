@@ -7,8 +7,8 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_ALL_CHILDREN_HAVE_TASK;
 import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_INVALID_PATH_FOR_ALL_GROUP;
 import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_INVALID_PATH_FOR_ALL_STU;
-import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_NOT_TASK_MANAGER;
 import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_SUCCESS_ALL_STUDENTS;
+import static seedu.address.logic.commands.CreateDeadlineCommand.MESSAGE_TASK_CREATION_FOR_ROOT;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -93,7 +93,7 @@ class CreateDeadlineCommandTest {
         // Test the case where the path doesn't exist
         AbsolutePath target = new AbsolutePath("~/grp-001/0001Y");
         CreateDeadlineCommand createDeadlineCommand = new CreateDeadlineCommand(target, toBeAdded, Category.ALLSTU);
-        String expectedMessage = MESSAGE_NOT_TASK_MANAGER;
+        String expectedMessage = MESSAGE_TASK_CREATION_FOR_ROOT;
 
         assertCommandFailure(createDeadlineCommand, model, expectedMessage);
     }
@@ -156,7 +156,8 @@ class CreateDeadlineCommandTest {
         operation.addTask(toBeAdded);
 
         CreateDeadlineCommand command = new CreateDeadlineCommand(absoluteTargetPath, toBeAdded, Category.NONE);
-        String expectedMessage = String.format(CreateDeadlineCommand.MESSAGE_SUCCESS,
+        String expectedMessage = String.format(CreateDeadlineCommand.MESSAGE_SUCCESS_STUDENT,
+                absoluteTargetPath.getStudentId().get(),
                 toBeAdded);
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);

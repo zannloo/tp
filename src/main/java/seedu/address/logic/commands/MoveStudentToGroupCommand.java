@@ -21,11 +21,15 @@ public class MoveStudentToGroupCommand extends Command {
 
     public static final String MESSAGE_STUDENT_NOT_FOUND = "Source student not found in ProfBook";
 
-    public static final String MESSAGE_GROUP_NOT_FOUND = "Destination Group not found in ProfBook";
+    public static final String MESSAGE_GROUP_NOT_FOUND = "Destination group not found in ProfBook";
 
-    public static final String MESSAGE_MOVE_STUDENT_SUCCESS = "Student %1$s is moved to this group: %2$s";
+    public static final String MESSAGE_MOVE_STUDENT_SUCCESS =
+            "Student %1$s has been successfully moved to the group: %2$s";
 
-    public static final String MESSAGE_INVALID_MOVE_COMMAND = "Move command is invalid.";
+    public static final String MESSAGE_INVALID_MOVE_COMMAND =
+            "Invalid source or destination.\n\n"
+            + "source:       existing student\n"
+            + "destination:  existing group";
 
     public static final MoveStudentToGroupCommand HELP_MESSAGE = new MoveStudentToGroupCommand();
 
@@ -37,6 +41,9 @@ public class MoveStudentToGroupCommand extends Command {
             + "Argument: \n"
             + "    source               Valid path to source student\n"
             + "    destination          Valid path to destination group\n"
+            + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "mv grp-001/0001Y grp-002";

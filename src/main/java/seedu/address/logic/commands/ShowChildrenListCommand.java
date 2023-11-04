@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
+
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -17,17 +19,16 @@ public class ShowChildrenListCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Show children List of %1$s";
 
-    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook: %1$s";
-
     public static final String MESSAGE_NOT_CHILDREN_MANAGER = "Cannot show children list for this path: %1$s";
 
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " [path] \n"
             + "\n"
-            + "Display the children list.\n"
+            + "Display the children list of the target path (the current directory by default).\n"
             + "\n"
             + "Option: \n"
-            + "    path                 Valid path with children e.g. root and group path\n"
+            + "    path                 Valid path with children e.g. root or group path\n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "ls \n"

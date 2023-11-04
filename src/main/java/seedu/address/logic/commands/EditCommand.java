@@ -36,8 +36,6 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
-    public static final String ERROR_MESSAGE_INVALID_PATH = "This path cannot be edited.";
-
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
     public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
@@ -56,6 +54,7 @@ public class EditCommand extends Command {
             + "    -e, --email          Email of the student\n"
             + "    -p, --phone          Phone of the student\n"
             + "    -a, --address        Address of the student\n"
+            + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"
             + "edit grp-001 -n Perfect Group \n"
@@ -65,7 +64,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Field(s) of student has been edited successfully.";
 
 
-    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "This directory cannot be edited.";
+    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Root directory cannot be edited.";
 
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
@@ -164,7 +163,7 @@ public class EditCommand extends Command {
         Optional<GroupId> editedId = editGroupDescriptor.getId();
         boolean isEdited = editedId.isPresent() && (!editedId.get().equals(groupId));
         if (isEdited && model.hasGroupWithId(editedId.get())) {
-            Group groupWithSameId = model.getGroupWithId(groupId);
+            Group groupWithSameId = model.getGroupWithId(editedId.get());
             throw new CommandException(String.format(
                 MESSAGE_DUPLICATE_GROUP_ID, editedId.get(), Messages.format(groupWithSameId)));
         }

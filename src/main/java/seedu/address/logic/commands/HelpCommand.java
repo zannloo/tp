@@ -15,22 +15,23 @@ public class HelpCommand extends Command {
 
     public static final String SHOWING_HELP_MESSAGE =
             "Use any command with --help for more information.\n"
-            + "Change directory: cd\n"
-            + "Create student: touch\n"
-            + "Create group: mkdir\n"
-            + "Create todo task: todo\n"
-            + "Create deadline task: deadline\n"
-            + "Delete group or student: rm\n"
-            + "Delete task: rmt\n"
-            + "Edit field: edit\n"
-            + "Mark task: mark\n"
-            + "Unmark task: unmark\n"
-            + "Help: help\n"
-            + "Move student from one group to another group: mv\n"
-            + "Display children list: ls \n"
-            + "Display task list: cat\n"
-            + "Clear the input field: clear\n"
-            + "Exit the program: exit";
+            + "Note: clear, exit, and help commands do not have a --help option\n"
+            + "cd        Change directory\n"
+            + "mkdir     Create group\n"
+            + "ls        Display children list\n"
+            + "mv        Move student from one group to another group\n"
+            + "touch     Create student\n"
+            + "rm        Delete group or student\n"
+            + "edit      Edit field\n"
+            + "todo      Create todo task\n"
+            + "deadline  Create deadline task\n"
+            + "cat       Display task list\n"
+            + "rmt       Delete task\n"
+            + "mark      Mark task\n"
+            + "unmark    Unmark task\n"
+            + "clear     Erase the application's data\n"
+            + "exit      Exit the program\n"
+            + "help      Show this menu";
 
     /**
      * Executes the HelpCommand to display program usage instructions.
