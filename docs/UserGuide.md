@@ -174,7 +174,7 @@ multiple lines as space characters surrounding line-breaks may be omitted when c
 
 ### Flags :triangular_flag_on_post::triangular_flag_on_post::triangular_flag_on_post:
 All flags begin with `--` or `-`.
-Flags come before essential details required by the command and are compatible in both long and short forms:
+Flags usually come before essential details required by the command and are compatible in both long and short forms:
 
 - `--name` / `-n` followed by name of student or group specified by command.
 - `--email` / `-e` followed by email of student. 
@@ -187,6 +187,9 @@ Flags come before essential details required by the command and are compatible i
     - can only be used at a group directory.  
   - `allGrp` which adds **group** tasks to all groups within the root directory.
     - can only be used at root directory.
+- `--help` / `-h`
+  - Use with any command (except `exit`, `help` and `clear`) for more information.
+  - e.g. `touch --help` to learn more about how to add a student to ProfBook.
 
 ### Acceptable values for each parameter:
 
@@ -1013,7 +1016,7 @@ the data of your previous ProfBook home folder.
 | **Edit Student**            | `edit SPECIFIED_PATH [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]` <br> e.g., `edit 0010Y --phone 91919191`                                                                   |
 | **Create Group**            | `mkdir SPECIFIED_PATH_TO_GROUP --name NAME` <br> e.g., `mkdir grp-001 --name Group 001`                                                                                              |
 | **Delete Student or Group** | `rm SPECIFIED_PATH` <br> e.g., `rm 0123Y`, `rm grp-002`                                                                                                                              |
-| *Move Student*              | `mv SPECIFIED_PATH_TO_STUDENT SPECIFIED_PATH_TO_GROUP`  <br> e.g., `mv grp-001/0123Y grp-002`                                                                                                                                                                                   |
+| **Move Student**                | `mv SPECIFIED_PATH_TO_STUDENT SPECIFIED_PATH_TO_GROUP`  <br> e.g., `mv grp-001/0123Y grp-002`                                                                                                                                                                                   |
 | **Create Todo**             | `todo [SPECIFIED_PATH] --desc DESCRIPTION [--all CATEGORY]` <br> e.g., `todo 2000Y --desc Assignment 1`                                                                              |
 | **Create Deadline**         | `deadline [SPECIFIED_PATH] --desc DESCRIPTION --datetime DATE_AND_TIME [--all CATEGORY]`<br> e.g., `deadline 2000Y --desc Assignment 1 --datetime 2023-10-11 23:59 `                 |
 | **Mark**                    | `mark TASK_INDEX`<br> e.g.,`mark 1`                                                                                                                                                  |
