@@ -1,6 +1,8 @@
 package seedu.address.model.path;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -33,14 +35,14 @@ public class RelativePathTest {
 
     @Test
     public void constructor_validPath_returnValidPath() throws InvalidPathException {
-        RelativePath path1 = new RelativePath("grp-001/0001Y");
-        RelativePath path2 = new RelativePath(".");
-        RelativePath path3 = new RelativePath("~");
-        RelativePath path4 = new RelativePath("0001Y");
-        RelativePath path5 = new RelativePath("grp-001");
-        RelativePath path6 = new RelativePath("~/grp-001/0001Y");
-        RelativePath path7 = new RelativePath("~/grp-001/./0001Y");
-        RelativePath path8 = new RelativePath("~/./grp-001/./0001Y");
+        new RelativePath("grp-001/0001Y");
+        new RelativePath(".");
+        new RelativePath("~");
+        new RelativePath("0001Y");
+        new RelativePath("grp-001");
+        new RelativePath("~/grp-001/0001Y");
+        new RelativePath("~/grp-001/./0001Y");
+        new RelativePath("~/./grp-001/./0001Y");
     }
 
     @Test
@@ -74,5 +76,14 @@ public class RelativePathTest {
 
         // different values -> returns false
         assertFalse(path.equals(new RelativePath("grp-001")));
+    }
+
+    @Test
+    public void hashCodeMethod() throws InvalidPathException {
+        RelativePath path1 = new RelativePath("../grp-001");
+        RelativePath path1Copy = new RelativePath("../grp-001");
+        RelativePath path2 = new RelativePath("../");
+        assertEquals(path1.hashCode(), path1Copy.hashCode());
+        assertNotEquals(path1.hashCode(), path2.hashCode());
     }
 }

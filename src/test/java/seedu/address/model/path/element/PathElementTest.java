@@ -75,15 +75,23 @@ public class PathElementTest {
     }
 
     @Test
-    public void equals_samePathElement_returnsTrue() throws InvalidPathElementException {
+    public void equals() throws InvalidPathElementException {
         PathElement rootCopy = PathElement.parsePathElement("~");
-        assertEquals(rootCopy, validRootElement);
-    }
 
-    @Test
-    public void equals_differentPathElements_returnsFalse() throws InvalidPathElementException {
-        assertNotEquals(validRootElement, validParentElement);
-        assertNotEquals(validCurrentElement, null);
+        // same object -> returns true
+        assertEquals(validRootElement, validRootElement);
+
+        // same values -> returns true
+        assertEquals(validRootElement, rootCopy);
+
+        // different types -> returns false
+        assertNotEquals(1, validRootElement);
+
+        // null -> returns false
+        assertNotEquals(null, validRootElement);
+
+        // different values
+        assertNotEquals(validParentElement, validCurrentElement);
     }
 
     @Test

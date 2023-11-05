@@ -2,6 +2,7 @@ package seedu.address.model.path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -96,7 +97,7 @@ public class AbsolutePathTest {
     }
 
     @Test
-    public void equals() throws InvalidPathException {
+    public void equalsMethod() throws InvalidPathException {
         AbsolutePath path = new AbsolutePath("~/grp-001/0001Y");
 
         // same values -> returns true
@@ -110,6 +111,15 @@ public class AbsolutePathTest {
 
         // different values -> returns false
         assertFalse(path.equals(new AbsolutePath("~/grp-001/")));
+    }
+
+    @Test
+    public void hashCodeMethod() throws InvalidPathException {
+        AbsolutePath path1 = new AbsolutePath("~/grp-001/0001Y");
+        AbsolutePath path1Copy = new AbsolutePath("~/grp-001/0001Y");
+        AbsolutePath path2 = new AbsolutePath("~/grp-001/");
+        assertEquals(path1.hashCode(), path1Copy.hashCode());
+        assertNotEquals(path1.hashCode(), path2.hashCode());
     }
 
     //=========== Resolve Method =============================================================
