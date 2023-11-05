@@ -11,6 +11,8 @@ import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.profbook.Root;
+import seedu.address.testutil.TypicalRoots;
 
 public class ProfBookStorageManagerTest {
 
@@ -44,17 +46,13 @@ public class ProfBookStorageManagerTest {
         assertNotNull(storageManager.getUserPrefsFilePath());
     }
 
-    //    @Test
-    //    public void addressBookReadSave() throws Exception {
-    //        Root original = SampleProfBook.getRoot();
-    //        storageManager.saveProfBook(original);
-    //        Root retrieved = storageManager.readProfBook().get();
-    //        Set<Task> originalTasks = new HashSet<>(original.);
-    //        Set<Task> retrievedTasks = new HashSet<>(retrieved.getTaskList());
-    //
-    //        assertEquals(originalTasks, retrievedTasks);
-    //        assertEquals(original, retrieved);
-    //    }
+    @Test
+    public void profBookReadSave() throws Exception {
+        Root original = TypicalRoots.PROFBOOK_WITH_TWO_GROUPS;
+        storageManager.saveProfBook(original);
+        Root retrieved = storageManager.readProfBook().get();
+        assertEquals(original, retrieved);
+    }
 
     @Test
     public void getProfBookFilePath() {
