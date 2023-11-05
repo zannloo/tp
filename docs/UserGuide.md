@@ -450,7 +450,8 @@ The `edit` command uses the same command word, `edit`, for both editing students
 For greater clarity, we have separated the sections for editing a student and group.<br> 
 If you wish to edit a group instead, please refer to the dedicated section [here](#edit-a-group-edit). 
 </box>
-Edits a student's details including name, email, phone or address in the specified path.
+
+Edits a student's details including name, email, phone or address in the specified path. <br>
 One or more fields can be edited in a single command.
 
 **Format:** `edit SPECIFIED_PATH [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]`
@@ -459,12 +460,6 @@ One or more fields can be edited in a single command.
 
 `SPECIFIED_PATH`:  
 - Must be a valid path to a student.
-
-<box type="info">
-
-If `[SPECIFIED_PATH]` is not provided, current directory must be a student directory.
-The `edit` command will edit the student at current directory.  
-</box>
 
 #### Output if command succeeds: 
 - Displays message indicating successful edition of specified student. 
@@ -501,7 +496,8 @@ The `edit` command uses the same command word, `edit`, for both editing students
 For greater clarity, we have separated the sections for editing a student and group.<br>
 If you wish to edit a student instead, please refer to the dedicated section [here](#edit-a-student-edit).
 </box>
-Edits a group's name in the specified path.
+
+Edits a group's name in the specified path. <br>
 
 **Format:** `edit [SPECIFIED_PATH] --name NAME`
 
