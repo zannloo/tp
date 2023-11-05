@@ -49,11 +49,11 @@ public abstract class Path {
             path = path.substring(0, path.length() - 1);
         }
 
-        String[] elementStrs = path.split("/");
-
-        if (elementStrs.length == 0) {
+        if (path.trim().isEmpty()) {
             throw new InvalidPathException("Path cannot be empty.");
         }
+
+        String[] elementStrs = path.split("/");
 
         List<PathElement> elements = new ArrayList<>();
 
