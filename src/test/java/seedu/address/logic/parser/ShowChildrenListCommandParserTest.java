@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PATH_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_PATH_RESOLUTION_FAIL;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.EMPTY_PREAMBLE;
 import static seedu.address.logic.commands.CommandTestUtil.HELP_OPTION;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
@@ -48,7 +49,7 @@ public class ShowChildrenListCommandParserTest {
     @Test
     public void parse_emptyPath_returnsShowChildrenListCommandForCurrentPath() {
         // Show children list command for current path.
-        assertParseSuccess(parser, "", ROOT_PATH, new ShowChildrenListCommand());
+        assertParseSuccess(parser, EMPTY_PREAMBLE, ROOT_PATH, new ShowChildrenListCommand());
     }
 
     @Test
