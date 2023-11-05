@@ -94,7 +94,7 @@ public class ModelManager implements Model {
         return userPrefs.getProfBookFilePath();
     }
 
-    public void setAddressBookFilePath(Path addressBookFilePath) {
+    public void setProfBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
     }
@@ -102,6 +102,7 @@ public class ModelManager implements Model {
     //=========== ProfBook Model ================================================================================
     @Override
     public void setRoot(Root root) {
+        requireNonNull(root);
         this.root = root;
         this.currentPath = AbsolutePath.ROOT_PATH;
         this.displayPath = AbsolutePath.ROOT_PATH;
@@ -200,16 +201,11 @@ public class ModelManager implements Model {
             return true;
         }
 
-        GroupId grpId = path.getGroupId().get();
-
         if (path.isGroupDirectory()) {
-            return root.hasChild(grpId);
+            return hasGroup(path);
         }
 
-        Group grp = getGroupFromPath(path);
-        StudentId stuId = path.getStudentId().get();
-
-        return grp.hasChild(stuId);
+        return hasStudent(path);
     }
 
     @Override
