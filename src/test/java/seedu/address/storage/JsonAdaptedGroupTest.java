@@ -85,7 +85,8 @@ public class JsonAdaptedGroupTest {
     public void toModelType_invalidId_throwsIllegalValueException() {
         JsonAdaptedGroup grp = new JsonAdaptedGroup("123", "001", new ArrayList<JsonAdaptedStudent>(),
                 new ArrayList<JsonAdaptedTasks>());
-        String expectedMessage = "Group Id should be in the format 'grp-XXX' where XXX is a 3-digit number.";
+        String expectedMessage = "Group Id should be in the format 'grp-XXX' where XXX is a 3-digit number, "
+                + "and it should not be blank.";
         try {
             grp.toModelType();
             fail("Expected IllegalValueException to be thrown");

@@ -13,7 +13,7 @@ public class JsonAdaptedDeadlineTest {
     public static final String VALID_DESCRIPTION = "Buy groceries";
 
     @Test
-    public void toModelType_validToDoWithIsDoneTrue_returnsToDoWithIsDoneTrue() {
+    public void toModelType_validDeadlineWithIsDoneTrue_returnsDeadlineWithIsDoneTrue() {
         String isDone = "true";
         String time = "Monday, October 24, 2022 03:45 PM";
 

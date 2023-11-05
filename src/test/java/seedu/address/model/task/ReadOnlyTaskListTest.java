@@ -36,12 +36,10 @@ public class ReadOnlyTaskListTest {
 
     @Test
     public void toString_returnsTrue() {
-        String expected = "[[D][ ] Assignment 1(by: 2023-11-15 10:00),"
-                + " [D][ ] Assignment 2(by: 2023-11-20 15:30),"
+        String expected = "seedu.address.model.task.TaskListManager"
+                + "{Task List=[[D][ ] Assignment 1(by: 2023-11-15 10:00), [D][ ] Assignment 2(by: 2023-11-20 15:30),"
                 + " [D][ ] Project Presentation(by: 2023-12-05 14:00),"
-                + " [T][ ] Quiz 1,"
-                + " [T][ ] Homework 2,"
-                + " [T][ ] Research Paper]";
-        assertEquals(taskList1.toString(), expected);
+                + " [T][ ] Quiz 1, [T][ ] Homework 2, [T][ ] Research Paper]}";
+        assertEquals(expected, taskList1.toString());
     }
 }
