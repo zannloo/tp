@@ -11,7 +11,6 @@ import seedu.address.logic.commands.ChangeDirectoryCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
  * Parses input arguments and creates a new ChangeDirectoryCommand object
@@ -35,17 +34,15 @@ public class ChangeDirectoryCommandParser implements Parser<ChangeDirectoryComma
             return ChangeDirectoryCommand.HELP_MESSAGE;
         }
 
+        // No option for cd command
+        ParserUtil.verifyAllOptionsValid(args);
+
         if (argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
         RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
-        }
+        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
 
         logger.info("Creating ChangeDirectoryCommand with dest: " + path.toString());
 
