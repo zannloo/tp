@@ -95,7 +95,8 @@ public class ShowChildrenListCommandTest {
         assertEquals(showChildrenListCommand1, showChildrenListCommand1Copy);
 
         // different types -> returns false
-        assertNotEquals(ROOT_PATH, showChildrenListCommand1);
+        ShowTaskListCommand showTaskListCommand = new ShowTaskListCommand(PATH_TO_GROUP_TWO);
+        assertNotEquals(showTaskListCommand, showChildrenListCommand1);
 
         // null -> returns false
         assertNotEquals(null, showChildrenListCommand1);

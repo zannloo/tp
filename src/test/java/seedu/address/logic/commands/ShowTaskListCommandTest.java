@@ -123,7 +123,8 @@ public class ShowTaskListCommandTest {
         assertEquals(showTaskListCommand1, showTaskListCommand1Copy);
 
         // different types -> returns false
-        assertNotEquals(ROOT_PATH, showTaskListCommand1);
+        ShowChildrenListCommand showChildrenListCommand = new ShowChildrenListCommand(ROOT_PATH);
+        assertNotEquals(showChildrenListCommand, showTaskListCommand1);
 
         // null -> returns false
         assertNotEquals(null, showTaskListCommand1);

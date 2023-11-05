@@ -109,7 +109,8 @@ public class ChangeDirectoryCommandTest {
         assertEquals(changeDirectoryCommand1, changeDirectoryCommand1Copy);
 
         // different types -> returns false
-        assertNotEquals(ROOT_PATH, changeDirectoryCommand1);
+        ShowChildrenListCommand showChildrenListCommand = new ShowChildrenListCommand(ROOT_PATH);
+        assertNotEquals(showChildrenListCommand, changeDirectoryCommand1);
 
         // null -> returns false
         assertNotEquals(null, changeDirectoryCommand1);
