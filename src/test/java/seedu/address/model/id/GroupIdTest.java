@@ -37,6 +37,7 @@ public class GroupIdTest {
         GroupId groupId1 = new GroupId("grp-001");
         GroupId groupId1Copy = new GroupId("grp-001");
         GroupId groupId2 = new GroupId("grp-002");
+        StudentId studentId = new StudentId("0001Y");
 
         // same object -> returns true
         assertEquals(groupId1, groupId1);
@@ -45,7 +46,7 @@ public class GroupIdTest {
         assertEquals(groupId1Copy, groupId1);
 
         // different types -> returns false
-        assertNotEquals(1, groupId1);
+        assertNotEquals(studentId, groupId1);
 
         // null -> returns false
         assertNotEquals(null, groupId1);
