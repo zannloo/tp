@@ -57,7 +57,7 @@ public class SampleProfBook {
         }
 
         for (int i = 0; i < 5; i++) {
-            ToDo todo = new ToDo("Task " + i + 5);
+            ToDo todo = new ToDo("Task " + (i + 5));
             todo.mark();
             tasks.add(todo);
         }

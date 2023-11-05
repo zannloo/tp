@@ -27,7 +27,7 @@ public class ShowChildrenListCommand extends Command {
             + "Display the children list of the target path (the current directory by default).\n"
             + "\n"
             + "Option: \n"
-            + "    path                 Valid path with children e.g. root and group path\n"
+            + "    path                 Valid path with children e.g. root or group path\n"
             + "    -h, --help           Show this help menu\n"
             + "\n"
             + "Examples: \n"

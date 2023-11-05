@@ -56,7 +56,7 @@ public class EditCommandParser implements Parser<EditCommand> {
             return parseEditGroup(args, targetPath);
         }
 
-        throw new ParseException(EditCommand.ERROR_MESSAGE_INVALID_PATH);
+        throw new ParseException(EditCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR);
     }
 
     private EditCommand parseEditStudent(String args, AbsolutePath target) throws ParseException {

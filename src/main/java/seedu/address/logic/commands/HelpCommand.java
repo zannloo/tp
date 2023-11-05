@@ -15,6 +15,7 @@ public class HelpCommand extends Command {
 
     public static final String SHOWING_HELP_MESSAGE =
             "Use any command with --help for more information.\n"
+            + "Note: clear, exit, and help commands do not have a --help option\n"
             + "cd        Change directory\n"
             + "mkdir     Create group\n"
             + "ls        Display children list\n"

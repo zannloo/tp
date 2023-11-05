@@ -24,7 +24,8 @@ public class DeleteTaskCommand extends Command {
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <index>\n"
             + "\n"
-            + "Delete a task with the specified index number.\n"
+            + "Delete the task with the given display index.\n"
+            + "Must use \'cat\' command before remove task.\n"
             + "\n"
             + "Argument: \n"
             + "    index                Valid display index of target task\n"
