@@ -2,14 +2,11 @@ package seedu.address.model.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.TypicalTasks.TASK_LIST_1;
 import static seedu.address.testutil.TypicalTasks.TASK_LIST_2;
 
 import org.junit.jupiter.api.Test;
-
-import seedu.address.model.task.exceptions.NoSuchTaskException;
 
 public class ReadOnlyTaskListTest {
 
