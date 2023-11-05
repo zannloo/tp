@@ -33,6 +33,13 @@ public class AbsolutePathTest {
     }
 
     @Test
+    public void constructor_emptyPath_throwInvalidPathException() {
+        assertThrows(InvalidPathException.class, () -> {
+            new AbsolutePath("");
+        });
+    }
+
+    @Test
     public void constructor_invalidPathElement_throwInvalidPathException() {
         assertThrows(InvalidPathException.class, () -> {
             new AbsolutePath("~/grp-001/K001Y");

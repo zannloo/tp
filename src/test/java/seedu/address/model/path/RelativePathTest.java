@@ -34,6 +34,13 @@ public class RelativePathTest {
     }
 
     @Test
+    public void constructor_emptyPath_throwInvalidPathException() {
+        assertThrows(InvalidPathException.class, () -> {
+            new RelativePath("");
+        });
+    }
+
+    @Test
     public void constructor_validPath_returnValidPath() throws InvalidPathException {
         new RelativePath("grp-001/0001Y");
         new RelativePath(".");
