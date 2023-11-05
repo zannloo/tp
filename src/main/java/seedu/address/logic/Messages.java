@@ -35,6 +35,8 @@ public class Messages {
             + " 'dd\': day, \'HH\': hour (24-hour format),"
             + " 'mm\': minutes.";
 
+    public static final String MESSAGE_INTERNAL_ERROR = "Internal error: %1$s";
+
     public static final String MESSAGE_INVALID_INDEX = "Invalid index for task list with size %1$s: %2$s";
 
     public static final String MESSAGE_TASK_LIST_NOT_SHOWN = "No task list is currently displayed.";

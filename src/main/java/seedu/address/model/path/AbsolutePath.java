@@ -1,5 +1,7 @@
 package seedu.address.model.path;
 
+import static seedu.address.logic.Messages.MESSAGE_INTERNAL_ERROR;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -7,10 +9,8 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
-import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.element.PathElement;
 import seedu.address.model.path.element.PathElementType;
 import seedu.address.model.path.exceptions.InvalidPathException;
@@ -20,7 +20,7 @@ import seedu.address.model.path.exceptions.InvalidPathException;
  */
 public class AbsolutePath extends Path {
     public static final AbsolutePath ROOT_PATH;
-    private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+    private static final Logger logger = LogsCenter.getLogger(AbsolutePath.class);
 
     static {
         try {
@@ -107,11 +107,10 @@ public class AbsolutePath extends Path {
     }
 
     /**
-     * Retrieves the student ID from the path directory.
+     * Retrieves the {@code StudentId} associated with this directory.
      *
-     * @return The student ID.
-     * @throws UnsupportedPathOperationException If the operation is not supported based on the directory's model.
-     * @throws InvalidIdException                If the retrieved ID is invalid.
+     * @return An Optional containing the GroupId if it exists in the directory, or an empty Optional
+     *         if the directory is a root or group directory.
      */
     public Optional<StudentId> getStudentId() {
         if (this.isGroupDirectory() || this.isRootDirectory()) {
@@ -125,14 +124,15 @@ public class AbsolutePath extends Path {
             }
         }
 
-        return Optional.empty();
+        throw new IllegalArgumentException(
+                String.format(MESSAGE_INTERNAL_ERROR, "Student Id element not found in path."));
     }
 
     /**
-     * Retrieves the group ID from the path directory.
+     * Retrieves the {@code GroupId} associated with this directory.
      *
-     * @return The group ID.
-     * @throws InvalidIdException If the retrieved ID is invalid.
+     * @return An Optional containing the StudentId if it exists in the directory, or an empty Optional
+     *         if the directory is a root directory.
      */
     public Optional<GroupId> getGroupId() {
         if (this.isRootDirectory()) {
@@ -146,7 +146,8 @@ public class AbsolutePath extends Path {
             }
         }
 
-        return Optional.empty();
+        throw new IllegalArgumentException(
+                String.format(MESSAGE_INTERNAL_ERROR, "Group Id element not found in path."));
     }
 
     @Override

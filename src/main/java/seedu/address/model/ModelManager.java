@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INTERNAL_ERROR;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ import seedu.address.ui.Displayable;
 public class ModelManager implements Model {
 
     private static final Logger logger = LogsCenter.getLogger(Model.class);
-    private static final String MESSAGE_INTERNAL_ERROR = "Internal error: %1$s";
     private final ObservableList<Displayable> displayList = FXCollections.observableArrayList();
     private final UserPrefs userPrefs;
     private Root root;
