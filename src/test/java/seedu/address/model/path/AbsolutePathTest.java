@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.StudentId;
-import seedu.address.model.id.exceptions.InvalidIdException;
 import seedu.address.model.path.exceptions.InvalidPathException;
 
 public class AbsolutePathTest {
@@ -263,24 +262,21 @@ public class AbsolutePathTest {
 
     //=========== Get ID Method =============================================================
     @Test
-    public void getStudentId_studentPath_returnsValidStudentId()
-            throws InvalidIdException {
+    public void getStudentId_studentPath_returnsValidStudentId() {
         Optional<StudentId> studentId = studentPath.getStudentId();
         assertTrue(studentId.isPresent());
         assertEquals(new StudentId("0001Y"), studentId.get());
     }
 
     @Test
-    public void getGroupId_studentPath_returnsValidStudentId()
-            throws InvalidIdException {
+    public void getGroupId_studentPath_returnsValidStudentId() {
         Optional<GroupId> groupId = studentPath.getGroupId();
         assertTrue(groupId.isPresent());
         assertEquals(new GroupId("GRP-001"), groupId.get());
     }
 
     @Test
-    public void getGroupId_groupPath_returnsValidGroupId()
-            throws InvalidIdException {
+    public void getGroupId_groupPath_returnsValidGroupId() {
         Optional<GroupId> groupId = groupPath.getGroupId();
         assertTrue(groupId.isPresent());
         assertEquals(new GroupId("GRP-001"), groupId.get());
