@@ -25,6 +25,7 @@ This guide is intended for future developers, current contributors and users. Th
 implementation of ProfBook to future developers and deepen their knowledge in software development. By the end of this
 guide, you can expect to get an overview of the design architecture of ProfBook and comprehensive details of some of its
 core features, backed up by UML diagrams.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
@@ -187,7 +188,7 @@ The `Model` component,
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they
   should make sense on their own without depending on other components)
 
-<puml src="diagrams/ProfBookClassDiagram.puml" width="550" />
+<puml src="diagrams/ProfBookClassDiagram.puml" width="650" />
 
 The diagram above shows how the folder structure is implemented in ProfBook,
 
@@ -201,7 +202,7 @@ The diagram above shows how the folder structure is implemented in ProfBook,
 **API
 ** : [`TaskListManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/profbook/TaskListManager.java)
 
-<puml src="diagrams/TaskListClassDiagram.puml" width="550" />
+<puml src="diagrams/TaskListClassDiagram.puml" width="300" />
 
 How the `Task` component work:
 
@@ -284,7 +285,9 @@ Given below is an example usage scenario on how an existing user can create a st
 
 1. When the user launches the application, existing information is read from the data file `profbook.json`. The initial
    state would look something like this.
+
    <puml src="diagrams/AddInitialState.puml" width="550" />
+
 2. Suppose the user is still in the root directory and wants to add a new student to group 1, the user would execute the
    following
    command: `touch ~/grp-001/2000Y --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh`.
@@ -299,16 +302,19 @@ Given below is an example usage scenario on how an existing user can create a st
    through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. This would ensure
    the path to the group is present and valid. The student is added through the `GroupChildOperation::addChild` method.
 7. It should look something like this.
+
    <puml src="diagrams/AddFinalState.puml" width="550" />
+
+This sequence diagram shows the general flow of the CreateStudentCommand, for more information on each specific
+component, do head over to their respective documentation.
 
 <puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="550" />
 
-The above sequence diagram shows the general flow of the CreateStudentCommand, for more information on each specific
-component, do head over to their respective documentation.
+
+
+Below is an activity diagram showing the general activity of the add student command.
 
 //TODO ADD activity diagram
-
-Above is an activity diagram showing the general activity of the add student command.
 
 #### Design Consideration
 
@@ -360,7 +366,9 @@ Given below is an example usage scenario on how an existing user can add Deadlin
 
 1. When the user launches the application, existing information is read from the data file `profbook.json`. In our case,
    let us narrow our focus to a specific group with 2 students.
+
    <puml src="diagrams/DeadlineInitialState.puml" width="550" />
+
 2. Suppose the user is still in the root directory and wants to add a deadline to all students in group1, the user would
    execute the following
    command: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-12-12 23:59`. More information on the flags could be
@@ -376,16 +384,18 @@ Given below is an example usage scenario on how an existing user can add Deadlin
    added through the `GroupChildOperation::addTaskToAllStudent` method. For each student, the method would check if the
    task is already present, if not it would add the task.
 6. It should look something like this.
+
    <puml src="diagrams/DeadlineFinalState.puml" width="550" />
+
+This sequence diagram illustrates the general flow when adding the deadline task to *all* students, the sequence
+diagram for adding a deadline task to a *single* student can be found in the `Model` component.
 
 <puml src="diagrams/CreateDeadlineCommandSequenceDiagram.puml" width="550" />
 
-The above sequence diagram illustrates the general flow when adding the deadline task to *all* students, the sequence
-diagram for adding a deadline task to a *single* student can be found in the `Model` component.
+
+This is an activity diagram showing the general activity of the add deadline command.
 
 //TODO ADD activity diagram
-
-Above is an activity diagram showing the general activity of the add deadline command.
 
 #### Design Consideration
 
@@ -441,19 +451,22 @@ Given below is an example usage scenario on how an existing user can edit the na
    checks the flags to ensure only required flags are present.
 4. If the id is being edited, `ModelManager::hasGroupWithId` is called to ensure it does not result in a duplicate.
 5. The `RootChildOperation::editChild` then makes a copy of the existing group while updating the values.
+
    <puml src="diagrams/EditIntermediateState.puml" width="550" />
+
 6. It then deletes the old key-value pair in root's `Map<id, group>` and adds the new key-value pair.
+
    <puml src="diagrams/EditFinalState.puml" width="550" />
 
-<puml src="diagrams/EditCommandSequenceDiagram.puml" width="550" />
-
-is illustrated by the above sequence diagram. It shows the general flow of the edit through editing a `Group`
+This is illustrated by the following sequence diagram. It shows the general flow of the edit through editing a `Group`
 instance, this example should be general enough for you to understand how the edit command works on other classes such
 as `Student`.
 
-//TODO ADD activity diagram
+<puml src="diagrams/EditCommandSequenceDiagram.puml" width="550" />
 
-Above is an activity diagram showing the general activity of the edit command.
+This is an activity diagram showing the general activity of the edit command.
+
+//TODO ADD activity diagram
 
 #### Design Consideration
 
@@ -482,7 +495,7 @@ users to have the peace of mind that the phone number is validated and robust en
 Currently, our application does not check if the tasks is marked or unmarked before any operation. This resulted in
 users being able to mark/unmark tasks infinitely, this is not intuitive and may mislead some users. Hence, we plan to
 only allow users to unmark tasks that are marked and vice versa. Also, we plan to add a more descriptive error message
-so as to highlight to the user of the current state of the task.
+to highlight to the user of the current state of the task.
 
 ### More robust duplicate checking
 
