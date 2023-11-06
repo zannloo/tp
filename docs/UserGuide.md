@@ -844,19 +844,19 @@ Creates task with a deadline for specific student(s) or group(s).
 If `[SPECIFIED_PATH]` is not provided, current directory must be a group directory. <br>
 If you use `--all allStu`, the command will create deadline task for all the students within this group directory.
 Else, the command will create a deadline task for the group at current directory.
-</box> 
-
-<box type="success" seamless>
+</box>
 
 <box type="tip">
 
 THE `DATE_AND_TIME` accepts past deadlines hence, you can also use the `deadline` command
 to keep track ot past events without worry!
 </box>
+
+<box type="success" seamless>
+
 #### Output if command succeeds
 
 - Displays message indicating the successful creation of the deadline task.
-
 </box>
 
 <box type="wrong" seamless>
@@ -1046,7 +1046,7 @@ By adhering to these steps, you could efficiently correct invalid options in you
 <box type = "info">
 
 Please note that if there are multiple invalid option, only the first invalid option will be shown in the return
-message. This approach aids you to concentrate on addressing the invalid option before moving on to the subsequent
+message. <br> This approach aids you to concentrate on addressing the invalid option before moving on to the subsequent
 ones. The next invalid option will be shown after rerunning the command if the current invalid option has been shown.
 </box>
 
