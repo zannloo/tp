@@ -3,21 +3,17 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.EditCommand.ERROR_MESSAGE_NO_SUCH_GROUP;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_DUPLICATE_GROUP_ID;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_DUPLICATE_STUDENT_ID;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_NO_CHANGES_MADE;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_NO_SUCH_PATH;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_NO_SUCH_STUDENT;
+import static seedu.address.logic.commands.EditCommand.*;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalGroups.GROUP_ONE;
 import static seedu.address.testutil.TypicalGroups.GROUP_TWO;
-import static seedu.address.testutil.TypicalStudents.ELLE;
+import static seedu.address.testutil.TypicalRoots.PROFBOOK_WITH_TWO_GROUPS;
+import static seedu.address.testutil.TypicalStudents.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -32,7 +28,6 @@ import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
-import seedu.address.testutil.RootBuilder;
 
 public class EditCommandTest {
     private Model model;
@@ -41,7 +36,7 @@ public class EditCommandTest {
 
     @BeforeEach
     public void setup() {
-        Root root = new RootBuilder().withGroup(GROUP_ONE).build();
+        Root root = PROFBOOK_WITH_TWO_GROUPS;
         model = new ModelManager(rootPath, new Root(root), new UserPrefs());
         expectedModel = new ModelManager(rootPath, new Root(root), new UserPrefs());
     }
@@ -54,6 +49,42 @@ public class EditCommandTest {
     @Test
     public void constructor_nullRelativePathAndEditStudentDescriptor_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new EditCommand(null, (EditStudentDescriptor) null));
+    }
+
+    @Test
+    public void execute_editGroupId_success() throws CommandException, InvalidPathException {
+        Group groupInRoot = GROUP_ONE;
+
+        RelativePath groupPath = new RelativePath(groupInRoot.getId().toString());
+        AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath);
+
+        EditGroupDescriptor editGroupDescriptor = new EditGroupDescriptor();
+        editGroupDescriptor.setId(new GroupId("grp-003"));
+        EditCommand command = new EditCommand(targetAbsolutePath, editGroupDescriptor);
+        CommandResult expectedResult = new CommandResult(MESSAGE_EDIT_GROUP_SUCCESS);
+
+        CommandResult result = command.execute(model);
+
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    public void execute_editStudentId_success() throws CommandException, InvalidPathException {
+        Student toBeEdited = ALICE;
+        Group groupInRoot = GROUP_ONE;
+
+        RelativePath groupPath = new RelativePath(groupInRoot.getId().toString());
+        RelativePath stuPath = new RelativePath(toBeEdited.getId().toString());
+        AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath).resolve(stuPath);
+
+        EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
+        editStudentDescriptor.setId(new StudentId("0999Y"));
+        EditCommand command = new EditCommand(targetAbsolutePath, editStudentDescriptor);
+        CommandResult expectedResult = new CommandResult(MESSAGE_EDIT_STUDENT_SUCCESS);
+
+        CommandResult result = command.execute(model);
+
+        assertEquals(expectedResult, result);
     }
 
     @Test
@@ -92,7 +123,7 @@ public class EditCommandTest {
         AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath);
 
         EditGroupDescriptor editGroupDescriptor = new EditGroupDescriptor();
-        editGroupDescriptor.setId(new GroupId("grp-001"));
+        editGroupDescriptor.setId(new GroupId("grp-002"));
         EditCommand command = new EditCommand(targetAbsolutePath, editGroupDescriptor);
 
         String expectedMessage = MESSAGE_DUPLICATE_GROUP_ID;
@@ -110,7 +141,7 @@ public class EditCommandTest {
         AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath).resolve(stuPath);
 
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
-        editStudentDescriptor.setId(new StudentId("0005Y"));
+        editStudentDescriptor.setId(new StudentId("0001Y"));
         EditCommand command = new EditCommand(targetAbsolutePath, editStudentDescriptor);
 
         String expectedMessage = MESSAGE_DUPLICATE_STUDENT_ID;
@@ -152,7 +183,7 @@ public class EditCommandTest {
 
     @Test
     public void execute_noSuchStudent_throwCommandException() throws InvalidPathException {
-        Student toBeEdited = ELLE;
+        Student toBeEdited = MAYA;
         Group elleGroup = GROUP_ONE;
 
         RelativePath groupPath = new RelativePath(elleGroup.getId().toString());
@@ -175,6 +206,17 @@ public class EditCommandTest {
         String expectedMessage = MESSAGE_INCORRECT_DIRECTORY_ERROR;
 
         assertCommandFailure(command, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_isHelpTrue_returnMessageUsage() throws CommandException {
+        EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
+        EditCommand command = new EditCommand(rootPath, editStudentDescriptor);
+        CommandResult result = command.HELP_MESSAGE.execute(model);
+
+        CommandResult expectedResult = new CommandResult(MESSAGE_USAGE);
+
+        assertEquals(result, expectedResult);
     }
 
     @Test
