@@ -1,4 +1,4 @@
-package seedu.address.statemanager;
+package seedu.address.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -14,10 +14,6 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.TaskOperation;
-import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
@@ -132,4 +128,36 @@ public class TaskOperationTest {
         list.add(this.task);
         assertEquals(opr.getAllTasks(), list);
     }
+
+    @Test
+    public void taskOperation_checkHashCode() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        TaskOperation opr2 = model.taskOperation(stuPath);
+        assertEquals(opr1.hashCode(), opr2.hashCode());
+    }
+
+    @Test
+    public void equals_sameTaskOperations_returnsTrue() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        TaskOperation opr2 = model.taskOperation(stuPath);
+        assertTrue(opr1.equals(opr2));
+    }
+
+    @Test
+    public void equals_nullTaskOperations_returnsFalse() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        assertFalse(opr1.equals(null));
+    }
+
+    @Test
+    public void toStringTest() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        String expectedMessage = "seedu.address.model.profbook.Student"
+                + "{Student Id=0001Y, name=zann, phone=98765432,"
+                + " email=zannwhatudoing@example.com, address=311, Clementi Ave 2,"
+                + " #02-25, Task List=seedu.address.model.profbook.Student"
+                + "{Task List=[[D][ ] Assignment 3(by: 2023-12-03 23:59)]}}";
+        assertEquals(opr1.toString(), expectedMessage);
+    }
+
 }
