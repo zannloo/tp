@@ -1036,7 +1036,6 @@ of 1 to the total number of tasks in the task list.
 **Solution:**
 Please do not forget to execute the [`cat`](#display-all-tasks-cat) command prior to executing the required command.
 
-
 ##### Mistake 7: Invalid option
 **Solution:**
 Pay close attention to the invalid option indicated in the return message. 
@@ -1105,6 +1104,7 @@ and add it back through the `todo` or `deadline` command!
 `edit` command for Students and Groups. This addition will simplify the learning process of this new command,
 ensuring a seamless experience for you.
 ---
+
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
 </div>
