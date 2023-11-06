@@ -1,5 +1,8 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -53,6 +56,7 @@ public class ShowTaskListCommand extends Command {
      * Constructs {@code ShowChildrenListCommand} that show children list of path given.
      */
     public ShowTaskListCommand(AbsolutePath path) {
+        requireNonNull(path);
         target = path;
         isHelp = false;
     }
@@ -63,8 +67,7 @@ public class ShowTaskListCommand extends Command {
     }
 
     /**
-     * Executes the MoveStudentToGroupCommand, moving a student from the source group to the destination group in
-     * ProfBook.
+     * Executes the {@code ShowTaskListCommand}, show the task list of the target path.
      *
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
@@ -103,30 +106,26 @@ public class ShowTaskListCommand extends Command {
         return new CommandResult(String.format(MESSAGE_SUCCESS, target));
     }
 
-    /**
-     * Checks if this MoveStudentToGroupCommand is equal to another object.
-     *
-     * @param other The object to compare with.
-     * @return True if the objects are equal, false otherwise.
-     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
 
-        // instanceof handles nulls
-        return other instanceof ShowTaskListCommand;
+        if (!(other instanceof ShowTaskListCommand)) {
+            return false;
+        }
+
+        ShowTaskListCommand otherShowTaskListCommand = (ShowTaskListCommand) other;
+
+        return Objects.equals(this.target, otherShowTaskListCommand.target)
+                && this.isHelp == otherShowTaskListCommand.isHelp;
     }
 
-    /**
-     * Returns a string representation of this MoveStudentToGroupCommand.
-     *
-     * @return A string representation of the MoveStudentToGroupCommand.
-     */
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .add("targetPath", target)
                 .toString();
     }
 }

@@ -1,13 +1,26 @@
 package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
+import static seedu.address.model.path.AbsolutePath.ROOT_PATH;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalGroups.GROUP_ONE;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalPaths.PATH_TO_ALICE;
+import static seedu.address.testutil.TypicalPaths.PATH_TO_GROUP_ONE;
+import static seedu.address.testutil.TypicalStudents.ALICE;
+
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.Category;
+import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.path.AbsolutePath;
+import seedu.address.model.path.RelativePath;
+import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
@@ -136,5 +149,130 @@ public class ParserUtilTest {
         String emailWithWhitespace = WHITESPACE + VALID_EMAIL + WHITESPACE;
         Email expectedEmail = new Email(VALID_EMAIL);
         assertEquals(expectedEmail, ParserUtil.parseEmail(emailWithWhitespace));
+    }
+
+    @Test
+    public void parseRelativePath_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseRelativePath(null));
+    }
+
+    @Test
+    public void parseRelativePath_invalidPath_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseRelativePath("invalidPath"));
+    }
+
+    @Test
+    public void parseRelativePath_validPath_returnsRelativePath() throws InvalidPathException, ParseException {
+        RelativePath expectedPath = new RelativePath(PATH_TO_GROUP_ONE.toString());
+        assertEquals(expectedPath, ParserUtil.parseRelativePath(PATH_TO_GROUP_ONE.toString()));
+    }
+
+    @Test
+    public void resolvePath_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.resolvePath(ROOT_PATH, null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.resolvePath(null,
+                CommandTestUtil.getValidGroupRelativePath()));
+        assertThrows(NullPointerException.class, () -> ParserUtil.resolvePath(null, null));
+    }
+
+    @Test
+    public void resolvePath_invalidPath_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.resolvePath(ROOT_PATH, RelativePath.PARENT));
+    }
+
+    @Test
+    public void resolvePath_validPath_returnsResolvedPath() throws InvalidPathException, ParseException {
+        RelativePath target = new RelativePath(GROUP_ONE.getId().toString());
+        assertEquals(PATH_TO_GROUP_ONE, ParserUtil.resolvePath(ROOT_PATH, target));
+    }
+
+    @Test
+    public void parseStudentId_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseStudentId((AbsolutePath) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseStudentId((String) null));
+    }
+
+    @Test
+    public void parseStudentId_invalidPath_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseStudentId(ROOT_PATH));
+        assertThrows(ParseException.class, () -> ParserUtil.parseStudentId(PATH_TO_GROUP_ONE));
+    }
+
+    @Test
+    public void parseStudentId_validPath_returnsStudentId() throws ParseException {
+        assertEquals(ALICE.getId(), ParserUtil.parseStudentId(PATH_TO_ALICE));
+    }
+
+    @Test
+    public void parseStudentId_invalidIdString_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseStudentId("invalidId"));
+    }
+
+    @Test
+    public void parseStudentId_validIdString_returnsStudentId() throws ParseException {
+        assertEquals(ALICE.getId(), ParserUtil.parseStudentId(ALICE.getId().toString()));
+    }
+
+    @Test
+    public void parseGroupId_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseGroupId((AbsolutePath) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseGroupId((String) null));
+    }
+
+    @Test
+    public void parseGroupId_invalidPath_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseGroupId(ROOT_PATH));
+    }
+
+    @Test
+    public void parseGroupId_validPath_returnsGroupId() throws ParseException {
+        assertEquals(GROUP_ONE.getId(), ParserUtil.parseGroupId(PATH_TO_ALICE));
+        assertEquals(GROUP_ONE.getId(), ParserUtil.parseGroupId(PATH_TO_GROUP_ONE));
+    }
+
+    @Test
+    public void parseGroupId_invalidIdString_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseGroupId("invalidId"));
+    }
+
+    @Test
+    public void parseGroupId_validIdString_returnsGroupId() throws ParseException {
+        assertEquals(GROUP_ONE.getId(), ParserUtil.parseGroupId(GROUP_ONE.getId().toString()));
+    }
+
+    @Test
+    public void parseDateTime_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseDateTime(null));
+    }
+
+    @Test
+    public void parseDateTime_invalidFormat_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseDateTime("2023-09-22"));
+    }
+
+    @Test
+    public void parseDateTime_invalidDateTime_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseDateTime("2023-02-31 11:59"));
+    }
+
+    @Test
+    public void parseDateTime_validDateTime_returnsDateTime() throws ParseException {
+        assertTrue(ParserUtil.parseDateTime("2023-11-06 15:42") instanceof LocalDateTime);
+    }
+
+    @Test
+    public void parseCategory_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseCategory(null));
+    }
+
+    @Test
+    public void parseCategory_invalidCategory_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseCategory("Invalid Category"));
+    }
+
+    @Test
+    public void parseCategory_validCategory_returnsCategory() throws ParseException {
+        assertEquals(Category.ALLGRP, ParserUtil.parseCategory("allGrp"));
+        assertEquals(Category.ALLSTU, ParserUtil.parseCategory("allStu"));
     }
 }

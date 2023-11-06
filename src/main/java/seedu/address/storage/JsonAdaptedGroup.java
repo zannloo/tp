@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
-import seedu.address.model.id.StudentId;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Student;
@@ -102,7 +101,7 @@ public class JsonAdaptedGroup {
 
         if (id == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    StudentId.class.getSimpleName()));
+                    GroupId.class.getSimpleName()));
         }
         if (!GroupId.isValidGroupId(id)) {
             throw new IllegalValueException(GroupId.MESSAGE_CONSTRAINTS);

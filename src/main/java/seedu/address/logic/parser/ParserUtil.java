@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PATH_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_PATH_RESOLUTION_FAIL;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -123,7 +125,7 @@ public class ParserUtil {
         try {
             relativePath = new RelativePath(trimmedPath);
         } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
+            throw new ParseException(String.format(MESSAGE_INVALID_PATH_FORMAT, path));
         }
         return relativePath;
     }
@@ -140,7 +142,7 @@ public class ParserUtil {
         try {
             fullPath = path.resolve(target);
         } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
+            throw new ParseException(String.format(MESSAGE_PATH_RESOLUTION_FAIL, target));
         }
         return fullPath;
     }

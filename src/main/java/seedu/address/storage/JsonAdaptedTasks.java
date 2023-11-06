@@ -35,18 +35,6 @@ public abstract class JsonAdaptedTasks {
         this.isDone = isDone;
     }
 
-    /**
-     * Converts a given {@code Task} into this class for Jackson use.
-     *
-     * @param source The source Task object.
-     */
-    public JsonAdaptedTasks(Task source) {
-        this.description = source.getDesc();
-        this.isDone = source.statusString();
-    }
-
-
-
     abstract Task toModelType();
 
 }
