@@ -27,7 +27,7 @@ public interface Model {
 
     Path getProfBookFilePath();
 
-    void setAddressBookFilePath(Path addressBookFilePath);
+    void setProfBookFilePath(Path addressBookFilePath);
 
     //=========== ProfBook Model ================================================================================
     /**

@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ID;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
@@ -60,7 +61,9 @@ public class CommandTestUtil {
     public static final String ID_DESC_STUDENT = " " + OPTION_ID.getLongName() + " " + VALID_ID_STUDENT;
     public static final String ID_DESC_GROUP = " " + OPTION_ID.getLongName() + " " + VALID_ID_GROUP;
     public static final String TASK_DESC_DESC = " " + OPTION_DESC.getLongName() + " " + VALID_TASK_DESC;
+    public static final String HELP_OPTION = " " + OPTION_HELP.getLongName() + " ";
 
+    public static final String EMPTY_PREAMBLE = " ";
 
     public static final String INVALID_NAME_DESC = " "
             + OPTION_NAME + " " + "James&"; // '&' not allowed in names

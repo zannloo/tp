@@ -80,6 +80,14 @@ public class GroupBuilder {
     }
 
     /**
+     * Clear the student map.
+     */
+    public GroupBuilder withNoStudent() {
+        this.students = new HashMap<>();
+        return this;
+    }
+
+    /**
      * Sets the {@code TaskList} of the {@code Group} that we are building.
      */
     public GroupBuilder withTaskList(ReadOnlyTaskList tasks) {
