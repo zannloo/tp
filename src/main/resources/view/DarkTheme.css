@@ -338,7 +338,7 @@
     -fx-font-size: 12pt;
     -fx-font-family: "Monospaced";
     -fx-font-weight: bold;
-    -fx-background-color: #1d1d1d;
+    -fx-background-color: rgb(28, 28, 28, 0.6);
     -fx-background-radius: 5px 5px 0 0;
     -fx-padding: 5px, 3px, 5px, 3px
 }
