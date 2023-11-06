@@ -10,6 +10,8 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPaths.PATH_TO_ALICE;
 import static seedu.address.testutil.TypicalPaths.PATH_TO_GROUP_ONE;
 import static seedu.address.testutil.TypicalStudents.ALICE;
+import static seedu.address.testutil.TypicalTasks.DEADLINE_1;
+import static seedu.address.testutil.TypicalTasks.TODO_1;
 
 import java.time.LocalDateTime;
 
@@ -274,5 +276,27 @@ public class ParserUtilTest {
     public void parseCategory_validCategory_returnsCategory() throws ParseException {
         assertEquals(Category.ALLGRP, ParserUtil.parseCategory("allGrp"));
         assertEquals(Category.ALLSTU, ParserUtil.parseCategory("allStu"));
+    }
+
+    @Test
+    public void parseToDo_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseToDo(null));
+    }
+
+    @Test
+    public void parseToDo_validArg_returnsToDo() throws ParseException {
+        assertEquals(TODO_1, ParserUtil.parseToDo(TODO_1.getDesc()));
+    }
+
+    @Test
+    public void parseDeadline_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseDeadline(null, null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseDeadline(DEADLINE_1.getDesc(), null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseDeadline(null, DEADLINE_1.formatDueBy()));
+    }
+
+    @Test
+    public void parseDeadline_validArg_returnsDeadline() throws ParseException {
+        assertEquals(DEADLINE_1, ParserUtil.parseDeadline(DEADLINE_1.getDesc(), DEADLINE_1.formatDueBy()));
     }
 }
