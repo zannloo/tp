@@ -87,7 +87,7 @@ public class LogicManagerTest {
 
     @Test
     public void getCurrPath() {
-        assertEquals(model.getCurrPath(), logic.getCurrPath());
+        assertEquals(model.getCurrPath().toString(), logic.getCurrPath());
     }
 
     @Test
