@@ -51,6 +51,7 @@ public class MoveStudentToGroupCommand extends Command {
     private final AbsolutePath source;
 
     private final AbsolutePath dest;
+
     private final boolean isHelp;
 
     /**
@@ -147,7 +148,7 @@ public class MoveStudentToGroupCommand extends Command {
     public String toString() {
         return new ToStringBuilder(this)
                 .add("Source Path", source)
-                .add("Dest Path", dest)
+                .add("Destination Path", dest)
                 .toString();
     }
 }
