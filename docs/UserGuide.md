@@ -272,12 +272,12 @@ Upon launching ProfBook, you will see the root directory as illustrated below.
 
 |**Component name** |  **Description**   |
 |--|-----|
-| **File Button** |  Click the File Button to access the Exit Button, allowing you to exit ProfBook   |
+| **File Button** |  Click the File Button to access the Exit Button, allowing you to exit ProfBook.   |
 | **Help Button** |  Easy access to the User Guide by clicking this button.  |
 |**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the root directory, `~/`.|
 | **Command Input Column** |   This area is for inputting commands. This will likely be the component you will be using most frequently.  |
 | **Message Display Column** |   Displays the output of the command result. Please take note of it especially when a command fails.   |
-| **Group List** |  Shows the groups within the root directory   |
+| **Group List** |  Shows the groups within the root directory.   |
 | **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Children List of the root directory. |
 
 <box type = "info">
@@ -293,8 +293,8 @@ When you navigate to the group directory, `grp-001`, using the `cd grp-001`, you
 |**Component name** |  **Description**   |
 |--|-----|
 |**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001/`.|
-| **Message Display Column** |   Displays the output of the command result. Note that it shows that your directory has changed after executing `cd` command .|
-| **Student List** |  Shows the students within current group directory   |
+| **Message Display Column** |   Displays the output of the command result. Note that it shows that your directory has changed after executing `cd` command.|
+| **Student List** |  Shows the students within current group directory.   |
 | **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Children List of the group directory. |
 
 
@@ -304,7 +304,7 @@ To view the task list of the current group directory, simply use `cat`.
 |--|-----|
 |**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001/`.|
 | **Message Display Column** |   Displays the output of the command result. Note that it shows that you are viewing th task list of group directory, `~/grp-001/`.|
-| **Task List** |  Shows the tasks allocated to group at current group directory   |
+| **Task List** |  Shows the tasks allocated to group at current group directory.   |
 | **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Task List of the group directory. |
 
 <box type = "info">
