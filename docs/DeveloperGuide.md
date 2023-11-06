@@ -9,12 +9,30 @@ pageNav: 3
 <!-- * Table of Contents -->
 <page-nav-print />
 
+## **Introduction**
+
+ProfBook is a tool tailored to helping specifically CS2103T professors and Teaching Assistants(TA) in manage
+their tutorial slots and groups. As our target users are technophile, we designed and optimised a CLI-based application
+specifically for them. It is currently optimised for CS2103T professors and TA with plans to expand to other Computer
+Science Modules. Please refer to our [_User Guide_](https://ay2324s1-cs2103t-w15-2.github.io/tp/UserGuide.html) for more
+information on ProfBook.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Overview**
+
+This guide is intended for future developers, current contributors and users. This guide mainly aims to explain the
+implementation of ProfBook to future developers and deepen their knowledge in software development. By the end of this
+guide, you can expect to get an overview of the design architecture of ProfBook and comprehensive details of some of its
+core features, backed up by UML diagrams.
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the
-original source as well }_
+This project is based on
+the [AddressBook-Level3](https://github.com/nus-cs2103-AY2122S1/tp) ([UG](https://se-education.org/addressbook-level3/UserGuide.html),
+[DG](https://se-education.org/addressbook-level3/DeveloperGuide.html)) project created by
+the [SE-EDU initiative](https://se-education.org).
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -25,6 +43,14 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Design**
+
+### Before you read
+
+<box type="info" seamless>
+
+**Note:** The lifeline for many of our diagram should end at the destroy marker (X) but due to a limitation of
+PlantUML, the lifeline reaches the end of diagram.
+</box>
 
 ### Architecture
 
@@ -77,7 +103,8 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified
+in [`Ui.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
 
 <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
 
@@ -86,37 +113,43 @@ e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All
 inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the
 visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that
+are in the `src/main/resources/view` folder. For example, the layout of
+the [`MainWindow`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/MainWindow.java)
+is specified
+in [`MainWindow.fxml`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
 * executes user commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays [`Displayable`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/Displayable.java) object residing in the `Model`.
+* depends on some classes in the `Model` component, as it
+  displays [`Displayable`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/Displayable.java)
+  object residing in the `Model`.
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API
+** : [`Logic.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
 <puml src="diagrams/LogicClassDiagram.puml" width="550"/>
 
-The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("rmt 1")` API call as an example.
-`rmt` is the command word for DeleteTaskCommand class. By executing the command `rmt 1`, tha task with index number 1 will be deleted.
+The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("rmt 1")` API call
+as an example.
+`rmt` is the command word for DeleteTaskCommand class. By executing the command `rmt 1`, tha task with index number 1
+will be deleted.
 
 <puml src="diagrams/DeleteTaskSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `rmt 1` Command" />
 
-<box type="info" seamless>
-
-**Note:** The lifeline for `DeleteTaskCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-</box>
-
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `ProfBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteTaskCommandParser`) and uses it to parse the command.
-1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteTaskCommand`) which is executed by the `LogicManager`.
+1. When `Logic` is called upon to execute a command, it is passed to an `ProfBookParser` object which in turn creates a
+   parser that matches the command (e.g., `DeleteTaskCommandParser`) and uses it to parse the command.
+1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteTaskCommand`)
+   which is executed by the `LogicManager`.
 1. The command can communicate with the `Model` when it is executed (e.g. to delete a task).
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -125,15 +158,20 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 <puml src="diagrams/ParserClasses.puml" width="600"/>
 
 How the parsing works:
-* When called upon to parse a user command, the `ProfBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `Mark`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `MarkCommand`) which the `ProfBookParser` returns back as a `Command` object.
-* All `XYZCommandParser` classes (e.g., `EditCommandParser`, `HelpCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
+
+* When called upon to parse a user command, the `ProfBookParser` class creates an `XYZCommandParser` (`XYZ` is a
+  placeholder for the specific command name e.g., `Mark`) which uses the other classes shown above to parse the user
+  command and create a `XYZCommand` object (e.g., `MarkCommand`) which the `ProfBookParser` returns back as a `Command`
+  object.
+* All `XYZCommandParser` classes (e.g., `EditCommandParser`, `HelpCommandParser`, ...) inherit from the `Parser`
+  interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
 
 **API
 ** : [`Model.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/src/main/java/seedu/address/model/Model.java)
 
-<puml src="diagrams/ModelClassDiagram.puml" width="450" />
+<puml src="diagrams/ModelClassDiagram.puml" width="550" />
 
 
 The `Model` component,
@@ -149,7 +187,7 @@ The `Model` component,
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they
   should make sense on their own without depending on other components)
 
-<puml src="diagrams/ProfBookClassDiagram.puml" width="450" />
+<puml src="diagrams/ProfBookClassDiagram.puml" width="550" />
 
 The diagram above shows how the folder structure is implemented in ProfBook,
 
@@ -157,77 +195,60 @@ The diagram above shows how the folder structure is implemented in ProfBook,
 * As many of the operations are repeated (e.g., tasks operations and children operation), we decided to abstract out
   these logic into their own classes which is represented by `TaskListManager` and `ChildrenManager` respectively.
 * `ChildrenManager` manages the children which is of type `IChildElement`
-* We also created a wrapper classes for classes that require both of those aforementioned functionalities (e.g, `Group`)
+* We also created a wrapper class (e.g. `ChildrenAndTaskListManager`) for classes that require both of those
+  aforementioned functionalities (e.g, `Group` and potentially in the future `TutorialSlot`)
+
+**API
+** : [`TaskListManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/profbook/TaskListManager.java)
+
+<puml src="diagrams/TaskListClassDiagram.puml" width="550" />
+
+How the `Task` component work:
+
+* As mentioned earlier, `TaskListManager` encapsulates the logic required to maintain a TaskList, these logic is
+  utilised heavily in the ProfBook component.
+* All tasks extend from the abstract class `Task`, we did this so for extensibility. So in the future, should we decide
+  to
+  implement a new type of task, all we have to do is extend from `Task`.
 
 The sequence diagram below illustrates the interactions within the `Model` component, taking an execution of a
 `CreateTodoClass` as example.
 
-<puml src="diagrams/AddTaskSequence.puml" width="450" />
+<puml src="diagrams/AddTaskSequence.puml" width="550" />
 
 How the `Model` component works:
 
-1. Depending on the nature of the command, a static method is called to generate a `TaskOperation` or
-   a `ChildrenOperation` Object that acts as an interface Command object to manipulate the Model
-2. In this case, a `TaskOperation` object is created. This object would store all the necessary information to make
-   changes directly on the correct state.
-3. The command object calls the required method in the `TaskOperation` object which results in the `TaskOperation`
-   object adding the Todo task to the group
+* Depending on the nature of the command, a static method is called to generate a `TaskOperation` or
+  a `ChildrenOperation` Object that acts as an interface Command object to manipulate the Model
+* In this case, a `TaskOperation` object is created. This object would store all the necessary information to make
+  changes directly on the correct state.
+* The command object calls the required method in the `TaskOperation` object which results in the `TaskOperation`
+  object adding the Todo task to the group
+* Our `TaskOperation` and `ChildOperation` classes follow
+  the [facade pattern](https://nus-cs2103-ay2324s1.github.io/website/se-book-adapted/chapters/designPatterns.html#facade-pattern)
 
 <box type="info" seamless>
 
 **Note:** For ChildrenOperation, ModelManager provides more specific static factory methods (e.g., GroupChildOperation,
-StudentChildOperation) to generate the `ChildOperation` object. It is implemented this way so that ModelManager is able
+RootChildOperation) to generate the `ChildOperation` object. It is implemented this way so that ModelManager is able
 to check that the Operation required matches with the intended effect of the Command object's Execution
 
 </box>
 
 ### Storage component
 
-**API** : [`ProfBookStorageManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/ProfBookStorageManager.java)
+**API
+** : [`ProfBookStorageManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/ProfBookStorageManager.java)
 
 <puml src="diagrams/StorageClassDiagram.puml" width="550" />
 
 The `Storage` component,
+
 * can save both ProfBook data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `ProfBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
-* depends on some classes in the `Model` component (because the `ProfBookStorageManager` component's job is to save/retrieve objects that belong to the `Model`)
-
-### Task component
-
-**API** : [`TaskListManager`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/profbook/TaskListManager.java)
-
-<puml src="diagrams/TaskListClassDiagram.puml" width="550" />
-
-The `TaskListManager` component,
-* Manages all task operations for a given tasklist.
-* Depends on classes in the LogicManager class.
-
-### Command component
-
-The `Command` component,
-* executes the user's command
-
-#### CreateStudentCommand
-
-<puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="550" />
-
-The `CreateStudentCommand` class,
-* adds student object into specified path if there is no duplicate student in the same path and if path is a valid group path
-
-#### CreateDeadlineCommand
-
-<puml src="diagrams/CreateDeadlineCommandSequenceDiagram.puml" width="550" />
-
-The `CreateDeadlineCommand` class,
-* adds deadline task to specified student(s)/group(s)
-
-#### EditCommand
-
-<puml src="diagrams/EditCommandSequenceDiagram.puml" width="550" />
-
-The `EditCommand` class,
-* edits the fields of specified student or group
-
+* inherits from both `ProfBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the
+  functionality of only one is needed).
+* depends on some classes in the `Model` component (because the `ProfBookStorageManager` component's job is to
+  save/retrieve objects that belong to the `Model`)
 
 ### Common classes
 
@@ -239,121 +260,245 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### Adding a student/group
 
-#### Proposed Implementation
+#### Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo
-history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the
-following operations:
+Similar to group, a student's data is encapsulated in a `Student` instance. These students are stored in their
+respective `Group` instance which in turn is stored in the `Root` class. These hierarchy is maintained by using
+a `Map<Id, Student>` and `Map<Id, Group>` object. Implementation for Creating a student and a group is very similar,
+so in this guide, I would go through the implementation for the harder one, which is creating a student. Should you have
+any questions do feel free to contact us.
 
-* `VersionedAddressBook#commit()`— Saves the current address book model in its history.
-* `VersionedAddressBook#undo()`— Restores the previous address book model from its history.
-* `VersionedAddressBook#redo()`— Restores a previously undone address book model from its history.
+Most of the logic for creating a student is encapsulated in the `CreateStudentCommand` class, this class utilise
+the `GroupChildOperation` facade class to add the student to the group and the `Model` class to check for duplicates.
+The follow methods of `ModelManager` and `GroupChildOperation` are used:
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()`
-and `Model#redoAddressBook()` respectively.
+1. `ModelManager::groupChildOperation` - To generate a facade class specific to the current group, it also checks for
+   the
+   validity and presence of the specified group.
+2. `ModelManager::hasStudentWithId` - To check if the new student id is unique
+3. `GroupChildOperation::addChild` - To add the current student into the group
 
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+Given below is an example usage scenario on how an existing user can create a student.
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the
-initial address book model, and the `currentStatePointer` pointing to that single address book model.
+1. When the user launches the application, existing information is read from the data file `profbook.json`. The initial
+   state would look something like this.
+   <puml src="diagrams/AddInitialState.puml" width="550" />
+2. Suppose the user is still in the root directory and wants to add a new student to group 1, the user would execute the
+   following
+   command: `touch ~/grp-001/2000Y --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh`.
+   Do note that the only required fields are `--name`
+3. The parser would retrieve all the relevant information from the input and encapsulates it in a `CreateStudentCommand`
+4. This command would first do these checks:
+    * checks if the specified path is a valid student path.
+    * checks if adding the student would result in a duplicate, ie if the student id is already taken.
+5. In this case, if the input was `touch ~/grp-001/1234Y ...` or `touch ~/grp-001/9876A ...` a `CommandException` will
+   be thrown.
+6. If all checks out, the command would create a new student and add the student to the `Mode`. This addition is done
+   through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. This would ensure
+   the path to the group is present and valid. The student is added through the `GroupChildOperation::addChild` method.
+7. It should look something like this.
+   <puml src="diagrams/AddFinalState.puml" width="550" />
 
-<puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
+<puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="550" />
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command
-calls `Model#commitAddressBook()`, causing the modified model of the address book after the `delete 5` command executes
-to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book
-model.
+The above sequence diagram shows the general flow of the CreateStudentCommand, for more information on each specific
+component, do head over to their respective documentation.
 
-<puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
+//TODO ADD activity diagram
 
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also
-calls `Model#commitAddressBook()`, causing another modified address book model to be saved into
-the `addressBookStateList`.
+Above is an activity diagram showing the general activity of the add student command.
 
-<puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
+#### Design Consideration
 
-<box type="info" seamless>
+**Aspect: How to represent the hierarchy**
 
-**Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book model will
-not be saved into the `addressBookStateList`.
+* **Alternative 1 (current implementation):** Tree representation.
+    * Pros: Models the hierarchy closely.
+    * Cons: It results in a more rigid hierarchy, harder to extend upon.
+* **Alternative 2**: Flat structure.
+    * Pros: Easier to implement relatively to the tree representation.
+    * Cons: Harder to maintain the hierarchy and harder to search for items
 
-</box>
+**Aspect: Should we add optional fields**
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing
-the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer`
-once to the left, pointing it to the previous address book model, and restores the address book to that model.
+* **Alternative 1 (current implementation):** Yes.
+    * Pros: Allows the user to create groups and students without complete information.
+    * Cons: Harder to implement features that depends on those optional field.
+* **Alternative 2**: No.
+    * Pros: Easier implementation, there is less need for checking optional field.
+    * Cons: All information about a student/group must be readily present before creating it, which is not always the
+      case
 
-<puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
+### Creating a task
 
+#### Implementation
 
-<box type="info" seamless>
+Creating and adding a task is one of the key feature of ProfBook. Currently, we support two types of tasks,
+namely `ToDo` and `Deadline` Tasks. Both this tasks extends from the abstract `Task` class which add to its
+extensibility. It is important to note that currently, you can only add tasks to Group and Students. Needless to say,
+the information for these tasks are encapsulated withing their respective `Task`
+instance. As the implementation for creating a Todo and Deadline task is very similar, I would be bringing you through
+the implementation that we found to be more confusing. I would be going through creating a Deadline task and adding it
+to *all students in a group*. More information for creating a Todo can be found at the `Model` component, or
+alternatively you could reach out to us, we would be more than happy to help.
 
-**Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook model, then there are no
-previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the
-case. If so, it will return an error to the user rather
-than attempting to perform the undo.
+Most of the logic for creating a task is encapsulated in the `CreateDeadlineCommand` class, this class utilise
+the `GroupChildOperation` facade class to add the Deadline to the group and check for duplicates.
+The follow methods of `ModelManager` and `GroupChildOperation` are used:
 
-</box>
+1. `ModelManager::groupChildOperation` - To generate a facade class specific to the current group, it also checks for
+   the validity and presence of the specified group.
+2. `GroupChildOperation::addAllTasks` - To add the tasks to all student within a group, it also checks if it is a
+   duplicate task before adding.
 
-The following sequence diagram shows how the undo operation works:
+It is important to note that for adding a task to a singular group/student, the facade class `TaskOperation` is used
+instead, a sequence diagram illustrating this can be found in the model component.
 
-<puml src="diagrams/UndoSequenceDiagram.puml" alt="UndoSequenceDiagram" />
+Given below is an example usage scenario on how an existing user can add Deadline to all students
 
-<box type="info" seamless>
+1. When the user launches the application, existing information is read from the data file `profbook.json`. In our case,
+   let us narrow our focus to a specific group with 2 students.
+   <puml src="diagrams/DeadlineInitialState.puml" width="550" />
+2. Suppose the user is still in the root directory and wants to add a deadline to all students in group1, the user would
+   execute the following
+   command: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-12-12 23:59`. More information on the flags could be
+   fond in the User Guide.
+3. The parser would retrieve all the relevant information from the input and encapsulates it in
+   a `CreateDeadlineCommand`
+4. This command would first
+    * check if the specified path is a valid and present Group path.
+    * check if all students in the group already has the task.
+5. If all checks out, the command would create a new deadline instance and add the deadline to all student that do not
+   already have the aforementioned task. This is done
+   through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. The tasks is then
+   added through the `GroupChildOperation::addTaskToAllStudent` method. For each student, the method would check if the
+   task is already present, if not it would add the task.
+6. It should look something like this.
+   <puml src="diagrams/DeadlineFinalState.puml" width="550" />
 
-**Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the
-lifeline reaches the end of diagram.
+<puml src="diagrams/CreateDeadlineCommandSequenceDiagram.puml" width="550" />
 
-</box>
+The above sequence diagram illustrates the general flow when adding the deadline task to *all* students, the sequence
+diagram for adding a deadline task to a *single* student can be found in the `Model` component.
 
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once
-to the right, pointing to the previously undone model, and restores the address book to that model.
+//TODO ADD activity diagram
 
-<box type="info" seamless>
+Above is an activity diagram showing the general activity of the add deadline command.
 
-**Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address
-book model, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()`
-to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+#### Design Consideration
 
-</box>
+**Aspect: Should groups have their own task list as well**
 
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such
-as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`.
-Thus, the `addressBookStateList` remains unchanged.
+* **Alternative 1 (current implementation):** Yes.
+    * Pros: Closely resembles the dynamics in real life
+    * Cons: Harder to implement, more confusing for users
+* **Alternative 2**: No.
+    * Pros: Easier to implement
+    * Cons: Users may not be able to keep track of group related tasks
 
-<puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
+**Aspect: how should we implement adding of bulk tasks**
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not
-pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be
-purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern
-desktop applications follow.
+* **Alternative 1:** Add Tasks one by one to each student.
+    * Pros: Quick and easy to implement
+    * Cons: keeping track of group tasks is a hassle, any action done for one task must be done for all
+* **Alternative 2**: Allow groups to have their own task lists.
+    * Pros: Quick and easy to implement
+    * Cons: Adding of student tasks must be done manually
+* **Alternative 3 (current implementation)**: Implement both.
+    * Pros: Best of both worlds
+    * Cons: Harder to implement, user command is also more complex
 
-<puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
+### EditCommand
 
-The following activity diagram summarizes what happens when a user executes a new command:
+#### Implementation
 
-<puml src="diagrams/CommitActivityDiagram.puml" width="250" />
+Due to dynamic need of our target users, professors and TAs, there is a need for our edit command to be equally dynamic.
+Our edit command need to be general enough to allow the users to edit both students and groups. This is done by checking
+the type of directory that was passed in. This is done through the `Path::isGroupDirectory`
+and `Path::isStudentDirectory` method. More information on how this is done can be found in the documentation
+for `Path` component. This then allows parser to check for the validity of the given flags. Likewise, as the
+implementation for editing a student abd a group is similar, for simplicity, I would be going through implementation of
+editing a group.
 
-#### Design considerations:
+The follow methods of `ModelManager`, `Path` and `RootChildOperation` are used:
 
-**Aspect: How undo & redo executes:**
+1. `ModelManager::rootChildOperation` - To generate a facade class with logic specific to the current root.
+2. `ModelManager::hasGroupWithId` - To check if editing results in a duplicate.
+3. `RootChildOperation::editChild` - To edit the group with the values extracted from parser.
+4. `Path::isGroupDirectory` - To check if the path leads to a group directory
+5. `Path::isStudentDirectory` - To check if the path leads to a student directory
 
-* **Alternative 1 (current choice):** Saves the entire address book.
-    * Pros: Easy to implement.
-    * Cons: May have performance issues in terms of memory usage.
+Given below is an example usage scenario on how an existing user can edit the name of a group
 
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-    * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-    * Cons: We must ensure that the implementation of each individual command are correct.
+1. When the user launches the application, existing information is read from the data file `profbook.json`. The initial
+   state should look something like this.
+   <puml src="diagrams/AddInitialState.puml" width="550" />
+2. Suppose the user is still in the root directory and wants to edit the id of group 1 from `grp-001` to `grp-003`, the
+   user would execute the following command: `edit ~/grp-001 -i grp-003`.
+3. When parsing the command, from the path, the parser would be able to deduce that we are editing a group. It then
+   checks the flags to ensure only required flags are present.
+4. If the id is being edited, `ModelManager::hasGroupWithId` is called to ensure it does not result in a duplicate.
+5. The `RootChildOperation::editChild` then makes a copy of the existing group while updating the values.
+   <puml src="diagrams/EditIntermediateState.puml" width="550" />
+6. It then deletes the old key-value pair in root's `Map<id, group>` and adds the new key-value pair.
+   <puml src="diagrams/EditFinalState.puml" width="550" />
 
-_{more aspects and alternatives to be added}_
+<puml src="diagrams/EditCommandSequenceDiagram.puml" width="550" />
 
-### \[Proposed\] Data archiving
+is illustrated by the above sequence diagram. It shows the general flow of the edit through editing a `Group`
+instance, this example should be general enough for you to understand how the edit command works on other classes such
+as `Student`.
 
-_{Explain here how the data archiving feature will be implemented}_
+//TODO ADD activity diagram
+
+Above is an activity diagram showing the general activity of the edit command.
+
+#### Design Consideration
+
+// TODO
+
+## Proposed future features
+
+### Editing tasks
+
+Currently, the only way to edit tasks is by manually deleting and then adding it again. This creates extra hassle for
+the user and possible more inconveniences as doing so might change the task's index resulting in the user having
+to `cat` again to figure out its new index. We plan to edit the task manually for the user by creating a new command
+that deletes and then creates a new task with the edited information while keeping the index the same. Implementing this
+is just a combination of deleting and creating, but it improves the user's quality of life greatly.
+
+### Phone number validation
+
+Currently, our application only checks if the phone number is more than 3 characters long. Our current validation is
+lacking as users are able to enter a `123` as a phone number or a phone number that is infinitely long. We plan to
+improve this validation by enforcing a tighter validation. This can be achieved by creating a `map<String, Integer>` of
+common phone extensions to their length and then enforcing that the phone number be of that length. This allows our
+users to have the peace of mind that the phone number is validated and robust enough to handle international numbers.
+
+### Better marking and un-marking validation (// TODO low priority, remove when needed )
+
+Currently, our application does not check if the tasks is marked or unmarked before any operation. This resulted in
+users being able to mark/unmark tasks infinitely, this is not intuitive and may mislead some users. Hence, we plan to
+only allow users to unmark tasks that are marked and vice versa. Also, we plan to add a more descriptive error message
+so as to highlight to the user of the current state of the task.
+
+### More robust duplicate checking
+
+Currently, our application only checks for duplicates by their id, meaning two students/group are considered the same if
+and only if their ids are identical. This means that two students with identical number and email but differing ids are
+considered different in ProfBook, needless to say this does not reflect requirements in the real world. Therefore, we
+plan to revamp our duplication checking for students by checking for equality between their phone number and email.
+
+### More descriptive error message (// TODO low priority, remove when needed )
+
+Currently, while our application tries to output a descriptive and apt message for each error, we have received feedback
+that some of our error message could be more descriptive. One such example is trying to edit the root `~/` directory or
+trying to edit a directory that does not exist. In both cases, the error message given
+is `Path does not exist in ProfBook.`. In this example, we could have mention that you are unable to edit the root
+directory for the prior and that the Path does not lead to a student/group for the latter. This is just one example, we
+plan to revamp our error message to be more descriptive and user friendly
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -434,7 +579,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 (For all use cases below, the **System** is the `ProfBook` and the **Professor** is the `user`, unless specified
 otherwise)
 
-**Use case: Delete a person**
+**Use case: Delete a student/group/tasks**
 
 **MSS**
 
@@ -454,6 +599,8 @@ otherwise)
 **Use case: Move student into/out of group**
 
 **MSS**
+
+**Use case: Move a person**
 
 1. User requests to move a specific student from a source group to destination group with an id
 2. AddressBook moves the student from a source group to destination group
@@ -559,39 +706,59 @@ testers are expected to do more *exploratory* testing.
 
 ### **Project Overview**
 
-Our project, ProfBook, underwent a significant transformation with the primary objective of providing robust **student organization** and **task management** features. The project also aimed to create a **terminal-like application**, complete with a terminal-like user interface and the ability to navigate through a hierarchical structure.
+Our project, ProfBook, underwent a significant transformation with the primary objective of providing robust **student
+organization** and **task management** features. The project also aimed to create a **terminal-like application**,
+complete with a terminal-like user interface and the ability to navigate through a hierarchical structure.
 
 ### **Difficulty Level <span class="badge bg-danger">Challenging</span>**
 
 The project was classified as **challenging** due to:
 
-- **Terminal-Like Functionality:** Creating a terminal-like interface and functionality from scratch was a complex task, requiring a deep understanding of terminal behavior and navigation.
+- **Terminal-Like Functionality:** Creating a terminal-like interface and functionality from scratch was a complex task,
+  requiring a deep understanding of terminal behavior and navigation.
 
-- **Hierarchical Structure:** Our application features a hierarchical structure, with ProfBook serving as the root entity. Under ProfBook, there are groups, and each group contains students. Managing this hierarchical structure added complexity to the project.
+- **Hierarchical Structure:** Our application features a hierarchical structure, with ProfBook serving as the root
+  entity. Under ProfBook, there are groups, and each group contains students. Managing this hierarchical structure added
+  complexity to the project.
 
-- **Diverse Classes:** Unlike AB3, our project needed to handle a more extensive range of classes, including Student, Group, and Task. This expansion added complexity as we had to provide functionality for student organization and task management within the same application.
+- **Diverse Classes:** Unlike AB3, our project needed to handle a more extensive range of classes, including Student,
+  Group, and Task. This expansion added complexity as we had to provide functionality for student organization and task
+  management within the same application.
 
 ### **Effort Required**
 
-The project demanded an estimated total effort of **approximately one month**. The effort was distributed across various project phases:
+The project demanded an estimated total effort of **approximately one month**. The effort was distributed across various
+project phases:
 
-- **Design and Architecture:** This phase focused on designing the terminal-like user interface, defining terminal behavior, and integrating the hierarchical structure. Additionally, it involved accommodating and ensuring the smooth interaction of multiple entity types within the application.
+- **Design and Architecture:** This phase focused on designing the terminal-like user interface, defining terminal
+  behavior, and integrating the hierarchical structure. Additionally, it involved accommodating and ensuring the smooth
+  interaction of multiple entity types within the application.
 
-- **Implementation and Coding:** The implementation phase was dedicated to building custom components and functionalities essential for realizing terminal behavior, hierarchical structure navigation, and handling diverse classes.
+- **Implementation and Coding:** The implementation phase was dedicated to building custom components and
+  functionalities essential for realizing terminal behavior, hierarchical structure navigation, and handling diverse
+  classes.
 
-- **Testing and Quality Assurance:** This critical phase aimed to ensure the terminal-like interface worked seamlessly, the hierarchical structure navigation functionality was error-free, and the application effectively managed the different entity types.
+- **Testing and Quality Assurance:** This critical phase aimed to ensure the terminal-like interface worked seamlessly,
+  the hierarchical structure navigation functionality was error-free, and the application effectively managed the
+  different entity types.
 
-- **Documentation:** Preparing comprehensive documentation was essential for guiding both users and developers in understanding and utilizing the terminal-like application.
+- **Documentation:** Preparing comprehensive documentation was essential for guiding both users and developers in
+  understanding and utilizing the terminal-like application.
 
 ### **Effort Savings through Reuse**
 
-A notable aspect of our project was the efficient use of custom components, which contributed to a significant reduction in the overall effort.
+A notable aspect of our project was the efficient use of custom components, which contributed to a significant reduction
+in the overall effort.
 
-- **Path Component:** We introduced the `Path` component, which includes subclasses for managing both **absolute** and **relative** paths. This component played a crucial role in managing navigation and executing dynamic commands within our application.
+- **Path Component:** We introduced the `Path` component, which includes subclasses for managing both **absolute** and *
+  *relative** paths. This component played a crucial role in managing navigation and executing dynamic commands within
+  our application.
 
-- **ChildrenManager Component:** The component was instrumental in representing the hierarchical structure in our application. We successfully leveraged this component to perform operations related to child entities, optimizing the handling of students within groups and groups within the ProfBook.
+- **ChildrenManager Component:** The component was instrumental in representing the hierarchical structure in our
+  application. We successfully leveraged this component to perform operations related to child entities, optimizing the
+  handling of students within groups and groups within the ProfBook.
 
-- **TaskListManager Component:** This component streamlines task management and allocation by providing a consistent and unified interface for handling tasks throughout the application.
-
+- **TaskListManager Component:** This component streamlines task management and allocation by providing a consistent and
+  unified interface for handling tasks throughout the application.
 
 Reusing these components enhanced project efficiency and maintainability.
