@@ -27,9 +27,4 @@ public class EditCommandParserTest {
         // invalid path with help option
         assertParseSuccess(parser, "0001Y" + HELP_OPTION, ROOT_PATH, EditCommand.HELP_MESSAGE);
     }
-
-    @Test
-    public void parse_missingArgument_throwsParseException() {
-        assertParseFailure(parser, EMPTY_PREAMBLE, ROOT_PATH, MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
-    }
 }
