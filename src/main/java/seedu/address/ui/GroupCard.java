@@ -27,5 +27,6 @@ public class GroupCard extends ItemCard {
         this.group = group;
         id.setText(String.format(DISPLAY_ID, group.getId().toString().toUpperCase()));
         name.setText(String.format(DISPLAY_NAME, group.getName().fullName.toUpperCase()));
+        name.setWrapText(true);
     }
 }

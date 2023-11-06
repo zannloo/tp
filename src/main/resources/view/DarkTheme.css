@@ -104,6 +104,7 @@
 .list-cell:filled #cardPane {
     -fx-background-radius: 10px;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 3);
+    -fx-padding: 7px 3px ;
 }
 
 .list-cell:filled:even #cardPane {
