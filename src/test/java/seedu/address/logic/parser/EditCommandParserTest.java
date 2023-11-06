@@ -1,10 +1,6 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
-import static seedu.address.logic.commands.CommandTestUtil.EMPTY_PREAMBLE;
 import static seedu.address.logic.commands.CommandTestUtil.HELP_OPTION;
-import static seedu.address.logic.commands.EditCommand.COMMAND_WORD;
-import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.model.path.AbsolutePath.ROOT_PATH;
 
