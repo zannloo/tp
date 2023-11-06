@@ -250,9 +250,69 @@ This is utilized to indicate the output if command succeeds.:ok_woman:
 
 This is utilized to indicate the output if command fails.:no_good:
 
-- There are [hyperlinks to some commonly made mistakes](#commonly-made-mistake) to help you recover from them!
+- Please note that only the **relevant outputs** for the command are indicated. There may be additional outputs
+in the case of command failure that are not indicated.
+- For more information and solutions on commonly made mistakes, feel free to click [here](#commonly-made-mistake)!
 
 </box>
+
+---
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
+
+## Navigating the Graphical User Interface(GUI) :eyes:
+
+**ProfBook's graphical user interface(GUI)** presents crucial information through visuals.
+However, please note that ProfBook utilizes a Command Line Interface (CLI) approach, limiting the
+interactions with the graphical components to scrolling via scrollbars.
+
+Upon launching ProfBook, you will see the root directory as illustrated below.
+![Ui](images/rootdirectoryimage.png){width=1600 height=900}
+
+|**Component name** |  **Description**   |
+|--|-----|
+| **File Button** |  Click the File Button to access the Exit Button, allowing you to exit ProfBook   |
+| **Help Button** |  Easy access to the User Guide by clicking this button.  |
+|**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the root directory, `~/`.|
+| **Command Input Column** |   This area is for inputting commands. This will likely be the component you will be using most frequently.  |
+| **Message Display Column** |   Displays the output of the command result. Please take note of it especially when a command fails.   |
+| **Group List** |  Shows the groups within the root directory   |
+| **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Children List of the root directory. |
+
+<box type = "info">
+
+- **Children List**: List of Children belonging to current directory.
+  * If at the **root directory**, Children List will contain **groups**.
+  - If at a **group directory**, Children List will contain **students**.
+</box>
+  
+When you navigate to the group directory, `grp-001`, using the `cd grp-001`, your interface should resemble
+  the following.
+  ![Ui](images/groupdirectoryimage.png){width=1600 height=900}
+|**Component name** |  **Description**   |
+|--|-----|
+|**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001/`.|
+| **Message Display Column** |   Displays the output of the command result. Note that it shows that your directory has changed after executing `cd` command .|
+| **Student List** |  Shows the students within current group directory   |
+| **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Children List of the group directory. |
+
+
+To view the task list of the current group directory, simply use `cat`.
+![Ui](images/listimage.png){width=1600 height=900}
+|**Component name** |  **Description**   |
+|--|-----|
+|**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001/`.|
+| **Message Display Column** |   Displays the output of the command result. Note that it shows that you are viewing th task list of group directory, `~/grp-001/`.|
+| **Task List** |  Shows the tasks allocated to group at current group directory   |
+| **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Task List of the group directory. |
+
+<box type = "info">
+
+- **Task List**: List of Tasks belonging to specific directory.
+  * Task List for **group directory**, tasks allocated to this specific **group**.
+  - Task List for **student directory**, tasks allocated to this specific **students**.
+    </box>
 
 ---
 <div class="page-break-before">
@@ -387,6 +447,43 @@ If you are at the directory `~/grp-001` and would like take a quick look of the 
 
 </box>
 
+### View help : `help`
+
+Shows a message of some commands you could use.
+
+**Format:** `help`
+
+### Clearing all entries : `clear`
+
+Clears all entries from ProfBook.
+
+**Format:** `clear`
+
+<box type="warning">
+
+The `clear` command, upon confirmation by pressing enter, will clear all entries from ProfBook.
+It is crucial to note that there is **no way to recover these entries** once the `clear` command has been executed.
+Therefore, we strongly advise exercising caution when using this command.
+</box>
+
+<box type="tip">
+This command is particularly valuable at the beginning of a new semester when you wish to clear all your previous 
+students and groups, making way for the addition of new students. 
+</box>
+
+### Exiting the program : `exit`
+
+Exits the program.
+
+**Format:** `exit`
+
+<box type="tip">
+
+
+This command is a time-saver for those who would rather avoid using the mouse to click on the close button
+positioned in the top-left corner of the window.
+</box>
+
 ---
 
 <div class="page-break-before">
@@ -462,7 +559,7 @@ One or more fields can be edited in a single command.
 - Must be a valid path to a student.
 
 #### Output if command succeeds: 
-- Displays message indicating successful edition of specified student. 
+- Displays message indicating specified student has been successfully edited. 
 
 </box>
 
@@ -472,7 +569,7 @@ One or more fields can be edited in a single command.
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
-  - At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER` or `ADDRESS`)to edit must be provided.
+  - [At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER` or `ADDRESS`) to edit must be provided.](#mistake-8-at-least-one-field-to-edit-must-be-provided)
 
 </box>
 
@@ -509,11 +606,13 @@ Edits a group's name in the specified path. <br>
 <box type="info">
 
 If `[SPECIFIED_PATH]` is not provided, current directory must be a group directory.
-The `edit` command will edit the group at current directory.  
+The `edit` command will edit the group at current directory.  <br>
+**Note:** Changes to group name will only be visible after you have `cd` out of current group directory 
+to root directory.
 </box>
 
 #### Output if command succeeds:
-- Displays message indicating successful edition of specified group.
+- Displays message indicating specified group has been successfully edited.
 
 </box>
 
@@ -523,7 +622,7 @@ The `edit` command will edit the group at current directory.
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
-  - At least one field (`NAME`) to edit must be provided.
+  - [Name field (`NAME`) to edit must be provided.](#mistake-8-at-least-one-field-to-edit-must-be-provided)
 
 </box>
 
@@ -611,7 +710,7 @@ Moves student from one group to another group.
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [No such student to move.](#mistake-4-no-such-student-to-move)
-  - Invalid destination path.
+  - [Invalid destination path.](#mistake-2--invalid-path)
 
 </box>
 
@@ -652,7 +751,7 @@ Creates a group that can contain students.
 
 - Displays message indicating either:
     - [Invalid command format.](#mistake-1-invalid-command-format)
-    - Invalid path to a group.
+    - [Invalid path to a group.](#mistake-2-invalid-path)
 
 </box>
 
@@ -661,43 +760,6 @@ Creates a group that can contain students.
 - When you are at the root directory `~/` and would like to add a new group with GroupId `grp-001`, 
   - `mkdir grp-001 --name Group 001`
 
-### View help : `help`
-
-Shows a message of some commands you could use.
-
-**Format:** `help`
-
-### Clearing all entries : `clear`
-
-Clears all entries from ProfBook.
-
-**Format:** `clear`
-
-<box type="warning">
-
-The `clear` command, upon confirmation by pressing enter, will clear all entries from ProfBook. 
-It is crucial to note that there is **no way to recover these entries** once the `clear` command has been executed. 
-Therefore, we strongly advise exercising caution when using this command.
-</box>
-
-<box type="tip">
-This command is particularly valuable at the beginning of a new semester when you wish to clear all your previous 
-students and groups, making way for the addition of new students. 
-</box>
-
-### Exiting the program : `exit`
-
-Exits the program.
-
-**Format:** `exit`
-
-<box type="tip">
-
-
-This command is a time-saver for those who would rather avoid using the mouse to click on the close button 
-positioned in the top-left corner of the window.
-</box>
-
 ---
 
 <div class="page-break-before">
@@ -705,6 +767,16 @@ positioned in the top-left corner of the window.
 </div>
 
 ## Tasks command :clipboard:
+
+<box type = "info">
+
+**Group Tasks** are tasks designated for a **specific group as a collective responsibility**, not individual
+students within the group. They are suitable for tasks that require group collaboration instead of individual
+student contributions. 
+
+**Student Tasks** on the other hand are tasks assigned to **individual students**. These tasks are ideal for
+assignments where each student is required to complete and submit their assignment independently. 
+</box>
 
 ### Create Todo Task : `todo`
 
@@ -776,6 +848,11 @@ Else, the command will create a deadline task for the group at current directory
 
 <box type="success" seamless>
 
+<box type="tip">
+
+THE `DATE_AND_TIME` accepts past deadlines hence, you can also use the `deadline` command
+to keep track ot past events without worry!
+</box>
 #### Output if command succeeds
 
 - Displays message indicating the successful creation of the deadline task.
@@ -913,19 +990,6 @@ is at before executing `rmt`.
 ProfBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save
 manually.
 
-### Edit the data file
-
-ProfBook data are saved automatically as a JSON file `[JAR file location]/data/profBook.json`. Advanced users are
-welcome to update data directly by editing that data file.
-
-<box type="warning" seamless>
-
-**Caution:**
-If your changes to the data file makes its format invalid, ProfBook will discard all data and start with an empty data
-file at the next run. Hence, it is recommended to take a backup of the file before editing it.
-
-</box>
-
 
 ---
 
@@ -937,7 +1001,7 @@ file at the next run. Hence, it is recommended to take a backup of the file befo
 
 <box type="warning">
 
-As Albert Einstein wisely said, "A person who never made a mistake never tried anything new"
+As Albert Einstein wisely said, "A person who never made a mistake never tried anything new".
 </box>
 
 At ProfBook, we wholeheartedly believe that mistakes are part of the learning journey. We are here to support
@@ -972,6 +1036,28 @@ of 1 to the total number of tasks in the task list.
 **Solution:**
 Please do not forget to execute the [`cat`](#display-all-tasks-cat) command prior to executing the required command.
 
+
+##### Mistake 7: Invalid option
+**Solution:**
+Pay close attention to the invalid option indicated in the return message. 
+First, ensure that the **command format specifies for this type of option**. 
+Second, confirm that there are **no misspellings** especially when it comes to options in their long forms.
+By adhering to these steps, you could efficiently correct invalid options in your commands.
+
+<box type = "info">
+
+Please note that if there are multiple invalid option, only the first invalid option will be shown in the return
+message. This approach aids you to concentrate on addressing the invalid option before moving on to the subsequent
+ones. The next invalid option will be shown after rerunning the command if the current invalid option has been shown.
+</box>
+
+##### Mistake 8: At least one field to edit must be provided.
+**Solution:**
+If **editing a student**, ensure that you have indicated at least one field 
+(`NAME`, `EMAIL`, `PHONE_NUMBER` or `ADDRESS`) to edit and that the flag used is accurate. <br>
+If **editing a group**, ensure that you have indicated the name field(`NAME`)
+to edit and that the flag used is accurate (either `--name` or `-n` before `NAME`). <br>
+
 ---
 
 <div class="page-break-before">
@@ -984,6 +1070,10 @@ Please do not forget to execute the [`cat`](#display-all-tasks-cat) command prio
 **A**: Install ProfBook in the other computer and overwrite the empty data file it creates with the file that contains
 the data of your previous ProfBook home folder.
 
+**Q**: Is there an `edit` command for tasks?<br>
+**A**: Currently, we do not have an `edit` command for tasks. But we would love to have it in ProfBook and 
+are definitely working toward including it in our future enhancements. 
+
 ---
 
 ## Known issues
@@ -993,28 +1083,49 @@ the data of your previous ProfBook home folder.
    application before running the application again.
 
 ---
+## Exciting future developments :eyes:
 
+This section is dedicated to the exciting future enhancements we envision for ProfBook. 
+
+**Edit group command at current group directory:**
+  - **Current:** To view changes to the group name, you would need to `cd` out of current group directory to 
+  root directory, similar to terminal behaviour. 
+  - **Upcoming enhancement:** ProfBook will return a more informative message that clearly indicates the updated 
+group name after execution of command.
+
+**Marking and Unmarking tasks:**
+  - **Current:** You can mark and unmark tasks that are marked or unmarked respectively.
+  - **Upcoming enhancement:** ProfBook will return a return message confirming that the task has already been marked 
+or unmarked, and the current command will not result in any changes.
+
+**Editing tasks:**
+- **Current:** ProfBook does not have an `edit` command for tasks. But you could always `rmt` the task
+and add it back through the `todo` or `deadline` command!
+- **Upcoming enhancement:** We are actively developing the `edit` command for tasks, mirroring the
+`edit` command for Students and Groups. This addition will simplify the learning process of this new command,
+ensuring a seamless experience for you.
+---
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
 </div>
 
-
 ## Command summary
-| Action                      | Format, Example(s)                                                                                                                                                                   |
-|:----------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Help**                    | `help`                                                                                                                                                                               |
-| **Clear all entries**       | `clear`                                                                                                                                                                              |
-| **Exit the program**        | `exit`                                                                                                                                                                               |
-| **Change Directory**        | `cd SPECIFIED_PATH` <br> e.g., `cd ../grp-001`                                                                                                                                       |
-| **Display Directories**     | `ls [SPECIFIED_PATH]` <br> e.g., `ls grp-001`                                                                                                                                        |
-| **Display Task List**       | `cat [SPECIFIED_PATH]`<br> e.g., `cat 1234A, cat grp-001`                                                                                                                            |
-| **Add Student**             | `touch SPECIFIED_PATH -n NAME [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]` <br> e.g., `touch 2000Y --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh ` |
-| **Edit Student**            | `edit SPECIFIED_PATH [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]` <br> e.g., `edit 0010Y --phone 91919191`                                                                   |
-| **Create Group**            | `mkdir SPECIFIED_PATH_TO_GROUP --name NAME` <br> e.g., `mkdir grp-001 --name Group 001`                                                                                              |
-| **Delete Student or Group** | `rm SPECIFIED_PATH` <br> e.g., `rm 0123Y`, `rm grp-002`                                                                                                                              |
-| **Move Student**                | `mv SPECIFIED_PATH_TO_STUDENT SPECIFIED_PATH_TO_GROUP`  <br> e.g., `mv grp-001/0123Y grp-002`                                                                                                                                                                                   |
-| **Create Todo**             | `todo [SPECIFIED_PATH] --desc DESCRIPTION [--all CATEGORY]` <br> e.g., `todo 2000Y --desc Assignment 1`                                                                              |
-| **Create Deadline**         | `deadline [SPECIFIED_PATH] --desc DESCRIPTION --datetime DATE_AND_TIME [--all CATEGORY]`<br> e.g., `deadline 2000Y --desc Assignment 1 --datetime 2023-10-11 23:59 `                 |
-| **Mark**                    | `mark TASK_INDEX`<br> e.g.,`mark 1`                                                                                                                                                  |
-| **Unmark**                  | `unmark TASK_INDEX`<br> e.g.,`unmark 2`                                                                                                                                              |
-| **Delete Task**             | `rmt TASK_INDEX`<br> e.g.,`rmt 1`                                                                                                                                                    |
+| Action                  | Format, Example(s)                                                                                                                                             |
+|:------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Change Directory**    | `cd SPECIFIED_PATH` <br> e.g. `cd ../grp-001`                                                                                                                  |
+| **Display Directories** | `ls [SPECIFIED_PATH]` <br> e.g. `ls grp-001`                                                                                                                   |
+| **Display Task List**   | `cat [SPECIFIED_PATH]`<br> e.g. `cat 1234A, cat grp-001`                                                                                                       |
+| **Help**                | `help`                                                                                                                                                         |
+| **Clear all entries**   | `clear`                                                                                                                                                        |
+| **Exit the program**    | `exit`                                                                                                                                                         |
+| **Add Student**         | `touch SPECIFIED_PATH -n NAME [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]` <br> e.g. `touch 2000Y -n Bob -e bobby@example.com -p 92929292 -a blk 258 Toa Payoh ` |
+| **Edit Student**        | `edit SPECIFIED_PATH [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]` <br> e.g. `edit 0010Y -p 91919191`                                                   |
+| **Edit Group**          | `edit [SPECIFIED_PATH] -n NAME` <br> e.g. `edit n Amazing Group`                                                                                               |
+| **Delete Student or Group** | `rm SPECIFIED_PATH` <br> e.g `rm 0123Y`, `rm grp-002`                                                                                                          |
+| **Move Student**        | `mv SPECIFIED_PATH_TO_STUDENT SPECIFIED_PATH_TO_GROUP`  <br> e.g. `mv grp-001/0123Y grp-002`                                                                   |
+| **Create Group**        | `mkdir SPECIFIED_PATH_TO_GROUP -n NAME` <br> e.g. `mkdir grp-001 -n Group 001`                                                                                 |
+| **Create Todo**         | `todo [SPECIFIED_PATH] -d DESCRIPTION [-al CATEGORY]` <br> e.g. `todo 2000Y -d Assignment 1`                                                                   |
+| **Create Deadline**     | `deadline [SPECIFIED_PATH] -d DESCRIPTION -dt DATE_AND_TIME [-al CATEGORY]`<br> e.g. `deadline 2000Y -d Assignment 1 -dt 2023-10-11 23:59 `                    |
+| **Mark**                | `mark TASK_INDEX`<br> e.g. `mark 1`                                                                                                                            |
+| **Unmark**              | `unmark TASK_INDEX`<br> e.g. `unmark 2`                                                                                                                        |
+| **Delete Task**         | `rmt TASK_INDEX`<br> e.g. `rmt 1`                                                                                                                              |
