@@ -80,20 +80,19 @@ public class Deadline extends Task {
     /**
      * Checks if this Deadline is equal to another Deadline object.
      * Two tasks are equal if they have the same description, isDone and dueBy status and time.
-     * @param o The object to compare this task against.
+     * @param other The object to compare this task against.
      * @return true if the given object represents a Task equivalent to this task, false otherwise.
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        Deadline deadline = (Deadline) o;
-        return dueBy.equals(deadline.dueBy) && isDone.equals(deadline.isDone)
-                && description.equals(deadline.description);
+        Deadline otherDeadline = (Deadline) other;
+        return super.equals(otherDeadline) && dueBy.equals(otherDeadline.dueBy);
     }
 }
 

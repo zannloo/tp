@@ -30,5 +30,6 @@ public class TaskCard extends ItemCard {
         } else {
             cardPane.setStyle("-fx-background-color: #866937;");
         }
+        desc.setWrapText(true);
     }
 }
