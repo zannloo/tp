@@ -684,11 +684,13 @@ Removes a student or group from the specified directory.
 
 - When you are at the root directory `~/` and would like to remove the group, `grp-001`,
     - `rm grp-001` will remove grp-001
-  
-  <box type="tip">
+
+<box type="tip">
+
 When you are at the root directory `~/` and would like to remove the student with the StudentId, `0123Y`,
 in `~/grp-001`,
 - You could use the command `rm ~/grp-001/0123Y` to save yourself the hassle for having to change directory!
+
 </box>
 
 ### Move Student: `mv`
