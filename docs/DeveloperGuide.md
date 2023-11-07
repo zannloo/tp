@@ -267,17 +267,18 @@ This section describes some noteworthy details on how certain features are imple
 
 Similar to group, a student's data is encapsulated in a `Student` instance. These students are stored in their
 respective `Group` instance which in turn is stored in the `Root` class. These hierarchy is maintained by using
-a `Map<Id, Student>` and `Map<Id, Group>` object. Implementation for Creating a student and a group is very similar,
-so in this guide, I would go through the implementation for the harder one, which is creating a student. Should you have
-any questions do feel free to contact us.
+a `Map<Id, Student>` and `Map<Id, Group>` instance for the parents to store reference to their children.
+
+Implementation for Creating a student and a group is very similar, so in this guide, I would go through the
+implementation for the harder one, which is creating a student. Should you have any questions do feel free to contact
+us.
 
 Most of the logic for creating a student is encapsulated in the `CreateStudentCommand` class, this class utilise
 the `GroupChildOperation` facade class to add the student to the group and the `Model` class to check for duplicates.
-The follow methods of `ModelManager` and `GroupChildOperation` are used:
+The following methods of `ModelManager` and `GroupChildOperation` are used:
 
 1. `ModelManager::groupChildOperation` - To generate a facade class specific to the current group, it also checks for
-   the
-   validity and presence of the specified group.
+   the validity and presence of the specified group.
 2. `ModelManager::hasStudentWithId` - To check if the new student id is unique
 3. `GroupChildOperation::addChild` - To add the current student into the group
 
@@ -294,11 +295,12 @@ Given below is an example usage scenario on how an existing user can create a st
    Do note that the only required fields are `--name`
 3. The parser would retrieve all the relevant information from the input and encapsulates it in a `CreateStudentCommand`
 4. This command would first do these checks:
-    * checks if the specified path is a valid student path.
-    * checks if adding the student would result in a duplicate, ie if the student id is already taken.
+    * checks if the specified path is a valid student path. This is done via the `Path::isStudentDirectory` method
+    * checks if adding the student would result in a duplicate within whole of ProfBook, ie if the student id is
+      already taken. This is done via the `ModelManager::hasStudentWithId` method.
 5. In this case, if the input was `touch ~/grp-001/1234Y ...` or `touch ~/grp-001/9876A ...` a `CommandException` will
    be thrown.
-6. If all checks out, the command would create a new student and add the student to the `Mode`. This addition is done
+6. If all checks out, the command would create a new student and add the student to the `Model`. This addition is done
    through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. This would ensure
    the path to the group is present and valid. The student is added through the `GroupChildOperation::addChild` method.
 7. It should look something like this.
@@ -311,28 +313,38 @@ component, do head over to their respective documentation.
 <puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="550" />
 
 
-
 Below is an activity diagram showing the general activity of the add student command.
 
 //TODO ADD activity diagram
 
 #### Design Consideration
 
-**Aspect: How to represent the hierarchy**
+**Aspect: How do we represent the hierarchy**
 
 * **Alternative 1 (current implementation):** Tree representation.
     * Pros: Models the hierarchy closely.
     * Cons: It results in a more rigid hierarchy, harder to extend upon.
 * **Alternative 2**: Flat structure.
     * Pros: Easier to implement relatively to the tree representation.
-    * Cons: Harder to maintain the hierarchy and harder to search for items
+    * Cons: Harder to maintain the hierarchy, search for items and load items from storage
 
-**Aspect: Should we add optional fields**
+**Aspect: How store reference to children**
 
-* **Alternative 1 (current implementation):** Yes.
+* **Alternative 1 (current implementation):** HashMap.
+    * Pros: Able to check/find if a student/group is present efficiently, mapping objects by their Id also makes
+      executing
+      commands in a folder-like structure easier.
+    * Cons: Not really any.
+* **Alternative 2**: Array.
+    * Pros: Very easy to implement
+    * Cons: Finding a student/group is very inefficient, updating references is also a hassle.
+
+**Aspect: Types of fields **
+
+* **Alternative 1 (current implementation):** Fields can be required or optional.
     * Pros: Allows the user to create groups and students without complete information.
     * Cons: Harder to implement features that depends on those optional field.
-* **Alternative 2**: No.
+* **Alternative 2**: Fields must be required.
     * Pros: Easier implementation, there is less need for checking optional field.
     * Cons: All information about a student/group must be readily present before creating it, which is not always the
       case
@@ -345,19 +357,23 @@ Creating and adding a task is one of the key feature of ProfBook. Currently, we 
 namely `ToDo` and `Deadline` Tasks. Both this tasks extends from the abstract `Task` class which add to its
 extensibility. It is important to note that currently, you can only add tasks to Group and Students. Needless to say,
 the information for these tasks are encapsulated withing their respective `Task`
-instance. As the implementation for creating a Todo and Deadline task is very similar, I would be bringing you through
+instance.
+
+As the implementation for creating a Todo and Deadline task is very similar, I would be bringing you through
 the implementation that we found to be more confusing. I would be going through creating a Deadline task and adding it
-to *all students in a group*. More information for creating a Todo can be found at the `Model` component, or
-alternatively you could reach out to us, we would be more than happy to help.
+to *all students in a group*. Illustration in the form of a sequence diagram for creating a Todo and adding a singular
+tasks can be found at the `Model` component. For more information you could reach out to us, we would be more than happy
+to help.
 
 Most of the logic for creating a task is encapsulated in the `CreateDeadlineCommand` class, this class utilise
 the `GroupChildOperation` facade class to add the Deadline to the group and check for duplicates.
-The follow methods of `ModelManager` and `GroupChildOperation` are used:
+The following methods of `ModelManager` and `GroupChildOperation` are used:
 
 1. `ModelManager::groupChildOperation` - To generate a facade class specific to the current group, it also checks for
    the validity and presence of the specified group.
 2. `GroupChildOperation::addAllTasks` - To add the tasks to all student within a group, it also checks if it is a
    duplicate task before adding.
+3. `GroupChildOperation::checkIfAllChildrenHaveTask` - To check if all children within a group already has the task.
 
 It is important to note that for adding a task to a singular group/student, the facade class `TaskOperation` is used
 instead, a sequence diagram illustrating this can be found in the model component.
@@ -376,8 +392,9 @@ Given below is an example usage scenario on how an existing user can add Deadlin
 3. The parser would retrieve all the relevant information from the input and encapsulates it in
    a `CreateDeadlineCommand`
 4. This command would first
-    * check if the specified path is a valid and present Group path.
-    * check if all students in the group already has the task.
+    * check if the specified path is a valid and present Group path. This is done via `Path::isGroupDirectory` method.
+    * check if all students in the group already has the task. This is done
+      via `GroupChildOperation::checkIfAllChildrenHaveTask` method.
 5. If all checks out, the command would create a new deadline instance and add the deadline to all student that do not
    already have the aforementioned task. This is done
    through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. The tasks is then
@@ -386,6 +403,9 @@ Given below is an example usage scenario on how an existing user can add Deadlin
 6. It should look something like this.
 
    <puml src="diagrams/DeadlineFinalState.puml" width="550" />
+
+7. In the above diagram, Jerry already has the exact deadline and adding it would result in a duplicate. Therefore, the
+   task is only added to student Ben.
 
 This sequence diagram illustrates the general flow when adding the deadline task to *all* students, the sequence
 diagram for adding a deadline task to a *single* student can be found in the `Model` component.
@@ -416,11 +436,11 @@ This is an activity diagram showing the general activity of the add deadline com
 * **Alternative 2**: Allow groups to have their own task lists.
     * Pros: Quick and easy to implement
     * Cons: Adding of student tasks must be done manually
-* **Alternative 3 (current implementation)**: Implement both.
-    * Pros: Best of both worlds
-    * Cons: Harder to implement, user command is also more complex
+* **Alternative 3 (current implementation)**: Implement both of the aforementioned features.
+    * Pros: Best of both worlds.
+    * Cons: Harder to implement, user command is also more complex and bulky.
 
-### EditCommand
+### Editing information
 
 #### Implementation
 
@@ -428,11 +448,12 @@ Due to dynamic need of our target users, professors and TAs, there is a need for
 Our edit command need to be general enough to allow the users to edit both students and groups. This is done by checking
 the type of directory that was passed in. This is done through the `Path::isGroupDirectory`
 and `Path::isStudentDirectory` method. More information on how this is done can be found in the documentation
-for `Path` component. This then allows parser to check for the validity of the given flags. Likewise, as the
-implementation for editing a student abd a group is similar, for simplicity, I would be going through implementation of
-editing a group.
+for `Path` component. This then allows parser to check for the validity of the given flags.
 
-The follow methods of `ModelManager`, `Path` and `RootChildOperation` are used:
+As the implementation for editing students and groups is similar, for simplicity, I would be going through
+implementation of editing a group.
+
+The following methods of `ModelManager`, `Path` and `RootChildOperation` are used:
 
 1. `ModelManager::rootChildOperation` - To generate a facade class with logic specific to the current root.
 2. `ModelManager::hasGroupWithId` - To check if editing results in a duplicate.
@@ -449,8 +470,11 @@ Given below is an example usage scenario on how an existing user can edit the na
    user would execute the following command: `edit ~/grp-001 -i grp-003`.
 3. When parsing the command, from the path, the parser would be able to deduce that we are editing a group. It then
    checks the flags to ensure only required flags are present.
-4. If the id is being edited, `ModelManager::hasGroupWithId` is called to ensure it does not result in a duplicate.
-5. The `RootChildOperation::editChild` then makes a copy of the existing group while updating the values.
+4. The fields to be edited is then stored in an `EditGroupDescriptor` instance. (For student it would be stored in
+   an `EditStudentDescriptor`)
+5. If the id is being edited, `ModelManager::hasGroupWithId` is called to ensure it does not result in a duplicate.
+6. The `RootChildOperation::editChild` then makes a copy of the existing group while updating the values found in
+   the `EditGroupDescriptor`.
 
    <puml src="diagrams/EditIntermediateState.puml" width="550" />
 
@@ -470,7 +494,39 @@ This is an activity diagram showing the general activity of the edit command.
 
 #### Design Consideration
 
-// TODO
+**Aspect: How to ensure `edit` is able to handle editing students and group**
+
+* **Alternative 1 (current implementation):** Implement an generic `edit` which acts differently depending on the input
+  path.
+    * Pros: Closely follows OOP principals and makes `edit` more extensible
+    * Cons: Harder to implement, more confusing for users
+* **Alternative 2**: Create multiple `edit` commands.
+    * Pros: Easier to implement, it is also more intuitive for users
+    * Cons: More commands for user to remember, future additions would prove to be a hassle
+
+### Moving students between groups
+
+#### Implementation
+
+Initially, implementing this feature seemed like a daunting task. However, after finalising our `Model` hierarchy, we
+realised that implementing move was quite straight forward. Moving a student can be easily done by removing the
+student's reference from its current group by removing its key-value pair from the group's `Map<Id, Student>` field.
+Then to complete the move, the student is added to the target group by adding it into the target
+group's `Map<Id, Student>` field. All of this operation is facilitated by the `GroupChildOperation` facade class.
+
+Given below is an example usage scenario whereby a student is moved from group1 to group2
+
+1. When the user launches the application, existing information is read from the data file `profbook.json`.
+2. Suppose the user is still in the root directory and wants to move student `1234Y` from `grp-001` to `grp-002`, the
+   user would execute the following command: `mv ~/grp-001/1234Y ~/grp-002`.
+3. The parser would extract the relevant information and creates a `MoveStudentCommand` instance.
+4. The command would check that path to the student and target group is valid and present.
+5. Command would then add the student to the target group via the `GroupChildOperation::addChild` method. The old
+   reference is removed via the `GroupChildOperation::deleteChild` method.
+6. As uniqueness of student is validated before each student is added, there is no need to check for clashes when
+   executing
+
+--------------------------------------------------------------------------------------------------------------------
 
 ## Proposed future features
 
