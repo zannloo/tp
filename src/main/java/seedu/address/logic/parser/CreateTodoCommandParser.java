@@ -54,9 +54,10 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
 
         ToDo todo = ParserUtil.parseToDo(argMultimap.getValue(OPTION_DESC).get());
 
-        if (argMultimap.getValue(OPTION_ALL).isEmpty()) {
+        if (!ParserUtil.isOptionPresent(argMultimap, OPTION_ALL)) {
             return new CreateTodoCommand(fullTargetPath, todo, Category.NONE);
         }
+
         Category category = ParserUtil.parseCategory(argMultimap.getValue(OPTION_ALL).get());
         return new CreateTodoCommand(fullTargetPath, todo, category);
     }

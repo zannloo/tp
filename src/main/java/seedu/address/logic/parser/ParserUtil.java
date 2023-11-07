@@ -255,6 +255,10 @@ public class ParserUtil {
         requireNonNull(cat);
         String trimmedCat = cat.trim();
 
+        if (trimmedCat.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_EMPTY_VALUE, "all category"));
+        }
+
         if (trimmedCat.equals("allStu")) {
             return Category.ALLSTU;
         }
@@ -340,9 +344,7 @@ public class ParserUtil {
      * Checks no options in the args, else throw ParseException.
      */
     public static void verifyNoOption(String args, String commandWord) throws ParseException {
-        try {
-            verifyAllOptionsValid(args);
-        } catch (ParseException e) {
+        if (!ArgumentTokenizer.extractAllOptionNames(args).isEmpty()) {
             throw new ParseException(String.format(Messages.MESSAGE_NO_OPTIONS,
                     commandWord));
         }

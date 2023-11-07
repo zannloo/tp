@@ -59,9 +59,10 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
                 argMultimap.getValue(OPTION_DESC).get(),
                 argMultimap.getValue(OPTION_DATETIME).get());
 
-        if (argMultimap.getValue(OPTION_ALL).isEmpty()) {
+        if (!ParserUtil.isOptionPresent(argMultimap, OPTION_ALL)) {
             return new CreateDeadlineCommand(fullTargetPath, deadline, Category.NONE);
         }
+
         Category category = ParserUtil.parseCategory(argMultimap.getValue(OPTION_ALL).get());
         return new CreateDeadlineCommand(fullTargetPath, deadline, category);
     }
