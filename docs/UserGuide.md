@@ -185,15 +185,17 @@ Flags usually come before essential details required by the command and are comp
 - Must be a non-empty string should only contain alphanumeric characters and spaces.
 
 `EMAIL`:
-- Must be a non-empty string following the format **local-part@domain**.
-  - **local-part**
+- Must be a non-empty string following the format `local-part@domain`.
+  - `local-part`:
     - Should only contain **alphanumeric characters** and these **special characters**, excluding the parentheses, (+_.-).
     - May not start or end with any special characters.
-  - This is followed by a '@' and then a domain name. The domain name is made up of domain labels separated by periods.
-  - **domain**
-    - At least 2 characters long.
-    - Consist of alphanumeric characters, separated only by hyphens, if any.
-    - Must end with alphanumeric characters.
+  - This is followed by a `@` and then `domain`.
+  - `domain`:
+    -  Made up of **domain labels** separated by periods.
+      - **domain labels**:
+        - At least 2 characters long.
+        - Consist of alphanumeric characters, separated only by hyphens, if any.
+        - Must end with alphanumeric characters.
 
 `PHONE_NUMBER`:
 - Must be a non-empty string of numbers.
@@ -204,8 +206,8 @@ Flags usually come before essential details required by the command and are comp
 
 `STUDENT_ID`:
 - Must follow the format of a valid StudentId.
-
-  <box type="info">
+  
+<box type="info">
 
 **Required format for `StudentId`:**
 - Must be in the format `XXXXA` where `XXXX` is replaceable with any 4-digit number and `A` is replaceable with any
@@ -214,6 +216,7 @@ Flags usually come before essential details required by the command and are comp
     a StudentId created by you. This format helps you to identify students easily while maintaining
     privacy and security.
   - eg. `8467U`
+  
     </box>
 
 `GROUP_ID`:
