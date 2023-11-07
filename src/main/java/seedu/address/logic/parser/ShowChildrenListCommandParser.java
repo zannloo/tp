@@ -1,6 +1,6 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
+import static seedu.address.logic.commands.ShowChildrenListCommand.COMMAND_WORD;
 
 import java.util.logging.Logger;
 
@@ -14,7 +14,7 @@ import seedu.address.model.path.RelativePath;
  * Parses input arguments and creates a new ShowChildrenListCommand object
  */
 public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCommand> {
-    public static final String MESSAGE_COMMAND_CREATED = "Created new \"cat\" command: %1$s";
+    public static final String MESSAGE_COMMAND_CREATED = "Created new \"ls\" command: %1$s";
     private static final Logger logger = LogsCenter.getLogger(ShowChildrenListCommandParser.class);
 
     /**
@@ -27,20 +27,20 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
      * @throws ParseException if the user input does not conform the expected format
      */
     public ShowChildrenListCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
-
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        if (ParserUtil.hasHelpOption(args)) {
             return ShowChildrenListCommand.HELP_MESSAGE;
         }
 
-        ParserUtil.verifyAllOptionsValid(args);
+        ParserUtil.verifyNoOption(args, COMMAND_WORD);
 
-        if (argMultimap.getPreamble().isEmpty()) {
+        String preamble = ArgumentTokenizer.extractPreamble(args);
+
+        if (preamble.isEmpty()) {
             logger.fine(String.format(MESSAGE_COMMAND_CREATED, "Current directory"));
             return new ShowChildrenListCommand();
         }
 
-        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
+        RelativePath path = ParserUtil.parseRelativePath(preamble);
         AbsolutePath target = ParserUtil.resolvePath(currPath, path);
 
         logger.fine(String.format(MESSAGE_COMMAND_CREATED, path.toString()));

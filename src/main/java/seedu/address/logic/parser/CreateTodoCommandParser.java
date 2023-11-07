@@ -4,7 +4,6 @@ import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.CreateTodoCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CreateTodoCommand;
@@ -28,14 +27,15 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateTodoCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ParserUtil.verifyAllOptionsValid(args, OPTION_DESC, OPTION_ALL, OPTION_HELP);
 
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_ALL, OPTION_HELP);
-
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        if (ParserUtil.hasHelpOption(args)) {
             return CreateTodoCommand.HELP_MESSAGE;
         }
+
+        ParserUtil.verifyAllOptionsValid(args, OPTION_DESC, OPTION_ALL);
+
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_ALL);
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC)) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));

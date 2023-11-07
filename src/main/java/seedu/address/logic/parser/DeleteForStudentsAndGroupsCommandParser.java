@@ -2,13 +2,11 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.COMMAND_WORD;
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 
 
 /**
@@ -24,25 +22,20 @@ public class DeleteForStudentsAndGroupsCommandParser implements Parser<DeleteFor
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeleteForStudentsAndGroupsCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ParserUtil.verifyAllOptionsValid(args, OPTION_HELP);
-
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_HELP);
-
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        if (ParserUtil.hasHelpOption(args)) {
             return DeleteForStudentsAndGroupsCommand.HELP_MESSAGE;
         }
 
-        if (argMultimap.getPreamble().isEmpty()) {
+        ParserUtil.verifyNoOption(args, COMMAND_WORD);
+
+        String preamble = ArgumentTokenizer.extractPreamble(args);
+
+        if (preamble.isEmpty()) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
-        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
-        }
+
+        RelativePath path = ParserUtil.parseRelativePath(preamble);
+        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
 
         return new DeleteForStudentsAndGroupsCommand(targetPath);
     }

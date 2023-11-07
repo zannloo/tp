@@ -4,7 +4,6 @@ import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.CreateStudentCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 
@@ -38,14 +37,15 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateStudentCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ParserUtil.verifyAllOptionsValid(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_HELP);
 
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_HELP);
-
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        if (ParserUtil.hasHelpOption(args)) {
             return CreateStudentCommand.HELP_MESSAGE;
         }
+
+        ParserUtil.verifyAllOptionsValid(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
+
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME)
                 || argMultimap.getPreamble().isEmpty()) {

@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_EMPTY_VALUE;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PATH_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_PATH_RESOLUTION_FAIL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -315,6 +316,35 @@ public class ParserUtil {
             if (optionStream.noneMatch(pred)) {
                 throw new ParseException(String.format(MESSAGE_INVALID_OPTION, optionName));
             }
+        }
+    }
+
+    /**
+     * Returns true if help option included in {@code String args}
+     */
+    public static boolean hasHelpOption(String args) {
+        String argsWithPadding = " " + args + " ";
+
+        if (argsWithPadding.contains(" " + OPTION_HELP.getShortName() + " ")) {
+            return true;
+        }
+
+        if (argsWithPadding.contains(" " + OPTION_HELP.getLongName() + " ")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks no options in the args, else throw ParseException.
+     */
+    public static void verifyNoOption(String args, String commandWord) throws ParseException {
+        try {
+            verifyAllOptionsValid(args);
+        } catch (ParseException e) {
+            throw new ParseException(String.format(Messages.MESSAGE_NO_OPTIONS,
+                    commandWord));
         }
     }
 

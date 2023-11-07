@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.ChangeDirectoryCommand.COMMAND_WORD;
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import java.util.logging.Logger;
 
@@ -27,21 +27,23 @@ public class ChangeDirectoryCommandParser implements Parser<ChangeDirectoryComma
      * @throws ParseException if the user input does not conform the expected format
      */
     public ChangeDirectoryCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_HELP);
+        requireAllNonNull(args, currPath);
 
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        // Checks if help option included.
+        if (ParserUtil.hasHelpOption(args)) {
             return ChangeDirectoryCommand.HELP_MESSAGE;
         }
 
         // No option for cd command
-        ParserUtil.verifyAllOptionsValid(args);
+        ParserUtil.verifyNoOption(args, COMMAND_WORD);
 
-        if (argMultimap.getPreamble().isEmpty()) {
+        String preamble = ArgumentTokenizer.extractPreamble(args);
+
+        if (preamble.isEmpty()) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
-        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
+        RelativePath path = ParserUtil.parseRelativePath(preamble);
         AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
 
         logger.info("Creating ChangeDirectoryCommand with dest: " + path.toString());

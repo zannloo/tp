@@ -6,8 +6,6 @@ import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMPTY_PREAMBLE;
 import static seedu.address.logic.commands.CommandTestUtil.HELP_OPTION;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.model.path.AbsolutePath.ROOT_PATH;
@@ -16,6 +14,7 @@ import static seedu.address.testutil.TypicalPaths.PATH_TO_GROUP_ONE;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.ShowTaskListCommand;
 
 public class ShowTaskListCommandParserTest {
@@ -39,11 +38,11 @@ public class ShowTaskListCommandParserTest {
     @Test
     public void parse_invalidOption_throwsParseException() {
         assertParseFailure(parser, NAME_DESC_AMY, ROOT_PATH,
-            String.format(ParserUtil.MESSAGE_INVALID_OPTION, OPTION_NAME.getLongName()));
+            String.format(Messages.MESSAGE_NO_OPTIONS, ShowTaskListCommand.COMMAND_WORD));
 
         // multiple invalid option -> return first invalid option
         assertParseFailure(parser, ADDRESS_DESC_AMY + NAME_DESC_AMY, ROOT_PATH,
-            String.format(ParserUtil.MESSAGE_INVALID_OPTION, OPTION_ADDRESS.getLongName()));
+            String.format(Messages.MESSAGE_NO_OPTIONS, ShowTaskListCommand.COMMAND_WORD));
     }
 
     @Test

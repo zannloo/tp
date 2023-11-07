@@ -2,7 +2,6 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.CreateGroupCommand.COMMAND_WORD;
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 
 import seedu.address.logic.commands.CreateGroupCommand;
@@ -29,14 +28,15 @@ public class CreateGroupCommandParser implements Parser<CreateGroupCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateGroupCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ParserUtil.verifyAllOptionsValid(args, OPTION_NAME, OPTION_HELP);
 
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_HELP);
-
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        if (ParserUtil.hasHelpOption(args)) {
             return CreateGroupCommand.HELP_MESSAGE;
         }
+
+        ParserUtil.verifyAllOptionsValid(args, OPTION_NAME);
+
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, OPTION_NAME);
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME) || argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));

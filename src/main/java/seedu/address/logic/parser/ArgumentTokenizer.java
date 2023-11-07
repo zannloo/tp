@@ -19,9 +19,9 @@ public class ArgumentTokenizer {
      * Extracts preamble from the argString.
      * String before the first "-".
      */
-    public static String extractPreamble(String argString) {
-        String[] s = argString.split(" -", 2);
-        return s[0].trim();
+    public static String extractPreamble(String argsString) {
+        String[] s = argsString.split(" -", 2);
+        return unescape(s[0].trim());
     }
 
     /**

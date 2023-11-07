@@ -3,7 +3,6 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ID;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
@@ -32,9 +31,7 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args, AbsolutePath currPath) throws ParseException {
         requireAllNonNull(args, currPath);
 
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
-
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        if (ParserUtil.hasHelpOption(args)) {
             return EditCommand.HELP_MESSAGE;
         }
 
