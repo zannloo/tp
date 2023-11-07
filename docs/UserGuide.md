@@ -168,7 +168,7 @@ Flags usually come before essential details required by the command and are comp
 - `--desc` / `d` followed by description of task specified by command.
 - `--datetime` / `-dt` followed by due date of a deadline task in the `yyyy-MM-dd HH:mm` format.  
 - `--all` / `-al` followed by either: 
-  - `allStu` which adds **individual** tasks to all students under within the group directory.
+  - `allStu` which adds **individual** tasks to all students within the group directory.
     - Can only be used at a group directory.  
   - `allGrp` which adds **group** tasks to all groups within the root directory.
     - Can only be used at root directory.
