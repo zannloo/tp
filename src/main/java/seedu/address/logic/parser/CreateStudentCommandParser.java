@@ -7,20 +7,16 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 
-import java.util.ArrayList;
-
 import seedu.address.logic.commands.CreateStudentCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.TaskListManager;
 
 /**
  * Parses input arguments and creates a new CreateStudentCommand object
@@ -55,12 +51,7 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
 
         RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
-        }
+        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
 
         if (!targetPath.isStudentDirectory()) {
             throw new ParseException(INVALID_PATH_MESSAGE);
@@ -78,7 +69,7 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
                 ? ParserUtil.parseAddress(argMultimap.getValue(OPTION_ADDRESS).get())
                 : Address.PLACEHOLDER;
 
-        Student student = new Student(new TaskListManager(new ArrayList<>()), name, email, phone, address, id);
+        Student student = new Student(name, email, phone, address, id);
 
         return new CreateStudentCommand(targetPath, student);
     }
