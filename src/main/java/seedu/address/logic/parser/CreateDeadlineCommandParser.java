@@ -14,7 +14,6 @@ import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CreateDeadlineCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 import seedu.address.model.task.Deadline;
 
 /**
@@ -38,11 +37,9 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
             return CreateDeadlineCommand.HELP_MESSAGE;
         }
 
-        ParserUtil.verifyAllOptionsValid(args,
-                OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
+        ParserUtil.verifyAllOptionsValid(args, OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
 
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
 
         // Check if compulsory arguments are given
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC, OPTION_DATETIME)) {
@@ -52,16 +49,11 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
 
         // If no path given, default to current path.
-        AbsolutePath fullTargetPath = null;
-        if (argMultimap.getPreamble().isEmpty()) {
-            fullTargetPath = currPath;
-        } else {
-            RelativePath target = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-            fullTargetPath = ParserUtil.resolvePath(currPath, target);
-        }
+        AbsolutePath fullTargetPath = argMultimap.getPreamble().isEmpty()
+                ? currPath
+                : ParserUtil.resolvePath(currPath, argMultimap.getPreamble());
 
-        Deadline deadline = ParserUtil.parseDeadline(
-                argMultimap.getValue(OPTION_DESC).get(),
+        Deadline deadline = ParserUtil.parseDeadline(argMultimap.getValue(OPTION_DESC).get(),
                 argMultimap.getValue(OPTION_DATETIME).get());
 
         // Check if all option provided

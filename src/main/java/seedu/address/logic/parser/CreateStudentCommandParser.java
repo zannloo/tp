@@ -15,7 +15,6 @@ import seedu.address.logic.commands.CreateStudentCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
@@ -49,20 +48,26 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
 
-        if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME)
-                || argMultimap.getPreamble().isEmpty()) {
+        if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME) || argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS);
 
-        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
+        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, argMultimap.getPreamble());
 
         if (!targetPath.isStudentDirectory()) {
             throw new ParseException(INVALID_PATH_MESSAGE);
         }
 
+        Student student = parseStudent(argMultimap, targetPath);
+
+        logger.finer("Created CreateStudentCommand with target path: " + targetPath + ", student: " + student);
+
+        return new CreateStudentCommand(targetPath, student);
+    }
+
+    private Student parseStudent(ArgumentMultimap argMultimap, AbsolutePath targetPath) throws ParseException {
         Name name = ParserUtil.parseName(argMultimap.getValue(OPTION_NAME).get());
         StudentId id = ParserUtil.parseStudentId(targetPath);
         Phone phone = ParserUtil.isOptionPresent(argMultimap, OPTION_PHONE)
@@ -75,10 +80,6 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
                 ? ParserUtil.parseAddress(argMultimap.getValue(OPTION_ADDRESS).get())
                 : Address.PLACEHOLDER;
 
-        Student student = new Student(name, email, phone, address, id);
-
-        logger.finer("Created CreateStudentCommand with target path: " + targetPath + ", student: " + student);
-
-        return new CreateStudentCommand(targetPath, student);
+        return new Student(name, email, phone, address, id);
     }
 }

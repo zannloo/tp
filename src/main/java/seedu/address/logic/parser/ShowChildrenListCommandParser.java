@@ -9,7 +9,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.ShowChildrenListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 
 /**
  * Parses input arguments and creates a new ShowChildrenListCommand object
@@ -42,8 +41,7 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
             return new ShowChildrenListCommand();
         }
 
-        RelativePath path = ParserUtil.parseRelativePath(preamble);
-        AbsolutePath target = ParserUtil.resolvePath(currPath, path);
+        AbsolutePath target = ParserUtil.resolvePath(currPath, preamble);
 
         logger.finer("Created ShowChildrenListCommand with target path: " + target);
 

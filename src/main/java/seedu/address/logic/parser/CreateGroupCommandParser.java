@@ -12,7 +12,6 @@ import seedu.address.logic.commands.CreateGroupCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 
@@ -40,8 +39,7 @@ public class CreateGroupCommandParser implements Parser<CreateGroupCommand> {
 
         ParserUtil.verifyAllOptionsValid(args, OPTION_NAME);
 
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_NAME);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_NAME);
 
         // Check if compulsory arguments are given
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME) || argMultimap.getPreamble().isEmpty()) {
@@ -50,8 +48,7 @@ public class CreateGroupCommandParser implements Parser<CreateGroupCommand> {
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME);
 
-        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
+        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, (argMultimap.getPreamble()));
 
         // Check if target path is group path
         if (!targetPath.isGroupDirectory()) {

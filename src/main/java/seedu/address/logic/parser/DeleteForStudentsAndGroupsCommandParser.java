@@ -10,7 +10,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 
 
 /**
@@ -43,8 +42,7 @@ public class DeleteForStudentsAndGroupsCommandParser implements Parser<DeleteFor
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
-        RelativePath path = ParserUtil.parseRelativePath(preamble);
-        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
+        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, preamble);
 
         logger.finer("Created DeleteForStudentsAndGroupsCommand with target: " + targetPath);
 

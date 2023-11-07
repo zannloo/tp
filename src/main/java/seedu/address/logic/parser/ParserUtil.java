@@ -140,13 +140,14 @@ public class ParserUtil {
      *
      * @throws ParseException if there is error when resolving.
      */
-    public static AbsolutePath resolvePath(AbsolutePath path, RelativePath target) throws ParseException {
+    public static AbsolutePath resolvePath(AbsolutePath path, String target) throws ParseException {
         requireAllNonNull(path, target);
+        RelativePath targetPath = ParserUtil.parseRelativePath(target);
         AbsolutePath fullPath = null;
         try {
-            fullPath = path.resolve(target);
+            fullPath = path.resolve(targetPath);
         } catch (InvalidPathException e) {
-            throw new ParseException(String.format(MESSAGE_PATH_RESOLUTION_FAIL, target));
+            throw new ParseException(String.format(MESSAGE_PATH_RESOLUTION_FAIL, targetPath));
         }
         return fullPath;
     }

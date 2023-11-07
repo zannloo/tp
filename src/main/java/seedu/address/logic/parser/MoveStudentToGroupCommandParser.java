@@ -10,7 +10,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.MoveStudentToGroupCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 
 /**
  * Parses input arguments and creates a new MoveStudentToGroupCommand object
@@ -48,11 +47,9 @@ public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGrou
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
-        RelativePath source = ParserUtil.parseRelativePath(paths[0]);
-        AbsolutePath absoluteSource = ParserUtil.resolvePath(currPath, source);
+        AbsolutePath absoluteSource = ParserUtil.resolvePath(currPath, paths[0]);
 
-        RelativePath dest = ParserUtil.parseRelativePath(paths[1]);
-        AbsolutePath absoluteDest = ParserUtil.resolvePath(currPath, dest);
+        AbsolutePath absoluteDest = ParserUtil.resolvePath(currPath, paths[1]);
 
         logger.finer("Created MoveStudentToGroupCommand with source path: " + absoluteSource
                 + ", dest path: " + absoluteDest);

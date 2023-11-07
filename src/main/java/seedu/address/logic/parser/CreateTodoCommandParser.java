@@ -13,7 +13,6 @@ import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CreateTodoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 import seedu.address.model.task.ToDo;
 
 /**
@@ -39,8 +38,7 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
 
         ParserUtil.verifyAllOptionsValid(args, OPTION_DESC, OPTION_ALL);
 
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_ALL);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_ALL);
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC)) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
@@ -49,13 +47,9 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_ALL);
 
         // If no path given, default to current path.
-        AbsolutePath fullTargetPath = null;
-        if (argMultimap.getPreamble().isEmpty()) {
-            fullTargetPath = currPath;
-        } else {
-            RelativePath target = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-            fullTargetPath = ParserUtil.resolvePath(currPath, target);
-        }
+        AbsolutePath fullTargetPath = argMultimap.getPreamble().isEmpty()
+                ? currPath
+                : ParserUtil.resolvePath(currPath, argMultimap.getPreamble());
 
         ToDo todo = ParserUtil.parseToDo(argMultimap.getValue(OPTION_DESC).get());
 

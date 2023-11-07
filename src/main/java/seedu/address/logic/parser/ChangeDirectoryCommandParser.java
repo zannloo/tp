@@ -10,7 +10,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.ChangeDirectoryCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 
 /**
  * Parses input arguments and creates a new ChangeDirectoryCommand object
@@ -43,10 +42,9 @@ public class ChangeDirectoryCommandParser implements Parser<ChangeDirectoryComma
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
-        RelativePath path = ParserUtil.parseRelativePath(preamble);
-        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
+        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, preamble);
 
-        logger.finer("Created ChangeDirectoryCommand with dest: " + path.toString());
+        logger.finer("Created ChangeDirectoryCommand with dest: " + targetPath.toString());
 
         return new ChangeDirectoryCommand(targetPath);
     }

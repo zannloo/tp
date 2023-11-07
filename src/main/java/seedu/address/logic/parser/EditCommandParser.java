@@ -15,7 +15,6 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.field.EditGroupDescriptor;
 import seedu.address.model.field.EditStudentDescriptor;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 
 /**
  * Parses user input to create an `EditCommand` for editing student or group details.
@@ -41,13 +40,9 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         String preamble = ArgumentTokenizer.extractPreamble(args);
 
-        AbsolutePath targetPath = null;
-        if (preamble.isEmpty()) {
-            targetPath = currPath;
-        } else {
-            RelativePath path = ParserUtil.parseRelativePath(preamble);
-            targetPath = ParserUtil.resolvePath(currPath, path);
-        }
+        AbsolutePath targetPath = preamble.isEmpty()
+                ? currPath
+                : ParserUtil.resolvePath(currPath, preamble);
 
         if (targetPath.isStudentDirectory()) {
             return parseEditStudent(args, targetPath);

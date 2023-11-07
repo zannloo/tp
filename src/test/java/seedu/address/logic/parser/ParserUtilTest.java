@@ -173,19 +173,19 @@ public class ParserUtilTest {
     public void resolvePath_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.resolvePath(ROOT_PATH, null));
         assertThrows(NullPointerException.class, () -> ParserUtil.resolvePath(null,
-                CommandTestUtil.getValidGroupRelativePath()));
+                CommandTestUtil.getValidGroupRelativePath().toString()));
         assertThrows(NullPointerException.class, () -> ParserUtil.resolvePath(null, null));
     }
 
     @Test
     public void resolvePath_invalidPath_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.resolvePath(ROOT_PATH, RelativePath.PARENT));
+        assertThrows(ParseException.class, () -> ParserUtil.resolvePath(ROOT_PATH, RelativePath.PARENT.toString()));
     }
 
     @Test
     public void resolvePath_validPath_returnsResolvedPath() throws InvalidPathException, ParseException {
         RelativePath target = new RelativePath(GROUP_ONE.getId().toString());
-        assertEquals(PATH_TO_GROUP_ONE, ParserUtil.resolvePath(ROOT_PATH, target));
+        assertEquals(PATH_TO_GROUP_ONE, ParserUtil.resolvePath(ROOT_PATH, target.toString()));
     }
 
     @Test

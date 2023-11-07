@@ -9,8 +9,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.ShowTaskListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-
 /**
  * Parses input arguments and creates a new ShowTaskListCommand object
  */
@@ -43,8 +41,7 @@ public class ShowTaskListCommandParser implements Parser<ShowTaskListCommand> {
             return new ShowTaskListCommand();
         }
 
-        RelativePath path = ParserUtil.parseRelativePath(preamble);
-        AbsolutePath target = ParserUtil.resolvePath(currPath, path);
+        AbsolutePath target = ParserUtil.resolvePath(currPath, preamble);
 
         logger.finer("Created ShowTaskListCommand with target path: " + target);
 
