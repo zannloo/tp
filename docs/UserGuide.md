@@ -226,10 +226,10 @@ Flags usually come before essential details required by the command and are comp
   <box type="info">
 
 **Required format for `GroupId`:**
-- Must be in the format `grp-XXX` where `XXX` is replaceable with any 3-digit number.
+- Must be in the format `grp-XXX` where `XXX` is replaceable with any 3-digit number. 
   * eg. `grp-001`
 
-  </box>
+    </box>
 
 `TASK_INDEX`:
 - Must be a **positive whole number**, which means it cannot contain decimals or fractions.
