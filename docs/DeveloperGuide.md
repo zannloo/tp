@@ -434,12 +434,152 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 (For all use cases below, the **System** is the `ProfBook` and the **Professor** is the `user`, unless specified
 otherwise)
 
+**Use case: help**
+
+**MSS**
+
+1. User requests for help.
+2. ProfBook displays help message, informs user how to input help with additional information specific to command.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. User inputs help with specific command.
+
+    * 2a1. ProfBook displays help message specific to input command
+
+      Use case ends.
+
+
+* 2b. User inputs invalid command together with help.
+
+    * 2b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Cd into group**
+
+**MSS**
+
+1. User requests to cd into a specific group
+2. ProfBook moves into the directory, display updates to show students within specified group
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The path of the group is invalid
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+  
+
+* 2b. The path of the group is empty
+  
+  * 2b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: ls to view children**
+
+**MSS**
+
+1. User requests to view children either within current directory or specified path.
+2. ProfBook displays list of children.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. Provided path is invalid
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: View tasks under a specified path**
+
+**MSS**
+
+1. User requests to view tasks under specified path, either student or group.
+2. ProfBook displays task list of path, either task list of group or student.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The given id is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Clear all entries**
+
+**MSS**
+
+1. User requests to delete all data stored in ProfBook.
+2. ProfBook deletes all data stored and displays updates to be empty.
+
+   Use case ends.
+
+**Use case: Exit ProfBook**
+
+**MSS**
+
+1. User requests to exit ProfBook
+2. ProfBook stores all data and closes application.
+
+   Use case ends.
+
+**Use case: Add a student**
+
+**MSS**
+
+1. User requests to add a student .
+2. AddressBook deletes the person.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The given parameters are invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Edit a students details**
+
+**MSS**
+
+1. User requests to edit a students details.
+2. AddressBook edits the students details.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The specified path is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+  
+* 2b. The given parameter is invalid.
+
+    * 2b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
 **Use case: Delete a person**
 
 **MSS**
 
 1. User requests to delete a student/group/task with specific id for each one
-2. AddressBook deletes the person
+2. ProfBook deletes the person
 
    Use case ends.
 
