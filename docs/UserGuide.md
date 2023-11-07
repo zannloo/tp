@@ -187,7 +187,8 @@ Flags usually come before essential details required by the command and are comp
 `EMAIL`:
 - Must be a non-empty string following the format `local-part@domain`.
   - `local-part`:
-    - Should only contain **alphanumeric characters** and these **special characters**, excluding the parentheses, (+_.-).
+    - Should only contain **alphanumeric characters** and these **special characters**, excluding the parentheses,
+    (`+` `_` `.` `-`).
     - May not start or end with any special characters.
   - This is followed by a `@` and then `domain`.
   - `domain`:
@@ -215,7 +216,7 @@ Flags usually come before essential details required by the command and are comp
   - **Note:** StudentId here corresponds to the last 5 place of an NUS student's matriculation number and is not
     a StudentId created by you. This format helps you to identify students easily while maintaining
     privacy and security.
-  - eg. `8467U`
+  * eg. `8467U`
   
     </box>
 
@@ -226,7 +227,7 @@ Flags usually come before essential details required by the command and are comp
 
 **Required format for `GroupId`:**
 - Must be in the format `grp-XXX` where `XXX` is replaceable with any 3-digit number.
-  - eg. `grp-001`
+  * eg. `grp-001`
 
   </box>
 
