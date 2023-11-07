@@ -49,6 +49,8 @@ public class Messages {
     public static final String MESSAGE_PATH_RESOLUTION_FAIL = "Path resolution failed: %1$s\n"
             + "The provided path could not be resolved against the current path.";
 
+    public static final String MESSAGE_EMPTY_VALUE = "Value for %1$s cannot be empty.";
+
     /**
      * Returns an error message indicating the duplicate prefixes.
      */
