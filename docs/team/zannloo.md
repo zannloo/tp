@@ -5,38 +5,59 @@ title: Loo Mei Lin Zann's Project Portfolio Page
 
 ### Project: ProfBook
 
-ProfBook is a desktop address book application used for easy management of tasks, group schedules, and notes for every tutorial slot and group. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+ProfBook is a desktop address book application used for easy management of tasks, group schedules, and notes for 
+every tutorial slot and group. The user interacts with it using a CLI, 
+and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
 
 Given below are my contributions to the project.
 
-* **New Feature**: To be added soon.
-  * What it does: to be added soon.
+### Code Contributions
+
+**Code contributed**:
+Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&breakdown=false&sort=groupTitle%20dsc&sortWithin=title&since=2023-09-22&timeframe=commit&mergegroup=&groupSelect=groupByRepos&tabOpen=true&tabType=authorship&tabAuthor=zannloo&tabRepo=AY2324S1-CS2103T-W15-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false) to my RepoSense Report.
+
+#### Enhancements to existing features:
+  1. `touch` command
+     * Ability to add students through dynamic commands into the different directories of ProfBook.
+  2. `rm` command
+     * Ability to remove students or groups through dynamic commands in ProfBook.
+     * This allows user to remove either students or groups through only one command word, ensuring simplicity and efficiency. 
+
+#### New features:
+* **New Feature**: Ability to create deadline task
+  * What it does: Creates task with a deadline for specific student(s) or group(s).
   * Justification: to be added soon.
-  * Highlights: to be added soon.
-  * Credits: *{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}*
+  * Highlights:
+    * Ability to add deadline tasks to all students within a group or all groups within the root directory through in
+    one command.
 
-* **New Feature**: to be added soon.
+### Project Management
+  * Managed the closing of milestones for v1.3.
+  * Recorded the demo video for v1.3.
+  * Updated User Guide aspects that are not specific to any feature.
 
-* **Code contributed**: to be added soon.
+### Documentation
 
-* **Project management**:
-  * to be added soon.
+#### User Guide:
 
-* **Enhancements to existing features**:
-  * to be added soon.
+  * **Non-Feature Aspects:**
+    * ProfBook Command Format.
+    * Navigating the Graphical User Interface(GUI).
+    * FAQ.
+    * Overall formatting of the whole UG.
+  * **Feature Aspects:**
+    * `touch` command.
+    * `rm` command.
+    * `unmark` command.
 
-* **Documentation**:
-  * User Guide:
+#### Developer Guide:
+
     * to be added soon.
-  * Developer Guide:
-    * to be added soon.
 
-* **Community**:
+### Community:
   * PRs reviewed (with non-trivial review comments): to be added soon.
-  * Contributed to forum discussions (examples: to be added soon)
-  * Reported bugs and suggestions for other teams in the class (examples: to be added soon)
-  * Some parts of the history feature I added was adopted by several other class mates (to be added soon)
-
-* **Tools**:
-  * to be added soon
+    * **[Pull Request #135](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/135)**
+    * **[Pull Request #136](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/136)**
+    * **[Pull Request #180](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/180)**
+    
 
