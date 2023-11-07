@@ -261,13 +261,58 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### Adding a student/group
+### Folder structure
 
 #### Implementation
 
-Similar to group, a student's data is encapsulated in a `Student` instance. These students are stored in their
-respective `Group` instance which in turn is stored in the `Root` class. These hierarchy is maintained by using
-a `Map<Id, Student>` and `Map<Id, Group>` instance for the parents to store reference to their children.
+Due to the nature of the application that we aim to make, designing a robust folder structure to represent the hierarchy
+is crucial to our success. We strive to design a structure that is generic enough to be extended while also being able
+to capture unique functionality of the different parties at play.
+
+In our current hierarchy, `Root` -> `Group` -> `Student`, `Student` and `Group` are required to managed tasks
+whereas `Root` and `Group` are required to manage children. The `Model` component briefly mentioned this implementation,
+but I will delve into it more comprehensively.
+
+We first created interfaces to represent the required logic for each of the manager, namely `IChildrenManager`
+and `ITaskListManager`. Then we created concrete classes such as `ChildrenManager` and `TaskListManager` to encapsulate
+the aforementioned logic. The purpose of these classes was so that should a folder type, e.g. `Student`, require a
+Manager functionality, we could just extend from said Manager thus reducing on repeated code. Due to the limitation of
+Java, classes are not able to extend from multiple classes. To remedy this, we created a wrapper
+class, `ChildrenAndTaskListManager`.
+
+It is important to note that `ChildrenManager` is a generic class that accepts classes that implements
+the `IChildElement` interface. This was done to reduce repeated code while introducing a degree of polymorphism.
+
+In our implementation, only the parents have reference to the child. This reference is stored by using
+a `Map<Id, Student>` and `Map<Id, Group>` instance.
+
+To further illustrate our folder structure, we have prepared this diagram
+
+<puml src="diagrams/AddInitialState.puml" width="550" />
+
+**Aspect: How do we represent the hierarchy**
+
+* **Alternative 1 (current implementation):** Tree representation.
+    * Pros: Models the hierarchy closely.
+    * Cons: It results in a more rigid hierarchy, harder to extend upon.
+* **Alternative 2**: Flat structure.
+    * Pros: Easier to implement relatively to the tree representation.
+    * Cons: Harder to maintain the hierarchy, search for items and load items from storage
+
+**Aspect: How store reference to children**
+
+* **Alternative 1 (current implementation):** HashMap.
+    * Pros: Able to check/find if a student/group is present efficiently, mapping objects by their Id also makes
+      executing
+      commands in a folder-like structure easier.
+    * Cons: Not really any.
+* **Alternative 2**: Array.
+    * Pros: Very easy to implement
+    * Cons: Finding a student/group is very inefficient, updating references is also a hassle.
+
+### Adding a student/group
+
+#### Implementation
 
 Implementation for Creating a student and a group is very similar, so in this guide, I would go through the
 implementation for the harder one, which is creating a student. Should you have any questions do feel free to contact
@@ -318,26 +363,6 @@ Below is an activity diagram showing the general activity of the add student com
 //TODO ADD activity diagram
 
 #### Design Consideration
-
-**Aspect: How do we represent the hierarchy**
-
-* **Alternative 1 (current implementation):** Tree representation.
-    * Pros: Models the hierarchy closely.
-    * Cons: It results in a more rigid hierarchy, harder to extend upon.
-* **Alternative 2**: Flat structure.
-    * Pros: Easier to implement relatively to the tree representation.
-    * Cons: Harder to maintain the hierarchy, search for items and load items from storage
-
-**Aspect: How store reference to children**
-
-* **Alternative 1 (current implementation):** HashMap.
-    * Pros: Able to check/find if a student/group is present efficiently, mapping objects by their Id also makes
-      executing
-      commands in a folder-like structure easier.
-    * Cons: Not really any.
-* **Alternative 2**: Array.
-    * Pros: Very easy to implement
-    * Cons: Finding a student/group is very inefficient, updating references is also a hassle.
 
 **Aspect: Types of fields **
 
@@ -526,6 +551,7 @@ Given below is an example usage scenario whereby a student is moved from group1 
 6. As uniqueness of student is validated before each student is added, there is no need to check for clashes when
    executing
 
+// TODO maybe add a sequence diagram
 --------------------------------------------------------------------------------------------------------------------
 
 ## Proposed future features
