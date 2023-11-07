@@ -40,7 +40,6 @@ public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGrou
         if (paths.length != 2) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
-        
 
         RelativePath source = ParserUtil.parseRelativePath(paths[0]);
         AbsolutePath absoluteSource = ParserUtil.resolvePath(currPath, source);
