@@ -7,6 +7,9 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_ID;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.field.EditGroupDescriptor;
@@ -19,6 +22,7 @@ import seedu.address.model.path.RelativePath;
  * This parser handles commands that allow users to modify information of existing students or groups.
  */
 public class EditCommandParser implements Parser<EditCommand> {
+    private static final Logger logger = LogsCenter.getLogger(EditCommandParser.class);
 
     /**
      * Parses the given command arguments and creates an `EditCommand` object.
@@ -71,6 +75,9 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
+        logger.finer("Created EditCommand (Student) with target path: " + target
+                + ", descriptor: " + editStudentDescriptor);
+
         return new EditCommand(target, editStudentDescriptor);
     }
 
@@ -86,6 +93,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (!editGroupDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
+
+        logger.finer("Created EditCommand (Group) with target path: " + target
+                + ", descriptor: " + editGroupDescriptor);
 
         return new EditCommand(target, editGroupDescriptor);
     }

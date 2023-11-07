@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.MarkCommand.COMMAND_WORD;
 
@@ -16,7 +17,6 @@ import seedu.address.model.path.AbsolutePath;
  * It specifically handles the parsing of the "mark" command.
  */
 public class MarkCommandParser implements Parser<MarkCommand> {
-
     private static final Logger logger = LogsCenter.getLogger(MarkCommandParser.class);
 
     /**
@@ -28,7 +28,7 @@ public class MarkCommandParser implements Parser<MarkCommand> {
      * @throws ParseException If the input does not conform to the expected format.
      */
     public MarkCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        logger.fine("Parsing mark task command with arguments: " + args);
+        requireAllNonNull(args, currPath);
 
         if (ParserUtil.hasHelpOption(args)) {
             return MarkCommand.HELP_MESSAGE;
@@ -44,7 +44,7 @@ public class MarkCommandParser implements Parser<MarkCommand> {
 
         Index index = ParserUtil.parseIndex(preamble);
 
-        logger.fine("Index parsed (One Based): " + index.getOneBased());
+        logger.finer("Created MarkCommand with index (one-based): " + index.getOneBased());
 
         return new MarkCommand(index);
     }

@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.CreateStudentCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
@@ -7,6 +8,9 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.CreateStudentCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.StudentId;
@@ -22,6 +26,7 @@ import seedu.address.model.profbook.Student;
  * Parses input arguments and creates a new CreateStudentCommand object
  */
 public class CreateStudentCommandParser implements Parser<CreateStudentCommand> {
+    private static final Logger logger = LogsCenter.getLogger(CreateStudentCommandParser.class);
     private static final String INVALID_PATH_MESSAGE = "Destination path provided is not a student directory.";
 
     /**
@@ -33,6 +38,7 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateStudentCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        requireAllNonNull(args, currPath);
 
         if (ParserUtil.hasHelpOption(args)) {
             return CreateStudentCommand.HELP_MESSAGE;
@@ -70,6 +76,8 @@ public class CreateStudentCommandParser implements Parser<CreateStudentCommand> 
                 : Address.PLACEHOLDER;
 
         Student student = new Student(name, email, phone, address, id);
+
+        logger.finer("Created CreateStudentCommand with target path: " + targetPath + ", student: " + student);
 
         return new CreateStudentCommand(targetPath, student);
     }

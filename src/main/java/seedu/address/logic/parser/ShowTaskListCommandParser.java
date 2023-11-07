@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.commands.ShowTaskListCommand.COMMAND_WORD;
 
 import java.util.logging.Logger;
@@ -27,6 +28,8 @@ public class ShowTaskListCommandParser implements Parser<ShowTaskListCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public ShowTaskListCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        requireAllNonNull(args, currPath);
+
         if (ParserUtil.hasHelpOption(args)) {
             return ShowTaskListCommand.HELP_MESSAGE;
         }
@@ -43,7 +46,7 @@ public class ShowTaskListCommandParser implements Parser<ShowTaskListCommand> {
         RelativePath path = ParserUtil.parseRelativePath(preamble);
         AbsolutePath target = ParserUtil.resolvePath(currPath, path);
 
-        logger.fine(String.format(MESSAGE_COMMAND_CREATED, path.toString()));
+        logger.finer("Created ShowTaskListCommand with target path: " + target);
 
         return new ShowTaskListCommand(target);
     }

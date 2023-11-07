@@ -29,16 +29,16 @@ public class ChangeDirectoryCommandParser implements Parser<ChangeDirectoryComma
     public ChangeDirectoryCommand parse(String args, AbsolutePath currPath) throws ParseException {
         requireAllNonNull(args, currPath);
 
-        // Checks if help option included.
         if (ParserUtil.hasHelpOption(args)) {
             return ChangeDirectoryCommand.HELP_MESSAGE;
         }
 
-        // No option for cd command
+        // Checks no option is given
         ParserUtil.verifyNoOption(args, COMMAND_WORD);
 
         String preamble = ArgumentTokenizer.extractPreamble(args);
 
+        // Check if target path is given
         if (preamble.isEmpty()) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
@@ -46,7 +46,7 @@ public class ChangeDirectoryCommandParser implements Parser<ChangeDirectoryComma
         RelativePath path = ParserUtil.parseRelativePath(preamble);
         AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
 
-        logger.info("Creating ChangeDirectoryCommand with dest: " + path.toString());
+        logger.finer("Created ChangeDirectoryCommand with dest: " + path.toString());
 
         return new ChangeDirectoryCommand(targetPath);
     }

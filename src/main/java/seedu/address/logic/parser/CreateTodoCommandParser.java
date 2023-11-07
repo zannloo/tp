@@ -1,10 +1,14 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.CreateTodoCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CreateTodoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -16,7 +20,7 @@ import seedu.address.model.task.ToDo;
  * Parses input arguments and creates a new CreateTodoForGroupCommand object
  */
 public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
-    //todo only need one todo command for both group and student
+    private static final Logger logger = LogsCenter.getLogger(CreateTodoCommandParser.class);
 
     /**
      * Parses the given {@code String} of arguments in the context of the CreateTodoForGroupCommand
@@ -27,6 +31,7 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateTodoCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        requireAllNonNull(args, currPath);
 
         if (ParserUtil.hasHelpOption(args)) {
             return CreateTodoCommand.HELP_MESSAGE;
@@ -54,11 +59,15 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
 
         ToDo todo = ParserUtil.parseToDo(argMultimap.getValue(OPTION_DESC).get());
 
+        // Check if all option provided
         if (!ParserUtil.isOptionPresent(argMultimap, OPTION_ALL)) {
             return new CreateTodoCommand(fullTargetPath, todo, Category.NONE);
         }
 
         Category category = ParserUtil.parseCategory(argMultimap.getValue(OPTION_ALL).get());
+
+        logger.finer("Created CreateTodoCommand with target path: " + fullTargetPath + ", todo: " + todo);
+
         return new CreateTodoCommand(fullTargetPath, todo, category);
     }
 }

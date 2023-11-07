@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.commands.ShowChildrenListCommand.COMMAND_WORD;
 
 import java.util.logging.Logger;
@@ -27,6 +28,8 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
      * @throws ParseException if the user input does not conform the expected format
      */
     public ShowChildrenListCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        requireAllNonNull(args, currPath);
+
         if (ParserUtil.hasHelpOption(args)) {
             return ShowChildrenListCommand.HELP_MESSAGE;
         }
@@ -36,14 +39,13 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
         String preamble = ArgumentTokenizer.extractPreamble(args);
 
         if (preamble.isEmpty()) {
-            logger.fine(String.format(MESSAGE_COMMAND_CREATED, "Current directory"));
             return new ShowChildrenListCommand();
         }
 
         RelativePath path = ParserUtil.parseRelativePath(preamble);
         AbsolutePath target = ParserUtil.resolvePath(currPath, path);
 
-        logger.fine(String.format(MESSAGE_COMMAND_CREATED, path.toString()));
+        logger.finer("Created ShowChildrenListCommand with target path: " + target);
 
         return new ShowChildrenListCommand(target);
     }
