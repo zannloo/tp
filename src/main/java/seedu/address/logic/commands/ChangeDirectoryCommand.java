@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -37,10 +36,14 @@ public class ChangeDirectoryCommand extends Command {
             + "Examples: \n"
             + "cd grp-003";
 
-    public static final ChangeDirectoryCommand HELP_MESSAGE = new ChangeDirectoryCommand();
+    public static final ChangeDirectoryCommand HELP_MESSAGE = new ChangeDirectoryCommand() {
+        @Override
+        public CommandResult execute(Model model) throws CommandException {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+    };
 
     private final AbsolutePath dest;
-    private final boolean isHelp;
 
     /**
      * Constructs a {@code ChangeDirectoryCommand} with the target path.
@@ -48,18 +51,16 @@ public class ChangeDirectoryCommand extends Command {
      * @param dest The target path.
      */
     public ChangeDirectoryCommand(AbsolutePath dest) {
-        requireAllNonNull(dest);
+        requireNonNull(dest);
         this.dest = dest;
-        this.isHelp = false;
     }
 
     private ChangeDirectoryCommand() {
         this.dest = null;
-        isHelp = true;
     }
 
     /**
-     * Executes the {@code ChangeDirectoryCommand}, change current directory of ProfBook to target path.
+     * Executes the {@code ChangeDirectoryCommand}, change current directory to target path.
      *
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
@@ -67,18 +68,18 @@ public class ChangeDirectoryCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        if (isHelp) {
-            return new CommandResult(MESSAGE_USAGE);
-        }
 
+        // Check if destination exists
         if (!model.hasPath(dest)) {
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, dest));
         }
 
+        // Check if destination path is current path
         if (model.getCurrPath().equals(dest)) {
             throw new CommandException(String.format(MESSAGE_CURRENT_DIRECTORY, model.getCurrPath()));
         }
 
+        // Student is not navigable
         if (dest.isStudentDirectory()) {
             throw new CommandException(MESSAGE_INVALID_DEST);
         }
@@ -94,7 +95,6 @@ public class ChangeDirectoryCommand extends Command {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof ChangeDirectoryCommand)) {
             return false;
         }

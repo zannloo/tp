@@ -37,19 +37,22 @@ public class ShowTaskListCommand extends Command {
             + "cat grp-001 \n"
             + "cat grp-001/0001Y";
 
-    public static final ShowTaskListCommand HELP_MESSAGE = new ShowTaskListCommand(true);
+    public static final ShowTaskListCommand HELP_MESSAGE = new ShowTaskListCommand() {
+        @Override
+        public CommandResult execute(Model model) throws CommandException {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+    };
 
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
 
     private final AbsolutePath target;
-    private final boolean isHelp;
 
     /**
      * Constructs {@code ShowChildrenListCommand} that show task list of current directory.
      */
     public ShowTaskListCommand() {
         target = null;
-        isHelp = false;
     }
 
     /**
@@ -58,12 +61,6 @@ public class ShowTaskListCommand extends Command {
     public ShowTaskListCommand(AbsolutePath path) {
         requireNonNull(path);
         target = path;
-        isHelp = false;
-    }
-
-    private ShowTaskListCommand(boolean isHelp) {
-        target = null;
-        this.isHelp = true;
     }
 
     /**
@@ -74,9 +71,6 @@ public class ShowTaskListCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        if (isHelp) {
-            return new CommandResult(MESSAGE_USAGE);
-        }
 
         if (target == null) {
             AbsolutePath currPath = model.getCurrPath();
@@ -118,8 +112,7 @@ public class ShowTaskListCommand extends Command {
 
         ShowTaskListCommand otherShowTaskListCommand = (ShowTaskListCommand) other;
 
-        return Objects.equals(this.target, otherShowTaskListCommand.target)
-                && this.isHelp == otherShowTaskListCommand.isHelp;
+        return Objects.equals(this.target, otherShowTaskListCommand.target);
     }
 
     @Override

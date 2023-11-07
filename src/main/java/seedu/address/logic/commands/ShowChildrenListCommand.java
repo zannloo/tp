@@ -36,19 +36,22 @@ public class ShowChildrenListCommand extends Command {
             + "ls \n"
             + "ls grp-001";
 
-    public static final ShowChildrenListCommand HELP_MESSAGE = new ShowChildrenListCommand(true);
+    public static final ShowChildrenListCommand HELP_MESSAGE = new ShowChildrenListCommand() {
+        @Override
+        public CommandResult execute(Model model) throws CommandException {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+    };
 
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
 
     private final AbsolutePath target;
-    private final boolean isHelp;
 
     /**
      * Constructs {@code ShowChildrenListCommand} that show children list of current directory.
      */
     public ShowChildrenListCommand() {
         target = null;
-        isHelp = false;
     }
 
     /**
@@ -57,12 +60,6 @@ public class ShowChildrenListCommand extends Command {
     public ShowChildrenListCommand(AbsolutePath path) {
         requireNonNull(path);
         target = path;
-        isHelp = false;
-    }
-
-    private ShowChildrenListCommand(boolean isHelp) {
-        target = null;
-        this.isHelp = true;
     }
 
     /**
@@ -73,10 +70,9 @@ public class ShowChildrenListCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        if (isHelp) {
-            return new CommandResult(MESSAGE_USAGE);
-        }
+        requireNonNull(model);
 
+        // If target is null default to current path
         if (target == null) {
             model.setDisplayPath(model.getCurrPath());
             model.showChildrenList();
@@ -113,8 +109,7 @@ public class ShowChildrenListCommand extends Command {
 
         ShowChildrenListCommand otherShowChildrenListCommand = (ShowChildrenListCommand) other;
 
-        return Objects.equals(this.target, otherShowChildrenListCommand.target)
-                && this.isHelp == otherShowChildrenListCommand.isHelp;
+        return Objects.equals(this.target, otherShowChildrenListCommand.target);
     }
 
     @Override

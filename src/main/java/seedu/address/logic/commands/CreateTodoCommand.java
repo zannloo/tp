@@ -50,8 +50,6 @@ public class CreateTodoCommand extends Command {
 
     public static final String MESSAGE_ALL_CHILDREN_HAVE_TASK = "All %1$ss already have the task.";
 
-    public static final CreateTodoCommand HELP_MESSAGE = new CreateTodoCommand();
-
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " [path]" + " -d <desc>" + " [OPTION]... \n"
             + "\n"
@@ -71,13 +69,18 @@ public class CreateTodoCommand extends Command {
             + "todo . -d Homework -al allGrp \n"
             + "todo ./grp-001 -d Homework -al allStu";
 
+    public static final CreateTodoCommand HELP_MESSAGE = new CreateTodoCommand() {
+        @Override
+        public CommandResult execute(Model model) throws CommandException {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+    };
+
     private final AbsolutePath target;
 
     private final ToDo todo;
 
     private final Category category;
-
-    private final boolean isHelp;
 
     /**
      * Constructs a {@code CreateTodoCommand} with the specified absolute path and "ToDo" task details.
@@ -91,14 +94,12 @@ public class CreateTodoCommand extends Command {
         this.target = target;
         this.todo = todo;
         this.category = category;
-        this.isHelp = false;
     }
 
     private CreateTodoCommand() {
         this.target = null;
         this.todo = null;
         this.category = null;
-        this.isHelp = true;
     }
 
     /**
@@ -111,10 +112,6 @@ public class CreateTodoCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        if (isHelp) {
-            return new CommandResult(MESSAGE_USAGE);
-        }
 
         // Check path exists in ProfBook
         if (!model.hasPath(target)) {
