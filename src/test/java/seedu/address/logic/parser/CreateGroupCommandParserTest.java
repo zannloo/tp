@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.logic.commands.CreateGroupCommand;
 import seedu.address.model.id.GroupId;
+import seedu.address.model.path.exceptions.InvalidPathException;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
 
@@ -36,12 +37,13 @@ public class CreateGroupCommandParserTest {
     }
 
     @Test
-    public void parse_missingName_throwsParseException() {
-        assertParseFailure(parser, "", ROOT_PATH, MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
+    public void parse_optionNameAbsent_throwsParseException() {
+        String path = "~/grp-001";
+        assertParseFailure(parser, path, ROOT_PATH, MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
     }
 
     @Test
-    public void parse_missingPath_throwsParseException() {
+    public void parse_missingAllArgument_throwsParseException() {
         assertParseFailure(parser, EMPTY_PREAMBLE, ROOT_PATH, MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
     }
 
@@ -60,5 +62,12 @@ public class CreateGroupCommandParserTest {
         String invalidPath = "../..";
         assertParseFailure(parser, invalidPath, ROOT_PATH,
                 String.format(MESSAGE_MISSING_ARGUMENT.apply("mkdir")));
+    }
+
+    @Test
+    public void parse_pathNotToGroupDirectory_throwsParseException() throws InvalidPathException {
+        String path = "~/grp-001/0001Y";
+        assertParseFailure(parser, path + NAME_DESC_AMY, ROOT_PATH,
+                "Destination path provided is not a group directory.");
     }
 }
