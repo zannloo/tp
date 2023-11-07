@@ -1,7 +1,9 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -11,7 +13,7 @@ import seedu.address.model.Model;
 import seedu.address.model.path.AbsolutePath;
 
 /**
- * Show Task List.
+ * Show Children List.
  */
 public class ShowChildrenListCommand extends Command {
 
@@ -53,6 +55,7 @@ public class ShowChildrenListCommand extends Command {
      * Constructs {@code ShowChildrenListCommand} that show children list of path given.
      */
     public ShowChildrenListCommand(AbsolutePath path) {
+        requireNonNull(path);
         target = path;
         isHelp = false;
     }
@@ -63,8 +66,7 @@ public class ShowChildrenListCommand extends Command {
     }
 
     /**
-     * Executes the MoveStudentToGroupCommand, moving a student from the source group to the destination group in
-     * ProfBook.
+     * Executes the {@code ShowChildrenListCommand}, show the children list of target path.
      *
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
@@ -76,9 +78,6 @@ public class ShowChildrenListCommand extends Command {
         }
 
         if (target == null) {
-            if (!model.hasChildrenListInCurrentPath()) {
-                throw new CommandException(MESSAGE_NOT_CHILDREN_MANAGER);
-            }
             model.setDisplayPath(model.getCurrPath());
             model.showChildrenList();
             return new CommandResult(String.format(MESSAGE_SUCCESS, "current directory"));
@@ -102,30 +101,26 @@ public class ShowChildrenListCommand extends Command {
         return new CommandResult(String.format(MESSAGE_SUCCESS, target));
     }
 
-    /**
-     * Checks if this MoveStudentToGroupCommand is equal to another object.
-     *
-     * @param other The object to compare with.
-     * @return True if the objects are equal, false otherwise.
-     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
 
-        // instanceof handles nulls
-        return other instanceof ShowChildrenListCommand;
+        if (!(other instanceof ShowChildrenListCommand)) {
+            return false;
+        }
+
+        ShowChildrenListCommand otherShowChildrenListCommand = (ShowChildrenListCommand) other;
+
+        return Objects.equals(this.target, otherShowChildrenListCommand.target)
+                && this.isHelp == otherShowChildrenListCommand.isHelp;
     }
 
-    /**
-     * Returns a string representation of this MoveStudentToGroupCommand.
-     *
-     * @return A string representation of the MoveStudentToGroupCommand.
-     */
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .add("targetPath", target)
                 .toString();
     }
 }

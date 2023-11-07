@@ -39,5 +39,9 @@ public class StudentCard extends ItemCard {
         phone.setText(String.format(DISPLAY_PHONE, student.getPhone().value));
         address.setText(String.format(DISPLAY_ADDRESS, student.getAddress().value));
         email.setText(String.format(DISPLAY_EMAIL, student.getEmail().value));
+        name.setWrapText(true);
+        address.setWrapText(true);
+        email.setWrapText(true);
+        phone.setWrapText(true);
     }
 }

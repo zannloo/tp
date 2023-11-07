@@ -52,7 +52,7 @@ public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
             fullTargetPath = ParserUtil.resolvePath(currPath, target);
         }
 
-        ToDo todo = new ToDo(argMultimap.getValue(OPTION_DESC).get());
+        ToDo todo = ParserUtil.parseToDo(argMultimap.getValue(OPTION_DESC).get());
 
         if (argMultimap.getValue(OPTION_ALL).isEmpty()) {
             return new CreateTodoCommand(fullTargetPath, todo, Category.NONE);

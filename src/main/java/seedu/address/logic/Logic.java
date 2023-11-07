@@ -43,7 +43,7 @@ public interface Logic {
     /**
      * Retuns current directory in string format.
      */
-    Path getAddressBookFilePath();
+    Path getProfBookFilePath();
 
     /**
      * Returns the user prefs' GUI settings.

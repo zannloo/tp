@@ -12,7 +12,7 @@
             <Insets left="10.0" right="10.0" />
          </StackPane.margin>
       </ListView>
-      <Label fx:id="displayPath" alignment="BOTTOM_LEFT" text="Label" StackPane.alignment="BOTTOM_LEFT">
+      <Label fx:id="displayPath" alignment="BOTTOM_CENTER" text="Label" StackPane.alignment="BOTTOM_RIGHT">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>

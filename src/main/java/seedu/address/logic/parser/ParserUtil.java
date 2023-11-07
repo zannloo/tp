@@ -2,6 +2,9 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_EMPTY_VALUE;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PATH_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_PATH_RESOLUTION_FAIL;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,6 +30,8 @@ import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.ToDo;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -123,7 +128,7 @@ public class ParserUtil {
         try {
             relativePath = new RelativePath(trimmedPath);
         } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
+            throw new ParseException(String.format(MESSAGE_INVALID_PATH_FORMAT, path));
         }
         return relativePath;
     }
@@ -140,7 +145,7 @@ public class ParserUtil {
         try {
             fullPath = path.resolve(target);
         } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
+            throw new ParseException(String.format(MESSAGE_PATH_RESOLUTION_FAIL, target));
         }
         return fullPath;
     }
@@ -258,6 +263,44 @@ public class ParserUtil {
         }
 
         throw new ParseException("Format is invalid. Should be allStu or allGrp");
+    }
+
+    /**
+     * Parses a {@code ToDo} with the given {@code desc}.
+     *
+     * @throws ParseException if the given {@code desc} is empty.
+     */
+    public static ToDo parseToDo(String desc) throws ParseException {
+        requireNonNull(desc);
+        String trimmedDesc = desc.trim();
+
+        if (trimmedDesc.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_EMPTY_VALUE, "description"));
+        }
+
+        return new ToDo(trimmedDesc);
+    }
+
+    /**
+     * Parses a {@code Deadline} with the given {@code desc} and {@code by}.
+     *
+     * @throws ParseException if the given {@code desc} is empty or {@code by} is invalid.
+     */
+    public static Deadline parseDeadline(String desc, String by) throws ParseException {
+        requireAllNonNull(desc, by);
+        String trimmedDesc = desc.trim();
+        String trimmedBy = by.trim();
+
+        if (trimmedDesc.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_EMPTY_VALUE, "description"));
+        }
+
+        if (trimmedBy.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_EMPTY_VALUE, "deadline"));
+        }
+
+        LocalDateTime dt = parseDateTime(trimmedBy);
+        return new Deadline(desc, dt);
     }
 
     /**

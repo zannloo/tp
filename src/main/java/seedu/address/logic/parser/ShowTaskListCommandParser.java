@@ -9,7 +9,6 @@ import seedu.address.logic.commands.ShowTaskListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
  * Parses input arguments and creates a new ShowTaskListCommand object
@@ -28,13 +27,13 @@ public class ShowTaskListCommandParser implements Parser<ShowTaskListCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public ShowTaskListCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ParserUtil.verifyAllOptionsValid(args, OPTION_HELP);
-
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
 
         if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
             return ShowTaskListCommand.HELP_MESSAGE;
         }
+
+        ParserUtil.verifyAllOptionsValid(args, OPTION_HELP);
 
         if (argMultimap.getPreamble().isEmpty()) {
             logger.fine(String.format(MESSAGE_COMMAND_CREATED, "Current directory"));
@@ -42,12 +41,7 @@ public class ShowTaskListCommandParser implements Parser<ShowTaskListCommand> {
         }
 
         RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath target = null;
-        try {
-            target = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
-        }
+        AbsolutePath target = ParserUtil.resolvePath(currPath, path);
 
         logger.fine(String.format(MESSAGE_COMMAND_CREATED, path.toString()));
 

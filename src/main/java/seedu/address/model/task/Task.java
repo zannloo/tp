@@ -78,7 +78,7 @@ public abstract class Task implements Displayable {
             return false;
         }
         Task otherTask = (Task) other;
-        return description.equals(otherTask.description) && isDone.equals(otherTask.isDone);
+        return description.equals(otherTask.description);
     }
 
 }
