@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PATH_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.CommandTestUtil.EMPTY_PREAMBLE;
 import static seedu.address.logic.commands.CommandTestUtil.HELP_OPTION;
@@ -50,5 +51,12 @@ class DeleteForStudentsAndGroupsCommandParserTest {
     @Test
     public void parse_missingArgument_throwsParseException() {
         assertParseFailure(parser, EMPTY_PREAMBLE, ROOT_PATH, MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
+    }
+
+    @Test
+    public void parse_invalidRelativePathFormat_throwsParseException() {
+        String invalidRelativePath = "abcde";
+        assertParseFailure(parser, invalidRelativePath, ROOT_PATH,
+                String.format(MESSAGE_INVALID_PATH_FORMAT, invalidRelativePath));
     }
 }
