@@ -8,8 +8,6 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
-import java.time.LocalDateTime;
-
 import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CreateDeadlineCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -58,8 +56,9 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
 
-        LocalDateTime by = ParserUtil.parseDateTime(argMultimap.getValue(OPTION_DATETIME).get());
-        Deadline deadline = new Deadline(argMultimap.getValue(OPTION_DESC).get(), by);
+        Deadline deadline = ParserUtil.parseDeadline(
+                argMultimap.getValue(OPTION_DESC).get(),
+                argMultimap.getValue(OPTION_DATETIME).get());
 
         if (argMultimap.getValue(OPTION_ALL).isEmpty()) {
             return new CreateDeadlineCommand(fullTargetPath, deadline, Category.NONE);
