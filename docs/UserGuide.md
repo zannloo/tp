@@ -220,9 +220,6 @@ Flags usually come before essential details required by the command and are comp
       capitalised alphabet.
       - eg. `8467U`
 
-`ADDRESS`:
-- Must be a non-empty string
-
 `TASK_INDEX`:
 - Must be a **whole number**, which means it cannot contain decimals or fractions.
 - Must fall **within the range of 1 and the size of the task list** of the specified student or group.
