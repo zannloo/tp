@@ -180,6 +180,7 @@ Flags usually come before essential details required by the command and are comp
 - `--email` / `-e` followed by email of student. 
 - `--phone` / `-p` followed by phone number of student.
 - `--address` / `-a` followed by address of student.
+- `--id` / `-i` followed by a `STUDENT_ID` or `GROUP_ID` as specified by the command.
 - `--desc` followed by description of task specified by command.
 - `--datetime` / `-dt` followed by due date of a deadline task in the `yyyy-MM-dd HH:mm` format.  
 - `--all` / `-al` followed by either: 
@@ -206,11 +207,25 @@ Flags usually come before essential details required by the command and are comp
 - Must be a non-empty string.
 
 `ADDRESS`:
+- Must be a non-empty string.
+
+`STUDENT_ID`:
+- Must follow the format of a valid StudentId.
+  - `grp-XXX` where `XXX` is replaceable with any 3-digit number
+    - eg. `grp-001`
+
+`GROUP_ID`:
+  - Must follow the format of a valid GroupId.
+    - `XXXXA` where `XXXX` is replaceable with any 4-digit number and `A` is replaceable with any
+      capitalised alphabet.
+      - eg. `8467U`
+
+`ADDRESS`:
 - Must be a non-empty string
 
 `TASK_INDEX`:
--Must be a **whole number**, which means it cannot contain decimals or fractions.
--Must fall **within the range of 1 and the size of the task list** of the specified student or group.
+- Must be a **whole number**, which means it cannot contain decimals or fractions.
+- Must fall **within the range of 1 and the size of the task list** of the specified student or group.
 
 ---
 <div class="page-break-before">
@@ -496,7 +511,7 @@ positioned in the top-left corner of the window.
 
 Adds a student into the specified directory.
 
-**Format:** `touch SPECIFIED_PATH -n NAME [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]`
+**Format:** `touch SPECIFIED_PATH --name NAME [--email EMAIL] [--phone PHONE_NUMBER] [--address ADDRESS]`
 
 #### Acceptable values for each parameter:
 
@@ -551,7 +566,7 @@ If you wish to edit a group instead, please refer to the dedicated section [here
 Edits a student's details including name, email, phone or address in the specified path. <br>
 One or more fields can be edited in a single command.
 
-**Format:** `edit SPECIFIED_PATH [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]`
+**Format:** `edit SPECIFIED_PATH [--name NAME] [--email EMAIL] [--phone PHONE_NUMBER] [--address ADDRESS] [--id STUDENT_ID]`
 
 #### Acceptable values for each parameter:
 
@@ -569,7 +584,7 @@ One or more fields can be edited in a single command.
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
-  - [At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER` or `ADDRESS`) to edit must be provided.](#mistake-8-at-least-one-field-to-edit-must-be-provided)
+  - [At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER`, `ADDRESS` or `STUDENT_ID`) to edit must be provided.](#mistake-8-at-least-one-field-to-edit-must-be-provided)
 
 </box>
 
@@ -596,7 +611,7 @@ If you wish to edit a student instead, please refer to the dedicated section [he
 
 Edits a group's name in the specified path. <br>
 
-**Format:** `edit [SPECIFIED_PATH] --name NAME`
+**Format:** `edit [SPECIFIED_PATH] [--name NAME] [--id GROUP_ID]`
 
 #### Acceptable values for each parameter:
 
@@ -622,7 +637,7 @@ to root directory.
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
-  - [Name field (`NAME`) to edit must be provided.](#mistake-8-at-least-one-field-to-edit-must-be-provided)
+  - [At least one field (`NAME` or `GROUP_ID`) to edit must be provided.](#mistake-8-at-least-one-field-to-edit-must-be-provided)
 
 </box>
 
@@ -1119,8 +1134,8 @@ ensuring a seamless experience for you.
 | **Clear all entries**   | `clear`                                                                                                                                                        |
 | **Exit the program**    | `exit`                                                                                                                                                         |
 | **Add Student**         | `touch SPECIFIED_PATH -n NAME [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]` <br> e.g. `touch 2000Y -n Bob -e bobby@example.com -p 92929292 -a blk 258 Toa Payoh ` |
-| **Edit Student**        | `edit SPECIFIED_PATH [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]` <br> e.g. `edit 0010Y -p 91919191`                                                   |
-| **Edit Group**          | `edit [SPECIFIED_PATH] -n NAME` <br> e.g. `edit n Amazing Group`                                                                                               |
+| **Edit Student**        | `edit SPECIFIED_PATH [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS] [-i STUDENT_ID]` <br> e.g. `edit 0010Y -p 91919191`                                   |
+| **Edit Group**          | `edit [SPECIFIED_PATH] [-n NAME] [-i GROUP_ID]` <br> e.g. `edit n Amazing Group`                                                                               |
 | **Delete Student or Group** | `rm SPECIFIED_PATH` <br> e.g `rm 0123Y`, `rm grp-002`                                                                                                          |
 | **Move Student**        | `mv SPECIFIED_PATH_TO_STUDENT SPECIFIED_PATH_TO_GROUP`  <br> e.g. `mv grp-001/0123Y grp-002`                                                                   |
 | **Create Group**        | `mkdir SPECIFIED_PATH_TO_GROUP -n NAME` <br> e.g. `mkdir grp-001 -n Group 001`                                                                                 |
