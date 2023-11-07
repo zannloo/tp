@@ -556,7 +556,7 @@ otherwise)
 **MSS**
 
 1. User requests to edit a students details.
-2. AddressBook edits the students details.
+2. ProfBook edits the students details.
 
    Use case ends.
 
@@ -567,19 +567,55 @@ otherwise)
     * 2a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
-  
+
 * 2b. The given parameter is invalid.
 
     * 2b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-**Use case: Delete a person**
+**Use case: Edit a groups details**
 
 **MSS**
 
-1. User requests to delete a student/group/task with specific id for each one
-2. ProfBook deletes the person
+1. User requests to edit a groups details.
+2. ProfBook edits the groups details.
+
+   Use case ends.
+
+**Extensions**
+
+
+* 2a. The parameter to be changed is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Delete a group or student**
+
+**MSS**
+
+1. User requests to delete a group or student
+2. ProfBook removes group or student.
+
+   Use case ends.
+
+**Extensions**
+
+
+* 2a. The given path is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Delete a task**
+
+**MSS**
+
+1. User requests to delete a task with specific id.
+2. ProfBook deletes the task.
 
    Use case ends.
 
@@ -595,20 +631,20 @@ otherwise)
 
 **MSS**
 
-1. User requests to move a specific student from a source group to destination group with an id
+1. User requests to move a specific student from a source group to destination group with the path
 2. AddressBook moves the student from a source group to destination group
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The given StudentID is invalid.
+* 2a. The given Student path is invalid.
     * 2a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
 
-* 3a. The given groupID is invalid.
+* 3a. The given group path is invalid.
 
     * 3a1. ProfBook shows an error message.
 
