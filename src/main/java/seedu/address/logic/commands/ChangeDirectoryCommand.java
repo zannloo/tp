@@ -3,6 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -43,6 +46,8 @@ public class ChangeDirectoryCommand extends Command {
         }
     };
 
+    private static final Logger logger = LogsCenter.getLogger(ChangeDirectoryCommand.class);
+
     private final AbsolutePath dest;
 
     /**
@@ -69,7 +74,9 @@ public class ChangeDirectoryCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // Check if destination exists
+        logger.fine("Executing change directory command with destination path: " + dest);
+
+        // Check if destination path exists
         if (!model.hasPath(dest)) {
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, dest));
         }
@@ -83,6 +90,8 @@ public class ChangeDirectoryCommand extends Command {
         if (dest.isStudentDirectory()) {
             throw new CommandException(MESSAGE_INVALID_DEST);
         }
+
+        logger.fine("Changing directory to destination path: " + dest);
 
         model.changeDirectory(dest);
 

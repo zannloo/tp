@@ -43,19 +43,19 @@ public class ShowChildrenListCommand extends Command {
         }
     };
 
-    private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
+    private static final Logger logger = LogsCenter.getLogger(ShowChildrenListCommand.class);
 
     private final AbsolutePath target;
 
     /**
-     * Constructs {@code ShowChildrenListCommand} that show children list of current directory.
+     * Constructs {@code ShowChildrenListCommand} that shows children list of current directory.
      */
     public ShowChildrenListCommand() {
         target = null;
     }
 
     /**
-     * Constructs {@code ShowChildrenListCommand} that show children list of path given.
+     * Constructs {@code ShowChildrenListCommand} that shows children list of path given.
      */
     public ShowChildrenListCommand(AbsolutePath path) {
         requireNonNull(path);
@@ -63,7 +63,7 @@ public class ShowChildrenListCommand extends Command {
     }
 
     /**
-     * Executes the {@code ShowChildrenListCommand}, show the children list of target path.
+     * Executes the {@code ShowChildrenListCommand}, shows the children list of target path.
      *
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
@@ -74,25 +74,51 @@ public class ShowChildrenListCommand extends Command {
 
         // If target is null default to current path
         if (target == null) {
-            model.setDisplayPath(model.getCurrPath());
-            model.showChildrenList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, "current directory"));
+            return handleCurrPath(model);
         }
 
-        // Check path exists in ProfBook
+        return handleTargetPath(model);
+    }
+
+    /**
+     * Shows children list of current path.
+     */
+    private CommandResult handleCurrPath(Model model) throws CommandException {
+        AbsolutePath currPath = model.getCurrPath();
+
+        logger.fine("Executing show children list command with target path: " + currPath);
+
+        // Current path must be a children manager
+        assert model.hasChildrenListInCurrentPath() : "Current path must be children manager.";
+
+        logger.fine("Showing children list of path: " + currPath);
+
+        model.setDisplayPath(model.getCurrPath());
+        model.showChildrenList();
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, "current directory"));
+    }
+
+    /**
+     * Shows children list of target path.
+     */
+    private CommandResult handleTargetPath(Model model) throws CommandException {
+        logger.fine("Executing show children list command with target path: " + target);
+
+        // Check if path exists in ProfBook
         if (!model.hasPath(target)) {
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, target));
         }
 
-        // Check path is children manager
+        // Check if path is children manager
         if (!model.hasChildrenListInPath(target)) {
             throw new CommandException(String.format(MESSAGE_NOT_CHILDREN_MANAGER, target));
         }
 
+        logger.fine("Showing children list of path: " + target);
+
         model.setDisplayPath(target);
         model.showChildrenList();
-
-        logger.fine("Showing children list for path: " + target);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, target));
     }
