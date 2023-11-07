@@ -34,7 +34,16 @@ Given below are my contributions to the project.
    - Contains methods to manage and change each task as well as the taskList
 
 ## User Guide Contributions
-    * to be added soon.
+**Non-Feature Aspects**
+
+  - How to use User Guide  
+  - Exciting future developments
+
+**Feature Aspects**
+
+-  `todo` command 
+- `deadline` command 
+- `mark` command
 ## Developer Guide Contributions
 
 1. **Storage component**:
