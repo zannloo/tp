@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.Messages.MESSAGE_TOO_MANY_ARGUMENTS;
 import static seedu.address.logic.commands.MoveStudentToGroupCommand.COMMAND_WORD;
 
 import java.util.logging.Logger;
@@ -43,8 +44,12 @@ public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGrou
 
         String[] paths = preamble.split(" ");
 
-        if (paths.length != 2) {
+        if (paths.length < 2) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
+        }
+
+        if (paths.length > 2) {
+            throw new ParseException(MESSAGE_TOO_MANY_ARGUMENTS.apply(COMMAND_WORD));
         }
 
         AbsolutePath absoluteSource = ParserUtil.resolvePath(currPath, paths[0]);
