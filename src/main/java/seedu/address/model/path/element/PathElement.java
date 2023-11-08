@@ -7,9 +7,13 @@ import seedu.address.model.id.StudentId;
 import seedu.address.model.path.element.exceptions.InvalidPathElementException;
 
 /**
- * Represent an element in a path.
+ * Represents an element in a path.
  */
 public class PathElement {
+    public static final PathElement ELEMENT_CURRENT = new PathElement(".", PathElementType.CURRENT);
+    public static final PathElement ELEMENT_ROOT = new PathElement("~", PathElementType.ROOT);
+    public static final PathElement ELEMENT_PARENT = new PathElement("..", PathElementType.PARENT);
+
     private String elementStr;
     private PathElementType type;
 
@@ -33,11 +37,11 @@ public class PathElement {
      */
     public static PathElement parsePathElement(String element) throws InvalidPathElementException {
         if (element.equals("~")) {
-            return new PathElement(element, PathElementType.ROOT);
+            return ELEMENT_ROOT;
         } else if (element.equals("..")) {
-            return new PathElement(element, PathElementType.PARENT);
+            return ELEMENT_PARENT;
         } else if (element.equals(".")) {
-            return new PathElement(element, PathElementType.CURRENT);
+            return ELEMENT_CURRENT;
         } else if (StudentId.isValidStudentId(element)) {
             return new PathElement(element, PathElementType.STUDENTID);
         } else if (GroupId.isValidGroupId(element)) {
@@ -48,9 +52,7 @@ public class PathElement {
     }
 
     /**
-     * Gets the type of the path element.
-     *
-     * @return The type of the path element.
+     * Retrieves the type of the path element.
      */
     public PathElementType getType() {
         return this.type;
@@ -60,7 +62,6 @@ public class PathElement {
      * Calculates the priority difference between two path elements.
      *
      * @param other The other path element to compare with.
-     * @return The priority difference.
      */
     public int getPriorityDiff(PathElement other) {
         return this.type.getPriority() - other.type.getPriority();

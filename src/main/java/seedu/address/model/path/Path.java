@@ -3,19 +3,22 @@ package seedu.address.model.path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.path.element.PathElement;
 import seedu.address.model.path.element.PathElementType;
 import seedu.address.model.path.element.exceptions.InvalidPathElementException;
 import seedu.address.model.path.exceptions.InvalidPathException;
+
 /**
  * Represents a path in our application.
  */
 public abstract class Path {
-    private static final Logger logger = LogsCenter.getLogger(Path.class);
+    public static final String MESSAGE_EMPTY_PATH_STRING = "Path string cannot be empty";
+    public static final String MESSAGE_INVALID_PATH_ELEMENT = "Encountered invalid path element: %1$s";
+    public static final String MESSAGE_UNABLE_TO_NAVIGATE_ABOVE_ROOT = "Unable to navigate above root directory";
+    public static final String MESSAGE_INVALID_PATH_STRUCTURE = "Invalid path structure.";
+    public static final String PATH_DELIMETER = "/";
     protected final List<PathElement> pathElements;
 
     /**
@@ -41,28 +44,29 @@ public abstract class Path {
      * @throws InvalidPathException If an invalid path element is encountered.
      */
     protected void commonConstructor(String path) throws InvalidPathException {
-        if (path.startsWith("/")) {
+        if (path.startsWith(PATH_DELIMETER)) {
             path = path.substring(1, path.length());
         }
 
-        if (path.endsWith("/")) {
+        if (path.endsWith(PATH_DELIMETER)) {
             path = path.substring(0, path.length() - 1);
         }
 
         if (path.trim().isEmpty()) {
-            throw new InvalidPathException("Path cannot be empty.");
+            throw new InvalidPathException(MESSAGE_EMPTY_PATH_STRING);
         }
 
         String[] elementStrs = path.split("/");
 
         List<PathElement> elements = new ArrayList<>();
 
+        // Parses all string elements into PathElement object.
         for (String elementStr : elementStrs) {
             try {
                 PathElement element = PathElement.parsePathElement(elementStr);
                 elements.add(element);
             } catch (InvalidPathElementException e) {
-                throw new InvalidPathException("Encountered invalid path element: " + elementStr);
+                throw new InvalidPathException(String.format(MESSAGE_INVALID_PATH_ELEMENT, elementStr));
             }
         }
 
@@ -75,47 +79,61 @@ public abstract class Path {
      *
      * @param destination The list to which path elements will be appended.
      * @param source The list of path elements to append.
-     * @throws InvalidPathException If an invalid path element is encountered or if the path structure is invalid.
+     * @throws InvalidPathException If an invalid path element is encountered or the path structure is invalid.
      */
     protected static void appendPathElements(List<PathElement> destination, List<PathElement> source)
             throws InvalidPathException {
-        for (PathElement element : source) {
 
-            if (element.getType() == PathElementType.CURRENT) {
+        for (PathElement element : source) {
+            if (destination.isEmpty()) {
+                destination.add(element);
                 continue;
             }
 
-            if (element.getType() == PathElementType.PARENT && !destination.isEmpty()) {
-                PathElement prevElement = destination.get(destination.size() - 1);
-
-                if (prevElement.getType() == PathElementType.ROOT) {
-                    throw new InvalidPathException("Unable to navigate above home directory");
-                }
-                if (prevElement.getType() != PathElementType.PARENT) {
-                    destination.remove(destination.size() - 1);
-                    continue;
-                }
-
-            } else if (!destination.isEmpty()) {
-                PathElement prevElement = destination.get(destination.size() - 1);
-
-                int priorityDiff = element.getPriorityDiff(prevElement);
-
-                // Make sure curr element is has 1 level lower
-                if (priorityDiff != -1 && prevElement.getType() != PathElementType.PARENT) {
-                    throw new InvalidPathException("Invalid path structure.");
-                }
+            switch(element.getType()) {
+            case CURRENT: // Skip "." element
+                continue;
+            case PARENT:
+                handleParentElement(destination, element);
+                break;
+            default:
+                handleOtherElement(destination, element);
+                break;
             }
-            destination.add(element);
         }
+        // For relative path is possible to have empty list in the end e.g. "."
         if (destination.size() == 0) {
-            try {
-                destination.add(PathElement.parsePathElement("."));
-            } catch (InvalidPathElementException e) {
-                throw new IllegalArgumentException(e.getMessage());
-            }
+            destination.add(PathElement.ELEMENT_CURRENT);
         }
-        logger.info(destination.toString());
+    }
+
+    private static void handleParentElement(List<PathElement> destination, PathElement element)
+            throws InvalidPathException {
+        PathElement prevElement = destination.get(destination.size() - 1);
+
+        switch(prevElement.getType()) {
+        case ROOT: // Cannot navigate above root
+            throw new InvalidPathException(MESSAGE_UNABLE_TO_NAVIGATE_ABOVE_ROOT);
+        case PARENT:
+            destination.add(element);
+            break;
+        default:
+            destination.remove(destination.size() - 1);
+        }
+    }
+
+    private static void handleOtherElement(List<PathElement> destination, PathElement element)
+            throws InvalidPathException {
+        PathElement prevElement = destination.get(destination.size() - 1);
+
+        int priorityDiff = element.getPriorityDiff(prevElement);
+
+        // Make sure current element is 1 level lower than prev element or prev element is ".."
+        if (priorityDiff != -1 && prevElement.getType() != PathElementType.PARENT) {
+            throw new InvalidPathException(MESSAGE_INVALID_PATH_STRUCTURE);
+        }
+
+        destination.add(element);
     }
 
     @Override
@@ -124,7 +142,7 @@ public abstract class Path {
                 .map(PathElement::toString)
                 .collect(Collectors.toList());
 
-        return String.join("/", pathElementStrings);
+        return String.join(PATH_DELIMETER, pathElementStrings);
     }
 
     @Override
