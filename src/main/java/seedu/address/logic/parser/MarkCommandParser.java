@@ -13,18 +13,17 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
 
 /**
- * The MarkCommandParser class is responsible for parsing user input and creating MarkCommand objects.
- * It specifically handles the parsing of the "mark" command.
+ * Parses input arguments and creates a new MarkCommand object.
  */
 public class MarkCommandParser implements Parser<MarkCommand> {
     private static final Logger logger = LogsCenter.getLogger(MarkCommandParser.class);
 
     /**
-     * Parses the user input and creates a MarkCommand object.
+     * Parses the given {@code String} of arguments in the context of the CreateTodoCommand
+     * and returns an CreateTodoCommand object for execution.
      *
      * @param args     The user input string to be parsed.
      * @param currPath The current path in the application.
-     * @return A MarkCommand object representing the parsed command.
      * @throws ParseException If the input does not conform to the expected format.
      */
     public MarkCommand parse(String args, AbsolutePath currPath) throws ParseException {

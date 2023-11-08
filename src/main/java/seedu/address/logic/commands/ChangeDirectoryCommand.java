@@ -13,7 +13,7 @@ import seedu.address.model.path.AbsolutePath;
 
 
 /**
- * Change directory to target path.
+ * Changes directory to target path.
  */
 public class ChangeDirectoryCommand extends Command {
 

@@ -24,7 +24,6 @@ public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGrou
      *
      * @param args The user input string.
      * @param currPath The current path of the application.
-     * @return A MoveStudentToGroupCommand based on the input.
      * @throws ParseException if the user input does not conform the expected format
      */
     public MoveStudentToGroupCommand parse(String args, AbsolutePath currPath) throws ParseException {

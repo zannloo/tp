@@ -23,7 +23,6 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
      *
      * @param args The user input string.
      * @param currPath The current path of the application.
-     * @return A ShowChildrenListCommand based on the input.
      * @throws ParseException if the user input does not conform the expected format
      */
     public ShowChildrenListCommand parse(String args, AbsolutePath currPath) throws ParseException {
@@ -38,6 +37,7 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
         String preamble = ArgumentTokenizer.extractPreamble(args);
 
         if (preamble.isEmpty()) {
+            logger.finer("Created ShowChildrenListCommand with target path: " + currPath);
             return new ShowChildrenListCommand();
         }
 

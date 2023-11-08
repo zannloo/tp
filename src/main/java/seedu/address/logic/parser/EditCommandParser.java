@@ -17,18 +17,17 @@ import seedu.address.model.field.EditStudentDescriptor;
 import seedu.address.model.path.AbsolutePath;
 
 /**
- * Parses user input to create an `EditCommand` for editing student or group details.
- * This parser handles commands that allow users to modify information of existing students or groups.
+ * Parses input arguments and creates a new EditCommand object.
  */
 public class EditCommandParser implements Parser<EditCommand> {
     private static final Logger logger = LogsCenter.getLogger(EditCommandParser.class);
 
     /**
-     * Parses the given command arguments and creates an `EditCommand` object.
+     * Parses the given {@code String} of arguments in the context of the EditCommand
+     * and returns an EditCommand object for execution.
      *
      * @param args The command arguments to be parsed.
      * @param currPath The current path of the application.
-     * @return An `EditCommand` object based on the parsed arguments.
      * @throws ParseException If the command arguments are invalid or if parsing fails.
      */
     public EditCommand parse(String args, AbsolutePath currPath) throws ParseException {
@@ -61,7 +60,7 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args,
-                OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
+                        OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME, OPTION_PHONE, OPTION_EMAIL, OPTION_ADDRESS, OPTION_ID);
 

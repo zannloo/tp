@@ -13,14 +13,14 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
 
 /**
- * Parses input arguments and creates a new DeleteTaskCommand object
+ * Parses input arguments and creates a new DeleteTaskCommand object.
  */
 public class DeleteTaskCommandParser implements Parser<DeleteTaskCommand> {
     private static final Logger logger = LogsCenter.getLogger(DeleteTaskCommandParser.class);
 
     /**
-     * Parses the given {@code String} of arguments in the context of the DeleteForStudentsAndGroupsCommand
-     * and returns an DeleteForStudentsAndGroupsCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the DeleteTaskCommand
+     * and returns an DeleteTaskCommand object for execution.
      *
      * @param args The command arguments to be parsed.
      * @param currPath The current path of the application.

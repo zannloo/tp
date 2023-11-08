@@ -13,7 +13,7 @@ import seedu.address.model.Model;
 import seedu.address.model.path.AbsolutePath;
 
 /**
- * Show Children List.
+ * Shows Children List.
  */
 public class ShowChildrenListCommand extends Command {
 

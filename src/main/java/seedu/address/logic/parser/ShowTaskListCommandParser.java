@@ -9,8 +9,9 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.ShowTaskListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
+
 /**
- * Parses input arguments and creates a new ShowTaskListCommand object
+ * Parses input arguments and creates a new ShowTaskListCommand object.
  */
 public class ShowTaskListCommandParser implements Parser<ShowTaskListCommand> {
     public static final String MESSAGE_COMMAND_CREATED = "Created new \"cat\" command: %1$s";
@@ -22,7 +23,6 @@ public class ShowTaskListCommandParser implements Parser<ShowTaskListCommand> {
      *
      * @param args The user input string.
      * @param currPath The current path of the application.
-     * @return A ShowTaskListCommand based on the input.
      * @throws ParseException if the user input does not conform the expected format
      */
     public ShowTaskListCommand parse(String args, AbsolutePath currPath) throws ParseException {
@@ -37,7 +37,7 @@ public class ShowTaskListCommandParser implements Parser<ShowTaskListCommand> {
         String preamble = ArgumentTokenizer.extractPreamble(args);
 
         if (preamble.isEmpty()) {
-            logger.fine(String.format(MESSAGE_COMMAND_CREATED, "Current directory"));
+            logger.finer("Created ShowTaskListCommand with target path: " + currPath);
             return new ShowTaskListCommand();
         }
 

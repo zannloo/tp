@@ -16,14 +16,14 @@ import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.task.ToDo;
 
 /**
- * Parses input arguments and creates a new CreateTodoForGroupCommand object
+ * Parses input arguments and creates a new CreateTodoCommand object
  */
 public class CreateTodoCommandParser implements Parser<CreateTodoCommand> {
     private static final Logger logger = LogsCenter.getLogger(CreateTodoCommandParser.class);
 
     /**
-     * Parses the given {@code String} of arguments in the context of the CreateTodoForGroupCommand
-     * and returns an CreateTodoForGroupCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the CreateTodoCommand
+     * and returns an CreateTodoCommand object for execution.
      *
      * @param args The command arguments to be parsed.
      * @param currPath The current path of the application.
