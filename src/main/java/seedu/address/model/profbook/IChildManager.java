@@ -10,7 +10,8 @@ import seedu.address.model.profbook.exceptions.NoSuchChildException;
 /**
  * API for Children Manager
  */
-public interface IChildrenManager<T extends IChildElement<T>> {
+public interface IChildManager<T extends IChildElement<T>> {
+
     /**
      * Adds the child to list of children
      *
@@ -58,7 +59,6 @@ public interface IChildrenManager<T extends IChildElement<T>> {
 
     /**
      * Returns children map.
-     *
      */
     Map<Id, T> getChildren();
 }

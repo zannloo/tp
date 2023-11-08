@@ -15,16 +15,18 @@ import seedu.address.model.task.exceptions.NoSuchTaskException;
 /**
  * Encapsulates the required logic for task operation
  */
-public class TaskOperation implements ITaskOperations {
-    private final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+public class TaskOperation implements ITaskOperation {
+
     private static final String MESSAGE_DUPLICATE_TASK = "Task must not exist in task list.";
     private static final String MESSAGE_TASK_NOT_FOUND = "Task not found in task list.";
+    private final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+
     private final ITaskListManager baseDir;
 
     /**
      * Constructs a TaskOperation instance
      *
-     * @param baseDir
+     * @param baseDir - The current directory to enact task operations
      */
     public TaskOperation(ITaskListManager baseDir) {
         this.baseDir = baseDir;

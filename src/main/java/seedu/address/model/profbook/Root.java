@@ -1,4 +1,5 @@
 package seedu.address.model.profbook;
+
 import java.util.Map;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -7,7 +8,7 @@ import seedu.address.model.id.Id;
 /**
  * Encapsulates logic for the whole application data
  */
-public class Root extends ChildrenManager<Group> {
+public class Root extends ChildManager<Group> {
 
     /**
      * Constructs a profbook instance with task list and children.

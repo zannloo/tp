@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.id.Id;
-import seedu.address.model.profbook.ChildrenAndTaskListManager;
+import seedu.address.model.profbook.ChildAndTaskListManager;
 import seedu.address.model.profbook.IChildElement;
-import seedu.address.model.profbook.IChildrenManager;
+import seedu.address.model.profbook.IChildManager;
 import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
 import seedu.address.model.task.ITaskListManager;
@@ -22,14 +22,14 @@ import seedu.address.model.task.Task;
  */
 public class ChildOperation<T extends IChildElement<T>> implements IChildOperation<T> {
     public static final String MESSAGE_ALL_CHILDREN_MUST_BE_TASK_LIST_MANAGER =
-        "All children must be task list manager.";
+            "All children must be task list manager.";
     public static final String MESSAGE_INVALID_LEVEL = "Invalid level.";
 
-    private final IChildrenManager<T> baseDir;
+    private final IChildManager<T> baseDir;
 
     private final Logger logger = LogsCenter.getLogger(ChildOperation.class);
 
-    public ChildOperation(IChildrenManager<T> baseDir) {
+    public ChildOperation(IChildManager<T> baseDir) {
         this.baseDir = baseDir;
     }
 
@@ -116,37 +116,22 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
     }
 
     @Override
-    public void addTaskToAllChildren(Task task, int level) {
-        List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
-
-        for (IChildElement<?> child : children) {
-            Task clonedTask = task.clone();
-            if (!(child instanceof ITaskListManager)) {
-                throw new IllegalArgumentException(MESSAGE_ALL_CHILDREN_MUST_BE_TASK_LIST_MANAGER);
-            }
-
-            ITaskListManager tlm = (ITaskListManager) child;
-            if (tlm.contains(task)) {
-                continue;
-            }
-            tlm.addTask(clonedTask);
-        }
-    }
-
-    @Override
     public boolean checkIfAllChildrenHaveTask(Task task, int level) {
         List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
 
         for (IChildElement<?> child : children) {
+
+            //Defensive programming - check if getAllTaskListManagerChildrenAtLevel works as expected
             if (!(child instanceof ITaskListManager)) {
                 throw new IllegalArgumentException(MESSAGE_ALL_CHILDREN_MUST_BE_TASK_LIST_MANAGER);
             }
-            ITaskListManager tlm = (ITaskListManager) child;
-            if (!tlm.contains(task)) {
+
+            // Type casting is safe as we checked earlier
+            ITaskListManager taskListManager = (ITaskListManager) child;
+            if (!taskListManager.contains(task)) {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -155,17 +140,43 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
         List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
 
         for (IChildElement<?> child : children) {
+
+            //Defensive programming - check if getAllTaskListManagerChildrenAtLevel works as expected
             if (!(child instanceof ITaskListManager)) {
                 throw new IllegalArgumentException(MESSAGE_ALL_CHILDREN_MUST_BE_TASK_LIST_MANAGER);
             }
-            ITaskListManager tlm = (ITaskListManager) child;
-            if (tlm.contains(task)) {
+
+            // Type casting is safe as we checked earlier
+            ITaskListManager taskListManager = (ITaskListManager) child;
+            if (taskListManager.contains(task)) {
                 return true;
             }
         }
 
         return false;
     }
+
+    @Override
+    public void addTaskToAllChildren(Task task, int level) {
+        List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
+
+        for (IChildElement<?> child : children) {
+            Task clonedTask = task.clone();
+
+            //Defensive programming - check if getAllTaskListManagerChildrenAtLevel works as expected
+            if (!(child instanceof ITaskListManager)) {
+                throw new IllegalArgumentException(MESSAGE_ALL_CHILDREN_MUST_BE_TASK_LIST_MANAGER);
+            }
+
+            // Type casting is safe as we checked earlier
+            ITaskListManager taskListManager = (ITaskListManager) child;
+            if (taskListManager.contains(task)) {
+                continue;
+            }
+            taskListManager.addTask(clonedTask);
+        }
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -189,11 +200,13 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
         while (--level > 0) {
             List<IChildElement<?>> list = new ArrayList<>();
             for (IChildElement<?> child : children) {
-                if (child instanceof ChildrenAndTaskListManager<?, ?>) {
-                    ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
-                    list.addAll(ctlm.getAllChildren());
-                } else {
-                    throw new IllegalArgumentException(MESSAGE_INVALID_LEVEL);
+
+                if (child instanceof ChildAndTaskListManager<?, ?>) { // If child is a group directory
+                    ChildAndTaskListManager<?, ?> childrenAndTaskListManager =
+                            (ChildAndTaskListManager<?, ?>) child; // type casting is safe as we checked earlier
+                    list.addAll(childrenAndTaskListManager.getAllChildren());
+                } else { // If child is a student directory
+                    throw new IllegalArgumentException(MESSAGE_INVALID_LEVEL); // Student does not have any child
                 }
             }
             children = new ArrayList<>(list);
