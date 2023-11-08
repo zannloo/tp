@@ -751,9 +751,9 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-    1. Download the jar file and copy into an empty folder
+    1. Download the latest ProfBook.jar file and copy into an empty folder from [latest release](https://github.com/AY2324S1-CS2103T-W15-2/tp/releases).
 
-    1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be
+    1. Double-click the jar file Expected: Shows the GUI with some sample data. The window size may not be
        optimum.
 
 1. Saving window preferences
@@ -763,25 +763,112 @@ testers are expected to do more *exploratory* testing.
     1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Creating a group
 
-### Deleting a person
+1. Creating a new group that can contain students
 
-1. Deleting a person while all persons are being shown
+    1. Test case: `mkdir grp-001 -n Amazing Group1`<br>
+       Expected: If there is already a group with GroupId `grp-001`, then an error message will appear at the output box below the command box. Otherwise, a new group will be added to the list in the bottom output box, with name `Amazing Group1` and GroupId `grp-001`.
 
-    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+    1. Test case: `mkdir x`, `mkdir x -n Amazing Group1` (where x is an invalid GroupId)<br>
+       Expected: An error message of `Invalid relative path` will be shown.
 
-    1. Test case: `delete 1`<br>
-       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
-       Timestamp in the status bar is updated.
+    1. Other incorrect `mkdir` commands to try: `mkdir`, `mkdir grp-001`, `...`<br>
+       Expected: An error message of `Invalid command format` will be shown.
 
-    1. Test case: `delete 0`<br>
-       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+### Adding a student
 
-    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-       Expected: Similar to previous.
+1. Adding a student into the specified directory
 
-1. _{ more test cases …​ }_
+    1. Condition 1: When the current directory is root directory,
+
+        - Test case: `touch ~/grp-001/0123Y`<br>
+          Expected: If there is a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` will be added to `grp-001`.
+
+        - Test case: `touch x` (where x is an invalid path)<br>
+          Expected: An error message of `Invalid relative path` will be shown.
+
+        - Other incorrect `touch` commands to try: `touch`<br>
+          Expected: An error message of `Invalid command format` will be shown.
+
+    1. Condition 2: When the current directory is group directory e.g. `grp-001`,
+
+        - Test case: `touch 0123Y`<br>
+          Expected: If there is a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` will be added to `grp-001`.
+
+        - Test case: `touch x` (where x is an invalid path)<br>
+          Expected: An error message of `Invalid relative path` will be shown.
+
+        - Other incorrect `touch` commands to try: `touch`<br>
+          Expected: An error message of `Invalid command format` will be shown.
+
+### Deleting a student or group
+
+1. Deleting a student or group from the specified path
+
+    1. Condition 1: When the current directory is root directory,
+   
+       - Test case: `rm ~/grp-001/0123Y`<br>
+           Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` in `grp-001` wil be deleted.
+
+       - Test case: `rm ~/grp-001`<br>
+           Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the group `grp-001` wil be deleted.
+
+       - Test case: `rm x` (where x is an invalid path)<br>
+         Expected: An error message of `Invalid relative path` will be shown.
+
+       - Other incorrect `rm` commands to try: `rm`<br>
+         Expected: An error message of `Invalid command format` will be shown.
+
+   1. Condition 2: When the current directory is group directory e.g. `grp-001`,
+
+       - Test case: `rm 0123Y`<br>
+         Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` in `grp-001` wil be deleted.
+
+       - Test case: `rm grp-001`<br>
+         Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the group `grp-001` wil be deleted.
+
+       - Test case: `rm x` (where x is an invalid path)<br>
+         Expected: An error message of `Invalid relative path` will be shown.
+      
+       - Other incorrect `rm` commands to try: `rm`<br>
+         Expected: An error message of `Invalid command format` will be shown.
+
+
+### Editing a student's details or group's details
+
+1. Edits a student's details including name, email, phone, address or StudentId in the specified path.
+
+    1. Condition 1: When the current directory is root directory,
+
+        - Test case: `edit ~/grp-001/0123Y --phone 91919191`<br>
+          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` will have his phone number edited.
+
+        - Test case: `edit x`, `edit x --name Lucy --email lucy@gmail.com --phone 91919191` (where x is an invalid path)<br>
+          Expected: An error message of `Invalid relative path` will be shown.
+
+        - Test case: `edit --name Lucy --email lucy@gmail.com --phone 91919191`<br>
+          Expected: An error message of `Root directory cannot be edited.` will be shown.
+       
+        - Other incorrect `edit` commands to try: `edit`<br>
+          Expected: An error message of `Invalid command format` will be shown.
+
+    1. Condition 2: When the current directory is group directory e.g. `grp-001`,
+
+        - Test case: `edit 0123Y --phone 91919191`<br>
+          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` will have his phone number edited.
+
+        - Test case: `edit --name Amazing Group1`<br>
+          Expected: The name of `grp-001` will be edited to `Amazing Group1`.
+
+        - Test case: `edit --id grp-999`<br>
+          Expected: The GroupId of `grp-001` will be edited to `grp-999`.
+
+        - Test case: `edit x`, `edit x --name Lucy --email lucy@gmail.com --phone 91919191` (where x is invalid path)<br>
+          Expected: An error message of `Invalid relative path` will be shown.
+
+        - Other incorrect `edit` commands to try: `edit`<br>
+          Expected: An error message of `Invalid command format` will be shown.
 
 ### Saving data
 
