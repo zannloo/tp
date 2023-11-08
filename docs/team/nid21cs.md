@@ -41,7 +41,7 @@ Given below are my contributions to the project.
 
 **Feature Aspects**
 
--  `todo` command 
+- `todo` command 
 - `deadline` command 
 - `mark` command
 ## Developer Guide Contributions
