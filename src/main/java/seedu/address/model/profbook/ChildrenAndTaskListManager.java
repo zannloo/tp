@@ -14,7 +14,7 @@ import seedu.address.model.task.TaskListManager;
 import seedu.address.model.task.exceptions.NoSuchTaskException;
 
 /**
- * A child element that is both Children and TaskList Manager.
+ * A child element that is both children and task list Manager.
  */
 public abstract class ChildrenAndTaskListManager<R, T extends IChildElement<T>>
         implements IChildElement<R>, IChildrenManager<T>, ITaskListManager {
@@ -22,7 +22,7 @@ public abstract class ChildrenAndTaskListManager<R, T extends IChildElement<T>>
     private TaskListManager taskListManager;
 
     /**
-     * Construct a new children and task list manager.
+     * Constructs a new {@code ChildrenAndTaskListManager}.
      */
     public ChildrenAndTaskListManager() {
         childrenManager = new ChildrenManager<>();
@@ -30,7 +30,7 @@ public abstract class ChildrenAndTaskListManager<R, T extends IChildElement<T>>
     }
 
     /**
-     * Construct a new children and tasklist manager with given children and tasklist.
+     * Constructs a new {@code ChildrenAndTaskListManager} with given children and tasklist.
      */
     public ChildrenAndTaskListManager(Map<Id, T> children, ReadOnlyTaskList taskList) {
         childrenManager = new ChildrenManager<>(children);

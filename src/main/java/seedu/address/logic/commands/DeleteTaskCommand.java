@@ -38,12 +38,16 @@ public class DeleteTaskCommand extends Command {
 
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted task: %1$s";
 
-    public static final DeleteTaskCommand HELP_MESSAGE = new DeleteTaskCommand();
+    public static final DeleteTaskCommand HELP_MESSAGE = new DeleteTaskCommand() {
+        @Override
+        public CommandResult execute(Model model) throws CommandException {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+    };
 
     private static final Logger logger = LogsCenter.getLogger(DeleteTaskCommand.class);
 
     private final Index targetIndex;
-    private final boolean isHelp;
 
     /**
      * Construct a DeleteTaskCommand instance with target index.
@@ -51,21 +55,15 @@ public class DeleteTaskCommand extends Command {
     public DeleteTaskCommand(Index targetIndex) {
         requireNonNull(targetIndex);
         this.targetIndex = targetIndex;
-        this.isHelp = false;
     }
 
     private DeleteTaskCommand() {
         this.targetIndex = null;
-        this.isHelp = true;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        if (isHelp) {
-            return new CommandResult(MESSAGE_USAGE);
-        }
 
         logger.info("Executing delete task command...");
 

@@ -16,52 +16,56 @@ import seedu.address.model.path.element.PathElementType;
 import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
- * Absolute Path for storing group and student id.
+ * Represents absolute path in ProfBook.
  */
 public class AbsolutePath extends Path {
+    public static final String ROOT_ELEMENT = "~";
+    public static final String MESSAGE_NO_ROOT_ELEMENT = "Absolute path must start with ~";
+    public static final String MESSAGE_STUDENT_ID_NOT_FOUND = "Student Id element not found in path.";
+    public static final String MESSAGE_GROUP_ID_NOT_FOUND = "Group Id element not found in path.";
     public static final AbsolutePath ROOT_PATH;
     private static final Logger logger = LogsCenter.getLogger(AbsolutePath.class);
 
     static {
         try {
-            ROOT_PATH = new AbsolutePath("~");
+            ROOT_PATH = new AbsolutePath(ROOT_ELEMENT);
         } catch (InvalidPathException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
 
     /**
-     * Construct {@code AbsolutePath} from a path string.
+     * Constructs {@code AbsolutePath} from a {@code String} path.
      *
-     * @param path The path string.
+     * @param path The string path.
      * @throws InvalidPathException if the given path string is invalid.
      */
     public AbsolutePath(String path) throws InvalidPathException {
         super();
 
-        if (!path.startsWith("~")) {
-            throw new InvalidPathException("Absolute path should start with ~/");
+        if (!path.startsWith(ROOT_ELEMENT)) {
+            throw new InvalidPathException(MESSAGE_NO_ROOT_ELEMENT);
         }
 
         commonConstructor(path);
-        logger.info(this.toString());
+
+        logger.finest("Created new absolute path object: " + this);
     }
 
     /**
-     * Construct {@code AbsolutePath} with path element list.
+     * Constructs {@code AbsolutePath} with path element list.
      *
      * @param fullPathElements The list of elements for the full path.
      */
-    public AbsolutePath(List<PathElement> fullPathElements) {
+    private AbsolutePath(List<PathElement> fullPathElements) {
         super(fullPathElements);
     }
 
     /**
-     * Resolves a relative path against this absolute path, resulting in a new absolute path.
+     * Resolves a {@code RelativePath} against this {@code AbsolutePath}, and returns the resolved path.
      *
      * @param relative The relative path to resolve against this absolute path.
-     * @return A new AbsolutePath representing the resolved path.
-     * @throws InvalidPathException If an invalid path element is encountered during resolution.
+     * @throws InvalidPathException If the resolution path.
      */
     public AbsolutePath resolve(RelativePath relative) throws InvalidPathException {
         List<PathElement> fullPathElements = new ArrayList<>(this.pathElements);
@@ -77,9 +81,7 @@ public class AbsolutePath extends Path {
     }
 
     /**
-     * Checks whether the path represents a group directory.
-     *
-     * @return {@code true} if the path is a group directory; {@code false} otherwise.
+     * Returns {@code true} if the path is a group directory.
      */
     public boolean isGroupDirectory() {
         PathElement lastElement = this.pathElements.get(this.pathElements.size() - 1);
@@ -87,9 +89,7 @@ public class AbsolutePath extends Path {
     }
 
     /**
-     * Checks whether the path represents a student directory.
-     *
-     * @return {@code true} if the path is a student directory; {@code false} otherwise.
+     * Returns {@code true} if the path is a student directory.
      */
     public boolean isStudentDirectory() {
         PathElement lastElement = this.pathElements.get(this.pathElements.size() - 1);
@@ -97,9 +97,7 @@ public class AbsolutePath extends Path {
     }
 
     /**
-     * Checks whether the path represents a root directory.
-     *
-     * @return {@code true} if the path is a root directory; {@code false} otherwise.
+     * Returns {@code true} if the path is a root directory.
      */
     public boolean isRootDirectory() {
         PathElement lastElement = this.pathElements.get(this.pathElements.size() - 1);
@@ -107,10 +105,10 @@ public class AbsolutePath extends Path {
     }
 
     /**
-     * Retrieves the {@code StudentId} associated with this directory.
+     * Retrieves the {@code StudentId} in the path.
      *
-     * @return An Optional containing the GroupId if it exists in the directory, or an empty Optional
-     *         if the directory is a root or group directory.
+     * @return An {@code Optional} containing the {@code StudentId} if it exists in the path,
+     *         or an empty {@code Optional}  if the path is a root or group directory.
      */
     public Optional<StudentId> getStudentId() {
         if (this.isGroupDirectory() || this.isRootDirectory()) {
@@ -125,14 +123,14 @@ public class AbsolutePath extends Path {
         }
 
         throw new IllegalArgumentException(
-                String.format(MESSAGE_INTERNAL_ERROR, "Student Id element not found in path."));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_STUDENT_ID_NOT_FOUND));
     }
 
     /**
-     * Retrieves the {@code GroupId} associated with this directory.
+     * Retrieves the {@code GroupId} associated with this path.
      *
-     * @return An Optional containing the StudentId if it exists in the directory, or an empty Optional
-     *         if the directory is a root directory.
+     * @return An {@code Optional} containing the {@code GroupId} if it exists in the path,
+     *         or an empty {@code Optional} if the path is a root directory.
      */
     public Optional<GroupId> getGroupId() {
         if (this.isRootDirectory()) {
@@ -147,7 +145,7 @@ public class AbsolutePath extends Path {
         }
 
         throw new IllegalArgumentException(
-                String.format(MESSAGE_INTERNAL_ERROR, "Group Id element not found in path."));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_GROUP_ID_NOT_FOUND));
     }
 
     @Override

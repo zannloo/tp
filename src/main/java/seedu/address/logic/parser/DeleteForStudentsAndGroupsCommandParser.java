@@ -1,20 +1,23 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.COMMAND_WORD;
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 
 
 /**
  * Parses input arguments and creates a new DeleteForStudentsAndGroupsCommand object
  */
 public class DeleteForStudentsAndGroupsCommandParser implements Parser<DeleteForStudentsAndGroupsCommand> {
+    private static final Logger logger = LogsCenter.getLogger(DeleteForStudentsAndGroupsCommandParser.class);
+
     /**
      * Parses the given {@code String} of arguments in the context of the DeleteForStudentsAndGroupsCommand
      * and returns an DeleteForStudentsAndGroupsCommand object for execution.
@@ -24,25 +27,24 @@ public class DeleteForStudentsAndGroupsCommandParser implements Parser<DeleteFor
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeleteForStudentsAndGroupsCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ParserUtil.verifyAllOptionsValid(args, OPTION_HELP);
+        requireAllNonNull(args, currPath);
 
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_HELP);
-
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        if (ParserUtil.hasHelpOption(args)) {
             return DeleteForStudentsAndGroupsCommand.HELP_MESSAGE;
         }
 
-        if (argMultimap.getPreamble().isEmpty()) {
+        // Checks no option is given
+        ParserUtil.verifyNoOption(args, COMMAND_WORD);
+
+        String preamble = ArgumentTokenizer.extractPreamble(args);
+
+        if (preamble.isEmpty()) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
-        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
-        }
+
+        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, preamble);
+
+        logger.finer("Created DeleteForStudentsAndGroupsCommand with target: " + targetPath);
 
         return new DeleteForStudentsAndGroupsCommand(targetPath);
     }

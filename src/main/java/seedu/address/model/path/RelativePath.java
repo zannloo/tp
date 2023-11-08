@@ -12,11 +12,13 @@ import seedu.address.model.path.exceptions.InvalidPathException;
  */
 public class RelativePath extends Path {
     public static final RelativePath PARENT;
+    public static final RelativePath CURRENT;
     private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
 
     static {
         try {
             PARENT = new RelativePath("..");
+            CURRENT = new RelativePath(".");
         } catch (InvalidPathException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
@@ -30,7 +32,7 @@ public class RelativePath extends Path {
     public RelativePath(String path) throws InvalidPathException {
         super();
         commonConstructor(path);
-        logger.info(path.toString());
+        logger.finest("Created new relative path object: " + this);
     }
 
     @Override

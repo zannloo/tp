@@ -5,8 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 import java.util.Objects;
 
 /**
- * The {@code StudentId} class represents a student identifier (ID)
- * with a specific format.
+ * Represents a student identifier (ID).
  */
 public class StudentId extends Id {
     public static final String VALIDATION_REGEX = "\\d{4}[a-zA-Z]";
@@ -24,7 +23,7 @@ public class StudentId extends Id {
     }
 
     /**
-     * Return true if given string is a valid studentId
+     * Returns true if given string is a valid student id.
      */
     public static boolean isValidStudentId(String test) {
         return test.matches(VALIDATION_REGEX);
