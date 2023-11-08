@@ -34,25 +34,21 @@ public class TaskOperation implements ITaskOperations {
         this.logger.info(log);
     }
 
-    private void stateErrorLogger(String errMsg) {
-        this.logger.severe(errMsg);
-    }
-
     /**
      * Checks if current task is present
      *
-     * @param t The task in question
+     * @param task The task in question
      */
     @Override
-    public boolean hasTask(Task t) {
-        return this.baseDir.contains(t);
+    public boolean hasTask(Task task) {
+        return this.baseDir.contains(task);
     }
 
     /**
      * Adds a new tasks to the task list.
      * Task must not be duplicated class.
      *
-     * @param t The task in question
+     * @param task The task in question
      */
     @Override
     public void addTask(Task task) {
