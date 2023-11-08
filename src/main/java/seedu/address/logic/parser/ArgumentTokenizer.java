@@ -17,7 +17,6 @@ public class ArgumentTokenizer {
 
     /**
      * Extracts preamble from the argString.
-     * String before the first "-".
      */
     public static String extractPreamble(String argsString) {
         String[] s = argsString.split(" -", 2);
@@ -149,7 +148,8 @@ public class ArgumentTokenizer {
     }
 
     /**
-     * Returns the trimmed value of the argument in the arguments string specified by {@code currentOptionPosition}.
+     * Returns the trimmed and unescaped value of the argument
+     * in the arguments string specified by {@code currentOptionPosition}.
      * The end position of the value is determined by {@code nextOptionPosition}.
      */
     private static String extractArgumentValue(String argsString,
@@ -168,7 +168,7 @@ public class ArgumentTokenizer {
     }
 
     /**
-     * Unescape special characters e.g. '/' and '-'.
+     * Unescape special characters e.g. '\' and '-'.
      */
     private static String unescape(String input) {
         // Use regular expression to unescape backslash and hyphen
