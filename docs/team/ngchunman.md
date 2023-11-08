@@ -26,7 +26,7 @@ ProfBook is a desktop address book application used for easy management of tasks
 3. **Introduced `EditCommand` Class**:
    - Edits a student's details including name, email, phone, address or StudentId in the specified path.
    - For example, `edit 0010Y -n Jacky -p 123456` will change the name and phone of a student with studentId 0010Y to Jacky and 123456 respectively.
-   - Edits a group's name in the specified path.
+   - Edits a group's name or GroupId in the specified path.
    - For example, `edit ~/grp-001 -n Amazing Group1` will change the name of group with GroupId grp-001 to Amazing Group1.
 
 
