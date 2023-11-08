@@ -13,7 +13,7 @@ import seedu.address.model.Model;
 import seedu.address.model.path.AbsolutePath;
 
 /**
- * Show Children List.
+ * Shows Children List.
  */
 public class ShowChildrenListCommand extends Command {
 
@@ -36,67 +36,89 @@ public class ShowChildrenListCommand extends Command {
             + "ls \n"
             + "ls grp-001";
 
-    public static final ShowChildrenListCommand HELP_MESSAGE = new ShowChildrenListCommand(true);
+    public static final ShowChildrenListCommand HELP_MESSAGE = new ShowChildrenListCommand() {
+        @Override
+        public CommandResult execute(Model model) throws CommandException {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+    };
 
-    private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
+    private static final Logger logger = LogsCenter.getLogger(ShowChildrenListCommand.class);
 
     private final AbsolutePath target;
-    private final boolean isHelp;
 
     /**
-     * Constructs {@code ShowChildrenListCommand} that show children list of current directory.
+     * Constructs {@code ShowChildrenListCommand} that shows children list of current directory.
      */
     public ShowChildrenListCommand() {
         target = null;
-        isHelp = false;
     }
 
     /**
-     * Constructs {@code ShowChildrenListCommand} that show children list of path given.
+     * Constructs {@code ShowChildrenListCommand} that shows children list of path given.
      */
     public ShowChildrenListCommand(AbsolutePath path) {
         requireNonNull(path);
         target = path;
-        isHelp = false;
-    }
-
-    private ShowChildrenListCommand(boolean isHelp) {
-        target = null;
-        this.isHelp = true;
     }
 
     /**
-     * Executes the {@code ShowChildrenListCommand}, show the children list of target path.
+     * Executes the {@code ShowChildrenListCommand}, shows the children list of target path.
      *
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        if (isHelp) {
-            return new CommandResult(MESSAGE_USAGE);
-        }
+        requireNonNull(model);
 
+        // If target is null default to current path
         if (target == null) {
-            model.setDisplayPath(model.getCurrPath());
-            model.showChildrenList();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, "current directory"));
+            return handleCurrPath(model);
         }
 
-        // Check path exists in ProfBook
+        return handleTargetPath(model);
+    }
+
+    /**
+     * Shows children list of current path.
+     */
+    private CommandResult handleCurrPath(Model model) throws CommandException {
+        AbsolutePath currPath = model.getCurrPath();
+
+        logger.fine("Executing show children list command with target path: " + currPath);
+
+        // Current path must be a children manager
+        assert model.hasChildrenListInCurrentPath() : "Current path must be children manager.";
+
+        logger.fine("Showing children list of path: " + currPath);
+
+        model.setDisplayPath(model.getCurrPath());
+        model.showChildrenList();
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, "current directory"));
+    }
+
+    /**
+     * Shows children list of target path.
+     */
+    private CommandResult handleTargetPath(Model model) throws CommandException {
+        logger.fine("Executing show children list command with target path: " + target);
+
+        // Check if path exists in ProfBook
         if (!model.hasPath(target)) {
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, target));
         }
 
-        // Check path is children manager
+        // Check if path is children manager
         if (!model.hasChildrenListInPath(target)) {
             throw new CommandException(String.format(MESSAGE_NOT_CHILDREN_MANAGER, target));
         }
 
+        logger.fine("Showing children list of path: " + target);
+
         model.setDisplayPath(target);
         model.showChildrenList();
-
-        logger.fine("Showing children list for path: " + target);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, target));
     }
@@ -113,8 +135,7 @@ public class ShowChildrenListCommand extends Command {
 
         ShowChildrenListCommand otherShowChildrenListCommand = (ShowChildrenListCommand) other;
 
-        return Objects.equals(this.target, otherShowChildrenListCommand.target)
-                && this.isHelp == otherShowChildrenListCommand.isHelp;
+        return Objects.equals(this.target, otherShowChildrenListCommand.target);
     }
 
     @Override

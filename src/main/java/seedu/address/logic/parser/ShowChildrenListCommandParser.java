@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.commands.ShowChildrenListCommand.COMMAND_WORD;
 
 import java.util.logging.Logger;
 
@@ -8,13 +9,12 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.ShowChildrenListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 
 /**
  * Parses input arguments and creates a new ShowChildrenListCommand object
  */
 public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCommand> {
-    public static final String MESSAGE_COMMAND_CREATED = "Created new \"cat\" command: %1$s";
+    public static final String MESSAGE_COMMAND_CREATED = "Created new \"ls\" command: %1$s";
     private static final Logger logger = LogsCenter.getLogger(ShowChildrenListCommandParser.class);
 
     /**
@@ -23,27 +23,27 @@ public class ShowChildrenListCommandParser implements Parser<ShowChildrenListCom
      *
      * @param args The user input string.
      * @param currPath The current path of the application.
-     * @return A ShowChildrenListCommand based on the input.
      * @throws ParseException if the user input does not conform the expected format
      */
     public ShowChildrenListCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
+        requireAllNonNull(args, currPath);
 
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        if (ParserUtil.hasHelpOption(args)) {
             return ShowChildrenListCommand.HELP_MESSAGE;
         }
 
-        ParserUtil.verifyAllOptionsValid(args);
+        ParserUtil.verifyNoOption(args, COMMAND_WORD);
 
-        if (argMultimap.getPreamble().isEmpty()) {
-            logger.fine(String.format(MESSAGE_COMMAND_CREATED, "Current directory"));
+        String preamble = ArgumentTokenizer.extractPreamble(args);
+
+        if (preamble.isEmpty()) {
+            logger.finer("Created ShowChildrenListCommand with target path: " + currPath);
             return new ShowChildrenListCommand();
         }
 
-        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath target = ParserUtil.resolvePath(currPath, path);
+        AbsolutePath target = ParserUtil.resolvePath(currPath, preamble);
 
-        logger.fine(String.format(MESSAGE_COMMAND_CREATED, path.toString()));
+        logger.finer("Created ShowChildrenListCommand with target path: " + target);
 
         return new ShowChildrenListCommand(target);
     }

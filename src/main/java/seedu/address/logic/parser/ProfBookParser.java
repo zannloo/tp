@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,6 +39,31 @@ public class ProfBookParser {
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
     private static final Logger logger = LogsCenter.getLogger(ProfBookParser.class);
+    private final Map<String, Parser<? extends Command>> commandParsers = new HashMap<>();
+    private final Map<String, Command> commandsWithoutParser = new HashMap<>();
+
+    /**
+     * Initialize the command parsers map in the constructor
+     */
+    public ProfBookParser() {
+        commandParsers.put(CreateStudentCommand.COMMAND_WORD, new CreateStudentCommandParser());
+        commandParsers.put(CreateGroupCommand.COMMAND_WORD, new CreateGroupCommandParser());
+        commandParsers.put(CreateTodoCommand.COMMAND_WORD, new CreateTodoCommandParser());
+        commandParsers.put(CreateDeadlineCommand.COMMAND_WORD, new CreateDeadlineCommandParser());
+        commandParsers.put(MoveStudentToGroupCommand.COMMAND_WORD, new MoveStudentToGroupCommandParser());
+        commandParsers.put(ChangeDirectoryCommand.COMMAND_WORD, new ChangeDirectoryCommandParser());
+        commandParsers.put(ShowTaskListCommand.COMMAND_WORD, new ShowTaskListCommandParser());
+        commandParsers.put(ShowChildrenListCommand.COMMAND_WORD, new ShowChildrenListCommandParser());
+        commandParsers.put(DeleteForStudentsAndGroupsCommand.COMMAND_WORD,
+                new DeleteForStudentsAndGroupsCommandParser());
+        commandParsers.put(EditCommand.COMMAND_WORD, new EditCommandParser());
+        commandParsers.put(DeleteTaskCommand.COMMAND_WORD, new DeleteTaskCommandParser());
+        commandParsers.put(MarkCommand.COMMAND_WORD, new MarkCommandParser());
+        commandParsers.put(UnmarkCommand.COMMAND_WORD, new UnmarkCommandParser());
+        commandsWithoutParser.put(HelpCommand.COMMAND_WORD, new HelpCommand());
+        commandsWithoutParser.put(ExitCommand.COMMAND_WORD, new ExitCommand());
+        commandsWithoutParser.put(ClearCommand.COMMAND_WORD, new ClearCommand());
+    }
 
     /**
      * Parses user input into command for execution.
@@ -60,60 +87,16 @@ public class ProfBookParser {
         // Lower level log messages are used sparingly to minimize noise in the code.
         logger.fine("Command word: " + commandWord + "; Arguments: " + arguments);
 
-        switch (commandWord) {
-
-        case CreateStudentCommand.COMMAND_WORD:
-            return new CreateStudentCommandParser().parse(arguments, currPath);
-
-        case CreateGroupCommand.COMMAND_WORD:
-            return new CreateGroupCommandParser().parse(arguments, currPath);
-
-        case CreateTodoCommand.COMMAND_WORD:
-            return new CreateTodoCommandParser().parse(arguments, currPath);
-
-        case CreateDeadlineCommand.COMMAND_WORD:
-            return new CreateDeadlineCommandParser().parse(arguments, currPath);
-
-        case MoveStudentToGroupCommand.COMMAND_WORD:
-            return new MoveStudentToGroupCommandParser().parse(arguments, currPath);
-
-        case ChangeDirectoryCommand.COMMAND_WORD:
-            return new ChangeDirectoryCommandParser().parse(arguments, currPath);
-
-        case ShowTaskListCommand.COMMAND_WORD:
-            return new ShowTaskListCommandParser().parse(arguments, currPath);
-
-        case ShowChildrenListCommand.COMMAND_WORD:
-            return new ShowChildrenListCommandParser().parse(arguments, currPath);
-
-        case DeleteForStudentsAndGroupsCommand.COMMAND_WORD:
-            return new DeleteForStudentsAndGroupsCommandParser().parse(arguments, currPath);
-
-        case EditCommand.COMMAND_WORD:
-            return new EditCommandParser().parse(arguments, currPath);
-
-        case HelpCommand.COMMAND_WORD:
-            return new HelpCommand();
-
-        case DeleteTaskCommand.COMMAND_WORD:
-            return new DeleteTaskCommandParser().parse(arguments, currPath);
-
-        case MarkCommand.COMMAND_WORD:
-            return new MarkCommandParser().parse(arguments, currPath);
-
-        case UnmarkCommand.COMMAND_WORD:
-            return new UnmarkCommandParser().parse(arguments, currPath);
-
-        case ExitCommand.COMMAND_WORD:
-            return new ExitCommand();
-
-        case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
-
-        default:
-            logger.finer("This user input caused a ParseException: " + userInput);
-            throw new ParseException(String.format(MESSAGE_UNKNOWN_COMMAND, HelpCommand.MESSAGE_USAGE));
+        if (commandParsers.containsKey(commandWord)) {
+            return commandParsers.get(commandWord).parse(arguments, currPath);
         }
+
+        if (commandsWithoutParser.containsKey(commandWord)) {
+            return commandsWithoutParser.get(commandWord);
+        }
+
+        logger.finer("This user input caused a ParseException: " + userInput);
+        throw new ParseException(String.format(MESSAGE_UNKNOWN_COMMAND, HelpCommand.MESSAGE_USAGE));
     }
 
 }
