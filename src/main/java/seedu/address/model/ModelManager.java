@@ -27,6 +27,17 @@ import seedu.address.ui.Displayable;
  * Represents the in-memory model of the ProfBook data.
  */
 public class ModelManager implements Model {
+    public static final String MESSAGE_PATH_NOT_FOUND = "Path must exist in ProfBook";
+    public static final String MESSAGE_STUDENT_NOT_FOUND = "Student must exist in ProfBook";
+    public static final String MESSAGE_GROUP_NOT_FOUND = "Group must exist in ProfBook";
+    public static final String MESSAGE_STUDENT_ID_NOT_FOUND = "Student Id must exist in ProfBook";
+    public static final String MESSAGE_GROUP_ID_NOT_FOUND = "Group Id must exist in ProfBook";
+    public static final String MESSAGE_GROUP_INFO_NOT_FOUND = "Path must have group information";
+    public static final String MESSAGE_REQUIRE_STUDENT_PATH = "Path must be student directory";
+    public static final String MESSAGE_REQUIRE_CHILDREN_MANAGER_PATH = "Path must be children manager";
+    public static final String MESSAGE_REQUIRE_TASK_LIST_MANAGER_PATH = "Path must be task list manager";
+    public static final String MESSAGE_UNEXPECTED_ERROR = "Unexpected error occurred.";
+    public static final String MESSAGE_STUDENT_PATH_NOT_NAVIGABLE = "Student path is not navigable";
 
     private static final Logger logger = LogsCenter.getLogger(Model.class);
     private final ObservableList<Displayable> displayList = FXCollections.observableArrayList();
@@ -153,27 +164,27 @@ public class ModelManager implements Model {
     @Override
     public Group getGroupWithId(GroupId id) {
         checkArgument(hasGroupWithId(id),
-                String.format(MESSAGE_INTERNAL_ERROR, "Group Id must exist in ProfBook"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_GROUP_ID_NOT_FOUND));
         return this.root.getChild(id);
     }
 
     @Override
     public Student getStudentWithId(StudentId id) {
         checkArgument(hasStudentWithId(id),
-                String.format(MESSAGE_INTERNAL_ERROR, "Student Id must exist in ProfBook"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_STUDENT_ID_NOT_FOUND));
         for (Group group : this.root.getAllChildren()) {
             if (group.hasChild(id)) {
                 return group.getChild(id);
             }
         }
-        throw new IllegalArgumentException(String.format(MESSAGE_INTERNAL_ERROR, "Unexpected error occurred."));
+        throw new IllegalArgumentException(String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_UNEXPECTED_ERROR));
     }
 
     @Override
     public boolean hasGroup(AbsolutePath path) {
         requireNonNull(path);
         checkArgument(!path.isRootDirectory(),
-                String.format(MESSAGE_INTERNAL_ERROR, "path must have group information"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_GROUP_INFO_NOT_FOUND));
         GroupId grpId = path.getGroupId().get();
         return root.hasChild(grpId);
     }
@@ -182,7 +193,7 @@ public class ModelManager implements Model {
     public boolean hasStudent(AbsolutePath path) {
         requireNonNull(path);
         checkArgument(path.isStudentDirectory(),
-                String.format(MESSAGE_INTERNAL_ERROR, "path must be student path"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_REQUIRE_STUDENT_PATH));
 
         if (!hasGroup(path)) {
             return false;
@@ -212,9 +223,9 @@ public class ModelManager implements Model {
     public void changeDirectory(AbsolutePath path) {
         requireNonNull(path);
         checkArgument(hasPath(path),
-                String.format(MESSAGE_INTERNAL_ERROR, "Path must exist in ProfBook"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_PATH_NOT_FOUND));
         checkArgument(!path.isStudentDirectory(),
-                String.format(MESSAGE_INTERNAL_ERROR, "Student path is not navigable"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_STUDENT_PATH_NOT_NAVIGABLE));
         currentPath = path;
         displayPath = path;
         logger.fine("Change directory to " + currentPath);
@@ -248,7 +259,7 @@ public class ModelManager implements Model {
     public void setDisplayPath(AbsolutePath path) {
         requireNonNull(path);
         checkArgument(hasPath(path),
-                String.format(MESSAGE_INTERNAL_ERROR, "Path must exist in ProfBook"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_PATH_NOT_FOUND));
         displayPath = path;
     }
 
@@ -265,7 +276,7 @@ public class ModelManager implements Model {
     @Override
     public void showChildrenList() {
         checkArgument(hasChildrenListInDisplayPath(),
-                String.format(MESSAGE_INTERNAL_ERROR, "Current display path must have children list"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_REQUIRE_CHILDREN_MANAGER_PATH));
         showTaskList = false;
         updateList();
     }
@@ -273,7 +284,7 @@ public class ModelManager implements Model {
     @Override
     public void showTaskList() {
         checkArgument(hasTaskListInDisplayPath(),
-                String.format(MESSAGE_INTERNAL_ERROR, "Current display path must have task list: " + displayPath));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_REQUIRE_TASK_LIST_MANAGER_PATH));
         showTaskList = true;
         updateList();
     }
@@ -288,9 +299,9 @@ public class ModelManager implements Model {
     public ChildOperation<Student> groupChildOperation(AbsolutePath path) {
         requireNonNull(path);
         checkArgument(path.isGroupDirectory() || path.isStudentDirectory(),
-                String.format(MESSAGE_INTERNAL_ERROR, "Path must have group information"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_GROUP_INFO_NOT_FOUND));
         checkArgument(hasGroup(path),
-                String.format(MESSAGE_INTERNAL_ERROR, "Group must exist in ProfBook"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_GROUP_NOT_FOUND));
         return new ChildOperation<>(getGroupFromPath(path));
     }
 
@@ -298,9 +309,9 @@ public class ModelManager implements Model {
     public TaskOperation taskOperation(AbsolutePath path) {
         requireNonNull(path);
         checkArgument(hasTaskListInPath(path),
-                String.format(MESSAGE_INTERNAL_ERROR, "Path must have task list"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_REQUIRE_TASK_LIST_MANAGER_PATH));
         checkArgument(hasPath(path),
-                String.format(MESSAGE_INTERNAL_ERROR, "Path must exist in ProfBook"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_PATH_NOT_FOUND));
 
         if (path.isGroupDirectory()) {
             return new TaskOperation(getGroupFromPath(path));
@@ -330,9 +341,9 @@ public class ModelManager implements Model {
     private Group getGroupFromPath(AbsolutePath path) {
         requireNonNull(path);
         checkArgument(path.isGroupDirectory() || path.isStudentDirectory(),
-                String.format(MESSAGE_INTERNAL_ERROR, "Path must have group info"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_GROUP_INFO_NOT_FOUND));
         checkArgument(hasGroup(path),
-                String.format(MESSAGE_INTERNAL_ERROR, "Group must exist in ProfBook"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_GROUP_NOT_FOUND));
 
         GroupId grpId = path.getGroupId().get();
 
@@ -346,9 +357,9 @@ public class ModelManager implements Model {
     private Student getStudentFromPath(AbsolutePath path) {
         requireNonNull(path);
         checkArgument(path.isStudentDirectory(),
-                String.format(MESSAGE_INTERNAL_ERROR, "Path must be student directory"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_REQUIRE_STUDENT_PATH));
         checkArgument(hasStudent(path),
-                String.format(MESSAGE_INTERNAL_ERROR, "Student must exist in ProfBook"));
+                String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_STUDENT_NOT_FOUND));
 
         GroupId grpId = path.getGroupId().get();
         StudentId stuId = path.getStudentId().get();
@@ -370,7 +381,6 @@ public class ModelManager implements Model {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof ModelManager)) {
             return false;
         }

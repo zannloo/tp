@@ -15,6 +15,7 @@ import seedu.address.ui.Displayable;
 public interface Logic {
     /**
      * Executes the command and returns the result.
+     *
      * @param commandText The command as entered by the user.
      * @return the result of the command execution.
      * @throws CommandException If an error occurs during command execution.
@@ -41,7 +42,7 @@ public interface Logic {
     boolean isShowTaskList();
 
     /**
-     * Retuns current directory in string format.
+     * Returns current directory in string format.
      */
     Path getProfBookFilePath();
 
@@ -51,7 +52,7 @@ public interface Logic {
     GuiSettings getGuiSettings();
 
     /**
-     * Set the user prefs' GUI settings.
+     * Sets the user prefs' GUI settings.
      */
     void setGuiSettings(GuiSettings guiSettings);
 }

@@ -29,6 +29,9 @@ public class Messages {
     public static final Function<String, String> MESSAGE_MISSING_ARGUMENT =
             x -> String.format(MESSAGE_INVALID_COMMAND_FORMAT, "missing argument(s)", x);
 
+    public static final Function<String, String> MESSAGE_TOO_MANY_ARGUMENTS =
+                x -> String.format(MESSAGE_INVALID_COMMAND_FORMAT, "too many arguments", x);
+
     public static final String MESSAGE_INVALID_DATETIME_FORMAT =
             "Invalid datetime format: Please use the format \'yyyy-MM-dd HH:mm\'"
             + "\n\n\'yyyy\': year, \'MM\': month,"

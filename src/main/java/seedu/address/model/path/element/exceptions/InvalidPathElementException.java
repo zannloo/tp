@@ -11,6 +11,6 @@ public class InvalidPathElementException extends Exception {
      * @param message The message explaining the reason for the exception.
      */
     public InvalidPathElementException() {
-        super("Invalid id provided.");
+        super("Invalid path element provided.");
     }
 }

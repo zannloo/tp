@@ -47,10 +47,15 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     public static final String MESSAGE_DELETE_CURRENT_PATH = "Current path cannot be removed.";
 
     public static final String MESSAGE_DELETE_DISPLAY_PATH = "Current display path cannot be removed.";
-    public static final DeleteForStudentsAndGroupsCommand HELP_MESSAGE = new DeleteForStudentsAndGroupsCommand();
+
+    public static final DeleteForStudentsAndGroupsCommand HELP_MESSAGE = new DeleteForStudentsAndGroupsCommand() {
+        @Override
+        public CommandResult execute(Model model) throws CommandException {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+    };
 
     private final AbsolutePath toBeDeleted;
-    private final boolean isHelp;
 
     /**
      * Creates an DeleteForStudentsAndGroupsCommand to specified {@code Student} or {@code Group}
@@ -58,12 +63,10 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     public DeleteForStudentsAndGroupsCommand(AbsolutePath toBeDeleted) { //path will specify which grp/student
         requireNonNull(toBeDeleted);
         this.toBeDeleted = toBeDeleted;
-        this.isHelp = false;
     }
 
     private DeleteForStudentsAndGroupsCommand() {
         this.toBeDeleted = null;
-        this.isHelp = true;
     }
 
     /**
@@ -78,10 +81,6 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        if (isHelp) {
-            return new CommandResult(MESSAGE_USAGE);
-        }
 
         if (toBeDeleted.isRootDirectory()) {
             throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);

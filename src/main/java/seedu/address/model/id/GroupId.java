@@ -5,8 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 import java.util.Objects;
 
 /**
- * The {@code GroupId} class represents a group identifier (ID)
- * with a specific format.
+ * Represents a group identifier (ID).
  */
 public class GroupId extends Id {
     public static final String VALIDATION_REGEX = "[Gg][Rr][Pp]-\\d{3}";
@@ -14,7 +13,7 @@ public class GroupId extends Id {
             "Group Id should be in the format 'grp-XXX' where XXX is a 3-digit number, and it should not be blank.";
 
     /**
-     * Private constructor to create a {@code GroupId} object with a valid group id string.
+     * Constructs a {@code GroupId} object with a valid group id string.
      *
      * @param id The valid group Id.
      */
@@ -24,7 +23,7 @@ public class GroupId extends Id {
     }
 
     /**
-     * Return true if given string is a valid group id.
+     * Returns true if given string is a valid group id.
      */
     public static boolean isValidGroupId(String test) {
         return test.matches(VALIDATION_REGEX);

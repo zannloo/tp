@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
 import static seedu.address.logic.commands.ChangeDirectoryCommand.COMMAND_WORD;
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import java.util.logging.Logger;
 
@@ -10,7 +10,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.ChangeDirectoryCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
 
 /**
  * Parses input arguments and creates a new ChangeDirectoryCommand object
@@ -27,24 +26,25 @@ public class ChangeDirectoryCommandParser implements Parser<ChangeDirectoryComma
      * @throws ParseException if the user input does not conform the expected format
      */
     public ChangeDirectoryCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_HELP);
+        requireAllNonNull(args, currPath);
 
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        if (ParserUtil.hasHelpOption(args)) {
             return ChangeDirectoryCommand.HELP_MESSAGE;
         }
 
-        // No option for cd command
-        ParserUtil.verifyAllOptionsValid(args);
+        // Checks no option is given
+        ParserUtil.verifyNoOption(args, COMMAND_WORD);
 
-        if (argMultimap.getPreamble().isEmpty()) {
+        String preamble = ArgumentTokenizer.extractPreamble(args);
+
+        // Check if target path is given
+        if (preamble.isEmpty()) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
-        RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
+        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, preamble);
 
-        logger.info("Creating ChangeDirectoryCommand with dest: " + path.toString());
+        logger.finer("Created ChangeDirectoryCommand with dest: " + targetPath.toString());
 
         return new ChangeDirectoryCommand(targetPath);
     }

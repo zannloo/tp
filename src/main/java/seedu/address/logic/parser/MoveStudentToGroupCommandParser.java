@@ -1,19 +1,22 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.Messages.MESSAGE_TOO_MANY_ARGUMENTS;
 import static seedu.address.logic.commands.MoveStudentToGroupCommand.COMMAND_WORD;
-import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.MoveStudentToGroupCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
-import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
  * Parses input arguments and creates a new MoveStudentToGroupCommand object
  */
 public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGroupCommand> {
+    private static final Logger logger = LogsCenter.getLogger(MoveStudentToGroupCommandParser.class);
 
     /**
      * Parses the given {@code String} of arguments in the context of the MoveStudentToGroupCommand
@@ -21,43 +24,39 @@ public class MoveStudentToGroupCommandParser implements Parser<MoveStudentToGrou
      *
      * @param args The user input string.
      * @param currPath The current path of the application.
-     * @return A MoveStudentToGroupCommand based on the input.
      * @throws ParseException if the user input does not conform the expected format
      */
     public MoveStudentToGroupCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ParserUtil.verifyAllOptionsValid(args, OPTION_HELP);
+        requireAllNonNull(args, currPath);
 
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, OPTION_HELP);
-
-        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+        if (ParserUtil.hasHelpOption(args)) {
             return MoveStudentToGroupCommand.HELP_MESSAGE;
         }
 
-        if (argMultimap.getPreamble().isEmpty()) {
+        ParserUtil.verifyNoOption(args, COMMAND_WORD);
+
+        String preamble = ArgumentTokenizer.extractPreamble(args);
+
+        if (preamble.isEmpty()) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
-        String[] paths = argMultimap.getPreamble().split(" ");
+        String[] paths = preamble.split(" ");
 
-        if (paths.length != 2) {
+        if (paths.length < 2) {
             throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
-        RelativePath source = ParserUtil.parseRelativePath(paths[0]);
-        AbsolutePath absoluteSource = null;
-        try {
-            absoluteSource = currPath.resolve(source);
-        } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
+        if (paths.length > 2) {
+            throw new ParseException(MESSAGE_TOO_MANY_ARGUMENTS.apply(COMMAND_WORD));
         }
 
-        RelativePath dest = ParserUtil.parseRelativePath(paths[1]);
-        AbsolutePath absoluteDest = null;
-        try {
-            absoluteDest = currPath.resolve(dest);
-        } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
-        }
+        AbsolutePath absoluteSource = ParserUtil.resolvePath(currPath, paths[0]);
+
+        AbsolutePath absoluteDest = ParserUtil.resolvePath(currPath, paths[1]);
+
+        logger.finer("Created MoveStudentToGroupCommand with source path: " + absoluteSource
+                + ", dest path: " + absoluteDest);
 
         return new MoveStudentToGroupCommand(absoluteSource, absoluteDest);
     }
