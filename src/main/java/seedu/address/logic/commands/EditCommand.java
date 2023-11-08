@@ -203,7 +203,7 @@ public class EditCommand extends Command {
         Optional<StudentId> editedId = editStudentDescriptor.getId();
         boolean isEdited = editedId.isPresent() && (!editedId.get().equals(studentId));
         if (isEdited && model.hasStudentWithId(editedId.get())) {
-            Student studentWithSameId = model.getStudentWithId(studentId);
+            Student studentWithSameId = model.getStudentWithId(editedId.get());
             throw new CommandException(String.format(
                 MESSAGE_DUPLICATE_STUDENT_ID, editedId.get(), Messages.format(studentWithSameId)));
         }
