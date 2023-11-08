@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_TASK_LIST_NOT_SHOWN;
 
 import java.util.logging.Logger;
 
@@ -22,17 +24,29 @@ public class MarkCommand extends Command {
 
     public static final String COMMAND_WORD = "mark";
 
-    public static final String MESSAGE_INCORRECT_STATE = "The current model is not showing task list.";
-
-    public static final String MESSAGE_INVALID_INDEX = "The task index provided is invalid.";
-
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Marked task: %1$s";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " [task index]";
+    public static final MarkCommand HELP_MESSAGE = new MarkCommand();
 
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <index>\n"
+            + "\n"
+            + "Mark the task with the given display index as done.\n"
+            + "Must use \'cat\' command before mark task.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    index                Valid task index number\n"
+            + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
+            + "Examples: \n"
+            + "mark 1";
     private static final Logger logger = LogsCenter.getLogger(MarkCommand.class);
 
     private final Index index;
+
+    private final boolean isHelp;
 
     /**
      * Constructs a MarkCommand with the specified task index to be marked.
@@ -42,6 +56,12 @@ public class MarkCommand extends Command {
     public MarkCommand(Index index) {
         requireNonNull(index);
         this.index = index;
+        this.isHelp = false;
+    }
+
+    private MarkCommand() {
+        this.index = null;
+        this.isHelp = true;
     }
 
     /**
@@ -55,11 +75,15 @@ public class MarkCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+
         logger.info("Executing mark task command...");
 
         if (!model.isShowTaskList()) {
             logger.warning("Task list is not shown. Aborting mark task command.");
-            throw new CommandException(MESSAGE_INCORRECT_STATE);
+            throw new CommandException(MESSAGE_TASK_LIST_NOT_SHOWN);
         }
 
         AbsolutePath displayPath = model.getDisplayPath();
@@ -68,7 +92,8 @@ public class MarkCommand extends Command {
         // Check if index is valid.
         if (!taskOperation.isValidIndex(this.index.getOneBased())) {
             logger.warning("Invalid index: " + this.index.getOneBased() + ". Aborting mark task command.");
-            throw new CommandException(MESSAGE_INVALID_INDEX);
+            throw new CommandException(
+                    String.format(MESSAGE_INVALID_INDEX, taskOperation.getTaskListSize(), index.getOneBased()));
         }
 
         logger.info("Executing mark task command on index " + this.index.getOneBased());

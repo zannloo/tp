@@ -1,11 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
-import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
-import static seedu.address.logic.parser.CliSyntax.OPTION_TAG;
 
 import java.util.Map;
 import java.util.Optional;
@@ -30,6 +25,7 @@ import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.TaskListManager;
 
 /**
  * EditCommand is a class representing a command to edit the details of a person (either a student or a group) in
@@ -40,30 +36,35 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
-    public static final String ERROR_MESSAGE_INVALID_PATH = "This path is invalid.";
-
     public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
     public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
 
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <path> " + "[OPTION]... \n"
+            + "\n"
+            + "Edit the details of the group or student.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Valid path to group or student\n"
+            + "\n"
+            + "Option: (Provide at least one of the following fields for editing)\n"
+            + "    -n, --name           Name of the group / student\n"
+            + "    -i, --id             Id of the group / student\n"
+            + "    -e, --email          Email of the student\n"
+            + "    -p, --phone          Phone of the student\n"
+            + "    -a, --address        Address of the student\n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
+            + "Examples: \n"
+            + "edit grp-001 -n Perfect Group \n"
+            + "edit grp-001 -i grp-002";
     public static final String MESSAGE_EDIT_GROUP_SUCCESS = "Field(s) of group has been edited successfully.";
 
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Field(s) of student has been edited successfully.";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
-            + "by the index number used in the displayed person list. "
-            + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + "[" + OPTION_NAME + " NAME] "
-            + "[" + OPTION_PHONE + " PHONE] "
-            + "[" + OPTION_EMAIL + " EMAIL] "
-            + "[" + OPTION_ADDRESS + " ADDRESS] "
-            + "[" + OPTION_TAG + " TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1 "
-            + OPTION_PHONE + " 91234567 "
-            + OPTION_EMAIL + " johndoe@example.com";
 
-    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "This directory cannot be edited.";
+    public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Root directory cannot be edited.";
 
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
@@ -80,11 +81,12 @@ public class EditCommand extends Command {
     public static final String MESSAGE_NO_CHANGES_MADE =
             "The value(s) you provided is the same as the current value(s). No changes have been made.";
 
+    public static final EditCommand HELP_MESSAGE = new EditCommand();
+
     private final AbsolutePath target;
-
-    private EditGroupDescriptor editGroupDescriptor;
-
-    private EditStudentDescriptor editStudentDescriptor;
+    private final EditGroupDescriptor editGroupDescriptor;
+    private final EditStudentDescriptor editStudentDescriptor;
+    private final boolean isHelp;
 
     /**
      * Constructs an EditCommand for editing a group's details.
@@ -95,6 +97,8 @@ public class EditCommand extends Command {
     public EditCommand(AbsolutePath target, EditGroupDescriptor editGroupDescriptor) {
         this.target = target;
         this.editGroupDescriptor = new EditGroupDescriptor(editGroupDescriptor);
+        this.editStudentDescriptor = null;
+        this.isHelp = false;
     }
 
     /**
@@ -106,6 +110,15 @@ public class EditCommand extends Command {
     public EditCommand(AbsolutePath target, EditStudentDescriptor editStudentDescriptor) {
         this.target = target;
         this.editStudentDescriptor = new EditStudentDescriptor(editStudentDescriptor);
+        this.editGroupDescriptor = null;
+        this.isHelp = false;
+    }
+
+    private EditCommand() {
+        this.target = null;
+        this.editGroupDescriptor = null;
+        this.editStudentDescriptor = null;
+        this.isHelp = true;
     }
 
     /**
@@ -118,6 +131,10 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (this.isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
 
         // Check path exists in ProfBook
         if (!model.hasPath(target)) {
@@ -146,7 +163,7 @@ public class EditCommand extends Command {
         Optional<GroupId> editedId = editGroupDescriptor.getId();
         boolean isEdited = editedId.isPresent() && (!editedId.get().equals(groupId));
         if (isEdited && model.hasGroupWithId(editedId.get())) {
-            Group groupWithSameId = model.getGroupWithId(groupId);
+            Group groupWithSameId = model.getGroupWithId(editedId.get());
             throw new CommandException(String.format(
                 MESSAGE_DUPLICATE_GROUP_ID, editedId.get(), Messages.format(groupWithSameId)));
         }
@@ -164,11 +181,13 @@ public class EditCommand extends Command {
         rootOperation.addChild(editedGroup.getId(), editedGroup);
 
         // If edited group is current path, need to redirect with new Id.
-        try {
-            model.changeDirectory(model.getCurrPath().resolve(RelativePath.PARENT));
-            model.changeDirectory(model.getCurrPath().resolve(new RelativePath(editedGroup.getId().toString())));
-        } catch (InvalidPathException e) {
-            throw new IllegalArgumentException("Internal Error: " + e.getMessage());
+        if (target.equals(model.getCurrPath())) {
+            try {
+                model.changeDirectory(model.getCurrPath().resolve(RelativePath.PARENT));
+                model.changeDirectory(model.getCurrPath().resolve(new RelativePath(editedGroup.getId().toString())));
+            } catch (InvalidPathException e) {
+                throw new IllegalArgumentException("Internal Error: " + e.getMessage());
+            }
         }
 
         model.updateList();
@@ -220,7 +239,7 @@ public class EditCommand extends Command {
         Email updatedEmail = editStudentDescriptor.getEmail().orElse(studentToEdit.getEmail());
         Address updatedAddress = editStudentDescriptor.getAddress().orElse(studentToEdit.getAddress());
         StudentId updatedId = editStudentDescriptor.getId().orElse(studentToEdit.getId());
-        ReadOnlyTaskList taskList = new ReadOnlyTaskList(studentToEdit.getAllTasks());
+        ReadOnlyTaskList taskList = new TaskListManager(studentToEdit.getAllTasks());
         return new Student(taskList, updatedName, updatedEmail, updatedPhone, updatedAddress, updatedId);
     }
 
@@ -232,7 +251,7 @@ public class EditCommand extends Command {
         assert groupToEdit != null;
         Name updatedName = editGroupDescriptor.getName().orElse(groupToEdit.getName());
         GroupId updatedId = editGroupDescriptor.getId().orElse(groupToEdit.getId());
-        ReadOnlyTaskList taskList = new ReadOnlyTaskList(groupToEdit.getAllTask());
+        ReadOnlyTaskList taskList = new TaskListManager(groupToEdit.getAllTasks());
         Map<Id, Student> students = groupToEdit.getChildren();
         return new Group(taskList, students, updatedName, updatedId);
     }

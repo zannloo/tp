@@ -1,6 +1,8 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.commands.CreateGroupCommand.COMMAND_WORD;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 
 import seedu.address.logic.commands.CreateGroupCommand;
@@ -27,12 +29,17 @@ public class CreateGroupCommandParser implements Parser<CreateGroupCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateGroupCommand parse(String args, AbsolutePath currPath) throws ParseException {
+        ParserUtil.verifyAllOptionsValid(args, OPTION_NAME, OPTION_HELP);
+
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_NAME);
+                ArgumentTokenizer.tokenize(args, OPTION_NAME, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return CreateGroupCommand.HELP_MESSAGE;
+        }
 
         if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_NAME) || argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, CreateGroupCommand.MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
         argMultimap.verifyNoDuplicateOptionsFor(OPTION_NAME);

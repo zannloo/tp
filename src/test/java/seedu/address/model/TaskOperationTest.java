@@ -1,4 +1,4 @@
-package seedu.address.statemanager;
+package seedu.address.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -14,10 +14,6 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.TaskOperation;
-import seedu.address.model.UserPrefs;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
@@ -28,8 +24,8 @@ import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 import seedu.address.model.task.Deadline;
-import seedu.address.model.task.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskListManager;
 import seedu.address.model.task.exceptions.NoSuchTaskException;
 import seedu.address.testutil.StudentBuilder;
 
@@ -64,7 +60,7 @@ public class TaskOperationTest {
                 .withId("0001Y").build();
         Map<Id, Student> studentMap = new HashMap<>();
         studentMap.put(new StudentId("0001Y"), this.student);
-        this.group = new Group(new ReadOnlyTaskList(), studentMap, new Name("gary"), new GroupId("grp-001"));
+        this.group = new Group(new TaskListManager(), studentMap, new Name("gary"), new GroupId("grp-001"));
         Map<Id, Group> groups = new HashMap<>();
         groups.put(new GroupId("grp-001"), this.group);
         this.root = new Root(groups);
@@ -73,7 +69,7 @@ public class TaskOperationTest {
 
     @Test
     public void getTaskOperation_noErrorReturn() {
-        assertEquals(new TaskOperation(this.group.getTaskListManager()), model.taskOperation(grpPath));
+        assertEquals(new TaskOperation(this.group), model.taskOperation(grpPath));
         assertEquals(new TaskOperation(this.student), model.taskOperation(stuPath));
     }
 
@@ -132,4 +128,36 @@ public class TaskOperationTest {
         list.add(this.task);
         assertEquals(opr.getAllTasks(), list);
     }
+
+    @Test
+    public void taskOperation_checkHashCode() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        TaskOperation opr2 = model.taskOperation(stuPath);
+        assertEquals(opr1.hashCode(), opr2.hashCode());
+    }
+
+    @Test
+    public void equals_sameTaskOperations_returnsTrue() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        TaskOperation opr2 = model.taskOperation(stuPath);
+        assertTrue(opr1.equals(opr2));
+    }
+
+    @Test
+    public void equals_nullTaskOperations_returnsFalse() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        assertFalse(opr1.equals(null));
+    }
+
+    @Test
+    public void toStringTest() {
+        TaskOperation opr1 = model.taskOperation(stuPath);
+        String expectedMessage = "seedu.address.model.profbook.Student"
+                + "{Student Id=0001Y, name=zann, phone=98765432,"
+                + " email=zannwhatudoing@example.com, address=311, Clementi Ave 2,"
+                + " #02-25, Task List=seedu.address.model.profbook.Student"
+                + "{Task List=[[D][ ] Assignment 3(by: 2023-12-03 23:59)]}}";
+        assertEquals(opr1.toString(), expectedMessage);
+    }
+
 }

@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.OPTION_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
 import static seedu.address.logic.parser.CliSyntax.OPTION_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ID;
 import static seedu.address.logic.parser.CliSyntax.OPTION_NAME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_PHONE;
@@ -46,29 +47,34 @@ public class CommandTestUtil {
     public static final String VALID_ROOT_DIR_PREAMBLE = "~/";
     public static final String VALID_GROUP_DIR_PREAMBLE = "/grp-123";
     public static final String VALID_STUDENT_DIR_PREAMBLE = "/grp-123/0011Y";
-    public static final String NAME_DESC_AMY = " " + OPTION_NAME + " " + VALID_NAME_AMY;
-    public static final String NAME_DESC_BOB = " " + OPTION_NAME + " " + VALID_NAME_BOB;
-    public static final String PHONE_DESC_AMY = " " + OPTION_PHONE + " " + VALID_PHONE_AMY;
-    public static final String PHONE_DESC_BOB = " " + OPTION_PHONE + " " + VALID_PHONE_BOB;
-    public static final String EMAIL_DESC_AMY = " " + OPTION_EMAIL + " " + VALID_EMAIL_AMY;
-    public static final String EMAIL_DESC_BOB = " " + OPTION_EMAIL + " " + VALID_EMAIL_BOB;
-    public static final String ADDRESS_DESC_AMY = " " + OPTION_ADDRESS + " " + VALID_ADDRESS_AMY;
-    public static final String ADDRESS_DESC_BOB = " " + OPTION_ADDRESS + " " + VALID_ADDRESS_BOB;
-    public static final String TAG_DESC_FRIEND = " " + OPTION_TAG + " " + VALID_TAG_FRIEND;
-    public static final String TAG_DESC_HUSBAND = " " + OPTION_TAG + " " + VALID_TAG_HUSBAND;
-    public static final String DATETIME_DESC = " " + OPTION_DATETIME + " " + VALID_DATETIME_STR;
-    public static final String ID_DESC_STUDENT = " " + OPTION_ID + " " + VALID_ID_STUDENT;
-    public static final String ID_DESC_GROUP = " " + OPTION_ID + " " + VALID_ID_GROUP;
-    public static final String TASK_DESC_DESC = " " + OPTION_DESC + " " + VALID_TASK_DESC;
+    public static final String NAME_DESC_AMY = " " + OPTION_NAME.getLongName() + " " + VALID_NAME_AMY;
+    public static final String NAME_DESC_BOB = " " + OPTION_NAME.getLongName() + " " + VALID_NAME_BOB;
+    public static final String PHONE_DESC_AMY = " " + OPTION_PHONE.getLongName() + " " + VALID_PHONE_AMY;
+    public static final String PHONE_DESC_BOB = " " + OPTION_PHONE.getLongName() + " " + VALID_PHONE_BOB;
+    public static final String EMAIL_DESC_AMY = " " + OPTION_EMAIL.getLongName() + " " + VALID_EMAIL_AMY;
+    public static final String EMAIL_DESC_BOB = " " + OPTION_EMAIL.getLongName() + " " + VALID_EMAIL_BOB;
+    public static final String ADDRESS_DESC_AMY = " " + OPTION_ADDRESS.getLongName() + " " + VALID_ADDRESS_AMY;
+    public static final String ADDRESS_DESC_BOB = " " + OPTION_ADDRESS.getLongName() + " " + VALID_ADDRESS_BOB;
+    public static final String TAG_DESC_FRIEND = " " + OPTION_TAG.getLongName() + " " + VALID_TAG_FRIEND;
+    public static final String TAG_DESC_HUSBAND = " " + OPTION_TAG.getLongName() + " " + VALID_TAG_HUSBAND;
+    public static final String DATETIME_DESC = " " + OPTION_DATETIME.getLongName() + " " + VALID_DATETIME_STR;
+    public static final String ID_DESC_STUDENT = " " + OPTION_ID.getLongName() + " " + VALID_ID_STUDENT;
+    public static final String ID_DESC_GROUP = " " + OPTION_ID.getLongName() + " " + VALID_ID_GROUP;
+    public static final String TASK_DESC_DESC = " " + OPTION_DESC.getLongName() + " " + VALID_TASK_DESC;
+    public static final String HELP_OPTION = " " + OPTION_HELP.getLongName() + " ";
 
+    public static final String EMPTY_PREAMBLE = " ";
 
     public static final String INVALID_NAME_DESC = " "
             + OPTION_NAME + " " + "James&"; // '&' not allowed in names
-    public static final String INVALID_PHONE_DESC = " " + OPTION_PHONE + " " + "911a"; // 'a' not allowed in phones
-    public static final String INVALID_EMAIL_DESC = " " + OPTION_EMAIL + " " + "bob!yahoo"; // missing '@' symbol
+    public static final String INVALID_PHONE_DESC = " " + OPTION_PHONE.getLongName()
+            + " " + "911a"; // 'a' not allowed in phones
+    public static final String INVALID_EMAIL_DESC = " " + OPTION_EMAIL.getLongName()
+            + " " + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " "
             + OPTION_ADDRESS + " "; // empty string not allowed for addresses
-    public static final String INVALID_TAG_DESC = " " + OPTION_TAG + " " + "hubby*"; // '*' not allowed in tags
+    public static final String INVALID_TAG_DESC = " " + OPTION_TAG.getLongName()
+            + " " + "hubby*"; // '*' not allowed in tags
 
     private static final RelativePath validRootRelativePath;
     private static final RelativePath validGroupRelativePath;

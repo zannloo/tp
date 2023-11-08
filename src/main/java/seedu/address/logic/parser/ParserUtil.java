@@ -2,15 +2,23 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_EMPTY_VALUE;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PATH_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_PATH_RESOLUTION_FAIL;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.Category;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.id.GroupId;
@@ -22,13 +30,18 @@ import seedu.address.model.profbook.Address;
 import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Name;
 import seedu.address.model.profbook.Phone;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.ToDo;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
  */
 public class ParserUtil {
-    public static final DateTimeFormatter DATE_INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final DateTimeFormatter DATE_INPUT_FORMATTER = DateTimeFormatter
+            .ofPattern("uuuu-MM-dd HH:mm")
+            .withResolverStyle(ResolverStyle.STRICT);
+    public static final String MESSAGE_INVALID_INDEX = "Index provided is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_OPTION = "Invalid option: %1$s";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -115,7 +128,7 @@ public class ParserUtil {
         try {
             relativePath = new RelativePath(trimmedPath);
         } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
+            throw new ParseException(String.format(MESSAGE_INVALID_PATH_FORMAT, path));
         }
         return relativePath;
     }
@@ -132,7 +145,7 @@ public class ParserUtil {
         try {
             fullPath = path.resolve(target);
         } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
+            throw new ParseException(String.format(MESSAGE_PATH_RESOLUTION_FAIL, target));
         }
         return fullPath;
     }
@@ -221,22 +234,14 @@ public class ParserUtil {
         try {
             dateTime = LocalDateTime.parse(trimmedDateTimeStr, DATE_INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new ParseException(e.getMessage());
+            if (e != null && e.getCause() != null) {
+                throw new ParseException(e.getMessage());
+            } else {
+                throw new ParseException(Messages.MESSAGE_INVALID_DATETIME_FORMAT);
+            }
         }
 
         return dateTime;
-    }
-
-    /**
-     * Returns true if none of the options contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    public static boolean areOptionsPresent(ArgumentMultimap argumentMultimap, Option... options) {
-        return Stream.of(options).allMatch(option -> isOptionPresent(argumentMultimap, option));
-    }
-
-    public static boolean isOptionPresent(ArgumentMultimap argumentMultimap, Option option) {
-        return argumentMultimap.getValue(option).isPresent();
     }
 
     /**
@@ -259,4 +264,70 @@ public class ParserUtil {
 
         throw new ParseException("Format is invalid. Should be allStu or allGrp");
     }
+
+    /**
+     * Parses a {@code ToDo} with the given {@code desc}.
+     *
+     * @throws ParseException if the given {@code desc} is empty.
+     */
+    public static ToDo parseToDo(String desc) throws ParseException {
+        requireNonNull(desc);
+        String trimmedDesc = desc.trim();
+
+        if (trimmedDesc.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_EMPTY_VALUE, "description"));
+        }
+
+        return new ToDo(trimmedDesc);
+    }
+
+    /**
+     * Parses a {@code Deadline} with the given {@code desc} and {@code by}.
+     *
+     * @throws ParseException if the given {@code desc} is empty or {@code by} is invalid.
+     */
+    public static Deadline parseDeadline(String desc, String by) throws ParseException {
+        requireAllNonNull(desc, by);
+        String trimmedDesc = desc.trim();
+        String trimmedBy = by.trim();
+
+        if (trimmedDesc.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_EMPTY_VALUE, "description"));
+        }
+
+        if (trimmedBy.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_EMPTY_VALUE, "deadline"));
+        }
+
+        LocalDateTime dt = parseDateTime(trimmedBy);
+        return new Deadline(desc, dt);
+    }
+
+    /**
+     * Checks if all options in {@code argString} are valid.
+     */
+    public static void verifyAllOptionsValid(String args, Option... options) throws ParseException {
+        List<String> allOptions = ArgumentTokenizer.extractAllOptionNames(args);
+        for (String optionName : allOptions) {
+            Stream<Option> optionStream = Arrays.stream(options);
+            Predicate<Option> pred = option
+                -> optionName.equals(option.getLongName()) || optionName.equals(option.getShortName());
+            if (optionStream.noneMatch(pred)) {
+                throw new ParseException(String.format(MESSAGE_INVALID_OPTION, optionName));
+            }
+        }
+    }
+
+    /**
+     * Returns true if none of the options contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    public static boolean areOptionsPresent(ArgumentMultimap argumentMultimap, Option... options) {
+        return Stream.of(options).allMatch(option -> isOptionPresent(argumentMultimap, option));
+    }
+
+    public static boolean isOptionPresent(ArgumentMultimap argumentMultimap, Option option) {
+        return argumentMultimap.getValue(option).isPresent();
+    }
+
 }

@@ -11,23 +11,27 @@ public class HelpCommand extends Command {
 
     public static final String COMMAND_WORD = "help";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows program usage instructions.\n"
-            + "Example: " + COMMAND_WORD;
+    public static final String MESSAGE_USAGE = "To view the list of available commands, please type 'help'.";
 
-    public static final String SHOWING_HELP_MESSAGE = "ChangeDirectoryCommand: cd [targetPath]\n"
-            + "CreateStudentCommand: touch [groupId/studentId] -n [name] -p [phone] -e [email] -a [address]\n"
-            + "CreateGroupCommand: mkdir [groupId] -n [groupName]\n"
-            + "CreateTodoCommand: todo -d [task]\n"
-            + "CreateDeadlineCommand: “deadline -d [task] -dt [yyyy/MM/dd hh:mm]\n"
-            + "DeleteCommand: rm -type [targetType] -target [targetId]\n"
-            + "EditCommand: edit [path]\n"
-            + "MarkCommand: mark -d [task] -level [student/group] -target [StudentID/groupId]\n"
-            + "UnmarkCommand: unmark -d [task] -level [student/group] -target [StudentID/groupId]\n"
-            + "SearchCommand: search [task]\n"
-            + "HelpCommand: help\n"
-            + "MoveStudentToGroupCommand: mv [StudentID] [sourcePath] [destinationPath]\n"
-            + "ShowChildrenListCommand: ls\n"
-            + "ShowTaskListCommand: cat\n";
+    public static final String SHOWING_HELP_MESSAGE =
+            "Use any command with --help for more information.\n"
+            + "Note: clear, exit, and help commands do not have a --help option\n"
+            + "cd        Change directory\n"
+            + "mkdir     Create group\n"
+            + "ls        Display children list\n"
+            + "mv        Move student from one group to another group\n"
+            + "touch     Create student\n"
+            + "rm        Delete group or student\n"
+            + "edit      Edit field\n"
+            + "todo      Create todo task\n"
+            + "deadline  Create deadline task\n"
+            + "cat       Display task list\n"
+            + "rmt       Delete task\n"
+            + "mark      Mark task\n"
+            + "unmark    Unmark task\n"
+            + "clear     Erase the application's data\n"
+            + "exit      Exit the program\n"
+            + "help      Show this menu";
 
     /**
      * Executes the HelpCommand to display program usage instructions.

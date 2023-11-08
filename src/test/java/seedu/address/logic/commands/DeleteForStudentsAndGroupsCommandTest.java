@@ -2,10 +2,12 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.MESSAGE_DELETE_CURRENT_PATH;
+import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.MESSAGE_DELETE_DISPLAY_PATH;
 import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.MESSAGE_INCORRECT_DIRECTORY_ERROR;
-import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.MESSAGE_NO_SUCH_STUDENT_OR_GROUP;
 import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS_FOR_GROUP;
 import static seedu.address.logic.commands.DeleteForStudentsAndGroupsCommand.MESSAGE_SUCCESS_FOR_STUDENT;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -43,8 +45,20 @@ class DeleteForStudentsAndGroupsCommandTest {
         expectedModel = new ModelManager(rootPath, new Root(root), new UserPrefs());
     }
 
+    @Test
     public void constructor_nullPath_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new DeleteForStudentsAndGroupsCommand(null));
+    }
+
+    @Test
+    public void execute_nullModel_throwCommandException() throws InvalidPathException {
+        Group toBeDeleted = GROUP_ONE;
+
+        RelativePath groupPath = new RelativePath(toBeDeleted.getId().toString());
+        AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath);
+
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
+        assertThrows(NullPointerException.class, () -> command.execute(null));
     }
 
     @Test
@@ -66,7 +80,7 @@ class DeleteForStudentsAndGroupsCommandTest {
     }
 
     @Test
-    void execute_deleteGroup_success() throws InvalidPathException, CommandException {
+    void execute_deleteGroup_success() throws InvalidPathException {
         Group toBeDeleted = GROUP_ONE;
 
         RelativePath groupPath = new RelativePath(toBeDeleted.getId().toString());
@@ -91,7 +105,7 @@ class DeleteForStudentsAndGroupsCommandTest {
         AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath).resolve(stuPath);
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
-        String expectedMessage = MESSAGE_NO_SUCH_STUDENT_OR_GROUP;
+        String expectedMessage = String.format(MESSAGE_PATH_NOT_FOUND, targetAbsolutePath);
 
         assertCommandFailure(command, model, expectedMessage);
     }
@@ -104,19 +118,54 @@ class DeleteForStudentsAndGroupsCommandTest {
         AbsolutePath targetAbsolutePath = rootPath.resolve(groupPath);
 
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
-        String expectedMessage = MESSAGE_NO_SUCH_STUDENT_OR_GROUP;
+        String expectedMessage = String.format(MESSAGE_PATH_NOT_FOUND, targetAbsolutePath);
 
         assertCommandFailure(command, model, expectedMessage);
     }
 
     @Test
-    public void execute_incorrectDirectory_throwsCommandException() throws InvalidPathException {
+    public void execute_incorrectDirectory_throwsCommandException() {
         DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(rootPath);
         String expectedMessage = MESSAGE_INCORRECT_DIRECTORY_ERROR;
 
         assertCommandFailure(command, model, expectedMessage);
     }
 
+    @Test
+    public void execute_pathNotExistsForGroup_throwsCommandException() throws InvalidPathException {
+        AbsolutePath targetAbsolutePath = new AbsolutePath("~/grp-123");
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
+        String expectedMessage = String.format(MESSAGE_PATH_NOT_FOUND, targetAbsolutePath);
+
+        assertCommandFailure(command, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_pathNotExistsForStudent_throwsCommandException() throws InvalidPathException {
+        AbsolutePath targetAbsolutePath = new AbsolutePath("~/grp-001/0999Y");
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
+        String expectedMessage = String.format(MESSAGE_PATH_NOT_FOUND, targetAbsolutePath);
+
+        assertCommandFailure(command, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_deleteCurrentPath_throwsCommandException() {
+        AbsolutePath targetAbsolutePath = model.getCurrPath();
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
+        String expectedMessage = MESSAGE_DELETE_CURRENT_PATH;
+
+        assertCommandFailure(command, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_deleteDisplayPath_throwsCommandException() {
+        AbsolutePath targetAbsolutePath = model.getDisplayPath();
+        DeleteForStudentsAndGroupsCommand command = new DeleteForStudentsAndGroupsCommand(targetAbsolutePath);
+        String expectedMessage = MESSAGE_DELETE_DISPLAY_PATH;
+
+        assertCommandFailure(command, model, expectedMessage);
+    }
 
     @Test
     public void equals() throws InvalidPathException {

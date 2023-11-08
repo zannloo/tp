@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-  <ListView fx:id="itemListView" VBox.vgrow="ALWAYS" />
-</VBox>
+<StackPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+     <ListView fx:id="itemListView">
+         <StackPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </StackPane.margin>
+      </ListView>
+      <Label fx:id="displayPath" alignment="BOTTOM_CENTER" text="Label" StackPane.alignment="BOTTOM_RIGHT">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="5.0" left="2.0" right="2.0" top="5.0" />
+         </padding>
+      </Label>
+   </children>
+</StackPane>

@@ -1,5 +1,8 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -12,32 +15,69 @@ import seedu.address.model.path.AbsolutePath;
  * Show Task List.
  */
 public class ShowTaskListCommand extends Command {
+
     public static final String COMMAND_WORD = "cat";
+
     public static final String MESSAGE_SUCCESS = "Show task list of %1$s";
-    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook: %1$s";
+
+    public static final String MESSAGE_PATH_NOT_FOUND = "Path not found in ProfBook: %1$s";
+
     public static final String MESSAGE_NOT_TASK_MANAGER = "Cannot show task list for this path: %1$s";
-    public static final String MESSAGE_USAGE = COMMAND_WORD;
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " [path] \n"
+            + "\n"
+            + "Display the task list of the target path (the current directory by default).\n"
+            + "\n"
+            + "Option: \n"
+            + "    path                 Valid path to group or student\n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
+            + "Examples: \n"
+            + "cat grp-001 \n"
+            + "cat grp-001/0001Y";
+
+    public static final ShowTaskListCommand HELP_MESSAGE = new ShowTaskListCommand(true);
+
     private static final Logger logger = LogsCenter.getLogger(ShowTaskListCommand.class);
 
     private final AbsolutePath target;
+    private final boolean isHelp;
 
+    /**
+     * Constructs {@code ShowChildrenListCommand} that show task list of current directory.
+     */
     public ShowTaskListCommand() {
         target = null;
-    }
-
-    public ShowTaskListCommand(AbsolutePath path) {
-        target = path;
+        isHelp = false;
     }
 
     /**
-     * Executes the MoveStudentToGroupCommand, moving a student from the source group to the destination group in
-     * ProfBook.
+     * Constructs {@code ShowChildrenListCommand} that show children list of path given.
+     */
+    public ShowTaskListCommand(AbsolutePath path) {
+        requireNonNull(path);
+        target = path;
+        isHelp = false;
+    }
+
+    private ShowTaskListCommand(boolean isHelp) {
+        target = null;
+        this.isHelp = true;
+    }
+
+    /**
+     * Executes the {@code ShowTaskListCommand}, show the task list of the target path.
      *
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+
         if (target == null) {
             AbsolutePath currPath = model.getCurrPath();
             if (!model.hasTaskListInCurrentPath()) {
@@ -66,30 +106,26 @@ public class ShowTaskListCommand extends Command {
         return new CommandResult(String.format(MESSAGE_SUCCESS, target));
     }
 
-    /**
-     * Checks if this MoveStudentToGroupCommand is equal to another object.
-     *
-     * @param other The object to compare with.
-     * @return True if the objects are equal, false otherwise.
-     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
 
-        // instanceof handles nulls
-        return other instanceof ShowTaskListCommand;
+        if (!(other instanceof ShowTaskListCommand)) {
+            return false;
+        }
+
+        ShowTaskListCommand otherShowTaskListCommand = (ShowTaskListCommand) other;
+
+        return Objects.equals(this.target, otherShowTaskListCommand.target)
+                && this.isHelp == otherShowTaskListCommand.isHelp;
     }
 
-    /**
-     * Returns a string representation of this MoveStudentToGroupCommand.
-     *
-     * @return A string representation of the MoveStudentToGroupCommand.
-     */
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .add("targetPath", target)
                 .toString();
     }
 }

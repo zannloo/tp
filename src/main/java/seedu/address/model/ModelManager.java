@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INTERNAL_ERROR;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ import seedu.address.ui.Displayable;
 public class ModelManager implements Model {
 
     private static final Logger logger = LogsCenter.getLogger(Model.class);
-    private static final String MESSAGE_INTERNAL_ERROR = "Internal error: %1$s";
     private final ObservableList<Displayable> displayList = FXCollections.observableArrayList();
     private final UserPrefs userPrefs;
     private Root root;
@@ -94,7 +94,7 @@ public class ModelManager implements Model {
         return userPrefs.getProfBookFilePath();
     }
 
-    public void setAddressBookFilePath(Path addressBookFilePath) {
+    public void setProfBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
     }
@@ -102,6 +102,7 @@ public class ModelManager implements Model {
     //=========== ProfBook Model ================================================================================
     @Override
     public void setRoot(Root root) {
+        requireNonNull(root);
         this.root = root;
         this.currentPath = AbsolutePath.ROOT_PATH;
         this.displayPath = AbsolutePath.ROOT_PATH;
@@ -200,16 +201,11 @@ public class ModelManager implements Model {
             return true;
         }
 
-        GroupId grpId = path.getGroupId().get();
-
         if (path.isGroupDirectory()) {
-            return root.hasChild(grpId);
+            return hasGroup(path);
         }
 
-        Group grp = getGroupFromPath(path);
-        StudentId stuId = path.getStudentId().get();
-
-        return grp.hasChild(stuId);
+        return hasStudent(path);
     }
 
     @Override
@@ -295,7 +291,7 @@ public class ModelManager implements Model {
                 String.format(MESSAGE_INTERNAL_ERROR, "Path must have group information"));
         checkArgument(hasGroup(path),
                 String.format(MESSAGE_INTERNAL_ERROR, "Group must exist in ProfBook"));
-        return new ChildOperation<>(getGroupFromPath(path).getChildrenManger());
+        return new ChildOperation<>(getGroupFromPath(path));
     }
 
     @Override
@@ -307,7 +303,7 @@ public class ModelManager implements Model {
                 String.format(MESSAGE_INTERNAL_ERROR, "Path must exist in ProfBook"));
 
         if (path.isGroupDirectory()) {
-            return new TaskOperation(getGroupFromPath(path).getTaskListManager());
+            return new TaskOperation(getGroupFromPath(path));
         }
 
         return new TaskOperation(getStudentFromPath(path));

@@ -4,7 +4,7 @@ import seedu.address.ui.Displayable;
 
 /**
  * Encapsulates logic for Tasks in TaskList
- * The Task class represents a single task for the addressbook.
+ * The Task class represents a single task for the profbook.
  * It is an abstract class that provides a common interface for different types of tasks.
  */
 public abstract class Task implements Displayable {
@@ -78,7 +78,7 @@ public abstract class Task implements Displayable {
             return false;
         }
         Task otherTask = (Task) other;
-        return description.equals(otherTask.description) && isDone.equals(otherTask.isDone);
+        return description.equals(otherTask.description);
     }
 
 }

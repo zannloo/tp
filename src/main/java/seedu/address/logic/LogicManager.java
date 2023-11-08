@@ -37,7 +37,6 @@ public class LogicManager implements Logic {
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
      */
     public LogicManager(Model model, ProfBookStorage storage) {
-        //todo : storage;
         this.storage = storage;
         this.model = model;
         profBookParser = new ProfBookParser();
@@ -73,7 +72,17 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public Path getAddressBookFilePath() {
+    public String getDisplayPath() {
+        return model.getDisplayPath().toString();
+    }
+
+    @Override
+    public boolean isShowTaskList() {
+        return model.isShowTaskList();
+    }
+
+    @Override
+    public Path getProfBookFilePath() {
         return model.getProfBookFilePath();
     }
 

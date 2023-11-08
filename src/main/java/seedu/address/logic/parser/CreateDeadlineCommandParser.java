@@ -1,11 +1,12 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.commands.CreateDeadlineCommand.COMMAND_WORD;
 import static seedu.address.logic.parser.CliSyntax.OPTION_ALL;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DATETIME;
 import static seedu.address.logic.parser.CliSyntax.OPTION_DESC;
-
-import java.time.LocalDateTime;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import seedu.address.logic.commands.Category;
 import seedu.address.logic.commands.CreateDeadlineCommand;
@@ -28,15 +29,21 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
      * @throws ParseException if the user input does not conform the expected format
      */
     public CreateDeadlineCommand parse(String args, AbsolutePath currPath) throws ParseException {
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
+        requireAllNonNull(args, currPath);
 
-        if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC, OPTION_DATETIME)) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, CreateDeadlineCommand.MESSAGE_USAGE));
+        ParserUtil.verifyAllOptionsValid(args,
+                OPTION_DESC, OPTION_DATETIME, OPTION_ALL, OPTION_HELP);
+
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, OPTION_DESC, OPTION_DATETIME, OPTION_ALL, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return CreateDeadlineCommand.HELP_MESSAGE;
         }
 
-        argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
+        if (!ParserUtil.areOptionsPresent(argMultimap, OPTION_DESC, OPTION_DATETIME)) {
+            throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
+        }
 
         // If no path given, default to current path.
         AbsolutePath fullTargetPath = null;
@@ -47,8 +54,11 @@ public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand
             fullTargetPath = ParserUtil.resolvePath(currPath, target);
         }
 
-        LocalDateTime by = ParserUtil.parseDateTime(argMultimap.getValue(OPTION_DATETIME).get());
-        Deadline deadline = new Deadline(argMultimap.getValue(OPTION_DESC).get(), by);
+        argMultimap.verifyNoDuplicateOptionsFor(OPTION_DESC, OPTION_DATETIME, OPTION_ALL);
+
+        Deadline deadline = ParserUtil.parseDeadline(
+                argMultimap.getValue(OPTION_DESC).get(),
+                argMultimap.getValue(OPTION_DATETIME).get());
 
         if (argMultimap.getValue(OPTION_ALL).isEmpty()) {
             return new CreateDeadlineCommand(fullTargetPath, deadline, Category.NONE);

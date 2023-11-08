@@ -18,17 +18,41 @@ import seedu.address.model.profbook.Student;
 public class MoveStudentToGroupCommand extends Command {
 
     public static final String COMMAND_WORD = "mv";
-    public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in the group";
-    public static final String MESSAGE_SOURCE_IS_NOT_STUDENT = "Source path must be a student directory";
-    public static final String MESSAGE_DEST_IS_NOT_GROUP = "Destination path must be a group directory";
+
     public static final String MESSAGE_STUDENT_NOT_FOUND = "Source student not found in ProfBook";
-    public static final String MESSAGE_GROUP_NOT_FOUND = "Destination Group not found in ProfBook";
-    public static final String MESSAGE_MOVE_STUDENT_SUCCESS = "Student $1$s is moved to this group: %2$s";
-    public static final String MESSAGE_INVALID_MOVE_COMMAND = "Move command is invalid.";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": student";
+
+    public static final String MESSAGE_GROUP_NOT_FOUND = "Destination group not found in ProfBook";
+
+    public static final String MESSAGE_MOVE_STUDENT_SUCCESS =
+            "Student %1$s has been successfully moved to the group: %2$s";
+
+    public static final String MESSAGE_INVALID_MOVE_COMMAND =
+            "Invalid source or destination.\n\n"
+            + "source:       existing student\n"
+            + "destination:  existing group";
+
+    public static final MoveStudentToGroupCommand HELP_MESSAGE = new MoveStudentToGroupCommand();
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <source>" + " <destination> \n"
+            + "\n"
+            + "Move a student from source group to destination group.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    source               Valid path to source student\n"
+            + "    destination          Valid path to destination group\n"
+            + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
+            + "Examples: \n"
+            + "mv grp-001/0001Y grp-002";
 
     private final AbsolutePath source;
+
     private final AbsolutePath dest;
+
+    private final boolean isHelp;
 
     /**
      * Constructs a {@code MoveStudentToGroupCommand} with the specified source and destination paths.
@@ -40,6 +64,13 @@ public class MoveStudentToGroupCommand extends Command {
         requireAllNonNull(source, dest);
         this.source = source;
         this.dest = dest;
+        this.isHelp = false;
+    }
+
+    private MoveStudentToGroupCommand() {
+        this.source = null;
+        this.dest = null;
+        this.isHelp = true;
     }
 
     /**
@@ -52,6 +83,10 @@ public class MoveStudentToGroupCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
 
         // Check move student to group
         if (source.isStudentDirectory() && dest.isGroupDirectory()) {
@@ -76,7 +111,7 @@ public class MoveStudentToGroupCommand extends Command {
             sourceGroup.deleteChild(toBeMovedId);
             model.updateList();
             return new CommandResult(String.format(
-                    MESSAGE_MOVE_STUDENT_SUCCESS, source.getStudentId().get(), dest.getGroupId().get()));
+                    MESSAGE_MOVE_STUDENT_SUCCESS, toBeMovedId, dest.getGroupId().get()));
         }
 
         throw new CommandException(MESSAGE_INVALID_MOVE_COMMAND);
@@ -113,7 +148,7 @@ public class MoveStudentToGroupCommand extends Command {
     public String toString() {
         return new ToStringBuilder(this)
                 .add("Source Path", source)
-                .add("Dest Path", dest)
+                .add("Destination Path", dest)
                 .toString();
     }
 }

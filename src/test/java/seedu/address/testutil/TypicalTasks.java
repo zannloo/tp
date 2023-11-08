@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.ReadOnlyTaskList;
+import seedu.address.model.task.TaskListManager;
 import seedu.address.model.task.ToDo;
 
 /**
@@ -31,9 +32,9 @@ public class TypicalTasks {
     public static final ToDo TODO_5 = new ToDo("Read Chapter 7");
     public static final ToDo TODO_6 = new ToDo("Group Meeting Preparation");
 
-    public static final ReadOnlyTaskList TASK_LIST_1 = new ReadOnlyTaskList(
+    public static final ReadOnlyTaskList TASK_LIST_1 = new TaskListManager(
             new ArrayList<>(Arrays.asList(DEADLINE_1, DEADLINE_2, DEADLINE_3, TODO_1, TODO_2, TODO_3)));
-    public static final ReadOnlyTaskList TASK_LIST_2 = new ReadOnlyTaskList(
+    public static final ReadOnlyTaskList TASK_LIST_2 = new TaskListManager(
             new ArrayList<>(Arrays.asList(DEADLINE_4, DEADLINE_5, DEADLINE_6, TODO_4, TODO_5, TODO_6)));
 
     private TypicalTasks() {} // prevents instantiation

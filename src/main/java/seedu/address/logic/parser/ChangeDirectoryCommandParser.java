@@ -1,6 +1,8 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_ARGUMENT;
+import static seedu.address.logic.commands.ChangeDirectoryCommand.COMMAND_WORD;
+import static seedu.address.logic.parser.CliSyntax.OPTION_HELP;
 
 import java.util.logging.Logger;
 
@@ -9,8 +11,6 @@ import seedu.address.logic.commands.ChangeDirectoryCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
-import seedu.address.model.path.exceptions.InvalidPathException;
-
 
 /**
  * Parses input arguments and creates a new ChangeDirectoryCommand object
@@ -28,20 +28,21 @@ public class ChangeDirectoryCommandParser implements Parser<ChangeDirectoryComma
      */
     public ChangeDirectoryCommand parse(String args, AbsolutePath currPath) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args);
+                ArgumentTokenizer.tokenize(args, OPTION_HELP);
+
+        if (ParserUtil.isOptionPresent(argMultimap, OPTION_HELP)) {
+            return ChangeDirectoryCommand.HELP_MESSAGE;
+        }
+
+        // No option for cd command
+        ParserUtil.verifyAllOptionsValid(args);
 
         if (argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, ChangeDirectoryCommand.MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_MISSING_ARGUMENT.apply(COMMAND_WORD));
         }
 
         RelativePath path = ParserUtil.parseRelativePath(argMultimap.getPreamble());
-        AbsolutePath targetPath = null;
-        try {
-            targetPath = currPath.resolve(path);
-        } catch (InvalidPathException e) {
-            throw new ParseException(e.getMessage());
-        }
+        AbsolutePath targetPath = ParserUtil.resolvePath(currPath, path);
 
         logger.info("Creating ChangeDirectoryCommand with dest: " + path.toString());
 

@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -12,37 +14,69 @@ import seedu.address.model.path.AbsolutePath;
  * Change directory to target path.
  */
 public class ChangeDirectoryCommand extends Command {
-    public static final String COMMAND_WORD = "cd";
-    public static final String MESSAGE_SUCCESS = "Changed directory to: %1$s";
-    public static final String MESSAGE_INVALID_DEST = "Student path is not navigable.";
-    public static final String MESSAGE_PATH_NOT_FOUND = "Path does not exist in ProfBook.";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " [destination path]";
+    public static final String COMMAND_WORD = "cd";
+
+    public static final String MESSAGE_SUCCESS = "Directory changed to: %1$s";
+
+    public static final String MESSAGE_CURRENT_DIRECTORY = "You are already in the directory: %1$s";
+
+    public static final String MESSAGE_INVALID_DEST = "Student path is not navigable.";
+
+    public static final String MESSAGE_USAGE =
+            "Usage: " + COMMAND_WORD + " <path> \n"
+            + "\n"
+            + "Change directory.\n"
+            + "\n"
+            + "Argument: \n"
+            + "    path                 Navigable path e.g. root or group\n"
+            + "\n"
+            + "Option: \n"
+            + "    -h, --help           Show this help menu\n"
+            + "\n"
+            + "Examples: \n"
+            + "cd grp-003";
+
+    public static final ChangeDirectoryCommand HELP_MESSAGE = new ChangeDirectoryCommand();
 
     private final AbsolutePath dest;
+    private final boolean isHelp;
 
     /**
-     * Constructs a {@code MoveStudentToGroupCommand} with the specified source and destination paths.
+     * Constructs a {@code ChangeDirectoryCommand} with the target path.
      *
-     * @param source The relative path to the source group from which the student will be moved.
-     * @param dest   The relative path to the destination group to which the student will be moved.
+     * @param dest The target path.
      */
     public ChangeDirectoryCommand(AbsolutePath dest) {
         requireAllNonNull(dest);
         this.dest = dest;
+        this.isHelp = false;
+    }
+
+    private ChangeDirectoryCommand() {
+        this.dest = null;
+        isHelp = true;
     }
 
     /**
-     * Executes the MoveStudentToGroupCommand, moving a student from the source group to the destination group in
-     * ProfBook.
+     * Executes the {@code ChangeDirectoryCommand}, change current directory of ProfBook to target path.
      *
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
+        if (isHelp) {
+            return new CommandResult(MESSAGE_USAGE);
+        }
+
         if (!model.hasPath(dest)) {
-            throw new CommandException(MESSAGE_PATH_NOT_FOUND);
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, dest));
+        }
+
+        if (model.getCurrPath().equals(dest)) {
+            throw new CommandException(String.format(MESSAGE_CURRENT_DIRECTORY, model.getCurrPath()));
         }
 
         if (dest.isStudentDirectory()) {
@@ -54,12 +88,6 @@ public class ChangeDirectoryCommand extends Command {
         return new CommandResult(String.format(MESSAGE_SUCCESS, dest));
     }
 
-    /**
-     * Checks if this MoveStudentToGroupCommand is equal to another object.
-     *
-     * @param other The object to compare with.
-     * @return True if the objects are equal, false otherwise.
-     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -75,11 +103,6 @@ public class ChangeDirectoryCommand extends Command {
         return this.dest.equals(otherChangeDirectoryCommand.dest);
     }
 
-    /**
-     * Returns a string representation of this MoveStudentToGroupCommand.
-     *
-     * @return A string representation of the MoveStudentToGroupCommand.
-     */
     @Override
     public String toString() {
         return new ToStringBuilder(this)

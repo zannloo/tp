@@ -11,41 +11,40 @@ import seedu.address.model.task.exceptions.NoSuchTaskException;
  * Encapsulate the logic of a prof book model, mainly the need for a task list
  * at every level
  */
-public class TaskListManager extends ReadOnlyTaskList {
+public class TaskListManager implements ITaskListManager {
+    protected final List<Task> taskList;
 
     /**
      * Constructs a new task list manager
      */
     public TaskListManager() {
-        super();
+        taskList = new ArrayList<>();
     }
 
     /**
-     * Constructs a new {@code TaskListManager} with the data in {@code taskList}.
+     * Constructs a new {@code TaskListManager} using {@code taskList}.
      * @param taskList
      */
-    public TaskListManager(ReadOnlyTaskList taskList) {
-        super(taskList);
+    public TaskListManager(List<Task> taskList) {
+        this.taskList = new ArrayList<>(taskList);
     }
 
     /**
-     * Adds a task to the task list.
-     *
-     * @param t The task to be added.
+     * Constructs a new {@code TaskListManager} with the data in {@code toBeCopied}.
+     * @param toBeCopied
      */
+    public TaskListManager(ReadOnlyTaskList toBeCopied) {
+        this.taskList = new ArrayList<>(toBeCopied.getAllTasks());
+    }
+
+    @Override
     public void addTask(Task t) {
         int initialSize = this.taskList.size();
         taskList.add(t);
         assert this.taskList.size() == initialSize + 1 : "Task Deadline should be added to the list";
     }
 
-    /**
-     * Deletes a task from the task list.
-     *
-     * @param index The index of the task to be deleted.
-     * @return The deleted task.
-     * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
-     */
+    @Override
     public Task deleteTask(int index) throws NoSuchTaskException {
         verifyIsValidIndex(index);
         int initialSize = this.taskList.size();
@@ -55,13 +54,7 @@ public class TaskListManager extends ReadOnlyTaskList {
         return task;
     }
 
-    /**
-     * Marks a task as done.
-     *
-     * @param index The index of the task to be marked.
-     * @return The marked task.
-     * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
-     */
+    @Override
     public Task markTask(int index) throws NoSuchTaskException {
         verifyIsValidIndex(index);
         Task task = this.taskList.get(index - 1);
@@ -70,13 +63,7 @@ public class TaskListManager extends ReadOnlyTaskList {
         return markedTask;
     }
 
-    /**
-     * Unmarks a task.
-     *
-     * @param index The number of the task to be unmarked.
-     * @return The unmarked task.
-     * @throws NoSuchTaskException If there are no tasks at this level or taskNumber provided is too large.
-     */
+    @Override
     public Task unmarkTask(int index) throws NoSuchTaskException {
         verifyIsValidIndex(index);
         Task task = this.taskList.get(index - 1);
@@ -85,13 +72,7 @@ public class TaskListManager extends ReadOnlyTaskList {
         return unmarkedTask;
     }
 
-    /**
-     * Finds tasks that match the given query.
-     *
-     * @param query The query to match.
-     * @return A list of tasks that match the query.
-     * @throws NoSuchTaskException If there are no tasks at this level.
-     */
+    @Override
     public List<Task> findTask(String query) throws NoSuchTaskException {
         if (isEmpty()) {
             throw new NoSuchTaskException("No task in the task list.");
@@ -103,6 +84,54 @@ public class TaskListManager extends ReadOnlyTaskList {
             }
         }
         return list;
+    }
+
+    @Override
+    public boolean isValidIndex(int index) {
+        return index > 0 && index <= taskList.size();
+    }
+
+    @Override
+    public int size() {
+        return taskList.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return taskList.isEmpty();
+    }
+
+    @Override
+    public Task getTask(int index) throws NoSuchTaskException {
+        verifyIsValidIndex(index);
+        Task task = this.taskList.get(index - 1);
+        return task;
+    }
+
+    @Override
+    public boolean contains(Task t) {
+        for (Task check : this.taskList) {
+            if (check.equals(t)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return new ArrayList<>(this.taskList);
+    }
+
+    /**
+     * Checks if index is vaild.
+     * @throws NoSuchTaskException if index given is invalid.
+     */
+    protected void verifyIsValidIndex(int index) throws NoSuchTaskException {
+        if (!isValidIndex(index)) {
+            throw new NoSuchTaskException("Index " + index
+                    + " is invalid for task list with size " + size());
+        }
     }
 
     @Override
@@ -124,6 +153,6 @@ public class TaskListManager extends ReadOnlyTaskList {
         }
 
         TaskListManager otherTaskListManager = (TaskListManager) other;
-        return super.equals(otherTaskListManager);
+        return this.taskList.equals(otherTaskListManager.taskList);
     }
 }
