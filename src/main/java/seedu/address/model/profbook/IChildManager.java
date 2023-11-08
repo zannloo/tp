@@ -8,7 +8,9 @@ import seedu.address.model.profbook.exceptions.DuplicateChildException;
 import seedu.address.model.profbook.exceptions.NoSuchChildException;
 
 /**
- * API for Children Manager
+ * Encapsulates the required logic for IChildManager
+ *
+ * @param <T> type of child being stored
  */
 public interface IChildManager<T extends IChildElement<T>> {
 

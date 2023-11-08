@@ -10,6 +10,7 @@ import seedu.address.model.task.exceptions.NoSuchTaskException;
  * interact with TaskListManager instance
  */
 public interface ITaskOperation {
+
     /**
      * Adds the tasks to the task list granted it does not result in a duplicate
      *

@@ -39,7 +39,6 @@ public class ModelManager implements Model {
     public static final String MESSAGE_STUDENT_ID_NOT_FOUND = "Student Id must exist in ProfBook.";
     public static final String MESSAGE_GROUP_NOT_FOUND = "Group must exist in ProfBook.";
     private static final Logger logger = LogsCenter.getLogger(Model.class);
-
     private final ObservableList<Displayable> displayList = FXCollections.observableArrayList();
 
     private final UserPrefs userPrefs;
@@ -60,18 +59,6 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Constructs a model manager with all fields.
-     */
-    public ModelManager(AbsolutePath currPath, Root root, ReadOnlyUserPrefs usePrefs,
-                        AbsolutePath displayPath, boolean showTaskList) {
-        this(currPath, root, usePrefs);
-        requireAllNonNull(displayPath, showTaskList);
-        this.displayPath = displayPath;
-        this.showTaskList = showTaskList;
-        updateList();
-    }
-
-    /**
      * Construct a model manager with only current path, root (ProfBook) and userPrefs.
      */
     public ModelManager(AbsolutePath currentPath, Root root, ReadOnlyUserPrefs userPrefs) {
@@ -80,6 +67,18 @@ public class ModelManager implements Model {
         this.displayPath = currentPath;
         this.currentPath = currentPath;
         this.root = new Root(root);
+        updateList();
+    }
+
+    /**
+     * Constructs a model manager with all fields.
+     */
+    public ModelManager(AbsolutePath currPath, Root root, ReadOnlyUserPrefs usePrefs,
+                        AbsolutePath displayPath, boolean showTaskList) {
+        this(currPath, root, usePrefs);
+        requireAllNonNull(displayPath, showTaskList);
+        this.displayPath = displayPath;
+        this.showTaskList = showTaskList;
         updateList();
     }
 
@@ -207,11 +206,13 @@ public class ModelManager implements Model {
         checkArgument(hasStudentWithId(id),
                 String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_STUDENT_ID_NOT_FOUND));
         logger.info("Finding student with id: " + id);
-        for (Group group : this.root.getAllChildren()) {
+
+        for (Group group : this.root.getAllChildren()) { // for each group, check if group has student
             if (group.hasChild(id)) {
-                return group.getChild(id);
+                return group.getChild(id); // if student is present, return student
             }
         }
+        // If student is not present, throw error as user should have check if present
         logger.severe("Unable to find student with id: " + id);
         throw new IllegalArgumentException(String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_UNEXPECTED_ERROR));
     }
@@ -361,6 +362,7 @@ public class ModelManager implements Model {
                 String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_GROUP_INFO_NOT_FOUND));
         checkArgument(hasGroup(path),
                 String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_GROUP_NOT_FOUND));
+
         logger.info("New GroupChildOperation at group: " + path);
         return new ChildOperation<>(getGroupFromPath(path));
     }
@@ -373,6 +375,7 @@ public class ModelManager implements Model {
         checkArgument(hasPath(path),
                 String.format(MESSAGE_INTERNAL_ERROR, MESSAGE_PATH_NOT_FOUND));
         logger.info("New TaskOperation");
+
         if (path.isGroupDirectory()) {
             return new TaskOperation(getGroupFromPath(path));
         }
@@ -395,8 +398,8 @@ public class ModelManager implements Model {
 
     /**
      * Return the group of the given path.
-     * {@code path} must has a valid group info
-     * i.e group exists in ProfBook.
+     *
+     * @param path - must point to a valid and present group
      */
     private Group getGroupFromPath(AbsolutePath path) {
         requireNonNull(path);
@@ -418,7 +421,8 @@ public class ModelManager implements Model {
 
     /**
      * Return the group of the given path.
-     * {@code path} must be student path that exists in ProfBook.
+     *
+     * @param path - must point to a valid and present group
      */
     private Student getStudentFromPath(AbsolutePath path) {
         requireNonNull(path);
@@ -440,7 +444,7 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Return the Root of addressbook.
+     * Return the Root of ProfBook.
      */
     @Override
     public Root getRoot() {

@@ -20,7 +20,6 @@ public class TaskOperation implements ITaskOperation {
     private static final String MESSAGE_DUPLICATE_TASK = "Task must not exist in task list.";
     private static final String MESSAGE_TASK_NOT_FOUND = "Task not found in task list.";
     private final Logger logger = LogsCenter.getLogger(JsonUtil.class);
-
     private final ITaskListManager baseDir;
 
     /**

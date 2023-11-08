@@ -199,6 +199,7 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
         List<IChildElement<?>> children = new ArrayList<>(getAllChildren());
         while (--level > 0) {
             List<IChildElement<?>> list = new ArrayList<>();
+
             for (IChildElement<?> child : children) {
 
                 if (child instanceof ChildAndTaskListManager<?, ?>) { // If child is a group directory

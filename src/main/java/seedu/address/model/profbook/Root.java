@@ -11,7 +11,7 @@ import seedu.address.model.id.Id;
 public class Root extends ChildManager<Group> {
 
     /**
-     * Constructs a profbook instance with task list and children.
+     * Constructs a prof book instance with task list and children.
      *
      * @param children - The Groups under the root
      */
@@ -27,7 +27,9 @@ public class Root extends ChildManager<Group> {
     }
 
     /**
-     * Constructs a {@code Root} with the data in {@code toBeCopied}
+     * Constructs a new Root instance with the data in toBeCopied
+     *
+     * @param toBeCopied - Data extracted from storage
      */
     public Root(Root toBeCopied) {
         super(toBeCopied);

@@ -69,7 +69,7 @@ public class Student extends TaskListManager implements IChildElement<Student> {
     }
 
     /**
-     * Constructs a new {@code Student} with the data in {@code toBeCopied}.
+     * Constructs a new instance with the data in toBeCopied.
      *
      * @param toBeCopied - Data retrieved from storage
      */
@@ -121,7 +121,6 @@ public class Student extends TaskListManager implements IChildElement<Student> {
     public StudentCard getDisplayCard(int displayedIndex) {
         return new StudentCard(this, displayedIndex);
     }
-
 
     @Override
     public Student deepCopy() {
