@@ -7,36 +7,76 @@ title: Nidhish Krishnan's Project Portfolio Page
 
 ProfBook is a desktop address book application used for easy management of tasks, group schedules, and notes for every tutorial slot and group. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
 
+## RepoSense Report
+
+**Link to my RepoSense Report**: 
+[Code Contributions](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=Nid21cs&breakdown=false&sort=groupTitle%20dsc&sortWithin=title&since=2023-09-22&timeframe=commit&mergegroup=&groupSelect=groupByRepos).
+
+## Code Contributions
+
+In this section, I will outline the code contributions I made to the project. These contributions include enhancements
+and new features that I implemented.
+
+### Class Enhancements
+
 Given below are my contributions to the project.
 
-* **New Feature**: To be added soon.
-  * What it does: to be added soon.
-  * Justification: to be added soon.
-  * Highlights: to be added soon.
-  * Credits: *{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}*
+1. **Introduced `Storage` Class :**
+   
+    - Provides methods to convert ProfBook application to Json format and read it back into our project upon start up.
+    - Each part of ProfBook storage is managed by seperate classes within storage such as `Group` managed by `JsonAdaptedGroup`.
+    - Uses Jackson to create and store the Json and read it.
 
-* **New Feature**: to be added soon.
+2. **Introduced `task` package :**
+   
+   - Contains classes which control tasks for Groups and students, e.g `Todo`, `Deadline`.
+   - Controls behaviour of the tasks itself
+   - Contains methods to manage and change each task as well as the taskList
 
-* **Code contributed**: to be added soon.
+## User Guide Contributions
+**Non-Feature Aspects**
 
-* **Project management**:
-  * to be added soon.
+  - How to use User Guide  
+  - Exciting future developments
 
-* **Enhancements to existing features**:
-  * to be added soon.
+**Feature Aspects**
 
-* **Documentation**:
-  * User Guide:
-    * to be added soon.
-  * Developer Guide:
-    * to be added soon.
+- `todo` command 
+- `deadline` command 
+- `mark` command
+## Developer Guide Contributions
 
-* **Community**:
-  * PRs reviewed (with non-trivial review comments): to be added soon.
-  * Contributed to forum discussions (examples: to be added soon)
-  * Reported bugs and suggestions for other teams in the class (examples: to be added soon)
-  * Some parts of the history feature I added was adopted by several other class mates (to be added soon)
+1. **Storage component**:
+   - Changed UML diagram for storage to better match our ProfBook implementation of storage.
+   - Explained the storage component briefly.
+   
+2. **Task component**:
+   - Added UML diagrams for Task package to describe the structure of out task package.
+   - Described briefly the task component with explanation to how it links to the product.
+   
+3. **Use cases**:
+   - Added use cases to show possible workflow.
 
-* **Tools**:
-  * to be added soon
+4. **Non-Functional Requirements**:
+   - Added non-functional requirements to the applications to describe our system capabilities and constraints.
 
+5. **User stories**:
+   - Added User stories to the DG to articulate how our features will be valuable to a customer.
+   - Added it in the dorm of a table with a priority level, and the level of experience of the user.
+
+6. **Glossary**:
+   - Added glossary of the terms used in our project for users to better understand our product.
+
+## Team-Based Task Contributions
+
+* Transfer user stories with description from Google Docs to GitHub.
+* Handled v1.3 release.
+* After Pe-D handled bug management and kept track of issues.
+* Added in glossary, User stories, NFRs to the developer  guide.
+
+## Review and Mentoring Contributions
+
+Here are the pull requests I reviewed and provided valuable feedback and suggestions:
+
+- **[Pull Request #269](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/269)**
+- **[Pull Request #262](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/262)**
