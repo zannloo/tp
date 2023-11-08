@@ -21,19 +21,22 @@ Java, and has about 10 kLoC.
     - Represent unique id of group and student.
 3. **Introduced `Option` class :**
     - Similar to AB3 `Prefix` class, but with short-hand and long-hand names.
-    - e.g. Name option can be passed using option `--name` or `-n`
-4. **Refactored `ArgumentTokernizer` class :**
+    - e.g. Name option can be passed using option `--name` or `-n`.
+4. **Introduced `Displayable` interface :**
+    - Classes that implement this interface can be displayed in the `ItemListPanel`.
+    - e.g. `ToDo`, `Deadline`, `Student` and `Group`.
+5. **Refactored `ArgumentTokenizer` class :**
     - Refactored `ArgumentTokenizer` class to adopt `Option` class.
-5. **Added validation for options:**
+6. **Added validation for options:**
     - Implemented validation to check for invalid options in every command.
-    - An error will be thrown if the user passes in an option that is not applicable to the command.
+    - An error will be thrown if the user provides an option that is not applicable for a specific command.
 
 ### New Features
 
 1. **`cd` Command :** Allows users to navigate between different directories.
 2. **`ls` Command :** Shows a list of directories under the current directory.
 3. **`cat` Command :** Displays the task list under a specific path.
-4. **`rmt` Command:** Deletes task with the given display index.
+4. **`rmt` Command :** Deletes task with the given display index.
 5. **`--help` Option :** Provides a detailed usage information for each command.
 
 ### GUI Enhancements
@@ -56,6 +59,8 @@ coming soon
 - Setup **project website deployment**.
 - Integrated **Netifly** to enable automatic deployments of our PR previews.
 - Integrated **Codecov** to automate code coverage assessment of PR.
+- Wrapped up milestone v1.1 and released JAR file.
+- Recorded video for v1.2 demo.
 - Migrated documentation to **MarkBind** with initial site-wide configuration.
 
 ### Review and Mentoring Contributions
