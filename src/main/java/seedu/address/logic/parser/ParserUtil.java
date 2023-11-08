@@ -43,6 +43,9 @@ public class ParserUtil {
             .withResolverStyle(ResolverStyle.STRICT);
     public static final String MESSAGE_INVALID_INDEX = "Index provided is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_OPTION = "Invalid option: %1$s";
+    public static final String MESSAGE_STUDENT_ID_NOT_FOUND = "No student id found in the path.";
+    public static final String MESSAGE_GROUP_ID_NOT_FOUND = "No group id found in the path.";
+    public static final String MESSAGE_INVALID_CATEGORY_FORMAT = "Format is invalid. Should be allStu or allGrp";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -135,8 +138,8 @@ public class ParserUtil {
     }
 
     /**
-     * Resolve the {@code target} against given {@code path}
-     * and returns the fullPath.
+     * Resolves the {@code target} against given {@code path}
+     * and returns the resolved path.
      *
      * @throws ParseException if there is error when resolving.
      */
@@ -153,7 +156,7 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code RelativePath} to extract a {@code StudentId}.
+     * Extracts {@code StudentId} from the given {@code AbsolutePath}.
      *
      * @param path The {@code RelativePath} to parse.
      * @return The extracted {@code StudentId}.
@@ -164,7 +167,7 @@ public class ParserUtil {
         Optional<StudentId> studentIdOptional = path.getStudentId();
 
         if (!studentIdOptional.isPresent()) {
-            throw new ParseException("No student id found in the path.");
+            throw new ParseException(MESSAGE_STUDENT_ID_NOT_FOUND);
         }
 
         return studentIdOptional.get();
@@ -188,7 +191,7 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code RelativePath} to extract a {@code GroupId}.
+     * Extracts {@code GroupId} from the given {@code AbsolutePath}.
      *
      * @param path The {@code RelativePath} to parse.
      * @return The extracted {@code GroupId}.
@@ -199,7 +202,7 @@ public class ParserUtil {
         Optional<GroupId> groupIdOptional = path.getGroupId();
 
         if (!groupIdOptional.isPresent()) {
-            throw new ParseException("No group id found in the path.");
+            throw new ParseException(MESSAGE_GROUP_ID_NOT_FOUND);
         }
 
         return groupIdOptional.get();
@@ -223,10 +226,10 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String dateTime} into a {@code LocalDateTime}.
+     * Parses a {@code String dateTimeStr} into a {@code LocalDateTime}.
      *
      * @param dateTimeStr The dateTime string.
-     * @throws ParseException if the given {@code path} is invalid.
+     * @throws ParseException if the given {@code String dateTimeStr} is invalid.
      */
     public static LocalDateTime parseDateTime(String dateTimeStr) throws ParseException {
         requireNonNull(dateTimeStr);
@@ -247,14 +250,14 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String cat} into a {@code String}.
+     * Parses a {@code String category} into a {@code enum Category}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code cat} is invalid.
+     * @throws ParseException if the given {@code String category} is invalid.
      */
-    public static Category parseCategory(String cat) throws ParseException {
-        requireNonNull(cat);
-        String trimmedCat = cat.trim();
+    public static Category parseCategory(String category) throws ParseException {
+        requireNonNull(category);
+        String trimmedCat = category.trim();
 
         if (trimmedCat.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_EMPTY_VALUE, "all category"));
@@ -268,7 +271,7 @@ public class ParserUtil {
             return Category.ALLGRP;
         }
 
-        throw new ParseException("Format is invalid. Should be allStu or allGrp");
+        throw new ParseException(MESSAGE_INVALID_CATEGORY_FORMAT);
     }
 
     /**
@@ -359,6 +362,10 @@ public class ParserUtil {
         return Stream.of(options).allMatch(option -> isOptionPresent(argumentMultimap, option));
     }
 
+    /**
+     * Returns true if the specified {@code option} contains non empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
     public static boolean isOptionPresent(ArgumentMultimap argumentMultimap, Option option) {
         return argumentMultimap.getValue(option).isPresent();
     }
