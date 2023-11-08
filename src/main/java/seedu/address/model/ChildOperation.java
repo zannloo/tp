@@ -21,6 +21,9 @@ import seedu.address.model.task.Task;
  * @param <T> The type of child that is required
  */
 public class ChildOperation<T extends IChildElement<T>> implements IChildOperation<T> {
+    public static final String MESSAGE_ALL_CHILDREN_MUST_BE_TASK_LIST_MANAGER =
+        "All children must be task list manager.";
+    public static final String MESSAGE_INVALID_LEVEL = "Invalid level.";
 
     private final IChildrenManager<T> baseDir;
 
@@ -119,7 +122,7 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
         for (IChildElement<?> child : children) {
             Task clonedTask = task.clone();
             if (!(child instanceof ITaskListManager)) {
-                throw new IllegalArgumentException("All children must be task list manager.");
+                throw new IllegalArgumentException(MESSAGE_ALL_CHILDREN_MUST_BE_TASK_LIST_MANAGER);
             }
 
             ITaskListManager tlm = (ITaskListManager) child;
@@ -136,7 +139,7 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
 
         for (IChildElement<?> child : children) {
             if (!(child instanceof ITaskListManager)) {
-                throw new IllegalArgumentException("All children must be task list manager.");
+                throw new IllegalArgumentException(MESSAGE_ALL_CHILDREN_MUST_BE_TASK_LIST_MANAGER);
             }
             ITaskListManager tlm = (ITaskListManager) child;
             if (!tlm.contains(task)) {
@@ -153,7 +156,7 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
 
         for (IChildElement<?> child : children) {
             if (!(child instanceof ITaskListManager)) {
-                throw new IllegalArgumentException("All children must be task list manager.");
+                throw new IllegalArgumentException(MESSAGE_ALL_CHILDREN_MUST_BE_TASK_LIST_MANAGER);
             }
             ITaskListManager tlm = (ITaskListManager) child;
             if (tlm.contains(task)) {
@@ -190,7 +193,7 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
                     ChildrenAndTaskListManager<?, ?> ctlm = (ChildrenAndTaskListManager<?, ?>) child;
                     list.addAll(ctlm.getAllChildren());
                 } else {
-                    throw new IllegalArgumentException("Invalid level.");
+                    throw new IllegalArgumentException(MESSAGE_INVALID_LEVEL);
                 }
             }
             children = new ArrayList<>(list);
