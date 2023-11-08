@@ -52,7 +52,7 @@ public class ModelManager implements Model {
      * Constructs a model manager with all fields.
      */
     public ModelManager(AbsolutePath currPath, Root root, ReadOnlyUserPrefs usePrefs,
-            AbsolutePath displayPath, boolean showTaskList) {
+                        AbsolutePath displayPath, boolean showTaskList) {
         this(currPath, root, usePrefs);
         requireAllNonNull(displayPath, showTaskList);
         this.displayPath = displayPath;
@@ -151,13 +151,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Group getGroupWithId(GroupId id) {
-        checkArgument(hasGroupWithId(id),
-                String.format(MESSAGE_INTERNAL_ERROR, "Group Id must exist in ProfBook"));
-        return this.root.getChild(id);
-    }
-
-    @Override
     public Student getStudentWithId(StudentId id) {
         checkArgument(hasStudentWithId(id),
                 String.format(MESSAGE_INTERNAL_ERROR, "Student Id must exist in ProfBook"));
@@ -168,6 +161,14 @@ public class ModelManager implements Model {
         }
         throw new IllegalArgumentException(String.format(MESSAGE_INTERNAL_ERROR, "Unexpected error occurred."));
     }
+
+    @Override
+    public Group getGroupWithId(GroupId id) {
+        checkArgument(hasGroupWithId(id),
+                String.format(MESSAGE_INTERNAL_ERROR, "Group Id must exist in ProfBook"));
+        return this.root.getChild(id);
+    }
+
 
     @Override
     public boolean hasGroup(AbsolutePath path) {

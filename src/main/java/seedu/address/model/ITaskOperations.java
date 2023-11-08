@@ -12,13 +12,6 @@ import seedu.address.model.task.exceptions.NoSuchTaskException;
 public interface ITaskOperations {
 
     /**
-     * Checks if current task is present
-     *
-     * @param t The task in question
-     */
-    boolean hasTask(Task t);
-
-    /**
      * Check if index is between 0 and task list size.
      */
     boolean isValidIndex(int index);
@@ -35,6 +28,14 @@ public interface ITaskOperations {
      * @param t The task in question
      */
     void addTask(Task t);
+
+    /**
+     * Checks if current task is present
+     *
+     * @param t The task in question
+     */
+    boolean hasTask(Task t);
+
 
     /**
      * Deletes the task at the specified index
