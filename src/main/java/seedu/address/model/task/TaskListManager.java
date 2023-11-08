@@ -31,7 +31,7 @@ public class TaskListManager implements ITaskListManager {
 
     /**
      * Constructs a new {@code TaskListManager} with the data in {@code toBeCopied}.
-     * @param taskList
+     * @param toBeCopied
      */
     public TaskListManager(ReadOnlyTaskList toBeCopied) {
         this.taskList = new ArrayList<>(toBeCopied.getAllTasks());
