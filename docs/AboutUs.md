@@ -1,6 +1,6 @@
 ---
-  layout: default.md
-  title: "About Us"
+layout: default.md
+title: "About Us"
 ---
 
 # About Us
@@ -35,7 +35,7 @@ You can reach us at the email `nidhish.k[at]comp.nus.edu.sg`
 
 <img src="images/mingyuanc.png" width="200px">
 
-[[github](http://github.com/mingyuanc)] 
+[[github](http://github.com/mingyuanc)]
 [[portfolio](team/mingyuanc.md)]
 
 * Role: Developer
