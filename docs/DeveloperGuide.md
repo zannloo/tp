@@ -1036,17 +1036,27 @@ otherwise)
 
 1. The application should be platform-independent and should run on all major operating systems as long as it has
    Java `11` or above installed.
-2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+2. Should be able to hold up to 1000 Students/Groups without a noticeable sluggishness in performance for typical usage.
 3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
    able to accomplish most of the tasks faster using commands than using the mouse.
+4. Should work without an internet connection. 
+5. Should be able to support frequent updating of data.
+6. The system can be used for basic function without reading the user guide.
+7. The system should work on both 32-bit and 64-bit environments.
 
 *{More to be added}*
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
+* **MSS**: Main success scenario
 * **Root**: Folder which contains all students, groups as well
 * **Group**: Folder which contains Students within the specific group
+* **Task**: A piece of work or activity to be completed.
+* **Path**: A location or address within ProfBook's file hierarchy.
+* **Deadline Task**: A type of task with a specific deadline or due date.
+* **ToDo Task**: A type of task with no specific deadline, representing things to do.
+
 
 --------------------------------------------------------------------------------------------------------------------
 
