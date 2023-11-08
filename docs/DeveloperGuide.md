@@ -505,22 +505,28 @@ otherwise)
 
       Use case ends.
 
-**Use case: View tasks under a specified path**
+**Use case: View tasks**
 
 **MSS**
 
-1. User requests to view tasks under specified path, either student or group.
+1. User requests to view tasks under specified path or current path if not specified.
 2. ProfBook displays task list of path, either task list of group or student.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The given id is invalid.
+* 2a. The given path is invalid.
 
     * 2a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
+
+* 2b1. No path specified
+
+    * 2b1. Profbook displays task list of current path.
+
+      Use case ends.
 
 **Use case: Clear all entries**
 
@@ -544,8 +550,8 @@ otherwise)
 
 **MSS**
 
-1. User requests to add a student .
-2. AddressBook deletes the person.
+1. User requests to add a student.
+2. ProfBook deletes the person.
 
    Use case ends.
 
@@ -557,11 +563,11 @@ otherwise)
 
       Use case resumes at step 1.
 
-**Use case: Edit a students details**
+**Use case: Edit a student`s details**
 
 **MSS**
 
-1. User requests to edit a students details.
+1. User requests to edit a student`s details.
 2. ProfBook edits the students details.
 
    Use case ends.
@@ -580,11 +586,11 @@ otherwise)
 
       Use case resumes at step 1.
 
-**Use case: Edit a groups details**
+**Use case: Edit a group`s details**
 
 **MSS**
 
-1. User requests to edit a groups details.
+1. User requests to edit a group`s details.
 2. ProfBook edits the groups details.
 
    Use case ends.
@@ -638,7 +644,7 @@ otherwise)
 **MSS**
 
 1. User requests to move a specific student from a source group to destination group with the path
-2. AddressBook moves the student from a source group to destination group
+2. ProfBook moves the student from a source group to destination group
 
    Use case ends.
 
@@ -660,7 +666,7 @@ otherwise)
 
 **MSS**
 
-1. User requests to create a group witb path and name
+1. User requests to create a group with path and name
 2. ProfBook creates the group
 
    Use case ends.
@@ -733,7 +739,7 @@ otherwise)
 
 * 2c. No path specified
 
-    * 2b1. ProfBook creates Deadline under current directly, either for groups while at root or for students while in group.
+    * 2c1. ProfBook creates Deadline under current directly, either for groups while at root or for students while in group.
 
       Use case ends.
 
