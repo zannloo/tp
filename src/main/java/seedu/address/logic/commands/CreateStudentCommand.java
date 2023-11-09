@@ -80,22 +80,13 @@ public class CreateStudentCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        assert model != null : "Model should not be null";
 
-        if (!path.isStudentDirectory()) {
-            throw new CommandException(MESSAGE_INVALID_PATH);
-        }
+        checkIfPathIsStudentDirectory(path);
 
-        // Check group exists in ProfBook
-        if (!model.hasGroup(path)) {
-            throw new CommandException(String.format(MESSAGE_GROUP_NOT_FOUND, path.getGroupId()));
-        }
+        checkIfGroupExistInProfBook(model);
 
-        // Check duplicate id
-        if (model.hasStudentWithId(student.getId())) {
-            Student studentWithSameId = model.getStudentWithId(student.getId());
-            throw new CommandException(String.format(
-                    MESSAGE_DUPLICATE_STUDENT_ID, student.getId().toString(), Messages.format(studentWithSameId)));
-        }
+        checkForDuplicateId(model);
 
         ChildOperation<Student> target = model.groupChildOperation(path);
 
@@ -103,6 +94,41 @@ public class CreateStudentCommand extends Command {
         model.updateList();
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(student)));
+    }
+
+    /**
+     * Checks if {@code Path} is a Student Directory
+     *
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
+    private void checkIfPathIsStudentDirectory(AbsolutePath path) throws CommandException {
+        if (!path.isStudentDirectory()) {
+            throw new CommandException(MESSAGE_INVALID_PATH);
+        }
+    }
+
+    /**
+     * Checks if specified {@code Group} exist in ProfBook
+     *
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
+    private void checkIfGroupExistInProfBook(Model model) throws CommandException {
+        if (!model.hasGroup(path)) {
+            throw new CommandException(String.format(MESSAGE_GROUP_NOT_FOUND, path.getGroupId()));
+        }
+    }
+
+    /**
+     * Checks if StudentId of {@code Student} to be added duplicates with other {@code Student} in ProfBook
+     *
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
+    private void checkForDuplicateId(Model model) throws CommandException {
+        if (model.hasStudentWithId(student.getId())) {
+            Student studentWithSameId = model.getStudentWithId(student.getId());
+            throw new CommandException(String.format(
+                    MESSAGE_DUPLICATE_STUDENT_ID, student.getId().toString(), Messages.format(studentWithSameId)));
+        }
     }
 
     /**
