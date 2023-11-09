@@ -131,6 +131,12 @@ public class CreateTodoCommand extends Command {
         }
     }
 
+    /**
+     * Allocates a {@code Todo} task to a {@code Group} or {@code Student}
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
     private CommandResult handleNone(Model model) throws CommandException {
         // Check if target path is root
         if (path.isRootDirectory()) {
@@ -149,6 +155,13 @@ public class CreateTodoCommand extends Command {
         return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, path.getStudentId().get(), this.todo));
     }
 
+    /**
+     * Handles the situation where a {@code Todo} task is allocated to all {@code Student} in a {@code Group}
+     * or {@code Root}
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
     private CommandResult handleAllStu(Model model) throws CommandException {
         if (path.isStudentDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
@@ -158,26 +171,15 @@ public class CreateTodoCommand extends Command {
             return addTaskToAllStuInGrp(model);
         }
 
-        ChildOperation<Group> operation = model.rootChildOperation();
-
-        // Check whether all children already have the task
-        if (operation.checkIfAllChildrenHaveTask(todo, 2)) {
-            throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
-        }
-
-        // Check whether at least one of the children has the task
-        boolean warning = false;
-        if (operation.checkIfAnyChildHasTask(todo, 2)) {
-            warning = true;
-        }
-
-        operation.addTaskToAllChildren(todo, 2); //adds tasks to all student in ProfBook
-        model.updateList();
-        return new CommandResult(
-                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
-                        : MESSAGE_SUCCESS_ALL_STUDENTS_FOR_ROOT);
+        return addTaskToAllStuInRoot(model);
     }
 
+    /**
+     * Adds a {@code Todo} task to all {@code Student} in a {@code Group}
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
     private CommandResult addTaskToAllStuInGrp(Model model) throws CommandException {
         ChildOperation<Student> groupOper = model.groupChildOperation(path);
 
@@ -199,10 +201,54 @@ public class CreateTodoCommand extends Command {
                         : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, path.getGroupId().get()));
     }
 
+    /**
+     * Adds a {@code Todo} task to all {@code Student} in a {@code Root}
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
+    private CommandResult addTaskToAllStuInRoot(Model model) throws CommandException {
+        ChildOperation<Group> operation = model.rootChildOperation();
+
+        // Check whether all children already have the task
+        if (operation.checkIfAllChildrenHaveTask(todo, 2)) {
+            throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
+        }
+
+        // Check whether at least one of the children has the task
+        boolean warning = false;
+        if (operation.checkIfAnyChildHasTask(todo, 2)) {
+            warning = true;
+        }
+
+        operation.addTaskToAllChildren(todo, 2); //adds tasks to all student in ProfBook
+        model.updateList();
+        return new CommandResult(
+                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
+                        : MESSAGE_SUCCESS_ALL_STUDENTS_FOR_ROOT);
+    }
+
+    /**
+     * Handles the situation where a {@code Todo} task is allocated to all {@code Group} in the root
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
     private CommandResult handleAllGrp(Model model) throws CommandException {
         if (!path.isRootDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
+
+        return addTaskToAllGrpInRoot(model);
+    }
+
+    /**
+     * Adds a {@code Todo} task to all {@code Group} in a {@code Root}
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
+    private CommandResult addTaskToAllGrpInRoot(Model model) throws CommandException {
         ChildOperation<Group> rootOper = model.rootChildOperation();
 
         // Check whether all children already have the task

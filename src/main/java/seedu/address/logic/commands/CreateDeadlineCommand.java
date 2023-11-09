@@ -158,6 +158,7 @@ public class CreateDeadlineCommand extends Command {
 
     /**
      * Handles the situation where a {@code Deadline} task is allocated to all {@code Student} in a {@code Group}
+     * or {@code Root}
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -171,24 +172,7 @@ public class CreateDeadlineCommand extends Command {
             return addTaskToAllStuInGrp(model);
         }
 
-        ChildOperation<Group> operation = model.rootChildOperation();
-
-        // Check whether all children already have the task
-        if (operation.checkIfAllChildrenHaveTask(deadline, 2)) {
-            throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
-        }
-
-        // Check whether at least one of the children has the task
-        boolean warning = false;
-        if (operation.checkIfAnyChildHasTask(deadline, 2)) {
-            warning = true;
-        }
-
-        operation.addTaskToAllChildren(deadline, 2);
-        model.updateList();
-        return new CommandResult(
-                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
-                        : MESSAGE_SUCCESS_ALL_STUDENTS_FOR_ROOT);
+        return addTaskToAllStuInRoot(model);
     }
 
     /**
@@ -219,6 +203,33 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
+     * Adds a {@code Deadline} task to all {@code Student} in a {@code Root}
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
+    private CommandResult addTaskToAllStuInRoot(Model model) throws CommandException {
+        ChildOperation<Group> operation = model.rootChildOperation();
+
+        // Check whether all children already have the task
+        if (operation.checkIfAllChildrenHaveTask(deadline, 2)) {
+            throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
+        }
+
+        // Check whether at least one of the children has the task
+        boolean warning = false;
+        if (operation.checkIfAnyChildHasTask(deadline, 2)) {
+            warning = true;
+        }
+
+        operation.addTaskToAllChildren(deadline, 2);
+        model.updateList();
+        return new CommandResult(
+                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
+                        : MESSAGE_SUCCESS_ALL_STUDENTS_FOR_ROOT);
+    }
+
+    /**
      * Handles the situation where a {@code Deadline} task is allocated to all {@code Group} in the root
      *
      * @return Command result which represents the outcome of the command execution.
@@ -229,6 +240,16 @@ public class CreateDeadlineCommand extends Command {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
 
+        return addTaskToAllGrpInRoot(model);
+    }
+
+    /**
+     * Adds a {@code Deadline} task to all {@code Group} in a {@code Root}
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
+    private CommandResult addTaskToAllGrpInRoot(Model model) throws CommandException {
         ChildOperation<Group> rootOper = model.rootChildOperation();
 
         // Check whether all children already have the task
