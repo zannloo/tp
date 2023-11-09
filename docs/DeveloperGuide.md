@@ -870,6 +870,9 @@ testers are expected to do more *exploratory* testing.
         - Other incorrect `edit` commands to try: `edit`<br>
           Expected: An error message of `Invalid command format` will be shown.
 
+### Creating To Do task for a student's details or group's details
+
+
 ### Saving data
 
 1. Dealing with missing/corrupted data files
