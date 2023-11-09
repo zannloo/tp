@@ -1,3 +1,4 @@
+//@@author mingyuanc
 package seedu.address.model;
 
 import static seedu.address.commons.util.AppUtil.checkArgument;

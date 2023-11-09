@@ -50,6 +50,9 @@ public class CreateDeadlineCommand extends Command {
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New Deadline task added to all students in group: %1$s";
 
+    public static final String MESSAGE_SUCCESS_ALL_STUDENTS_FOR_ROOT =
+            "New Deadline task added to all students in root directory.";
+
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING =
             "Warning: Some student(s) already have the task. \n"
             + "New Deadline task has been added to the rest.";
@@ -191,7 +194,7 @@ public class CreateDeadlineCommand extends Command {
         model.updateList();
         return new CommandResult(
                 warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
-                        : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, path.getGroupId().get()));
+                        : MESSAGE_SUCCESS_ALL_STUDENTS_FOR_ROOT);
     }
 
     private CommandResult handleAllGrp(Model model) throws CommandException {
