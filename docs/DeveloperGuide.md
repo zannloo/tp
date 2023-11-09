@@ -674,12 +674,201 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 (For all use cases below, the **System** is the `ProfBook` and the **Professor** is the `user`, unless specified
 otherwise)
 
-**Use case: Delete a student/group/tasks**
+**Use case: help**
+
 
 **MSS**
 
-1. User requests to delete a student/group/task with specific id for each one
-2. AddressBook deletes the person
+1. User requests for help.
+2. ProfBook displays help message, informs user how to input help with additional information specific to command.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. User inputs help with specific command.
+
+    * 2a1. ProfBook displays help message specific to input command
+
+      Use case ends.
+
+
+* 2b. User inputs invalid command together with help.
+
+    * 2b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Cd into group**
+
+**MSS**
+
+1. User requests to cd into a specific group
+2. ProfBook moves into the directory, display updates to show students within specified group
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The path of the group is invalid
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+  
+
+* 2b. The path of the group is empty
+  
+  * 2b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: ls to view children**
+
+**MSS**
+
+1. User requests to view children either within current directory or specified path.
+2. ProfBook displays list of children.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. Provided path is invalid
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2b. Command has no arguments
+
+    * 2b1. ProfBook shows list of children under current directory.
+
+      Use case ends.
+
+**Use case: View tasks**
+
+**MSS**
+
+1. User requests to view tasks under specified path or current path if not specified.
+2. ProfBook displays task list of path, either task list of group or student.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The given path is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2b1. No path specified
+
+    * 2b1. Profbook displays task list of current path.
+
+      Use case ends.
+
+**Use case: Clear all entries**
+
+**MSS**
+
+1. User requests to delete all data stored in ProfBook.
+2. ProfBook deletes all data stored and displays updates to be empty.
+
+   Use case ends.
+
+**Use case: Exit ProfBook**
+
+**MSS**
+
+1. User requests to exit ProfBook
+2. ProfBook stores all data and closes application.
+
+   Use case ends.
+
+**Use case: Add a student**
+
+**MSS**
+
+1. User requests to add a student.
+2. ProfBook deletes the person.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The given parameters are invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Edit a student`s details**
+
+**MSS**
+
+1. User requests to edit a student`s details.
+2. ProfBook edits the students details.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The specified path is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2b. The given parameter is invalid.
+
+    * 2b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Edit a group`s details**
+
+**MSS**
+
+1. User requests to edit a group`s details.
+2. ProfBook edits the groups details.
+
+   Use case ends.
+
+**Extensions**
+
+
+* 2a. The parameter to be changed is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Delete a group or student**
+
+**MSS**
+
+1. User requests to delete a group or student
+2. ProfBook removes group or student.
+
+   Use case ends.
+
+**Extensions**
+
+
+* 2a. The given path is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Delete a task**
+
+**MSS**
+
+1. User requests to delete a task with specific id.
+2. ProfBook deletes the task.
 
    Use case ends.
 
@@ -695,28 +884,153 @@ otherwise)
 
 **MSS**
 
-**Use case: Move a person**
-
-1. User requests to move a specific student from a source group to destination group with an id
-2. AddressBook moves the student from a source group to destination group
+1. User requests to move a specific student from a source group to destination group with the path.
+2. ProfBook moves the student from a source group to destination group.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The given StudentID is invalid.
+* 2a. The given Student path is invalid.
     * 2a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
 
-* 3a. The given groupID is invalid.
+* 2b. The given group path is invalid.
 
-    * 3a1. ProfBook shows an error message.
+    * 2b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-*{More to be added}*
+**Use case: Create a group**
+
+**MSS**
+
+1. User requests to create a group with path and name
+2. ProfBook creates the group
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The given name of group is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2b. The given path is invalid.
+
+  * 2b1. ProfBook shows an error message.
+
+    Use case resumes at step 1.
+
+**Use case: Create a ToDo**
+
+**MSS**
+
+1. User requests to create a ToDo task.
+2. ProfBook creates the Task under specified path/current path.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The given path is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2b. The given description is invalid.
+
+    * 2b1. ProfBook shows an error message.
+
+       Use case resumes at step 1.
+  
+* 2c. No path specified
+
+    * 2b1. ProfBook creates ToDo under current directly, either for groups while at root or for students while in group.
+  
+      Use case ends.
+
+**Use case: Create a Deadline**
+
+**MSS**
+
+1. User requests to create a Deadline task.
+2. ProfBook creates the Task under specified path/current path.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The given path is invalid.
+
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2b. The given description is invalid.
+
+    * 2b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2c. No path specified
+
+    * 2c1. ProfBook creates Deadline under current directly, either for groups while at root or for students while in group.
+
+      Use case ends.
+
+**Use case: Mark task**
+
+**MSS**
+
+1. User requests to mark a specific task
+2. ProfBook marks task based on given index, display updates to show as marked.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The Index provided is invalid
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Unmark task**
+
+**MSS**
+
+1. User requests to unmark a specific task
+2. ProfBook unmarks task based on given index, display updates to show as unmarked.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The Index provided is invalid
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+**Use case: Delete task**
+
+**MSS**
+
+1. User requests to delete a specific task
+2. ProfBook delete task based on given index.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The Index provided is invalid
+    * 2a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
 
 ### Non-Functional Requirements
 
