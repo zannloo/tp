@@ -86,7 +86,7 @@ public class CreateStudentCommand extends Command {
 
         checkIfGroupExistInProfBook(model);
 
-        checkForDuplicateId(model);
+        checkForDuplicateStudentId(model);
 
         ChildOperation<Student> target = model.groupChildOperation(path);
 
@@ -123,7 +123,7 @@ public class CreateStudentCommand extends Command {
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
-    private void checkForDuplicateId(Model model) throws CommandException {
+    private void checkForDuplicateStudentId(Model model) throws CommandException {
         if (model.hasStudentWithId(student.getId())) {
             Student studentWithSameId = model.getStudentWithId(student.getId());
             throw new CommandException(String.format(
