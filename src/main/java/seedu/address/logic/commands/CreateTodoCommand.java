@@ -29,6 +29,9 @@ public class CreateTodoCommand extends Command {
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS =
             "New ToDo task added to all students in group: %1$s";
 
+    public static final String MESSAGE_SUCCESS_ALL_STUDENTS_FOR_ROOT =
+            "New ToDo task added to all students in root directory.";
+
     public static final String MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING =
             "Warning: Some student(s) already have the task. \n"
             + "New ToDo task has been added to the rest.";
@@ -192,7 +195,7 @@ public class CreateTodoCommand extends Command {
         model.updateList();
         return new CommandResult(
                 warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
-                        : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, target.getGroupId().get()));
+                        : MESSAGE_SUCCESS_ALL_STUDENTS_FOR_ROOT);
     }
 
     private CommandResult handleAllGrp(Model model) throws CommandException {
