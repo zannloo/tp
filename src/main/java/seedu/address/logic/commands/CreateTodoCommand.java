@@ -53,7 +53,7 @@ public class CreateTodoCommand extends Command {
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " [path]" + " -d <desc>" + " [OPTION]... \n"
             + "\n"
-            + "Create todo task to the target path (the current directory by default).\n"
+            + "Create todo task to the path path (the current directory by default).\n"
             + "\n"
             + "Argument: \n"
             + "    -d, --desc           Description of the todo task\n"
@@ -76,7 +76,7 @@ public class CreateTodoCommand extends Command {
         }
     };
 
-    private final AbsolutePath target;
+    private final AbsolutePath path;
 
     private final ToDo todo;
 
@@ -85,19 +85,19 @@ public class CreateTodoCommand extends Command {
     /**
      * Constructs a {@code CreateTodoCommand} with the specified absolute path and "ToDo" task details.
      *
-     * @param target   The absolute path to the group where the "ToDo" task will be added.
+     * @param path   The absolute path to the group where the "ToDo" task will be added.
      * @param todo     The details of the "ToDo" task to be created.
      * @param category The specific category of people to add ToDo task to each.
      */
-    public CreateTodoCommand(AbsolutePath target, ToDo todo, Category category) {
-        requireAllNonNull(target, todo, category);
-        this.target = target;
+    public CreateTodoCommand(AbsolutePath path, ToDo todo, Category category) {
+        requireAllNonNull(path, todo, category);
+        this.path = path;
         this.todo = todo;
         this.category = category;
     }
 
     private CreateTodoCommand() {
-        this.target = null;
+        this.path = null;
         this.todo = null;
         this.category = null;
     }
@@ -114,8 +114,8 @@ public class CreateTodoCommand extends Command {
         requireNonNull(model);
 
         // Check path exists in ProfBook
-        if (!model.hasPath(target)) {
-            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, target));
+        if (!model.hasPath(path)) {
+            throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, path));
         }
 
         switch(category) {
@@ -130,46 +130,29 @@ public class CreateTodoCommand extends Command {
 
     private CommandResult handleNone(Model model) throws CommandException {
         // Check if target path is root
-        if (target.isRootDirectory()) {
+        if (path.isRootDirectory()) {
             throw new CommandException(MESSAGE_TASK_CREATION_FOR_ROOT);
         }
 
-        TaskOperation taskOperation = model.taskOperation(target);
+        TaskOperation taskOperation = model.taskOperation(path);
         if (taskOperation.hasTask(this.todo)) {
             throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK);
         }
         taskOperation.addTask(this.todo);
         model.updateList();
-        if (target.isGroupDirectory()) {
-            return new CommandResult(String.format(MESSAGE_SUCCESS_GROUP, target.getGroupId().get(), this.todo));
+        if (path.isGroupDirectory()) {
+            return new CommandResult(String.format(MESSAGE_SUCCESS_GROUP, path.getGroupId().get(), this.todo));
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, target.getStudentId().get(), this.todo));
+        return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, path.getStudentId().get(), this.todo));
     }
 
     private CommandResult handleAllStu(Model model) throws CommandException {
-        if (target.isStudentDirectory()) {
+        if (path.isStudentDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
         }
 
-        if (target.isGroupDirectory()) {
-            ChildOperation<Student> groupOper = model.groupChildOperation(target);
-
-            // Check whether all children already have the task
-            if (groupOper.checkIfAllChildrenHaveTask(todo, 1)) {
-                throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
-            }
-
-            // Check whether at least one of the children has the task
-            boolean warning = false;
-            if (groupOper.checkIfAnyChildHasTask(todo, 1)) {
-                warning = true;
-            }
-
-            groupOper.addTaskToAllChildren(todo, 1);
-            model.updateList();
-            return new CommandResult(
-                    warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
-                            : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, target.getGroupId().get()));
+        if (path.isGroupDirectory()) {
+            return addTaskToAllStu(model);
         }
 
         ChildOperation<Group> operation = model.rootChildOperation();
@@ -189,11 +172,32 @@ public class CreateTodoCommand extends Command {
         model.updateList();
         return new CommandResult(
                 warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
-                        : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, target.getGroupId().get()));
+                        : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, path.getGroupId().get()));
+    }
+
+    private CommandResult addTaskToAllStu(Model model) throws CommandException {
+        ChildOperation<Student> groupOper = model.groupChildOperation(path);
+
+        // Check whether all children already have the task
+        if (groupOper.checkIfAllChildrenHaveTask(todo, 1)) {
+            throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
+        }
+
+        // Check whether at least one of the children has the task
+        boolean warning = false;
+        if (groupOper.checkIfAnyChildHasTask(todo, 1)) {
+            warning = true;
+        }
+
+        groupOper.addTaskToAllChildren(todo, 1);
+        model.updateList();
+        return new CommandResult(
+                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
+                        : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, path.getGroupId().get()));
     }
 
     private CommandResult handleAllGrp(Model model) throws CommandException {
-        if (!target.isRootDirectory()) {
+        if (!path.isRootDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
         ChildOperation<Group> rootOper = model.rootChildOperation();
@@ -232,7 +236,7 @@ public class CreateTodoCommand extends Command {
         }
 
         CreateTodoCommand otherCreateTodoCommand = (CreateTodoCommand) other;
-        return this.target.equals(otherCreateTodoCommand.target)
+        return this.path.equals(otherCreateTodoCommand.path)
                 && this.todo.equals(otherCreateTodoCommand.todo);
     }
 

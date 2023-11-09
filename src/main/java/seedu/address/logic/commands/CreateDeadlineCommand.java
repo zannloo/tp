@@ -77,7 +77,7 @@ public class CreateDeadlineCommand extends Command {
         public CommandResult execute(Model model) throws CommandException {
             return new CommandResult(MESSAGE_USAGE);
         }
-    };;
+    };
 
     private final AbsolutePath path;
 
@@ -110,7 +110,6 @@ public class CreateDeadlineCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
-
         // Check path exists in ProfBook
         if (!model.hasPath(path)) {
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, path));
@@ -126,6 +125,12 @@ public class CreateDeadlineCommand extends Command {
         }
     }
 
+    /**
+     * Allocates a {@code Deadline} task to a {@code Group} or {@code Student}
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
     private CommandResult handleNone(Model model) throws CommandException {
         // Check if target path is root
         if (path.isRootDirectory()) {
@@ -148,30 +153,19 @@ public class CreateDeadlineCommand extends Command {
         return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, path.getStudentId().get(), this.deadline));
     }
 
+    /**
+     * Handles the situation where a {@code Deadline} task is allocated to all {@code Student} in a {@code Group}
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
     private CommandResult handleAllStu(Model model) throws CommandException {
         if (path.isStudentDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_STU);
         }
 
         if (path.isGroupDirectory()) {
-            ChildOperation<Student> groupOper = model.groupChildOperation(path);
-
-            // Check whether all children already have the task
-            if (groupOper.checkIfAllChildrenHaveTask(deadline, 1)) {
-                throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
-            }
-
-            // Check whether at least one of the children has the task
-            boolean warning = false;
-            if (groupOper.checkIfAnyChildHasTask(deadline, 1)) {
-                warning = true;
-            }
-
-            groupOper.addTaskToAllChildren(deadline, 1);
-            model.updateList();
-            return new CommandResult(
-                    warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
-                            : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, path.getGroupId().get()));
+            return addTaskToAllStu(model);
         }
 
         ChildOperation<Group> operation = model.rootChildOperation();
@@ -194,6 +188,39 @@ public class CreateDeadlineCommand extends Command {
                         : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, path.getGroupId().get()));
     }
 
+    /**
+     * Adds a {@code Deadline} task to all {@code Student} in a {@code Group}
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
+    private CommandResult addTaskToAllStu(Model model) throws CommandException {
+        ChildOperation<Student> groupOper = model.groupChildOperation(path);
+
+        // Check whether all children already have the task
+        if (groupOper.checkIfAllChildrenHaveTask(deadline, 1)) {
+            throw new CommandException(String.format(MESSAGE_ALL_CHILDREN_HAVE_TASK, "student"));
+        }
+
+        // Check whether at least one of the children has the task
+        boolean warning = false;
+        if (groupOper.checkIfAnyChildHasTask(deadline, 1)) {
+            warning = true;
+        }
+
+        groupOper.addTaskToAllChildren(deadline, 1);
+        model.updateList();
+        return new CommandResult(
+                warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
+                        : String.format(MESSAGE_SUCCESS_ALL_STUDENTS, path.getGroupId().get()));
+    }
+
+    /**
+     * Handles the situation where a {@code Deadline} task is allocated to all {@code Group} in the root
+     *
+     * @return Command result which represents the outcome of the command execution.
+     * @throws CommandException Exception thrown when error occurs during command execution.
+     */
     private CommandResult handleAllGrp(Model model) throws CommandException {
         if (!path.isRootDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
