@@ -1056,8 +1056,8 @@ otherwise)
 
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
 * **MSS**: Main success scenario
-* **Root**: Folder which contains all students, groups as well
-* **Group**: Folder which contains Students within the specific group
+* **Root**: Directory which contains all students, groups as well
+* **Group**: Directory which contains Students within the specific group
 * **Task**: A piece of work or activity to be completed.
 * **Path**: A location or address within ProfBook's file hierarchy.
 * **Deadline Task**: A type of task with a specific deadline or due date.
