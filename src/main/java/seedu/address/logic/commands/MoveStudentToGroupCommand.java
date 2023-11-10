@@ -3,6 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
@@ -12,25 +15,43 @@ import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Student;
 
 /**
- * Represents a command for moving a student from one group to another within ProfBook.
+ * Represents a command for moving a student from one group to another in ProfBook.
  * This command is typically used to change the group affiliation of a student.
  */
 public class MoveStudentToGroupCommand extends Command {
 
+    /**
+     * The command word for moving a student to a group.
+     */
     public static final String COMMAND_WORD = "mv";
 
+    /**
+     * Message indicating that the source student is not found in ProfBook.
+     */
     public static final String MESSAGE_STUDENT_NOT_FOUND = "Source student not found in ProfBook";
 
+    /**
+     * Message indicating that the destination group is not found in ProfBook.
+     */
     public static final String MESSAGE_GROUP_NOT_FOUND = "Destination group not found in ProfBook";
 
+    /**
+     * Message indicating the student has been successfully moved from one group to another.
+     */
     public static final String MESSAGE_MOVE_STUDENT_SUCCESS =
             "Student %1$s has been successfully moved to the group: %2$s";
 
+    /**
+     * Message indicating an invalid move command with usage information.
+     */
     public static final String MESSAGE_INVALID_MOVE_COMMAND =
             "Invalid source or destination.\n\n"
             + "source:       existing student\n"
             + "destination:  existing group";
 
+    /**
+     * Usage information for the MoveStudentToGroupCommand.
+     */
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <source>" + " <destination> \n"
             + "\n"
@@ -46,15 +67,29 @@ public class MoveStudentToGroupCommand extends Command {
             + "Examples: \n"
             + "mv grp-001/0001Y grp-002";
 
+    /**
+     * A special instance of MoveStudentToGroupCommand used to display the command's usage message.
+     */
     public static final MoveStudentToGroupCommand HELP_MESSAGE = new MoveStudentToGroupCommand() {
         @Override
-        public CommandResult execute(Model model) throws CommandException {
+        public CommandResult execute(Model model) {
             return new CommandResult(MESSAGE_USAGE);
         }
     };
 
+    /**
+     * Logger for logging messages related to MoveStudentToGroupCommand.
+     */
+    private static final Logger logger = LogsCenter.getLogger(MoveStudentToGroupCommand.class);
+
+    /**
+     * The source path from which the student is to be moved.
+     */
     private final AbsolutePath source;
 
+    /**
+     * The destination path to which the student is to be moved.
+     */
     private final AbsolutePath dest;
 
     /**
@@ -69,35 +104,45 @@ public class MoveStudentToGroupCommand extends Command {
         this.dest = dest;
     }
 
+    /**
+     * Private constructor for creating the HELP_MESSAGE instance.
+     */
     private MoveStudentToGroupCommand() {
         this.source = null;
         this.dest = null;
     }
 
     /**
-     * Executes the MoveStudentToGroupCommand, moving a student from the source group to the destination group in
-     * ProfBook.
+     * Executes the MoveStudentToGroupCommand, moving a student from the source group to the destination group.
      *
-     * @return A CommandResult indicating the outcome of the command execution.
-     * @throws CommandException If an error occurs during command execution.
+     * @param model The model on which the command should be executed.
+     * @return A CommandResult containing a message indicating the success of the moving operation.
+     * @throws CommandException If there exist any error in executing the command.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // Check move student to group
+        logger.info("Executing move student to group command...");
+
         if (source.isStudentDirectory() && dest.isGroupDirectory()) {
-            // Check student exists in ProfBook
+            // Check whether the student exists in source group
             if (!model.hasStudent(source)) {
+                logger.warning(
+                        "Student to be moved does not exist in ProfBook. Aborting move student to group command.");
                 throw new CommandException(MESSAGE_STUDENT_NOT_FOUND);
             }
 
-            // Check group exists in ProfBook
+            // Check if the destination group exists in model
             if (!model.hasGroup(dest)) {
+                logger.warning(
+                        "Destination group does not exist in ProfBok. Aborting move student to group command.");
                 throw new CommandException(MESSAGE_GROUP_NOT_FOUND);
             }
 
             StudentId toBeMovedId = source.getStudentId().get();
+
+            logger.info("Moving student " + toBeMovedId + "...");
 
             ChildOperation<Student> sourceGroup = model.groupChildOperation(source);
             Student studentToBeMoved = sourceGroup.getChild(toBeMovedId);
@@ -107,9 +152,15 @@ public class MoveStudentToGroupCommand extends Command {
             destGroup.addChild(toBeMovedId, studentToBeMoved);
             sourceGroup.deleteChild(toBeMovedId);
             model.updateList();
+
+            logger.info("Student " + toBeMovedId + " has been successfully moved from source group"
+                    + " to destination group.");
+
             return new CommandResult(String.format(
                     MESSAGE_MOVE_STUDENT_SUCCESS, toBeMovedId, dest.getGroupId().get()));
         }
+
+        logger.warning("Invalid command. Aborting move student to group command.");
 
         throw new CommandException(MESSAGE_INVALID_MOVE_COMMAND);
     }
@@ -117,7 +168,7 @@ public class MoveStudentToGroupCommand extends Command {
     /**
      * Checks if this MoveStudentToGroupCommand is equal to another object.
      *
-     * @param other The object to compare with.
+     * @param other The object to compare with this MoveStudentToGroupCommand.
      * @return True if the objects are equal, false otherwise.
      */
     @Override
@@ -126,7 +177,6 @@ public class MoveStudentToGroupCommand extends Command {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof MoveStudentToGroupCommand)) {
             return false;
         }
@@ -137,9 +187,9 @@ public class MoveStudentToGroupCommand extends Command {
     }
 
     /**
-     * Returns a string representation of this MoveStudentToGroupCommand.
+     * Returns the string representation of this MoveStudentToGroupCommand.
      *
-     * @return A string representation of the MoveStudentToGroupCommand.
+     * @return The string representation of this MoveStudentToGroupCommand.
      */
     @Override
     public String toString() {

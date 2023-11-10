@@ -18,14 +18,23 @@ import seedu.address.model.task.Task;
 /**
  * The UnmarkCommand class represents a command for unmarking a previously marked task in the task list.
  * This command is typically used in a context where the user is viewing a list of tasks.
- * It unmarks a specific task in the list, indicating that it is no longer completed.
+ * It unmarks a specific task in the task list, indicating that it is no longer completed.
  */
 public class UnmarkCommand extends Command {
 
+    /**
+     * The command word for unmarking a task.
+     */
     public static final String COMMAND_WORD = "unmark";
 
+    /**
+     * Message indicating successful unmarking of a task.
+     */
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Unmarked task: %1$s";
 
+    /**
+     * Usage information for the 'unmark' command.
+     */
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <index>\n"
             + "\n"
@@ -41,15 +50,24 @@ public class UnmarkCommand extends Command {
             + "Examples: \n"
             + "unmark 1";
 
+    /**
+     * A special instance of UnmarkCommand used to display the command's usage message.
+     */
     public static final UnmarkCommand HELP_MESSAGE = new UnmarkCommand() {
         @Override
-        public CommandResult execute(Model model) throws CommandException {
+        public CommandResult execute(Model model) {
             return new CommandResult(MESSAGE_USAGE);
         }
     };
 
+    /**
+     * Logger for logging messages related to UnmarkCommand.
+     */
     private static final Logger logger = LogsCenter.getLogger(UnmarkCommand.class);
 
+    /**
+     * The index of the task to be unmarked.
+     */
     private final Index index;
 
     /**
@@ -62,6 +80,9 @@ public class UnmarkCommand extends Command {
         this.index = index;
     }
 
+    /**
+     * Private constructor for creating the HELP_MESSAGE instance.
+     */
     private UnmarkCommand() {
         this.index = null;
     }
@@ -69,9 +90,9 @@ public class UnmarkCommand extends Command {
     /**
      * Executes the UnmarkCommand to unmark a previously marked task.
      *
-     * @param model The current model of the application.
+     * @param model The model on which the command should be executed.
      * @return A CommandResult containing a message indicating the success of the unmarking operation.
-     * @throws CommandException If the command cannot be executed due to an incorrect model (not showing the task list).
+     * @throws CommandException If there exist any error in executing the command.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
@@ -89,12 +110,12 @@ public class UnmarkCommand extends Command {
 
         // Check if index is valid.
         if (!taskOperation.isValidIndex(this.index.getOneBased())) {
-            logger.warning("Invalid index: " + this.index.getOneBased() + ". Aborting unmark task command.");
+            logger.warning("Invalid task index: " + this.index.getOneBased() + ". Aborting unmark task command.");
             throw new CommandException(
                     String.format(MESSAGE_INVALID_INDEX, taskOperation.getTaskListSize(), index.getOneBased()));
         }
 
-        logger.info("Executing unmark task command on index " + this.index.getOneBased());
+        logger.info("Executing unmark task command on task with index " + this.index.getOneBased());
 
         Task ummarkedTask = taskOperation.unmarkTask(this.index.getOneBased());
         model.updateList();
@@ -117,7 +138,6 @@ public class UnmarkCommand extends Command {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof UnmarkCommand)) {
             return false;
         }
@@ -127,9 +147,9 @@ public class UnmarkCommand extends Command {
     }
 
     /**
-     * Returns a string representation of this UnmarkCommand, including its index.
+     * Returns the string representation of this UnmarkCommand, including its index.
      *
-     * @return A string representation of the UnmarkCommand.
+     * @return The string representation of this UnmarkCommand.
      */
     @Override
     public String toString() {
