@@ -1081,13 +1081,13 @@ testers are expected to do more *exploratory* testing.
 
 1. Creating a new group that can contain students
 
-    1. Test case: `mkdir grp-001 -n Amazing Group1`<br>
+    1. Test case: `mkdir grp-001 --name Amazing Group1`<br>
        Expected: If there is already a group with GroupId `grp-001`, then an error message will appear at the output box below the command box. Otherwise, a new group will be added to the list in the bottom output box, with name `Amazing Group1` and GroupId `grp-001`.
 
-    1. Test case: `mkdir x`, `mkdir x -n Amazing Group1` (where x is an invalid GroupId)<br>
+    1. Test case: `mkdir x`, `mkdir x --name Amazing Group1` (where x is an invalid GroupId)<br>
        Expected: An error message of `Invalid relative path` will be shown.
 
-    1. Other incorrect `mkdir` commands to try: `mkdir`, `mkdir grp-001`, `...`<br>
+    1. Other incorrect `mkdir` commands to try: `mkdir`, `mkdir grp-001`, `mkdir --name Amazing Group1`<br>
        Expected: An error message of `Invalid command format` will be shown.
 
 ### Adding a student
@@ -1096,24 +1096,24 @@ testers are expected to do more *exploratory* testing.
 
     1. Condition 1: When the current directory is root directory,
 
-        - Test case: `touch ~/grp-001/0123Y`<br>
-          Expected: If there is a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student, `0123Y` will be added to `grp-001`.
+        - Test case: `touch ~/grp-001/0123Y --name Mary`<br>
+          Expected: If there is a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` will be added to `grp-001`.
 
-        - Test case: `touch x` (where x is an invalid path)<br>
+        - Test case: `touch x --name Mary` (where x is an invalid path)<br>
           Expected: An error message of `Invalid relative path` will be shown.
 
-        - Other incorrect `touch` commands to try: `touch`<br>
+        - Other incorrect `touch` commands to try: `touch`, `touch x` (where x is an invalid path)<br>
           Expected: An error message of `Invalid command format` will be shown.
 
     1. Condition 2: When the current directory is group directory e.g. `grp-001`,
 
-        - Test case: `touch 0123Y`<br>
+        - Test case: `touch 0123Y --name Mary`<br>
           Expected: If there is a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student, `0123Y` will be added to `grp-001`.
 
-        - Test case: `touch x` (where x is an invalid path)<br>
+        - Test case: `touch x --name Mary` (where x is an invalid path)<br>
           Expected: An error message of `Invalid relative path` will be shown.
 
-        - Other incorrect `touch` commands to try: `touch`<br>
+        - Other incorrect `touch` commands to try: `touch`, `touch x` (where x is an invalid path)<br>
           Expected: An error message of `Invalid command format` will be shown.
 
 ### Deleting a student or group
@@ -1123,7 +1123,7 @@ testers are expected to do more *exploratory* testing.
     1. Condition 1: When the current directory is root directory,
    
        - Test case: `rm ~/grp-001/0123Y`<br>
-           Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student, `0123Y` in `grp-001` wil be deleted.
+           Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` in `grp-001` wil be deleted.
 
        - Test case: `rm ~/grp-001`<br>
            Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the group, `grp-001` wil be deleted.
@@ -1137,7 +1137,7 @@ testers are expected to do more *exploratory* testing.
    1. Condition 2: When the current directory is group directory e.g. `grp-001`,
 
        - Test case: `rm 0123Y`<br>
-         Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student, `0123Y` in `grp-001` wil be deleted.
+         Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` in `grp-001` wil be deleted.
 
        - Test case: `rm grp-001`<br>
          Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the group, `grp-001` wil be deleted.
@@ -1156,13 +1156,13 @@ testers are expected to do more *exploratory* testing.
     1. Condition 1: When the current directory is root directory,
 
         - Test case: `edit ~/grp-001/0123Y --phone 91919191`<br>
-          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student, `0123Y` will have his phone number edited.
+          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` will have his phone number edited.
 
         - Test case: `edit x`, `edit x --name Lucy --email lucy@gmail.com --phone 91919191` (where x is an invalid path)<br>
           Expected: An error message of `Invalid relative path` will be shown.
 
         - Test case: `edit --name Lucy --email lucy@gmail.com --phone 91919191`<br>
-          Expected: An error message of `Root directory cannot be edited.` will be shown.
+          Expected: An error message of `Root directory cannot be edited` will be shown.
        
         - Other incorrect `edit` commands to try: `edit`<br>
           Expected: An error message of `Invalid command format` will be shown.
@@ -1170,7 +1170,7 @@ testers are expected to do more *exploratory* testing.
     1. Condition 2: When the current directory is group directory e.g. `grp-001`,
 
         - Test case: `edit 0123Y --phone 91919191`<br>
-          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student, `0123Y` will have his phone number edited.
+          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` will have his phone number edited.
 
         - Test case: `edit --name Amazing Group1`<br>
           Expected: The name of `grp-001` will be edited to `Amazing Group1`.
@@ -1187,38 +1187,39 @@ testers are expected to do more *exploratory* testing.
 
 ### Creating Todo task
 
-1. Creates todo task for specific a specific student or group
+1. Creates todo task for a specific student or group
 
     1. Condition 1: When the current directory is root directory,
 
         - Test case: `todo ~/grp-001/0123Y --desc Assignment 1`<br>
-          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the todo task `Assignment 1` will be allocated to student, `0123Y`.
+          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001` or there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the todo task `Assignment 1` will be allocated to student `0123Y`.
 
         - Test case: `todo ~/grp-001 --desc Assignment 1`<br>
-          Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the todo task `Assignment 1` will be allocated to group, `grp-001`.
+          Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the todo task `Assignment 1` will be allocated to group `grp-001`.
 
-        - Test case: `todo x`, `todo x --desc Assignment 1` (where x is an invalid path)<br>
+        - Test case: `todo x --desc Assignment 1` (where x is an invalid path)<br>
           Expected: An error message of `Invalid relative path` will be shown.
 
         - Test case: `todo --desc Assignment 1`<br>
-          Expected: An error message of `Unable to create task for root directory.` will be shown.
+          Expected: An error message of `Unable to create task for root directory` will be shown.
 
-        - Other incorrect `todo` commands to try: `todo`<br>
+        - Other incorrect `todo` commands to try: `todo`, `todo x` (where x is an invalid path)<br>
           Expected: An error message of `Invalid command format` will be shown.
 
     1. Condition 2: When the current directory is group directory e.g. `grp-001`,
 
         - Test case: `todo 0123Y --desc Assignment 1`<br>
-          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the todo task `Assignment 1` will be allocated to student, `0123Y`.
+          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the todo task `Assignment 1` will be allocated to student `0123Y`.
 
         - Test case: `todo --desc Assignment 1`<br>
-          Expected: The todo task `Assignment 1` will be allocated for `grp-001`.
+          Expected: The todo task `Assignment 1` will be allocated to `grp-001`.
        
-        - Test case: `todo x`, `todo x --desc Assignment 1` (where x is invalid path)<br>
+        - Test case: `todo x --desc Assignment 1` (where x is an invalid path)<br>
          Expected: An error message of `Invalid relative path` will be shown.
 
-        - Other incorrect `todo` commands to try: `todo`<br>
+        - Other incorrect `todo` commands to try: `todo`, `todo x`  (where x is an invalid path)<br>
           Expected: An error message of `Invalid command format` will be shown.
+
 
 1. Creates todo task for all groups or all students in a group
 
@@ -1236,16 +1237,16 @@ testers are expected to do more *exploratory* testing.
         - Test case: `todo --desc Assignment 1 --all x` (where x is an invalid option)<br>
           Expected: An error message of `Format is invalid. Should be allStu or allGrp` will be shown.
 
-        - Test case: `todo x`, `todo x --desc Assignment 1 --all allGrp`, `todo x --desc Assignment 1 --all allStu` (where x is an invalid path)<br>
+        - Test case: `todo x --desc Assignment 1 --all allGrp`, `todo x --desc Assignment 1 --all allStu` (where x is an invalid path)<br>
           Expected: An error message of `Invalid relative path` will be shown.
 
-        - Other incorrect `todo` commands to try: `todo`<br>
+        - Other incorrect `todo` commands to try: `todo`, `todo x` (where x is an invalid path)<br>
           Expected: An error message of `Invalid command format` will be shown.
 
    1. Condition 2: When the current directory is group directory e.g. `grp-001`,
 
        - Test case: `todo --desc Assignment 1 --all allStu`<br>
-         Expected: If there is no student in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the todo task `Assignment 1` will be allocated all students in group, `grp-001`.
+         Expected: If there is no student in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the todo task `Assignment 1` will be allocated to all students in group, `grp-001`.
 
        - Test case: `todo --desc Assignment 1 --all allGrp`<br>
          Expected: An error message of `AllGrp flag is only allowed for root path` will be shown.
@@ -1253,45 +1254,44 @@ testers are expected to do more *exploratory* testing.
        - Test case: `todo --desc Assignment 1 --all x` (where x is an invalid option)<br>
          Expected: An error message of `Format is invalid. Should be allStu or allGrp` will be shown.
 
-       - Test case: `todo x`, `todo x --desc Assignment 1 --all allGrp`, `todo x --desc Assignment 1 --all allStu` (where x is an invalid path)<br>
+       - Test case: `todo x --desc Assignment 1 --all allGrp`, `todo x --desc Assignment 1 --all allStu` (where x is an invalid path)<br>
          Expected: An error message of `Invalid relative path` will be shown.
 
-       - Other incorrect `todo` commands to try: `todo`<br>
+       - Other incorrect `todo` commands to try: `todo`, `todo x` (where x is an invalid path)<br>
          Expected: An error message of `Invalid command format` will be shown.
 
 ### Creating Deadline task
 
-1. Creates deadline task for specific a specific student or group
+1. Creates deadline task for a specific student or group
 
     1. Condition 1: When the current directory is root directory,
 
         - Test case: `deadline ~/grp-001/0123Y --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
-          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the deadline task `Assignment 1` will be allocated to student, `0123Y`.
+          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the deadline task `Assignment 1` will be allocated to student `0123Y`.
 
         - Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
-          Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the deadline task `Assignment 1` will be allocated to group, `grp-001`.
+          Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the deadline task `Assignment 1` will be allocated to group `grp-001`.
 
-        - Test case: `deadline x`, `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59` (where x is an invalid path)<br>
+        - Test case: `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59` (where x is an invalid path)<br>
           Expected: An error message of `Invalid relative path` will be shown.
 
         - Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
-          Expected: An error message of `Unable to create task for root directory.` will be shown.
+          Expected: An error message of `Unable to create task for root directory` will be shown.
 
-        - Other incorrect `deadline` commands to try: `deadline`<br>
+        - Other incorrect `deadline` commands to try: `deadline`, `deadline x`<br>
           Expected: An error message of `Invalid command format` will be shown.
 
     1. Condition 2: When the current directory is group directory e.g. `grp-001`,
 
         - Test case: `deadline 0123Y --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
-          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the deadline task `Assignment 1` will be allocated to student, `0123Y`.
-
+          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the deadline task `Assignment 1` will be allocated to student `0123Y`.
         - Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
-          Expected: The deadline task `Assignment 1` will be allocated for `grp-001`.
+          Expected: The deadline task `Assignment 1` will be allocated to `grp-001`.
 
-        - Test case: `deadline x`, `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59` (where x is invalid path)<br>
+        - Test case: `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59` (where x is an invalid path)<br>
           Expected: An error message of `Invalid relative path` will be shown.
 
-        - Other incorrect `deadline` commands to try: `deadline`<br>
+        - Other incorrect `deadline` commands to try: `deadline`, `deadline x` (where x is an invalid path)<br>
           Expected: An error message of `Invalid command format` will be shown.
 
 1. Creates deadline task for all groups or all students in a group
@@ -1305,15 +1305,15 @@ testers are expected to do more *exploratory* testing.
           Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the deadline task `Assignment 1` will be allocated all students in group, `grp-001`.
 
         - Test case: `deadline ~ --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`<br>
-          Expected: If there is no students under root directory, then an error message will appear at the output box below the command box. Otherwise, the deadline task `Assignment 1` will be allocated to all students under root directory.
+          Expected: If there is no student under root directory, then an error message will appear at the output box below the command box. Otherwise, the deadline task `Assignment 1` will be allocated to all students under root directory.
 
         - Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all x` (where x is an invalid option)<br>
           Expected: An error message of `Format is invalid. Should be allStu or allGrp` will be shown.
 
-        - Test case: `deadline x`, `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`, `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu` (where x is an invalid path)<br>
+        - Test case: `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`, `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu` (where x is an invalid path)<br>
           Expected: An error message of `Invalid relative path` will be shown.
 
-        - Other incorrect `deadline` commands to try: `deadline`<br>
+        - Other incorrect `deadline` commands to try: `deadline`, `deadline x` (where x is an invalid path)<br>
           Expected: An error message of `Invalid command format` will be shown.
 
    1. Condition 2: When the current directory is group directory e.g. `grp-001`,
@@ -1327,10 +1327,10 @@ testers are expected to do more *exploratory* testing.
        - Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all x` (where x is an invalid option)<br>
          Expected: An error message of `Format is invalid. Should be allStu or allGrp` will be shown.
 
-       - Test case: `deadline x`, `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`, `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu` (where x is an invalid path)<br>
+       - Test case: `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`, `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu` (where x is an invalid path)<br>
          Expected: An error message of `Invalid relative path` will be shown.
 
-       - Other incorrect `deadline` commands to try: `deadline`<br>
+       - Other incorrect `deadline` commands to try: `deadline`, `deadline x` (where x is an invalid path)<br>
          Expected: An error message of `Invalid command format` will be shown.
 
 
@@ -1347,7 +1347,7 @@ testers are expected to do more *exploratory* testing.
        Expected: If the value of x is a positive whole number and falls within the range of 1 to the total number of tasks in the task list, then the task with the respective index number will be marked. Otherwise, an error message of `Invalid task index` will be shown.
 
     1. Test case: `mark x` (where x is not a number)<br>
-       Expected: An error message of `Index provided is not a non-zero unsigned integer.` will be shown.
+       Expected: An error message of `Index provided is not a non-zero unsigned integer` will be shown.
 
     1. Other incorrect `mark` commands to try: `mark`<br>
        Expected: An error message of `Invalid command format` will be shown.
@@ -1365,7 +1365,7 @@ testers are expected to do more *exploratory* testing.
        Expected: If the value of x is a positive whole number and falls within the range of 1 to the total number of tasks in the task list, then the task with the respective index number will be unmarked. Otherwise, an error message of `Invalid task index` will be shown.
 
     1. Test case: `unmark x` (where x is not a number)<br>
-       Expected: An error message of `Index provided is not a non-zero unsigned integer.` will be shown.
+       Expected: An error message of `Index provided is not a non-zero unsigned integer` will be shown.
 
     1. Other incorrect `unmark` commands to try: `unmark`<br>
        Expected: An error message of `Invalid command format` will be shown.
@@ -1383,29 +1383,40 @@ testers are expected to do more *exploratory* testing.
        Expected: If the value of x is a positive whole number and falls within the range of 1 to the total number of tasks in the task list, then the task with the respective index number will be deleted. Otherwise, an error message of `Invalid task index` will be shown.
 
     1. Test case: `rmt x` (where x is not a number)<br>
-       Expected: An error message of `Index provided is not a non-zero unsigned integer.` will be shown.
+       Expected: An error message of `Index provided is not a non-zero unsigned integer` will be shown.
 
     1. Other incorrect `rmt` commands to try: `rmt`<br>
        Expected: An error message of `Invalid command format` will be shown.
 
 ### UI
 
-#### Change directory
+### Change directory
 
 1. Changes the current directory in the ProfBook
 
-    1. Prerequisites: The current directory is root directory.
+    1. Condition 1: When the current directory is root directory,
 
-    1. Test case: `cd grp-001`, `cd ~/grp-001`<br>
-       Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the current directory will be changed to `grp-001`.
+       - Test case: `cd grp-001`, `cd ~/grp-001`<br>
+         Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the current directory will be changed to `grp-001`.
 
-    1. Test case: `cd x` (where x is an invalid path)<br>
-       Expected: An error message of `Invalid relative path` will be shown.
+       - Test case: `cd x` (where x is an invalid path)<br>
+         Expected: An error message of `Invalid relative path` will be shown.
 
-    1. Other incorrect `cd` commands to try: `cd`<br>
-       Expected: An error message of `Invalid command format` will be shown.
+       - Other incorrect `cd` commands to try: `cd`<br>
+         Expected: An error message of `Invalid command format` will be shown.
 
-#### Display directory
+   1. Condition 2: When the current directory is group directory e.g. `grp-001`,
+
+       - Test case: `cd ../grp-002`<br>
+         Expected: If there is no such a group with GroupId, `grp-002`, then an error message will appear at the output box below the command box. Otherwise, the current directory will be changed to `grp-002`.
+
+       - Test case: `cd x` (where x is an invalid path)<br>
+         Expected: An error message of `Invalid relative path` will be shown.
+
+       - Other incorrect `cd` commands to try: `cd`<br>
+         Expected: An error message of `Invalid command format` will be shown.
+
+### Display directory
 
 1. Shows the list of children in specified directory
 
@@ -1426,7 +1437,7 @@ testers are expected to do more *exploratory* testing.
           Expected: All the students under `grp-001` will be displayed.
 
         - Test case: `ls 0001Y`<br>
-          Expected: An error message of `Cannot show children list for this path.` will be shown.
+          Expected: An error message of `Cannot show children list for this path` will be shown.
 
         - Test case: `ls x` (where x is an invalid path)<br>
           Expected: An error message of `Invalid relative path` will be shown.
@@ -1440,7 +1451,7 @@ testers are expected to do more *exploratory* testing.
         - Test case: `cat ~/grp-001`<br>
           Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the task list of `grp-001` will be displayed.
 
-        - Test case: `cat ~/grp-001/0001Y`<br>
+        - Test case: `cat ~/grp-001/0123Y`<br>
           Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the task list of `0123Y` will be displayed.
 
         - Test case: `cat x` (where x is an invalid path)<br>
