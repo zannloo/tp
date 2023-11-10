@@ -360,7 +360,7 @@ component, do head over to their respective documentation.
 
 Below is an activity diagram showing the general activity of the add student command.
 
-//TODO ADD activity diagram
+<puml src="diagrams/CreateStudentActivityDiagram.puml" width="550" />
 
 #### Design Consideration
 
@@ -440,7 +440,7 @@ diagram for adding a deadline task to a *single* student can be found in the `Mo
 
 This is an activity diagram showing the general activity of the add deadline command.
 
-//TODO ADD activity diagram
+<puml src="diagrams/CreateDeadlineActivityDiagram.puml" width="550" />
 
 #### Design Consideration
 
@@ -515,7 +515,7 @@ as `Student`.
 
 This is an activity diagram showing the general activity of the edit command.
 
-//TODO ADD activity diagram
+<puml src="diagrams/EditGroupActivityDiagram.puml" width="550" />
 
 #### Design Consideration
 
