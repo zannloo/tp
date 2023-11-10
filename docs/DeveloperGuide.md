@@ -949,10 +949,22 @@ otherwise)
 
        Use case resumes at step 1.
   
-* 2c. No path specified
+* 2c. No path specified, user is in group directory.
 
     * 2b1. ProfBook creates ToDo for the group.
   
+      Use case ends.
+
+* 2d. No path specified, user in root directory.
+
+    * 2b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2e. User specifies `--all allStu` or `--all allGrp`
+
+    * 2c1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+
       Use case ends.
 
 **Use case: Create a Deadline**
@@ -978,9 +990,21 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 2c. No path specified
+* 2c. No path specified, user in root directory.
 
-    * 2c1. ProfBook creates Deadline for thr group.
+    * 2c1. ProfBook creates Deadline for the group.
+
+      Use case ends.
+
+* 2d. No path specified, user in root directory.
+
+    * 2b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2e. User specifies `--all allStu` or `--all allGrp`
+
+    * 2c1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
