@@ -925,11 +925,11 @@ otherwise)
 
     Use case resumes at step 1.
 
-**Use case: Create a ToDo**
+**Use case: Create a ToDo task**
 
 **MSS**
 
-1. User requests to create a ToDo task.
+1. User requests to create a ToDo task either.
 2. ProfBook creates the Task under specified path/current path.
 
    Use case ends.
@@ -942,7 +942,7 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 2b. The given description is invalid.
+* 2b. The given description is empty/duplicated.
 
     * 2b1. ProfBook shows an error message.
 
@@ -950,11 +950,11 @@ otherwise)
   
 * 2c. No path specified.
 
-    * 2b1. ProfBook creates ToDo under current directly, either for groups while at root or for students while in group.
+    * 2c1. ProfBook creates ToDo under current directly, either for groups while at root or for students while in group.
   
       Use case ends.
 
-**Use case: Create a Deadline**
+**Use case: Create a Deadline task**
 
 **MSS**
 
@@ -971,7 +971,7 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 2b. The given description is invalid.
+* 2b. The given description is empty/duplicated.
 
     * 2b1. ProfBook shows an error message.
 
