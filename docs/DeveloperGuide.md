@@ -951,7 +951,7 @@ otherwise)
   
 * 2c. No path specified
 
-    * 2b1. ProfBook creates ToDo under current directly, either for groups while at root or for students while in group.
+    * 2b1. ProfBook creates ToDo for the group.
   
       Use case ends.
 
@@ -980,7 +980,7 @@ otherwise)
 
 * 2c. No path specified
 
-    * 2c1. ProfBook creates Deadline under current directly, either for groups while at root or for students while in group.
+    * 2c1. ProfBook creates Deadline for thr group.
 
       Use case ends.
 
@@ -1038,6 +1038,7 @@ otherwise)
 1. The application should be platform-independent and should run on all major operating systems as long as it has
    Java `11` or above installed.
 2. The system should work on both 32-bit and 64-bit environments.
+3. ProfBook Jar size should not exceed 100MB.
 
 **Performance requirements:**
 1. Should be able to hold up to 1000 Students/Groups without a noticeable sluggishness in performance for typical usage.
@@ -1054,10 +1055,21 @@ otherwise)
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, OS-X
-* **MSS**: Main success scenario
-* **Root**: Directory which contains all students, groups as well
-* **Group**: Directory which contains Students within the specific group
+* **Mainstream OS**: Windows, Linux, Unix, OS-X.
+* **MSS**: Main success scenario.
+* **Extensions**: Variations or alternative flows in a use case that may occur based on certain conditions.
+* **Java**: A high level, classed based, object-oriented programming language. Java 11 can be downloaded [here](https://www.oracle.com/java/technologies/downloads/#java11). 
+* **Gradle**: Gradle is a build automation tool for multi-language software development. Installation [here](https://gradle.org/install/).
+* **CLI**: Command Line Interface, a text-based interface for interacting with a computer program.
+* **Architecture Diagram**: A high-level diagram explaining the design architecture of the ProfBook application.
+* **UI component**: Manages the user interface of the application, interacting with the Logic component. 
+* **Logic component**: Executes user commands, communicates with the Model, and manages the application's logic. 
+* **Model component**: Stores and manages ProfBook data, including information about root, groups, and students. 
+* **Parser component**: Handles the interpretation of the users input.
+* **Storage component**: Handles the storage and retrieval of ProfBook data, interacting with the Model component.
+* **Common classes**: Classes shared among multiple components in the ProfBook application.
+* **Root**: Directory which contains all students, groups as well.
+* **Group**: Directory which contains Students within the specific group.
 * **Task**: A piece of work or activity to be completed.
 * **Path**: A location or address within ProfBook's file hierarchy.
 * **Deadline Task**: A type of task with a specific deadline or due date.
