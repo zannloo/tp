@@ -118,7 +118,7 @@ public class CreateDeadlineCommand extends Command {
         requireNonNull(model);
         assert model != null : "Model should not be null";
 
-        // Check path exists in ProfBook
+        // Check if path exists in ProfBook
         if (!model.hasPath(path)) {
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, path));
         }
