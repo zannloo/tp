@@ -22,10 +22,19 @@ import seedu.address.model.task.Task;
  */
 public class MarkCommand extends Command {
 
+    /**
+     * The command word for marking a task.
+     */
     public static final String COMMAND_WORD = "mark";
 
+    /**
+     * Message indicating successful marking of a task.
+     */
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Marked task: %1$s";
 
+    /**
+     * Usage information for the 'mark' command.
+     */
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <index>\n"
             + "\n"
