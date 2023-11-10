@@ -16,24 +16,23 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.profbook.Student;
-import seedu.address.testutil.StudentBuilder;
+import seedu.address.testutil.TypicalStudents;
 
 public class JsonAdaptedStudentTest {
 
     private static final Logger logger = Logger.getLogger(JsonAdaptedStudentTest.class.getName());
+    private static final Student student = TypicalStudents.ALICE;
     @Test
     public void toModelType_validStudentDetails_returnsStudent() throws Exception {
         logger.log(Level.INFO, "Testing toModelType for valid student");
-        Student student = new StudentBuilder().build();
         JsonAdaptedStudent jsonAdaptedStudent = new JsonAdaptedStudent(student);
         assertEquals(student, jsonAdaptedStudent.toModelType());
     }
 
     @Test
     public void toModelType_emptyTask_returnsStudent() throws Exception {
-        Student grp = new StudentBuilder().build();
-        JsonAdaptedStudent student = new JsonAdaptedStudent(grp);
-        assertEquals(grp, student.toModelType());
+        JsonAdaptedStudent jsonAdaptedStudent = new JsonAdaptedStudent(student);
+        assertEquals(student, jsonAdaptedStudent.toModelType());
     }
 
     @Test
