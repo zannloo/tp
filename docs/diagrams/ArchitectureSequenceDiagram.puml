@@ -8,7 +8,7 @@ Participant ":Logic" as logic LOGIC_COLOR
 Participant ":Model" as model MODEL_COLOR
 Participant ":Storage" as storage STORAGE_COLOR
 
-user -[USER_COLOR]> ui : "delete 1"
+user -[USER_COLOR]> ui : "rm 0001Y"
 activate ui UI_COLOR
 
 ui -[UI_COLOR]> logic : execute("rm 0001Y")
