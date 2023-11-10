@@ -1,5 +1,7 @@
 package seedu.address.model.task;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +15,10 @@ import seedu.address.ui.DeadlineCard;
 public class Deadline extends Task {
     private static final DateTimeFormatter OUTPUT_DATETIME_FORMATTER =
         DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy hh:mm a");
+
     private final LocalDateTime dueBy;
+    private static final Logger logger = Logger.getLogger(Deadline.class.getName());
+
 
     /**
      * Constructs a new Deadline object with the given description and deadline.
@@ -23,6 +28,7 @@ public class Deadline extends Task {
     public Deadline(String description, LocalDateTime deadline) {
         super(description);
         this.dueBy = deadline;
+        logger.log(Level.INFO, "Created Deadline: " + description + " (by: " + formatDueBy() + ")");
     }
 
     /**
