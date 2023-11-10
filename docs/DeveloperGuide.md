@@ -700,21 +700,21 @@ otherwise)
 
 **MSS**
 
-1. User requests to cd into a specific group
-2. ProfBook moves into the directory, display updates to show students within specified group
+1. User requests to cd into a specific group.
+2. ProfBook moves into the directory, display updates to show students within specified group.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The path of the group is invalid
+* 2a. The path of the group is invalid.
 
     * 2a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
   
 
-* 2b. No path provided
+* 2b. No path provided.
   
   * 2b1. ProfBook shows an error message.
 
@@ -731,13 +731,13 @@ otherwise)
 
 **Extensions**
 
-* 2a. Provided path is invalid
+* 2a. Provided path is invalid.
 
     * 2a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. Command has no arguments
+* 2b. Command has no arguments.
 
     * 2b1. ProfBook shows list of children under current directory.
 
@@ -760,7 +760,7 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 2b1. No path specified
+* 2b1. No path specified.
 
     * 2b1. Profbook displays task list of current path.
 
@@ -779,7 +779,7 @@ otherwise)
 
 **MSS**
 
-1. User requests to exit ProfBook
+1. User requests to exit ProfBook.
 2. ProfBook stores all data and closes application.
 
    Use case ends.
@@ -904,8 +904,8 @@ otherwise)
 
 **MSS**
 
-1. User requests to create a group with path and name
-2. ProfBook creates the group
+1. User requests to create a group with path and name.
+2. ProfBook creates the group.
 
    Use case ends.
 
@@ -958,7 +958,7 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 2e. User specifies `--all allStu` or `--all allGrp`
+* 2e. User specifies `--all allStu` or `--all allGrp`.
 
     * 2e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
@@ -1005,7 +1005,7 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 2f. User specifies `--all allStu` or `--all allGrp`
+* 2f. User specifies `--all allStu` or `--all allGrp`.
 
     * 2f1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
@@ -1015,14 +1015,14 @@ otherwise)
 
 **MSS**
 
-1. User requests to mark a specific task
+1. User requests to mark a specific task.
 2. ProfBook marks task based on given index, display updates to show as marked.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The Index provided is invalid
+* 2a. The Index provided is invalid.
     * 2a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
@@ -1031,14 +1031,14 @@ otherwise)
 
 **MSS**
 
-1. User requests to unmark a specific task
+1. User requests to unmark a specific task.
 2. ProfBook unmarks task based on given index, display updates to show as unmarked.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The Index provided is invalid
+* 2a. The Index provided is invalid.
     * 2a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
@@ -1047,14 +1047,14 @@ otherwise)
 
 **MSS**
 
-1. User requests to delete a specific task
+1. User requests to delete a specific task.
 2. ProfBook delete task based on given index.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The Index provided is invalid
+* 2a. The Index provided is invalid.
     * 2a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
