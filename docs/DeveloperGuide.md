@@ -251,6 +251,24 @@ The `Storage` component,
 * depends on some classes in the `Model` component (because the `ProfBookStorageManager` component's job is to
   save/retrieve objects that belong to the `Model`)
 
+### Path package
+The `path` package in `model` package serves as a fundamental representation of the hierachical structure within the application. It delineates the navigational paths essential for traversal and dynamic command execution within the system.
+
+Here is a class diagram for the path package:
+
+<puml src="diagrams/PathClassDiagram.puml" width="550" />
+
+1. The `PathElement` class forms the building blocks for constructing paths within ProfBook. 
+2. `PathElementType` enum defines the type of elements within a  path:
+   * `ROOT`: Represents the root element in the hierarchy.
+   * `GROUPID`: Represents the element corresponding to a group in the hierachy.
+   * `STUDENTID`: Represents the element corresponding to a student in the hierachy.
+   * `PARENT`: Corresponds to the `..` notation, indicating the parent directory.
+   * `CURRENT`: Corresponds to the `.` notation, indicating the current directory.
+3. `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
+   * The `resolve` method is crucial to resolve a `RelativePath` and return the resolved path in `AbsolutePath` type.
+   * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path `~/grp-002`.
+
 ### Common classes
 
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
