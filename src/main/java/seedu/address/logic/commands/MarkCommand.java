@@ -50,15 +50,24 @@ public class MarkCommand extends Command {
             + "Examples: \n"
             + "mark 1";
 
+    /**
+     * A special instance of MarkCommand used to display the command's usage message.
+     */
     public static final MarkCommand HELP_MESSAGE = new MarkCommand() {
         @Override
-        public CommandResult execute(Model model) throws CommandException {
+        public CommandResult execute(Model model) {
             return new CommandResult(MESSAGE_USAGE);
         }
     };
 
+    /**
+     * Logger for logging messages related to MarkCommand.
+     */
     private static final Logger logger = LogsCenter.getLogger(MarkCommand.class);
 
+    /**
+     * The index of the task to be marked.
+     */
     private final Index index;
 
     /**
@@ -71,16 +80,19 @@ public class MarkCommand extends Command {
         this.index = index;
     }
 
+    /**
+     * Private constructor for creating the HELP_MESSAGE instance.
+     */
     private MarkCommand() {
         this.index = null;
     }
 
     /**
-     * Executes the MarkCommand to mark a task as completed.
+     * Executes the MarkCommand to mark the specified task as completed.
      *
-     * @param model The current model of the application.
+     * @param model The model on which the command should be executed.
      * @return A CommandResult containing a message indicating the success of the marking operation.
-     * @throws CommandException If the command cannot be executed due to an incorrect model (not showing task list).
+     * @throws CommandException If there exist any error in executing the command.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
@@ -98,12 +110,12 @@ public class MarkCommand extends Command {
 
         // Check if index is valid.
         if (!taskOperation.isValidIndex(this.index.getOneBased())) {
-            logger.warning("Invalid index: " + this.index.getOneBased() + ". Aborting mark task command.");
+            logger.warning("Invalid task index: " + this.index.getOneBased() + ". Aborting mark task command.");
             throw new CommandException(
                     String.format(MESSAGE_INVALID_INDEX, taskOperation.getTaskListSize(), index.getOneBased()));
         }
 
-        logger.info("Executing mark task command on index " + this.index.getOneBased());
+        logger.info("Executing mark task command on task with index " + this.index.getOneBased());
 
         Task markedTask = taskOperation.markTask(this.index.getOneBased());
         model.updateList();
@@ -126,7 +138,6 @@ public class MarkCommand extends Command {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof MarkCommand)) {
             return false;
         }
@@ -136,9 +147,9 @@ public class MarkCommand extends Command {
     }
 
     /**
-     * Returns a string representation of this MarkCommand, including its index.
+     * Returns the string representation of this MarkCommand, including its index.
      *
-     * @return A string representation of the MarkCommand.
+     * @return The string representation of this MarkCommand.
      */
     @Override
     public String toString() {
