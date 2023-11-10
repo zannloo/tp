@@ -617,55 +617,54 @@ plan to revamp our error message to be more descriptive and user friendly
 * has a need to manage a significant number of students
 * has a need to manage various tutorial groups
 * has to keep track of deadlines and assign tasks to groups as well as individual students
-* prefer and is used to using cli and linux commands
+* prefer and is used to using CLI and Linux commands
 * can type fast
 * prefers typing to mouse interactions
 
-**Value proposition**: Keep track of tutorial groups and students deadlines and tasks efficiently with an interface that
+**Value proposition**: Keep track of groups and students and their deadlines and tasks efficiently with an interface that
 will be faster than a typical mouse/GUI driven app
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority level | As a …​          | I want to …​                                                                                                    | So that I can…​                                                               |
-|----------------|------------------|-----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
-| `* * *`        | new user         | see usage instructions                                                                                          | refer to instructions when I forget how to use the App                        |
-| `* * *`        | new user         | take advantage of existing linux skills                                                                         | be more efficient in using the application                                    |
-| `* * *`        | new user         | delete a student                                                                                                | remove students that I no longer need                                         |
-| `* * *`        | new user         | create deadlines for student                                                                                    | keep track of when assignments are due                                        |
-| `* * *`        | new user         | create todo task for student                                                                                    | keep track of which label they are at                                         |
-| `* * *`        | new user         | create deadline for a group                                                                                     | keep track of when group specific assignments are due                         |
-| `* * *`        | new user         | create todo for a group                                                                                         | keep track of the progress of each group relative to others                   |
-| `* * *`        | new user         | create deadline for a tutorial group                                                                            | keep track of when tutorial specific assignments are due                      |
-| `* * *`        | new user         | create todo tasks for a tutorial group                                                                          | keep track of the progress of each tutorial group relative to others          |
-| `* * *`        | new user         | add time to a task                                                                                              | i can record when a task needs to be done                                     |
-| `* * *`        | new user         | set alerts and notification                                                                                     | I can receive the notifications of the task                                   |
-| `* * *`        | new user         | see the pending task that has the next earliest deadline                                                        | i can know what do do next                                                    |
-| `* * *`        | new user         | Add the profile picture of students                                                                             | I can better remember them                                                    |
-| `* * *`        | new user         | Add the profile picture of students                                                                             | I can better remember them                                                    |
-| `* * *`        | new user         | Add the matriculation number of students                                                                        | I can update their grade based on the matriculation number                    |
-| `* * *`        | new user         | create student profile                                                                                          | manage information of a specific student                                      |
-| `* * *`        | new user         | create group                                                                                                    | manage information of a specific group                                        |
-| `* * *`        | new user         | create tutorial slot                                                                                            | manage information fo a specific tutorial slot                                |
-| `* * *`        | Experienced user | search for a student/tutorial group by name                                                                     | pull up students/tutorial groups without having to go through the entire list |
-| `* * *`        | Experienced user | Mark task done for every student in a group                                                                     | I do not need to mark each task manually                                      |
-| `* * *`        | Experienced user | Add tasks for every student in the book                                                                         | I do not need to add tasks manually                                           |
-| `* * *`        | Experienced user | Add tasks for every student in a tutorial group                                                                 | I do not need to add tasks manually                                           |
-| `* * *`        | Experienced user | Add tasks for every student in a group                                                                          | I do not need to add tasks manually                                           |
-| `* * `         | Experienced user | Be able to see an brief overview of last week                                                                   | Can see deadlines that have passed etc                                        |
-| `* * `         | Experienced user | Easily edit the student/tutorial groups                                                                         | Information is applicable throughout time                                     |
-| `* * `         | Experienced user | Move students around, edit which group they are in                                                              | I can be flexible with the groupings                                          |
-| `* * `         | Expert user      | Check last week's deadline have been met or not                                                                 | I would not miss any deadline                                                 |
-| `* * `         | Expert user      | Upload text file contains tutorial groups and students                                                          | I do not need to manually add students and tutorial groups                    |
-| `*`            | Experienced user | Sync with google calendar                                                                                       | To keep information easily accessible                                         |
-| `* `           | Experienced user | Sync with nusmods                                                                                               | To make it easier to take note of tutorial venues                             |
-| `*`            | Experienced user | Use addressbook to track attendance for each tutorial book                                                      | I can easily write down attendance in one area                                |
-| `*`            | Expert user      | View a dashboard that provides the overview of the progress of each tutorial group and their respecective tasks | I can easily and quickly focus on areas that require my attention             |
-| `*`            | Expert user      | Let the program generate a detailed report on the performace of each tutorial group                             | I can easily identify the areas of strengths and weaknesses of each students  |
-| `*`            | Expert user      | Incorporate my own scripts to customise my own experience                                                       | I can improve productivity and tailor fit the software for myself             |
-| `*`            | Expert user      | make the program support customizable templates for tutorials and student profiles                              | I can make it more aesthetically pleasing                                     |
-| `*`            | Expert user      | Make use of the feature to archive certain task                                                                 | I can keep track of the history and not focus on unimportant task.            |
+| Priority level | As a …​          | I want to …​                                                                                                  | So that I can…​                                                               |
+|----------------|------------------|---------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| `* * *`        | new user         | see usage instructions                                                                                        | refer to instructions when I forget how to use the App                        |
+| `* * *`        | new user         | take advantage of existing Linux skills                                                                       | be more efficient in using the application                                    |
+| `* * *`        | new user         | create deadlines for student                                                                                  | keep track of when assignments are due                                        |
+| `* * *`        | new user         | create todo task for student                                                                                  | keep track of which label they are at                                         |
+| `* * *`        | new user         | create deadline for a group                                                                                   | keep track of when group specific assignments are due                         |
+| `* * *`        | new user         | create todo for a group                                                                                       | keep track of the progress of each group relative to others                   |
+| `* * *`        | new user         | create deadline for a tutorial group                                                                          | keep track of when tutorial specific assignments are due                      |
+| `* * *`        | new user         | create todo tasks for a tutorial group                                                                        | keep track of the progress of each tutorial group relative to others          |
+| `* * *`        | new user         | add time to a task                                                                                            | i can record when a task needs to be done                                     |
+| `* * *`        | new user         | set alerts and notification                                                                                   | I can receive the notifications of the task                                   |
+| `* * *`        | new user         | see the pending task that has the next earliest deadline                                                      | i can know what do do next                                                    |
+| `* * *`        | new user         | add the profile picture of students                                                                           | I can better remember them                                                    |
+| `* * *`        | new user         | add the matriculation number of students                                                                      | I can update their grade based on the matriculation number                    |
+| `* * *`        | new user         | create student profile                                                                                        | manage information of a specific student                                      |
+| `* * *`        | new user         | delete a student                                                                                              | remove students that I no longer need                                         |
+| `* * *`        | new user         | create group                                                                                                  | manage information of a specific group                                        |
+| `* * *`        | new user         | create tutorial slot                                                                                          | manage information fo a specific tutorial slot                                |
+| `* * *`        | Experienced user | search for a student/tutorial group by name                                                                   | pull up students/tutorial groups without having to go through the entire list |
+| `* * *`        | Experienced user | mark task done for every student in a group                                                                   | I do not need to mark each task manually                                      |
+| `* * *`        | Experienced user | add tasks for every student in the book                                                                       | I do not need to add tasks manually                                           |
+| `* * *`        | Experienced user | add tasks for every student in a tutorial group                                                               | I do not need to add tasks manually                                           |
+| `* * *`        | Experienced user | add tasks for every student in a group                                                                        | I do not need to add tasks manually                                           |
+| `* * `         | Experienced user | be able to see an brief overview of last week                                                                 | Can see deadlines that have passed etc                                        |
+| `* * `         | Experienced user | easily edit the student/tutorial groups                                                                       | Information is applicable throughout time                                     |
+| `* * `         | Experienced user | move students around, edit which group they are in                                                            | I can be flexible with the groupings                                          |
+| `* * `         | Expert user      | check last week's deadline have been met or not                                                               | I would not miss any deadline                                                 |
+| `* * `         | Expert user      | upload text file contains tutorial groups and students                                                        | I do not need to manually add students and tutorial groups                    |
+| `*`            | Experienced user | sync with Google calendar                                                                                     | To keep information easily accessible                                         |
+| `* `           | Experienced user | sync with NUSMods                                                                                             | To make it easier to take note of tutorial venues                             |
+| `*`            | Experienced user | use ProfBook to track attendance for each tutorial.                                                           | I can easily write down attendance in one area                                |
+| `*`            | Expert user      | view a dashboard that provides the overview of the progress of each tutorial group and their respective tasks | I can easily and quickly focus on areas that require my attention             |
+| `*`            | Expert user      | let the program generate a detailed report on the performance of each tutorial group                          | I can easily identify the areas of strengths and weaknesses of each students  |
+| `*`            | Expert user      | incorporate my own scripts to customise my own experience                                                     | I can improve productivity and tailor fit the software for myself             |
+| `*`            | Expert user      | make the program support customizable templates for tutorials and student profiles                            | I can make it more aesthetically pleasing                                     |
+| `*`            | Expert user      | make use of the feature to archive certain task                                                               | I can keep track of the history and not focus on unimportant task.            |
 
 *{More to be added}*
 
@@ -1092,7 +1091,7 @@ otherwise)
 * **Parser component**: Handles the interpretation of the users input.
 * **Storage component**: Handles the storage and retrieval of ProfBook data, interacting with the Model component.
 * **Common classes**: Classes shared among multiple components in the ProfBook application.
-* **Root**: Directory which contains all students, groups as well.
+* **Root**: Directory which contains all groups.
 * **Group**: Directory which contains Students within the specific group.
 * **Task**: A piece of work or activity to be completed.
 * **Path**: A location or address within ProfBook's file hierarchy.
