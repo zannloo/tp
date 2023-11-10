@@ -1333,34 +1333,6 @@ testers are expected to do more *exploratory* testing.
        - Other incorrect `deadline` commands to try: `deadline`<br>
          Expected: An error message of `Invalid command format` will be shown.
 
-### Display all tasks
-
-1. Displays all tasks depending on the directory you are at
-
-    1. Condition 1: When the current directory is root directory,
-
-        - Test case: `cat ~/grp-001`<br>
-          Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the task list of `grp-001` will be displayed.
-
-        - Test case: `cat ~/grp-001/0001Y`<br>
-          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the task list of `0123Y` will be displayed.
-
-        - Test case: `cat x` (where x is an invalid path)<br>
-          Expected: An error message of `Invalid relative path` will be shown.
-
-        - Other incorrect `cat` commands to try: `cat`<br>
-          Expected: An error message of `Cannot show task list for this path: ~` will be shown.
-
-    1. Condition 2: When the current directory is group directory e.g. `grp-001`,
-
-        - Test case: `cat`<br>
-          Expected: The task list of `grp-001` will be displayed.
-
-        - Test case: `cat 0123Y`<br>
-          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the task list of `0123Y` will be displayed.
-
-        - Test case: `cat x` (where x is an invalid path)<br>
-          Expected: An error message of `Invalid relative path` will be shown.
 
 ### Mark task as completed
 
@@ -1415,6 +1387,78 @@ testers are expected to do more *exploratory* testing.
 
     1. Other incorrect `rmt` commands to try: `rmt`<br>
        Expected: An error message of `Invalid command format` will be shown.
+
+### UI
+
+#### Change directory
+
+1. Changes the current directory in the ProfBook
+
+    1. Prerequisites: The current directory is root directory.
+
+    1. Test case: `cd grp-001`, `cd ~/grp-001`<br>
+       Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the current directory will be changed to `grp-001`.
+
+    1. Test case: `cd x` (where x is an invalid path)<br>
+       Expected: An error message of `Invalid relative path` will be shown.
+
+    1. Other incorrect `cd` commands to try: `cd`<br>
+       Expected: An error message of `Invalid command format` will be shown.
+
+#### Display directory
+
+1. Shows the list of children in specified directory
+
+    1. Condition 1: When the current directory is root directory
+
+        - Test case: `ls`<br>
+          Expected: All the groups under root directory will be displayed.
+
+        - Test case: `ls grp-001`<br>
+          Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, all the students in `grp-001` will be displayed.
+
+        - Test case: `ls x` (where x is an invalid path)<br>
+          Expected: An error message of `Invalid relative path` will be shown.
+
+   1. Condition 2: When the current directory is group directory e.g. `grp-001`
+
+        - Test case: `ls`<br>
+          Expected: All the students under `grp-001` will be displayed.
+
+        - Test case: `ls 0001Y`<br>
+          Expected: An error message of `Cannot show children list for this path.` will be shown.
+
+        - Test case: `ls x` (where x is an invalid path)<br>
+          Expected: An error message of `Invalid relative path` will be shown.
+
+### Display all tasks
+
+1. Displays all tasks depending on the directory you are at
+
+    1. Condition 1: When the current directory is root directory,
+
+        - Test case: `cat ~/grp-001`<br>
+          Expected: If there is no such a group with GroupId, `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the task list of `grp-001` will be displayed.
+
+        - Test case: `cat ~/grp-001/0001Y`<br>
+          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the task list of `0123Y` will be displayed.
+
+        - Test case: `cat x` (where x is an invalid path)<br>
+          Expected: An error message of `Invalid relative path` will be shown.
+
+        - Other incorrect `cat` commands to try: `cat`<br>
+          Expected: An error message of `Cannot show task list for this path: ~` will be shown.
+
+    1. Condition 2: When the current directory is group directory e.g. `grp-001`,
+
+        - Test case: `cat`<br>
+          Expected: The task list of `grp-001` will be displayed.
+
+        - Test case: `cat 0123Y`<br>
+          Expected: If there is no such a student with StudentId, `0123Y`, in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the task list of `0123Y` will be displayed.
+
+        - Test case: `cat x` (where x is an invalid path)<br>
+          Expected: An error message of `Invalid relative path` will be shown.
 
 ### Saving data
 
