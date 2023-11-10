@@ -551,7 +551,8 @@ Given below is an example usage scenario whereby a student is moved from group1 
 6. As uniqueness of student is validated before each student is added, there is no need to check for clashes when
    executing
 
-// TODO maybe add a sequence diagram
+<puml src="diagrams/MoveStudentSequenceDiagram.puml" width="700" />
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Proposed future features
