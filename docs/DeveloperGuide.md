@@ -142,7 +142,9 @@ as an example.
 `rmt` is the command word for DeleteTaskCommand class. By executing the command `rmt 1`, tha task with index number 1
 will be deleted.
 
-<puml src="diagrams/DeleteTaskSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `rmt 1` Command" />
+<puml src="diagrams/DeleteTaskSequenceLogicDiagram.puml" alt="Interactions Inside the Logic Component for the `rmt 1` Command" width="600"/>
+
+<puml src="diagrams/DeleteTaskSequenceModelDiagram.puml" width="600"/>
 
 How the `Logic` component works:
 
@@ -332,7 +334,7 @@ Given below is an example usage scenario on how an existing user can create a st
 1. When the user launches the application, existing information is read from the data file `profbook.json`. The initial
    state would look something like this.
 
-   <puml src="diagrams/AddInitialState.puml" width="550" />
+   <puml src="diagrams/AddInitialState.puml" width="600" />
 
 2. Suppose the user is still in the root directory and wants to add a new student to group 1, the user would execute the
    following
@@ -350,12 +352,12 @@ Given below is an example usage scenario on how an existing user can create a st
    the path to the group is present and valid. The student is added through the `GroupChildOperation::addChild` method.
 7. It should look something like this.
 
-   <puml src="diagrams/AddFinalState.puml" width="550" />
+   <puml src="diagrams/AddFinalState.puml" width="650" />
 
 This sequence diagram shows the general flow of the CreateStudentCommand, for more information on each specific
 component, do head over to their respective documentation.
 
-<puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="550" />
+<puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="650" />
 
 
 Below is an activity diagram showing the general activity of the add student command.
@@ -408,7 +410,7 @@ Given below is an example usage scenario on how an existing user can add Deadlin
 1. When the user launches the application, existing information is read from the data file `profbook.json`. In our case,
    let us narrow our focus to a specific group with 2 students.
 
-   <puml src="diagrams/DeadlineInitialState.puml" width="550" />
+   <puml src="diagrams/DeadlineInitialState.puml" width="600" />
 
 2. Suppose the user is still in the root directory and wants to add a deadline to all students in group1, the user would
    execute the following
@@ -427,7 +429,7 @@ Given below is an example usage scenario on how an existing user can add Deadlin
    task is already present, if not it would add the task.
 6. It should look something like this.
 
-   <puml src="diagrams/DeadlineFinalState.puml" width="550" />
+   <puml src="diagrams/DeadlineFinalState.puml" width="600" />
 
 7. In the above diagram, Jerry already has the exact deadline and adding it would result in a duplicate. Therefore, the
    task is only added to student Ben.
@@ -435,7 +437,7 @@ Given below is an example usage scenario on how an existing user can add Deadlin
 This sequence diagram illustrates the general flow when adding the deadline task to *all* students, the sequence
 diagram for adding a deadline task to a *single* student can be found in the `Model` component.
 
-<puml src="diagrams/CreateDeadlineCommandSequenceDiagram.puml" width="550" />
+<puml src="diagrams/CreateDeadlineCommandSequenceDiagram.puml" width="650" />
 
 
 This is an activity diagram showing the general activity of the add deadline command.
@@ -501,17 +503,17 @@ Given below is an example usage scenario on how an existing user can edit the na
 6. The `RootChildOperation::editChild` then makes a copy of the existing group while updating the values found in
    the `EditGroupDescriptor`.
 
-   <puml src="diagrams/EditIntermediateState.puml" width="550" />
+   <puml src="diagrams/EditIntermediateState.puml" width="600" />
 
 6. It then deletes the old key-value pair in root's `Map<id, group>` and adds the new key-value pair.
 
-   <puml src="diagrams/EditFinalState.puml" width="550" />
+   <puml src="diagrams/EditFinalState.puml" width="600" />
 
 This is illustrated by the following sequence diagram. It shows the general flow of the edit through editing a `Group`
 instance, this example should be general enough for you to understand how the edit command works on other classes such
 as `Student`.
 
-<puml src="diagrams/EditCommandSequenceDiagram.puml" width="550" />
+<puml src="diagrams/EditCommandSequenceDiagram.puml" width="650" />
 
 This is an activity diagram showing the general activity of the edit command.
 
