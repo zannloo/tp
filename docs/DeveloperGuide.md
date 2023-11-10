@@ -1062,10 +1062,14 @@ otherwise)
    Java `11` or above installed.
 2. The system should work on both 32-bit and 64-bit environments.
 3. ProfBook Jar size should not exceed 100MB.
+4. ProfBook should be capable of running on various local environments without dependencies on external servers or services.
 
 **Performance requirements:**
 1. Should be able to hold up to 1000 Students/Groups without a noticeable sluggishness in performance for typical usage.
 2. ProfBook should be able to respond in less than 0.5 seconds.
+
+**Reliability Requirements**:
+1. Should not lose any data if application is closed through external means (i.e. not using exit command or exit button).
 
 **Quality requirements:**
 1. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
@@ -1085,6 +1089,7 @@ otherwise)
 * **Gradle**: Gradle is a build automation tool for multi-language software development. Installation [here](https://gradle.org/install/).
 * **CLI**: Command Line Interface, a text-based interface for interacting with a computer program.
 * **Architecture Diagram**: A high-level diagram explaining the design architecture of the ProfBook application.
+* ***Folder structure***: The organization of directories and subdirectories within ProfBook to represent the hierarchy.
 * **UI component**: Manages the user interface of the application, interacting with the Logic component. 
 * **Logic component**: Executes user commands, communicates with the Model, and manages the application's logic. 
 * **Model component**: Stores and manages ProfBook data, including information about root, groups, and students. 
