@@ -666,7 +666,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`            | Expert user      | make the program support customizable templates for tutorials and student profiles                            | I can make it more aesthetically pleasing                                     |
 | `*`            | Expert user      | make use of the feature to archive certain task                                                               | I can keep track of the history and not focus on unimportant task.            |
 
-*{More to be added}*
 
 ### Use cases
 
@@ -674,7 +673,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 otherwise)
 
 **Use case: help**
-
 
 **MSS**
 
@@ -716,7 +714,7 @@ otherwise)
       Use case resumes at step 1.
   
 
-* 2b. The path of the group is empty
+* 2b. No path provided
   
   * 2b1. ProfBook shows an error message.
 
@@ -803,11 +801,11 @@ otherwise)
 
       Use case resumes at step 1.
 
-**Use case: Edit a student`s details**
+**Use case: Edit a student's details**
 
 **MSS**
 
-1. User requests to edit a student`s details.
+1. User requests to edit a student's details.
 2. ProfBook edits the students details.
 
    Use case ends.
@@ -826,11 +824,11 @@ otherwise)
 
       Use case resumes at step 1.
 
-**Use case: Edit a group`s details**
+**Use case: Edit a group's details**
 
 **MSS**
 
-1. User requests to edit a group`s details.
+1. User requests to edit a group's details.
 2. ProfBook edits the groups details.
 
    Use case ends.
