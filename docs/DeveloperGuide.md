@@ -846,7 +846,7 @@ otherwise)
 
 **MSS**
 
-1. User requests to delete a group or student
+1. User requests to delete a group or student.
 2. ProfBook removes group or student.
 
    Use case ends.
@@ -948,19 +948,19 @@ otherwise)
   
 * 2c. No path specified, user is in group directory.
 
-    * 2b1. ProfBook creates ToDo for the group.
+    * 2c1. ProfBook creates ToDo for the group.
   
       Use case ends.
 
 * 2d. No path specified, user in root directory.
 
-    * 2b1. ProfBook shows an error message.
+    * 2d1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
 * 2e. User specifies `--all allStu` or `--all allGrp`
 
-    * 2c1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 2e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
@@ -987,21 +987,27 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 2c. No path specified, user in root directory.
+* 2c. The given deadline date is invalid.
 
-    * 2c1. ProfBook creates Deadline for the group.
-
-      Use case ends.
-
-* 2d. No path specified, user in root directory.
-
-    * 2b1. ProfBook shows an error message.
+    * 2c1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2e. User specifies `--all allStu` or `--all allGrp`
+* 2d. No path specified, user in root directory.
 
-    * 2c1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 2d1. ProfBook creates Deadline for the group.
+
+      Use case ends.
+
+* 2e. No path specified, user in root directory.
+
+    * 2e1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2f. User specifies `--all allStu` or `--all allGrp`
+
+    * 2f1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
