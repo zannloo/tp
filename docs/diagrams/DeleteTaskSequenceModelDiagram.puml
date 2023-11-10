@@ -48,6 +48,4 @@ activate CommandResult
 
 CommandResult --> DeleteTaskCommand : result
 deactivate CommandResult
-
-
 @enduml
