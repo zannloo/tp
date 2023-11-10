@@ -22,19 +22,13 @@ import seedu.address.model.task.Task;
  */
 public class UnmarkCommand extends Command {
 
-    /**
-     * The command word for unmarking a task.
-     */
+    /** The command word for unmarking a task */
     public static final String COMMAND_WORD = "unmark";
 
-    /**
-     * Message indicating successful unmarking of a task.
-     */
+    /** Message indicating successful unmarking of a task */
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Unmarked task: %1$s";
 
-    /**
-     * Usage information for the 'unmark' command.
-     */
+    /** Usage information for the 'unmark' command */
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <index>\n"
             + "\n"
@@ -50,9 +44,7 @@ public class UnmarkCommand extends Command {
             + "Examples: \n"
             + "unmark 1";
 
-    /**
-     * A special instance of UnmarkCommand used to display the command's usage message.
-     */
+    /** A special instance of UnmarkCommand used to display the command's usage message */
     public static final UnmarkCommand HELP_MESSAGE = new UnmarkCommand() {
         @Override
         public CommandResult execute(Model model) {
@@ -60,14 +52,10 @@ public class UnmarkCommand extends Command {
         }
     };
 
-    /**
-     * Logger for logging messages related to UnmarkCommand.
-     */
+    /** Logger for logging messages related to UnmarkCommand */
     private static final Logger logger = LogsCenter.getLogger(UnmarkCommand.class);
 
-    /**
-     * The index of the task to be unmarked.
-     */
+    /** The index of the task to be unmarked */
     private final Index index;
 
     /**
@@ -114,14 +102,12 @@ public class UnmarkCommand extends Command {
             throw new CommandException(
                     String.format(MESSAGE_INVALID_INDEX, taskOperation.getTaskListSize(), index.getOneBased()));
         }
-
         logger.info("Executing unmark task command on task with index " + this.index.getOneBased());
 
         Task ummarkedTask = taskOperation.unmarkTask(this.index.getOneBased());
         model.updateList();
 
         logger.info("Task unmarked successfully. Unmarked task: " + ummarkedTask.toString());
-
         return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS, ummarkedTask));
     }
 

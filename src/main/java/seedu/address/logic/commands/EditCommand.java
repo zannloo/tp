@@ -36,19 +36,13 @@ import seedu.address.model.task.TaskListManager;
  */
 public class EditCommand extends Command {
 
-    /**
-     * The command word for editing the details of a group or student.
-     */
+    /** The command word for editing the details of a group or student */
     public static final String COMMAND_WORD = "edit";
 
-    /**
-     * Error message indicating that the group to be edited does not exist in ProfBook.
-     */
+    /** Error message indicating that the group to be edited does not exist in ProfBook */
     public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
 
-    /**
-     * Usage information for the 'edit' command.
-     */
+    /** Usage information for the 'edit' command */
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <path> " + "[OPTION]... \n"
             + "\n"
@@ -69,57 +63,37 @@ public class EditCommand extends Command {
             + "edit grp-001 -n Perfect Group \n"
             + "edit grp-001 -i grp-002";
 
-    /**
-     * Message indicating successful editing of group fields.
-     */
+    /** Message indicating successful editing of group fields */
     public static final String MESSAGE_EDIT_GROUP_SUCCESS = "Field(s) of group has been edited successfully.";
 
-    /**
-     * Message indicating successful editing of student fields.
-     */
+    /** Message indicating successful editing of student fields */
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Field(s) of student has been edited successfully.";
 
-    /**
-     * Error message indicating that the root directory cannot be edited.
-     */
+    /** Error message indicating that the root directory cannot be edited */
     public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Root directory cannot be edited.";
 
-    /**
-     * Message indicating that at least one field to edit must be provided.
-     */
+    /** Message indicating that at least one field to edit must be provided */
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
-    /**
-     * Error message indicating that the provided path does not exist in ProfBook.
-     */
+    /** Error message indicating that the provided path does not exist in ProfBook */
     public static final String MESSAGE_NO_SUCH_PATH = "Path does not exist in ProfBook.";
 
-    /**
-     * Error message indicating that the provided student does not exist in ProfBook.
-     */
+    /** Error message indicating that the provided student does not exist in ProfBook */
     public static final String MESSAGE_NO_SUCH_STUDENT = "Student does not exist in ProfBook.";
 
-    /**
-     * Error message indicating that a student with the provided ID already exists.
-     */
+    /** Error message indicating that a student with the provided ID already exists */
     public static final String MESSAGE_DUPLICATE_STUDENT_ID =
             "StudentId %1$s has already been used by the student: %2$s";
 
-    /**
-     * Error message indicating that a group with the provided ID already exists.
-     */
+    /** Error message indicating that a group with the provided ID already exists */
     public static final String MESSAGE_DUPLICATE_GROUP_ID =
             "GroupId %1$s has already been used by the group: %2$s";
 
-    /**
-     * Message indicating that no changes have been made during the edit.
-     */
+    /** Message indicating that no changes have been made during the edit */
     public static final String MESSAGE_NO_CHANGES_MADE =
             "The value(s) you provided is the same as the current value(s). No changes have been made.";
 
-    /**
-     * A special instance of EditCommand used to display the command's usage message.
-     */
+    /** A special instance of EditCommand used to display the command's usage message */
     public static final EditCommand HELP_MESSAGE = new EditCommand() {
         @Override
         public CommandResult execute(Model model) {
@@ -127,14 +101,10 @@ public class EditCommand extends Command {
         }
     };
 
-    /**
-     * Logger for logging messages related to EditCommand.
-     */
+    /** Logger for logging messages related to EditCommand */
     private static final Logger logger = LogsCenter.getLogger(EditCommand.class);
 
-    /**
-     * Represents the absolute path of the target group or student to be edited.
-     */
+    /** Represents the absolute path of the target group or student to be edited */
     private final AbsolutePath target;
 
     /**
@@ -269,7 +239,6 @@ public class EditCommand extends Command {
         model.updateList();
 
         logger.info("The group's details have been edited successfully.");
-
         return new CommandResult(MESSAGE_EDIT_GROUP_SUCCESS);
     }
 

@@ -19,25 +19,17 @@ import seedu.address.model.profbook.Group;
  */
 public class CreateGroupCommand extends Command {
 
-    /**
-     * The command word for creating a group.
-     */
+    /** The command word for creating a group */
     public static final String COMMAND_WORD = "mkdir";
 
-    /**
-     * Error message indicating that a group with the provided ID already exists.
-     */
+    /** Error message indicating that a group with the provided ID already exists */
     public static final String MESSAGE_DUPLICATE_GROUP_ID =
             "GroupId %1$s has already been used by the group: %2$s";
 
-    /**
-     * Message indicating successful creating a new group.
-     */
+    /** Message indicating successful creating a new group */
     public static final String MESSAGE_SUCCESS = "New group added: %1$s";
 
-    /**
-     * A special instance of CreateGroupCommand used to display the command's usage message.
-     */
+    /** A special instance of CreateGroupCommand used to display the command's usage message */
     public static final CreateGroupCommand HELP_MESSAGE = new CreateGroupCommand() {
         @Override
         public CommandResult execute(Model model) {
@@ -45,14 +37,10 @@ public class CreateGroupCommand extends Command {
         }
     };
 
-    /**
-     * Logger for logging messages related to EditCommand.
-     */
+    /** Logger for logging messages related to EditCommand */
     private static final Logger logger = LogsCenter.getLogger(CreateGroupCommand.class);
 
-    /**
-     * Usage information for the 'CreateGroupCommand' command.
-     */
+    /** Usage information for the 'CreateGroupCommand' command */
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <path>" + " -n <name>\n"
             + "\n"
@@ -68,14 +56,10 @@ public class CreateGroupCommand extends Command {
             + "Examples: \n"
             + "mkdir grp-001 -n Group One";
 
-    /**
-     * Represents the destination path where the new group will be created.
-     */
+    /** Represents the destination path where the new group will be created */
     private final AbsolutePath dest;
 
-    /**
-     * Represents the group to be created.
-     */
+    /** Represents the group to be created */
     private final Group group;
 
     /**
@@ -128,7 +112,6 @@ public class CreateGroupCommand extends Command {
         model.updateList();
 
         logger.info("New group added successfully.");
-
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(this.group)));
     }
 

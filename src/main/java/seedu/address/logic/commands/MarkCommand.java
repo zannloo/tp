@@ -22,19 +22,13 @@ import seedu.address.model.task.Task;
  */
 public class MarkCommand extends Command {
 
-    /**
-     * The command word for marking a task.
-     */
+    /** The command word for marking a task */
     public static final String COMMAND_WORD = "mark";
 
-    /**
-     * Message indicating successful marking of a task.
-     */
+    /** Message indicating successful marking of a task */
     public static final String MESSAGE_MARK_TASK_SUCCESS = "Marked task: %1$s";
 
-    /**
-     * Usage information for the 'mark' command.
-     */
+    /** Usage information for the 'mark' command */
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <index>\n"
             + "\n"
@@ -50,9 +44,7 @@ public class MarkCommand extends Command {
             + "Examples: \n"
             + "mark 1";
 
-    /**
-     * A special instance of MarkCommand used to display the command's usage message.
-     */
+    /** A special instance of MarkCommand used to display the command's usage message */
     public static final MarkCommand HELP_MESSAGE = new MarkCommand() {
         @Override
         public CommandResult execute(Model model) {
@@ -60,14 +52,10 @@ public class MarkCommand extends Command {
         }
     };
 
-    /**
-     * Logger for logging messages related to MarkCommand.
-     */
+    /** Logger for logging messages related to MarkCommand */
     private static final Logger logger = LogsCenter.getLogger(MarkCommand.class);
 
-    /**
-     * The index of the task to be marked.
-     */
+    /** The index of the task to be marked */
     private final Index index;
 
     /**
@@ -121,7 +109,6 @@ public class MarkCommand extends Command {
         model.updateList();
 
         logger.info("Task marked successfully. Marked task: " + markedTask.toString());
-
         return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS, markedTask));
     }
 
