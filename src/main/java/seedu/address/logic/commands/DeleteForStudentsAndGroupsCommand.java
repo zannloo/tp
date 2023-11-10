@@ -80,13 +80,11 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        assert model != null : "Model should not be null";
 
         checkIfToBeDeletedIsRootDirectory();
-
         checkIfToBeDeletedPathIsCurrentPath(model);
-
         checkIfToBeDeletedPathIsDisplayPath(model);
-
         checkIfPathToDeleteExistInProfBook(model);
 
         if (toBeDeleted.isStudentDirectory()) {
@@ -174,7 +172,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
 
 
     /**
-     * Compares this {@code DeleteForStudentsAndGroupsCommand} to another {@code DeleteForStudentsAndGroupsCommand}
+     * Compares this {@code DeleteForStudentsAndGroupsCommand} to another object
      * to see if they are equal.
      *
      * @param other The other object to compare against this {@code DeleteForStudentsAndGroupsCommand}.

@@ -115,6 +115,7 @@ public class CreateTodoCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        assert model != null : "Model should not be null";
 
         // Check path exists in ProfBook
         if (!model.hasPath(path)) {
@@ -156,7 +157,7 @@ public class CreateTodoCommand extends Command {
     }
 
     /**
-     * Handles the situation where a {@code Todo} task is allocated to all {@code Student} in a {@code Group}
+     * Handles the situation where a {@code Todo} task is allocated to all {@code Student}
      * or {@code Root}
      *
      * @return Command result which represents the outcome of the command execution.
@@ -221,7 +222,7 @@ public class CreateTodoCommand extends Command {
             warning = true;
         }
 
-        operation.addTaskToAllChildren(todo, 2); //adds tasks to all student in ProfBook
+        operation.addTaskToAllChildren(todo, 2);
         model.updateList();
         return new CommandResult(
                 warning ? MESSAGE_SUCCESS_ALL_STUDENTS_WITH_WARNING
@@ -229,7 +230,7 @@ public class CreateTodoCommand extends Command {
     }
 
     /**
-     * Handles the situation where a {@code Todo} task is allocated to all {@code Group} in the root
+     * Handles the situation where a {@code Todo} task is allocated to all {@code Group} in a {@code Root}
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -268,7 +269,7 @@ public class CreateTodoCommand extends Command {
     }
 
     /**
-     * Checks if this CreateTodoCommand is equal to another object.
+     * Checks if this {@code CreateTodoCommand} is equal to another object.
      *
      * @param other The object to compare with.
      * @return True if the objects are equal, false otherwise.

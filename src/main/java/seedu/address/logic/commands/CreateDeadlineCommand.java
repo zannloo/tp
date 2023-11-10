@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
@@ -89,8 +90,9 @@ public class CreateDeadlineCommand extends Command {
     private final Category category;
 
     /**
-     * Creates an CreateDeadlineCommand to add the Deadline Task for a specified {@code Student} or {@code Group}
-     * User has input a category as well.
+     * Creates an CreateDeadlineCommand to add the {@code Deadline} Task for a specified {@code Student}
+     * or {@code Group}
+     * User has inputted a category as well.
      */
     public CreateDeadlineCommand(AbsolutePath path, Deadline deadline, Category category) {
         requireAllNonNull(path, deadline, category);
@@ -113,6 +115,9 @@ public class CreateDeadlineCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
+        assert model != null : "Model should not be null";
+
         // Check path exists in ProfBook
         if (!model.hasPath(path)) {
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, path));
@@ -157,7 +162,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Handles the situation where a {@code Deadline} task is allocated to all {@code Student} in a {@code Group}
+     * Handles the situation where a {@code Deadline} task is allocated to all {@code Student}
      * or {@code Root}
      *
      * @return Command result which represents the outcome of the command execution.
@@ -230,7 +235,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Handles the situation where a {@code Deadline} task is allocated to all {@code Group} in the root
+     * Handles the situation where a {@code Deadline} task is allocated to all {@code Group} in {@code Root}
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -244,7 +249,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Adds a {@code Deadline} task to all {@code Group} in a {@code Root}
+     * Adds a {@code Deadline} task to all {@code Group} in {@code Root}
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -269,7 +274,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Compares this {@code CreateDeadlineCommand} to another {@code CreateDeadlineCommand} to see if they are equal.
+     * Compares this {@code CreateDeadlineCommand} to another object to see if they are equal.
      *
      * @param other The other object to compare against this {@code CreateDeadlineCommand}.
      * @return True if the object is same as {@code CreateDeadlineCommand} and false otherwise.

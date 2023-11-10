@@ -43,8 +43,6 @@ public class CreateStudentCommand extends Command {
 
     public static final String MESSAGE_INVALID_PATH = "Path provided should be a valid student path";
 
-    public static final String MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
-
     public static final String MESSAGE_GROUP_NOT_FOUND = "Group %1$s does not exist in ProfBook";
 
     public static final CreateStudentCommand HELP_MESSAGE = new CreateStudentCommand() {
@@ -83,9 +81,7 @@ public class CreateStudentCommand extends Command {
         assert model != null : "Model should not be null";
 
         checkIfPathIsStudentDirectory(path);
-
         checkIfGroupExistInProfBook(model);
-
         checkForDuplicateStudentId(model);
 
         ChildOperation<Student> target = model.groupChildOperation(path);
@@ -132,7 +128,7 @@ public class CreateStudentCommand extends Command {
     }
 
     /**
-     * Compares this {@code CreateStudentCommand} to another {@code CreateStudentCommand} to see if they are equal.
+     * Compares this {@code CreateStudentCommand} to another object to see if they are equal.
      *
      * @param other The other object to compare against this {@code CreateStudentCommand}.
      * @return True if the object is same as {@code CreateStudentCommand} and false otherwise.
