@@ -856,10 +856,15 @@ otherwise)
 
 **Extensions**
 
-
-* 1a. The parameter to be changed is invalid.
+* 1a. The specified path is invalid.
 
     * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1b. The parameter to be changed is invalid.
+
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
