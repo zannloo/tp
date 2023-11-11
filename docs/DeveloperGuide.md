@@ -913,9 +913,9 @@ otherwise)
       Use case resumes at step 1.
 
 
-* 2b. The given group path is invalid.
+* 1b. The given group path is invalid.
 
-    * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -930,15 +930,21 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given name of group is invalid.
+* 1a. The given name of group is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. The given path is invalid.
+* 1b. The given name of group is invalid.
 
-  * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1c. The given path is invalid.
+
+  * 1c1. ProfBook shows an error message.
 
     Use case resumes at step 1.
 
@@ -953,33 +959,33 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. The given description is invalid.
+* 1b. The given description is invalid.
 
-    * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
        Use case resumes at step 1.
   
-* 2c. No path specified, user is in group directory.
+* 1c. No path specified, user is in group directory.
 
-    * 2c1. ProfBook creates ToDo for the group.
+    * 1c1. ProfBook creates ToDo for the group.
   
       Use case ends.
 
-* 2d. No path specified, user in root directory.
+* 1d. No path specified, user in root directory.
 
-    * 2d1. ProfBook shows an error message.
+    * 1d1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2e. User specifies `--all allStu` or `--all allGrp`.
+* 1e. User specifies `--all allStu` or `--all allGrp`.
 
-    * 2e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 1e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
@@ -994,39 +1000,39 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
-
-      Use case resumes at step 1.
-
-* 2b. The given description is invalid.
-
-    * 2b1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2c. The given deadline date is invalid.
+* 1b. The given description is invalid.
 
-    * 2c1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2d. No path specified, user in root directory.
+* 1c. The given deadline date is invalid.
 
-    * 2d1. ProfBook creates Deadline for the group.
+    * 1c1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1d. No path specified, user in root directory.
+
+    * 1d1. ProfBook creates Deadline for the group.
 
       Use case ends.
 
-* 2e. No path specified, user in root directory.
+* 1e. No path specified, user in root directory.
 
-    * 2e1. ProfBook shows an error message.
+    * 1e1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2f. User specifies `--all allStu` or `--all allGrp`.
+* 1f. User specifies `--all allStu` or `--all allGrp`.
 
-    * 2f1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 1f1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
@@ -1041,8 +1047,13 @@ otherwise)
 
 **Extensions**
 
-* 2a. The Index provided is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. User inputs command while not in tasklist display using `cat`
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1a. The Index provided is invalid.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -1057,8 +1068,13 @@ otherwise)
 
 **Extensions**
 
-* 2a. The Index provided is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. User inputs command while not in tasklist display using `cat`
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1a. The Index provided is invalid.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -1073,8 +1089,13 @@ otherwise)
 
 **Extensions**
 
-* 2a. The Index provided is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. User inputs command while not in tasklist display using `cat`
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1b. The Index provided is invalid.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
