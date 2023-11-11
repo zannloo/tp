@@ -792,7 +792,7 @@ otherwise)
 **MSS**
 
 1. User requests to delete all data stored in ProfBook.
-2. ProfBook deletes all data stored and displays updates to be empty.
+2. ProfBook deletes all data stored and display updates to be empty.
 
    Use case ends.
 
