@@ -236,6 +236,24 @@ to check that the Operation required matches with the intended effect of the Com
 
 </box>
 
+#### Path package
+The `path` package in `model` package serves as a fundamental representation of the hierachical structure within the application. It delineates the navigational paths essential for traversal and dynamic command execution within the system.
+
+Here is a class diagram for the path package:
+
+<puml src="diagrams/PathClassDiagram.puml" width="550" />
+
+1. The `PathElement` class forms the building blocks for constructing paths within ProfBook. 
+2. `PathElementType` enum defines the type of elements within a  path:
+   * `ROOT`: Represents the root element in the hierarchy.
+   * `GROUPID`: Represents the element corresponding to a group in the hierachy.
+   * `STUDENTID`: Represents the element corresponding to a student in the hierachy.
+   * `PARENT`: Corresponds to the `..` notation, indicating the parent directory.
+   * `CURRENT`: Corresponds to the `.` notation, indicating the current directory.
+3. `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
+   * The `resolve` method is crucial to resolve a `RelativePath` and return the resolved path in `AbsolutePath` type.
+   * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path `~/grp-002`.
+
 ### Storage component
 
 **API
@@ -360,7 +378,7 @@ component, do head over to their respective documentation.
 
 Below is an activity diagram showing the general activity of the add student command.
 
-//TODO ADD activity diagram
+<puml src="diagrams/CreateStudentActivityDiagram.puml" width="550" />
 
 #### Design Consideration
 
@@ -440,7 +458,7 @@ diagram for adding a deadline task to a *single* student can be found in the `Mo
 
 This is an activity diagram showing the general activity of the add deadline command.
 
-//TODO ADD activity diagram
+<puml src="diagrams/CreateDeadlineActivityDiagram.puml" width="550" />
 
 #### Design Consideration
 
@@ -515,7 +533,7 @@ as `Student`.
 
 This is an activity diagram showing the general activity of the edit command.
 
-//TODO ADD activity diagram
+<puml src="diagrams/EditGroupActivityDiagram.puml" width="550" />
 
 #### Design Consideration
 
@@ -551,7 +569,8 @@ Given below is an example usage scenario whereby a student is moved from group1 
 6. As uniqueness of student is validated before each student is added, there is no need to check for clashes when
    executing
 
-// TODO maybe add a sequence diagram
+<puml src="diagrams/MoveStudentSequenceDiagram.puml" width="700" />
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Proposed future features
