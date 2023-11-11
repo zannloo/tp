@@ -1172,7 +1172,7 @@ testers are expected to do more *exploratory* testing.
         - Other incorrect `mkdir` commands to try: `mkdir`, `mkdir x`, `mkdir grp-001`, `mkdir --name Amazing Group1` (where x is an invalid GroupId)<br>
               Expected: An error message of `Encountered invalid command format: missing argument(s)` will be shown.
 
-   1. Condition 1: When the current directory is group directory,
+   1. Condition 2: When the current directory is group directory,
 
        - Test case: `mkdir ../grp-111 --name Amazing Group111`<br>
          Expected: If there is already a group with GroupId `grp-111` in ProfBook, then an error message will appear at the output box below the command box. Otherwise, a new group will be added to the list in the bottom output box, with name `Amazing Group111` and GroupId `grp-111`.
@@ -1233,7 +1233,7 @@ testers are expected to do more *exploratory* testing.
          Expected: If there is no such a student with StudentId `0123Y` in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the student `0123Y` in `grp-001` wil be deleted.
 
        - Test case: `rm grp-001`<br>
-         Expected: If there is no such a group with GroupId `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the group `grp-001` wil be deleted.
+         Expected: An error message of `Encountered path resolution failed: grp-001` will be shown.
 
        - Test case: `rm x` (where x is an invalid path)<br>
          Expected: An error message of `Encountered invalid path element: x` will be shown.
@@ -1468,7 +1468,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Unmarks the specified task for the student or group
 
-    1. Prerequisites: The display panel is showing the task list of the specific student or group.
+    1. Prerequisites: The display panel is showing the task list of the specific student or group. Use the `cat` command in order to display the task list of a student or group.
 
     1. Test case: `unmark 1`<br>
        Expected: If there is no task in the task list, then an error message of `Invalid task index` will be shown. Otherwise, the task with task index `1` will be unmarked.
@@ -1486,7 +1486,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Deletes a task according to specified index number
 
-    1. Prerequisites: The display panel is showing the task list of the specific student or group.
+    1. Prerequisites: The display panel is showing the task list of the specific student or group. Use the `cat` command in order to display the task list of a student or group.
 
     1. Test case: `rmt 1`<br>
        Expected: If there is no task in the task list, then an error message of `Invalid task index` will be shown. Otherwise, the task with task index `1` will be deleted.
@@ -1541,7 +1541,7 @@ testers are expected to do more *exploratory* testing.
           Expected: If there is no such a group with GroupId `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the interface will change from displaying all the group to displaying all the student in `grp-001`.
 
         - Test case: `ls x` (where x is an invalid path)<br>
-          Expected: An error message of `Encountered invalid path element: x will be shown.
+          Expected: An error message of `Encountered invalid path element: x` will be shown.
 
    1. Condition 2: When the current directory is group directory e.g. `grp-001`
 
