@@ -203,14 +203,18 @@ that field.
   * Else, fields that start with `-` or `--` will be treated as [flags](#flags) and fields that start with `\`
   will be treated without `\`(`\Orchard` when inputted will be treated as `Orchard`).
     * e.g. To pass in `-Clementi` in the `edit` command, the command would be `edit -a \-Clementi`.
-- If you are using a PDF version of this document, please be careful when copying and pasting commands that span 
+
+<box type="warning">
+
+If you are using a PDF version of this document, please be careful when copying and pasting commands that span 
 multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+ </box>
 
 ### Flags :triangular_flag_on_post::triangular_flag_on_post::triangular_flag_on_post:
 All flags begin with `--` or `-`.
 Flags usually **come before** essential details required by the command and are compatible in both long and short forms:
 
-- `--name` / `-n` followed by name of student or group specified by command.
+- `--name` / `-n` followed by name of student or group as specified by command.
 * `--email` / `-e` followed by email of student. 
 - `--phone` / `-p` followed by phone number of student.
 * `--address` / `-a` followed by address of student.
@@ -252,7 +256,8 @@ commence from the root directory, `~`, and define your path as the route leading
 
 Kindly note that **direct navigation between directories of the same type is not permitted**. 
 You would need to navigate up by at least one directory before moving to the desired directory. <br>
-e.g. use `~/grp-001` to navigate to root directory first before the `grp-001` group directory from another group directory. 
+e.g. use `~/grp-001` to navigate to root directory first before the navigating to the `grp-001` group directory 
+from another group directory. 
 
 Additionally, **skipping directories between other directories is not allowed**. For instance, to navigate from the root directory
 to a student directory, `0123Y`, where the student directory is within group directory, `grp-001`,
@@ -359,7 +364,7 @@ Upon launching ProfBook, you will see the root directory as illustrated below.
 </box>
 
 ### Group Directory, `grp-001`
-When you navigate to the group directory, `grp-001`, using the `cd grp-001`, your interface should resemble
+When you navigate to the group directory, `grp-001`, using `cd grp-001`, your interface should resemble
   the following.
   ![Ui](images/groupdirectoryimage.png){width=1600 height=900}
 |**Component name** |  **Description**   |
@@ -375,7 +380,7 @@ To view the task list of the current group directory, simply use `cat`.
 |**Component name** |  **Description**   |
 |--|-----|
 |**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001/`.|
-| **Message Display Column** |   Displays the output of the command result. <br>Note that it shows that you are viewing th task list of group directory, `~/grp-001/`.|
+| **Message Display Column** |   Displays the output of the command result. <br>Note that it shows that you are viewing the task list of group directory, `~/grp-001/`.|
 | **Task List** |  Shows the tasks allocated to group at current group directory.   |
 | **Task Type Tag** |  Shows the task type of the specific task, distinguishing between **Todo** tasks (highlighted in **yellow**) and **Deadline** tasks (highlighted in **green**).|
 | **Task Status Box** |  Indicates the completion status of the specific task, using a **tick** for **marked** / **completed** task and the **absence of a tick** for **unmarked** / **uncompleted** tasks.   |
@@ -397,7 +402,7 @@ To view the task list of the current group directory, simply use `cat`.
 
 ### <span style="color: #FF8C00;">Change Directory: `cd` </span>
 
-Changes the current directory in the ProfBook.
+Changes the current directory in ProfBook.
 
 **Format:** `cd SPECIFIED_PATH`
 
@@ -432,7 +437,7 @@ will indicate that you are already in the directory.
 #### Example(s):
 - When you are at the directory `~/grp-001` and would like to change directory from `grp-001` to `grp-002` you could
 use,
-  -  `cd ../grp-002` ->  type `..` to step up one level before proceeding to the `grp-002` directory. <br>
+  -  `cd ../grp-002` ->  use `..` to navigate up to the root directory before proceeding to the `grp-002` directory. <br>
 
 <box type="info">
   
@@ -445,7 +450,7 @@ use,
 
 ### <span style="color: #FF8C00;">Display Directories : `ls`</span>
 
-Shows the list of children in specified directory. 
+Shows the list of children in the specified directory. 
 
 **Format:** `ls [SPECIFIED_PATH]`
  
@@ -494,7 +499,7 @@ Displays message indicating either:
 
 ### <span style="color: #FF8C00;">Display all tasks: `cat` </span>
 
-Displays all tasks depending on the directory you are at.
+Displays all tasks in the specified directory.
 
 **Format:** `cat [SPECIFIED_PATH]`
 
@@ -530,13 +535,13 @@ Displays message indicating either:
 
 #### Example(s):
 - When you are at the directory `~/grp-001` and would like to see all tasks allocated to `grp-001`,
-  - `cat` will return all the tasks allocated to grp-001.
+  - `cat` will return all the tasks allocated to `grp-001`.
   - Result shown will be similar to [this](#task-list-of-group-directory-grp-001).
 
 <box type="tip">
 
-If you are at the directory `~/grp-001` and would like take a quick look of the tasks allocated to student `0010Y` 
-that is under `grp-001`,
+If you are at the directory `~/grp-001` and would like take a quick look of the tasks allocated to student `0010Y`
+(`0010Y` is within `grp-001`),
 - `cat 0010Y` will return all the tasks allocated to student of StudentId, `0010Y`.
 
 </box>
@@ -547,7 +552,7 @@ Shows a message of the commands you could use.
 
 **Format:** `help`
 
-### <span style="color: #FF8C00;">Clearing all entries : `clear` </span>
+### <span style="color: #FF8C00;">Clear all entries : `clear` </span>
 
 Clears all entries from ProfBook.
 
@@ -565,7 +570,7 @@ This command is particularly valuable at the beginning of a new semester when yo
 students and groups, making way for the addition of new students. 
 </box>
 
-### <span style="color: #FF8C00;">Exiting the program : `exit` </span>
+### <span style="color: #FF8C00;">Exit the program : `exit` </span>
 
 Exits the program.
 
@@ -627,7 +632,7 @@ the specified path must extend to encompass both the group and the student to en
 #### Example(s):
 
 - When you are at the directory `~/grp-001`, you could add a new student named Bob of StudentId `0200Y`
-to this group through the following command
+to this group through the following command,
   - `touch 0200Y --name Bob`
 
 <box type="info">
@@ -748,7 +753,7 @@ to root directory.
 
 #### Example(s):
 
-- If `grp-001` changes their group name, you could execute the following command
+- If `grp-001` change their group name, you could execute the following command
   at the directory `~/grp-001`, to make the necessary changes.
   - `edit --name Amazing Group1`
 
@@ -793,7 +798,7 @@ Removes a student or group from the specified path.
 #### Example(s):
 
 - When you are at the root directory `~/` and would like to remove the group, `grp-001`,
-    - `rm grp-001` will remove grp-001.
+    - `rm grp-001` will remove `grp-001`.
 
 <box type="tip">
 
@@ -825,7 +830,7 @@ Moves student from one group to another group.
 
 #### Output if command succeeds
 
-- Displays message to indicate the successful transferal of a student from one group to another.
+- Displays message to indicate the successful transferal of student from one group to another.
 
 </box>
 
@@ -836,7 +841,6 @@ Moves student from one group to another group.
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
-  - [Invalid destination path.](#mistake-2-invalid-path)
 
 </box>
 
@@ -857,7 +861,7 @@ root directory,
 
 ### <span style="color: #FF8C00;">Create Group : `mkdir`</span>
 
-Creates a group that can contain students in the root directory.
+Creates a group in the root directory that can contain students.
 
 <box type="warning">
 
@@ -966,7 +970,7 @@ Else, the command will create a todo task for the group at current directory.
 <box type="tip">
 
 When you have an assignment, `Assignment 1` to be allocated to **all your students** in `grp-001`, you could use the 
-following command, 
+following command at the root directory, `~/`,  
 - `todo ~/grp-001 --desc Assignment 1 --all allStu`
 
 </box>
@@ -1186,7 +1190,7 @@ As such, we have collated a list of some commonly made mistakes and solutions to
 ##### Mistake 1: Invalid command format
 Some possible errors from invalid command format are,
 1. **Excessive or duplicate arguments.**
-   - This occurs when there are duplicate flags or an excess of compulsory parameters as outlined in the command format.
+   - This occurs when there are duplicate flags or an excess of compulsory or optional parameters as outlined in the command format.
 2. **Missing arguments.**
    - This issue arises when there are missing compulsory parameters from the command you entered. 
 3. **Invalid option.**
