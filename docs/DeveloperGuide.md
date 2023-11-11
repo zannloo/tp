@@ -691,7 +691,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 (For all use cases below, the **System** is the `ProfBook` and the **Professor** is the `user`, unless specified
 otherwise)
 
-**Use case: help**
+**Use case: User asks for help**
 
 **MSS**
 
@@ -700,18 +700,20 @@ otherwise)
 
    Use case ends.
 
+**Use case: User asks for help for a specific command**
+
+**MSS**
+
+1. User requests for help for a specific command.
+2. ProfBook displays help message for the command.
+
+   Use case ends.
+
 **Extensions**
 
-* 1a. User inputs help with specific command.
+* 1a. User inputs invalid command together with help.
 
-    * 1a1. ProfBook displays help message specific to input command
-
-      Use case ends.
-
-
-* 1b. User inputs invalid command together with help.
-
-    * 2b1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -750,15 +752,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. Provided path is invalid.
+* 1a. Provided path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. Command has no arguments.
+* 1b. Command has no arguments.
 
-    * 2b1. ProfBook shows list of children under current directory.
+    * 1b1. ProfBook shows list of children under current directory.
 
       Use case ends.
 
@@ -773,15 +775,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b1. No path specified.
+* 1b1. No path specified.
 
-    * 2b1. Profbook displays task list of current path.
+    * 1b1. Profbook displays task list of current path.
 
       Use case ends.
 
@@ -814,9 +816,9 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given parameters are invalid.
+* 1a. The given parameters are invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -831,15 +833,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. The specified path is invalid.
+* 1a. The specified path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. The given parameter is invalid.
+* 1b. The given parameter is invalid.
 
-    * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -855,9 +857,9 @@ otherwise)
 **Extensions**
 
 
-* 2a. The parameter to be changed is invalid.
+* 1a. The parameter to be changed is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -873,9 +875,9 @@ otherwise)
 **Extensions**
 
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -890,9 +892,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given id is invalid.
+* 1a. User inputs command while not in tasklist display using `cat`
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1b. The given id is invalid.
+
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -907,8 +915,8 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given Student path is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. The given Student path is invalid.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -936,7 +944,7 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 1b. The given name of group is invalid.
+* 1b. The given path is a duplicate of an existing one.
 
     * 1b1. ProfBook shows an error message.
 
