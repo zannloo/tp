@@ -1141,6 +1141,7 @@ otherwise)
 * **Gradle**: Gradle is a build automation tool for multi-language software development. Installation [here](https://gradle.org/install/).
 * **CLI**: Command Line Interface, a text-based interface for interacting with a computer program.
 * **Architecture Diagram**: A high-level diagram explaining the design architecture of the ProfBook application.
+* **Class Diagram**: A visual representation depicting the structure and relationships between classes in the ProfBook application, illustrating attributes, methods, associations, and inheritance.
 * ***Folder structure***: The organization of directories and subdirectories within ProfBook to represent the hierarchy.
 * **Common classes**: Classes shared among multiple components in the ProfBook application.
 * **Root**: Directory which contains all groups.
