@@ -91,7 +91,7 @@ Each of the four main components (also shown in the diagram above),
 
 * defines its *API* in an `interface` with the same name as the Component.
 * implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding
-  API `interface` mentioned in the previous point.
+  API `interface` mentioned in the previous point).
 
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using
 the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component
@@ -150,10 +150,10 @@ How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `ProfBookParser` object which in turn creates a
    parser that matches the command (e.g., `DeleteTaskCommandParser`) and uses it to parse the command.
-1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteTaskCommand`)
+2. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteTaskCommand`)
    which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a task).
-1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
+3. The command can communicate with the `Model` when it is executed (e.g. to delete a task).
+4. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
 
@@ -252,8 +252,8 @@ Here is a class diagram for the path package:
 1. The `PathElement` class forms the building blocks for constructing paths within ProfBook. 
 2. `PathElementType` enum defines the type of elements within a  path:
    * `ROOT`: Represents the root element in the hierarchy.
-   * `GROUPID`: Represents the element corresponding to a group in the hierachy.
-   * `STUDENTID`: Represents the element corresponding to a student in the hierachy.
+   * `GROUPID`: Represents the element corresponding to a group in the hierarchy.
+   * `STUDENTID`: Represents the element corresponding to a student in the hierarchy.
    * `PARENT`: Corresponds to the `..` notation, indicating the parent directory.
    * `CURRENT`: Corresponds to the `.` notation, indicating the current directory.
 3. `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
@@ -331,9 +331,8 @@ To further illustrate our folder structure, we have prepared this diagram
 **Aspect: How store reference to children**
 
 * **Alternative 1 (current implementation):** HashMap.
-    * Pros: Able to check/find if a student/group is present efficiently, mapping objects by their Id also makes
-      executing
-      commands in a folder-like structure easier.
+    * Pros: Able to check/find if a student/group is present efficiently, mapping objects by their ID also makes
+      executing commands in a folder-like structure easier.
     * Cons: Not really any.
 * **Alternative 2**: Array.
     * Pros: Very easy to implement
@@ -451,7 +450,7 @@ Given below is an example usage scenario on how an existing user can add Deadlin
       via `GroupChildOperation::checkIfAllChildrenHaveTask` method.
 5. If all checks out, the command would create a new deadline instance and add the deadline to all student that do not
    already have the aforementioned task. This is done
-   through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. The tasks is then
+   through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. The tasks are then
    added through the `GroupChildOperation::addTaskToAllStudent` method. For each student, the method would check if the
    task is already present, if not it would add the task.
 6. It should look something like this.
@@ -532,7 +531,7 @@ Given below is an example usage scenario on how an existing user can edit the na
 
    <puml src="diagrams/EditIntermediateState.puml" width="600" />
 
-6. It then deletes the old key-value pair in root's `Map<id, group>` and adds the new key-value pair.
+7. It then deletes the old key-value pair in root's `Map<id, group>` and adds the new key-value pair.
 
    <puml src="diagrams/EditFinalState.puml" width="600" />
 
@@ -550,7 +549,7 @@ This is an activity diagram showing the general activity of the edit command.
 
 **Aspect: How to ensure `edit` is able to handle editing students and group**
 
-* **Alternative 1 (current implementation):** Implement an generic `edit` which acts differently depending on the input
+* **Alternative 1 (current implementation):** Implement a generic `edit` which acts differently depending on the input
   path.
     * Pros: Closely follows OOP principals and makes `edit` more extensible
     * Cons: Harder to implement, more confusing for users
@@ -605,8 +604,8 @@ users to have the peace of mind that the phone number is validated and robust en
 ### Better marking and un-marking validation (// TODO low priority, remove when needed )
 
 Currently, our application does not check if the tasks is marked or unmarked before any operation. This resulted in
-users being able to mark/unmark tasks infinitely, this is not intuitive and may mislead some users. Hence, we plan to
-only allow users to unmark tasks that are marked and vice versa. Also, we plan to add a more descriptive error message
+users being able to mark/un-mark tasks infinitely, this is not intuitive and may mislead some users. Hence, we plan to
+only allow users to un-mark tasks that are marked and vice versa. Also, we plan to add a more descriptive error message
 to highlight to the user of the current state of the task.
 
 ### More robust duplicate checking
@@ -623,7 +622,7 @@ that some of our error message could be more descriptive. One such example is tr
 trying to edit a directory that does not exist. In both cases, the error message given
 is `Path does not exist in ProfBook.`. In this example, we could have mention that you are unable to edit the root
 directory for the prior and that the Path does not lead to a student/group for the latter. This is just one example, we
-plan to revamp our error message to be more descriptive and user friendly
+plan to revamp our error message to be more descriptive and user-friendly
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -1157,17 +1156,17 @@ testers are expected to do more *exploratory* testing.
 
     1. Download the jar file and copy into an empty folder
 
-    1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be
+    2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be
        optimum.
 
-1. Saving window preferences
+2. Saving window preferences
 
     1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-    1. Re-launch the app by double-clicking the jar file.<br>
+    2. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+3. _{ more test cases …​ }_
 
 ### Deleting a person
 
@@ -1175,17 +1174,17 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
-    1. Test case: `delete 1`<br>
+    2. Test case: `delete 1`<br>
        Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
        Timestamp in the status bar is updated.
 
-    1. Test case: `delete 0`<br>
+    3. Test case: `delete 0`<br>
        Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 
-    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+    4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+2. _{ more test cases …​ }_
 
 ### Saving data
 
@@ -1193,7 +1192,7 @@ testers are expected to do more *exploratory* testing.
 
     1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
-1. _{ more test cases …​ }_
+2. _{ more test cases …​ }_
 
 <br>
 
