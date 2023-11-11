@@ -216,7 +216,10 @@ Flags usually **come before** essential details required by the command and are 
 * `--address` / `-a` followed by address of student.
 - `--id` / `-i` followed by a `STUDENT_ID` or `GROUP_ID` as specified by the command.
 * `--desc` / `d` followed by description of task specified by command.
-- `--datetime` / `-dt` followed by due date of a deadline task in the `yyyy-MM-dd HH:mm` format.  
+- `--datetime` / `-dt` followed by due date of a deadline task in the `yyyy-MM-dd HH:mm` format. 
+
+<div style="page-break-after: always;"></div>
+
 * `--all` / `-al` followed by either: 
   - `allStu` which adds **individual** tasks to all students within the specified directory.
     - Can only be used at a group or root directory.  
@@ -278,6 +281,8 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y/`.
 
 `ADDRESS`:
 - Must be a non-empty string, which means you cannot input a blank field.
+
+<div style="page-break-after: always;"></div>
 
 `STUDENT_ID`:
 - Must follow the format of a valid `StudentId`.
@@ -364,7 +369,7 @@ When you navigate to the group directory, `grp-001`, using the `cd grp-001`, you
 | **Student List** |  Shows the students within current group directory.   |
 | **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Children List of the group directory. |
 
-### Task list of Group Directory, `grp-001`
+### Task List of Group Directory, `grp-001`
 To view the task list of the current group directory, simply use `cat`.
 ![Ui](images/listimage.png){width=1600 height=900}
 |**Component name** |  **Description**   |
@@ -473,6 +478,8 @@ Displays message indicating either:
   - [Invalid path.](#mistake-2-invalid-path)
 
 </box>
+
+<div style="page-break-after: always;"></div>
 
 #### Example(s):
 
@@ -667,6 +674,8 @@ One or more fields can be edited in a single command.
 
 </box>
 
+<div style="page-break-after: always;"></div>
+
 <box type="wrong" seamless> 
 
 #### Output if command fails: 
@@ -750,6 +759,8 @@ When you are at the root directory `~/` and would like to edit the same group's 
   directory before executing the `edit` command!
 </box>
 
+<div style="page-break-after: always;"></div>
+
 ### <span style="color: #FF8C00;">Delete a Student or Group: `rm` </span>
 
 Removes a student or group from the specified path.
@@ -791,6 +802,8 @@ in `~/grp-001`,
 - You could use the command `rm ~/grp-001/0123Y` to save yourself the hassle from having to change directory!
 
 </box>
+
+<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Move Student: `mv` </span>
 
@@ -839,6 +852,8 @@ root directory,
 - You could use the command `mv 0123Y ../grp-002`!
 
 </box>
+
+<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Create Group : `mkdir`</span>
 
@@ -940,6 +955,8 @@ Else, the command will create a todo task for the group at current directory.
 
 </box>
 
+<div style="page-break-after: always;"></div>
+
 #### Example(s):
 
 - When a specific student, `0010Y`, has to redo his tutorial, you could use the following command when you are in the directory 
@@ -995,6 +1012,8 @@ to keep track of past events without worry!
 
 </box>
 
+<div style="page-break-after: always;"></div>
+
 #### Example(s):
 
 - When a specific student has to hand in his assignment again by a certain date, 
@@ -1039,6 +1058,8 @@ Marks the specified task as done for the specified student or group.
 
 When using this command, you will first need to [cat](#display-all-tasks-cat) at the path where the task list is at before executing `mark`.
 </box>
+  
+<div style="page-break-after: always;"></div>
 
 #### Example(s):
 
@@ -1085,6 +1106,8 @@ Unmarks the specified task for the student or group.
 
 When using this command, you will first need to [cat](#display-all-tasks-cat) at the path where the task list is at before executing `unmark`.
 </box>
+
+<div style="page-break-after: always;"></div>
 
 #### Example(s):
 - When you are at the `~/grp-001` directory and would like to unmark the first task
@@ -1137,6 +1160,9 @@ commands in sequential order.
   2. `rmt 1`
 
 ---
+<div class="page-break-before">                                 
+    <!-- Content that will start on a new printed page -->      
+</div>                                                          
 
 ## Save the data
 
@@ -1145,10 +1171,6 @@ manually.
 
 
 ---
-
-<div class="page-break-before">
-    <!-- Content that will start on a new printed page -->
-</div>
 
 ## Commonly made mistake
 
