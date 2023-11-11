@@ -35,26 +35,26 @@ Given below are my contributions to the project.
 
 * **Introduced `TaskListManager` Class**:
     * Manages the required operations of TaskList, reduces duplicated code.
-    * Ensure the expected behaviour with regard to managing the tasks
-        * No Duplicate tasks
-        * Able to accept subclasses of Tasks
-        * Other classes not being able to directly modify tasks
+    * Ensure the expected behaviour with regard to managing the tasks:
+        * No Duplicated tasks.
+        * Able to accept subclasses of Tasks, more extensible.
+        * Other classes not being able to directly modify tasks.
 
-* **Introduced `ChildManager` Class**
+* **Introduced `ChildrenManager` Class**
     * Manages the operation required to modify the children, reduces duplicated code.
     * Ensure the expected behaviour with regard to managing the children.
         * No Duplicate children across the whole ProfBook.
         * Children are identified by their Unique ID.
         * Other classes not being able to directly modify children.
 
-* **Introduced `ChildAndTaskListManager` Class**
+* **Introduced `ChildrenAndTaskListManager` Class**
   * Wrapper class that manages the operations required for both TaskList and Children.
 
 * **Introduced `Student` Class**
-  * Encapsulates the required information to represent student.
+  * Encapsulates the required information to uniquely represent a student.
 
 * **Introduced `Group` Class**
-  * Encapsulates the required information to represent a group within tutorial group.
+  * Encapsulates the required information to uniquely represent a group within tutorial group.
 
 * **Introduced `Root` Class**
   * Encapsulates the required information to represent the whole application.
@@ -70,6 +70,8 @@ Given below are my contributions to the project.
 
 * **Enhanced `ModelManager` Class**
   * Provides the logic to safely manipulate data stored in Student/Group/Root
+
+<div style="page-break-after: always;"></div>
 
 ### Project Management:
 
