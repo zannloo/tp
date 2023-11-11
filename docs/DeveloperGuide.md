@@ -781,9 +781,18 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 1b1. No path specified.
 
-    * 1b1. Profbook displays task list of current path.
+* 1b. No path specified.
+
+    * 1b1. Current path is root path
+  
+      * ProfBook shows an error message.
+
+        Use case resumes at step 1.
+        
+    * 1b1. Current path is not root path.
+  
+      *  Profbook displays task list of current path.
 
       Use case ends.
 
