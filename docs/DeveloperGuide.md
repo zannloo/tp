@@ -741,7 +741,7 @@ otherwise)
 
       Use case resumes at step 1.
 
-**Use case: ls to view children**
+**Use case: User requests to view children**
 
 **MSS**
 
