@@ -199,7 +199,9 @@ The diagram above shows how the folder structure is implemented in ProfBook,
 * We also created a wrapper class (e.g. `ChildrenAndTaskListManager`) for classes that require both of those
   aforementioned functionalities (e.g, `Group` and potentially in the future `TutorialSlot`).
 
-**API** : [`TaskListManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/profbook/TaskListManager.java)
+##### Task component
+
+**API** : [`TaskListManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/task/TaskListManager.java)
 
 <puml src="diagrams/TaskListClassDiagram.puml" width="300" />
 
@@ -235,8 +237,13 @@ to check that the Operation required matches with the intended effect of the Com
 
 </box>
 
-#### Path package
-The `path` package in `model` package serves as a fundamental representation of the hierachical structure within the application. It delineates the navigational paths essential for traversal and dynamic command execution within the system.
+#### Path component
+
+**API** : [`Path.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/path/Path.java)
+
+The `path` package in `model` package serves as a fundamental representation of the hierarchical structure within the
+application. It delineates the navigational paths essential for traversal and dynamic command execution within the 
+system.
 
 Here is a class diagram for the path package:
 
@@ -251,7 +258,9 @@ Here is a class diagram for the path package:
    * `CURRENT`: Corresponds to the `.` notation, indicating the current directory.
 3. `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
    * The `resolve` method is crucial to resolve a `RelativePath` and return the resolved path in `AbsolutePath` type.
-   * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path `~/grp-002`.
+   * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the
+     `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path
+     `~/grp-002`.
 
 ### Storage component
 
