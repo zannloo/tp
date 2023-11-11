@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -57,7 +56,7 @@ public class CreateGroupCommandTest {
     }
 
     @Test
-    public void execute_createGroup_success() throws CommandException, InvalidPathException {
+    public void execute_createGroup_success() throws InvalidPathException {
         RelativePath groupTwo = new RelativePath(toBeAdded.getId().toString());
         AbsolutePath groupTwoAbsolutePath = rootPath.resolve(groupTwo);
 
