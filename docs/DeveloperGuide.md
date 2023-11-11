@@ -235,6 +235,24 @@ to check that the Operation required matches with the intended effect of the Com
 
 </box>
 
+#### Path package
+The `path` package in `model` package serves as a fundamental representation of the hierachical structure within the application. It delineates the navigational paths essential for traversal and dynamic command execution within the system.
+
+Here is a class diagram for the path package:
+
+<puml src="diagrams/PathClassDiagram.puml" width="550" />
+
+1. The `PathElement` class forms the building blocks for constructing paths within ProfBook. 
+2. `PathElementType` enum defines the type of elements within a  path:
+   * `ROOT`: Represents the root element in the hierarchy.
+   * `GROUPID`: Represents the element corresponding to a group in the hierachy.
+   * `STUDENTID`: Represents the element corresponding to a student in the hierachy.
+   * `PARENT`: Corresponds to the `..` notation, indicating the parent directory.
+   * `CURRENT`: Corresponds to the `.` notation, indicating the current directory.
+3. `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
+   * The `resolve` method is crucial to resolve a `RelativePath` and return the resolved path in `AbsolutePath` type.
+   * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path `~/grp-002`.
+
 ### Storage component
 
 **API** : [`ProfBookStorageManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/ProfBookStorageManager.java)
@@ -362,7 +380,7 @@ component, do head over to their respective documentation.
 
 Below is an activity diagram showing the general activity of the add student command.
 
-//TODO ADD activity diagram
+<puml src="diagrams/CreateStudentActivityDiagram.puml" width="550" />
 
 #### Design Consideration
 
@@ -442,7 +460,7 @@ diagram for adding a deadline task to a *single* student can be found in the `Mo
 
 This is an activity diagram showing the general activity of the add deadline command.
 
-//TODO ADD activity diagram
+<puml src="diagrams/CreateDeadlineActivityDiagram.puml" width="550" />
 
 #### Design Consideration
 
@@ -517,7 +535,7 @@ as `Student`.
 
 This is an activity diagram showing the general activity of the edit command.
 
-//TODO ADD activity diagram
+<puml src="diagrams/EditGroupActivityDiagram.puml" width="550" />
 
 #### Design Consideration
 
@@ -553,7 +571,8 @@ Given below is an example usage scenario whereby a student is moved from group1 
 6. As uniqueness of student is validated before each student is added, there is no need to check for clashes when
    executing.
 
-// TODO maybe add a sequence diagram
+<puml src="diagrams/MoveStudentSequenceDiagram.puml" width="700" />
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Proposed future features
@@ -623,8 +642,8 @@ plan to revamp our error message to be more descriptive and user friendly
 * can type fast
 * prefers typing to mouse interactions
 
-**Value proposition**: Keep track of tutorial groups and students' deadlines and tasks efficiently with an interface
-that will be faster than a typical mouse/GUI driven app
+**Value proposition**: Keep track of groups and students and their deadlines and tasks efficiently with an interface that
+will be faster than a typical mouse/GUI driven app
 
 ### User stories
 
@@ -675,7 +694,6 @@ otherwise)
 
 **Use case: help**
 
-
 **MSS**
 
 1. User requests for help.
@@ -716,7 +734,7 @@ otherwise)
       Use case resumes at step 1.
   
 
-* 2b. The path of the group is empty.
+* 2b. No path provided.
   
   * 2b1. ProfBook shows an error message.
 
@@ -803,11 +821,11 @@ otherwise)
 
       Use case resumes at step 1.
 
-**Use case: Edit a student`s details**
+**Use case: Edit a student's details**
 
 **MSS**
 
-1. User requests to edit a student`s details.
+1. User requests to edit a student's details.
 2. ProfBook edits the students details.
 
    Use case ends.
@@ -826,11 +844,11 @@ otherwise)
 
       Use case resumes at step 1.
 
-**Use case: Edit a group`s details**
+**Use case: Edit a group's details**
 
 **MSS**
 
-1. User requests to edit a group`s details.
+1. User requests to edit a group's details.
 2. ProfBook edits the groups details.
 
    Use case ends.
@@ -929,7 +947,7 @@ otherwise)
 
 **MSS**
 
-1. User requests to create a ToDo task either.
+1. User requests to create a ToDo task.
 2. ProfBook creates the Task under specified path/current path.
 
    Use case ends.
@@ -948,10 +966,22 @@ otherwise)
 
        Use case resumes at step 1.
   
-* 2c. No path specified.
+* 2c. No path specified, user is in group directory.
 
-    * 2c1. ProfBook creates ToDo under current directly, either for groups while at root or for students while in group.
+    * 2c1. ProfBook creates ToDo for the group.
   
+      Use case ends.
+
+* 2d. No path specified, user in root directory.
+
+    * 2d1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2e. User specifies `--all allStu` or `--all allGrp`.
+
+    * 2e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+
       Use case ends.
 
 **Use case: Create a Deadline task**
@@ -977,10 +1007,27 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 2c. No path specified.
+* 2c. The given deadline date is invalid.
 
-    * 2c1. ProfBook creates Deadline under current directly, either for groups while at root or for students while in
-      group.
+    * 2c1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2d. No path specified, user in root directory.
+
+    * 2d1. ProfBook creates Deadline for the group.
+
+      Use case ends.
+
+* 2e. No path specified, user in root directory.
+
+    * 2e1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 2f. User specifies `--all allStu` or `--all allGrp`.
+
+    * 2f1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
@@ -1034,19 +1081,53 @@ otherwise)
 
 ### Non-Functional Requirements
 
+**Technical requirements:**
 1. The application should be platform-independent and should run on all major operating systems as long as it has
    Java `11` or above installed.
-2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
-   able to accomplish most of the tasks faster using commands than using the mouse.
+2. The system should work on both 32-bit and 64-bit environments.
+3. ProfBook Jar size should not exceed 100MB.
+4. ProfBook should be capable of running on various local environments without dependencies on external servers or services.
 
-*{More to be added}*
+**Performance requirements:**
+1. Should be able to hold up to 1000 Students/Groups without a noticeable sluggishness in performance for typical usage.
+2. ProfBook should be able to respond in less than 0.5 seconds.
+
+**Reliability Requirements**:
+1. Should not lose any data if application is closed through external means (i.e. not using exit command or exit button).
+
+**Quality requirements:**
+1. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
+   able to accomplish most of the tasks faster using commands than using the mouse.
+2. The system can be used for basic function without reading the user guide.
+
+**Constraints:**
+1. Should work without an internet connection.
+2. Should be able to support frequent updating of data.
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, OS-X
-* **Root**: Folder which contains all students, groups as well
-* **Group**: Folder which contains Students within the specific group
+* **Mainstream OS**: Windows, Linux, Unix, OS-X.
+* **MSS**: Main success scenario.
+* **Extensions**: Variations or alternative flows in a use case that may occur based on certain conditions.
+* **Java**: A high level, classed based, object-oriented programming language. Java 11 can be downloaded [here](https://www.oracle.com/java/technologies/downloads/#java11). 
+* **Gradle**: Gradle is a build automation tool for multi-language software development. Installation [here](https://gradle.org/install/).
+* **CLI**: Command Line Interface, a text-based interface for interacting with a computer program.
+* **Architecture Diagram**: A high-level diagram explaining the design architecture of the ProfBook application.
+* ***Folder structure***: The organization of directories and subdirectories within ProfBook to represent the hierarchy.
+* **UI component**: Manages the user interface of the application, interacting with the Logic component. 
+* **Logic component**: Executes user commands, communicates with the Model, and manages the application's logic. 
+* **Model component**: Stores and manages ProfBook data, including information about root, groups, and students. 
+* **Parser component**: Handles the interpretation of the users input.
+* **Storage component**: Handles the storage and retrieval of ProfBook data, interacting with the Model component.
+* **Common classes**: Classes shared among multiple components in the ProfBook application.
+* **Root**: Directory which contains all groups.
+* **Group**: Directory which contains Students within the specific group.
+* **Task**: A piece of work or activity to be completed.
+* **Path**: A location or address within ProfBook's file hierarchy.
+* **Deadline Task**: A type of task with a specific deadline or due date.
+* **ToDo Task**: A type of task with no specific deadline, representing things to do.
+* **Task Index**: Index of task shown on display of ProfBook after using `cat` command.
+
 
 --------------------------------------------------------------------------------------------------------------------
 
