@@ -696,7 +696,7 @@ otherwise)
 
       Use case resumes at step 1.
 
-**Use case: Cd into group**
+**Use case: Change directory to group**
 
 **MSS**
 
@@ -707,16 +707,16 @@ otherwise)
 
 **Extensions**
 
-* 2a. The path of the group is invalid.
+* 1a. The path of the group is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
   
 
-* 2b. No path provided.
+* 1b. No path provided.
   
-  * 2b1. ProfBook shows an error message.
+  * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -1094,11 +1094,6 @@ otherwise)
 * **CLI**: Command Line Interface, a text-based interface for interacting with a computer program.
 * **Architecture Diagram**: A high-level diagram explaining the design architecture of the ProfBook application.
 * ***Folder structure***: The organization of directories and subdirectories within ProfBook to represent the hierarchy.
-* **UI component**: Manages the user interface of the application, interacting with the Logic component. 
-* **Logic component**: Executes user commands, communicates with the Model, and manages the application's logic. 
-* **Model component**: Stores and manages ProfBook data, including information about root, groups, and students. 
-* **Parser component**: Handles the interpretation of the users input.
-* **Storage component**: Handles the storage and retrieval of ProfBook data, interacting with the Model component.
 * **Common classes**: Classes shared among multiple components in the ProfBook application.
 * **Root**: Directory which contains all groups.
 * **Group**: Directory which contains Students within the specific group.
