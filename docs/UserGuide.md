@@ -98,6 +98,50 @@ The following steps are similar for all operating systems(OS) such as Windows, m
 1. Refer to the [General Commands](#general-commands), [Student or Group Commands](#student-or-group-commands), [Tasks Commands](#tasks-command) below for details of each command.
 
 ---
+<div class="page-break-before">
+    <!-- Content that will start on a new printed page -->
+</div>
+
+## How to use the User Guide :heart_eyes:
+We understand that it may be daunting to delve into a completely new user guide. This section is designed
+to make this journey more smooth sailing for you and enhance your understanding of the commonly used icons and boxes.
+We hope you enjoy your reading experience! :blush: :book:
+
+<box type="info">
+
+**Light blue boxes** like this with an **"i" icon** are designated for information-related content.
+</box>
+
+<box type="tip">
+
+Keep a look-out for **green boxes** like this with a **light bulb icon**, they provide valuable suggestions on
+how you can better make use of the commands for greater efficiency and convenience once you have mastered
+the basics of the command.
+</box>
+
+<box type="warning">
+
+When you come across **yellow boxes** like this with a **"!" icon**, do take extra note and caution! <br>
+It contains crucial cautionary information that is definitely a **must read**.
+</box>
+
+<box type="success" seamless>
+
+This is utilized to indicate the output if command succeeds.:ok_woman:
+
+</box>
+
+<box type="wrong" seamless>
+
+This is utilized to indicate the output if command fails.:no_good:
+
+- Please note that only the **relevant outputs** for the command are indicated. There may be additional outputs
+  in the case of command failure that are not indicated.
+- For more information and solutions on commonly made mistakes, feel free to click [here](#commonly-made-mistake)!
+
+</box>
+
+---
 
 <div class="page-break-before">
     <!-- Content that will start on a new printed page -->
@@ -105,7 +149,7 @@ The following steps are similar for all operating systems(OS) such as Windows, m
 
 ## Understanding ProfBook :books:
 
-### ProfBook Software Structure
+### ProfBook Folder Structure
 
 ProfBook is organized hierarchically with the following structure:
 
@@ -124,10 +168,10 @@ ProfBook is organized hierarchically with the following structure:
   The Root Directory serves as the main container for the ProfBook software. This is where all the data is organized.
 
   **Group Directories (e.g., `grp-001`, `grp-002`, ...)**<br>
-  Within the Root Directory, there are Group Directories. Each Group Directory is dedicated to managing a specific group of students.
+  Within the Root Directory, there are Group Directories only. Each Group Directory is dedicated to managing a specific group of students.
 
 **Student Directories (e.g., `1001Z`, `5815Y`, ...)**<br>
-  Inside each Group Directory, you'll find Student Directories. These directories represent individual students 
+  Inside each Group Directory, you'll find Student Directories only. These directories represent individual students 
 within each group.
 
   This hierarchical structure enables a well-organized and efficient way to manage groups and students within ProfBook.
@@ -136,7 +180,7 @@ within each group.
 
 ### ProfBook Command Format
 
-- Words in `UPPER_CASE` are the parameters to be supplied by you.
+- Words in `UPPER_CASE` are the compulsory parameters to be supplied by you.
   * e.g. In `touch SPECIFIED_PATH -n NAME`, `SPECIFIED_PATH` and the other field in `UPPER_CASE` can be substituted 
   with the desired details to form `touch 2000Y --name Bob`.
 * Words in `UPPER_CASE` that are surrounded by `[square brackets]` are optional parameters to be supplied by you.
@@ -164,17 +208,17 @@ multiple lines as space characters surrounding line-breaks may be omitted when c
 
 ### Flags :triangular_flag_on_post::triangular_flag_on_post::triangular_flag_on_post:
 All flags begin with `--` or `-`.
-Flags usually come before essential details required by the command and are compatible in both long and short forms:
+Flags usually **come before** essential details required by the command and are compatible in both long and short forms:
 
 - `--name` / `-n` followed by name of student or group specified by command.
-- `--email` / `-e` followed by email of student. 
+* `--email` / `-e` followed by email of student. 
 - `--phone` / `-p` followed by phone number of student.
-- `--address` / `-a` followed by address of student.
+* `--address` / `-a` followed by address of student.
 - `--id` / `-i` followed by a `STUDENT_ID` or `GROUP_ID` as specified by the command.
-- `--desc` / `d` followed by description of task specified by command.
+* `--desc` / `d` followed by description of task specified by command.
 - `--datetime` / `-dt` followed by due date of a deadline task in the `yyyy-MM-dd HH:mm` format.  
-- `--all` / `-al` followed by either: 
-  - `allStu` which adds **individual** tasks to all students within specified directory.
+* `--all` / `-al` followed by either: 
+  - `allStu` which adds **individual** tasks to all students within the specified directory.
     - Can only be used at a group or root directory.  
       - If used at **group directory**, task will be added to **all students in that group**.
       - If used at **root directory**, task will be added to **all students in ProfBook**.
@@ -184,52 +228,74 @@ Flags usually come before essential details required by the command and are comp
   - Use with any command (except `exit`, `help` and `clear`) for more information.
   - e.g. `touch --help` to learn more about how to add a student to ProfBook.
 
-### Acceptable values for each parameter:
+### Acceptable values for each parameter
 
 `SPECIFIED_PATH`:
 - Must be a **valid** path. 
+- Most commands will require `SPECIFIED_PATH` to be a present path (path that currently exists within ProfBook)
+except for [`touch`](#add-a-student-touch) and [`mkdir`](#add-a-goup-mkdir) commands.
+
+| **Symbol** | **Purpose of symbol**                                                                                                                                                                            |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `..`       | Step up one level from the current directory. <br> e.g. when executing [`cd ..`](#change-directory-cd) at the group directory, you will move up to the root directory.                           |
+| `.`        | Stays as current directory.                                                                                                                                                                      |
+| `/`        | Between every type of directory (Root, Group and Student), it will be separated by `/`. <br> This format ensures a clear and consistent representation, aligning with the familiar Linux command. |
+|`~`| Represents the root directory.                                                                                                                                                                   | 
+
+<box type="info">
+
+To begin writing a **valid** path, start with the directory you can and intend to navigate. Alternatively, you can always 
+commence from the root directory, `~`, and define your path as the route leading from the root directory to your desired directory.
+
+Kindly note that **direct navigation between directories of the same type is not permitted**. 
+You would need to navigate up by at least one directory before moving to the desired directory. <br>
+e.g. use `~/grp-001` to navigate to root directory first before the `grp-001` group directory from another group directory. 
+
+Additionally, **skipping directories between other directories is not allowed**. For instance, to navigate from the root directory
+to a student directory, `0123Y`, where the student directory is within group directory, `grp-001`,
+you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y/`.
+ </box>
 
 `NAME`:
-- Must be a non-empty string should only contain alphanumeric characters and spaces.
+- Must be a non-empty string that only contain alphanumeric characters and spaces.
+- This means that you cannot input a blank field. 
 
 `EMAIL`:
-- Must be a non-empty string following the format `local-part@domain`.
+- Must be a non-empty string following the format of `local-part@domain`.
   - `local-part`:
-    - Should only contain **alphanumeric characters** and these **special characters**, excluding the parentheses,
-    (`+` `_` `.` `-`).
+    - Should only contain alphanumeric characters and special characters, 
+    `+` `_` `.` `-`.
     - May not start or end with any special characters.
-  - This is followed by a `@` and then `domain`.
   - `domain`:
     -  Made up of **domain labels** separated by periods.
-      - **domain labels**:
+      - **Domain labels**:
         - At least 2 characters long.
         - Consist of alphanumeric characters, separated only by hyphens, if any.
         - Must end with alphanumeric characters.
 
 `PHONE_NUMBER`:
-- Must be a non-empty string of numbers.
-- Must be at least 3 digits long. 
+- Must be a non-empty string of numbers of at least 3 digits. 
 
 `ADDRESS`:
 - Must be a non-empty string, which means you cannot input a blank field.
 
 `STUDENT_ID`:
-- Must follow the format of a valid StudentId.
+- Must follow the format of a valid `StudentId`.
   
 <box type="info">
 
 **Required format for `StudentId`:**
 - Must be in the format `XXXXa` where `XXXX` is replaceable with any 4-digit number and `a` is replaceable with any
   capitalised alphabet.
-  - **Note:** StudentId here corresponds to the last 5 place of an NUS student's matriculation number and is not
-    a StudentId created by you. This format helps you to identify students easily while maintaining
+  - **Note:** `StudentId` here corresponds to the last 5 place of an NUS student's matriculation number and is not
+    a `StudentId` created by you. This format helps you to identify students easily while maintaining
     privacy and security.
   * eg. `8467U`
   
     </box>
 
 `GROUP_ID`:
-  - Must follow the format of a valid GroupId.
+  - Must follow the format of a valid `GroupId`.
 
   <box type="info">
 
@@ -260,56 +326,13 @@ Flags usually come before essential details required by the command and are comp
     <!-- Content that will start on a new printed page -->
 </div>
 
-## How to use the User Guide :heart_eyes:
-We understand that it may be daunting to delve into a completely new user guide. This section is designed 
-to make this journey more smooth sailing for you and enhance your understanding of the commonly used icons and boxes. 
-We hope you enjoy your reading experience! :blush: :book:
-
-<box type="info">
-
-**Light blue boxes** like this with an **"i" icon** are designated for information-related content.
-</box>
-
-<box type="tip">
-
-Keep a look-out for **green boxes** like this with a **light bulb icon**, they provide valuable suggestions on
-how you can better make use of the commands for greater efficiency and convenience once you have mastered 
-the basics of the command. 
-</box>
-
-<box type="warning">
-
-When you come across **yellow boxes** like this with a **"!" icon**, do take extra note and caution! <br>
-It contains crucial cautionary information that is definitely a **must read**.
-</box>
-
-<box type="success" seamless>
-
-This is utilized to indicate the output if command succeeds.:ok_woman:
-
-</box>
-
-<box type="wrong" seamless>
-
-This is utilized to indicate the output if command fails.:no_good:
-
-- Please note that only the **relevant outputs** for the command are indicated. There may be additional outputs
-in the case of command failure that are not indicated.
-- For more information and solutions on commonly made mistakes, feel free to click [here](#commonly-made-mistake)!
-
-</box>
-
----
-<div class="page-break-before">
-    <!-- Content that will start on a new printed page -->
-</div>
-
 ## Navigating the Graphical User Interface(GUI) :eyes:
 
 **ProfBook's graphical user interface(GUI)** presents crucial information through visuals.
 However, please note that ProfBook utilizes a Command Line Interface (CLI) approach, limiting the
 interactions with the graphical components to mainly scrolling via scrollbars.
 
+### Root Directory 
 Upon launching ProfBook, you will see the root directory as illustrated below.
 ![Ui](images/rootdirectoryimage.png){width=1600 height=900}
 
@@ -329,7 +352,8 @@ Upon launching ProfBook, you will see the root directory as illustrated below.
   * If at the **root directory**, Children List will contain **groups**.
   - If at a **group directory**, Children List will contain **students**.
 </box>
-  
+
+### Group Directory, `grp-001`
 When you navigate to the group directory, `grp-001`, using the `cd grp-001`, your interface should resemble
   the following.
   ![Ui](images/groupdirectoryimage.png){width=1600 height=900}
@@ -340,7 +364,7 @@ When you navigate to the group directory, `grp-001`, using the `cd grp-001`, you
 | **Student List** |  Shows the students within current group directory.   |
 | **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Children List of the group directory. |
 
-
+### Task list of Group Directory, `grp-001`
 To view the task list of the current group directory, simply use `cat`.
 ![Ui](images/listimage.png){width=1600 height=900}
 |**Component name** |  **Description**   |
@@ -355,8 +379,8 @@ To view the task list of the current group directory, simply use `cat`.
 <box type = "info">
 
 - **Task List**: List of Tasks belonging to specific directory.
-  * Task List for **group directory**, tasks allocated to this specific **group**.
-  - Task List for **student directory**, tasks allocated to this specific **students**.
+  * Task List for **group directory**, shows tasks allocated to this specific **group**.
+  - Task List for **student directory**, shows tasks allocated to this specific **students**.
     </box>
 
 ---
@@ -375,7 +399,14 @@ Changes the current directory in the ProfBook.
 #### Acceptable values for each parameter:
 
 `SPECIFIED_PATH`:
-- Must be a valid path to a group or root. 
+- Must be a valid path to a group or root.
+
+<box type="warning">
+  
+Please note that the path entered should not lead back to the current directory you are at. <br>
+For example, if you are at `~/grp-001`, when you execute `cd ../grp-001`, the **Message Display Column**
+will indicate that you are already in the directory. 
+</box>
 
 <box type="success" seamless>
 
@@ -395,15 +426,24 @@ Changes the current directory in the ProfBook.
 
 #### Example(s):
 - When you are at the directory `~/grp-001` and would like to change directory from `grp-001` to `grp-002` you could
-use the command:
-  -  `cd ../grp-002` ->  type `..` to step up one level before proceeding to the `grp-002` directory.
+use,
+  -  `cd ../grp-002` ->  type `..` to step up one level before proceeding to the `grp-002` directory. <br>
+
+<box type="info">
+  
+  ![Ui](images/beforeaftercd.png){width=598 height=203} <br>
+  Other than checking the **Message Display Column** to ensure that the command has been executed successfully,
+  you could always look at the **Current Directory Display** in the top left corner of the window. <br>
+  In the image above, you can easily see that the current directory has been switched from
+  `~/grp-001/` to `~/grp-002`.
+</box>
 
 ### <span style="color: #FF8C00;">Display Directories : `ls`</span>
 
 Shows the list of children in specified directory. 
 
 **Format:** `ls [SPECIFIED_PATH]`
-
+ 
 #### Acceptable values for each parameter:
 
 `[SPECIFIED_PATH]`:
@@ -412,8 +452,7 @@ Shows the list of children in specified directory.
 <box type="info">
   
   If `[SPECIFIED_PATH]` is not provided, the `ls` command will show the list of children in the current directory.
-  Current directory must be a root or group directory. 
-
+  Current directory must be a root or group directory.
 </box>
 
 <box type="success" seamless>
@@ -476,23 +515,22 @@ The `ls` command will show the list of tasks in the current group directory.
 <box type="wrong" seamless>
 
 #### Output if command fails:
-- If `cat` in root directory,
-  - Displays message indicating that task list cannot be shown within root directory.
 
-* If `cat` with invalid parameter,
-  - Displays message showing invalid path with user's input Path.
-
+Displays message indicating either:
+- [Invalid command format.](#mistake-1-invalid-command-format)
+- [Invalid path.](#mistake-2-invalid-path)
 </box>
 
 #### Example(s):
 - When you are at the directory `~/grp-001` and would like to see all tasks allocated to `grp-001`,
   - `cat` will return all the tasks allocated to grp-001.
+  - Result shown will be similar to [this](#task-list-of-group-directory-grp-001).
 
 <box type="tip">
 
 If you are at the directory `~/grp-001` and would like take a quick look of the tasks allocated to student `0010Y` 
 that is under `grp-001`,
-- `cat 0010Y` will return all the tasks allocated to student of studentId, `0010Y`.
+- `cat 0010Y` will return all the tasks allocated to student of StudentId, `0010Y`.
 
 </box>
 
@@ -557,6 +595,8 @@ This means direct addition of students to the root directory is not allowed.
 
 `SPECIFIED_PATH`:
 - Must be a valid path to a student.
+- If the command is executed outside the intended group to add the student,
+the specified path must extend to encompass both the group and the student to ensure accurate execution.
 
 <box type="success" seamless>
 
@@ -573,27 +613,33 @@ This means direct addition of students to the root directory is not allowed.
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
+  - [Duplicate Id.](#mistake-7-duplicate-id)
 
 </box>
 
 #### Example(s):
 
-- When you are at the directory `~/grp-001`, you could add a new student to this group through this command,
+- When you are at the directory `~/grp-001`, you could add a new student named Bob of StudentId `0200Y`
+to this group through the following command
   - `touch 0200Y --name Bob`
+
+<box type="info">
+
+![Ui](images/touchcommand.png){width=720 height=158}
+Following the executing the `touch` command, Bob appears in the Children List. The **Message Display Column**
+also indicates the addition of a new student, Bob. <br>
+Observe that all fields for Bob, except for Name and StudentId, are marked `n/a` as you did 
+not include them in the initial command. But fear not! You can always add these additional fields through
+the [edit command](#edit-a-student-edit)!
+</box>
 
 <box type="tip">
 
-When you are at the directory `~/grp-001` and would like to add a new student, Bob, to another directory 
-`~/grp-002`, 
-- You could use the command `touch ../grp-002/0200Y --name Bob` to save yourself the trouble for having to change 
+When you are at the group directory `~/grp-001` and would like to the same student, to another directory 
+`~/grp-002` instead, 
+- You could use `touch ../grp-002/0200Y --name Bob` to save yourself the trouble for having to change 
   directory before executing the `touch` command!
-
 </box>
-
-#### To note:
-
-- If the command is executed outside a specific group, the specified path must extend to encompass both the 
-group and the student to ensure accurate execution.
 
 ### <span style="color: #FF8C00;">Edit a Student: `edit` </span>
 
@@ -627,7 +673,9 @@ One or more fields can be edited in a single command.
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
-  - [At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER`, `ADDRESS` or `STUDENT_ID`) to edit must be provided.](#mistake-8-at-least-one-field-to-edit-must-be-provided)
+  - [At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER`, `ADDRESS` or `STUDENT_ID`) to edit must be provided.](#mistake-5-at-least-one-field-to-edit-must-be-provided)
+  - [Value(s) provided is the same as the current value(s). No changes have been made.](#mistake-6-value-s-provided-is-the-same-as-the-current-value-s-no-changes-have-been-made)
+  - [Duplicate Id.](#mistake-7-duplicate-id)
 
 </box>
 
@@ -683,7 +731,9 @@ to root directory.
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
-  - [At least one field (`NAME` or `GROUP_ID`) to edit must be provided.](#mistake-8-at-least-one-field-to-edit-must-be-provided)
+  - [At least one field (`NAME` or `GROUP_ID`) to edit must be provided.](#mistake-5-at-least-one-field-to-edit-must-be-provided)
+  - [Value(s) provided is the same as the current value(s). No changes have been made.](#mistake-6-value-s-provided-is-the-same-as-the-current-value-s-no-changes-have-been-made)
+  - [Duplicate Id.](#mistake-7-duplicate-id)
 
 </box>
 
@@ -725,14 +775,14 @@ Removes a student or group from the specified path.
 
 - Displays message indicating either:
     - [Invalid command format](#mistake-1-invalid-command-format)
-    - [No such student or group to delete.](#mistake-3-no-such-student-or-group-to-delete)
+    - [Invalid path.](#mistake-2-invalid-path)
 
 </box>
 
 #### Example(s):
 
 - When you are at the root directory `~/` and would like to remove the group, `grp-001`,
-    - `rm grp-001` will remove grp-001
+    - `rm grp-001` will remove grp-001.
 
 <box type="tip">
 
@@ -772,7 +822,7 @@ Moves student from one group to another group.
 
 - Displays message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
-  - [No such student to move.](#mistake-4-no-such-student-to-move)
+  - [Invalid path.](#mistake-2-invalid-path)
   - [Invalid destination path.](#mistake-2-invalid-path)
 
 </box>
@@ -784,7 +834,7 @@ Moves student from one group to another group.
 
 <box type="tip">
 
-When you are at the directory `~/grp-001` and would like to move a student to `grp-002` without changing to the 
+When you are at the directory `~/grp-001` and would like to move a student, `0123Y`, to `grp-002` without changing to the 
 root directory,
 - You could use the command `mv 0123Y ../grp-002`!
 
@@ -820,7 +870,8 @@ This means that addition of groups under another group directory is not allowed.
 
 - Displays message indicating either:
     - [Invalid command format.](#mistake-1-invalid-command-format)
-    - [Invalid path to a group.](#mistake-2-invalid-path)
+    - [Invalid path.](#mistake-2-invalid-path)
+    - [Duplicate Id.](#mistake-7-duplicate-id)
 
 </box>
 
@@ -924,7 +975,7 @@ Else, the command will create a deadline task for the group at current directory
 <box type="tip">
 
 `DATE_AND_TIME` accepts past deadlines. Hence, you can also utilize the `deadline` command
-to keep track ot past events without worry!
+to keep track of past events without worry!
 </box>
 
 <box type="success" seamless>
@@ -979,8 +1030,8 @@ Marks the specified task as done for the specified student or group.
 
 - Displays message indicating either:
   - [Invalid command format](#mistake-1-invalid-command-format)
-  - [Invalid task index.](#mistake-5-invalid-task-index)
-  - [The display panel is not showing task list.](#mistake-6-the-display-panel-is-not-showing-task-list)
+  - [Invalid task index.](#mistake-3-invalid-task-index)
+  - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
 
 </box>
 
@@ -995,6 +1046,16 @@ When using this command, you will first need to [cat](#display-all-tasks-cat) at
 allocated to student with StudentId, `0123Y`, you could follow these commands in sequential order.
   1. `cat 0123Y`
   1. `mark 1`
+
+<box type="info">
+
+![Ui](images/markcommand.png){width=709.5 height=296.5}
+Did you observe the difference in the **Task Status Box** between the 2 pictures? <br>
+The first image shows the outcome when you execute `cat 0123Y`, whereas the second image shows
+the outcome of the execution of  `mark 1`. <br>
+Notice the presence of a tick in the **Task Status Box** of the second image,
+after you mark the task. 
+</box>
 
 ### <span style="color: #FF8C00;">Unmark task: `unmark` </span>
 
@@ -1016,8 +1077,8 @@ Unmarks the specified task for the student or group.
 
 - Displays message indicating either:
   - [Invalid command format](#mistake-1-invalid-command-format)
-  - [Invalid task index.](#mistake-5-invalid-task-index)
-  - [The display panel is not showing task list.](#mistake-6-the-display-panel-is-not-showing-task-list)
+  - [Invalid task index.](#mistake-3-invalid-task-index)
+  - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
 </box>
 
 <box type="warning">
@@ -1030,6 +1091,13 @@ When using this command, you will first need to [cat](#display-all-tasks-cat) at
   allocated to this group, you could follow these commands in sequential order.
   1. `cat`
   1. `unmark 1`
+
+<box type="info">
+
+The result shown should be similar to the `mark` command except that 
+instead of noticing the presence of a tick in the **Task Status Box**,
+you should observe an **absence of the tick** after executing the `unmark` command.
+</box>
 
 ### <span style="color: #FF8C00;">Delete task: `rmt` </span>
 
@@ -1051,8 +1119,8 @@ Removes a task according to specified index number.
 
 - Displays message indicating either:
   - [Invalid command format](#mistake-1-invalid-command-format)
-  - [Invalid task index.](#mistake-5-invalid-task-index)
-  - [The display panel is not showing task list.](#mistake-6-the-display-panel-is-not-showing-task-list)
+  - [Invalid task index.](#mistake-3-invalid-task-index)
+  - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
     </box>
 
 <box type="warning">
@@ -1094,54 +1162,60 @@ you in your quest of mastering ProfBook, helping you recover from any hiccups th
 As such, we have collated a list of some commonly made mistakes and solutions to them. :muscle:
 
 ##### Mistake 1: Invalid command format
-**Solution:**
+Some possible errors from invalid command format are,
+1. **Excessive or duplicate arguments.**
+   - This occurs when there are duplicate flags or an excess of compulsory parameters as outlined in the command format.
+2. **Missing arguments.**
+   - This issue arises when there are missing compulsory parameters from the command you entered. 
+3. **Invalid option.**
+   - **Solution:**
+     - Pay close attention to the **invalid option (also known as flags)** indicated in the return message. 
+     - First, ensure that the **command format specifies for this type of option**. 
+     - Second, confirm that there are **no misspellings** especially when it comes to options in their long forms.
+       By adhering to these steps, you could efficiently correct invalid options in your commands.
+  
+<box type = "info">
+
+Please note that if there are multiple invalid options, only the first invalid option will be shown in the return
+message. <br> 
+This approach aids you to concentrate on addressing the invalid option before moving on to the subsequent
+ones. The next invalid option will be shown after rerunning the command if the current invalid option has been solved.
+</box>
+
+**General solution:**
 Ensure that the command you enter adheres to the format provided in the user guide.
 
 ##### Mistake 2: Invalid path
 **Solution:**
-Please check that the path you have entered is the path required by the command which can be seen in th User
+Please check that the path you have entered is the path required by the command which can be seen in the User
 Guide.
 Additionally, do ensure that it is the intended path you wish to utilise, and it exists within ProfBook.
 
-##### Mistake 3: No such student or group to delete
-**Solution:**
-Verify that the StudentId or GroupId belonging to the student or group you wish to delete is correct
-and that the specified path belonging to the student or group which you wish to delete exist within ProfBook.
-
-##### Mistake 4: No such student to move
-**Solution:**
-Verify that the StudentId belonging to the student you wish to move is correct
-and that the student exists in the specified path from which you wish to move them from.
-
-##### Mistake 5: Invalid task index
+##### Mistake 3: Invalid task index
 **Solution:**
 Task index starts from 1. Check that the index you input is a positive whole number and falls within the range 
 of 1 to the total number of tasks in the task list.
 
-##### Mistake 6: The display panel is not showing task list
+##### Mistake 4: The display panel is not showing task list
 **Solution:**
 Please do not forget to execute the [`cat`](#display-all-tasks-cat) command prior to executing the required command.
 
-##### Mistake 7: Invalid option
-**Solution:**
-Pay close attention to the **invalid option (also known as flags)** indicated in the return message. 
-First, ensure that the **command format specifies for this type of option**. 
-Second, confirm that there are **no misspellings** especially when it comes to options in their long forms.
-By adhering to these steps, you could efficiently correct invalid options in your commands.
-
-<box type = "info">
-
-Please note that if there are multiple invalid options, only the first invalid option will be shown in the return
-message. <br> This approach aids you to concentrate on addressing the invalid option before moving on to the subsequent
-ones. The next invalid option will be shown after rerunning the command if the current invalid option has been solved.
-</box>
-
-##### Mistake 8: At least one field to edit must be providedmis
+##### Mistake 5: At least one field to edit must be provided
 **Solution:**
 If **editing a student**, ensure that you have indicated at least one field 
 (`NAME`, `EMAIL`, `PHONE_NUMBER`, `ADDRESS` or `STUDENT_ID`) to edit and that the flag used is accurate. <br>
 If **editing a group**, ensure that you have indicated at least one field (`NAME` or `GROUP_ID`)
 to edit and that the flag used is accurate.
+
+##### Mistake 6: Value(s) provided is the same as the current value(s). No changes have been made.
+**Solution:**
+When modifying information for a student or group, please ensure that **at least one field** you intend 
+to edit **differs from the current parameters** associated with the student or group. This
+
+##### Mistake 7: Duplicate Id.
+**Solution:**
+Ensure that the GroupId or StudentId you entered does not coincide 
+with other GroupId or StudentId respectively in the whole ProfBook. 
 
 ---
 
