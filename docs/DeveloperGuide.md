@@ -702,14 +702,14 @@ otherwise)
 
 **Extensions**
 
-* 2a. User inputs help with specific command.
+* 1a. User inputs help with specific command.
 
-    * 2a1. ProfBook displays help message specific to input command
+    * 1a1. ProfBook displays help message specific to input command
 
       Use case ends.
 
 
-* 2b. User inputs invalid command together with help.
+* 1b. User inputs invalid command together with help.
 
     * 2b1. ProfBook shows an error message.
 
@@ -1084,7 +1084,7 @@ otherwise)
 1. The application should be platform-independent and should run on all major operating systems as long as it has
    Java `11` or above installed.
 2. The system should work on both 32-bit and 64-bit environments.
-3. ProfBook Jar size should not exceed 100MB.
+3. ProfBook Jar size should not exceed 1GB.
 4. ProfBook should be capable of running on various local environments without dependencies on external servers or services.
 
 **Performance requirements:**
