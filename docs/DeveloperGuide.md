@@ -146,6 +146,12 @@ will be deleted.
 
 <puml src="diagrams/DeleteTaskSequenceModelDiagram.puml" width="600"/>
 
+<box type="info" seamless>
+
+**Note:** Due to the limitations of PlantUML, the reference frame in the first UML diagram is slightly overlapped.
+
+</box>
+
 How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `ProfBookParser` object which in turn creates a
@@ -193,23 +199,23 @@ The `Model` component,
 The diagram above shows how the folder structure is implemented in ProfBook,
 
 * The hierarchy is as such: `Root` -> `Group` -> `Student`.
-* As many of the operations are repeated (e.g., tasks operations and children operation), we decided to abstract out
+* As many of the operations are repeated (e.g. tasks operations and children operation), we decided to abstract out
   these logic into their own classes which is represented by `TaskListManager` and `ChildrenManager` respectively.
 * `ChildrenManager` manages the children which is of type `IChildElement`.
 * We also created a wrapper class (e.g. `ChildrenAndTaskListManager`) for classes that require both of those
   aforementioned functionalities (e.g, `Group` and potentially in the future `TutorialSlot`).
 
-##### Task component
+##### Task sub-package
 
 **API** : [`TaskListManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/task/TaskListManager.java)
 
-<puml src="diagrams/TaskListClassDiagram.puml" width="300" />
+<puml src="diagrams/TaskListClassDiagram.puml" width="250" />
 
 How the `Task` component work:
 
 * As mentioned earlier, `TaskListManager` encapsulates the logic required to maintain a TaskList, this logic is
   utilised heavily in the ProfBook component.
-* All tasks extend from the abstract class `Task`, we did this so for extensibility. So in the future, should we decide
+* All tasks extend from the abstract class `Task`, we did this for extensibility. So in the future, should we decide
   to implement a new type of task, all we have to do is extend from `Task`.
 
 The sequence diagram below illustrates the interactions within the `Model` component, taking an execution of a
@@ -221,13 +227,11 @@ we shall be narrowing our scope to adding a todo tasks to a specified group, g.
 How the `Model` component works:
 
 * Depending on the nature of the command, a static method is called to generate a `TaskOperation` or
-  a `ChildrenOperation` Object that acts as an interface Command object to manipulate the Model
+  a `ChildrenOperation` Object that acts as an interface manipulate the Model
 * In this case, a `TaskOperation` object is created. This object would store all the necessary information to make
   changes directly on the correct state.
-* The command object calls the required method in the `TaskOperation` object which results in the `TaskOperation`
-  object adding the Todo task to the group.
-* Our `TaskOperation` and `ChildOperation` classes follow.
-  the [facade pattern](https://nus-cs2103-ay2324s1.github.io/website/se-book-adapted/chapters/designPatterns.html#facade-pattern)
+* The `Command` instance calls the required method in the `TaskOperation` object which results in the `TaskOperation`
+  object performing the addition of the Todo task to the group.
 
 <box type="info" seamless>
 
@@ -237,30 +241,30 @@ to check that the Operation required matches with the intended effect of the Com
 
 </box>
 
-#### Path component
+#### Path sub-package
 
 **API** : [`Path.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/path/Path.java)
 
 The `path` package in `model` package serves as a fundamental representation of the hierarchical structure within the
-application. It delineates the navigational paths essential for traversal and dynamic command execution within the 
+application. It delineates the navigational paths essential for traversal and dynamic command execution within the
 system.
 
 Here is a class diagram for the path package:
 
 <puml src="diagrams/PathClassDiagram.puml" width="550" />
 
-1. The `PathElement` class forms the building blocks for constructing paths within ProfBook. 
-2. `PathElementType` enum defines the type of elements within a  path:
-   * `ROOT`: Represents the root element in the hierarchy.
-   * `GROUPID`: Represents the element corresponding to a group in the hierarchy.
-   * `STUDENTID`: Represents the element corresponding to a student in the hierarchy.
-   * `PARENT`: Corresponds to the `..` notation, indicating the parent directory.
-   * `CURRENT`: Corresponds to the `.` notation, indicating the current directory.
-3. `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
-   * The `resolve` method is crucial to resolve a `RelativePath` and return the resolved path in `AbsolutePath` type.
-   * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the
-     `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path
-     `~/grp-002`.
+* The `PathElement` class forms the building blocks for constructing paths within ProfBook.
+* `PathElementType` enum defines the type of elements within a  path:
+    * `ROOT`: Represents the root element in the hierarchy.
+    * `GROUPID`: Represents the element corresponding to a group in the hierarchy.
+    * `STUDENTID`: Represents the element corresponding to a student in the hierarchy.
+    * `PARENT`: Corresponds to the `..` notation, indicating the parent directory.
+    * `CURRENT`: Corresponds to the `.` notation, indicating the current directory.
+* `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
+    * The `resolve` method is crucial to resolve a `RelativePath` and return the resolved path in `AbsolutePath` type.
+    * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the
+      `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path
+      `~/grp-002`.
 
 ### Storage component
 
@@ -301,7 +305,7 @@ but I will delve into it more comprehensively.
 We first created interfaces to represent the required logic for each of the manager, namely `IChildrenManager`
 and `ITaskListManager`. Then we created concrete classes such as `ChildrenManager` and `TaskListManager` to encapsulate
 the aforementioned logic. The purpose of these classes was so that should a folder type, e.g. `Student`, require a
-Manager functionality, we could just extend from said Manager thus reducing on repeated code. Due to the limitation of
+manager functionality, we could just extend from said manager thus reducing on repeated code. Due to the limitation of
 Java, classes are not able to extend from multiple classes. To remedy this, we created a wrapper
 class, `ChildrenAndTaskListManager`.
 
@@ -326,31 +330,33 @@ To further illustrate our folder structure, we have prepared this diagram
     * Cons: It results in a more rigid hierarchy, harder to extend upon.
 * **Alternative 2**: Flat structure.
     * Pros: Easier to implement relatively to the tree representation.
-    * Cons: Harder to maintain the hierarchy, search for items and load items from storage
+    * Cons: 
+      * Harder to maintain the hierarchy, search for items and load items from storage.
+      * States are more coupled
 
 **Aspect: How store reference to children**
 
 * **Alternative 1 (current implementation):** HashMap.
     * Pros: Able to check/find if a student/group is present efficiently, mapping objects by their ID also makes
       executing commands in a folder-like structure easier.
-    * Cons: Not really any.
-* **Alternative 2**: Array.
-    * Pros: Very easy to implement
+    * Cons: Items stored in HashMaps are unordered, meaning addition order is lost.
+* **Alternative 2**: List.
+    * Pros: Very easy to implement.
     * Cons: Finding a student/group is very inefficient, updating references is also a hassle.
 
 ### Adding a student/group
 
 #### Implementation
 
-Implementation for Creating a student and a group is very similar, so in this guide, I would go through the
+Implementation for creating a `Student` and a `Group` is very similar, so in this guide, I would go through the
 implementation for the harder one, which is creating a student. Should you have any questions do feel free to contact
 us.
 
 Most of the logic for creating a student is encapsulated in the `CreateStudentCommand` class, this class utilise
-the `GroupChildOperation` facade class to add the student to the group and the `Model` class to check for duplicates.
+the `GroupChildOperation` class to add the student to the group and the `Model` class to check for duplicates.
 The following methods of `ModelManager` and `GroupChildOperation` are used:
 
-1. `ModelManager::groupChildOperation` - To generate a facade class specific to the current group, it also checks for
+1. `ModelManager::groupChildOperation` - To generate an operation class specific to the current group, it also checks for
    the validity and presence of the specified group.
 2. `ModelManager::hasStudentWithId` - To check if the new student id is unique.
 3. `GroupChildOperation::addChild` - To add the current student into the group.
@@ -368,19 +374,20 @@ Given below is an example usage scenario on how an existing user can create a st
    Do note that the only required fields are `--name`.
 3. The parser would retrieve all the relevant information from the input and encapsulates it in a `CreateStudentCommand`.
 4. This command would first do these checks:
-    * checks if the specified path is a valid student path. This is done via the `Path::isStudentDirectory` method
-    * checks if adding the student would result in a duplicate within whole of ProfBook, ie if the student id is
-      already taken. This is done via the `ModelManager::hasStudentWithId` method.
+   * checks if the specified path contains the group. This is done via the `ModelManager::hasGroup` method.
+   * checks if the specified path is a valid student path. This is done via the `Path::isStudentDirectory` method.
+   * checks if adding the student would result in a duplicate within whole of ProfBook, ie if the student id is
+   already taken. This is done via the `ModelManager::hasStudentWithId` method.
 5. In this case, if the input was `touch ~/grp-001/1234Y ...` or `touch ~/grp-001/9876A ...` a `CommandException` will
    be thrown.
 6. If all checks out, the command would create a new student and add the student to the `Model`. This addition is done
-   through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. This would ensure
+   through getting a `GroupChildOperation` class from the `Model::groupChildOperation` method. This would ensure
    the path to the group is present and valid. The student is added through the `GroupChildOperation::addChild` method.
 7. It should look something like this.
 
    <puml src="diagrams/AddFinalState.puml" width="650" />
 
-This sequence diagram shows the general flow of the CreateStudentCommand, for more information on each specific
+This sequence diagram shows the general flow of the `CreateStudentCommand`, for more information on each specific
 component, do head over to their respective documentation.
 
 <puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="650" />
@@ -407,57 +414,64 @@ Below is an activity diagram showing the general activity of the add student com
 #### Implementation
 
 Creating and adding a task is one of the key feature of ProfBook. Currently, we support two types of tasks,
-namely `ToDo` and `Deadline` Tasks. Both this tasks extends from the abstract `Task` class which add to its
+namely `ToDo` and `Deadline` tasks. Both this tasks extends from the abstract `Task` class which add to its
 extensibility. It is important to note that currently, you can only add tasks to Group and Students. Needless to say,
 the information for these tasks are encapsulated withing their respective `Task`
 instance.
 
-As the implementation for creating a `Todo` and `Deadline` task is very similar, I would be bringing you through
+As the implementation for creating a `ToDo` and `Deadline` task is very similar, I would be bringing you through
 the implementation that we found to be more confusing. I would be going through creating a Deadline task and adding it
-to **all students in a group**. Illustration in the form of a sequence diagram for creating a Todo and adding a singular
-tasks can be found at the `Model` component. For more information you could reach out to us, we would be more than happy
+to **all students in a group**. For more information you could reach out to us, we would be more than happy
 to help.
 
-Most of the logic for creating a task is encapsulated in the `CreateDeadlineCommand` class, this class utilise
-the `GroupChildOperation` facade class to add the Deadline to the group and check for duplicates.
+<box type="info" seamless>
+
+**Note:** Illustration in the form of a sequence diagram for creating a `ToDo` and adding a singular
+tasks can be found at the `Model` component. 
+
+</box>
+
+
+Most of the logic for creating a task is encapsulated in the `CreateDeadlineCommand` class, this class utilises
+the `GroupChildOperation` class to add the Deadline to the group and check for duplicates.
 The following methods of `ModelManager` and `GroupChildOperation` are used:
 
-1. `ModelManager::groupChildOperation` - To generate a facade class specific to the current group, it also checks for
+1. `ModelManager::groupChildOperation` - To generate an operation class specific to the current group, it also checks for
    the validity and presence of the specified group.
 2. `GroupChildOperation::addAllTasks` - To add the tasks to all student within a group, it also checks if it is a
    duplicate task before adding.
 3. `GroupChildOperation::checkIfAllChildrenHaveTask` - To check if all children within a group already has the task.
 
-It is important to note that for adding a task to a singular group/student, the facade class `TaskOperation` is used
-instead, a sequence diagram illustrating this can be found in the model component.
+It is important to note that for adding a task to a singular group/student, the operation class `TaskOperation` is used
+instead, a sequence diagram illustrating this can be found in the `Model` component.
 
 Given below is an example usage scenario on how an existing user can add Deadline to all students
 
 1. When the user launches the application, existing information is read from the data file `profbook.json`. In our case,
    let us narrow our focus to a specific group with 2 students.
 
-   <puml src="diagrams/DeadlineInitialState.puml" width="600" />
+   <puml src="diagrams/DeadlineInitialState.puml" width="500" />
 
 2. Suppose the user is still in the root directory and wants to add a deadline to all students in group1, the user would
    execute the following
    command: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-12-12 23:59 --all allStu`. More information on the 
-   flags could be fond in the User Guide.
-3. The parser would retrieve all the relevant information from the input and encapsulates it in
+   flags could be found in the User Guide.
+3. The parser would retrieve all the relevant information from the input and encapsulate it in
    a `CreateDeadlineCommand`.
 4. This command would first
-    * check if the specified path is a valid and present Group path. This is done via `Path::isGroupDirectory` method.
+    * check if the specified path is a valid and present group path. This is done via `Path::isGroupDirectory` method.
     * check if all students in the group already has the task. This is done
       via `GroupChildOperation::checkIfAllChildrenHaveTask` method.
-5. If all checks out, the command would create a new deadline instance and add the deadline to all student that do not
+5. If all checks out, the command would create a new `Deadline` instance and add the deadline to all student that do not
    already have the aforementioned task. This is done
-   through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. The tasks are then
+   through getting a `GroupChildOperation` class from the `Model::groupChildOperation` method. The tasks are then
    added through the `GroupChildOperation::addTaskToAllStudent` method. For each student, the method would check if the
    task is already present, if not it would add the task.
 6. It should look something like this.
 
    <puml src="diagrams/DeadlineFinalState.puml" width="600" />
 
-7. In the above diagram, Jerry already has the exact deadline and adding it would result in a duplicate. Therefore, the
+7. In the above diagram, Jerry already has the exact `Deadline` and adding it would result in a duplicate. Therefore, the
    task is only added to student Ben.
 
 This sequence diagram illustrates the general flow when adding the deadline task to *all* students, the sequence
@@ -493,22 +507,37 @@ This is an activity diagram showing the general activity of the add deadline com
     * Pros: Best of both worlds.
     * Cons: Harder to implement, user command is also more complex and bulky.
 
+**Aspect: Should the same instance of the task be assigned during bulk task**
+
+* **Alternative 1:** No, each student/group should have their own unique instance.
+    * Pros: Each task's completion is independent of others.
+    * Cons: Takes more memory.
+* **Alternative 2**: Yes.
+    * Pros: Able to change all task's state in one short.
+    * Cons: Unable to uniquely change a specific tasks without affecting other task, aliasing issue.
+  
 ### Editing information
 
 #### Implementation
 
-Due to dynamic need of our target users, professors and TAs, there is a need for our edit command to be equally dynamic.
+Due to the dynamic need of our target users, professors and TAs, there is a need for our edit command to be equally dynamic.
 Our edit command need to be general enough to allow the users to edit both students and groups. This is done by checking
 the type of directory that was passed in. This is done through the `Path::isGroupDirectory`
-and `Path::isStudentDirectory` method. More information on how this is done can be found in the documentation
-for `Path` component. This then allows parser to check for the validity of the given flags.
+and `Path::isStudentDirectory` method. 
+
+<box type="info" seamless>
+
+**Note:** More information on how this is done can be found in the documentation
+for `path` package. This then allows parser to check for the validity of the given flags.
+
+</box>
 
 As the implementation for editing students and groups is similar, for simplicity, I would be going through
 implementation of editing a group.
 
 The following methods of `ModelManager`, `Path` and `RootChildOperation` are used:
 
-1. `ModelManager::rootChildOperation` - To generate a facade class with logic specific to the current root.
+1. `ModelManager::rootChildOperation` - To generate an operation class with logic specific to the current root.
 2. `ModelManager::hasGroupWithId` - To check if editing results in a duplicate.
 3. `RootChildOperation::editChild` - To edit the group with the values extracted from parser.
 4. `Path::isGroupDirectory` - To check if the path leads to a group directory.
@@ -565,7 +594,7 @@ Initially, implementing this feature seemed like a daunting task. However, after
 realised that implementing move was quite straight forward. Moving a student can be easily done by removing the
 student's reference from its current group by removing its key-value pair from the group's `Map<Id, Student>` field.
 Then to complete the move, the student is added to the target group by adding it into the target
-group's `Map<Id, Student>` field. All of this operation is facilitated by the `GroupChildOperation` facade class.
+group's `Map<Id, Student>` field. All of this operation is facilitated by the `GroupChildOperation` class.
 
 Given below is an example usage scenario whereby a student is moved from group1 to group2.
 
@@ -579,7 +608,7 @@ Given below is an example usage scenario whereby a student is moved from group1 
 6. As uniqueness of student is validated before each student is added, there is no need to check for clashes when
    executing.
 
-<puml src="diagrams/MoveStudentSequenceDiagram.puml" width="700" />
+<puml src="diagrams/MoveStudentSequenceDiagram.puml" width="750" />
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -597,16 +626,17 @@ is just a combination of deleting and creating, but it improves the user's quali
 
 Currently, our application only checks if the phone number is more than 3 characters long. Our current validation is
 lacking as users are able to enter a `123` as a phone number or a phone number that is infinitely long. We plan to
-improve this validation by enforcing a tighter validation. This can be achieved by creating a `map<String, Integer>` of
+improve this validation by enforcing a tighter validation. This can be achieved by creating a `Map<String, Integer>` of
 common phone extensions to their length and then enforcing that the phone number be of that length. This allows our
 users to have the peace of mind that the phone number is validated and robust enough to handle international numbers.
 
 ### Better marking and un-marking validation (// TODO low priority, remove when needed )
 
-Currently, our application does not check if the tasks is marked or unmarked before any operation. This resulted in
+Currently, our application does not check if the tasks are marked or unmarked before any operation. This results in
 users being able to mark/un-mark tasks infinitely, this is not intuitive and may mislead some users. Hence, we plan to
-only allow users to un-mark tasks that are marked and vice versa. Also, we plan to add a more descriptive error message
-to highlight to the user of the current state of the task.
+only allow users to un-mark tasks that are marked and vice versa. This can be easily done by checking the current state
+and throwing an error if the resultant state is same as the current state. Also, we plan to add a more descriptive error
+message to highlight to the user of the current state of the task.
 
 ### More robust duplicate checking
 
@@ -622,7 +652,14 @@ that some of our error message could be more descriptive. One such example is tr
 trying to edit a directory that does not exist. In both cases, the error message given
 is `Path does not exist in ProfBook.`. In this example, we could have mention that you are unable to edit the root
 directory for the prior and that the Path does not lead to a student/group for the latter. This is just one example, we
-plan to revamp our error message to be more descriptive and user-friendly
+plan to revamp our error message to be more descriptive and user-friendly.
+
+### Include tutorial slot
+
+Currently, our hierarchy only extends to `Group`. To serve our target users better, we plan to add a new level,
+`TutorialSlot` to ProfBook. This would allow our target users to juggle not only groups but also tutorial slots.
+Implementing this is rather easy as `TutorialSlot` would in theory be almost identical to the implementation of `Group`,
+all `TutorialSlot` have to do is just extend from `ChildrenAndTaskListManager`. 
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -1246,18 +1283,18 @@ project phases:
 
 ### **Effort Savings through Reuse**
 
-A notable aspect of our project was the efficient use of custom components, which contributed to a significant reduction
+A notable aspect of our project was the efficient use of custom logics, which contributed to a significant reduction
 in the overall effort.
 
-- **Path Component:** We introduced the `Path` component, which includes subclasses for managing both **absolute** and 
-**relative** paths. This component played a crucial role in managing navigation and executing dynamic commands within
+- **Path package:** We introduced the `path` package, which includes subclasses for managing both **absolute** and 
+**relative** paths. This package played a crucial role in managing navigation and executing dynamic commands within
   our application.
 
-- **ChildrenManager Component:** The component was instrumental in representing the hierarchical structure in our
-  application. We successfully leveraged this component to perform operations related to child entities, optimizing the
+- **ChildrenManager Class:** The class was instrumental in representing the hierarchical structure in our
+  application. We successfully leveraged this class to perform operations related to child entities, optimizing the
   handling of students within groups and groups within the ProfBook.
 
-- **TaskListManager Component:** This component streamlines task management and allocation by providing a consistent and
+- **TaskListManager class:** This class streamlines task management and allocation by providing a consistent and
   unified interface for handling tasks throughout the application.
 
-Reusing these components enhanced project efficiency and maintainability.
+Reusing these logics enhanced project efficiency and maintainability.

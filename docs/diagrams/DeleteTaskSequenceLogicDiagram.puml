@@ -35,6 +35,7 @@ deactivate DeleteTaskCommand
 
 DeleteTaskCommandParser --> ProfBookParser : d
 deactivate DeleteTaskCommandParser
+
 'Hidden arrow to position the destroy marker below the end of the activation bar.
 DeleteTaskCommandParser -[hidden]-> ProfBookParser
 destroy DeleteTaskCommandParser
@@ -43,6 +44,8 @@ ProfBookParser --> LogicManager : d
 deactivate ProfBookParser
 
 LogicManager -> DeleteTaskCommand : execute("state")
+activate DeleteTaskCommand
+
 ref over DeleteTaskCommand
     Execution of DeleteTaskCommand
 end ref
