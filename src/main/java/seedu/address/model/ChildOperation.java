@@ -117,7 +117,7 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
     }
 
     @Override
-    public boolean checkIfAllChildrenHaveTask(Task task, int level) {
+    public boolean doAllChildrenHaveTasks(Task task, int level) {
         List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
 
         for (IChildElement<?> child : children) {
@@ -137,7 +137,7 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
     }
 
     @Override
-    public boolean checkIfAnyChildHasTask(Task task, int level) {
+    public boolean doAnyChildrenHaveTasks(Task task, int level) {
         List<IChildElement<?>> children = getAllTaskListManagerChildrenAtLevel(level);
 
         for (IChildElement<?> child : children) {
