@@ -236,22 +236,7 @@ to check that the Operation required matches with the intended effect of the Com
 
 </box>
 
-### Storage component
-
-**API
-** : [`ProfBookStorageManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/ProfBookStorageManager.java)
-
-<puml src="diagrams/StorageClassDiagram.puml" width="550" />
-
-The `Storage` component,
-
-* can save both ProfBook data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `ProfBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the
-  functionality of only one is needed).
-* depends on some classes in the `Model` component (because the `ProfBookStorageManager` component's job is to
-  save/retrieve objects that belong to the `Model`)
-
-### Path package
+#### Path package
 The `path` package in `model` package serves as a fundamental representation of the hierachical structure within the application. It delineates the navigational paths essential for traversal and dynamic command execution within the system.
 
 Here is a class diagram for the path package:
@@ -268,6 +253,21 @@ Here is a class diagram for the path package:
 3. `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
    * The `resolve` method is crucial to resolve a `RelativePath` and return the resolved path in `AbsolutePath` type.
    * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path `~/grp-002`.
+
+### Storage component
+
+**API
+** : [`ProfBookStorageManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/ProfBookStorageManager.java)
+
+<puml src="diagrams/StorageClassDiagram.puml" width="550" />
+
+The `Storage` component,
+
+* can save both ProfBook data and user preference data in JSON format, and read them back into corresponding objects.
+* inherits from both `ProfBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the
+  functionality of only one is needed).
+* depends on some classes in the `Model` component (because the `ProfBookStorageManager` component's job is to
+  save/retrieve objects that belong to the `Model`)
 
 ### Common classes
 
