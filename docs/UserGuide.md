@@ -219,7 +219,7 @@ Flags usually **come before** essential details required by the command and are 
 - `--phone` / `-p` followed by phone number of student.
 * `--address` / `-a` followed by address of student.
 - `--id` / `-i` followed by a `STUDENT_ID` or `GROUP_ID` as specified by the command.
-* `--desc` / `d` followed by description of task specified by command.
+* `--desc` / `-d` followed by description of task specified by command.
 - `--datetime` / `-dt` followed by due date of a deadline task in the `yyyy-MM-dd HH:mm` format. 
 
 <div style="page-break-after: always;"></div>
@@ -252,16 +252,16 @@ except for [`touch`](#add-a-student-touch) and [`mkdir`](#add-a-goup-mkdir) comm
 <box type="info">
 
 To begin writing a **valid** path, start with the directory you can and intend to navigate. Alternatively, you can always 
-commence from the root directory, `~`, and define your path as the route leading from the root directory to your desired directory.
+commence from the root directory, `~/`, and define your path as the route leading from the root directory to your desired directory.
 
 Kindly note that **direct navigation between directories of the same type is not permitted**. 
 You would need to navigate up by at least one directory before moving to the desired directory. <br>
-e.g. use `~/grp-001` to navigate to root directory first before the navigating to the `grp-001` group directory 
+e.g. use `../grp-001` to navigate to root directory first before the navigating to the `grp-001` group directory 
 from another group directory. 
 
 Additionally, **skipping directories between other directories is not allowed**. For instance, to navigate from the root directory
 to a student directory, `0123Y`, where the student directory is within group directory, `grp-001`,
-you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y/`.
+you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y`.
  </box>
 
 `NAME`:
@@ -290,27 +290,27 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y/`.
 <div style="page-break-after: always;"></div>
 
 `STUDENT_ID`:
-- Must follow the format of a valid `StudentId`.
+- Must follow the format of a valid StudentId.
   
 <box type="info">
 
-**Required format for `StudentId`:**
-- Must be in the format `XXXXa` where `XXXX` is replaceable with any 4-digit number and `a` is replaceable with any
-  capitalised alphabet.
-  - **Note:** `StudentId` here corresponds to the last 5 place of an NUS student's matriculation number and is not
-    a `StudentId` created by you. This format helps you to identify students easily while maintaining
+**Required format for StudentId:**
+- Must be in the format `XXXXa` where `XXXX` is replaceable with any 4-digit number and `a` is replaceable with any alphabet.
+  - **Note:** StudentId here corresponds to the last 5 place of an NUS student's matriculation number and is not
+    a StudentId created by you. This format helps you to identify students easily while maintaining
     privacy and security.
   * eg. `8467U`
   
     </box>
 
 `GROUP_ID`:
-  - Must follow the format of a valid `GroupId`.
+  - Must follow the format of a valid GroupId.
 
   <box type="info">
 
-**Required format for `GroupId`:**
-- Must be in the format `grp-XXX` where `XXX` is replaceable with any 3-digit number. 
+**Required format for GroupId:**
+- Must be in the format `grp-XXX` where `XXX` is replaceable with any 3-digit number.  
+- GroupId is case-insensitive, meaning `GrP-001` and `Grp-002` are also acceptable. 
   * eg. `grp-001`
 
     </box>
@@ -319,7 +319,7 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y/`.
 - Must be a non-empty string, which means you cannot input a blank field. 
 
 `DATE_AND_TIME`:
-- Must be in the format **`yyyy-MM-dd HH:mm`** where each alphebet will be replaced by a positive whole number. 
+- Must be in the format **`yyyy-MM-dd HH:mm`** where each alphabet will be replaced by a positive whole number. 
   - `yyyy`: year.
   - `MM`: month.
   - `dd`: day.
@@ -354,7 +354,7 @@ Upon launching ProfBook, you will see the root directory as illustrated below.
 | **Command Input Column** |   This area is for inputting commands. This will likely be the component you will be using most frequently.  |
 | **Message Display Column** |   Displays the output of the command result. Please take note of it especially when a command fails.   |
 | **Group List** |  Shows the groups within the root directory.   |
-| **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Children List of the root directory. |
+| **List Type Indication** | Indicates the list type of the current display you are viewing, either a Children List or Task List. <br> In this instance, it shows the Children List of the root directory.|
 
 <box type = "info">
 
@@ -369,28 +369,36 @@ When you navigate to the group directory, `grp-001`, using `cd grp-001`, your in
   ![Ui](images/groupdirectoryimage.png){width=1600 height=900}
 |**Component name** |  **Description**   |
 |--|-----|
-|**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001/`.|
+|**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001`.|
 | **Message Display Column** |   Displays the output of the command result. <br> Note that it shows that your directory has changed after executing `cd` command.|
 | **Student List** |  Shows the students within current group directory.   |
-| **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Children List of the group directory. |
+| **List Type Indication** | Indicates the list type of the current display you are viewing, either a Children List or Task List. <br> In this instance, it shows the Children List of the group directory. |
 
 ### Task List of Group Directory, `grp-001`
 To view the task list of the current group directory, simply use `cat`.
 ![Ui](images/listimage.png){width=1600 height=900}
 |**Component name** |  **Description**   |
 |--|-----|
-|**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001/`.|
-| **Message Display Column** |   Displays the output of the command result. <br>Note that it shows that you are viewing the task list of group directory, `~/grp-001/`.|
+|**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001`.|
+| **Message Display Column** |   Displays the output of the command result. <br>Note that it shows that you are viewing the task list of group directory, `~/grp-001`.|
 | **Task List** |  Shows the tasks allocated to group at current group directory.   |
 | **Task Type Tag** |  Shows the task type of the specific task, distinguishing between **Todo** tasks (highlighted in **yellow**) and **Deadline** tasks (highlighted in **green**).|
 | **Task Status Box** |  Indicates the completion status of the specific task, using a **tick** for **marked** / **completed** task and the **absence of a tick** for **unmarked** / **uncompleted** tasks.   |
-| **List Type Indication** | Indicates the type of list you are viewing, either a Children List or Task List. <br> In this instance, it shows the Task List of the group directory. |
+| **List Type Indication** | Indicates the list type of the current display you are viewing, either a Children List or Task List. <br> In this instance, it shows the Task List of the group directory. |
+
+<box type = "warning">
+
+Noticed that every **task** in the ***Task List** have a corresponding index number beside the 
+description of the task? <br>
+This is the `TASK_INDEX` which will be useful for many of the task commands such as
+[`mark`](#mark-task-as-completed-mark), [`unmark`](#unmark-task-unmark) and [`rmt`](#delete-task-rmt).
+</box>
 
 <box type = "info">
 
-- **Task List**: List of Tasks belonging to specific directory.
+- **Task List**: List of tasks belonging to specific directory.
   * Task List for **group directory**, shows tasks allocated to this specific **group**.
-  - Task List for **student directory**, shows tasks allocated to this specific **students**.
+  - Task List for **student directory**, shows tasks allocated to this specific **student**.
     </box>
 
 ---
@@ -421,14 +429,14 @@ will indicate that you are already in the directory.
 <box type="success" seamless>
 
 #### Output if command succeeds:
-- Displays message indicating successful navigation to target path.
+- Displays a message indicating the successful navigation to the specified directory.
 
 </box>
 
 <box type="wrong" seamless>
 
 #### Output if command fails:
-- Displays message indicating either:
+- Displays a message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
 
@@ -445,7 +453,7 @@ use,
   Other than checking the **Message Display Column** to ensure that the command has been executed successfully,
   you could always look at the **Current Directory Display** in the top left corner of the window. <br>
   In the image above, you can easily see that the current directory has been switched from
-  `~/grp-001/` to `~/grp-002`.
+  `~/grp-001` to `~/grp-002`.
 </box>
 
 ### <span style="color: #FF8C00;">Display Directories : `ls`</span>
@@ -469,8 +477,7 @@ Shows the list of children in the specified directory.
 
 #### Output if command succeeds:
 
-- Displays message indicating successful display of children list.
-- Displays directories under target path on display panel.
+- Displays a message indicating the successful display of the children list.
 
 </box>
 
@@ -478,7 +485,7 @@ Shows the list of children in the specified directory.
 
 #### Output if command fails:
 
-Displays message indicating either:
+Displays a message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
 
@@ -512,7 +519,7 @@ Displays all tasks in the specified directory.
 <box type="info">
 
 If `[SPECIFIED_PATH]` is not provided, current directory must be a group directory.
-The `ls` command will show the list of tasks in the current group directory.
+The `cat` command will show the list of tasks in the current group directory.
 
 
 </box>
@@ -520,7 +527,7 @@ The `ls` command will show the list of tasks in the current group directory.
 <box type="success" seamless>
 
 #### Output if command succeeds:
-- Displays list of tasks assigned under input path. 
+- Displays a message indicating the successful display of list of tasks. 
 
 </box>
 
@@ -528,7 +535,7 @@ The `ls` command will show the list of tasks in the current group directory.
 
 #### Output if command fails:
 
-Displays message indicating either:
+Displays a message indicating either:
 - [Invalid command format.](#mistake-1-invalid-command-format)
 - [Invalid path.](#mistake-2-invalid-path)
 </box>
@@ -540,9 +547,9 @@ Displays message indicating either:
 
 <box type="tip">
 
-If you are at the directory `~/grp-001` and would like take a quick look of the tasks allocated to student `0010Y`
+If you are at the directory `~/grp-001` and would like take a quick look of the tasks allocated to student with StudentId `0010Y`
 (`0010Y` is within `grp-001`),
-- `cat 0010Y` will return all the tasks allocated to student of StudentId, `0010Y`.
+- `cat 0010Y` will return all the tasks allocated to student with StudentId `0010Y`.
 
 </box>
 
@@ -597,7 +604,7 @@ Adds a student into the specified group directory.
 
 <box type="warning">
 
-Kindly note that the addition of students are exclusively to group directories.
+Kindly note that the addition of students is exclusively to group directories.
 This means direct addition of students to the root directory is not allowed.
 </box>
 
@@ -614,7 +621,7 @@ the specified path must extend to encompass both the group and the student to en
 
 #### Output if command succeeds:
 
-- Displays message indicating successful creation of student, along with details of the new student.
+- Displays a message indicating the successful creation of the student, along with details of the new student.
 
 </box>
 
@@ -622,7 +629,7 @@ the specified path must extend to encompass both the group and the student to en
 
 #### Output if command fails:
 
-- Displays message indicating either:
+- Displays a message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
   - [Duplicate Id.](#mistake-7-duplicate-id)
@@ -631,14 +638,14 @@ the specified path must extend to encompass both the group and the student to en
 
 #### Example(s):
 
-- When you are at the directory `~/grp-001`, you could add a new student named Bob of StudentId `0200Y`
+- When you are at the directory `~/grp-001`, you could add a new student named Bob with StudentId `0200Y`
 to this group through the following command,
   - `touch 0200Y --name Bob`
 
 <box type="info">
 
 ![Ui](images/touchcommand.png){width=720 height=158}
-Following the executing the `touch` command, Bob appears in the Children List. The **Message Display Column**
+Following the execution of the `touch` command, Bob appears in the Children List. The **Message Display Column**
 also indicates the addition of a new student, Bob. <br>
 Observe that all fields for Bob, except for Name and StudentId, are marked `n/a` as you did 
 not include them in the initial command. But fear not! You can always add these additional fields through
@@ -647,9 +654,9 @@ the [edit command](#edit-a-student-edit)!
 
 <box type="tip">
 
-When you are at the group directory `~/grp-001` and would like to the same student, to another directory 
+When you are at the group directory `~/grp-001` and would like to add the same student, to another directory 
 `~/grp-002` instead, 
-- You could use `touch ../grp-002/0200Y --name Bob` to save yourself the trouble for having to change 
+- You could use `touch ../grp-002/0200Y --name Bob` to save yourself the trouble from having to change 
   directory before executing the `touch` command!
 </box>
 
@@ -675,7 +682,7 @@ One or more fields can be edited in a single command.
 <box type="success" seamless> 
 
 #### Output if command succeeds: 
-- Displays message indicating specified student has been successfully edited. 
+- Displays a message indicating that the specified student has been successfully edited. 
 
 </box>
 
@@ -684,7 +691,7 @@ One or more fields can be edited in a single command.
 <box type="wrong" seamless> 
 
 #### Output if command fails: 
-- Displays message indicating either:
+- Displays a message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
   - [At least one field (`NAME`, `EMAIL`, `PHONE_NUMBER`, `ADDRESS` or `STUDENT_ID`) to edit must be provided.](#mistake-5-at-least-one-field-to-edit-must-be-provided)
@@ -702,7 +709,7 @@ at the directory `~/grp-001`, to make the necessary changes.
 <box type="tip">  
 
 When you are at the root directory `~/` and would like to edit the same student's phone number,
-- You could use the command `edit ~/grp-001/0010Y --phone 91919191` to save yourself the trouble for having to change 
+- You could use the command `edit ~/grp-001/0010Y --phone 91919191` to save yourself the trouble from having to change 
 directory before executing the `edit` command!
 </box>
 
@@ -735,14 +742,14 @@ to root directory.
 <box type="success" seamless> 
 
 #### Output if command succeeds:
-- Displays message indicating specified group has been successfully edited.
+- Displays a message indicating that the specified group has been successfully edited.
 
 </box>
 
 <box type="wrong" seamless> 
 
 #### Output if command fails:
-- Displays message indicating either:
+- Displays a message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
   - [At least one field (`NAME` or `GROUP_ID`) to edit must be provided.](#mistake-5-at-least-one-field-to-edit-must-be-provided)
@@ -753,14 +760,14 @@ to root directory.
 
 #### Example(s):
 
-- If `grp-001` change their group name, you could execute the following command
+- If `grp-001` changed their group name, you could execute the following command
   at the directory `~/grp-001`, to make the necessary changes.
   - `edit --name Amazing Group1`
 
 <box type="tip">  
 
 When you are at the root directory `~/` and would like to edit the same group's name,
-- You could use the command `edit ~/grp-001 --name Amazing Group1` to save yourself the trouble for having to change
+- You could use the command `edit ~/grp-001 --name Amazing Group1` to save yourself the trouble from having to change
   directory before executing the `edit` command!
 </box>
 
@@ -781,7 +788,7 @@ Removes a student or group from the specified path.
 
 #### Output if command succeeds
 
-- Displays message indicating successfully removal of student or group. 
+- Displays a message indicating the successful removal of student or group. 
 
 </box>
 
@@ -789,7 +796,7 @@ Removes a student or group from the specified path.
 
 #### Output if command fails:
 
-- Displays message indicating either:
+- Displays a message indicating either:
     - [Invalid command format](#mistake-1-invalid-command-format)
     - [Invalid path.](#mistake-2-invalid-path)
 
@@ -804,7 +811,7 @@ Removes a student or group from the specified path.
 
 When you are at the root directory `~/` and would like to remove the student with the StudentId, `0123Y`,
 in `~/grp-001`,
-- You could use the command `rm ~/grp-001/0123Y` to save yourself the hassle from having to change directory!
+- You could use the command `rm ~/grp-001/0123Y` to save yourself the hassle of having to change directory!
 
 </box>
 
@@ -830,7 +837,7 @@ Moves student from one group to another group.
 
 #### Output if command succeeds
 
-- Displays message to indicate the successful transferal of student from one group to another.
+- Displays a message indicating the successful transfer of student from one group to another.
 
 </box>
 
@@ -838,7 +845,7 @@ Moves student from one group to another group.
 
 #### Output if command fails
 
-- Displays message indicating either:
+- Displays a message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
 
@@ -865,7 +872,7 @@ Creates a group in the root directory that can contain students.
 
 <box type="warning">
 
-Kindly note that the addition of groups are exclusively to the root directory.
+Kindly note that the addition of groups is exclusively to the root directory.
 This means that addition of groups under another group directory is not allowed.
 </box>
 
@@ -879,7 +886,7 @@ This means that addition of groups under another group directory is not allowed.
 <box type="success" seamless>
 
 #### Output if command succeeds
-- Displays message indicating successful creation of group, along with details of the new group.
+- Displays a message indicating the successful creation of the group, along with details of the new group.
 
 </box>
 
@@ -887,7 +894,7 @@ This means that addition of groups under another group directory is not allowed.
 
 #### Output if command fails
 
-- Displays message indicating either:
+- Displays a message indicating either:
     - [Invalid command format.](#mistake-1-invalid-command-format)
     - [Invalid path.](#mistake-2-invalid-path)
     - [Duplicate Id.](#mistake-7-duplicate-id)
@@ -896,8 +903,8 @@ This means that addition of groups under another group directory is not allowed.
 
 #### Example(s):
 
-- When you are at the root directory `~/` and would like to add a new group with GroupId `grp-001`, 
-  - `mkdir grp-001 --name Group 001`
+- When you are at the root directory `~/` and would like to add a new group with GroupId `grp-001`,
+  - `mkdir grp-001 --name Group 001` to add a new group named `Group 001`.
 
 ---
 
@@ -945,7 +952,7 @@ Else, the command will create a todo task for the group at current directory.
 
 #### Output if command succeeds
 
-- Displays message indicating the successful creation of the todo task.
+- Displays a message indicating the successful creation of the todo task.
 
 </box>
 
@@ -953,7 +960,7 @@ Else, the command will create a todo task for the group at current directory.
 
 #### Output if command fails:
 
-- Displays message indicating either:
+- Displays a message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
 
@@ -1003,14 +1010,14 @@ to keep track of past events without worry!
 
 #### Output if command succeeds
 
-- Displays message indicating the successful creation of the deadline task.
+- Displays a message indicating the successful creation of the deadline task.
 </box>
 
 <box type="wrong" seamless>
 
 #### Output if command fails:
 
-- Displays message indicating either:
+- Displays a message indicating either:
   - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid path.](#mistake-2-invalid-path)
 
@@ -1043,7 +1050,7 @@ Marks the specified task as done for the specified student or group.
 
 #### Output if command succeeds
 
-- Displays message indicating mark is done successfully as well as specific task that is marked.
+- Displays a message indicating that mark is done successfully as well as the specific task that is marked.
 
 </box>
 
@@ -1051,7 +1058,7 @@ Marks the specified task as done for the specified student or group.
 
 #### Output if command fails
 
-- Displays message indicating either:
+- Displays a message indicating either:
   - [Invalid command format](#mistake-1-invalid-command-format)
   - [Invalid task index.](#mistake-3-invalid-task-index)
   - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
@@ -1060,7 +1067,7 @@ Marks the specified task as done for the specified student or group.
 
 <box type="warning">
 
-When using this command, you will first need to [cat](#display-all-tasks-cat) at the path where the task list is at before executing `mark`.
+When using this command, you will first need to [`cat`](#display-all-tasks-cat) at the path where the task list is at before executing `mark`.
 </box>
   
 <div style="page-break-after: always;"></div>
@@ -1092,7 +1099,7 @@ Unmarks the specified task for the student or group.
 
 #### Output if command succeeds:
 
-- Displays message indicating unmark is done successfully as well as specific task that is unmarked.
+- Displays a message indicating that unmark is done successfully as well as the specific task that is unmarked.
 
 </box>
 
@@ -1100,7 +1107,7 @@ Unmarks the specified task for the student or group.
 
 #### Output if command fails:
 
-- Displays message indicating either:
+- Displays a message indicating either:
   - [Invalid command format](#mistake-1-invalid-command-format)
   - [Invalid task index.](#mistake-3-invalid-task-index)
   - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
@@ -1108,7 +1115,7 @@ Unmarks the specified task for the student or group.
 
 <box type="warning">
 
-When using this command, you will first need to [cat](#display-all-tasks-cat) at the path where the task list is at before executing `unmark`.
+When using this command, you will first need to [`cat`](#display-all-tasks-cat) at the path where the task list is at before executing `unmark`.
 </box>
 
 <div style="page-break-after: always;"></div>
@@ -1128,7 +1135,7 @@ you should observe an **absence of the tick** after executing the `unmark` comma
 
 ### <span style="color: #FF8C00;">Delete task: `rmt` </span>
 
-Removes a task according to specified index number.
+Removes a task according to the task index.
 
 **Format:** `rmt TASK_INDEX`
 
@@ -1136,7 +1143,7 @@ Removes a task according to specified index number.
 
 #### Output if command succeeds:
 
-- Displays message indicating removal of task is done successfully as well as specific task that is removed.
+- Displays a message indicating the successful removal of the specified task.
 
 </box>
 
@@ -1144,7 +1151,7 @@ Removes a task according to specified index number.
 
 #### Output if command fails:
 
-- Displays message indicating either:
+- Displays a message indicating either:
   - [Invalid command format](#mistake-1-invalid-command-format)
   - [Invalid task index.](#mistake-3-invalid-task-index)
   - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
@@ -1152,7 +1159,7 @@ Removes a task according to specified index number.
 
 <box type="warning">
 
-When using this command, you will first need to [cat](#display-all-tasks-cat) at the path where the task list 
+When using this command, you will first need to [`cat`](#display-all-tasks-cat) at the path where the task list 
 is at before executing `rmt`.
 </box>
 
@@ -1176,7 +1183,7 @@ manually.
 
 ---
 
-## Commonly made mistake
+## Commonly made mistakes
 
 <box type="warning">
 
@@ -1196,7 +1203,7 @@ Some possible errors from invalid command format are,
 3. **Invalid option.**
    - **Solution:**
      - Pay close attention to the **invalid option (also known as flags)** indicated in the return message. 
-     - First, ensure that the **command format specifies for this type of option**. 
+     - First, ensure that the **option is applicable** for the command you are utilising. 
      - Second, confirm that there are **no misspellings** especially when it comes to options in their long forms.
        By adhering to these steps, you could efficiently correct invalid options in your commands.
   
@@ -1236,7 +1243,7 @@ to edit and that the flag used is accurate.
 ##### Mistake 6: Value(s) provided is the same as the current value(s). No changes have been made.
 **Solution:**
 When modifying information for a student or group, please ensure that **at least one field** you intend 
-to edit **differs from the current parameters** associated with the student or group. This
+to edit **differs from the current parameters** associated with the student or group.
 
 ##### Mistake 7: Duplicate Id.
 **Solution:**
@@ -1272,9 +1279,9 @@ are definitely working toward including it in our future enhancements.
 
 This section is dedicated to the exciting future enhancements we envision for ProfBook. 
 
-**Edit group command at current group directory:**
-  - **Current:** To view changes to the group name, you would need to `cd` out of current group directory to 
-  root directory, similar to terminal behaviour. 
+**Viewing edited group name at current group directory:**
+  - **Current:** To view changes to the group name, you would need to `cd` out of the current group directory to 
+  the root directory, similar to terminal behaviour. 
   - **Upcoming enhancement:** ProfBook will return a more informative message that clearly indicates the updated 
 group name after execution of command.
 
@@ -1287,7 +1294,7 @@ or unmarked, and the current command will not result in any changes.
 - **Current:** ProfBook does not have an `edit` command for tasks. But you could always `rmt` the task
 and add it back through the `todo` or `deadline` command!
 - **Upcoming enhancement:** We are actively developing the `edit` command for tasks, mirroring the
-`edit` command for Students and Groups. This addition will simplify the learning process of this new command,
+`edit` command for students and groups. This addition will simplify the learning process of this new command,
 ensuring a seamless experience for you.
 ---
 
