@@ -1,8 +1,9 @@
 package seedu.address.model.task;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.Model;
 import seedu.address.ui.TodoCard;
 
 /**
@@ -10,14 +11,14 @@ import seedu.address.ui.TodoCard;
  * It extends the Task class and provides additional methods specific to ToDo tasks.
  */
 public class ToDo extends Task {
-    private static final Logger logger = Logger.getLogger(ToDo.class.getName());
+    private static final Logger logger = LogsCenter.getLogger(ToDo.class);
 
     /**
      * Constructs a {@code ToDo} with given {@code description}.
      */
     public ToDo(String description) {
         super(description);
-        logger.log(Level.INFO, "Created ToDo: " + description);
+        logger.info("Created ToDo: " + description);
     }
 
     /**

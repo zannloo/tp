@@ -9,22 +9,22 @@ import static seedu.address.testutil.StudentBuilder.DEFAULT_NAME;
 import static seedu.address.testutil.StudentBuilder.DEFAULT_PHONE;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.profbook.Student;
 import seedu.address.testutil.TypicalStudents;
 
 public class JsonAdaptedStudentTest {
 
-    private static final Logger logger = Logger.getLogger(JsonAdaptedStudentTest.class.getName());
+    private static final Logger logger = LogsCenter.getLogger(JsonAdaptedStudentTest.class);
     private static final Student student = TypicalStudents.ALICE;
     @Test
     public void toModelType_validStudentDetails_returnsStudent() throws Exception {
-        logger.log(Level.INFO, "Testing toModelType for valid student");
+        logger.info("Testing toModelType for valid student");
         JsonAdaptedStudent jsonAdaptedStudent = new JsonAdaptedStudent(student);
         assertEquals(student, jsonAdaptedStudent.toModelType());
     }
@@ -136,7 +136,7 @@ public class JsonAdaptedStudentTest {
 
     @Test
     public void toModelType_nullId_throwsIllegalValueException() throws Exception {
-        logger.log(Level.INFO, "Testing toModelType with null ID should throw excepetion");
+        logger.info("Testing toModelType with null ID should throw excepetion");
         JsonAdaptedStudent student = new JsonAdaptedStudent(DEFAULT_NAME,
                 DEFAULT_PHONE,
                 DEFAULT_EMAIL,
