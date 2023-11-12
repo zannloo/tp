@@ -3,7 +3,6 @@ package seedu.address.model.task;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.model.Model;
 import seedu.address.ui.TodoCard;
 
 /**
