@@ -106,8 +106,6 @@ implementation of a component), as illustrated in the (partial) class diagram be
 
 The sections below give more details of each component.
 
-<div style="page-break-after: always;"></div>
-
 ### UI component
 
 The **API** of this component is specified
@@ -337,6 +335,8 @@ the `IChildElement` interface. This was done to reduce repeated code while intro
 
 </box>
 
+<div style="page-break-after: always;"></div>
+
 To further illustrate our folder structure, we have prepared this diagram
 
 <puml src="diagrams/AddInitialState.puml" width="550" />
@@ -406,6 +406,8 @@ Given below is an example usage scenario on how an existing user can create a st
 7. It should look something like this.
 
    <puml src="diagrams/AddFinalState.puml" width="650" />
+
+<div style="page-break-after: always;"></div>
 
 This sequence diagram shows the general flow of the `CreateStudentCommand`, for more information on each specific
 component, do head over to their respective documentation.
@@ -501,6 +503,7 @@ diagram for adding a deadline task to a *single* student can be found in the `Mo
 
 <puml src="diagrams/CreateDeadlineCommandSequenceDiagram.puml" width="650" />
 
+<div style="page-break-after: always;"></div>
 
 This is an activity diagram showing the general activity of the add deadline command.
 
