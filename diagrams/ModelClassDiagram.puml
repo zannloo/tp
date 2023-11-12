@@ -9,6 +9,7 @@ Class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
 Class "<<interface>>\nModel" as Model
 Class ModelManager
 Class UserPrefs
+Class Path
 Class ObservableList
 
 Package ProfBook {
@@ -16,10 +17,6 @@ Package ProfBook {
 }
 
 Package Task {
-
-}
-
-Package Path {
 
 }
 
