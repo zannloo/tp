@@ -103,15 +103,14 @@ public class MoveStudentToGroupCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         logger.info("Executing move student to group command...");
+
         if (source.isStudentDirectory() && dest.isGroupDirectory()) {
             if (!model.hasStudent(source)) {
-                logger.warning(
-                        "Student to be moved does not exist in ProfBook. Aborting move student to group command.");
+                logger.warning("Student to be moved does not exist. Aborting move student to group command.");
                 throw new CommandException(MESSAGE_STUDENT_NOT_FOUND);
             }
             if (!model.hasGroup(dest)) {
-                logger.warning(
-                        "Destination group does not exist in ProfBook. Aborting move student to group command.");
+                logger.warning("Destination group does not exist. Aborting move student to group command.");
                 throw new CommandException(MESSAGE_GROUP_NOT_FOUND);
             }
             StudentId toBeMovedId = source.getStudentId().get();
@@ -125,6 +124,7 @@ public class MoveStudentToGroupCommand extends Command {
             logger.info("Student " + toBeMovedId + " has been successfully moved to destination group.");
             return new CommandResult(String.format(MESSAGE_MOVE_STUDENT_SUCCESS, toBeMovedId, dest.getGroupId().get()));
         }
+
         logger.warning("Invalid command. Aborting move student to group command.");
         throw new CommandException(MESSAGE_INVALID_MOVE_COMMAND);
     }
