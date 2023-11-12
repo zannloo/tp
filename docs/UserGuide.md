@@ -1047,8 +1047,6 @@ you could use the following command at the root directory, `~/`,
 
 </box>
 
-<div style="page-break-after: always;"></div>
-
 ### <span style="color: #FF8C00;">Mark task as completed: `mark` </span>
 
 Marks the specified task as done for the specified student or group. 
