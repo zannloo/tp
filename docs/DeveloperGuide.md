@@ -820,7 +820,7 @@ otherwise)
 **MSS**
 
 1. User requests to add a student.
-2. ProfBook deletes the person.
+2. ProfBook adds the student to the specified group.
 
    Use case ends.
 
