@@ -95,7 +95,7 @@ Given below are my contributions to the project.
     * Migrated old documents to follow ProfBook new requirements and style.
     * Updated introduction paragraphs .
     * Proofread peer's contributions and performed changes for a more seamless reading experience.
-    * Performed final checks before submission.
+    * Performed final checks and formatting before submission.
 * **Feature Aspects:**
     * Wrote and create UML for `Model` component including it subpackages such as:
       * `ProfBook`
