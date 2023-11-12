@@ -55,6 +55,8 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 PlantUML, the lifeline reaches the end of diagram.
 </box>
 
+<div style="page-break-after: always;"></div>
+
 ### Architecture
 
 <puml src="diagrams/ArchitectureDiagram.puml" width="280" />
