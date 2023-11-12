@@ -31,7 +31,7 @@ As a project-based module, CS2103T tutors have to juggle multiple groups. ProfBo
 aims to expedite this process by allowing you to keep track of all your groups and their progress within a centralised 
 location. You would be able to traverse between the different groups quickly through familiar Linux commands.
 
-### Student and Group Management TESTING 
+### Student and Group Management 
 
 ProfBook aids with the **management of student and group information**. ProfBook efficiently encapsulates information of 
 every project group so that you can easily monitor their progress and relevant information.  You can 
@@ -137,7 +137,7 @@ This is utilized to indicate the output if command fails.:no_good:
 
 - Please note that only the **relevant outputs** for the command are indicated. There may be additional outputs
   in the case of command failure that are not indicated.
-- For more information and solutions on commonly made mistakes, feel free to click [here](#commonly-made-mistake)!
+- For more information and solutions on commonly made mistakes, feel free to click [here](#commonly-made-mistakes)!
 
 </box>
 
