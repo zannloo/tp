@@ -135,7 +135,7 @@ public class EditCommand extends Command {
      * Constructs an EditCommand for editing a student's details with the specified target path and
      * editStudentDescriptor.
      *
-     * @param target                The absolute path to the target student to be edited.
+     * @param target The absolute path to the target student to be edited.
      * @param editStudentDescriptor The descriptor containing the details to edit.
      */
     public EditCommand(AbsolutePath target, EditStudentDescriptor editStudentDescriptor) {
@@ -234,7 +234,7 @@ public class EditCommand extends Command {
         StudentId studentId = target.getStudentId().get();
         logger.info("Editing student " + studentId + "...");
 
-        // Check if Id is edited, if is edited check whether new id has already been used.
+        // Check if id is edited, if is edited check whether new id has already been used.
         Optional<StudentId> editedId = editStudentDescriptor.getId();
         boolean isEdited = editedId.isPresent() && (!editedId.get().equals(studentId));
 
@@ -268,6 +268,13 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_NO_CHANGES_MADE);
         }
 
+        boolean idIsEdited = !editedGroup.getId().equals(groupId);
+        if (idIsEdited && model.hasGroupWithId(editedGroup.getId())) {
+            Group groupWithSameId = model.getGroupWithId(editedGroup.getId());
+            throw new CommandException(String.format(
+                MESSAGE_DUPLICATE_GROUP_ID, editedGroup.getId(), Messages.format(groupWithSameId)));
+        }
+
         rootOperation.deleteChild(groupId);
         rootOperation.addChild(editedGroup.getId(), editedGroup);
 
@@ -279,7 +286,6 @@ public class EditCommand extends Command {
                 throw new IllegalArgumentException("Internal Error: " + e.getMessage());
             }
         }
-
         model.updateList();
     }
 
@@ -295,9 +301,18 @@ public class EditCommand extends Command {
         Student studentToEdit = groupOperation.getChild(studentId);
         Student editedStudent = createEditedStudent(studentToEdit, this.editStudentDescriptor);
 
+        // Check whether student is actually edited
         if (editedStudent.equals(studentToEdit)) {
             logger.warning("The details of the student has not been changed.");
             throw new CommandException(MESSAGE_NO_CHANGES_MADE);
+        }
+
+        // Check if Id is edited, if is edited check whether new id has already been used.
+        boolean idIsEdited = !editedStudent.getId().equals(studentId);
+        if (idIsEdited && model.hasStudentWithId(editedStudent.getId())) {
+            Student studentWithSameId = model.getStudentWithId(editedStudent.getId());
+            throw new CommandException(String.format(
+                MESSAGE_DUPLICATE_STUDENT_ID, editedStudent.getId(), Messages.format(studentWithSameId)));
         }
 
         groupOperation.deleteChild(studentId);
