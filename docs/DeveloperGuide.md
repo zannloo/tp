@@ -194,8 +194,8 @@ The diagram above shows how the folder structure is implemented in ProfBook,
 
 * The hierarchy is as such: `Root` -> `Group` -> `Student`
 * As many of the operations are repeated (e.g., tasks operations and children operation), we decided to abstract out
-  these logic into their own classes which is represented by `TaskListManager` and `ChildrenManager` respectively.
-* `ChildrenManager` manages the children which is of type `IChildElement`
+  these logic into their own classes which is represented by `TaskListManager` and `ChildManager` respectively.
+* `ChildManager` manages the children which is of type `IChildElement`
 * We also created a wrapper class (e.g. `ChildrenAndTaskListManager`) for classes that require both of those
   aforementioned functionalities (e.g, `Group` and potentially in the future `TutorialSlot`)
 
@@ -291,14 +291,14 @@ In our current hierarchy, `Root` -> `Group` -> `Student`, `Student` and `Group` 
 whereas `Root` and `Group` are required to manage children. The `Model` component briefly mentioned this implementation,
 but I will delve into it more comprehensively.
 
-We first created interfaces to represent the required logic for each of the manager, namely `IChildrenManager`
-and `ITaskListManager`. Then we created concrete classes such as `ChildrenManager` and `TaskListManager` to encapsulate
+We first created interfaces to represent the required logic for each of the manager, namely `IChildManager`
+and `ITaskListManager`. Then we created concrete classes such as `ChildManager` and `TaskListManager` to encapsulate
 the aforementioned logic. The purpose of these classes was so that should a folder type, e.g. `Student`, require a
 Manager functionality, we could just extend from said Manager thus reducing on repeated code. Due to the limitation of
 Java, classes are not able to extend from multiple classes. To remedy this, we created a wrapper
 class, `ChildrenAndTaskListManager`.
 
-It is important to note that `ChildrenManager` is a generic class that accepts classes that implements
+It is important to note that `ChildManager` is a generic class that accepts classes that implements
 the `IChildElement` interface. This was done to reduce repeated code while introducing a degree of polymorphism.
 
 In our implementation, only the parents have reference to the child. This reference is stored by using
@@ -1621,7 +1621,7 @@ in the overall effort.
   *relative** paths. This component played a crucial role in managing navigation and executing dynamic commands within
   our application.
 
-- **ChildrenManager Component:** The component was instrumental in representing the hierarchical structure in our
+- **ChildManager Component:** The component was instrumental in representing the hierarchical structure in our
   application. We successfully leveraged this component to perform operations related to child entities, optimizing the
   handling of students within groups and groups within the ProfBook.
 
