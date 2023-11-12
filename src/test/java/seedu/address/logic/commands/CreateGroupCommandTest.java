@@ -25,9 +25,13 @@ import seedu.address.testutil.RootBuilder;
 import seedu.address.testutil.TypicalGroups;
 
 public class CreateGroupCommandTest {
+
     private Model model;
+
     private Model expectedModel;
+
     private AbsolutePath rootPath = CommandTestUtil.getValidRootAbsolutePath();
+
     private Group toBeAdded = TypicalGroups.GROUP_TWO;
 
     @BeforeEach
@@ -118,7 +122,7 @@ public class CreateGroupCommandTest {
     }
 
     @Test
-    public void toStringMethod() {
+    public void toString_successfullyCreateGroup_returnExpectedString() {
         CreateGroupCommand createGroupCommand = new CreateGroupCommand(rootPath, TypicalGroups.GROUP_TWO);
         String expected = CreateGroupCommand.class.getCanonicalName()
                 + "{toCreateGroup=" + toBeAdded + "}";

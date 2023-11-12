@@ -29,9 +29,13 @@ import seedu.address.testutil.GroupBuilder;
 import seedu.address.testutil.RootBuilder;
 
 public class UnmarkCommandTest {
+
     private Model actualModel;
+
     private Model expectedModel;
+
     private AbsolutePath rootPath = CommandTestUtil.getValidRootAbsolutePath();
+
     private AbsolutePath displayPath;
 
     @BeforeEach
@@ -97,7 +101,7 @@ public class UnmarkCommandTest {
     }
 
     @Test
-    public void toStringMethod() {
+    public void toString_successfullyUnmarkTask_returnExpectedString() {
         Index targetIndex = Index.fromOneBased(1);
         UnmarkCommand unmarkCommand = new UnmarkCommand(targetIndex);
         String expected = UnmarkCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";

@@ -18,10 +18,15 @@ import seedu.address.model.profbook.Phone;
  * An instance of this class is used within the {@code EditCommand} to specify the details to be edited.
  */
 public class EditStudentDescriptor {
+
     private Name name;
+
     private Phone phone;
+
     private Email email;
+
     private Address address;
+
     private StudentId id;
 
     public EditStudentDescriptor() {}

@@ -15,6 +15,7 @@ import seedu.address.model.profbook.Name;
  */
 
 public class EditGroupDescriptor {
+
     private Name name;
 
     private GroupId id;

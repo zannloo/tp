@@ -26,8 +26,8 @@ public class EditGroupDescriptorTest {
     @Test
     public void isAnyFieldEdited_oneFieldEdited_true() {
         EditGroupDescriptor descriptor = new EditGroupDescriptor();
-
         descriptor.setName(new Name("Group 1"));
+
         assertTrue(descriptor.isAnyFieldEdited());
     }
 
@@ -43,9 +43,8 @@ public class EditGroupDescriptorTest {
     public void setName_setNameForEditGroupDescriptor_nonEmptyOptional() {
         EditGroupDescriptor descriptor = new EditGroupDescriptor();
         Name name = new Name("Group 1");
-
-        // Set the name
         descriptor.setName(name);
+
         assertTrue(descriptor.getName().isPresent());
         assertEquals(name, descriptor.getName().get());
     }
@@ -54,9 +53,8 @@ public class EditGroupDescriptorTest {
     public void getName_getNameOfEditGroupDescriptor_nonEmptyOptional() {
         EditGroupDescriptor descriptor = new EditGroupDescriptor();
         Name name = new Name("Group 1");
-
-        // Set the name
         descriptor.setName(name);
+
         assertTrue(descriptor.getName().isPresent());
         assertEquals(name, descriptor.getName().get());
     }
@@ -65,9 +63,8 @@ public class EditGroupDescriptorTest {
     public void setId_setIdForEditGroupDescriptor_nonEmptyOptional() {
         EditGroupDescriptor descriptor = new EditGroupDescriptor();
         GroupId groupId = new GroupId("grp-001");
-
-        // Set the id
         descriptor.setId(groupId);
+
         assertTrue(descriptor.getId().isPresent());
         assertEquals(groupId, descriptor.getId().get());
     }
@@ -76,9 +73,8 @@ public class EditGroupDescriptorTest {
     public void getId_getIdOfEditGroupDescriptor_nonEmptyOptional() {
         EditGroupDescriptor descriptor = new EditGroupDescriptor();
         GroupId groupId = new GroupId("grp-001");
-
-        // Set the name
         descriptor.setId(groupId);
+
         assertTrue(descriptor.getId().isPresent());
         assertEquals(groupId, descriptor.getId().get());
     }
@@ -89,7 +85,6 @@ public class EditGroupDescriptorTest {
 
         assertFalse(descriptor.getName().isPresent());
         assertFalse(descriptor.getId().isPresent());
-
     }
 
     @Test
@@ -125,8 +120,10 @@ public class EditGroupDescriptorTest {
     @Test
     public void toString_noChangeField_allFieldsNull() {
         EditGroupDescriptor descriptor = new EditGroupDescriptor();
+
         String expected = EditGroupDescriptor.class.getCanonicalName()
                 + "{name=" + null + ", id=" + null + "}";
+
         assertEquals(expected, descriptor.toString());
     }
 
@@ -134,8 +131,10 @@ public class EditGroupDescriptorTest {
     public void toString_changeName_nameNotNull() {
         EditGroupDescriptor descriptor = new EditGroupDescriptor();
         descriptor.setName(new Name("Group 1"));
+
         String expected = EditGroupDescriptor.class.getCanonicalName()
                 + "{name=Group 1" + ", id=" + null + "}";
+
         assertEquals(expected, descriptor.toString());
     }
 
@@ -146,6 +145,7 @@ public class EditGroupDescriptorTest {
 
         String expected = EditGroupDescriptor.class.getCanonicalName()
                 + "{name=" + null + ", id=GRP-001" + "}";
+
         assertEquals(expected, descriptor.toString());
     }
 }
