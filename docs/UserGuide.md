@@ -856,7 +856,7 @@ Removes a student or group from the specified path.
 #### Output if command fails:
 
 - Displays a message indicating either:
-    - [Invalid command format](#mistake-1-invalid-command-format)
+    - [Invalid command format.](#mistake-1-invalid-command-format)
     - [Invalid path.](#mistake-2-invalid-path)
 
 </box>
@@ -1076,7 +1076,7 @@ Marks the specified task as done for the specified student or group.
 #### Output if command fails
 
 - Displays a message indicating either:
-  - [Invalid command format](#mistake-1-invalid-command-format)
+  - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid task index.](#mistake-3-invalid-task-index)
   - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
 
@@ -1123,7 +1123,7 @@ Unmarks the specified task for the student or group.
 #### Output if command fails:
 
 - Displays a message indicating either:
-  - [Invalid command format](#mistake-1-invalid-command-format)
+  - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid task index.](#mistake-3-invalid-task-index)
   - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
 </box>
@@ -1167,7 +1167,7 @@ Removes a task according to the task index.
 #### Output if command fails:
 
 - Displays a message indicating either:
-  - [Invalid command format](#mistake-1-invalid-command-format)
+  - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid task index.](#mistake-3-invalid-task-index)
   - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
     </box>
