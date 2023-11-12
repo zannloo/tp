@@ -252,44 +252,6 @@ public class EditCommand extends Command {
     }
 
     /**
-     * Creates a new Student instance with updated fields based on the provided editStudentDescriptor.
-     *
-     * @param studentToEdit The original student to be edited.
-     * @param editStudentDescriptor The descriptor containing the fields to be edited in the student.
-     * @return A new edited Student instance.
-     */
-    private static Student createEditedStudent(Student studentToEdit, EditStudentDescriptor editStudentDescriptor) {
-        assert studentToEdit != null;
-
-        Name updatedName = editStudentDescriptor.getName().orElse(studentToEdit.getName());
-        Phone updatedPhone = editStudentDescriptor.getPhone().orElse(studentToEdit.getPhone());
-        Email updatedEmail = editStudentDescriptor.getEmail().orElse(studentToEdit.getEmail());
-        Address updatedAddress = editStudentDescriptor.getAddress().orElse(studentToEdit.getAddress());
-        StudentId updatedId = editStudentDescriptor.getId().orElse(studentToEdit.getId());
-        ReadOnlyTaskList taskList = new TaskListManager(studentToEdit.getAllTasks());
-
-        return new Student(taskList, updatedName, updatedEmail, updatedPhone, updatedAddress, updatedId);
-    }
-
-    /**
-     * Creates a new Group instance with updated fields based on the provided editGroupDescriptor.
-     *
-     * @param groupToEdit The original group to be edited.
-     * @param editGroupDescriptor The descriptor containing the fields to be edited in the group.
-     * @return A new edited group instance.
-     */
-    private static Group createEditedGroup(Group groupToEdit, EditGroupDescriptor editGroupDescriptor) {
-        assert groupToEdit != null;
-
-        Name updatedName = editGroupDescriptor.getName().orElse(groupToEdit.getName());
-        GroupId updatedId = editGroupDescriptor.getId().orElse(groupToEdit.getId());
-        ReadOnlyTaskList taskList = new TaskListManager(groupToEdit.getAllTasks());
-        Map<Id, Student> students = groupToEdit.getChildren();
-
-        return new Group(taskList, students, updatedName, updatedId);
-    }
-
-    /**
      * Updates the group list in the model after editing a group.
      *
      * @param model The model on which the command should be executed.
@@ -342,6 +304,44 @@ public class EditCommand extends Command {
         groupOperation.addChild(editedStudent.getId(), editedStudent);
 
         model.updateList();
+    }
+
+    /**
+     * Creates a new Student instance with updated fields based on the provided editStudentDescriptor.
+     *
+     * @param studentToEdit The original student to be edited.
+     * @param editStudentDescriptor The descriptor containing the fields to be edited in the student.
+     * @return A new edited Student instance.
+     */
+    private static Student createEditedStudent(Student studentToEdit, EditStudentDescriptor editStudentDescriptor) {
+        assert studentToEdit != null;
+
+        Name updatedName = editStudentDescriptor.getName().orElse(studentToEdit.getName());
+        Phone updatedPhone = editStudentDescriptor.getPhone().orElse(studentToEdit.getPhone());
+        Email updatedEmail = editStudentDescriptor.getEmail().orElse(studentToEdit.getEmail());
+        Address updatedAddress = editStudentDescriptor.getAddress().orElse(studentToEdit.getAddress());
+        StudentId updatedId = editStudentDescriptor.getId().orElse(studentToEdit.getId());
+        ReadOnlyTaskList taskList = new TaskListManager(studentToEdit.getAllTasks());
+
+        return new Student(taskList, updatedName, updatedEmail, updatedPhone, updatedAddress, updatedId);
+    }
+
+    /**
+     * Creates a new Group instance with updated fields based on the provided editGroupDescriptor.
+     *
+     * @param groupToEdit The original group to be edited.
+     * @param editGroupDescriptor The descriptor containing the fields to be edited in the group.
+     * @return A new edited group instance.
+     */
+    private static Group createEditedGroup(Group groupToEdit, EditGroupDescriptor editGroupDescriptor) {
+        assert groupToEdit != null;
+
+        Name updatedName = editGroupDescriptor.getName().orElse(groupToEdit.getName());
+        GroupId updatedId = editGroupDescriptor.getId().orElse(groupToEdit.getId());
+        ReadOnlyTaskList taskList = new TaskListManager(groupToEdit.getAllTasks());
+        Map<Id, Student> students = groupToEdit.getChildren();
+
+        return new Group(taskList, students, updatedName, updatedId);
     }
 
     /**
