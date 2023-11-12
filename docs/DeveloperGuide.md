@@ -737,7 +737,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 (For all use cases below, the **System** is the `ProfBook` and the **Professor** is the `user`, unless specified
 otherwise)
 
-**Use case: help**
+**Use case: User asks for help**
 
 **MSS**
 
@@ -746,22 +746,24 @@ otherwise)
 
    Use case ends.
 
+**Use case: User asks for help for a specific command**
+
+**MSS**
+
+1. User requests for help for a specific command.
+2. ProfBook displays help message for the command.
+
+   Use case ends.
+
 **Extensions**
 
-* 2a. User inputs help with specific command.
+* 1a. User inputs invalid command together with help.
 
-    * 2a1. ProfBook displays help message specific to input command.
-
-      Use case ends.
-
-
-* 2b. User inputs invalid command together with help.
-
-    * 2b1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-**Use case: Cd into group**
+**Use case: Change directory to group**
 
 **MSS**
 
@@ -772,20 +774,20 @@ otherwise)
 
 **Extensions**
 
-* 2a. The path of the group is invalid.
+* 1a. The path of the group is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
   
 
-* 2b. No path provided.
+* 1b. No path provided.
   
-  * 2b1. ProfBook shows an error message.
+  * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-**Use case: ls to view children**
+**Use case: User requests to view children**
 
 **MSS**
 
@@ -796,15 +798,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. Provided path is invalid.
+* 1a. Provided path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. Command has no arguments.
+* 1b. Command has no arguments.
 
-    * 2b1. ProfBook shows list of children under current directory.
+    * 1b1. ProfBook shows list of children under current directory.
 
       Use case ends.
 
@@ -819,24 +821,34 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b1. No path specified.
 
-    * 2b1. ProfBook displays task list of current path.
+* 1b. No path specified.
 
-      Use case ends.
+    * 1b1. Current path is root path
+  
+      * ProfBook shows an error message.
+
+        Use case resumes at step 1.
+        
+    * 1b2. Current path is not root path.
+  
+      *  ProfBook displays task list of current path.
+
+         Use case ends.
+
 
 **Use case: Clear all entries**
 
 **MSS**
 
 1. User requests to delete all data stored in ProfBook.
-2. ProfBook deletes all data stored and displays updates to be empty.
+2. ProfBook deletes all data stored and display updates to be empty.
 
    Use case ends.
 
@@ -854,15 +866,15 @@ otherwise)
 **MSS**
 
 1. User requests to add a student.
-2. ProfBook deletes the person.
+2. ProfBook adds the student to the specified group.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The given parameters are invalid.
+* 1a. The given parameters are invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -877,15 +889,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. The specified path is invalid.
+* 1a. The specified path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. The given parameter is invalid.
+* 1b. The given parameter is invalid.
 
-    * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -900,10 +912,15 @@ otherwise)
 
 **Extensions**
 
+* 1a. The specified path is invalid.
 
-* 2a. The parameter to be changed is invalid.
+    * 1a1. ProfBook shows an error message.
 
-    * 2a1. ProfBook shows an error message.
+      Use case resumes at step 1.
+
+* 1b. The parameter to be changed is invalid.
+
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -919,9 +936,9 @@ otherwise)
 **Extensions**
 
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -936,9 +953,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given id is invalid.
+* 1a. User inputs command while not in tasklist display using `cat`
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1b. The given id is invalid.
+
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -953,15 +976,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given Student path is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. The given Student path is invalid.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
 
-* 2b. The given group path is invalid.
+* 1b. The given group path is invalid.
 
-    * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -976,15 +999,21 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given name of group is invalid.
+* 1a. The given name of group is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. The given path is invalid.
+* 1b. The given path is a duplicate of an existing one.
 
-  * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1c. The given path is invalid.
+
+  * 1c1. ProfBook shows an error message.
 
     Use case resumes at step 1.
 
@@ -999,33 +1028,33 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. The given description is empty/duplicated.
+* 1b. The given description is invalid.
 
-    * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
        Use case resumes at step 1.
   
-* 2c. No path specified, user is in group directory.
+* 1c. No path specified, user is in group directory.
 
-    * 2c1. ProfBook creates ToDo for the group.
+    * 1c1. ProfBook creates ToDo for the group.
   
       Use case ends.
 
-* 2d. No path specified, user in root directory.
+* 1d. No path specified, user in root directory.
 
-    * 2d1. ProfBook shows an error message.
+    * 1d1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2e. User specifies `--all allStu` or `--all allGrp`.
+* 1e. User specifies `--all allStu` or `--all allGrp`.
 
-    * 2e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 1e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
@@ -1040,39 +1069,39 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
-
-      Use case resumes at step 1.
-
-* 2b. The given description is empty/duplicated.
-
-    * 2b1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2c. The given deadline date is invalid.
+* 1b. The given description is invalid.
 
-    * 2c1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2d. No path specified, user in root directory.
+* 1c. The given deadline date is invalid.
 
-    * 2d1. ProfBook creates Deadline for the group.
+    * 1c1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1d. No path specified, user in root directory.
+
+    * 1d1. ProfBook creates Deadline for the group.
 
       Use case ends.
 
-* 2e. No path specified, user in root directory.
+* 1e. No path specified, user in root directory.
 
-    * 2e1. ProfBook shows an error message.
+    * 1e1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2f. User specifies `--all allStu` or `--all allGrp`.
+* 1f. User specifies `--all allStu` or `--all allGrp`.
 
-    * 2f1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 1f1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
@@ -1087,8 +1116,13 @@ otherwise)
 
 **Extensions**
 
-* 2a. The Index provided is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. User inputs command while not in tasklist display using `cat`
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1a. The Index provided is invalid.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -1103,8 +1137,13 @@ otherwise)
 
 **Extensions**
 
-* 2a. The Index provided is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. User inputs command while not in tasklist display using `cat`
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1a. The Index provided is invalid.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -1119,8 +1158,13 @@ otherwise)
 
 **Extensions**
 
-* 2a. The Index provided is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. User inputs command while not in tasklist display using `cat`
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1b. The Index provided is invalid.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -1130,7 +1174,7 @@ otherwise)
 1. The application should be platform-independent and should run on all major operating systems as long as it has
    Java `11` or above installed.
 2. The system should work on both 32-bit and 64-bit environments.
-3. ProfBook Jar size should not exceed 100MB.
+3. ProfBook Jar size should not exceed 1GB.
 4. ProfBook should be capable of running on various local environments without dependencies on external servers or services.
 
 **Performance requirements:**
@@ -1158,12 +1202,8 @@ otherwise)
 * **Gradle**: Gradle is a build automation tool for multi-language software development. Installation [here](https://gradle.org/install/).
 * **CLI**: Command Line Interface, a text-based interface for interacting with a computer program.
 * **Architecture Diagram**: A high-level diagram explaining the design architecture of the ProfBook application.
+* **Class Diagram**: A visual representation depicting the structure and relationships between classes in the ProfBook application, illustrating attributes, methods, associations, and inheritance.
 * ***Folder structure***: The organization of directories and subdirectories within ProfBook to represent the hierarchy.
-* **UI component**: Manages the user interface of the application, interacting with the Logic component. 
-* **Logic component**: Executes user commands, communicates with the Model, and manages the application's logic. 
-* **Model component**: Stores and manages ProfBook data, including information about root, groups, and students. 
-* **Parser component**: Handles the interpretation of the users input.
-* **Storage component**: Handles the storage and retrieval of ProfBook data, interacting with the Model component.
 * **Common classes**: Classes shared among multiple components in the ProfBook application.
 * **Root**: Directory which contains all groups.
 * **Group**: Directory which contains Students within the specific group.
@@ -1187,49 +1227,336 @@ testers are expected to do more *exploratory* testing.
 
 </box>
 
+<box type = "warning">
+
+**Important:** For simplicity, all the command given below are based on the assumption that you are currently at the 
+root directory `~/>`. Should you change your directory to something other thant root do take note that our commands may 
+need to change according to your current directory. More information can be found in our
+[user guide](https://ay2324s1-cs2103t-w15-2.github.io/tp/UserGuide.html)
+
+</box>
+
 ### Launch and shutdown
 
-1. Initial launch
+- Initial launch
 
-    1. Download the jar file and copy into an empty folder
+    - Download the latest ProfBook.jar file and copy into an empty folder from [latest release](https://github.com/AY2324S1-CS2103T-W15-2/tp/releases).
 
-    2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be
-       optimum.
+    - Double-click the jar file Expected: Shows the GUI with some sample data. The window size may not be
+      optimum.
 
-2. Saving window preferences
+- Saving window preferences
 
-    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+    - Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-    2. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
+    - Re-launch the app by double-clicking the jar file.<br>
+      Expected: The most recent window size and location is retained.
 
-3. _{ more test cases …​ }_
+### Creating a group
 
-### Deleting a person
+- Creating a new group,
 
-1. Deleting a person while all persons are being shown
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+      Test case: `mkdir grp-001 --name Amazing Group1`<br>
+      Expected: A new group will be added to the list in the bottom output box, with name `Amazing Group1` and GroupId `grp-001`.
 
-    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+    - Test case: `mkdir 0123Y --name Amazing Group1`<br>
+      Expected: An error message indicating the path is invalid will be displayed.
 
-    2. Test case: `delete 1`<br>
-       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
-       Timestamp in the status bar is updated.
+    - Test case: `mkdir x --name Amazing Group1` (where x is an invalid path to a `Group`)<br>
+      Expected: An error message indicating the path is invalid will be displayed.
 
-    3. Test case: `delete 0`<br>
-       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+    - Other incorrect `mkdir` commands to try: `mkdir`, `mkdir grp-001`, `mkdir --name Amazing Group1` (where one or more required fields are missing in the command)<br>
+      Expected: An error message indicating the command format is invalid will be displayed.
 
-    4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-       Expected: Similar to previous.
+### Adding a student
 
-2. _{ more test cases …​ }_
+- Adding a student into the specified directory,
+
+    - Prerequisites: There exist a group with GroupId `grp-001`
+        
+    - Prerequisites: ProfBook does not contain a student with id `0199Y`.<br>
+      Test case: `touch ~/grp-001/0199Y --name Mary --email mary@gmail.com --phone 65412987 --address 4 Loyang Walk Loyang Industrial Estate`<br>
+      Expected: The student with id `0199Y` will be added to `grp-001`.
+
+    - Prerequisites: ProfBook does not contain a student with id`0123Y`.
+      Test case: `touch ~/grp-001/0123Y --name Mary`<br>
+      Expected: The student with id `0123Y` will be added to `grp-001`.
+
+    - Test case: `touch grp-001 --name Mary`<br>
+      Expected: An error message indicating the path is invalid will be displayed.
+
+    - Test case: `touch x --name Mary` (where x is an invalid path)<br>
+      Expected: An error message indicating the path is invalid will be displayed.
+
+    - Other incorrect `touch` commands to try: `touch`, `touch grp-001`, `touch --name student`, `...` (where one or more required fields are missing in the command)<br>
+      Expected: An error message indicating the command format is invalid will be displayed.
+
+### Deleting a student or group
+
+- Deleting a student or group from the specified path,
+
+    - Prerequisites: There exist a group with GroupId `grp-001` with a student with id `0123Y` inside it.<br>
+      Test case: `rm ~/grp-001/0123Y`<br>
+      Expected: The student `0123Y` in `grp-001` wil be deleted.
+
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+      Test case: `rm ~/grp-001`<br>
+      Expected: The group with GroupId `grp-001` wil be deleted.
+
+    - Prerequisites: There does not exist a group with GroupId `grp-002`.<br>
+      Test case: `rm ~/grp-002`<br>
+      Expected: An error message indicating the path is invalid will be displayed.
+
+    - Test case: `rm ~/0001Y`<br>
+      Expected: An error message indicating the path is invalid will be displayed.
+
+    - Other incorrect `rm` commands to try: `rm` <br>
+      Expected: An error message indicating the command format is invalid will be displayed.
+
+### Editing details of a student or group
+
+- Edits a student's details or group's details in the specified path,
+
+    - Prerequisites: There exist a group with GroupId `grp-001` that contains a student with id `0123Y` inside it.<br>
+      Test case: `edit ~/grp-001/0123Y --phone 91919191`<br>
+      Expected: The student `0123Y` will have his/her phone number edited.
+
+    - Prerequisites: There exist a group with GroupId `grp-001` that contains a student with id `0999A` inside it.<br>
+      Test case: `edit ~/grp-001/0123Y --id 0999A`<br>
+      Expected: An error message indicating the id has been used by other student will be displayed.
+
+    - Test case: `edit ~/grp-001/0123Y --id 0123Y`<br>
+      Expected: An error message indicating no changes have been made will be displayed.
+
+    - Test case: `edit --name Lucy --email lucy@gmail.com --phone 91919191`<br>
+      Expected: An error message indicating the root directory cannot be edited will be shown.
+   
+    - Other incorrect `edit` commands to try: `edit ~/grp-001 --name Lucy --email lucy@gmail.com --phone 91919191`, `...`
+      (Where one or more required fields are missing)<br>
+      Expected: An error message indicating the command format is invalid will be displayed.
+
+### Creating a todo task
+
+- Creates todo task for a specific student or group,
+
+    - Prerequisites: There exist a group with GroupId `grp-001` that contains a student with id `0123Y` inside it.<br>
+      Test case: `todo ~/grp-001/0123Y --desc Assignment 1`<br>
+      Expected: The todo task `Assignment 1` will be assigned to student `0123Y`.
+
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+      Test case: `todo ~/grp-001 --desc Assignment 1`<br>
+      Expected: The todo task `Assignment 1` will be assigned to group `grp-001`.
+
+    - Prerequisites: There exist a group with GroupId `grp-001` with a todo Assignment 1 already assigned to it.<br>
+      Test case: `todo ~/grp-001 --desc Assignment 1`<br>
+      Expected: An error message indicating that Assignment 1 has already been allocated to it.
+
+- Creates todo task for all groups or all students in a group,
+
+    - Prerequisites: There exist at least one group in ProfBook and at least one of the groups does not have the todo task, Assignment 1.<br>
+      Test case: `todo ~ --desc Assignment 1 --all allGrp`<br>
+      Expected: The todo task `Assignment 1` will be allocated to all groups that does not already have the todo task.
+
+    - Prerequisites: There exist a group with GroupId `grp-001` with at least one student.<br>
+      Prerequisites: At least one of the student does not have the todo task, Assignment 1.<br>
+      Test case: `todo ~/grp-001 --desc Assignment 1 --all allStu`<br>
+      Expected: The todo task `Assignment 1` will be allocated all students in `grp-001` that does not already have the todo task.
+
+    - Prerequisites: There exist at least one student in ProfBook and at least of the students does not have the todo task, Assignment 1.<br>
+      Test case: `todo --desc Assignment 1 --all allStu`<br>
+      Expected: The todo task `Assignment 1` will be allocated to all students under root directory that does not already have the todo task.
+
+    - Test case: `todo --desc Assignment 1 --all allStudent` <br>
+      Expected: An error message indicating the format of category label is invalid will be displayed.
+
+    - Test case: `todo ~/grp-001/0001Y --desc Assignment 1 --all allGrp`<br>
+      Expected: An error message indicating allGrp flag is only allowed for root path.
+
+- Test case: `todo ~/0001Y --desc Assignment 1`<br>
+  Expected: An error message indicating the path is invalid will be displayed.
+
+- Other incorrect `todo` commands to try: `todo`, `todo ~/grp-001`, `...` (where one or more required fields are missing)<br>
+  Expected: An error message indicating the command format is invalid will be displayed.
+
+
+### Creating a deadline task
+
+- Creates deadline task for a specific student or group,
+
+    - Prerequisites: There exist a group with GroupId `grp-001` that contains a student with id `0123Y` inside it.<br>
+      Test case: `deadline ~/grp-001/0123Y --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
+      Expected: The deadline task `Assignment 1` will be allocated to student `0123Y`.
+
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+      Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
+      Expected: The deadline task `Assignment 1` will be allocated to group `grp-001`
+
+    - Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 11-11-2023 23:59`<br>
+      Expected: An error message indicating the datetime format is invalid will be displayed.
+
+    - Prerequisites: There exist a group with GroupId `grp-001` with the same deadline task Assignment 1 already assigned to it.<br>
+      Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 11-11-2023 23:59`<br>
+      Expected: An error message indicating that Assignment 1 has already been allocated to it.
+
+- Creates deadline task for all groups or all students in a group,
+
+    - Prerequisites: There exist at least one group in ProfBook and at least one of the groups does not have the deadline task, Assignment 1.<br>
+      Test case: `deadline ~ --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`<br>
+      Expected: The deadline task `Assignment 1` will be allocated to all groups that does not already have the task.
+
+    - Prerequisites: There exist a group with GroupId `grp-001` with at least one student.<br>
+      Prerequisites: At least one of the student does not have the deadline task, Assignment 1.<br>
+      Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`<br>
+      Expected: The deadline task `Assignment 1` will be allocated all students in `grp-001` that does not already have the task.
+
+    - Prerequisites: There exist at least one student in ProfBook and at least of the students does not have the deadline task, Assignment 1.<br>
+      Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`<br>
+      Expected: The deadline task `Assignment 1` will be allocated to all students under root directory that does not already have the task.
+
+    - Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStudent` <br>
+      Expected: An error message indicating the format of category label is invalid will be displayed.
+
+    - Test case: `deadline ~/grp-001/0001Y --desc Assignment 1 --all allGrp`<br>
+      Expected: An error message indicating allGrp flag is only allowed for root path.
+
+- Test case: `deadline ~/0001Y --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
+  Expected: An error message indicating the path is invalid will be displayed.
+
+- Other incorrect `deadline` commands to try: `deadline`, `deadline ~/grp-001`, `deadline ~/grp-001 --desc no date time flag` (where one or more required fields are missing)<br>
+  Expected: An error message indicating the command format is invalid will be displayed.
+
+### Mark a task as completed
+
+- Marks a specified task as done for a student or group
+
+    - Prerequisites: The display panel is showing the task list of the specified student or group.<br>
+      This can be achieved by using the `cat` command alongside the path to the desired student/group to display their task list.
+
+    - Prerequisites: The current directory is group directory and the group has been assigned minimally one task.<br>
+      Test case: `mark 1`<br>
+      Expected: The task with task index `1` will be marked as completed.
+
+    - Test case: `mark`<br>
+      Expected: An error message indicating the command format is invalid will be displayed.
+
+    - Test case: `mark a`<br>
+      Expected: No task would be marked, an error will be shown.
+
+    - Other incorrect `mark` commands to try: `mark -2`, `mark x` (Where x is positive integer which is less than current task size)<br>
+      Expected: No task would be marked, an error message indicating that the index given is invalid.
+
+### Un-mark a completed task
+
+- Un-marks a specified task as done for a student or group
+
+    - Prerequisites: The display panel is showing the task list of the specified student or group.<br>
+      This can be achieved by using the `cat` command alongside the path to the desired student/group to display their task list.
+
+    - Prerequisites: The current directory is group directory and the group has been assigned minimally one task.<br>
+      Test case: `unmark 1`<br>
+      Expected: The task with task index `1` will be un-marked.
+
+    - Test case: `unmark`<br>
+      Expected: An error message indicating the command format is invalid will be displayed.
+
+    - Test case: `unmark a`<br>
+      Expected: No task would be un-marked, an error will be shown.
+
+    - Other incorrect `un-mark` commands to try: `unmark -2`, `unmark x` (Where x is positive integer which is less than current task size)<br>
+      Expected: No task would be marked, an error message indicating that the index given is invalid.
+
+### Delete a task
+
+- Deletes a specified task as done for a student or group,
+
+    - Prerequisites: The display panel is showing the task list of the specified student or group.<br>
+      This can be achieved by using the `cat` command alongside the path to the desired student/group to display their task list.
+
+    - Prerequisites: The current directory is group directory and the group has been assigned minimally one task.<br>
+      Test case: `rmt 1`<br>
+      Expected: The task with task index `1` will be deleted.
+
+    - Test case: `rmt`<br>
+      Expected: An error message indicating the command format is invalid will be displayed.
+
+    - Test case: `rmt a`<br>
+      Expected: No task would be deleted, an error will be shown.
+
+    - Other incorrect `rmt` commands to try: `rmt -2`, `rmt x` (Where x is positive integer which is less than current task size)<br>
+      Expected: No task would be deleted, an error message indicating that the index given is invalid.
+
+### UI
+
+### Change directory
+
+- Changes the current directory in the ProfBook,
+
+   - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+     Test case: `cd grp-001`, `cd ~/grp-001`<br>
+     Expected: The current directory will be changed to `grp-001` and the interface will change from displaying all the group to displaying all the student in `grp-001`.
+
+   - Prerequisites: There does not exist a group with GroupId `grp-002`.<br>
+     Test case: `cd grp-002`<br>
+     Expected: An error message indicating the path is not found.
+
+   - Test case: `cd ~/0000Y`<br>
+     Expected: An error message indicating the path is invalid will be displayed.
+
+   - Other incorrect `cd` commands to try: `cd`<br>
+     Expected: An error message indicating the command format is invalid will be displayed.
+
+### Display directory
+
+- Shows the list of children in specified directory,
+
+    - Test case: `ls`<br>
+      Expected: All the groups in ProfBook will be displayed.
+
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+      Test case: `ls grp-001`<br>
+      Expected: The interface will change from displaying all the group to displaying all the student in `grp-001`.
+  
+    - Prerequisites: There does not exist a group with GroupId `grp-002`.<br>
+      Test case: `ls grp-002`<br>
+      Expected: An error message indicating the path is not found.
+  
+    - Test case: `ls ~/0000Y`<br>
+      Expected: An error message indicating the path is invalid will be displayed.
+
+### Display all tasks
+
+- Displays all tasks,
+
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+      Test case: `cat grp-001`<br>
+      Expected: The interface will change from displaying all the group to displaying all tasks assigned to `grp-001`.
+
+    - Prerequisites: There does not exist a group with GroupId `grp-002`.<br>
+      Test case: `cat grp-002`<br>
+      Expected: An error message indicating the path is not found.
+
+    - Test case: `cat ~/0000Y`<br>
+      Expected: An error message indicating the path is invalid will be displayed.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+- Getting the default save file.
 
-    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+    - Prerequisites: Place ProfBook.jar in an empty home folder. Perform the following step in the root directory.
 
-2. _{ more test cases …​ }_
+    - Test case: `todo grp-001/0001Y --desc Assignment One`
+      Expected: `profbook.json` appears in data folder inside home folder. Student with name `Tejas` has a field history in profbook.json whereas the other students do not. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/addTodo.json).
+
+    - Test case: `rm grp-001/0001Y`
+      Expected: `profbook.json` is updated with `Tejas removed`. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/removeTejas.json).
+
+- Clearing the save file.
+
+    - Prerequisites: Have `profbook.json` in the data folder. Perform the previous step if the file isn’t there.
+
+    - Test case: `clear`
+      Expected: An empty `profbook.json` file like [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/empty.json)).
 
 <br>
 
