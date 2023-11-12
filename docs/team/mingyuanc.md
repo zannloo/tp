@@ -88,7 +88,7 @@ Given below are my contributions to the project.
   * Wrote the overview for all three of our main features.
   * Updated the command summary page.
 * **Feature Aspects:**
-  * `cat` command.
+  * `ls` command.
 
 ### Developer Guide Contributions
 * **Non-Feature Aspects**
