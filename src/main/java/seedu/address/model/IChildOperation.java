@@ -3,10 +3,9 @@ package seedu.address.model;
 
 import java.util.List;
 
+import seedu.address.model.field.EditDescriptor;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.IChildElement;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
-import seedu.address.model.profbook.exceptions.NoSuchChildException;
 import seedu.address.model.task.Task;
 
 /**
@@ -18,41 +17,51 @@ import seedu.address.model.task.Task;
  */
 public interface IChildOperation<T extends IChildElement<T>> {
     /**
-     * Adds the child to list of children
+     * Adds the child to list of children.
+     * Id must not be duplicate.
      *
      * @param id    - Unique identifier of the child
      * @param child - The child in question
-     * @throws DuplicateChildException If attempting to add child with the same ID
      */
-    void addChild(Id id, T child) throws DuplicateChildException;
+    void addChild(Id id, T child);
 
     /**
-     * Checks if the child is present
+     * Checks if the child is present.
      *
      * @param id - Unique identifier of the child
      */
     boolean hasChild(Id id);
 
     /**
-     * Deletes the child specified by the id
+     * Deletes the child specified by the id.
+     * Target child must exist.
      *
      * @param id - Unique identifier of the child
      * @return The deleted Child
-     * @throws NoSuchChildException If there is no such Child found
      */
-    T deleteChild(Id id) throws NoSuchChildException;
+    T deleteChild(Id id);
 
     /**
-     * Returns the child specified by the id
+     * Edits a specific child using the provided edit descriptor.
+     * Target child must exist.
+     *
+     * @param id         The identifier of the child to be edited.
+     * @param descriptor The edit descriptor defining operations for the item.
+     * @return An edited instance of the child item within the group.
+     */
+    T editChild(Id id, EditDescriptor<T> descriptor);
+
+    /**
+     * Returns the child specified by the id.
+     * Target child must exist.
      *
      * @param id - Unique identifier of the child
      * @return The specified Child
-     * @throws NoSuchChildException If there is no such Child found
      */
-    T getChild(Id id) throws NoSuchChildException;
+    T getChild(Id id);
 
     /**
-     * Updates the child with a new child of the same id
+     * Replaces the target child with a new child.
      *
      * @param id    - Unique identifier of the child
      * @param child - The new child to replace old child

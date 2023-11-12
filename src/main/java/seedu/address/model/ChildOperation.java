@@ -7,12 +7,11 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.field.EditDescriptor;
 import seedu.address.model.id.Id;
 import seedu.address.model.profbook.ChildrenAndTaskListManager;
 import seedu.address.model.profbook.IChildElement;
 import seedu.address.model.profbook.IChildrenManager;
-import seedu.address.model.profbook.exceptions.DuplicateChildException;
-import seedu.address.model.profbook.exceptions.NoSuchChildException;
 import seedu.address.model.task.ITaskListManager;
 import seedu.address.model.task.Task;
 
@@ -34,83 +33,45 @@ public class ChildOperation<T extends IChildElement<T>> implements IChildOperati
         this.baseDir = baseDir;
     }
 
-    /**
-     * Adds the child to list of children
-     *
-     * @param id    - Unique identifier of the child
-     * @param child - The child in question
-     * @throws DuplicateChildException If attempting to add child with the same ID
-     */
     @Override
-    public void addChild(Id id, T child) throws DuplicateChildException {
+    public void addChild(Id id, T child) {
         this.baseDir.addChild(id, child);
     }
 
-    /**
-     * Checks if the child is present
-     *
-     * @param id - Unique identifier of the child
-     * @return true if child is present
-     */
     @Override
     public boolean hasChild(Id id) {
         return this.baseDir.hasChild(id);
     }
 
-    /**
-     * Deletes the child specified by the id
-     *
-     * @param id - Unique identifier of the child
-     * @return The deleted Child
-     * @throws NoSuchChildException If there is no such Child found
-     */
     @Override
-    public T deleteChild(Id id) throws NoSuchChildException {
+    public T deleteChild(Id id) {
         this.logger.info("deleting" + id.toString());
         return this.baseDir.deleteChild(id);
     }
 
-    /**
-     * Returns the child specified by the id
-     *
-     * @param id - Unique identifier of the child
-     * @return The specified Child
-     * @throws NoSuchChildException If there is no such Child found
-     */
     @Override
-    public T getChild(Id id) throws NoSuchChildException {
+    public T editChild(Id id, EditDescriptor<T> descriptor) {
+        return descriptor.applyEditsToOld(this.baseDir.getChild(id));
+    }
+
+    @Override
+    public T getChild(Id id) {
         this.logger.info("getting" + id.toString());
         return this.baseDir.getChild(id);
     }
 
-    /**
-     * Updates the child with a new child of the same id
-     *
-     * @param id    - Unique identifier of the child
-     * @param child - The new child to replace old child
-     */
     @Override
     public void updateChild(Id id, T child) {
         this.baseDir.deleteChild(id);
-        this.baseDir.addChild(id, child);
+        this.baseDir.addChild(child.getId(), child);
     }
 
-    /**
-     * Returns a list of all current children
-     *
-     * @return List of all current children
-     */
     @Override
     public List<T> getAllChildren() {
         this.logger.info("getting all child");
         return new ArrayList<>(this.baseDir.getAllChildren());
     }
 
-    /**
-     * Returns Number of current children
-     *
-     * @return The Number of current children
-     */
     @Override
     public int numOfChildren() {
         return this.baseDir.numOfChildren();
