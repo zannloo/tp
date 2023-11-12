@@ -457,8 +457,6 @@ use,
   `~/grp-001` to `~/grp-002`.
 </box>
 
-<div style="page-break-after: always;"></div>
-
 ### <span style="color: #FF8C00;">Display Directories : `ls`</span>
 
 Shows the list of children in the specified directory. 
@@ -494,6 +492,8 @@ Displays a message indicating either:
 
 </box>
 
+<div style="page-break-after: always;"></div>
+
 #### Example(s):
 
 - When you are at the root directory `~/` and would like to see all the groups you have,
@@ -504,8 +504,6 @@ Displays a message indicating either:
 - When you are at the root directory `~/` and would like to see the students under `grp-001`,
   - `ls grp-001` will return all the students in `grp-001`.
 </box>
-
-<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Display all Tasks: `cat` </span>
 
@@ -543,6 +541,8 @@ Displays a message indicating either:
 - [Invalid path.](#mistake-2-invalid-path)
 </box>
 
+<div style="page-break-after: always;"></div>
+
 #### Example(s):
 - When you are at the directory `~/grp-001` and would like to see all tasks allocated to <br>`grp-001`,
   - executing `cat` will return all the tasks allocated to `grp-001`.
@@ -555,8 +555,6 @@ If you are at the directory `~/grp-001` and would like take a quick look of the 
 - `cat 0010Y` will return all the tasks allocated to student with the StudentId `0010Y`.
 
 </box>
-
-<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">View Help : `help` </span>
 
@@ -665,8 +663,6 @@ When you are at the group directory `~/grp-001` and would like to add the same s
   directory before executing the `touch` command!
 </box>
 
-<div style="page-break-after: always;"></div>
-
 ### <span style="color: #FF8C00;">Edit Student: `edit` </span>
 
 <box type="warning">
@@ -680,6 +676,8 @@ Edits a student's details including name, email, phone, address or StudentId in 
 One or more fields can be edited in a single command.
 
 **Format:** `edit SPECIFIED_PATH [--name NAME] [--email EMAIL] [--phone PHONE_NUMBER] [--address ADDRESS] [--id STUDENT_ID]`
+
+<div style="page-break-after: always;"></div>
 
 #### Acceptable values for each parameter:
 
@@ -711,16 +709,12 @@ One or more fields can be edited in a single command.
 at the directory `~/grp-001`, to make the necessary changes. 
   - `edit 0010Y --phone 91919191`
 
-<div style="page-break-after: always;"></div>
-
 <box type="tip">  
 
 When you are at the root directory `~/` and would like to edit the same student's phone number,
 - You could use the command `edit ~/grp-001/0010Y --phone 91919191` to save yourself the trouble from having to change 
 directory before executing the `edit` command!
 </box>
-
-<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Edit Group: `edit` </span>
 <box type="warning">
@@ -767,6 +761,8 @@ to root directory.
 
 </box>
 
+<div style="page-break-after: always;"></div>
+
 #### Example(s):
 
 - If `grp-001` changed their group name, you could execute the following command
@@ -779,8 +775,6 @@ When you are at the root directory `~/` and would like to edit the same group's 
 - You could use the command `edit ~/grp-001 --name Amazing Group1` to save yourself the trouble from having to change
   directory before executing the `edit` command!
 </box>
-
-<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Delete a Student or Group: `rm` </span>
 
@@ -816,6 +810,8 @@ Removes a student or group from the specified path.
 - When you are at the root directory `~/` and would like to remove the group with the GroupId `grp-001`,
     - `rm grp-001` will remove `grp-001`.
 
+<div style="page-break-after: always;"></div>
+
 <box type="tip">
 
 When you are at the root directory `~/` and would like to remove the student with the StudentId `0123Y`,
@@ -823,8 +819,6 @@ in `~/grp-001`,
 - You could use the command `rm ~/grp-001/0123Y` to save yourself the hassle of having to change directory!
 
 </box>
-
-<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Move Student: `mv` </span>
 
@@ -991,8 +985,6 @@ following command at the root directory, `~/`,
 
 </box>
 
-<div style="page-break-after: always;"></div>
-
 ### <span style="color: #FF8C00;">Create Deadline task : `deadline` </span>
 
 Creates task with a deadline for specific student(s) or group(s).
@@ -1032,6 +1024,8 @@ to keep track of past events without worry!
   - [Invalid path.](#mistake-2-invalid-path)
 
 </box>
+
+<div style="page-break-after: always;"></div>
 
 #### Example(s):
 
@@ -1094,8 +1088,6 @@ the outcome of the execution of  `mark 1`. <br>
 Notice the presence of a tick in the **Task Status Box** of the second image,
 after you mark the task. 
 </box>
-
-<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Unmark task: `unmark` </span>
 
