@@ -46,11 +46,14 @@ Java, and has about 10 kLoC.
 
 ### User Guide Contributions
 
-coming soon
+- Added the **Understanding ProfBook** section which explained the ProfBook structure.
+- Included a user guide for the change directory command.
 
 ### Developer Guide Contributions
 
-coming soon
+- Added the **Appendix: Effort** section.
+- Created **activity diagrams** for create student, create deadline and edit group command.
+- Created a **sequence diagram** for move student command.
 
 ### Team-Based Task Contributions
 
