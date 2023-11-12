@@ -493,8 +493,6 @@ Displays a message indicating either:
 
 </box>
 
-<div style="page-break-after: always;"></div>
-
 #### Example(s):
 
 - When you are at the root directory `~/` and would like to see all the groups you have,
@@ -650,7 +648,7 @@ to this group through the following command,
 
 <box type="info">
 
-![Ui](images/touchcommand.png){width=720 height=158}
+![Ui](images/touchcommand.png){width=1132 height=300}
 Following the execution of the `touch` command, Bob appears in the Children List. The **Message Display Column**
 also indicates the addition of a new student, Bob. <br>
 Observe that all fields for Bob, except for Name and StudentId, are marked `n/a` as you did 
@@ -694,8 +692,6 @@ One or more fields can be edited in a single command.
 
 </box>
 
-<div style="page-break-after: always;"></div>
-
 <box type="wrong" seamless> 
 
 #### Output if command fails: 
@@ -713,6 +709,8 @@ One or more fields can be edited in a single command.
 - If a student in `grp-001` of StudentId `0010Y` changes his phone number, you could execute the following command 
 at the directory `~/grp-001`, to make the necessary changes. 
   - `edit 0010Y --phone 91919191`
+
+<div style="page-break-after: always;"></div>
 
 <box type="tip">  
 
@@ -1034,13 +1032,13 @@ to keep track of past events without worry!
 
 </box>
 
-<div style="page-break-after: always;"></div>
-
 #### Example(s):
 
 - When a specific student has to hand in his assignment again by a certain date, 
 you could use the following command when you are in the directory `~/grp-001`,
   - `deadline 0001Y --desc resubmit Assignment 1 --datetime 2023-10-11 23:59`
+
+<div style="page-break-after: always;"></div>
 
 <box type="tip">
 
@@ -1130,8 +1128,6 @@ Unmarks the specified task for the student or group.
 
 When using this command, you will first need to [`cat`](#display-all-tasks-cat) at the path where the task list is at before executing `unmark`.
 </box>
-
-<div style="page-break-after: always;"></div>
 
 #### Example(s):
 - When you are at the `~/grp-001` directory and would like to unmark the first task
