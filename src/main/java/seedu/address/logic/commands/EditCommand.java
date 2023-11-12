@@ -148,21 +148,20 @@ public class EditCommand extends Command {
 
         GroupId groupId = target.getGroupId().get();
 
-        // Check if Id is edited, if is edited check whether new id has already been used.
-        Optional<GroupId> editedId = editGroupDescriptor.getId();
-        boolean isEdited = editedId.isPresent() && (!editedId.get().equals(groupId));
-        if (isEdited && model.hasGroupWithId(editedId.get())) {
-            Group groupWithSameId = model.getGroupWithId(editedId.get());
-            throw new CommandException(String.format(
-                MESSAGE_DUPLICATE_GROUP_ID, editedId.get(), Messages.format(groupWithSameId)));
-        }
-
         ChildOperation<Group> rootOperation = model.rootChildOperation();
         Group editedGroup = rootOperation.editChild(groupId, editGroupDescriptor);
 
         // Check whether group is actually edited
         if (editedGroup.equals(rootOperation.getChild(groupId))) {
             throw new CommandException(MESSAGE_NO_CHANGES_MADE);
+        }
+
+        // Check if Id is edited, if is edited check whether new id has already been used.
+        boolean idIsEdited = !editedGroup.getId().equals(groupId);
+        if (idIsEdited && model.hasGroupWithId(editedGroup.getId())) {
+            Group groupWithSameId = model.getGroupWithId(editedGroup.getId());
+            throw new CommandException(String.format(
+                MESSAGE_DUPLICATE_GROUP_ID, editedGroup.getId(), Messages.format(groupWithSameId)));
         }
 
         rootOperation.updateChild(groupId, editedGroup);
@@ -189,15 +188,6 @@ public class EditCommand extends Command {
 
         StudentId studentId = target.getStudentId().get();
 
-        // Check if Id is edited, if is edited check whether new id has already been used.
-        Optional<StudentId> editedId = editStudentDescriptor.getId();
-        boolean isEdited = editedId.isPresent() && (!editedId.get().equals(studentId));
-        if (isEdited && model.hasStudentWithId(editedId.get())) {
-            Student studentWithSameId = model.getStudentWithId(editedId.get());
-            throw new CommandException(String.format(
-                MESSAGE_DUPLICATE_STUDENT_ID, editedId.get(), Messages.format(studentWithSameId)));
-        }
-
         ChildOperation<Student> groupOperation = model.groupChildOperation(target);
         Student editedStudent = groupOperation.editChild(studentId, editStudentDescriptor);
 
@@ -206,7 +196,15 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_NO_CHANGES_MADE);
         }
 
-        groupOperation.updateChild(studentId, editedStudent);;
+        // Check if Id is edited, if is edited check whether new id has already been used.
+        boolean idIsEdited = !editedStudent.getId().equals(studentId);
+        if (idIsEdited && model.hasStudentWithId(editedStudent.getId())) {
+            Student studentWithSameId = model.getStudentWithId(editedStudent.getId());
+            throw new CommandException(String.format(
+                MESSAGE_DUPLICATE_STUDENT_ID, editedStudent.getId(), Messages.format(studentWithSameId)));
+        }
+
+        groupOperation.updateChild(studentId, editedStudent);
 
         model.updateList();
 
