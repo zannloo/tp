@@ -456,6 +456,8 @@ use,
   `~/grp-001` to `~/grp-002`.
 </box>
 
+<div style="page-break-after: always;"></div>
+
 ### <span style="color: #FF8C00;">Display Directories : `ls`</span>
 
 Shows the list of children in the specified directory. 
@@ -503,6 +505,8 @@ Displays a message indicating either:
 - When you are at the root directory `~/` and would like to see the students under `grp-001`,
   - `ls grp-001` will return all the students in `grp-001`.
 </box>
+
+<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Display all tasks: `cat` </span>
 
@@ -552,6 +556,8 @@ If you are at the directory `~/grp-001` and would like take a quick look of the 
 - `cat 0010Y` will return all the tasks allocated to student with StudentId `0010Y`.
 
 </box>
+
+<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">View help : `help` </span>
 
@@ -660,6 +666,8 @@ When you are at the group directory `~/grp-001` and would like to add the same s
   directory before executing the `touch` command!
 </box>
 
+<div style="page-break-after: always;"></div>
+
 ### <span style="color: #FF8C00;">Edit a Student: `edit` </span>
 
 <box type="warning">
@@ -712,6 +720,8 @@ When you are at the root directory `~/` and would like to edit the same student'
 - You could use the command `edit ~/grp-001/0010Y --phone 91919191` to save yourself the trouble from having to change 
 directory before executing the `edit` command!
 </box>
+
+<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Edit a Group: `edit` </span>
 <box type="warning">
@@ -982,6 +992,7 @@ following command at the root directory, `~/`,
 
 </box>
 
+<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Create Deadline task : `deadline` </span>
 
@@ -1039,6 +1050,8 @@ you could use the following command at the root directory, `~/`,
 
 </box>
 
+<div style="page-break-after: always;"></div>
+
 ### <span style="color: #FF8C00;">Mark task as completed: `mark` </span>
 
 Marks the specified task as done for the specified student or group. 
@@ -1069,8 +1082,6 @@ Marks the specified task as done for the specified student or group.
 
 When using this command, you will first need to [`cat`](#display-all-tasks-cat) at the path where the task list is at before executing `mark`.
 </box>
-  
-<div style="page-break-after: always;"></div>
 
 #### Example(s):
 
@@ -1088,6 +1099,8 @@ the outcome of the execution of  `mark 1`. <br>
 Notice the presence of a tick in the **Task Status Box** of the second image,
 after you mark the task. 
 </box>
+
+<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Unmark task: `unmark` </span>
 
@@ -1132,6 +1145,8 @@ The result shown should be similar to the `mark` command except that
 instead of noticing the presence of a tick in the **Task Status Box**,
 you should observe an **absence of the tick** after executing the `unmark` command.
 </box>
+
+<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Delete task: `rmt` </span>
 
