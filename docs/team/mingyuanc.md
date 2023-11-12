@@ -59,14 +59,14 @@ Given below are my contributions to the project.
 * **Introduced `Root` Class**
   * Encapsulates the required information to represent the whole application.
 
-* **Introduced `TaskOperation` and `ChildOperation` facade Class**
-  * Provided a facade class to allow `Command` logic to manipulate the model without exposing internal details.
+* **Introduced `TaskOperation` and `ChildOperation`  Class**
+  * Provided an operation class to allow `Command` logic to manipulate the model without exposing internal details.
   * Justification:
     * Follows OOP principals more closely.
     * Allows for the future migration to an immutable model.
     * Adds another layer of safety by checking the validity and presence of the directory before performing modification.
   * Highlights:
-    * Deep-understanding of what is required by `Command` class was required when designing this facade class.
+    * Deep-understanding of what is required by `Command` class was required when designing this class.
 
 * **Enhanced `ModelManager` Class**
   * Provides the logic to safely manipulate data stored in Student/Group/Root
