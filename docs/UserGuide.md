@@ -384,7 +384,7 @@ To view the task list of the current group directory, simply use `cat`.
 | **Message Display Column** |   Displays the output of the command result. <br>Note that it shows that you are viewing the task list of group directory, `~/grp-001`.|
 | **Task List** |  Shows the tasks allocated to group at current group directory.   |
 | **Task Type Tag** |  Shows the task type of the specific task, distinguishing between **Todo** tasks (highlighted in **yellow**) and **Deadline** tasks (highlighted in **green**).|
-| **Task Status Box** |  Indicates the completion status of the specific task, using a **tick** for **marked** / **completed** task and the **absence of a tick** for **unmarked** / **uncompleted** tasks.   |
+| **Task Status Box** |  Indicates completion status of specific task, using a **tick** for **marked** / **completed** task and the **absence of a tick** for **unmarked** / **uncompleted** tasks.   |
 | **List Type Indication** | Indicates the list type of the current display you are viewing, either a Children List or Task List. <br> In this instance, it shows the Task List of the group directory. |
 
 <box type = "warning">
