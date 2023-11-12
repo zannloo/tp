@@ -1093,8 +1093,6 @@ Notice the presence of a tick in the **Task Status Box** of the second image,
 after you mark the task. 
 </box>
 
-<div style="page-break-after: always;"></div>
-
 ### <span style="color: #FF8C00;">Unmark Task: `unmark` </span>
 
 Unmarks the specified task for the student or group. 
