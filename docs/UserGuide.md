@@ -228,6 +228,7 @@ Flags usually **come before** essential details required by the command and are 
   - `allGrp` which adds **group** tasks to all groups within the root directory.
     - Can only be used at root directory.
 <div style="page-break-after: always;"></div>
+
 - `--help` / `-h`
   - Use with any command (except `exit`, `help` and `clear`) for more information.
   - e.g. `touch --help` to learn more about how to add a student to ProfBook.
@@ -666,6 +667,48 @@ When you are at the group directory `~/grp-001` and would like to add the same s
 
 <div style="page-break-after: always;"></div>
 
+### <span style="color: #FF8C00;">Create a Group : `mkdir`</span>
+
+Creates a group in the root directory that can contain students.
+
+<box type="warning">
+
+Kindly note that the addition of groups is exclusively to the root directory.
+This means that addition of groups under another group directory is not allowed.
+</box>
+
+**Format:** `mkdir SPECIFIED_PATH_TO_GROUP --name NAME`
+
+#### Acceptable values for each parameter:
+
+`SPECIFIED_PATH_TO_GROUP`:
+- Must be a valid path to a group.
+
+<box type="success" seamless>
+
+#### Output if command succeeds
+- Displays a message indicating the successful creation of the group, along with details of the new group.
+
+</box>
+
+<box type="wrong" seamless>
+
+#### Output if command fails
+
+- Displays a message indicating either:
+  - [Invalid command format.](#mistake-1-invalid-command-format)
+  - [Invalid path.](#mistake-2-invalid-path)
+  - [Duplicate Id.](#mistake-7-duplicate-id)
+
+</box>
+
+#### Example(s):
+
+- When you are at the root directory `~/` and would like to add a new group with the GroupId <br> `grp-001`,
+  - `mkdir grp-001 --name Group 001` to add a new group named `Group 001`.
+
+<div style="page-break-after: always;"></div>
+
 ### <span style="color: #FF8C00;">Edit a Student: `edit` </span>
 
 <box type="warning">
@@ -870,48 +913,6 @@ root directory,
 
 </box>
 
-<div style="page-break-after: always;"></div>
-
-### <span style="color: #FF8C00;">Create a Group : `mkdir`</span>
-
-Creates a group in the root directory that can contain students.
-
-<box type="warning">
-
-Kindly note that the addition of groups is exclusively to the root directory.
-This means that addition of groups under another group directory is not allowed.
-</box>
-
-**Format:** `mkdir SPECIFIED_PATH_TO_GROUP --name NAME`
-
-#### Acceptable values for each parameter:
-
-`SPECIFIED_PATH_TO_GROUP`:
-- Must be a valid path to a group.
-
-<box type="success" seamless>
-
-#### Output if command succeeds
-- Displays a message indicating the successful creation of the group, along with details of the new group.
-
-</box>
-
-<box type="wrong" seamless>
-
-#### Output if command fails
-
-- Displays a message indicating either:
-    - [Invalid command format.](#mistake-1-invalid-command-format)
-    - [Invalid path.](#mistake-2-invalid-path)
-    - [Duplicate Id.](#mistake-7-duplicate-id)
-
-</box>
-
-#### Example(s):
-
-- When you are at the root directory `~/` and would like to add a new group with the GroupId `grp-001`,
-  - `mkdir grp-001 --name Group 001` to add a new group named `Group 001`.
-
 ---
 
 <div class="page-break-before">
@@ -1088,8 +1089,8 @@ allocated to student with the StudentId `0123Y`, you could follow these commands
 ![Ui](images/markcommand.png){width=2838 height=1186}
 Did you observe the difference in the **Task Status Box** between the 2 pictures? <br>
 The first image shows the outcome when you execute `cat 0123Y`, whereas the second image shows
-the outcome of the execution of  `mark 1`. <br>
-Notice the presence of a tick in the **Task Status Box** of the second image,
+the outcome of the execution of  `mark 1`.
+Notice the **presence of a tick** in the **Task Status Box** of the second image,
 after you mark the task. 
 </box>
 
