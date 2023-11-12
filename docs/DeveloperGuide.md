@@ -790,7 +790,7 @@ otherwise)
 
         Use case resumes at step 1.
         
-    * 1b1. Current path is not root path.
+    * 1b2. Current path is not root path.
   
       *  Profbook displays task list of current path.
 
