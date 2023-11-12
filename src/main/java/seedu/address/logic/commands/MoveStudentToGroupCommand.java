@@ -20,26 +20,20 @@ import seedu.address.model.profbook.Student;
  */
 public class MoveStudentToGroupCommand extends Command {
 
-    /** The command word for moving a student to a group */
     public static final String COMMAND_WORD = "mv";
 
-    /** Message indicating that the source student is not found in ProfBook */
     public static final String MESSAGE_STUDENT_NOT_FOUND = "Source student not found in ProfBook";
 
-    /** Message indicating that the destination group is not found in ProfBook */
     public static final String MESSAGE_GROUP_NOT_FOUND = "Destination group not found in ProfBook";
 
-    /** Message indicating the student has been successfully moved from one group to another */
     public static final String MESSAGE_MOVE_STUDENT_SUCCESS =
             "Student %1$s has been successfully moved to the group: %2$s";
 
-    /** Message indicating an invalid move command with usage information */
     public static final String MESSAGE_INVALID_MOVE_COMMAND =
             "Invalid source or destination.\n\n"
             + "source:       existing student\n"
             + "destination:  existing group";
 
-    /** Usage information for the MoveStudentToGroupCommand */
     public static final String MESSAGE_USAGE =
             "Usage: " + COMMAND_WORD + " <source>" + " <destination> \n"
             + "\n"
@@ -55,7 +49,6 @@ public class MoveStudentToGroupCommand extends Command {
             + "Examples: \n"
             + "mv grp-001/0001Y grp-002";
 
-    /** A special instance of MoveStudentToGroupCommand used to display the command's usage message */
     public static final MoveStudentToGroupCommand HELP_MESSAGE = new MoveStudentToGroupCommand() {
         @Override
         public CommandResult execute(Model model) {
@@ -63,13 +56,10 @@ public class MoveStudentToGroupCommand extends Command {
         }
     };
 
-    /** Logger for logging messages related to MoveStudentToGroupCommand */
     private static final Logger logger = LogsCenter.getLogger(MoveStudentToGroupCommand.class);
 
-    /** The source path from which the student is to be moved */
     private final AbsolutePath source;
 
-    /** The destination path to which the student is to be moved */
     private final AbsolutePath dest;
 
     /**
