@@ -1039,8 +1039,6 @@ to keep track of past events without worry!
 you could use the following command when you are in the directory `~/grp-001`,
   - `deadline 0001Y --desc resubmit Assignment 1 --datetime 2023-10-11 23:59`
 
-<div style="page-break-after: always;"></div>
-
 <box type="tip">
 
 When you have a task, `Project 1 submission` with a deadline to be allocated to **all your groups**, 
