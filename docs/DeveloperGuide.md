@@ -143,6 +143,8 @@ Here's a (partial) class diagram of the `Logic` component:
 
 <puml src="diagrams/LogicClassDiagram.puml" width="650"/>
 
+<div style="page-break-after: always;"></div>
+
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("rmt 1")` API call
 as an example.
 `rmt` is the command word for DeleteTaskCommand class. By executing the command `rmt 1`, tha task with index number 1
@@ -596,6 +598,8 @@ instance, this example should be general enough for you to understand how the ed
 as `Student`.
 
 <puml src="diagrams/EditCommandSequenceDiagram.puml" width="650" />
+
+<div style="page-break-after: always;"></div>
 
 This is an activity diagram showing the general activity of the edit command.
 
@@ -1254,7 +1258,7 @@ otherwise)
 * **Task Index**: Index of task shown on display of ProfBook after using `cat` command.
 
 <div style="page-break-after: always;"></div>
---------------------------------------------------------------------------------------------------------------------
+
 
 ## **Appendix: Instructions for manual testing**
 
