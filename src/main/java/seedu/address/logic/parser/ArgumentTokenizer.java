@@ -31,9 +31,7 @@ public class ArgumentTokenizer {
         String[] splitBySpace = argString.split(" ");
         for (String s : splitBySpace) {
             if (s.startsWith("-") || s.startsWith("--")) {
-                if (!s.matches("-?\\d+")) {
-                    list.add(s);
-                }
+                list.add(s);
             }
         }
         return list;

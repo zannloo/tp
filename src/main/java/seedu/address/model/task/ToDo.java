@@ -1,18 +1,23 @@
 package seedu.address.model.task;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.ui.TodoCard;
 
 /**
- * The ToDo class represents a deadline task for the ProfBook.
+ * The ToDo class represents a ToDo task for the ProfBook.
  * It extends the Task class and provides additional methods specific to ToDo tasks.
  */
 public class ToDo extends Task {
+    private static final Logger logger = LogsCenter.getLogger(ToDo.class);
 
     /**
      * Constructs a {@code ToDo} with given {@code description}.
      */
     public ToDo(String description) {
         super(description);
+        logger.info("Created ToDo: " + description);
     }
 
     /**
