@@ -691,7 +691,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 (For all use cases below, the **System** is the `ProfBook` and the **Professor** is the `user`, unless specified
 otherwise)
 
-**Use case: help**
+**Use case: User asks for help**
 
 **MSS**
 
@@ -700,22 +700,24 @@ otherwise)
 
    Use case ends.
 
+**Use case: User asks for help for a specific command**
+
+**MSS**
+
+1. User requests for help for a specific command.
+2. ProfBook displays help message for the command.
+
+   Use case ends.
+
 **Extensions**
 
-* 2a. User inputs help with specific command.
+* 1a. User inputs invalid command together with help.
 
-    * 2a1. ProfBook displays help message specific to input command
-
-      Use case ends.
-
-
-* 2b. User inputs invalid command together with help.
-
-    * 2b1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-**Use case: Cd into group**
+**Use case: Change directory to group**
 
 **MSS**
 
@@ -726,20 +728,20 @@ otherwise)
 
 **Extensions**
 
-* 2a. The path of the group is invalid.
+* 1a. The path of the group is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
   
 
-* 2b. No path provided.
+* 1b. No path provided.
   
-  * 2b1. ProfBook shows an error message.
+  * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-**Use case: ls to view children**
+**Use case: User requests to view children**
 
 **MSS**
 
@@ -750,15 +752,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. Provided path is invalid.
+* 1a. Provided path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. Command has no arguments.
+* 1b. Command has no arguments.
 
-    * 2b1. ProfBook shows list of children under current directory.
+    * 1b1. ProfBook shows list of children under current directory.
 
       Use case ends.
 
@@ -773,24 +775,34 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b1. No path specified.
 
-    * 2b1. Profbook displays task list of current path.
+* 1b. No path specified.
 
-      Use case ends.
+    * 1b1. Current path is root path
+  
+      * ProfBook shows an error message.
+
+        Use case resumes at step 1.
+        
+    * 1b2. Current path is not root path.
+  
+      *  Profbook displays task list of current path.
+
+         Use case ends.
+
 
 **Use case: Clear all entries**
 
 **MSS**
 
 1. User requests to delete all data stored in ProfBook.
-2. ProfBook deletes all data stored and displays updates to be empty.
+2. ProfBook deletes all data stored and display updates to be empty.
 
    Use case ends.
 
@@ -808,15 +820,15 @@ otherwise)
 **MSS**
 
 1. User requests to add a student.
-2. ProfBook deletes the person.
+2. ProfBook adds the student to the specified group.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The given parameters are invalid.
+* 1a. The given parameters are invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -831,15 +843,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. The specified path is invalid.
+* 1a. The specified path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. The given parameter is invalid.
+* 1b. The given parameter is invalid.
 
-    * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -854,10 +866,15 @@ otherwise)
 
 **Extensions**
 
+* 1a. The specified path is invalid.
 
-* 2a. The parameter to be changed is invalid.
+    * 1a1. ProfBook shows an error message.
 
-    * 2a1. ProfBook shows an error message.
+      Use case resumes at step 1.
+
+* 1b. The parameter to be changed is invalid.
+
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -873,9 +890,9 @@ otherwise)
 **Extensions**
 
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -890,9 +907,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given id is invalid.
+* 1a. User inputs command while not in tasklist display using `cat`
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1b. The given id is invalid.
+
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -907,15 +930,15 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given Student path is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. The given Student path is invalid.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
 
-* 2b. The given group path is invalid.
+* 1b. The given group path is invalid.
 
-    * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -930,15 +953,21 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given name of group is invalid.
+* 1a. The given name of group is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. The given path is invalid.
+* 1b. The given path is a duplicate of an existing one.
 
-  * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1c. The given path is invalid.
+
+  * 1c1. ProfBook shows an error message.
 
     Use case resumes at step 1.
 
@@ -953,33 +982,33 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2b. The given description is invalid.
+* 1b. The given description is invalid.
 
-    * 2b1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
        Use case resumes at step 1.
   
-* 2c. No path specified, user is in group directory.
+* 1c. No path specified, user is in group directory.
 
-    * 2c1. ProfBook creates ToDo for the group.
+    * 1c1. ProfBook creates ToDo for the group.
   
       Use case ends.
 
-* 2d. No path specified, user in root directory.
+* 1d. No path specified, user in root directory.
 
-    * 2d1. ProfBook shows an error message.
+    * 1d1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2e. User specifies `--all allStu` or `--all allGrp`.
+* 1e. User specifies `--all allStu` or `--all allGrp`.
 
-    * 2e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 1e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
@@ -994,39 +1023,39 @@ otherwise)
 
 **Extensions**
 
-* 2a. The given path is invalid.
+* 1a. The given path is invalid.
 
-    * 2a1. ProfBook shows an error message.
-
-      Use case resumes at step 1.
-
-* 2b. The given description is invalid.
-
-    * 2b1. ProfBook shows an error message.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2c. The given deadline date is invalid.
+* 1b. The given description is invalid.
 
-    * 2c1. ProfBook shows an error message.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2d. No path specified, user in root directory.
+* 1c. The given deadline date is invalid.
 
-    * 2d1. ProfBook creates Deadline for the group.
+    * 1c1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1d. No path specified, user in root directory.
+
+    * 1d1. ProfBook creates Deadline for the group.
 
       Use case ends.
 
-* 2e. No path specified, user in root directory.
+* 1e. No path specified, user in root directory.
 
-    * 2e1. ProfBook shows an error message.
+    * 1e1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 2f. User specifies `--all allStu` or `--all allGrp`.
+* 1f. User specifies `--all allStu` or `--all allGrp`.
 
-    * 2f1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 1f1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
@@ -1041,8 +1070,13 @@ otherwise)
 
 **Extensions**
 
-* 2a. The Index provided is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. User inputs command while not in tasklist display using `cat`
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1a. The Index provided is invalid.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -1057,8 +1091,13 @@ otherwise)
 
 **Extensions**
 
-* 2a. The Index provided is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. User inputs command while not in tasklist display using `cat`
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1a. The Index provided is invalid.
+    * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -1073,8 +1112,13 @@ otherwise)
 
 **Extensions**
 
-* 2a. The Index provided is invalid.
-    * 2a1. ProfBook shows an error message.
+* 1a. User inputs command while not in tasklist display using `cat`
+    * 1a1. ProfBook shows an error message.
+
+      Use case resumes at step 1.
+
+* 1b. The Index provided is invalid.
+    * 1b1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -1084,7 +1128,7 @@ otherwise)
 1. The application should be platform-independent and should run on all major operating systems as long as it has
    Java `11` or above installed.
 2. The system should work on both 32-bit and 64-bit environments.
-3. ProfBook Jar size should not exceed 100MB.
+3. ProfBook Jar size should not exceed 1GB.
 4. ProfBook should be capable of running on various local environments without dependencies on external servers or services.
 
 **Performance requirements:**
@@ -1112,12 +1156,8 @@ otherwise)
 * **Gradle**: Gradle is a build automation tool for multi-language software development. Installation [here](https://gradle.org/install/).
 * **CLI**: Command Line Interface, a text-based interface for interacting with a computer program.
 * **Architecture Diagram**: A high-level diagram explaining the design architecture of the ProfBook application.
+* **Class Diagram**: A visual representation depicting the structure and relationships between classes in the ProfBook application, illustrating attributes, methods, associations, and inheritance.
 * ***Folder structure***: The organization of directories and subdirectories within ProfBook to represent the hierarchy.
-* **UI component**: Manages the user interface of the application, interacting with the Logic component. 
-* **Logic component**: Executes user commands, communicates with the Model, and manages the application's logic. 
-* **Model component**: Stores and manages ProfBook data, including information about root, groups, and students. 
-* **Parser component**: Handles the interpretation of the users input.
-* **Storage component**: Handles the storage and retrieval of ProfBook data, interacting with the Model component.
 * **Common classes**: Classes shared among multiple components in the ProfBook application.
 * **Root**: Directory which contains all groups.
 * **Group**: Directory which contains Students within the specific group.
