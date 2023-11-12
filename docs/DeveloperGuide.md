@@ -160,6 +160,8 @@ will be deleted.
 
 </box>
 
+<div style="page-break-after: always;"></div>
+
 How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `ProfBookParser` object which in turn creates a
@@ -189,7 +191,6 @@ How the parsing works:
 **API** : [`Model.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/src/main/java/seedu/address/model/Model.java)
 
 <puml src="diagrams/ModelClassDiagram.puml" width="550" />
-
 
 The `Model` component,
 
@@ -229,6 +230,8 @@ How the `Task` component work:
   utilised heavily in the ProfBook component.
 * All tasks extend from the abstract class `Task`, we did this for extensibility. So in the future, should we decide
   to implement a new type of task, all we have to do is extend from `Task`.
+
+<div style="page-break-after: always;"></div>
 
 The sequence diagram below illustrates the interactions within the `Model` component, taking an execution of a
 `CreateTodoCommand` as example. As the behaviour of `CreateTodoCommand` is rather dynamic, in our example,
