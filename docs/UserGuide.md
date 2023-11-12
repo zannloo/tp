@@ -219,10 +219,7 @@ Flags usually **come before** essential details required by the command and are 
 * `--address` / `-a` followed by the address of student.
 - `--id` / `-i` followed by a `STUDENT_ID` or `GROUP_ID` as specified by the command.
 * `--desc` / `-d` followed by the description of task specified by command.
-- `--datetime` / `-dt` followed by the due date of a deadline task in the `yyyy-MM-dd HH:mm` format. 
-
-<div style="page-break-after: always;"></div>
-
+- `--datetime` / `-dt` followed by the due date of a deadline task in the `yyyy-MM-dd HH:mm` format.
 * `--all` / `-al` followed by either: 
   - `allStu` which adds **individual** tasks to all students within the specified directory.
     - Can only be used at a group or root directory.  
@@ -230,6 +227,7 @@ Flags usually **come before** essential details required by the command and are 
       - If used at **root directory**, task will be added to **all students in ProfBook**.
   - `allGrp` which adds **group** tasks to all groups within the root directory.
     - Can only be used at root directory.
+<div style="page-break-after: always;"></div>
 - `--help` / `-h`
   - Use with any command (except `exit`, `help` and `clear`) for more information.
   - e.g. `touch --help` to learn more about how to add a student to ProfBook.
@@ -267,6 +265,8 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y`.
 - Must be a non-empty string that only contain alphanumeric characters and spaces.
 - This means that you cannot input a blank field. 
 
+<div style="page-break-after: always;"></div>
+
 `EMAIL`:
 - Must be a non-empty string following the format of `local-part@domain`.
   - `local-part`:
@@ -289,16 +289,13 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y`.
 `GROUP_ID`:
 - Must follow the format of a valid GroupId.
 
-  <box type="info">
+<box type="info">
 
 **Required format for GroupId:**
 - `grp-XXX` where `XXX` is replaceable with any 3-digit whole number.
   - **Note:** GroupId is case-insensitive, meaning `GrP-001` and `Grp-002` are also acceptable.
   * eg. `grp-001`
-
-    </box>
-  
-<div style="page-break-after: always;"></div>
+</box>
 
 `STUDENT_ID`:
 - Must follow the format of a valid StudentId.
@@ -313,7 +310,9 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y`.
   * eg. `8467U`
   
     </box>
-  
+
+<div style="page-break-after: always;"></div>
+
 `DESCRIPTION`:
 - Must be a non-empty string, which means you cannot input a blank field. 
 
@@ -711,8 +710,6 @@ One or more fields can be edited in a single command.
 at the directory `~/grp-001`, to make the necessary changes. 
   - `edit 0010Y --phone 91919191`
 
-<div style="page-break-after: always;"></div>
-
 <box type="tip">  
 
 When you are at the root directory `~/` and would like to edit the same student's phone number,
@@ -776,7 +773,7 @@ to root directory.
 <box type="tip">  
 
 When you are at the root directory `~/` and would like to edit the same group's name,
-- You could use the command `edit ~/grp-001 --name Amazing Group1` to save yourself the trouble from having to change
+- You could use `edit ~/grp-001 --name Amazing Group1` to save yourself the trouble from having to change
   directory before executing the `edit` command!
 </box>
 
@@ -1047,12 +1044,13 @@ you could use the following command at the root directory, `~/`,
 
 </box>
 
+<div style="page-break-after: always;"></div>
+
 ### <span style="color: #FF8C00;">Mark Task as Completed: `mark` </span>
 
 Marks the specified task as done for the specified student or group. 
 
 **Format:** `mark TASK_INDEX`
-
 
 <box type="success" seamless>
 
