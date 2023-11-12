@@ -20,7 +20,7 @@ Given below are my contributions to the project.
 
 * **Designed the ProfBook folder structure**:
   * This folder structure allows our target users to organise their groups and students in an intuitive way
-  * justification:
+  * Justification:
     * The folder structure closely mimics the natural hierarchy that our target user are familiar to.
     * Such a structure would allow us to create more tailor-fit features such as Dynamic command and terminal-like
       structure.
