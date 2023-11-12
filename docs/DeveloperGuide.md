@@ -794,7 +794,8 @@ otherwise)
   
       *  Profbook displays task list of current path.
 
-      Use case ends.
+         Use case ends.
+
 
 **Use case: Clear all entries**
 
