@@ -569,6 +569,7 @@ Shows a message of the commands you could use.
 <br>
 <br>
 <br>
+
 ### <span style="color: #FF8C00;">Clear all Entries : `clear` </span>
 
 Clears all entries from ProfBook.
@@ -590,6 +591,7 @@ students and groups, making way for the addition of new students.
 <br>
 <br>
 <br>
+
 ### <span style="color: #FF8C00;">Exit ProfBook : `exit` </span>
 
 Exits the program.
