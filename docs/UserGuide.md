@@ -180,19 +180,18 @@ within each group.
 
 ### ProfBook Command Format
 
-- Words in `UPPER_CASE` are the compulsory parameters to be supplied by you.
+- Words in `UPPER_CASE` are the **compulsory** parameters to be supplied by you.
   * e.g. In `touch SPECIFIED_PATH -n NAME`, `SPECIFIED_PATH` and the other field in `UPPER_CASE` can be substituted 
   with the desired details to form `touch 2000Y --name Bob`.
-* Words in `UPPER_CASE` that are surrounded by `[square brackets]` are optional parameters to be supplied by you.
+* Words in `UPPER_CASE` that are surrounded by `[square brackets]` are **optional** parameters to be supplied by you.
   * e.g. In `cat [SPECIFIED_PATH]`, `[SPECIFIED_PATH]` can be substituted with details or left empty, 
       `cat 2000Y` and `cat` are acceptable commands.
 - Parameters can be in any order.
   * e.g. If the command specifies `-n NAME -e EMAIL`, `-e EMAIL -n NAME` is also acceptable.
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be  
-  ignored. 
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored. 
   * e.g. If the command specifies `help 123`, it will be interpreted as `help`.
-- Regarding detection of duplicates,
-  - **For `Student` and `Group`**, duplicates can only be detected if they share the same StudentId or GroupId respectively
+- Regarding the detection of duplicates,
+  - **For students and groups**, duplicates can only be detected if they share the same StudentId or GroupId respectively
   across ProfBook. 
   - **For Todo tasks**, duplicates can only be detected if the todo tasks share the same
       description (`DESCRIPTION`).
@@ -214,13 +213,13 @@ multiple lines as space characters surrounding line-breaks may be omitted when c
 All flags begin with `--` or `-`.
 Flags usually **come before** essential details required by the command and are compatible in both long and short forms:
 
-- `--name` / `-n` followed by name of student or group as specified by command.
-* `--email` / `-e` followed by email of student. 
-- `--phone` / `-p` followed by phone number of student.
-* `--address` / `-a` followed by address of student.
+- `--name` / `-n` followed by the name of student or group as specified by command.
+* `--email` / `-e` followed by the email of student. 
+- `--phone` / `-p` followed by the phone number of student.
+* `--address` / `-a` followed by the address of student.
 - `--id` / `-i` followed by a `STUDENT_ID` or `GROUP_ID` as specified by the command.
-* `--desc` / `-d` followed by description of task specified by command.
-- `--datetime` / `-dt` followed by due date of a deadline task in the `yyyy-MM-dd HH:mm` format. 
+* `--desc` / `-d` followed by the description of task specified by command.
+- `--datetime` / `-dt` followed by the due date of a deadline task in the `yyyy-MM-dd HH:mm` format. 
 
 <div style="page-break-after: always;"></div>
 
@@ -239,15 +238,15 @@ Flags usually **come before** essential details required by the command and are 
 
 `SPECIFIED_PATH`:
 - Must be a **valid** path. 
-- Most commands will require `SPECIFIED_PATH` to be a present path (path that currently exists within ProfBook)
-except for [`touch`](#add-a-student-touch) and [`mkdir`](#add-a-goup-mkdir) commands.
+- Most commands will require the `SPECIFIED_PATH` to be a present path (path that currently exists within ProfBook)
+except for the [`touch`](#add-a-student-touch) and [`mkdir`](#add-a-goup-mkdir) commands.
 
-| **Symbol** | **Purpose of symbol**                                                                                                                                                                            |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `..`       | Step up one level from the current directory. <br> e.g. when executing [`cd ..`](#change-directory-cd) at the group directory, you will move up to the root directory.                           |
-| `.`        | Stays as current directory.                                                                                                                                                                      |
-| `/`        | Between every type of directory (Root, Group and Student), it will be separated by `/`. <br> This format ensures a clear and consistent representation, aligning with the familiar Linux command. |
-|`~`| Represents the root directory.                                                                                                                                                                   | 
+| **Symbol** | **Purpose of symbol**                                                                                                                                                                                 |
+|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `..`       | Step up one level from the current directory. <br> e.g. when executing [`cd ..`](#change-directory-cd) at the group directory, you will move up to the root directory.                                |
+| `.`        | Stays as current directory.                                                                                                                                                                           |
+| `/`        | Between every type of directory (Root, Group and Student), it will be separated by `/`. <br> This format ensures a clear and consistent representation, which aligns with the familiar Linux command. |
+|`~`| Represents the root directory.                                                                                                                                                                        | 
 
 <box type="info">
 
@@ -256,7 +255,7 @@ commence from the root directory, `~/`, and define your path as the route leadin
 
 Kindly note that **direct navigation between directories of the same type is not permitted**. 
 You would need to navigate up by at least one directory before moving to the desired directory. <br>
-e.g. use `../grp-001` to navigate to root directory first before the navigating to the `grp-001` group directory 
+e.g. use `../grp-001` to navigate up to the root directory first before navigating to the `grp-001` group directory 
 from another group directory. 
 
 Additionally, **skipping directories between other directories is not allowed**. For instance, to navigate from the root directory
@@ -295,7 +294,7 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y`.
 <box type="info">
 
 **Required format for StudentId:**
-- Must be in the format `XXXXa` where `XXXX` is replaceable with any 4-digit number and `a` is replaceable with any alphabet.
+- `XXXXa` where `XXXX` is replaceable with any 4-digit whole number and `a` is replaceable with any alphabet.
   - **Note:** StudentId here corresponds to the last 5 place of an NUS student's matriculation number and is not
     a StudentId created by you. This format helps you to identify students easily while maintaining
     privacy and security.
@@ -309,8 +308,8 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y`.
   <box type="info">
 
 **Required format for GroupId:**
-- Must be in the format `grp-XXX` where `XXX` is replaceable with any 3-digit number.  
-- GroupId is case-insensitive, meaning `GrP-001` and `Grp-002` are also acceptable. 
+- `grp-XXX` where `XXX` is replaceable with any 3-digit whole number.  
+  - **Note:** GroupId is case-insensitive, meaning `GrP-001` and `Grp-002` are also acceptable. 
   * eg. `grp-001`
 
     </box>
@@ -344,7 +343,7 @@ interactions with the graphical components to mainly scrolling via scrollbars.
 
 ### Root Directory 
 Upon launching ProfBook, you will see the root directory as illustrated below.
-![Ui](images/rootdirectoryimage.png){width=1600 height=900}
+![Ui](images/rootdirectoryimage.png){width=2880 height=1800}
 
 |**Component name** |  **Description**   |
 |--|-----|
@@ -366,7 +365,7 @@ Upon launching ProfBook, you will see the root directory as illustrated below.
 ### Group Directory, `grp-001`
 When you navigate to the group directory, `grp-001`, using `cd grp-001`, your interface should resemble
   the following.
-  ![Ui](images/groupdirectoryimage.png){width=1600 height=900}
+  ![Ui](images/groupdirectoryimage.png){width=2880 height=1800}
 |**Component name** |  **Description**   |
 |--|-----|
 |**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001`.|
@@ -376,7 +375,7 @@ When you navigate to the group directory, `grp-001`, using `cd grp-001`, your in
 
 ### Task List of Group Directory, `grp-001`
 To view the task list of the current group directory, simply use `cat`.
-![Ui](images/listimage.png){width=1600 height=900}
+![Ui](images/listimage.png){width=2880 height=1800}
 |**Component name** |  **Description**   |
 |--|-----|
 |**Current Directory Display**  |   Displays your current directory. <br> In this case, you are in the group directory, `~/grp-001`.|
@@ -443,13 +442,15 @@ will indicate that you are already in the directory.
 </box>
 
 #### Example(s):
+- When you are at the root directory `~/` and would like to take a look at the group directory, `~/grp-001`,
+  -  `cd grp-001` changes your directory to `grp-001`.
 - When you are at the directory `~/grp-001` and would like to change directory from `grp-001` to `grp-002` you could
 use,
   -  `cd ../grp-002` ->  use `..` to navigate up to the root directory before proceeding to the `grp-002` directory. <br>
 
 <box type="info">
   
-  ![Ui](images/beforeaftercd.png){width=598 height=203} <br>
+  ![Ui](images/beforeaftercd.png){width=1196 height=406} <br>
   Other than checking the **Message Display Column** to ensure that the command has been executed successfully,
   you could always look at the **Current Directory Display** in the top left corner of the window. <br>
   In the image above, you can easily see that the current directory has been switched from
@@ -506,7 +507,7 @@ Displays a message indicating either:
 
 <div style="page-break-after: always;"></div>
 
-### <span style="color: #FF8C00;">Display all tasks: `cat` </span>
+### <span style="color: #FF8C00;">Display all Tasks: `cat` </span>
 
 Displays all tasks in the specified directory.
 
@@ -543,27 +544,27 @@ Displays a message indicating either:
 </box>
 
 #### Example(s):
-- When you are at the directory `~/grp-001` and would like to see all tasks allocated to `grp-001`,
-  - `cat` will return all the tasks allocated to `grp-001`.
+- When you are at the directory `~/grp-001` and would like to see all tasks allocated to <br>`grp-001`,
+  - executing `cat` will return all the tasks allocated to `grp-001`.
   - Result shown will be similar to [this](#task-list-of-group-directory-grp-001).
 
 <box type="tip">
 
-If you are at the directory `~/grp-001` and would like take a quick look of the tasks allocated to student with StudentId `0010Y`
+If you are at the directory `~/grp-001` and would like take a quick look of the tasks allocated to student with the StudentId `0010Y`
 (`0010Y` is within `grp-001`),
-- `cat 0010Y` will return all the tasks allocated to student with StudentId `0010Y`.
+- `cat 0010Y` will return all the tasks allocated to student with the StudentId `0010Y`.
 
 </box>
 
 <div style="page-break-after: always;"></div>
 
-### <span style="color: #FF8C00;">View help : `help` </span>
+### <span style="color: #FF8C00;">View Help : `help` </span>
 
 Shows a message of the commands you could use.
 
 **Format:** `help`
 
-### <span style="color: #FF8C00;">Clear all entries : `clear` </span>
+### <span style="color: #FF8C00;">Clear all Entries : `clear` </span>
 
 Clears all entries from ProfBook.
 
@@ -581,7 +582,7 @@ This command is particularly valuable at the beginning of a new semester when yo
 students and groups, making way for the addition of new students. 
 </box>
 
-### <span style="color: #FF8C00;">Exit the program : `exit` </span>
+### <span style="color: #FF8C00;">Exit ProfBook : `exit` </span>
 
 Exits the program.
 
@@ -602,7 +603,7 @@ positioned in the top-left corner of the window.
 
 ## Student or Group Commands :family:
 
-### <span style="color: #FF8C00;">Add a student: `touch` </span>
+### <span style="color: #FF8C00;">Add Student: `touch` </span>
 
 Adds a student into the specified group directory.
 
@@ -642,7 +643,7 @@ the specified path must extend to encompass both the group and the student to en
 
 #### Example(s):
 
-- When you are at the directory `~/grp-001`, you could add a new student named Bob with StudentId `0200Y`
+- When you are at the directory `~/grp-001`, you could add a new student named Bob with the StudentId `0200Y`
 to this group through the following command,
   - `touch 0200Y --name Bob`
 
@@ -666,7 +667,7 @@ When you are at the group directory `~/grp-001` and would like to add the same s
 
 <div style="page-break-after: always;"></div>
 
-### <span style="color: #FF8C00;">Edit a Student: `edit` </span>
+### <span style="color: #FF8C00;">Edit Student: `edit` </span>
 
 <box type="warning">
 
@@ -706,7 +707,7 @@ One or more fields can be edited in a single command.
 
 #### Example(s):        
   
-- If a student in `grp-001` of StudentId `0010Y` changes his phone number, you could execute the following command 
+- If a student in `grp-001` with the StudentId `0010Y` changes his phone number, you could execute the following command 
 at the directory `~/grp-001`, to make the necessary changes. 
   - `edit 0010Y --phone 91919191`
 
@@ -721,7 +722,7 @@ directory before executing the `edit` command!
 
 <div style="page-break-after: always;"></div>
 
-### <span style="color: #FF8C00;">Edit a Group: `edit` </span>
+### <span style="color: #FF8C00;">Edit Group: `edit` </span>
 <box type="warning">
 
 The `edit` command uses the same command word, `edit`, for both editing students and groups.
@@ -812,12 +813,12 @@ Removes a student or group from the specified path.
 
 #### Example(s):
 
-- When you are at the root directory `~/` and would like to remove the group, `grp-001`,
+- When you are at the root directory `~/` and would like to remove the group with the GroupId `grp-001`,
     - `rm grp-001` will remove `grp-001`.
 
 <box type="tip">
 
-When you are at the root directory `~/` and would like to remove the student with the StudentId, `0123Y`,
+When you are at the root directory `~/` and would like to remove the student with the StudentId `0123Y`,
 in `~/grp-001`,
 - You could use the command `rm ~/grp-001/0123Y` to save yourself the hassle of having to change directory!
 
@@ -861,12 +862,12 @@ Moves student from one group to another group.
 
 #### Example(s):
 - In the beginning of the semester, student transfers amongst groups are common. When you are at the root directory 
-`~/` you could move a student, `0123Y`, from `grp-001` to `grp-002` through this command easily,
+`~/`, you could move a student with the StudentId `0123Y`, from `grp-001` to `grp-002` through this command easily,
   - `mv grp-001/0123Y grp-002`
 
 <box type="tip">
 
-When you are at the directory `~/grp-001` and would like to move a student, `0123Y`, to `grp-002` without changing to the 
+When you are at the directory `~/grp-001` and would like to move a student with the StudentId `0123Y` to `grp-002` without changing to the 
 root directory,
 - You could use the command `mv 0123Y ../grp-002`!
 
@@ -911,7 +912,7 @@ This means that addition of groups under another group directory is not allowed.
 
 #### Example(s):
 
-- When you are at the root directory `~/` and would like to add a new group with GroupId `grp-001`,
+- When you are at the root directory `~/` and would like to add a new group with the GroupId `grp-001`,
   - `mkdir grp-001 --name Group 001` to add a new group named `Group 001`.
 
 ---
@@ -978,7 +979,7 @@ Else, the command will create a todo task for the group at current directory.
 
 #### Example(s):
 
-- When a specific student, `0010Y`, has to redo his tutorial, you could use the following command when you are in the directory 
+- When a specific student with the StudentId `0010Y` has to redo his tutorial, you could use the following command when you are in the directory 
 `~/grp-001` to allocate the task to just this student,
     - `todo 0001Y --desc Redo tutorial`
 
@@ -1034,7 +1035,7 @@ to keep track of past events without worry!
 
 #### Example(s):
 
-- When a specific student has to hand in his assignment again by a certain date, 
+- When a specific student with the StudentId `0010Y` has to hand in his assignment again by a certain date, 
 you could use the following command when you are in the directory `~/grp-001`,
   - `deadline 0001Y --desc resubmit Assignment 1 --datetime 2023-10-11 23:59`
 
@@ -1084,13 +1085,13 @@ When using this command, you will first need to [`cat`](#display-all-tasks-cat) 
 #### Example(s):
 
 - When you find yourself in the `~/grp-001` directory and wish to mark the completion of the first task 
-allocated to student with StudentId, `0123Y`, you could follow these commands in sequential order.
+allocated to student with the StudentId `0123Y`, you could follow these commands in sequential order.
   1. `cat 0123Y`
   1. `mark 1`
 
 <box type="info">
 
-![Ui](images/markcommand.png){width=709.5 height=296.5}
+![Ui](images/markcommand.png){width=2838 height=1186}
 Did you observe the difference in the **Task Status Box** between the 2 pictures? <br>
 The first image shows the outcome when you execute `cat 0123Y`, whereas the second image shows
 the outcome of the execution of  `mark 1`. <br>
@@ -1176,7 +1177,7 @@ is at before executing `rmt`.
 
 #### Example(s):
 - When you are at the `~/grp-001` directory and no longer want to keep track of the first task 
-allocated to student with StudentId, `0123Y`, you could always remove this task by following these 
+allocated to student with the StudentId `0123Y`, you could always remove this task by following these 
 commands in sequential order.
   1. `cat 0123Y`
   2. `rmt 1`
