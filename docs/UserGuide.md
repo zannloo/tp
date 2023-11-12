@@ -228,6 +228,9 @@ Flags usually **come before** essential details required by the command and are 
       - If used at **root directory**, task will be added to **all students in ProfBook**.
   - `allGrp` which adds **group** tasks to all groups within the root directory.
     - Can only be used at root directory.
+
+<div style="page-break-after: always;"></div>
+
 - `--help` / `-h`
   - Use with any command (except `exit`, `help` and `clear`) for more information.
   - e.g. `touch --help` to learn more about how to add a student to ProfBook.
