@@ -9,6 +9,8 @@ pageNav: 3
 <!-- * Table of Contents -->
 <page-nav-print />
 
+<div style="page-break-after: always;"></div>
+
 ## **Introduction**
 
 ProfBook is a tool tailored to helping specifically CS2103T professors and Teaching Assistants(TA) in managing
@@ -102,6 +104,8 @@ implementation of a component), as illustrated in the (partial) class diagram be
 
 The sections below give more details of each component.
 
+<div style="page-break-after: always;"></div>
+
 ### UI component
 
 The **API** of this component is specified
@@ -128,6 +132,8 @@ The `UI` component,
 * depends on some classes in the `Model` component, as it
   displays [`Displayable`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/Displayable.java)
   object residing in the `Model`.
+
+<div style="page-break-after: always;"></div>
 
 ### Logic component
 
@@ -174,6 +180,8 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `EditCommandParser`, `HelpCommandParser`, ...) inherit from the `Parser`
   interface so that they can be treated similarly where possible e.g, during testing.
 
+<div style="page-break-after: always;"></div>
+
 ### Model component
 
 **API** : [`Model.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/src/main/java/seedu/address/model/Model.java)
@@ -204,6 +212,8 @@ The diagram above shows how the folder structure is implemented in ProfBook,
 * `ChildrenManager` manages the children which is of type `IChildElement`.
 * We also created a wrapper class (e.g. `ChildrenAndTaskListManager`) for classes that require both of those
   aforementioned functionalities (e.g, `Group` and potentially in the future `TutorialSlot`).
+
+<div style="page-break-after: always;"></div>
 
 ##### Task sub-package
 
@@ -241,6 +251,8 @@ to check that the Operation required matches with the intended effect of the Com
 
 </box>
 
+<div style="page-break-after: always;"></div>
+
 #### Path sub-package
 
 **API** : [`Path.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/path/Path.java)
@@ -266,6 +278,8 @@ Here is a class diagram for the path package:
       `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path
       `~/grp-002`.
 
+<div style="page-break-after: always;"></div>
+
 ### Storage component
 
 **API** : [`ProfBookStorageManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/ProfBookStorageManager.java)
@@ -283,6 +297,8 @@ The `Storage` component,
 ### Common classes
 
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
+
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -343,6 +359,8 @@ To further illustrate our folder structure, we have prepared this diagram
 * **Alternative 2**: List.
     * Pros: Very easy to implement.
     * Cons: Finding a student/group is very inefficient, updating references is also a hassle.
+
+<div style="page-break-after: always;"></div>
 
 ### Adding a student/group
 
@@ -408,6 +426,8 @@ Below is an activity diagram showing the general activity of the add student com
     * Pros: Easier implementation, there is less need for checking optional field.
     * Cons: All information about a student/group must be readily present before creating it, which is not always the
       case.
+
+<div style="page-break-after: always;"></div>
 
 ### Creating a task
 
@@ -515,7 +535,9 @@ This is an activity diagram showing the general activity of the add deadline com
 * **Alternative 2**: Yes.
     * Pros: Able to change all task's state in one short.
     * Cons: Unable to uniquely change a specific tasks without affecting other task, aliasing issue.
-  
+
+<div style="page-break-after: always;"></div>
+
 ### Editing information
 
 #### Implementation
@@ -586,6 +608,8 @@ This is an activity diagram showing the general activity of the edit command.
     * Pros: Easier to implement, it is also more intuitive for users
     * Cons: More commands for user to remember, future additions would prove to be a hassle
 
+<div style="page-break-after: always;"></div>
+
 ### Moving students between groups
 
 #### Implementation
@@ -609,6 +633,8 @@ Given below is an example usage scenario whereby a student is moved from group1 
    executing.
 
 <puml src="diagrams/MoveStudentSequenceDiagram.puml" width="750" />
+
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -661,6 +687,7 @@ Currently, our hierarchy only extends to `Group`. To serve our target users bett
 Implementing this is rather easy as `TutorialSlot` would in theory be almost identical to the implementation of `Group`,
 all `TutorialSlot` have to do is just extend from `ChildrenAndTaskListManager`. 
 
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -673,6 +700,8 @@ all `TutorialSlot` have to do is just extend from `ChildrenAndTaskListManager`.
 * [DevOps guide](DevOps.md)
 
 --------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
 
 ## **Appendix: Requirements**
 
@@ -731,6 +760,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`            | Expert user      | incorporate my own scripts to customise my own experience                                                     | I can improve productivity and tailor fit the software for myself             |
 | `*`            | Expert user      | make the program support customizable templates for tutorials and student profiles                            | I can make it more aesthetically pleasing                                     |
 | `*`            | Expert user      | make use of the feature to archive certain task                                                               | I can keep track of the history and not focus on unimportant task.            |
+
+<div style="page-break-after: always;"></div>
 
 ### Use cases
 
@@ -1168,6 +1199,8 @@ otherwise)
 
       Use case resumes at step 1.
 
+<div style="page-break-after: always;"></div>
+
 ### Non-Functional Requirements
 
 **Technical requirements:**
@@ -1193,6 +1226,8 @@ otherwise)
 1. Should work without an internet connection.
 2. Should be able to support frequent updating of data.
 
+<div style="page-break-after: always;"></div>
+
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, OS-X.
@@ -1213,7 +1248,7 @@ otherwise)
 * **ToDo Task**: A type of task with no specific deadline, representing things to do.
 * **Task Index**: Index of task shown on display of ProfBook after using `cat` command.
 
-
+<div style="page-break-after: always;"></div>
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Instructions for manual testing**
@@ -1558,7 +1593,7 @@ need to change according to your current directory. More information can be foun
     - Test case: `clear`
       Expected: An empty `profbook.json` file like [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/empty.json)).
 
-<br>
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
