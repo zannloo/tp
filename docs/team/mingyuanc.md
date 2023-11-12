@@ -16,7 +16,6 @@ Given below are my contributions to the project.
 
 [RepoSense link](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=w15&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code&since=2023-09-22&tabOpen=true&tabType=authorship&tabAuthor=mingyuanc&tabRepo=AY2324S1-CS2103T-W15-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false).
 
-
 ### Features Contribution
 
 * **Designed the ProfBook folder structure**:
@@ -29,7 +28,6 @@ Given below are my contributions to the project.
     * Deep understanding of OOP principals was needed to craft classes generic yet robust enough to capture the 
       behaviour of each hierarchy. This proved to be difficult as in-depth analysis of design alternative were required
     * Implementation was challenging as it was hard to integrate with our dynamic commands.
-
 
 ### Classes Contribution
 
@@ -54,7 +52,7 @@ Given below are my contributions to the project.
   * Encapsulates the required information to uniquely represent a student.
 
 * **Introduced `Group` Class**
-  * Encapsulates the required information to uniquely represent a group within tutorial group.
+  * Encapsulates the required information to uniquely represent a group in a tutorial slot.
 
 * **Introduced `Root` Class**
   * Encapsulates the required information to represent the whole application.
@@ -95,7 +93,7 @@ Given below are my contributions to the project.
     * Migrated old documents to follow ProfBook new requirements and style.
     * Updated introduction paragraphs .
     * Proofread peer's contributions and performed changes for a more seamless reading experience.
-    * Performed final checks before submitting.
+    * Performed final checks before submission.
 * **Feature Aspects:**
     * Wrote and create UML for `Model` component including it subpackages such as:
       * `ProfBook`
