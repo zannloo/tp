@@ -82,11 +82,13 @@ Given below are my contributions to the project.
 * **Non-Feature Aspects**
   * Transferred initial command description from Google documents into Markdown format.
   * Provided skeleton format for each command so that teammates are able to more efficiently populate their features.
-  * Wrote the overview of the whole project.
-  * Wrote the overview for all three of our main features.
+  * Wrote the overview of the whole project and three of our main features.
+  * Wrote guides on how input flag works.
   * Updated the command summary page.
 * **Feature Aspects:**
-  * `ls` command.
+  * `ls` command
+  * `cat` command
+  * `help` command
 
 ### Developer Guide Contributions
 * **Non-Feature Aspects**
