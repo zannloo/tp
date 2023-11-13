@@ -13,41 +13,16 @@ ProfBook is a desktop address book application used for easy management of tasks
 
 ### Class Enhancements:
 
-1. **Introduced `CreateGroupCommand` Class**:
-   - Creates a group under the root directory.
-   - Ensure the expected behaviour with regard to creating a group.
-     - No duplicate groups with the same GroupId across the whole ProfBook.
-     - Every group is identified by their Unique ID.
-     - Command format is valid.
-
-
-2. **Introduced `MoveStudentToGroupCommand` Class**:
-   - Moves student from one group to another group.
-   - Ensure the expected behaviour with regard to moving a student.
-     - Paths to both source group and destination group are valid.
-     - Source group exists in ProfBook and consists of the student to be moved.
-     - Destination group exists in ProfBook.
-     - Command format is valid.
-
-
-3. **Introduced `EditCommand` Class**:
-   - Edits a student's details including name, email, phone, address or StudentId in the specified path.
-   - Edits a group's name or GroupId in the specified path.
-   - Ensure the expected behaviour with regard to editing a student/group field(s).
-     - The group to be edited exists in ProfBook.
-     - Must have at least one field being changed
-     - If editing the id of a student/group, the updated id should not be used by other student/group respectively.
-     - Command format is valid.
-
-
-4. **Introduced `EditGroupDescriptor` Class**:
+1. **Introduced `EditGroupDescriptor` Class**:
    - Represents the descriptor for editing the details of a group.
    - Helps to track which group's field that the user wanted to edit.
+   - Similar to AB3 `EditPersonDescriptor` class.
 
 
-5. **Introduced `EditStudentDescriptor` Class**:
+2. **Introduced `EditStudentDescriptor` Class**:
    - Represents the descriptor for editing the details of a student in a group.
    - Helps to track which student's field that the user wanted to edit.
+   - Similar to AB3 `EditPersonDescriptor` class.
 
 ### Enhancements to existing features:
 
