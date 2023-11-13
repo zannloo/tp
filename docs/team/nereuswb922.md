@@ -58,7 +58,6 @@ coming soon
 - Set up a **GitHub project** to manage issues related to user stories and tasks.
 - Setup **project website deployment**.
 - Integrated **Netlify** to enable automatic deployments of our PR previews.
-- Integrated **Codecov** to automate code coverage assessment of PR.
 - Wrapped up milestone v1.1 and released JAR file.
 - Recorded video for v1.2 demo.
 - Migrated documentation to **MarkBind** with initial site-wide configuration.
