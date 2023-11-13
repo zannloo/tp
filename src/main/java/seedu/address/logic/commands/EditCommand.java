@@ -26,8 +26,6 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
-    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
-
     public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
 
     public static final String MESSAGE_USAGE =
@@ -49,10 +47,10 @@ public class EditCommand extends Command {
             + "Examples: \n"
             + "edit grp-001 -n Perfect Group \n"
             + "edit grp-001 -i grp-002";
+
     public static final String MESSAGE_EDIT_GROUP_SUCCESS = "Field(s) of group has been edited successfully.";
 
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Field(s) of student has been edited successfully.";
-
 
     public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Root directory cannot be edited.";
 
@@ -73,13 +71,15 @@ public class EditCommand extends Command {
 
     public static final EditCommand HELP_MESSAGE = new EditCommand() {
         @Override
-        public CommandResult execute(Model model) throws CommandException {
+        public CommandResult execute(Model model) {
             return new CommandResult(MESSAGE_USAGE);
         }
     };
 
     private final AbsolutePath target;
+
     private final EditGroupDescriptor editGroupDescriptor;
+
     private final EditStudentDescriptor editStudentDescriptor;
 
     /**
@@ -163,16 +163,7 @@ public class EditCommand extends Command {
         }
 
         rootOperation.updateChild(groupId, editedGroup);
-
-        // If edited group is current path, need to redirect with new Id.
-        if (target.equals(model.getCurrPath())) {
-            try {
-                model.changeDirectory(model.getCurrPath().resolve(RelativePath.PARENT));
-                model.changeDirectory(model.getCurrPath().resolve(new RelativePath(editedGroup.getId().toString())));
-            } catch (InvalidPathException e) {
-                throw new IllegalArgumentException("Internal Error: " + e.getMessage());
-            }
-        }
+        redirect(model, editedGroup);
 
         model.updateList();
 
@@ -207,6 +198,18 @@ public class EditCommand extends Command {
         model.updateList();
 
         return new CommandResult(MESSAGE_EDIT_STUDENT_SUCCESS);
+    }
+
+    private void redirect(Model model, Group editedGroup) {
+        // If edited group is current path, need to redirect with new Id.
+        if (target.equals(model.getCurrPath())) {
+            try {
+                model.changeDirectory(model.getCurrPath().resolve(RelativePath.PARENT));
+                model.changeDirectory(model.getCurrPath().resolve(new RelativePath(editedGroup.getId().toString())));
+            } catch (InvalidPathException e) {
+                throw new IllegalArgumentException("Internal Error: " + e.getMessage());
+            }
+        }
     }
 
     /**
