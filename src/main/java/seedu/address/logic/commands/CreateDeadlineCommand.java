@@ -18,7 +18,7 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.task.Deadline;
 
 /**
- * Adds a Deadline for a specified {@code Student} or {@code Group}.
+ * Adds a Deadline task for a one or more {@code Student} or {@code Group}.
  */
 public class CreateDeadlineCommand extends Command {
 
@@ -95,8 +95,8 @@ public class CreateDeadlineCommand extends Command {
     private final Category category;
 
     /**
-     * Creates an CreateDeadlineCommand to add the {@code Deadline} Task for a specified {@code Student}
-     * or {@code Group}
+     * Creates a CreateDeadlineCommand to add the {@code Deadline} Task for {@code Student}
+     * or {@code Group}.
      * User has inputted a category as well.
      */
     public CreateDeadlineCommand(AbsolutePath path, Deadline deadline, Category category) {
@@ -113,7 +113,8 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Executes an CreateDeadlineCommand to allocate a {@code Deadline} task to a {@code Group} or {@code Student}
+     * Executes a CreateDeadlineCommand to allocate a {@code Deadline} task to one or more
+     * {@code Group} or {@code Student}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -140,7 +141,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Allocates a {@code Deadline} task to a {@code Group} or {@code Student}
+     * Allocates a {@code Deadline} task to a {@code Group} or {@code Student}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -171,7 +172,7 @@ public class CreateDeadlineCommand extends Command {
 
     /**
      * Handles the situation where a {@code Deadline} task is allocated to all {@code Student}
-     * or {@code Root}
+     * in {@code Group} or {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -189,7 +190,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Adds a {@code Deadline} task to all {@code Student} in a {@code Group}
+     * Adds a {@code Deadline} task to all {@code Student} in a {@code Group}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -214,7 +215,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Adds a {@code Deadline} task to all {@code Student} in a {@code Root}
+     * Adds a {@code Deadline} task to all {@code Student} in {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -239,7 +240,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Handles the situation where a {@code Deadline} task is allocated to all {@code Group} in {@code Root}
+     * Handles the situation where a {@code Deadline} task is allocated to all {@code Group} in {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -252,7 +253,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Adds a {@code Deadline} task to all {@code Group} in {@code Root}
+     * Adds a {@code Deadline} task to all {@code Group} in {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.

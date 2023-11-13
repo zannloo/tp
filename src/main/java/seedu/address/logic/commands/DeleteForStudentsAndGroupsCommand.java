@@ -62,7 +62,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     private final AbsolutePath toBeDeleted;
 
     /**
-     * Creates an DeleteForStudentsAndGroupsCommand to specified {@code Student} or {@code Group}
+     * Creates a DeleteForStudentsAndGroupsCommand to specified {@code Student} or {@code Group}.
      */
     public DeleteForStudentsAndGroupsCommand(AbsolutePath toBeDeleted) { //path will specify which grp/student
         requireNonNull(toBeDeleted);
@@ -74,7 +74,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Executes a DeleteForStudentsAndGroupsCommand to delete a {@code Student} or {@code Group}
+     * Executes a DeleteForStudentsAndGroupsCommand to delete a {@code Student} or {@code Group}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException                  Exception thrown when error occurs during command execution.
@@ -103,7 +103,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Checks if toBeDeleted is a Root Directory
+     * Checks if toBeDeleted is a Root Directory.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -114,7 +114,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Checks if toBeDeleted path is current path
+     * Checks if toBeDeleted path is current path.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -125,7 +125,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Checks if toBeDeleted path is display path
+     * Checks if toBeDeleted path is display path.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -136,7 +136,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Checks if toBeDeleted path exists in ProfBook
+     * Checks if toBeDeleted path exists in ProfBook.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -147,7 +147,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Deletes a student
+     * Deletes a student.
      *
      * @return Command result which represents the outcome of the command execution.
      */
@@ -163,7 +163,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Deletes a group
+     * Deletes a group.
      *
      * @return Command result which represents the outcome of the command execution.
      */
