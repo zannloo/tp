@@ -3,7 +3,10 @@ layout: default.md
 title: Nidhish Krishnan's Project Portfolio Page
 ---
 
-### Project: ProfBook
+## Project: ProfBook
+
+ProfBook is a desktop application used for easy management of a variety of tasks, students and groups. 
+The user interacts with it using a CLI, and has a GUI created with JavaFX.
 
 ProfBook is a desktop application used for easy management of a variety of tasks, students and groups.
 The user interacts with it using a CLI, and has a GUI created with JavaFX. It is tailor-made to mimic the familiar terminal experience for our target users by introducing Linux-style commands, Dynamic commands and a terminal like structure and interface. It is written in Java, and has about 10 kLoC.

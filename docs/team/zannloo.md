@@ -3,7 +3,7 @@ layout: default.md
 title: Loo Mei Lin Zann's Project Portfolio Page
 ---
 
-### Project: ProfBook
+## Project: ProfBook
 
 ProfBook is a desktop application used for easy management of a variety of tasks, students and groups. 
 The user interacts with it using a CLI, and has a GUI created with JavaFX. 

@@ -5,9 +5,10 @@ title: Nereus Ng Wei Bin's Project Portfolio Page
 
 ## ProfBook
 
-ProfBook is a desktop address book application used for easy management of tasks, group schedules, and notes for every
-tutorial slot and group. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in
-Java, and has about 10 kLoC.
+ProfBook is a desktop application used for easy management of a variety of tasks, students and groups. 
+The user interacts with it using a CLI, and has a GUI created with JavaFX.
+
+Given below are my contributions to the project.
 
 #### [Link to RepoSense Report :link:](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=nereuswb922&breakdown=false&sort=groupTitle%20dsc&sortWithin=title&since=2023-09-22&timeframe=commit&mergegroup=&groupSelect=groupByRepos)
 
@@ -46,11 +47,23 @@ Java, and has about 10 kLoC.
 
 ### User Guide Contributions
 
-coming soon
+- Non-Feature Aspects:
+    - Added the **ProfBook Folder Structure** section which explained the ProfBook structure.
+    - Updated the **Accepted values for each parameter** section.
+- Feature Aspects:
+    - Explain `cd` command.
+    - Explain `ls` command.
+    - Explain `rmt` command.
 
 ### Developer Guide Contributions
 
-coming soon
+- Non-Feature Asepcts:
+    - Added the **Appendix: Effort** section.
+    - Updated the **UI Componenet** section.
+- Feature Aspects:
+    - Explained the **Path package** of ProfBook.
+    - Created **activity diagrams** for create student, create deadline and edit group command.
+    - Created a **sequence diagram** for move student command.
 
 ### Team-Based Task Contributions
 
