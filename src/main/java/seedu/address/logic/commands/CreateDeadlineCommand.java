@@ -158,15 +158,14 @@ public class CreateDeadlineCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
         }
 
+        logger.finer("Creating a deadline task for a single group or student");
         target.addTask(this.deadline);
         model.updateList();
 
         if (path.isGroupDirectory()) {
-            logger.finer("Creating a deadline task for a single group");
             return new CommandResult(String.format(MESSAGE_SUCCESS_GROUP, path.getGroupId().get(), this.deadline));
         }
 
-        logger.finer("Creating a deadline task for a single student");
         return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, path.getStudentId().get(), this.deadline));
     }
 

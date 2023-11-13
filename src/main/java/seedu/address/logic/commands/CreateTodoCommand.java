@@ -154,13 +154,14 @@ public class CreateTodoCommand extends Command {
         if (taskOperation.hasTask(this.todo)) {
             throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK);
         }
+
+        logger.finer("Created a todo task for a single group or student");
+
         taskOperation.addTask(this.todo);
         model.updateList();
         if (path.isGroupDirectory()) {
-            logger.finer("Created a todo task for a single group");
             return new CommandResult(String.format(MESSAGE_SUCCESS_GROUP, path.getGroupId().get(), this.todo));
         }
-        logger.finer("Created a todo task for a single student");
         return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, path.getStudentId().get(), this.todo));
     }
 
