@@ -1519,7 +1519,7 @@ need to change according to your current directory. More information can be foun
     - Test case: `unmark a`<br>
       Expected: No task would be un-marked, an error will be shown.
 
-    - Other incorrect `un-mark` commands to try: `unmark \-2`, `unmark x` (Where x is positive integer which is greater than current task list size)<br>
+    - Other incorrect `unmark` commands to try: `unmark \-2`, `unmark x` (Where x is positive integer which is greater than current task list size)<br>
       Expected: No task would be marked, an error message indicating that the index given is invalid.
 
 ### Delete a task
