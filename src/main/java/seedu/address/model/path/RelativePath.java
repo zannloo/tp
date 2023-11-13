@@ -4,7 +4,6 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.path.exceptions.InvalidPathException;
 
 /**
@@ -13,7 +12,7 @@ import seedu.address.model.path.exceptions.InvalidPathException;
 public class RelativePath extends Path {
     public static final RelativePath PARENT;
     public static final RelativePath CURRENT;
-    private static final Logger logger = LogsCenter.getLogger(JsonUtil.class);
+    private static final Logger logger = LogsCenter.getLogger(RelativePath.class);
 
     static {
         try {

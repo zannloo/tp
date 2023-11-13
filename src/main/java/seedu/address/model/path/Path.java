@@ -18,6 +18,7 @@ public abstract class Path {
     public static final String MESSAGE_INVALID_PATH_ELEMENT = "Encountered invalid path element: %1$s";
     public static final String MESSAGE_UNABLE_TO_NAVIGATE_ABOVE_ROOT = "Unable to navigate above root directory";
     public static final String MESSAGE_INVALID_PATH_STRUCTURE = "Invalid path structure.";
+    public static final String MESSAGE_EMPTY_PATH_ELEMENT = "Path element cannot be empty.";
     public static final String PATH_DELIMETER = "/";
     protected final List<PathElement> pathElements;
 
@@ -57,6 +58,10 @@ public abstract class Path {
         }
 
         String[] elementStrs = path.split("/");
+
+        if (elementStrs.length == 0) {
+            throw new InvalidPathException(MESSAGE_EMPTY_PATH_ELEMENT);
+        }
 
         List<PathElement> elements = new ArrayList<>();
 
@@ -101,10 +106,6 @@ public abstract class Path {
                 break;
             }
         }
-        // For relative path is possible to have empty list in the end e.g. "."
-        if (destination.size() == 0) {
-            destination.add(PathElement.ELEMENT_CURRENT);
-        }
     }
 
     private static void handleParentElement(List<PathElement> destination, PathElement element)
@@ -129,7 +130,9 @@ public abstract class Path {
         int priorityDiff = element.getPriorityDiff(prevElement);
 
         // Make sure current element is 1 level lower than prev element or prev element is ".."
-        if (priorityDiff != -1 && prevElement.getType() != PathElementType.PARENT) {
+        if (priorityDiff != -1
+                && prevElement.getType() != PathElementType.PARENT
+                && prevElement.getType() != PathElementType.CURRENT) {
             throw new InvalidPathException(MESSAGE_INVALID_PATH_STRUCTURE);
         }
 
