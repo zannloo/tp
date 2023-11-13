@@ -9,9 +9,11 @@ pageNav: 3
 <!-- * Table of Contents -->
 <page-nav-print />
 
+<div style="page-break-after: always;"></div>
+
 ## **Introduction**
 
-ProfBook is a tool tailored to helping specifically CS2103T professors and Teaching Assistants(TA) in manage
+ProfBook is a tool tailored to helping specifically CS2103T professors and Teaching Assistants(TA) in managing
 their tutorial slots and groups. As our target users are technophile, we designed and optimised a CLI-based application
 specifically for them. It is currently optimised for CS2103T professors and TA with plans to expand to other Computer
 Science Modules. Please refer to our [_User Guide_](https://ay2324s1-cs2103t-w15-2.github.io/tp/UserGuide.html) for more
@@ -45,13 +47,15 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ## **Design**
 
-### Before you read
+### Before you begin reading
 
 <box type="info" seamless>
 
 **Note:** The lifeline for many of our diagram should end at the destroy marker (X) but due to a limitation of
 PlantUML, the lifeline reaches the end of diagram.
 </box>
+
+<div style="page-break-after: always;"></div>
 
 ### Architecture
 
@@ -64,8 +68,8 @@ Given below is a quick overview of main components and how they interact with ea
 **Main components of the architecture**
 
 **`Main`** (consisting of
-classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java)
-and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is
+classes [`Main`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/Main.java)
+and [`MainApp`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is
 in charge of the app launch and shut down.
 
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
@@ -83,7 +87,7 @@ The bulk of the app's work is done by the following four components:
 **How the architecture components interact with each other**
 
 The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues
-the command `delete 1`.
+the command `rm 0001Y` to delete student with id `0001Y`.
 
 <puml src="diagrams/ArchitectureSequenceDiagram.puml" width="574" />
 
@@ -91,7 +95,7 @@ Each of the four main components (also shown in the diagram above),
 
 * defines its *API* in an `interface` with the same name as the Component.
 * implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding
-  API `interface` mentioned in the previous point.
+  API `interface` mentioned in the previous point).
 
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using
 the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component
@@ -129,34 +133,47 @@ The `UI` component,
   displays [`Displayable`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/ui/Displayable.java)
   object residing in the `Model`.
 
+<div style="page-break-after: always;"></div>
+
 ### Logic component
 
-**API
-** : [`Logic.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
-<puml src="diagrams/LogicClassDiagram.puml" width="550"/>
+<puml src="diagrams/LogicClassDiagram.puml" width="650"/>
+
+<div style="page-break-after: always;"></div>
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("rmt 1")` API call
 as an example.
 `rmt` is the command word for DeleteTaskCommand class. By executing the command `rmt 1`, tha task with index number 1
 will be deleted.
 
-<puml src="diagrams/DeleteTaskSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `rmt 1` Command" />
+<puml src="diagrams/DeleteTaskSequenceLogicDiagram.puml" alt="Interactions Inside the Logic Component for the `rmt 1` Command" width="650"/>
+
+<puml src="diagrams/DeleteTaskSequenceModelDiagram.puml" width="600"/>
+
+<box type="info" seamless>
+
+**Note:** Due to the limitations of PlantUML, the reference frame in the first UML diagram is slightly overlapped.
+
+</box>
+
+<div style="page-break-after: always;"></div>
 
 How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `ProfBookParser` object which in turn creates a
    parser that matches the command (e.g., `DeleteTaskCommandParser`) and uses it to parse the command.
-1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteTaskCommand`)
+2. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteTaskCommand`)
    which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a task).
-1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
+3. The command can communicate with the `Model` when it is executed (e.g. to delete a task).
+4. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
 
-<puml src="diagrams/ParserClasses.puml" width="600"/>
+<puml src="diagrams/ParserClasses.puml" width="650"/>
 
 How the parsing works:
 
@@ -167,13 +184,13 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `EditCommandParser`, `HelpCommandParser`, ...) inherit from the `Parser`
   interface so that they can be treated similarly where possible e.g, during testing.
 
+<div style="page-break-after: always;"></div>
+
 ### Model component
 
-**API
-** : [`Model.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/src/main/java/seedu/address/model/Model.java)
 
 <puml src="diagrams/ModelClassDiagram.puml" width="550" />
-
 
 The `Model` component,
 
@@ -186,78 +203,91 @@ The `Model` component,
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as
   a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they
-  should make sense on their own without depending on other components)
+  should make sense on their own without depending on other components).
 
 <puml src="diagrams/ProfBookClassDiagram.puml" width="650" />
 
 The diagram above shows how the folder structure is implemented in ProfBook,
 
-* The hierarchy is as such: `Root` -> `Group` -> `Student`
-* As many of the operations are repeated (e.g., tasks operations and children operation), we decided to abstract out
+* The hierarchy is as such: `Root` -> `Group` -> `Student`.
+* As many of the operations are repeated (e.g. tasks operations and children operations), we decided to abstract out
   these logic into their own classes which is represented by `TaskListManager` and `ChildManager` respectively.
-* `ChildManager` manages the children which is of type `IChildElement`
+* `ChildManager` manages the children which is of type `IChildElement`.
 * We also created a wrapper class (e.g. `ChildrenAndTaskListManager`) for classes that require both of those
-  aforementioned functionalities (e.g, `Group` and potentially in the future `TutorialSlot`)
+  aforementioned functionalities (e.g. `Group` and potentially in the future `TutorialSlot`).
 
-**API
-** : [`TaskListManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/profbook/TaskListManager.java)
+<div style="page-break-after: always;"></div>
 
-<puml src="diagrams/TaskListClassDiagram.puml" width="300" />
+##### Task sub-package
 
-How the `Task` component work:
+**API** : [`TaskListManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/task/TaskListManager.java)
 
-* As mentioned earlier, `TaskListManager` encapsulates the logic required to maintain a TaskList, these logic is
+<puml src="diagrams/TaskListClassDiagram.puml" width="250" />
+
+How the `Task` component works:
+
+* As mentioned earlier, `TaskListManager` encapsulates the logic required to maintain a TaskList, this logic is
   utilised heavily in the ProfBook component.
-* All tasks extend from the abstract class `Task`, we did this so for extensibility. So in the future, should we decide
-  to
-  implement a new type of task, all we have to do is extend from `Task`.
+* All tasks extend from the abstract class `Task`, we did this for extensibility. So in the future, should we decide
+  to implement a new type of task, all we have to do is extend from `Task`.
+
+<div style="page-break-after: always;"></div>
 
 The sequence diagram below illustrates the interactions within the `Model` component, taking an execution of a
-`CreateTodoClass` as example.
+`CreateTodoCommand` as example. As the behaviour of `CreateTodoCommand` is rather dynamic, in our example,
+we shall be narrowing our scope to adding a todo tasks to a specified group, g.
 
 <puml src="diagrams/AddTaskSequence.puml" width="550" />
 
 How the `Model` component works:
 
-* Depending on the nature of the command, a static method is called to generate a `TaskOperation` or
-  a `ChildrenOperation` Object that acts as an interface Command object to manipulate the Model
+* Depending on the nature of the command, the corresponding method is called to generate a `TaskOperation` or
+  a `ChildOperation` object that acts as an interface manipulate the model
 * In this case, a `TaskOperation` object is created. This object would store all the necessary information to make
   changes directly on the correct state.
-* The command object calls the required method in the `TaskOperation` object which results in the `TaskOperation`
-  object adding the Todo task to the group
-* Our `TaskOperation` and `ChildOperation` classes follow
-  the [facade pattern](https://nus-cs2103-ay2324s1.github.io/website/se-book-adapted/chapters/designPatterns.html#facade-pattern)
+* The `Command` instance calls the required method in the `TaskOperation` object which results in the `TaskOperation`
+  object performing the addition of the Todo task to the group.
 
 <box type="info" seamless>
 
-**Note:** For ChildrenOperation, ModelManager provides more specific static factory methods (e.g., GroupChildOperation,
-RootChildOperation) to generate the `ChildOperation` object. It is implemented this way so that ModelManager is able
-to check that the Operation required matches with the intended effect of the Command object's Execution
+**Note:** For `ChildrenOperation`, `ModelManager` provides more specific factory methods (e.g., `groupChildOperation`,
+`rootChildOperation`) to generate the `ChildOperation` object. It is implemented this way so that `ModelManager` is able
+to check that the operation required matches with the intended effect of the `Command` object's execution.
 
 </box>
 
-#### Path package
-The `path` package in `model` package serves as a fundamental representation of the hierachical structure within the application. It delineates the navigational paths essential for traversal and dynamic command execution within the system.
+<div style="page-break-after: always;"></div>
+
+#### Path sub-package
+
+**API** : [`Path.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/model/path/Path.java)
+
+The `path` package in `model` package serves as a fundamental representation of the hierarchical structure within the
+application. It delineates the navigational paths essential for traversal and dynamic command execution within the
+system.
 
 Here is a class diagram for the path package:
 
 <puml src="diagrams/PathClassDiagram.puml" width="550" />
 
-1. The `PathElement` class forms the building blocks for constructing paths within ProfBook. 
-2. `PathElementType` enum defines the type of elements within a  path:
-   * `ROOT`: Represents the root element in the hierarchy.
-   * `GROUPID`: Represents the element corresponding to a group in the hierachy.
-   * `STUDENTID`: Represents the element corresponding to a student in the hierachy.
-   * `PARENT`: Corresponds to the `..` notation, indicating the parent directory.
-   * `CURRENT`: Corresponds to the `.` notation, indicating the current directory.
-3. `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
-   * The `resolve` method is crucial to resolve a `RelativePath` and return the resolved path in `AbsolutePath` type.
-   * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path `~/grp-002`.
+* The `PathElement` class forms the building blocks for constructing paths within ProfBook.
+* `PathElementType` enum defines the type of elements within a  path:
+    * `ROOT`: Represents the root element in the hierarchy.
+    * `GROUPID`: Represents the element corresponding to a group in the hierarchy.
+    * `STUDENTID`: Represents the element corresponding to a student in the hierarchy.
+    * `PARENT`: Corresponds to the `..` notation, indicating the parent directory.
+    * `CURRENT`: Corresponds to the `.` notation, indicating the current directory.
+* `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
+    * The `resolve` method is crucial to resolve a `RelativePath` and return the resolved path in `AbsolutePath` type.
+    * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the
+      `RelativePath` representing `../../grp-002`, the resolve method will return the `AbsolutePath` representing the path
+      `~/grp-002`.
+
+<div style="page-break-after: always;"></div>
 
 ### Storage component
 
-**API
-** : [`ProfBookStorageManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/ProfBookStorageManager.java)
+**API** : [`Storage.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
 
 <puml src="diagrams/StorageClassDiagram.puml" width="550" />
 
@@ -273,6 +303,8 @@ The `Storage` component,
 
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
 
+<div style="page-break-after: always;"></div>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Implementation**
@@ -287,14 +319,14 @@ Due to the nature of the application that we aim to make, designing a robust fol
 is crucial to our success. We strive to design a structure that is generic enough to be extended while also being able
 to capture unique functionality of the different parties at play.
 
-In our current hierarchy, `Root` -> `Group` -> `Student`, `Student` and `Group` are required to managed tasks
+In our current hierarchy, `Root` -> `Group` -> `Student`, `Student` and `Group` are required to manage tasks
 whereas `Root` and `Group` are required to manage children. The `Model` component briefly mentioned this implementation,
-but I will delve into it more comprehensively.
+but I will delve into it more comprehensively in this implementation.
 
 We first created interfaces to represent the required logic for each of the manager, namely `IChildManager`
 and `ITaskListManager`. Then we created concrete classes such as `ChildManager` and `TaskListManager` to encapsulate
 the aforementioned logic. The purpose of these classes was so that should a folder type, e.g. `Student`, require a
-Manager functionality, we could just extend from said Manager thus reducing on repeated code. Due to the limitation of
+manager functionality, we could just extend from said manager thus reducing on repeated code. Due to the limitation of
 Java, classes are not able to extend from multiple classes. To remedy this, we created a wrapper
 class, `ChildrenAndTaskListManager`.
 
@@ -303,6 +335,15 @@ the `IChildElement` interface. This was done to reduce repeated code while intro
 
 In our implementation, only the parents have reference to the child. This reference is stored by using
 a `Map<Id, Student>` and `Map<Id, Group>` instance.
+
+<box type="info" seamless>
+
+**Note:** It is important to note that `ChildrenManager` is a generic class that accepts classes that implements
+the `IChildElement` interface. This was done to reduce repeated code while introducing a degree of polymorphism.
+
+</box>
+
+<div style="page-break-after: always;"></div>
 
 To further illustrate our folder structure, we have prepared this diagram
 
@@ -315,74 +356,80 @@ To further illustrate our folder structure, we have prepared this diagram
     * Cons: It results in a more rigid hierarchy, harder to extend upon.
 * **Alternative 2**: Flat structure.
     * Pros: Easier to implement relatively to the tree representation.
-    * Cons: Harder to maintain the hierarchy, search for items and load items from storage
+    * Cons: 
+      * Harder to maintain the hierarchy, search for items and load items from storage.
+      * States are more coupled.
 
 **Aspect: How store reference to children**
 
 * **Alternative 1 (current implementation):** HashMap.
-    * Pros: Able to check/find if a student/group is present efficiently, mapping objects by their Id also makes
-      executing
-      commands in a folder-like structure easier.
-    * Cons: Not really any.
-* **Alternative 2**: Array.
-    * Pros: Very easy to implement
+    * Pros: Able to check/find if a student/group is present efficiently, mapping objects by their ID also makes
+      executing commands in a folder-like structure easier.
+    * Cons: Items stored in HashMaps are unordered, meaning addition order is lost.
+* **Alternative 2**: List.
+    * Pros: Very easy to implement.
     * Cons: Finding a student/group is very inefficient, updating references is also a hassle.
+
+<div style="page-break-after: always;"></div>
 
 ### Adding a student/group
 
 #### Implementation
 
-Implementation for Creating a student and a group is very similar, so in this guide, I would go through the
+Implementation for creating a `Student` and a `Group` is very similar, so in this guide, I would go through the
 implementation for the harder one, which is creating a student. Should you have any questions do feel free to contact
 us.
 
 Most of the logic for creating a student is encapsulated in the `CreateStudentCommand` class, this class utilise
-the `GroupChildOperation` facade class to add the student to the group and the `Model` class to check for duplicates.
-The following methods of `ModelManager` and `GroupChildOperation` are used:
+the `ChildOperation<Student>` class to add the student to the group and the `Model` class to check for duplicates.
+The following methods of `ModelManager` and `ChildOperation<Student>` are used:
 
-1. `ModelManager::groupChildOperation` - To generate a facade class specific to the current group, it also checks for
+1. `ModelManager::groupChildOperation` - To generate an operation class specific to the current group, it also checks for
    the validity and presence of the specified group.
-2. `ModelManager::hasStudentWithId` - To check if the new student id is unique
-3. `GroupChildOperation::addChild` - To add the current student into the group
+2. `ModelManager::hasStudentWithId` - To check if the new student id is unique.
+3. `ChildOperation<Student>::addChild` - To add the current student into the group.
 
 Given below is an example usage scenario on how an existing user can create a student.
 
 1. When the user launches the application, existing information is read from the data file `profbook.json`. The initial
    state would look something like this.
 
-   <puml src="diagrams/AddInitialState.puml" width="550" />
+   <puml src="diagrams/AddInitialState.puml" width="600" />
 
 2. Suppose the user is still in the root directory and wants to add a new student to group 1, the user would execute the
    following
    command: `touch ~/grp-001/2000Y --name Bob --email bobby@example.com --phone 92929292 --address blk 258 Toa Payoh`.
-   Do note that the only required fields are `--name`
-3. The parser would retrieve all the relevant information from the input and encapsulates it in a `CreateStudentCommand`
+   Do note that the only required fields are `--name`.
+3. The parser would retrieve all the relevant information from the input and encapsulates it in a `CreateStudentCommand`.
 4. This command would first do these checks:
-    * checks if the specified path is a valid student path. This is done via the `Path::isStudentDirectory` method
-    * checks if adding the student would result in a duplicate within whole of ProfBook, ie if the student id is
-      already taken. This is done via the `ModelManager::hasStudentWithId` method.
+   * checks if the specified path contains the group. This is done via the `ModelManager::hasGroup` method.
+   * checks if the specified path is a valid student path. This is done via the `AbsolutePath::isStudentDirectory` method.
+   * checks if adding the student would result in a duplicate within whole of ProfBook, ie if the student id is
+   already taken. This is done via the `ModelManager::hasStudentWithId` method.
 5. In this case, if the input was `touch ~/grp-001/1234Y ...` or `touch ~/grp-001/9876A ...` a `CommandException` will
    be thrown.
 6. If all checks out, the command would create a new student and add the student to the `Model`. This addition is done
-   through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. This would ensure
-   the path to the group is present and valid. The student is added through the `GroupChildOperation::addChild` method.
+   through getting a `ChildOperation<Student>` class from the `Model::groupChildOperation` method. This would ensure
+   the path to the group is present and valid. The student is added through the `ChildOperation<Student>::addChild` method.
 7. It should look something like this.
 
-   <puml src="diagrams/AddFinalState.puml" width="550" />
+   <puml src="diagrams/AddFinalState.puml" width="650" />
 
-This sequence diagram shows the general flow of the CreateStudentCommand, for more information on each specific
+<div style="page-break-after: always;"></div>
+
+This sequence diagram shows the general flow of the `CreateStudentCommand`, for more information on each specific
 component, do head over to their respective documentation.
 
-<puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="550" />
+<puml src="diagrams/CreateStudentCommandSequenceDiagram.puml" width="650" />
 
 
 Below is an activity diagram showing the general activity of the add student command.
 
-<puml src="diagrams/CreateStudentActivityDiagram.puml" width="550" />
+<puml src="diagrams/CreateStudentActivityDiagram.puml" width="700" />
 
 #### Design Consideration
 
-**Aspect: Types of fields **
+**Aspect: Types of fields**
 
 * **Alternative 1 (current implementation):** Fields can be required or optional.
     * Pros: Allows the user to create groups and students without complete information.
@@ -390,121 +437,148 @@ Below is an activity diagram showing the general activity of the add student com
 * **Alternative 2**: Fields must be required.
     * Pros: Easier implementation, there is less need for checking optional field.
     * Cons: All information about a student/group must be readily present before creating it, which is not always the
-      case
+      case.
+
+<div style="page-break-after: always;"></div>
 
 ### Creating a task
 
 #### Implementation
 
 Creating and adding a task is one of the key feature of ProfBook. Currently, we support two types of tasks,
-namely `ToDo` and `Deadline` Tasks. Both this tasks extends from the abstract `Task` class which add to its
-extensibility. It is important to note that currently, you can only add tasks to Group and Students. Needless to say,
-the information for these tasks are encapsulated withing their respective `Task`
+namely `ToDo` and `Deadline` tasks. Both these tasks extends from the abstract `Task` class which add to its
+extensibility. It is important to note that currently, you can only add tasks to Groups and Students. Needless to say,
+the information for these tasks are encapsulated within their respective `Task`
 instance.
 
-As the implementation for creating a Todo and Deadline task is very similar, I would be bringing you through
+As the implementation for creating a `ToDo` and `Deadline` task is very similar, I would be bringing you through
 the implementation that we found to be more confusing. I would be going through creating a Deadline task and adding it
-to *all students in a group*. Illustration in the form of a sequence diagram for creating a Todo and adding a singular
-tasks can be found at the `Model` component. For more information you could reach out to us, we would be more than happy
+to **all students in a group**. For more information you could reach out to us, we would be more than happy
 to help.
 
-Most of the logic for creating a task is encapsulated in the `CreateDeadlineCommand` class, this class utilise
-the `GroupChildOperation` facade class to add the Deadline to the group and check for duplicates.
-The following methods of `ModelManager` and `GroupChildOperation` are used:
+<box type="info" seamless>
 
-1. `ModelManager::groupChildOperation` - To generate a facade class specific to the current group, it also checks for
+**Note:** Illustration in the form of a sequence diagram for creating a `ToDo` and adding a singular
+tasks can be found at the `Model` component. 
+
+</box>
+
+
+Most of the logic for creating a task is encapsulated in the `CreateDeadlineCommand` class, this class utilises
+the `ChildOperation<Student>` class to add the Deadline to the group and check for duplicates.
+The following methods of `ModelManager` and `ChildOperation<Student>` are used:
+
+1. `ModelManager::groupChildOperation` - To generate an operation class specific to the current group, it also checks for
    the validity and presence of the specified group.
-2. `GroupChildOperation::addAllTasks` - To add the tasks to all student within a group, it also checks if it is a
+2. `ChildOperation<Student>::addAllTasks` - To add the tasks to all student within a group, it also checks if it is a
    duplicate task before adding.
-3. `GroupChildOperation::checkIfAllChildrenHaveTask` - To check if all children within a group already has the task.
+3. `ChildOperation<Student>::checkIfAllChildrenHaveTask` - To check if all children within a group already has the task.
 
-It is important to note that for adding a task to a singular group/student, the facade class `TaskOperation` is used
-instead, a sequence diagram illustrating this can be found in the model component.
+It is important to note that for adding a task to a singular group/student, the operation class `TaskOperation` is used
+instead, a sequence diagram illustrating this can be found in the `Model` component.
 
 Given below is an example usage scenario on how an existing user can add Deadline to all students
 
 1. When the user launches the application, existing information is read from the data file `profbook.json`. In our case,
    let us narrow our focus to a specific group with 2 students.
 
-   <puml src="diagrams/DeadlineInitialState.puml" width="550" />
+   <puml src="diagrams/DeadlineInitialState.puml" width="500" />
 
 2. Suppose the user is still in the root directory and wants to add a deadline to all students in group1, the user would
    execute the following
-   command: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-12-12 23:59`. More information on the flags could be
-   fond in the User Guide.
-3. The parser would retrieve all the relevant information from the input and encapsulates it in
-   a `CreateDeadlineCommand`
+   command: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-12-12 23:59 --all allStu`. More information on the 
+   flags could be found in the User Guide.
+3. The parser would retrieve all the relevant information from the input and encapsulate it in
+   a `CreateDeadlineCommand`.
 4. This command would first
-    * check if the specified path is a valid and present Group path. This is done via `Path::isGroupDirectory` method.
+    * check if the specified path is a valid and present group path. This is done via `AbsolutePath::isGroupDirectory` method.
     * check if all students in the group already has the task. This is done
-      via `GroupChildOperation::checkIfAllChildrenHaveTask` method.
-5. If all checks out, the command would create a new deadline instance and add the deadline to all student that do not
+      via `ChildOperation<Student>::checkIfAllChildrenHaveTask` method.
+5. If all checks out, the command would create a new `Deadline` instance and add the deadline to all student that do not
    already have the aforementioned task. This is done
-   through getting a `GroupChildOperation` facade class from the `Model::groupChildOperation` method. The tasks is then
-   added through the `GroupChildOperation::addTaskToAllStudent` method. For each student, the method would check if the
+   through getting a `ChildOperation<Student>` class from the `Model::groupChildOperation` method. The tasks are then
+   added through the `ChildOperation<Student>::addTaskToAllStudent` method. For each student, the method would check if the
    task is already present, if not it would add the task.
 6. It should look something like this.
 
-   <puml src="diagrams/DeadlineFinalState.puml" width="550" />
+   <puml src="diagrams/DeadlineFinalState.puml" width="600" />
 
-7. In the above diagram, Jerry already has the exact deadline and adding it would result in a duplicate. Therefore, the
+7. In the above diagram, Jerry already has the exact `Deadline` and adding it would result in a duplicate. Therefore, the
    task is only added to student Ben.
 
 This sequence diagram illustrates the general flow when adding the deadline task to *all* students, the sequence
 diagram for adding a deadline task to a *single* student can be found in the `Model` component.
 
-<puml src="diagrams/CreateDeadlineCommandSequenceDiagram.puml" width="550" />
+<puml src="diagrams/CreateDeadlineCommandSequenceDiagram.puml" width="650" />
 
+<div style="page-break-after: always;"></div>
 
 This is an activity diagram showing the general activity of the add deadline command.
 
-<puml src="diagrams/CreateDeadlineActivityDiagram.puml" width="550" />
+<puml src="diagrams/CreateDeadlineActivityDiagram.puml" width="700" />
 
 #### Design Consideration
 
 **Aspect: Should groups have their own task list as well**
 
 * **Alternative 1 (current implementation):** Yes.
-    * Pros: Closely resembles the dynamics in real life
-    * Cons: Harder to implement, more confusing for users
+    * Pros: Closely resembles the dynamics in real life.
+    * Cons: Harder to implement, more confusing for users.
 * **Alternative 2**: No.
-    * Pros: Easier to implement
-    * Cons: Users may not be able to keep track of group related tasks
+    * Pros: Easier to implement.
+    * Cons: Users may not be able to keep track of group related tasks.
 
 **Aspect: how should we implement adding of bulk tasks**
 
 * **Alternative 1:** Add Tasks one by one to each student.
-    * Pros: Quick and easy to implement
-    * Cons: keeping track of group tasks is a hassle, any action done for one task must be done for all
+    * Pros: Quick and easy to implement.
+    * Cons: Keeping track of group tasks is a hassle, any action done for one task must be done for all.
 * **Alternative 2**: Allow groups to have their own task lists.
-    * Pros: Quick and easy to implement
-    * Cons: Adding of student tasks must be done manually
+    * Pros: Quick and easy to implement.
+    * Cons: Adding of student tasks must be done manually.
 * **Alternative 3 (current implementation)**: Implement both of the aforementioned features.
     * Pros: Best of both worlds.
     * Cons: Harder to implement, user command is also more complex and bulky.
+
+**Aspect: Should the same instance of the task be assigned during bulk task**
+
+* **Alternative 1:** No, each student/group should have their own unique instance.
+    * Pros: Each task's completion is independent of others.
+    * Cons: Takes more memory.
+* **Alternative 2**: Yes.
+    * Pros: Able to change all task's state in one short.
+    * Cons: Unable to uniquely change a specific tasks without affecting other task, aliasing issue.
+
+<div style="page-break-after: always;"></div>
 
 ### Editing information
 
 #### Implementation
 
-Due to dynamic need of our target users, professors and TAs, there is a need for our edit command to be equally dynamic.
+Due to the dynamic need of our target users, professors and TAs, there is a need for our edit command to be equally dynamic.
 Our edit command need to be general enough to allow the users to edit both students and groups. This is done by checking
-the type of directory that was passed in. This is done through the `Path::isGroupDirectory`
-and `Path::isStudentDirectory` method. More information on how this is done can be found in the documentation
-for `Path` component. This then allows parser to check for the validity of the given flags.
+the type of directory that was passed in. This is done through the `AbsolutePath::isGroupDirectory`
+and `AbsolutePath::isStudentDirectory` method. 
+
+<box type="info" seamless>
+
+**Note:** More information on how this is done can be found in the documentation
+for `path` package. This then allows parser to check for the validity of the given flags.
+
+</box>
 
 As the implementation for editing students and groups is similar, for simplicity, I would be going through
 implementation of editing a group.
 
-The following methods of `ModelManager`, `Path` and `RootChildOperation` are used:
+The following methods of `ModelManager`, `AbsolutePath` and `ChildOperation<Group>` are used:
 
-1. `ModelManager::rootChildOperation` - To generate a facade class with logic specific to the current root.
+1. `ModelManager::rootChildOperation` - To generate an operation class with logic specific to the current root.
 2. `ModelManager::hasGroupWithId` - To check if editing results in a duplicate.
-3. `RootChildOperation::editChild` - To edit the group with the values extracted from parser.
-4. `Path::isGroupDirectory` - To check if the path leads to a group directory
-5. `Path::isStudentDirectory` - To check if the path leads to a student directory
+3. `ChildOperation<Group>::editChild` - To edit the group with the values extracted from parser.
+4. `AbsolutePath::isGroupDirectory` - To check if the path leads to a group directory.
+5. `AbsolutePath::isStudentDirectory` - To check if the path leads to a student directory.
 
-Given below is an example usage scenario on how an existing user can edit the name of a group
+Given below is an example usage scenario on how an existing user can edit the name of a group.
 
 1. When the user launches the application, existing information is read from the data file `profbook.json`. The initial
    state should look something like this.
@@ -516,20 +590,22 @@ Given below is an example usage scenario on how an existing user can edit the na
 4. The fields to be edited is then stored in an `EditGroupDescriptor` instance. (For student it would be stored in
    an `EditStudentDescriptor`)
 5. If the id is being edited, `ModelManager::hasGroupWithId` is called to ensure it does not result in a duplicate.
-6. The `RootChildOperation::editChild` then makes a copy of the existing group while updating the values found in
+6. The `ChildOperation<Group>::editChild` then makes a copy of the existing group while updating the values found in
    the `EditGroupDescriptor`.
 
-   <puml src="diagrams/EditIntermediateState.puml" width="550" />
+   <puml src="diagrams/EditIntermediateState.puml" width="600" />
 
-6. It then deletes the old key-value pair in root's `Map<id, group>` and adds the new key-value pair.
+7. It then deletes the old key-value pair in root's `Map<Id, group>` and adds the new key-value pair.
 
-   <puml src="diagrams/EditFinalState.puml" width="550" />
+   <puml src="diagrams/EditFinalState.puml" width="600" />
 
 This is illustrated by the following sequence diagram. It shows the general flow of the edit through editing a `Group`
 instance, this example should be general enough for you to understand how the edit command works on other classes such
 as `Student`.
 
-<puml src="diagrams/EditCommandSequenceDiagram.puml" width="550" />
+<puml src="diagrams/EditCommandSequenceDiagram.puml" width="650" />
+
+<div style="page-break-after: always;"></div>
 
 This is an activity diagram showing the general activity of the edit command.
 
@@ -539,13 +615,15 @@ This is an activity diagram showing the general activity of the edit command.
 
 **Aspect: How to ensure `edit` is able to handle editing students and group**
 
-* **Alternative 1 (current implementation):** Implement an generic `edit` which acts differently depending on the input
+* **Alternative 1 (current implementation):** Implement a generic `edit` which acts differently depending on the input
   path.
     * Pros: Closely follows OOP principals and makes `edit` more extensible
     * Cons: Harder to implement, more confusing for users
 * **Alternative 2**: Create multiple `edit` commands.
     * Pros: Easier to implement, it is also more intuitive for users
     * Cons: More commands for user to remember, future additions would prove to be a hassle
+
+<div style="page-break-after: always;"></div>
 
 ### Moving students between groups
 
@@ -555,21 +633,23 @@ Initially, implementing this feature seemed like a daunting task. However, after
 realised that implementing move was quite straight forward. Moving a student can be easily done by removing the
 student's reference from its current group by removing its key-value pair from the group's `Map<Id, Student>` field.
 Then to complete the move, the student is added to the target group by adding it into the target
-group's `Map<Id, Student>` field. All of this operation is facilitated by the `GroupChildOperation` facade class.
+group's `Map<Id, Student>` field. All of this operation is facilitated by the `ChildOperation<Student>` class.
 
-Given below is an example usage scenario whereby a student is moved from group1 to group2
+Given below is an example usage scenario whereby a student is moved from group1 to group2.
 
 1. When the user launches the application, existing information is read from the data file `profbook.json`.
 2. Suppose the user is still in the root directory and wants to move student `1234Y` from `grp-001` to `grp-002`, the
    user would execute the following command: `mv ~/grp-001/1234Y ~/grp-002`.
 3. The parser would extract the relevant information and creates a `MoveStudentCommand` instance.
 4. The command would check that path to the student and target group is valid and present.
-5. Command would then add the student to the target group via the `GroupChildOperation::addChild` method. The old
-   reference is removed via the `GroupChildOperation::deleteChild` method.
+5. Command would then add the student to the target group via the `ChildOperation<Student>::addChild` method. The old
+   reference is removed via the `ChildOperation<Student>::deleteChild` method.
 6. As uniqueness of student is validated before each student is added, there is no need to check for clashes when
-   executing
+   executing.
 
-<puml src="diagrams/MoveStudentSequenceDiagram.puml" width="700" />
+<puml src="diagrams/MoveStudentSequenceDiagram.puml" width="750" />
+
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -577,7 +657,7 @@ Given below is an example usage scenario whereby a student is moved from group1 
 
 ### Editing tasks
 
-Currently, the only way to edit tasks is by manually deleting and then adding it again. This creates extra hassle for
+Currently, the only way to edit tasks is by manually deleting and then adding them again. This creates extra hassle for
 the user and possible more inconveniences as doing so might change the task's index resulting in the user having
 to `cat` again to figure out its new index. We plan to edit the task manually for the user by creating a new command
 that deletes and then creates a new task with the edited information while keeping the index the same. Implementing this
@@ -587,16 +667,25 @@ is just a combination of deleting and creating, but it improves the user's quali
 
 Currently, our application only checks if the phone number is more than 3 characters long. Our current validation is
 lacking as users are able to enter a `123` as a phone number or a phone number that is infinitely long. We plan to
-improve this validation by enforcing a tighter validation. This can be achieved by creating a `map<String, Integer>` of
+improve this validation by enforcing a tighter validation. This can be achieved by creating a `Map<String, Integer>` of
 common phone extensions to their length and then enforcing that the phone number be of that length. This allows our
 users to have the peace of mind that the phone number is validated and robust enough to handle international numbers.
 
-### Better marking and un-marking validation (// TODO low priority, remove when needed )
+### Max character length validation
 
-Currently, our application does not check if the tasks is marked or unmarked before any operation. This resulted in
-users being able to mark/unmark tasks infinitely, this is not intuitive and may mislead some users. Hence, we plan to
-only allow users to unmark tasks that are marked and vice versa. Also, we plan to add a more descriptive error message
-to highlight to the user of the current state of the task.
+Currently, our application only checks if the required fields (e.g. `--name`, `--desc`) is present. Our current validation is
+lacking as users are able to enter a value that is infinitely long which may hinder the performance and functionality of
+our GUI. We plan to counteract this by enforcing a max character length for each of our field. Implementing this is
+would be rather simple by adding a length check during parsing. We could limit name length to 46 characters, email to 62 
+etc. 
+
+### Better marking and un-marking validation
+
+Currently, our application does not check if the tasks are marked or unmarked before any operation. This results in
+users being able to mark/un-mark tasks infinitely, this is not intuitive and may mislead some users. Hence, we plan to
+only allow users to un-mark tasks that are marked and vice versa. This can be easily done by checking the current state
+and throwing an error if the resultant state is same as the current state. Also, we plan to add a more descriptive error
+message to highlight to the user of the current state of the task.
 
 ### More robust duplicate checking
 
@@ -605,15 +694,38 @@ and only if their ids are identical. This means that two students with identical
 considered different in ProfBook, needless to say this does not reflect requirements in the real world. Therefore, we
 plan to revamp our duplication checking for students by checking for equality between their phone number and email.
 
-### More descriptive error message (// TODO low priority, remove when needed )
+### More descriptive error message
 
 Currently, while our application tries to output a descriptive and apt message for each error, we have received feedback
 that some of our error message could be more descriptive. One such example is trying to edit the root `~/` directory or
 trying to edit a directory that does not exist. In both cases, the error message given
-is `Path does not exist in ProfBook.`. In this example, we could have mention that you are unable to edit the root
+is `Path does not exist in ProfBook`. In this example, we could have mention that you are unable to edit the root
 directory for the prior and that the Path does not lead to a student/group for the latter. This is just one example, we
-plan to revamp our error message to be more descriptive and user friendly
+plan to revamp our error message to be more descriptive and user-friendly.
 
+### Include tutorial slot
+
+Currently, our hierarchy only extends to `Group`. To serve our target users better, we plan to add a new level,
+`TutorialSlot` to ProfBook. This would allow our target users to juggle not only groups but also tutorial slots.
+Implementing this is rather easy as `TutorialSlot` would in theory be almost identical to the implementation of `Group`,
+all `TutorialSlot` have to do is just extend from `ChildrenAndTaskListManager`. 
+
+
+### Implement a grade component to our tasks
+
+Currently, our users can only mark tasks as completed. To serve our target users better, we plan to allow our users to 
+assign a grade or score to a task. This would allow our target users to better keep track of and monitor their students
+and their groups progress. Implementing this would be adding a new `tag` to our display for tasks and creating a new 
+command similar to that of mark that receives and store the grade or score.
+
+### Implement a search function
+
+Currently, our users are unable to filter the current displayed list. We predict that this could be a hassle if the user
+is required to manage many groups and students with each having a myriad of tasks. We plan to implement this by creating 
+a new command where users would be able to pass in the field that they wish to search by. Then, we can filter the
+display list with a simple for-loop.
+
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -626,6 +738,8 @@ plan to revamp our error message to be more descriptive and user friendly
 * [DevOps guide](DevOps.md)
 
 --------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
 
 ## **Appendix: Requirements**
 
@@ -678,13 +792,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * `         | Expert user      | upload text file contains tutorial groups and students                                                        | I do not need to manually add students and tutorial groups                    |
 | `*`            | Experienced user | sync with Google calendar                                                                                     | To keep information easily accessible                                         |
 | `* `           | Experienced user | sync with NUSMods                                                                                             | To make it easier to take note of tutorial venues                             |
-| `*`            | Experienced user | use ProfBook to track attendance for each tutorial.                                                           | I can easily write down attendance in one area                                |
+| `*`            | Experienced user | use ProfBook to track attendance for each tutorial slot                                                       | I can easily write down attendance in one area                                |
 | `*`            | Expert user      | view a dashboard that provides the overview of the progress of each tutorial group and their respective tasks | I can easily and quickly focus on areas that require my attention             |
 | `*`            | Expert user      | let the program generate a detailed report on the performance of each tutorial group                          | I can easily identify the areas of strengths and weaknesses of each students  |
 | `*`            | Expert user      | incorporate my own scripts to customise my own experience                                                     | I can improve productivity and tailor fit the software for myself             |
 | `*`            | Expert user      | make the program support customizable templates for tutorials and student profiles                            | I can make it more aesthetically pleasing                                     |
 | `*`            | Expert user      | make use of the feature to archive certain task                                                               | I can keep track of the history and not focus on unimportant task.            |
 
+<div style="page-break-after: always;"></div>
 
 ### Use cases
 
@@ -792,7 +907,7 @@ otherwise)
         
     * 1b2. Current path is not root path.
   
-      *  Profbook displays task list of current path.
+      *  ProfBook displays task list of current path.
 
          Use case ends.
 
@@ -977,7 +1092,7 @@ otherwise)
 
     Use case resumes at step 1.
 
-**Use case: Create a ToDo**
+**Use case: Create a ToDo task**
 
 **MSS**
 
@@ -1014,11 +1129,11 @@ otherwise)
 
 * 1e. User specifies `--all allStu` or `--all allGrp`.
 
-    * 1e1. ProfBook creates Deadline for either all students within the group or all groups or students within ProfBook.
+    * 1e1. ProfBook creates Todo for either all students within the group or all groups or students within ProfBook.
 
       Use case ends.
 
-**Use case: Create a Deadline**
+**Use case: Create a Deadline task**
 
 **MSS**
 
@@ -1086,12 +1201,12 @@ otherwise)
 
       Use case resumes at step 1.
 
-**Use case: Unmark task**
+**Use case: Un-mark task**
 
 **MSS**
 
-1. User requests to unmark a specific task.
-2. ProfBook unmarks task based on given index, display updates to show as unmarked.
+1. User requests to un-mark a specific task.
+2. ProfBook un-marks task based on given index, display updates to show as unmarked.
 
    Use case ends.
 
@@ -1128,6 +1243,8 @@ otherwise)
 
       Use case resumes at step 1.
 
+<div style="page-break-after: always;"></div>
+
 ### Non-Functional Requirements
 
 **Technical requirements:**
@@ -1153,6 +1270,8 @@ otherwise)
 1. Should work without an internet connection.
 2. Should be able to support frequent updating of data.
 
+<div style="page-break-after: always;"></div>
+
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, OS-X.
@@ -1173,8 +1292,8 @@ otherwise)
 * **ToDo Task**: A type of task with no specific deadline, representing things to do.
 * **Task Index**: Index of task shown on display of ProfBook after using `cat` command.
 
+<div style="page-break-after: always;"></div>
 
---------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Instructions for manual testing**
 
@@ -1184,6 +1303,15 @@ Given below are instructions to test the app manually.
 
 **Note:** These instructions only provide a starting point for testers to work on;
 testers are expected to do more *exploratory* testing.
+
+</box>
+
+<box type = "warning">
+
+**Important:** For simplicity, all the command given below are based on the assumption that you are currently at the 
+root directory `~/>`. Should you change your directory to something other than root do take note that our commands may 
+need to change according to your current directory. More information can be found in our
+[user guide](https://ay2324s1-cs2103t-w15-2.github.io/tp/UserGuide.html).
 
 </box>
 
@@ -1205,86 +1333,77 @@ testers are expected to do more *exploratory* testing.
 
 ### Creating a group
 
-- Creating a new group when the current directory is root directory,
+- Creating a new group,
 
-    - Prerequisites: There is a group with GroupId `grp-001` under the root directory.
+    - Prerequisites: No existing group with GroupId grp-001.<br>
       Test case: `mkdir grp-001 --name Amazing Group1`<br>
       Expected: A new group will be added to the list in the bottom output box, with name `Amazing Group1` and GroupId `grp-001`.
 
     - Test case: `mkdir 0123Y --name Amazing Group1`<br>
       Expected: An error message indicating the path is invalid will be displayed.
 
-    - Test case: `mkdir x --name Amazing Group1` (where x is an invalid GroupId)<br>
+    - Test case: `mkdir x --name Amazing Group1` (where x is an invalid path to a `Group`)<br>
       Expected: An error message indicating the path is invalid will be displayed.
 
-    - Test case: `mkdir invalidPath`<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
-
-    - Other incorrect `mkdir` commands to try: `mkdir`, `mkdir x`, `mkdir grp-001`, `mkdir --name Amazing Group1` (where x is an invalid GroupId)<br>
+    - Other incorrect `mkdir` commands to try: `mkdir`, `mkdir grp-001`, `mkdir --name Amazing Group1` (where one or more required fields are missing in the command)<br>
       Expected: An error message indicating the command format is invalid will be displayed.
 
 ### Adding a student
 
-- Adding a student into the specified directory when the current directory is group directory e.g. `grp-001`,
+- Adding a student into the specified directory,
 
-    - Prerequisites: There is a group with GroupId `grp-001` under the root directory and does not have a student with id `0199Y` inside it.
-      Test case: `touch 0199Y --name Mary --email mary@gmail.com --phone 65412987 --address 4 Loyang Walk Loyang Industrial Estate`<br>
+    - Prerequisites for all test cases: There exist a group with GroupId `grp-001`
+        
+    - Prerequisites: ProfBook does not contain a student with id `0199Y`.<br>
+      Test case: `touch ~/grp-001/0199Y --name Mary --email mary@gmail.com --phone 65412987 --address 4 Loyang Walk Loyang Industrial Estate`<br>
       Expected: The student with id `0199Y` will be added to `grp-001`.
 
-    - Prerequisites: There is a group with GroupId `grp-001` under the root directory and a student with id `0123Y` inside it.
-      Test case: `touch 0123Y --name Mary`<br>
+    - Prerequisites: ProfBook does not contain a student with id`0123Y`.<br>
+      Test case: `touch ~/grp-001/0123Y --name Mary`<br>
       Expected: The student with id `0123Y` will be added to `grp-001`.
 
-    - Test case: `touch invalidPath --name Mary`<br>
+    - Test case: `touch grp-001 --name Mary`<br>
       Expected: An error message indicating the path is invalid will be displayed.
 
     - Test case: `touch x --name Mary` (where x is an invalid path)<br>
       Expected: An error message indicating the path is invalid will be displayed.
 
-    - Test case: `touch invalidPath`<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
-
-    - Other incorrect `touch` commands to try: `touch`, `touch x` (where x is an invalid path)<br>
+    - Other incorrect `touch` commands to try: `touch`, `touch grp-001`, `touch --name student`, `...` (where one or more required fields are missing in the command)<br>
       Expected: An error message indicating the command format is invalid will be displayed.
 
 ### Deleting a student or group
 
-- Deleting a student or group from the specified path when the current directory is root directory,
+- Deleting a student or group from the specified path,
 
-    - Prerequisites: There is a group with GroupId `grp-001` under the root directory and a student with id `0123Y` inside it.
+    - Prerequisites: There exist a group with GroupId `grp-001` with a student with id `0123Y` inside it.<br>
       Test case: `rm ~/grp-001/0123Y`<br>
       Expected: The student `0123Y` in `grp-001` wil be deleted.
 
-    - Prerequisites: There is a group with GroupId `grp-001` under the root directory.
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
       Test case: `rm ~/grp-001`<br>
       Expected: The group with GroupId `grp-001` wil be deleted.
 
-    - Test case: `rm invalidPath`<br>
+    - Prerequisites: There does not exist a group with GroupId `grp-002`.<br>
+      Test case: `rm ~/grp-002`<br>
       Expected: An error message indicating the path is invalid will be displayed.
 
-    - Test case: `rm x` (where x is an invalid path)<br>
+    - Test case: `rm ~/0001Y`<br>
       Expected: An error message indicating the path is invalid will be displayed.
 
-    - Other incorrect `rm` commands to try: `rm`<br>
+    - Other incorrect `rm` commands to try: `rm` <br>
       Expected: An error message indicating the command format is invalid will be displayed.
 
-### Editing a student's details or group's details
+### Editing details of a student or group
 
-- Edits a student's details or group's details in the specified path when the current directory is root directory,
+- Edits a student's details or group's details in the specified path,
 
-    - Prerequisites: There is a group with GroupId `grp-001` under the root directory and a student with id `0123Y` inside it.
+    - Prerequisites: There exist a group with GroupId `grp-001` that contains a student with id `0123Y` inside it.<br>
       Test case: `edit ~/grp-001/0123Y --phone 91919191`<br>
       Expected: The student `0123Y` will have his/her phone number edited.
 
-    - Prerequisites: There is a group with GroupId `grp-001` `grp-001` and a student with id `0999A` inside it.
+    - Prerequisites: There exist a group with GroupId `grp-001` that contains a student with id `0999A` inside it.<br>
       Test case: `edit ~/grp-001/0123Y --id 0999A`<br>
       Expected: An error message indicating the id has been used by other student will be displayed.
-
-    - Test case: `edit invalidPath`<br>
-      Expected: An error message indicating the path is invalid will be displayed.
-
-    - Test case: `edit x`, `edit x --name Lucy --email lucy@gmail.com --phone 91919191` (where x is an invalid path)<br>
-      Expected: An error message indicating the path is invalid will be displayed.
 
     - Test case: `edit ~/grp-001/0123Y --id 0123Y`<br>
       Expected: An error message indicating no changes have been made will be displayed.
@@ -1292,224 +1411,175 @@ testers are expected to do more *exploratory* testing.
     - Test case: `edit --name Lucy --email lucy@gmail.com --phone 91919191`<br>
       Expected: An error message indicating the root directory cannot be edited will be shown.
    
-    - Other incorrect `edit` commands to try: `edit`<br>
+    - Other incorrect `edit` commands to try: `edit ~/grp-001 --name Lucy --email lucy@gmail.com --phone 91919191`, `edit ~/grp-001`
+      (Where one or more required fields are missing)<br>
       Expected: An error message indicating the command format is invalid will be displayed.
 
-### Creating Todo task
+### Creating a todo task
 
-- Creates todo task for a specific student or group when the current directory is root directory,
+- Creates todo task for a specific student or group,
 
-    - Prerequisites: There is a group with GroupId `grp-001` under the root directory and a student with id `0123Y` inside it.
+    - Prerequisites: There exist a group with GroupId `grp-001` that contains a student with id `0123Y` inside it.<br>
       Test case: `todo ~/grp-001/0123Y --desc Assignment 1`<br>
-      Expected: The todo task `Assignment 1` will be allocated to student `0123Y`.
+      Expected: The todo task `Assignment 1` will be assigned to student `0123Y`.
 
-    - Prerequisites: There is a group with GroupId `grp-001` under the root directory.
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
       Test case: `todo ~/grp-001 --desc Assignment 1`<br>
-      Expected: The todo task `Assignment 1` will be allocated to group `grp-001`.
+      Expected: The todo task `Assignment 1` will be assigned to group `grp-001`.
 
-    - Test case: `todo invalidPath --desc Assignment 1`<br>
-      Expected: An error message indicating the path is invalid will be displayed.
+    - Prerequisites: There exist a group with GroupId `grp-001` with a todo Assignment 1 already assigned to it.<br>
+      Test case: `todo ~/grp-001 --desc Assignment 1`<br>
+      Expected: An error message indicating that Assignment 1 has already been allocated to it.
 
-    - Test case: `todo x --desc Assignment 1` (where x is an invalid path)<br>
-      Expected: An error message indicating the path is invalid will be displayed.
+- Creates todo task for all groups or all students in a group,
 
-    - Test case: `todo --desc Assignment 1`<br>
-      Expected: An error message indicating unable to create a task for the root directory will be shown.
+    - Prerequisites: There exist at least one group in ProfBook and at least one of the groups does not have the todo task, Assignment 1.<br>
+      Test case: `todo --desc Assignment 1 --all allGrp`<br>
+      Expected: The todo task `Assignment 1` will be allocated to all groups that does not already have the todo task.
 
-    - Test case: `todo invalidPath`<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
-
-    - Other incorrect `todo` commands to try: `todo`, `todo x` (where x is an invalid path)<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
-
-- Creates todo task for all groups or all students in a group when the current directory is root directory,
-
-    - Prerequisites: There is at least one group under the root directory and not all the groups have the todo task.
-      Test case: `todo ~ --desc Assignment 1 --all allGrp`<br>
-      Expected: The todo task `Assignment 1` will be allocated to all groups under root directory.
-
-    - Prerequisites: There is a group with GroupId `grp-001` in the root directory and not all the student in `grp-001` have the todo task.
+    - Prerequisites: There exist a group with GroupId `grp-001` with at least one student.<br>
+      Prerequisites: At least one of the student does not have the todo task, Assignment 1.<br>
       Test case: `todo ~/grp-001 --desc Assignment 1 --all allStu`<br>
-      Expected: The todo task `Assignment 1` will be allocated all students in `grp-001`.
+      Expected: The todo task `Assignment 1` will be allocated all students in `grp-001` that does not already have the todo task.
 
-    - Prerequisites: There is at least one student under the root directory and not all the student have the todo task.
-      Test case: `todo ~ --desc Assignment 1 --all allStu`<br>
-      Expected: The todo task `Assignment 1` will be allocated to all students under root directory.
+    - Prerequisites: There exist at least one student in ProfBook and at least one of the students does not have the todo task, Assignment 1.<br>
+      Test case: `todo --desc Assignment 1 --all allStu`<br>
+      Expected: The todo task `Assignment 1` will be allocated to all students under root directory that does not already have the todo task.
 
-    - Test case: `todo --desc Assignment 1 --all allStudent` (where x is an invalid option)<br>
+    - Test case: `todo --desc Assignment 1 --all allStudent` <br>
       Expected: An error message indicating the format of category label is invalid will be displayed.
 
-    - Test case: `todo --desc Assignment 1 --all x` (where x is an invalid option)<br>
-      Expected: An error message indicating the format of category label is invalid will be displayed.
+    - Test case: `todo ~/grp-001/0001Y --desc Assignment 1 --all allGrp`<br>
+      Expected: An error message indicating allGrp flag is only allowed for root path.
 
-    - Test case: `todo invalidPath --desc Assignment 1 --all allGrp`<br>
-      Expected: An error message indicating the path is invalid will be displayed.
+- Test case: `todo ~/0001Y --desc Assignment 1`<br>
+  Expected: An error message indicating the path is invalid will be displayed.
 
-    - Test case: `todo x --desc Assignment 1 --all allGrp`, `todo x --desc Assignment 1 --all allStu` (where x is an invalid path)<br>
-      Expected: An error message indicating the path is invalid will be displayed.
+- Other incorrect `todo` commands to try: `todo`, `todo ~/grp-001`, `...` (where one or more required fields are missing)<br>
+  Expected: An error message indicating the command format is invalid will be displayed.
 
-    - Test case: `todo invalidPath`<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
-      
-    - Other incorrect `todo` commands to try: `todo`, `todo x` (where x is an invalid path)<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
 
-### Creating Deadline task
+### Creating a deadline task
 
-- Creates deadline task for a specific student or group when the current directory is root directory,
+- Creates deadline task for a specific student or group,
 
-    - Prerequisites: There is a group with GroupId `grp-001` under the root directory and a student with id `0123Y` inside it.
+    - Prerequisites: There exist a group with GroupId `grp-001` that contains a student with id `0123Y` inside it.<br>
       Test case: `deadline ~/grp-001/0123Y --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
       Expected: The deadline task `Assignment 1` will be allocated to student `0123Y`.
 
-    - Prerequisites: There is a group with GroupId `grp-001` under the root directory.
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
       Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
-      Expected: The deadline task `Assignment 1` will be allocated to group `grp-001`.
+      Expected: The deadline task `Assignment 1` will be allocated to group `grp-001`
 
     - Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 11-11-2023 23:59`<br>
       Expected: An error message indicating the datetime format is invalid will be displayed.
 
-    - Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime x` (where x is an invalid datetime)<br>
-      Expected: An error message indicating the datetime format is invalid will be displayed.
+    - Prerequisites: There exist a group with GroupId `grp-001` with the same deadline task Assignment 1 already assigned to it.<br>
+      Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
+      Expected: An error message indicating that Assignment 1 has already been allocated to it.
 
-    - Test case: `deadline invalidPath --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
-      Expected: An error message indicating the path is invalid will be displayed.
+- Creates deadline task for all groups or all students in a group,
 
-    - Test case: `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59` (where x is an invalid path)<br>
-      Expected: An error message indicating the path is invalid will be displayed.
+    - Prerequisites: There exist at least one group in ProfBook and at least one of the groups does not have the deadline task, Assignment 1.<br>
+      Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`<br>
+      Expected: The deadline task `Assignment 1` will be allocated to all groups that does not already have the task.
 
-    - Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
-      Expected: An error message indicating unable to create a task for the root directory will be shown.
-
-    - Test case: `deadline invalidPath`<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
-
-    - Other incorrect `deadline` commands to try: `deadline`, `deadline x`<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
-
-- Creates deadline task for all groups or all students in a group when the current directory is root directory,
-
-    - Prerequisites: There is at least one group under the root directory and not all the groups have the deadline task.
-      Test case: `deadline ~ --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`<br>
-      Expected: The deadline task `Assignment 1` will be allocated to all groups under root directory.
-
-    - Prerequisites: There is a group with GroupId `grp-001` in the root directory and not all the student in `grp-001` have the deadline task.
+    - Prerequisites: There exist a group with GroupId `grp-001` with at least one student.<br>
+      Prerequisites: At least one of the student does not have the deadline task, Assignment 1.<br>
       Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`<br>
-      Expected: The deadline task `Assignment 1` will be allocated all students in group `grp-001`.
+      Expected: The deadline task `Assignment 1` will be allocated all students in `grp-001` that does not already have the task.
 
-    - Prerequisites: There is at least one student under the root directory and not all the student have the deadline task.
-      Test case: `deadline ~ --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`<br>
-      Expected: The deadline task `Assignment 1` will be allocated to all students under root directory.
+    - Prerequisites: There exist at least one student in ProfBook and at least one of the students does not have the deadline task, Assignment 1.<br>
+      Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`<br>
+      Expected: The deadline task `Assignment 1` will be allocated to all students under root directory that does not already have the task.
 
-    - Test case: `deadline invalidPath --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`<br>
-      Expected: An error message indicating the path is invalid will be displayed.
-
-    - Test case: `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`, `deadline x --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu` (where x is an invalid path)<br>
-      Expected: An error message indicating the path is invalid will be displayed.
-
-    - Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime x --all allGrp` (where x is an invalid datetime)<br>
-      Expected: An error message indicating the datetime format is invalid will be displayed.
-
-    - Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStudent`<br>
+    - Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStudent` <br>
       Expected: An error message indicating the format of category label is invalid will be displayed.
 
-    - Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all x` (where x is an invalid option)<br>
-      Expected: An error message indicating the format of category label is invalid will be displayed.
+    - Test case: `deadline ~/grp-001/0001Y --desc Assignment 1 --all allGrp`<br>
+      Expected: An error message indicating allGrp flag is only allowed for root path.
 
-    - Test case: `deadline invalidPath`<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
+- Test case: `deadline ~/0001Y --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
+  Expected: An error message indicating the path is invalid will be displayed.
 
-    - Other incorrect `deadline` commands to try: `deadline`, `deadline x` (where x is an invalid path)<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
+- Other incorrect `deadline` commands to try: `deadline`, `deadline ~/grp-001`, `deadline ~/grp-001 --desc no date time flag` (where one or more required fields are missing)<br>
+  Expected: An error message indicating the command format is invalid will be displayed.
 
-### Mark task as completed
+### Mark a task as completed
 
-- Marks the specified task as done for the specified student or group
+- Marks a specified task as done for a student or group
 
-    - Prerequisites: The display panel is showing the task list of the specific student or group. Use the `cat` command in order to display the task list of a student or group.
+    - Prerequisites: The display panel is showing the task list of the specified student or group.<br>
+      This can be achieved by using the `cat` command alongside the path to the desired student/group to display their task list.
 
-    - Prerequisites: The current directory is group directory and the group has a task with index `1` in its task list.
+    - Prerequisites: The current directory is group directory and the group has been assigned minimally one task.<br>
       Test case: `mark 1`<br>
       Expected: The task with task index `1` will be marked as completed.
 
-    - Test case: `mark -2`<br>
-      Expected: If the value of x is a positive whole number and falls within the range of 1 to the total number of tasks in the task list, then the task with the respective index number will be marked. Otherwise, an error message of `Invalid task index` will be shown.
-
-    - Test case: `mark x` (where x is an invalid task index)<br>
-      Expected: If the value of x is a positive whole number and falls within the range of 1 to the total number of tasks in the task list, then the task with the respective index number will be marked. Otherwise, an error message of `Invalid task index` will be shown.
+    - Test case: `mark`<br>
+      Expected: An error message indicating the command format is invalid will be displayed.
 
     - Test case: `mark a`<br>
-      Expected: An error message indicating the index provided is not a non-zero unsigned integer will be displayed.
+      Expected: No task would be marked, an error will be shown.
 
-    - Test case: `mark x` (where x is not a number)<br>
-      Expected: An error message indicating the index provided is not a non-zero unsigned integer will be displayed.
+    - Other incorrect `mark` commands to try: `mark \-2`, `mark x` (Where x is positive integer which is greater than current task list size)<br>
+      Expected: No task would be marked, an error message indicating that the index given is invalid.
 
-    - Other incorrect `mark` commands to try: `mark`<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
+### Un-mark a completed task
 
-### Unmark completed task
+- Un-marks a specified task for a student or group
 
-- Unmarks the specified task for the student or group
+    - Prerequisites: The display panel is showing the task list of the specified student or group.<br>
+      This can be achieved by using the `cat` command alongside the path to the desired student/group to display their task list.
 
-    - Prerequisites: The display panel is showing the task list of the specific student or group. Use the `cat` command in order to display the task list of a student or group.
-
-    - Prerequisites: The current directory is group directory and the group has a task with index `1` in its task list.
+    - Prerequisites: The current directory is group directory and the group has been assigned minimally one task.<br>
       Test case: `unmark 1`<br>
-      Expected: The task with task index `1` will be unmarked.
+      Expected: The task with task index `1` will be un-marked.
 
-    - Test case: `unmark -2`<br>
-      Expected: If the value of x is a positive whole number and falls within the range of 1 to the total number of tasks in the task list, then the task with the respective index number will be unmarked. Otherwise, an error message of `Invalid task index` will be shown.
-
-    - Test case: `unmark x` (where x is an invalid task index)<br>
-      Expected: If the value of x is a positive whole number and falls within the range of 1 to the total number of tasks in the task list, then the task with the respective index number will be unmarked. Otherwise, an error message of `Invalid task index` will be shown.
-
-    - Test case: `unmark a` (where x is not a number)<br>
-      Expected: An error message indicating the index provided is not a non-zero unsigned integer will be displayed.
-
-    - Test case: `unmark x` (where x is not a number)<br>
-      Expected: An error message indicating the index provided is not a non-zero unsigned integer will be displayed.
-
-    - Other incorrect `unmark` commands to try: `unmark`<br>
+    - Test case: `unmark`<br>
       Expected: An error message indicating the command format is invalid will be displayed.
 
-### Delete task
+    - Test case: `unmark a`<br>
+      Expected: No task would be un-marked, an error will be shown.
 
-- Deletes a task according to specified index number
+    - Other incorrect `unmark` commands to try: `unmark \-2`, `unmark x` (Where x is positive integer which is greater than current task list size)<br>
+      Expected: No task would be marked, an error message indicating that the index given is invalid.
 
-    - Prerequisites: The display panel is showing the task list of the specific student or group. Use the `cat` command in order to display the task list of a student or group.
+### Delete a task
 
-    - Prerequisites: The current directory is group directory and the group has a task with index `1` in its task list.
+- Deletes a specified task for a student or group,
+
+    - Prerequisites: The display panel is showing the task list of the specified student or group.<br>
+      This can be achieved by using the `cat` command alongside the path to the desired student/group to display their task list.
+
+    - Prerequisites: The current directory is group directory and the group has been assigned minimally one task.<br>
       Test case: `rmt 1`<br>
       Expected: The task with task index `1` will be deleted.
 
-    - Test case: `rmt -2`<br>
-      Expected: If the value of x is a positive whole number and falls within the range of 1 to the total number of tasks in the task list, then the task with the respective index number will be deleted. Otherwise, an error message of `Invalid task index` will be shown.
-
-    - Test case: `rmt x` (where x is an invalid task index)<br>
-      Expected: If the value of x is a positive whole number and falls within the range of 1 to the total number of tasks in the task list, then the task with the respective index number will be deleted. Otherwise, an error message of `Invalid task index` will be shown.
+    - Test case: `rmt`<br>
+      Expected: An error message indicating the command format is invalid will be displayed.
 
     - Test case: `rmt a`<br>
-      Expected: An error message indicating the index provided is not a non-zero unsigned integer will be displayed.
+      Expected: No task would be deleted, an error will be shown.
 
-    - Test case: `rmt x` (where x is not a number)<br>
-      Expected: An error message indicating the index provided is not a non-zero unsigned integer will be displayed.
-
-    - Other incorrect `rmt` commands to try: `rmt`<br>
-      Expected: An error message indicating the command format is invalid will be displayed.
+    - Other incorrect `rmt` commands to try: `rmt \-2`, `rmt x` (Where x is positive integer which is greater than current task list size)<br>
+      Expected: No task would be deleted, an error message indicating that the index given is invalid.
 
 ### UI
 
 ### Change directory
 
-- Changes the current directory in the ProfBook when the current directory is root directory,
+- Changes the current directory in the ProfBook,
 
-   - Test case: `cd grp-001`, `cd ~/grp-001`<br>
-     Expected: If there is no such a group with GroupId `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the current directory will be changed to `grp-001` and the interface will change from displaying all the group to displaying all the student in `grp-001`.
+   - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+     Test case: `cd grp-001`, `cd ~/grp-001`<br>
+     Expected: The current directory will be changed to `grp-001` and the interface will change from displaying all the group to displaying all the student in `grp-001`.
 
-   - Test case: `cd invalidPath`<br>
-     Expected: An error message indicating the path is invalid will be displayed.
+   - Prerequisites: There does not exist a group with GroupId `grp-002`.<br>
+     Test case: `cd grp-002`<br>
+     Expected: An error message indicating the path is not found.
 
-   - Test case: `cd x` (where x is an invalid path)<br>
+   - Test case: `cd ~/0000Y`<br>
      Expected: An error message indicating the path is invalid will be displayed.
 
    - Other incorrect `cd` commands to try: `cd`<br>
@@ -1517,59 +1587,58 @@ testers are expected to do more *exploratory* testing.
 
 ### Display directory
 
-- Shows the list of children in specified directory when the current directory is root directory,
+- Shows the list of children in specified directory,
 
     - Test case: `ls`<br>
-      Expected: All the groups under root directory will be displayed.
+      Expected: All the groups in ProfBook will be displayed.
 
-    - Test case: `ls grp-001`<br>
-      Expected: If there is no such a group with GroupId `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the interface will change from displaying all the group to displaying all the student in `grp-001`.
-
-    - Test case: `ls invalidPath`<br>
-      Expected: An error message indicating the path is invalid will be displayed.
-
-    - Test case: `ls x` (where x is an invalid path)<br>
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+      Test case: `ls grp-001`<br>
+      Expected: The interface will change from displaying all the group to displaying all the student in `grp-001`.
+  
+    - Prerequisites: There does not exist a group with GroupId `grp-002`.<br>
+      Test case: `ls grp-002`<br>
+      Expected: An error message indicating the path is not found.
+  
+    - Test case: `ls ~/0000Y`<br>
       Expected: An error message indicating the path is invalid will be displayed.
 
 ### Display all tasks
 
-- Displays all tasks when the current directory is root directory,
+- Displays all tasks,
 
-    - Test case: `cat ~/grp-001`<br>
-      Expected: If there is no such a group with GroupId `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the task list of `grp-001` will be displayed.
+    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+      Test case: `cat grp-001`<br>
+      Expected: The interface will change from displaying all the group to displaying all tasks assigned to `grp-001`.
 
-    - Test case: `cat ~/grp-001/0123Y`<br>
-      Expected: If there is no such a student with StudentId `0123Y` in `grp-001`, then an error message will appear at the output box below the command box. Otherwise, the task list of `0123Y` will be displayed.
+    - Prerequisites: There does not exist a group with GroupId `grp-002`.<br>
+      Test case: `cat grp-002`<br>
+      Expected: An error message indicating the path is not found.
 
-    - Test case: `cat invalidPath`<br>
+    - Test case: `cat ~/0000Y`<br>
       Expected: An error message indicating the path is invalid will be displayed.
-
-    - Test case: `cat x` (where x is an invalid path)<br>
-      Expected: An error message indicating the path is invalid will be displayed.
-
-    - Other incorrect `cat` commands to try: `cat`<br>
-      Expected: An error message indicating unable to show the task list of root directory.
 
 ### Saving data
 
 - Getting the default save file.
 
     - Prerequisites: Place ProfBook.jar in an empty home folder. Perform the following step in the root directory.
+    - Prerequisites: There should be a group with id `grp-001`, this `grp-001` should contain a student with id `0001Y`
 
-    - Test case: `todo grp-001/0001Y --desc Assignment One`
-      Expected: profbook.json appears in data folder inside home folder. Student with name `Tejas` has a field history in profbook.json whereas the other students do not. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/addTodo.json).
+    - Test case: `todo grp-001/0001Y --desc Assignment One`.<br>
+      Expected: `profbook.json` appears in data folder inside home folder. Student with id `0001Y` has a new task added which is reflected in `profbook.json`. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/addTodo.json).
 
-    - Test case: `rm grp-001/0001Y`
-      Expected: profbook.json is updated with `Tejas removed`. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/removeTejas.json).
+    - Test case: `rm grp-001/0001Y`.<br>
+      Expected: `profbook.json` is updated with the removal of student `0001Y`. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/removeStudent.json).
 
 - Clearing the save file.
 
-    - Prerequisites: Have profbook.json in the data folder. Perform the previous step if the file isn’t there.
+    - Prerequisites: Have `profbook.json` in the data folder. Perform the previous step if the file isn’t there.
 
-    - Test case: `clear`
-      Expected: An empty profbook.json file like [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/empty.json)).
+    - Test case: `clear`<br>
+      Expected: An empty `profbook.json` file like [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/empty.json).
 
-<br>
+<div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -1592,7 +1661,7 @@ The project was classified as **challenging** due to:
 
 - **Hierarchical Structure:** Our application features a hierarchical structure, with ProfBook serving as the root
   entity. Under ProfBook, there are groups, and each group contains students. Managing this hierarchical structure added
-  complexity to the project.
+  a significant amount of complexity to the project.
 
 - **Diverse Classes:** Unlike AB3, our project needed to handle a more extensive range of classes, including Student,
   Group, and Task. This expansion added complexity as we had to provide functionality for student organization and task
@@ -1605,7 +1674,8 @@ project phases:
 
 - **Design and Architecture:** This phase focused on designing the terminal-like user interface, defining terminal
   behavior, and integrating the hierarchical structure. Additionally, it involved accommodating and ensuring the smooth
-  interaction of multiple entity types within the application.
+  interaction of multiple entity types within the application. We found it especially difficult to find a class generic 
+  enough to capture all the different behaviour of each directory in ProfBook while also making it extensible.
 
 - **Implementation and Coding:** The implementation phase was dedicated to building custom components and
   functionalities essential for realizing terminal behavior, hierarchical structure navigation, and handling diverse
@@ -1620,18 +1690,18 @@ project phases:
 
 ### **Effort Savings through Reuse**
 
-A notable aspect of our project was the efficient use of custom components, which contributed to a significant reduction
+A notable aspect of our project was the efficient use of custom logics, which contributed to a significant reduction
 in the overall effort.
 
-- **Path Component:** We introduced the `Path` component, which includes subclasses for managing both **absolute** and *
-  *relative** paths. This component played a crucial role in managing navigation and executing dynamic commands within
+- **Path package:** We introduced the `path` package, which includes subclasses for managing both **absolute** and 
+**relative** paths. This package played a crucial role in managing navigation and executing dynamic commands within
   our application.
 
-- **ChildManager Component:** The component was instrumental in representing the hierarchical structure in our
-  application. We successfully leveraged this component to perform operations related to child entities, optimizing the
+- **ChildManager Component:** The class was instrumental in representing the hierarchical structure in our
+  application. We successfully leveraged this class to perform operations related to child entities, optimizing the
   handling of students within groups and groups within the ProfBook.
 
-- **TaskListManager Component:** This component streamlines task management and allocation by providing a consistent and
+- **TaskListManager class:** This class streamlines task management and allocation by providing a consistent and
   unified interface for handling tasks throughout the application.
 
-Reusing these components enhanced project efficiency and maintainability.
+Reusing these logics enhanced project efficiency and maintainability.
