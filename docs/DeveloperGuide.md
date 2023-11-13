@@ -1303,7 +1303,7 @@ need to change according to your current directory. More information can be foun
 
 - Creating a new group,
 
-    - Prerequisites: There exist a group with GroupId `grp-001`.<br>
+    - Prerequisites: No existing group with GroupId grp-001.<br>
       Test case: `mkdir grp-001 --name Amazing Group1`<br>
       Expected: A new group will be added to the list in the bottom output box, with name `Amazing Group1` and GroupId `grp-001`.
 
@@ -1326,7 +1326,7 @@ need to change according to your current directory. More information can be foun
       Test case: `touch ~/grp-001/0199Y --name Mary --email mary@gmail.com --phone 65412987 --address 4 Loyang Walk Loyang Industrial Estate`<br>
       Expected: The student with id `0199Y` will be added to `grp-001`.
 
-    - Prerequisites: ProfBook does not contain a student with id`0123Y`.
+    - Prerequisites: ProfBook does not contain a student with id`0123Y`.<br>
       Test case: `touch ~/grp-001/0123Y --name Mary`<br>
       Expected: The student with id `0123Y` will be added to `grp-001`.
 
@@ -1592,17 +1592,17 @@ need to change according to your current directory. More information can be foun
 
     - Prerequisites: Place ProfBook.jar in an empty home folder. Perform the following step in the root directory.
 
-    - Test case: `todo grp-001/0001Y --desc Assignment One`
+    - Test case: `todo grp-001/0001Y --desc Assignment One`<br>
       Expected: `profbook.json` appears in data folder inside home folder. Student with name `Tejas` has a field history in profbook.json whereas the other students do not. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/addTodo.json).
 
-    - Test case: `rm grp-001/0001Y`
+    - Test case: `rm grp-001/0001Y`<br>
       Expected: `profbook.json` is updated with `Tejas removed`. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/removeTejas.json).
 
 - Clearing the save file.
 
     - Prerequisites: Have `profbook.json` in the data folder. Perform the previous step if the file isn’t there.
 
-    - Test case: `clear`
+    - Test case: `clear`<br>
       Expected: An empty `profbook.json` file like [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/empty.json)).
 
 <div style="page-break-after: always;"></div>
