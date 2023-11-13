@@ -15,7 +15,7 @@ import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Student;
 
 /**
- * Adds a student within the specific group.
+ * Adds a student to a specific group.
  */
 public class CreateStudentCommand extends Command {
 
@@ -61,7 +61,7 @@ public class CreateStudentCommand extends Command {
     private final Student student;
 
     /**
-     * Creates an CreateStudentCommand to add the specified {@code Student}
+     * Creates an CreateStudentCommand to add the specified {@code Student}.
      */
     public CreateStudentCommand(AbsolutePath path, Student student) {
         requireAllNonNull(path, student);
@@ -75,7 +75,7 @@ public class CreateStudentCommand extends Command {
     }
 
     /**
-     * Executes an CreateStudentCommand to add the specified {@code Student} to a {@code Group}
+     * Executes an CreateStudentCommand to add the specified {@code Student} to a {@code Group}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -89,10 +89,8 @@ public class CreateStudentCommand extends Command {
         checkIfGroupExistInProfBook(model);
         checkForDuplicateStudentId(model);
 
-        ChildOperation<Student> target = model.groupChildOperation(path);
-
         logger.finer("Executing create student command.");
-
+        ChildOperation<Student> target = model.groupChildOperation(path);
         target.addChild(this.student.getId(), this.student);
         model.updateList();
 
@@ -100,7 +98,7 @@ public class CreateStudentCommand extends Command {
     }
 
     /**
-     * Checks if {@code Path} is a Student Directory
+     * Checks if {@code Path} is a Student Directory.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -111,7 +109,7 @@ public class CreateStudentCommand extends Command {
     }
 
     /**
-     * Checks if specified {@code Group} exist in ProfBook
+     * Checks if specified {@code Group} exist in ProfBook.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -122,7 +120,7 @@ public class CreateStudentCommand extends Command {
     }
 
     /**
-     * Checks if StudentId of {@code Student} to be added duplicates with other {@code Student} in ProfBook
+     * Checks if StudentId of {@code Student} to be added duplicates with other {@code Student} in ProfBook.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */

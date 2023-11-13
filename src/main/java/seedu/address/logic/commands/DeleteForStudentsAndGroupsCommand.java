@@ -62,7 +62,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     private final AbsolutePath toBeDeleted;
 
     /**
-     * Creates an DeleteForStudentsAndGroupsCommand to specified {@code Student} or {@code Group}
+     * Creates a DeleteForStudentsAndGroupsCommand to specified {@code Student} or {@code Group}.
      */
     public DeleteForStudentsAndGroupsCommand(AbsolutePath toBeDeleted) { //path will specify which grp/student
         requireNonNull(toBeDeleted);
@@ -74,7 +74,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Executes a DeleteForStudentsAndGroupsCommand to delete a {@code Student} or {@code Group}
+     * Executes a DeleteForStudentsAndGroupsCommand to delete a {@code Student} or {@code Group}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException                  Exception thrown when error occurs during command execution.
@@ -92,12 +92,10 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
         checkIfPathToDeleteExistInProfBook(model);
 
         if (toBeDeleted.isStudentDirectory()) {
-            logger.finer("Executing delete student.");
             return deleteStudent(model);
         }
 
         if (toBeDeleted.isGroupDirectory()) {
-            logger.finer("Executing delete group.");
             return deleteGroup(model);
         }
 
@@ -105,7 +103,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Checks if toBeDeleted is a Root Directory
+     * Checks if toBeDeleted is a Root Directory.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -116,7 +114,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Checks if toBeDeleted path is current path
+     * Checks if toBeDeleted path is current path.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -127,7 +125,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Checks if toBeDeleted path is display path
+     * Checks if toBeDeleted path is display path.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -138,7 +136,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Checks if toBeDeleted path exists in ProfBook
+     * Checks if toBeDeleted path exists in ProfBook.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -149,7 +147,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Deletes a student
+     * Deletes a student.
      *
      * @return Command result which represents the outcome of the command execution.
      */
@@ -157,13 +155,15 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
         ChildOperation<Student> target = model.groupChildOperation(toBeDeleted);
         StudentId studentId = toBeDeleted.getStudentId().get();
         Student stu = target.getChild(studentId);
+
+        logger.finer("Executing delete student.");
         target.deleteChild(studentId);
         model.updateList();
         return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_STUDENT, Messages.format(stu)));
     }
 
     /**
-     * Deletes a group
+     * Deletes a group.
      *
      * @return Command result which represents the outcome of the command execution.
      */
@@ -171,6 +171,8 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
         ChildOperation<Group> target = model.rootChildOperation();
         GroupId groupId = toBeDeleted.getGroupId().get();
         Group grp = target.getChild(groupId);
+
+        logger.finer("Executing delete group.");
         target.deleteChild(groupId);
         model.updateList();
         return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_GROUP, Messages.format(grp)));

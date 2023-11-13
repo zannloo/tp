@@ -18,7 +18,7 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.task.Deadline;
 
 /**
- * Adds a Deadline for a specified {@code Student} or {@code Group}.
+ * Adds a Deadline task for a one or more {@code Student} or {@code Group}.
  */
 public class CreateDeadlineCommand extends Command {
 
@@ -95,8 +95,8 @@ public class CreateDeadlineCommand extends Command {
     private final Category category;
 
     /**
-     * Creates an CreateDeadlineCommand to add the {@code Deadline} Task for a specified {@code Student}
-     * or {@code Group}
+     * Creates a CreateDeadlineCommand to add the {@code Deadline} Task for {@code Student}
+     * or {@code Group}.
      * User has inputted a category as well.
      */
     public CreateDeadlineCommand(AbsolutePath path, Deadline deadline, Category category) {
@@ -113,7 +113,8 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Executes an CreateDeadlineCommand to allocate a {@code Deadline} task to a {@code Group} or {@code Student}
+     * Executes a CreateDeadlineCommand to allocate a {@code Deadline} task to one or more
+     * {@code Group} or {@code Student}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -125,25 +126,22 @@ public class CreateDeadlineCommand extends Command {
 
         // Check if path exists in ProfBook
         if (!model.hasPath(path)) {
-            logger.warning("Path does not exist. Aborting create deadline task command.");
+            logger.finer("Path does not exist. Aborting create deadline task command.");
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, path));
         }
 
         switch(category) {
         case NONE:
-            logger.finer("Created a deadline task for a single student or group");
             return handleNone(model);
         case ALLSTU:
-            logger.finer("Created a deadline task for all students under a group or ProfBook");
             return handleAllStu(model);
         default:
-            logger.finer("Created a deadline task for all groups under ProfBook");
             return handleAllGrp(model);
         }
     }
 
     /**
-     * Allocates a {@code Deadline} task to a {@code Group} or {@code Student}
+     * Allocates a {@code Deadline} task to a {@code Group} or {@code Student}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -161,18 +159,20 @@ public class CreateDeadlineCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_DEADLINE_TASK);
         }
 
+        logger.finer("Creating a deadline task for a single group or student");
         target.addTask(this.deadline);
         model.updateList();
 
         if (path.isGroupDirectory()) {
             return new CommandResult(String.format(MESSAGE_SUCCESS_GROUP, path.getGroupId().get(), this.deadline));
         }
+
         return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, path.getStudentId().get(), this.deadline));
     }
 
     /**
      * Handles the situation where a {@code Deadline} task is allocated to all {@code Student}
-     * or {@code Root}
+     * in {@code Group} or {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -190,7 +190,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Adds a {@code Deadline} task to all {@code Student} in a {@code Group}
+     * Adds a {@code Deadline} task to all {@code Student} in a {@code Group}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -206,6 +206,7 @@ public class CreateDeadlineCommand extends Command {
         // Check whether at least one of the children has the task
         boolean warning = groupOper.doAnyChildrenHaveTasks(deadline, 1);
 
+        logger.finer("Creating a deadline task for all students under a group");
         groupOper.addTaskToAllChildren(deadline, 1);
         model.updateList();
         return new CommandResult(
@@ -214,7 +215,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Adds a {@code Deadline} task to all {@code Student} in a {@code Root}
+     * Adds a {@code Deadline} task to all {@code Student} in {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -230,6 +231,7 @@ public class CreateDeadlineCommand extends Command {
         // Check whether at least one of the children has the task
         boolean warning = operation.doAnyChildrenHaveTasks(deadline, 2);
 
+        logger.finer("Creating a deadline task for all students under ProfBook");
         operation.addTaskToAllChildren(deadline, 2);
         model.updateList();
         return new CommandResult(
@@ -238,7 +240,7 @@ public class CreateDeadlineCommand extends Command {
     }
 
     /**
-     * Handles the situation where a {@code Deadline} task is allocated to all {@code Group} in {@code Root}
+     * Handles the situation where a {@code Deadline} task is allocated to all {@code Group} in {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -247,12 +249,11 @@ public class CreateDeadlineCommand extends Command {
         if (!path.isRootDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
-
         return addTaskToAllGrpInRoot(model);
     }
 
     /**
-     * Adds a {@code Deadline} task to all {@code Group} in {@code Root}
+     * Adds a {@code Deadline} task to all {@code Group} in {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -268,6 +269,7 @@ public class CreateDeadlineCommand extends Command {
         // Check whether at least one of the children has the task
         boolean warning = rootOper.doAnyChildrenHaveTasks(deadline, 1);
 
+        logger.finer("Creating a deadline task for all groups under ProfBook");
         rootOper.addTaskToAllChildren(deadline, 1);
         model.updateList();
         return new CommandResult(warning ? MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING : MESSAGE_SUCCESS_ALL_GROUPS);
