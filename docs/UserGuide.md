@@ -830,8 +830,6 @@ When you are at the root directory `~/` and would like to edit the same group's 
   directory before executing the `edit` command!
 </box>
 
-<div style="page-break-after: always;"></div>
-
 ### <span style="color: #FF8C00;">Delete a Student or Group: `rm` </span>
 
 Removes a student or group from the specified path.
