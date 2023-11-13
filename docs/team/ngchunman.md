@@ -25,7 +25,7 @@ ProfBook is a desktop address book application used for easy management of tasks
    - Moves student from one group to another group.
    - Ensure the expected behaviour with regard to moving a student.
      - Paths to both source group and destination group are valid.
-     - Source group consists of the student to be moved.
+     - Source group exists in ProfBook and consists of the student to be moved.
      - Destination group exists in ProfBook.
      - Command format is valid.
 
@@ -33,6 +33,11 @@ ProfBook is a desktop address book application used for easy management of tasks
 3. **Introduced `EditCommand` Class**:
    - Edits a student's details including name, email, phone, address or StudentId in the specified path.
    - Edits a group's name or GroupId in the specified path.
+   - Ensure the expected behaviour with regard to editing a student/group field(s).
+     - The group to be edited exists in ProfBook.
+     - Must have at least one field being changed
+     - If editing the id of a student/group, the updated id should not be used by other student/group respectively.
+     - Command format is valid.
 
 
 4. **Introduced `EditGroupDescriptor` Class**:
@@ -62,6 +67,7 @@ ProfBook is a desktop address book application used for easy management of tasks
 * **Non-Feature Aspects:**
    * Quick Start
    * Commonly made mistakes
+
 
 * **Feature Aspects:**
    * `edit` command.
