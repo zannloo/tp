@@ -1600,12 +1600,13 @@ need to change according to your current directory. More information can be foun
 - Getting the default save file.
 
     - Prerequisites: Place ProfBook.jar in an empty home folder. Perform the following step in the root directory.
+    - Prerequisites: There should be a group with id `grp-001`, this `grp-001` should contain a student with id `0001Y`
 
     - Test case: `todo grp-001/0001Y --desc Assignment One`.<br>
-      Expected: `profbook.json` appears in data folder inside home folder. Student with name `Tejas` has a field history in profbook.json whereas the other students do not. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/addTodo.json).
+      Expected: `profbook.json` appears in data folder inside home folder. Student with id `0001Y` has a new task added which is reflected in `profbook.json`. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/addTodo.json).
 
     - Test case: `rm grp-001/0001Y`.<br>
-      Expected: `profbook.json` is updated with `Tejas removed`. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/removeTejas.json).
+      Expected: `profbook.json` is updated with the removal of student `0001Y`. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/removeStudent.json).
 
 - Clearing the save file.
 
