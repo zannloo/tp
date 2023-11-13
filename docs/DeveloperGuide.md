@@ -657,7 +657,7 @@ Given below is an example usage scenario whereby a student is moved from group1 
 
 ### Editing tasks
 
-Currently, the only way to edit tasks is by manually deleting and then adding it again. This creates extra hassle for
+Currently, the only way to edit tasks is by manually deleting and then adding them again. This creates extra hassle for
 the user and possible more inconveniences as doing so might change the task's index resulting in the user having
 to `cat` again to figure out its new index. We plan to edit the task manually for the user by creating a new command
 that deletes and then creates a new task with the edited information while keeping the index the same. Implementing this
@@ -673,7 +673,7 @@ users to have the peace of mind that the phone number is validated and robust en
 
 ### Max character length validation
 
-Currently, our application only checks if the required fields (e.g. `--name`, `--desc`). Our current validation is
+Currently, our application only checks if the required fields (e.g. `--name`, `--desc`) is present. Our current validation is
 lacking as users are able to enter a value that is infinitely long which may hinder the performance and functionality of
 our GUI. We plan to counteract this by enforcing a max character length for each of our field. Implementing this is
 would be rather simple by adding a length check during parsing. We could limit name length to 46 characters, email to 62 
