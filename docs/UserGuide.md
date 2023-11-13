@@ -12,11 +12,11 @@ help streamline your administrative tasks, alleviate workload and most important
 ## What can ProfBook do :raising_hand:
 As current students of CS2103T, we understand that CS2103T tutors have a high administrative workload on top of their 
 existing tutor duties. On top of that, any administrative mistakes or oversights can increase that workload 
-exponentially and may adversely impact student's learning. We deeply appreciate your role, and it is precisely to 
+exponentially and may adversely impact students' learning. We deeply appreciate your role, and it is precisely to 
 address these aforementioned issues that we designed ProfBook. ProfBook aims to
 **drastically decrease administrative mistakes and your workload**.
 
-ProfBook is optimized for tutors' use via a **familiar Command Line Interface (CLI) that uses linux-styled commands** 
+ProfBook is optimized for tutors' use via a **familiar Command Line Interface (CLI) that uses Linux-styled commands** 
 while retaining the benefits of a Graphical User Interface (GUI). If you are a fast typer, ProfBook will empower you 
 to efficiently track and manage students' progress and tasks, surpassing the capabilities of traditional GUI apps 
 with a gentle learning curve.
@@ -31,7 +31,7 @@ As a project-based module, CS2103T tutors have to juggle multiple groups. ProfBo
 aims to expedite this process by allowing you to keep track of all your groups and their progress within a centralised 
 location. You would be able to traverse between the different groups quickly through familiar Linux commands.
 
-### Student and Group Management
+### Student and Group Management 
 
 ProfBook aids with the **management of student and group information**. ProfBook efficiently encapsulates information of 
 every project group so that you can easily monitor their progress and relevant information.  You can 
@@ -137,7 +137,7 @@ This is utilized to indicate the output if command fails.:no_good:
 
 - Please note that only the **relevant outputs** for the command are indicated. There may be additional outputs
   in the case of command failure that are not indicated.
-- For more information and solutions on commonly made mistakes, feel free to click [here](#commonly-made-mistake)!
+- For more information and solutions on commonly made mistakes, feel free to click [here](#commonly-made-mistakes)!
 
 </box>
 
@@ -176,8 +176,6 @@ within each group.
 
   This hierarchical structure enables a well-organized and efficient way to manage groups and students within ProfBook.
 
-
-
 ### ProfBook Command Format
 
 - Words in `UPPER_CASE` are the **compulsory** parameters to be supplied by you.
@@ -190,6 +188,9 @@ within each group.
   * e.g. If the command specifies `-n NAME -e EMAIL`, `-e EMAIL -n NAME` is also acceptable.
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored. 
   * e.g. If the command specifies `help 123`, it will be interpreted as `help`.
+
+<div style="page-break-after: always;"></div>
+
 - Regarding the detection of duplicates,
   - **For students and groups**, duplicates can only be detected if they share the same StudentId or GroupId respectively
   across ProfBook. 
@@ -219,10 +220,7 @@ Flags usually **come before** essential details required by the command and are 
 * `--address` / `-a` followed by the address of student.
 - `--id` / `-i` followed by a `STUDENT_ID` or `GROUP_ID` as specified by the command.
 * `--desc` / `-d` followed by the description of task specified by command.
-- `--datetime` / `-dt` followed by the due date of a deadline task in the `yyyy-MM-dd HH:mm` format. 
-
-<div style="page-break-after: always;"></div>
-
+- `--datetime` / `-dt` followed by the due date of a deadline task in the `yyyy-MM-dd HH:mm` format.
 * `--all` / `-al` followed by either: 
   - `allStu` which adds **individual** tasks to all students within the specified directory.
     - Can only be used at a group or root directory.  
@@ -230,6 +228,9 @@ Flags usually **come before** essential details required by the command and are 
       - If used at **root directory**, task will be added to **all students in ProfBook**.
   - `allGrp` which adds **group** tasks to all groups within the root directory.
     - Can only be used at root directory.
+
+<div style="page-break-after: always;"></div>
+
 - `--help` / `-h`
   - Use with any command (except `exit`, `help` and `clear`) for more information.
   - e.g. `touch --help` to learn more about how to add a student to ProfBook.
@@ -239,7 +240,7 @@ Flags usually **come before** essential details required by the command and are 
 `SPECIFIED_PATH`:
 - Must be a **valid** path. 
 - Most commands will require the `SPECIFIED_PATH` to be a present path (path that currently exists within ProfBook)
-except for the [`touch`](#add-a-student-touch) and [`mkdir`](#add-a-goup-mkdir) commands.
+except for the [`touch`](#add-a-student-touch) and [`mkdir`](#create-a-group-mkdir) commands.
 
 | **Symbol** | **Purpose of symbol**                                                                                                                                                                                 |
 |------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -267,6 +268,8 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y`.
 - Must be a non-empty string that only contain alphanumeric characters and spaces.
 - This means that you cannot input a blank field. 
 
+<div style="page-break-after: always;"></div>
+
 `EMAIL`:
 - Must be a non-empty string following the format of `local-part@domain`.
   - `local-part`:
@@ -286,11 +289,9 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y`.
 `ADDRESS`:
 - Must be a non-empty string, which means you cannot input a blank field.
 
-<div style="page-break-after: always;"></div>
-
 `STUDENT_ID`:
 - Must follow the format of a valid StudentId.
-  
+
 <box type="info">
 
 **Required format for StudentId:**
@@ -299,21 +300,21 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y`.
     a StudentId created by you. This format helps you to identify students easily while maintaining
     privacy and security.
   * eg. `8467U`
+</box>
   
-    </box>
-
 `GROUP_ID`:
-  - Must follow the format of a valid GroupId.
+- Must follow the format of a valid GroupId.
 
-  <box type="info">
+<box type="info">
 
 **Required format for GroupId:**
-- `grp-XXX` where `XXX` is replaceable with any 3-digit whole number.  
-  - **Note:** GroupId is case-insensitive, meaning `GrP-001` and `Grp-002` are also acceptable. 
+- `grp-XXX` where `XXX` is replaceable with any 3-digit whole number.
+  - **Note:** GroupId is case-insensitive, meaning `GrP-001` and `Grp-002` are also acceptable.
   * eg. `grp-001`
+</box>
 
-    </box>
-  
+<div style="page-break-after: always;"></div>
+
 `DESCRIPTION`:
 - Must be a non-empty string, which means you cannot input a blank field. 
 
@@ -339,7 +340,8 @@ you would need to utilize `~/grp-001/0123Y` and **not** `~/0123Y`.
 
 **ProfBook's graphical user interface(GUI)** presents crucial information through visuals.
 However, please note that ProfBook utilizes a Command Line Interface (CLI) approach, limiting the
-interactions with the graphical components to mainly scrolling via scrollbars.
+interactions with the graphical components to mainly scrolling via scrollbars. Let's navigate 
+ProfBook's GUI together in sequential order!
 
 ### Root Directory 
 Upon launching ProfBook, you will see the root directory as illustrated below.
@@ -382,12 +384,12 @@ To view the task list of the current group directory, simply use `cat`.
 | **Message Display Column** |   Displays the output of the command result. <br>Note that it shows that you are viewing the task list of group directory, `~/grp-001`.|
 | **Task List** |  Shows the tasks allocated to group at current group directory.   |
 | **Task Type Tag** |  Shows the task type of the specific task, distinguishing between **Todo** tasks (highlighted in **yellow**) and **Deadline** tasks (highlighted in **green**).|
-| **Task Status Box** |  Indicates the completion status of the specific task, using a **tick** for **marked** / **completed** task and the **absence of a tick** for **unmarked** / **uncompleted** tasks.   |
+| **Task Status Box** |  Indicates completion status of specific task, using a **tick** for **marked** task and the **absence of a tick** for **unmarked** task.   |
 | **List Type Indication** | Indicates the list type of the current display you are viewing, either a Children List or Task List. <br> In this instance, it shows the Task List of the group directory. |
 
 <box type = "warning">
 
-Noticed that every **task** in the ***Task List** have a corresponding index number beside the 
+Noticed that every **task** in the **Task List** have a corresponding index number beside the 
 description of the task? <br>
 This is the `TASK_INDEX` which will be useful for many of the task commands such as
 [`mark`](#mark-task-as-completed-mark), [`unmark`](#unmark-task-unmark) and [`rmt`](#delete-task-rmt).
@@ -545,7 +547,7 @@ Displays a message indicating either:
 
 #### Example(s):
 - When you are at the directory `~/grp-001` and would like to see all tasks allocated to <br>`grp-001`,
-  - executing `cat` will return all the tasks allocated to `grp-001`.
+  - Executing `cat` will return all the tasks allocated to `grp-001`.
   - Result shown will be similar to [this](#task-list-of-group-directory-grp-001).
 
 <box type="tip">
@@ -603,7 +605,7 @@ positioned in the top-left corner of the window.
 
 ## Student or Group Commands :family:
 
-### <span style="color: #FF8C00;">Add Student: `touch` </span>
+### <span style="color: #FF8C00;">Add a Student: `touch` </span>
 
 Adds a student into the specified group directory.
 
@@ -650,7 +652,7 @@ to this group through the following command,
 <box type="info">
 
 ![Ui](images/touchcommand.png){width=1132 height=300}
-Following the execution of the `touch` command, Bob appears in the Children List. The **Message Display Column**
+Following the execution of the `touch` command, Bob appears in the Student List. The **Message Display Column**
 also indicates the addition of a new student, Bob. <br>
 Observe that all fields for Bob, except for Name and StudentId, are marked `n/a` as you did 
 not include them in the initial command. But fear not! You can always add these additional fields through
@@ -667,7 +669,49 @@ When you are at the group directory `~/grp-001` and would like to add the same s
 
 <div style="page-break-after: always;"></div>
 
-### <span style="color: #FF8C00;">Edit Student: `edit` </span>
+### <span style="color: #FF8C00;">Create a Group : `mkdir`</span>
+
+Creates a group in the root directory that can contain students.
+
+<box type="warning">
+
+Kindly note that the addition of groups is exclusively to the root directory.
+This means that addition of groups under another group directory is not allowed.
+</box>
+
+**Format:** `mkdir SPECIFIED_PATH_TO_GROUP --name NAME`
+
+#### Acceptable values for each parameter:
+
+`SPECIFIED_PATH_TO_GROUP`:
+- Must be a valid path to a group.
+
+<box type="success" seamless>
+
+#### Output if command succeeds
+- Displays a message indicating the successful creation of the group, along with details of the new group.
+
+</box>
+
+<box type="wrong" seamless>
+
+#### Output if command fails
+
+- Displays a message indicating either:
+  - [Invalid command format.](#mistake-1-invalid-command-format)
+  - [Invalid path.](#mistake-2-invalid-path)
+  - [Duplicate Id.](#mistake-7-duplicate-id)
+
+</box>
+
+#### Example(s):
+
+- When you are at the root directory `~/` and would like to add a new group with the GroupId <br> `grp-001`,
+  - `mkdir grp-001 --name Group 001` will add that group named `Group 001`.
+
+<div style="page-break-after: always;"></div>
+
+### <span style="color: #FF8C00;">Edit a Student: `edit` </span>
 
 <box type="warning">
 
@@ -707,11 +751,9 @@ One or more fields can be edited in a single command.
 
 #### Example(s):        
   
-- If a student in `grp-001` with the StudentId `0010Y` changes his phone number, you could execute the following command 
+- If a student in `grp-001` with the StudentId `0010Y` changed his phone number, you could execute the following command 
 at the directory `~/grp-001`, to make the necessary changes. 
   - `edit 0010Y --phone 91919191`
-
-<div style="page-break-after: always;"></div>
 
 <box type="tip">  
 
@@ -722,7 +764,7 @@ directory before executing the `edit` command!
 
 <div style="page-break-after: always;"></div>
 
-### <span style="color: #FF8C00;">Edit Group: `edit` </span>
+### <span style="color: #FF8C00;">Edit a Group: `edit` </span>
 <box type="warning">
 
 The `edit` command uses the same command word, `edit`, for both editing students and groups.
@@ -776,11 +818,9 @@ to root directory.
 <box type="tip">  
 
 When you are at the root directory `~/` and would like to edit the same group's name,
-- You could use the command `edit ~/grp-001 --name Amazing Group1` to save yourself the trouble from having to change
+- You could use `edit ~/grp-001 --name Amazing Group1` to save yourself the trouble from having to change
   directory before executing the `edit` command!
 </box>
-
-<div style="page-break-after: always;"></div>
 
 ### <span style="color: #FF8C00;">Delete a Student or Group: `rm` </span>
 
@@ -806,7 +846,7 @@ Removes a student or group from the specified path.
 #### Output if command fails:
 
 - Displays a message indicating either:
-    - [Invalid command format](#mistake-1-invalid-command-format)
+    - [Invalid command format.](#mistake-1-invalid-command-format)
     - [Invalid path.](#mistake-2-invalid-path)
 
 </box>
@@ -814,7 +854,7 @@ Removes a student or group from the specified path.
 #### Example(s):
 
 - When you are at the root directory `~/` and would like to remove the group with the GroupId `grp-001`,
-    - `rm grp-001` will remove `grp-001`.
+    - `rm grp-001` will do that!
 
 <box type="tip">
 
@@ -826,7 +866,7 @@ in `~/grp-001`,
 
 <div style="page-break-after: always;"></div>
 
-### <span style="color: #FF8C00;">Move Student: `mv` </span>
+### <span style="color: #FF8C00;">Move a Student: `mv` </span>
 
 Moves student from one group to another group.
 
@@ -873,48 +913,6 @@ root directory,
 
 </box>
 
-<div style="page-break-after: always;"></div>
-
-### <span style="color: #FF8C00;">Create Group : `mkdir`</span>
-
-Creates a group in the root directory that can contain students.
-
-<box type="warning">
-
-Kindly note that the addition of groups is exclusively to the root directory.
-This means that addition of groups under another group directory is not allowed.
-</box>
-
-**Format:** `mkdir SPECIFIED_PATH_TO_GROUP --name NAME`
-
-#### Acceptable values for each parameter:
-
-`SPECIFIED_PATH_TO_GROUP`:
-- Must be a valid path to a group.
-
-<box type="success" seamless>
-
-#### Output if command succeeds
-- Displays a message indicating the successful creation of the group, along with details of the new group.
-
-</box>
-
-<box type="wrong" seamless>
-
-#### Output if command fails
-
-- Displays a message indicating either:
-    - [Invalid command format.](#mistake-1-invalid-command-format)
-    - [Invalid path.](#mistake-2-invalid-path)
-    - [Duplicate Id.](#mistake-7-duplicate-id)
-
-</box>
-
-#### Example(s):
-
-- When you are at the root directory `~/` and would like to add a new group with the GroupId `grp-001`,
-  - `mkdir grp-001 --name Group 001` to add a new group named `Group 001`.
-
 ---
 
 <div class="page-break-before">
@@ -925,12 +923,12 @@ This means that addition of groups under another group directory is not allowed.
 
 <box type = "info">
 
-**Group Tasks** are tasks designated for a **specific group as a collective responsibility**, not individual
-students within the group. They are suitable for tasks that require group collaboration instead of individual
-student contributions. 
-
 **Student Tasks** on the other hand are tasks assigned to **individual students**. These tasks are ideal for
 assignments where each student is required to complete and submit their assignment independently. 
+
+**Group Tasks** are tasks designated for a **specific group as a collective responsibility**, not individual
+students within the group. They are suitable for tasks that require group collaboration instead of individual
+student contributions.
 </box>
 
 <box type="warning">
@@ -953,7 +951,7 @@ Creates todo tasks for specific student(s) or group(s).
 <box type="info">
 
 If `[SPECIFIED_PATH]` is not provided, current directory must be a group directory. <br>
-If you use `--all allStu`, the command will create todo task for all the students within this group directory.
+If you use `--all allStu`, the command will create todo tasks for all the students within this group directory.
 Else, the command will create a todo task for the group at current directory.
 </box>
 
@@ -993,7 +991,7 @@ following command at the root directory, `~/`,
 
 <div style="page-break-after: always;"></div>
 
-### <span style="color: #FF8C00;">Create Deadline task : `deadline` </span>
+### <span style="color: #FF8C00;">Create Deadline Task : `deadline` </span>
 
 Creates task with a deadline for specific student(s) or group(s).
 
@@ -1006,7 +1004,7 @@ Creates task with a deadline for specific student(s) or group(s).
 <box type="info">
 
 If `[SPECIFIED_PATH]` is not provided, current directory must be a group directory. <br>
-If you use `--all allStu`, the command will create deadline task for all the students within this group directory.
+If you use `--all allStu`, the command will create deadline tasks for all the students within this group directory.
 Else, the command will create a deadline task for the group at current directory.
 </box>
 
@@ -1047,12 +1045,13 @@ you could use the following command at the root directory, `~/`,
 
 </box>
 
-### <span style="color: #FF8C00;">Mark task as completed: `mark` </span>
+<div style="page-break-after: always;"></div>
+
+### <span style="color: #FF8C00;">Mark Task as Completed: `mark` </span>
 
 Marks the specified task as done for the specified student or group. 
 
 **Format:** `mark TASK_INDEX`
-
 
 <box type="success" seamless>
 
@@ -1067,7 +1066,7 @@ Marks the specified task as done for the specified student or group.
 #### Output if command fails
 
 - Displays a message indicating either:
-  - [Invalid command format](#mistake-1-invalid-command-format)
+  - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid task index.](#mistake-3-invalid-task-index)
   - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
 
@@ -1090,14 +1089,12 @@ allocated to student with the StudentId `0123Y`, you could follow these commands
 ![Ui](images/markcommand.png){width=2838 height=1186}
 Did you observe the difference in the **Task Status Box** between the 2 pictures? <br>
 The first image shows the outcome when you execute `cat 0123Y`, whereas the second image shows
-the outcome of the execution of  `mark 1`. <br>
-Notice the presence of a tick in the **Task Status Box** of the second image,
+the outcome of the execution of  `mark 1`.
+Notice the **presence of a tick** in the **Task Status Box** of the second image,
 after you mark the task. 
 </box>
 
-<div style="page-break-after: always;"></div>
-
-### <span style="color: #FF8C00;">Unmark task: `unmark` </span>
+### <span style="color: #FF8C00;">Unmark Task: `unmark` </span>
 
 Unmarks the specified task for the student or group. 
 
@@ -1116,7 +1113,7 @@ Unmarks the specified task for the student or group.
 #### Output if command fails:
 
 - Displays a message indicating either:
-  - [Invalid command format](#mistake-1-invalid-command-format)
+  - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid task index.](#mistake-3-invalid-task-index)
   - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
 </box>
@@ -1134,14 +1131,14 @@ When using this command, you will first need to [`cat`](#display-all-tasks-cat) 
 
 <box type="info">
 
-The result shown should be similar to the `mark` command except that 
+The process and result shown should be similar to the `mark` command except that 
 instead of noticing the presence of a tick in the **Task Status Box**,
 you should observe an **absence of the tick** after executing the `unmark` command.
 </box>
 
 <div style="page-break-after: always;"></div>
 
-### <span style="color: #FF8C00;">Delete task: `rmt` </span>
+### <span style="color: #FF8C00;">Delete Task: `rmt` </span>
 
 Removes a task according to the task index.
 
@@ -1160,7 +1157,7 @@ Removes a task according to the task index.
 #### Output if command fails:
 
 - Displays a message indicating either:
-  - [Invalid command format](#mistake-1-invalid-command-format)
+  - [Invalid command format.](#mistake-1-invalid-command-format)
   - [Invalid task index.](#mistake-3-invalid-task-index)
   - [The display panel is not showing task list.](#mistake-4-the-display-panel-is-not-showing-task-list)
     </box>
@@ -1226,9 +1223,11 @@ ones. The next invalid option will be shown after rerunning the command if the c
 **General solution:**
 Ensure that the command you enter adheres to the format provided in the user guide.
 
+<div style="page-break-after: always;"></div>
+
 ##### Mistake 2: Invalid path
 **Solution:**
-Please check that the path you have entered is the path required by the command which can be seen in the User
+Please check that the path you entered is the path required by the command which can be seen in the User
 Guide.
 Additionally, do ensure that it is the intended path you wish to utilise, and it exists within ProfBook.
 
@@ -1294,7 +1293,7 @@ This section is dedicated to the exciting future enhancements we envision for Pr
 group name after execution of command.
 
 **Marking and Unmarking tasks:**
-  - **Current:** You can mark and unmark tasks that are marked or unmarked respectively.
+  - **Current:** You can mark and unmark tasks that are already marked or unmarked respectively.
   - **Upcoming enhancement:** ProfBook will return a return message confirming that the task has already been marked 
 or unmarked, and the current command will not result in any changes.
 
@@ -1320,11 +1319,11 @@ ensuring a seamless experience for you.
 | **Clear all entries**       | `clear`                                                                                                                                                        |
 | **Exit the program**        | `exit`                                                                                                                                                         |
 | **Add Student**             | `touch SPECIFIED_PATH -n NAME [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS]` <br> e.g. `touch 2000Y -n Bob -e bobby@example.com -p 92929292 -a blk 258 Toa Payoh ` |
+| **Create Group**            | `mkdir SPECIFIED_PATH_TO_GROUP -n NAME` <br> e.g. `mkdir grp-001 -n Group 001`                                                                                 |
 | **Edit Student**            | `edit SPECIFIED_PATH [-n NAME] [-e EMAIL] [-p PHONE_NUMBER] [-a ADDRESS] [-i STUDENT_ID]` <br> e.g. `edit 0010Y -p 91919191`                                   |
 | **Edit Group**              | `edit [SPECIFIED_PATH] [-n NAME] [-i GROUP_ID]` <br> e.g. `edit -n Amazing Group`                                                                              |
 | **Delete Student or Group** | `rm SPECIFIED_PATH` <br> e.g `rm 0123Y`, `rm grp-002`                                                                                                          |
 | **Move Student**            | `mv SPECIFIED_PATH_TO_STUDENT SPECIFIED_PATH_TO_GROUP`  <br> e.g. `mv grp-001/0123Y grp-002`                                                                   |
-| **Create Group**            | `mkdir SPECIFIED_PATH_TO_GROUP -n NAME` <br> e.g. `mkdir grp-001 -n Group 001`                                                                                 |
 | **Create Todo**             | `todo [SPECIFIED_PATH] -d DESCRIPTION [-al CATEGORY]` <br> e.g. `todo 2000Y -d Assignment 1`                                                                   |
 | **Create Deadline**         | `deadline [SPECIFIED_PATH] -d DESCRIPTION -dt DATE_AND_TIME [-al CATEGORY]`<br> e.g. `deadline 2000Y -d Assignment 1 -dt 2023-10-11 23:59 `                    |
 | **Mark**                    | `mark TASK_INDEX`<br> e.g. `mark 1`                                                                                                                            |
