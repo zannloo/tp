@@ -241,8 +241,8 @@ we shall be narrowing our scope to adding a todo tasks to a specified group, g.
 
 How the `Model` component works:
 
-* Depending on the nature of the command, a static method is called to generate a `TaskOperation` or
-  a `ChildrenOperation` Object that acts as an interface manipulate the Model
+* Depending on the nature of the command, the corresponding method is called to generate a `TaskOperation` or
+  a `ChildOperation` object that acts as an interface manipulate the model
 * In this case, a `TaskOperation` object is created. This object would store all the necessary information to make
   changes directly on the correct state.
 * The `Command` instance calls the required method in the `TaskOperation` object which results in the `TaskOperation`
@@ -250,9 +250,9 @@ How the `Model` component works:
 
 <box type="info" seamless>
 
-**Note:** For ChildrenOperation, ModelManager provides more specific static factory methods (e.g., GroupChildOperation,
-RootChildOperation) to generate the `ChildOperation` object. It is implemented this way so that ModelManager is able
-to check that the Operation required matches with the intended effect of the Command object's Execution.
+**Note:** For `ChildrenOperation`, `ModelManager` provides more specific factory methods (e.g., `groupChildOperation`,
+`rootChildOperation`) to generate the `ChildOperation` object. It is implemented this way so that `ModelManager` is able
+to check that the operation required matches with the intended effect of the `Command` object's execution.
 
 </box>
 
@@ -280,7 +280,7 @@ Here is a class diagram for the path package:
 * `AbsolutePath` represents an absolute path within the system and strictly commences with the `~` element.
     * The `resolve` method is crucial to resolve a `RelativePath` and return the resolved path in `AbsolutePath` type.
     * e.g. Consider an `AbsolutePath` represents `~/grp-001/0001A`. If the `resolve` method is called with the
-      `RelativePath` representing `../grp-002`, the resolve method will return the `AbsolutePath` representing the path
+      `RelativePath` representing `../../grp-002`, the resolve method will return the `AbsolutePath` representing the path
       `~/grp-002`.
 
 <div style="page-break-after: always;"></div>
@@ -400,7 +400,7 @@ Given below is an example usage scenario on how an existing user can create a st
 3. The parser would retrieve all the relevant information from the input and encapsulates it in a `CreateStudentCommand`.
 4. This command would first do these checks:
    * checks if the specified path contains the group. This is done via the `ModelManager::hasGroup` method.
-   * checks if the specified path is a valid student path. This is done via the `Path::isStudentDirectory` method.
+   * checks if the specified path is a valid student path. This is done via the `AbsolutePath::isStudentDirectory` method.
    * checks if adding the student would result in a duplicate within whole of ProfBook, ie if the student id is
    already taken. This is done via the `ModelManager::hasStudentWithId` method.
 5. In this case, if the input was `touch ~/grp-001/1234Y ...` or `touch ~/grp-001/9876A ...` a `CommandException` will
@@ -422,7 +422,7 @@ component, do head over to their respective documentation.
 
 Below is an activity diagram showing the general activity of the add student command.
 
-<puml src="diagrams/CreateStudentActivityDiagram.puml" width="550" />
+<puml src="diagrams/CreateStudentActivityDiagram.puml" width="700" />
 
 #### Design Consideration
 
@@ -488,7 +488,7 @@ Given below is an example usage scenario on how an existing user can add Deadlin
 3. The parser would retrieve all the relevant information from the input and encapsulate it in
    a `CreateDeadlineCommand`.
 4. This command would first
-    * check if the specified path is a valid and present group path. This is done via `Path::isGroupDirectory` method.
+    * check if the specified path is a valid and present group path. This is done via `AbsolutePath::isGroupDirectory` method.
     * check if all students in the group already has the task. This is done
       via `GroupChildOperation::checkIfAllChildrenHaveTask` method.
 5. If all checks out, the command would create a new `Deadline` instance and add the deadline to all student that do not
@@ -512,7 +512,7 @@ diagram for adding a deadline task to a *single* student can be found in the `Mo
 
 This is an activity diagram showing the general activity of the add deadline command.
 
-<puml src="diagrams/CreateDeadlineActivityDiagram.puml" width="550" />
+<puml src="diagrams/CreateDeadlineActivityDiagram.puml" width="700" />
 
 #### Design Consideration
 
@@ -554,8 +554,8 @@ This is an activity diagram showing the general activity of the add deadline com
 
 Due to the dynamic need of our target users, professors and TAs, there is a need for our edit command to be equally dynamic.
 Our edit command need to be general enough to allow the users to edit both students and groups. This is done by checking
-the type of directory that was passed in. This is done through the `Path::isGroupDirectory`
-and `Path::isStudentDirectory` method. 
+the type of directory that was passed in. This is done through the `AbsolutePath::isGroupDirectory`
+and `AbsolutePath::isStudentDirectory` method. 
 
 <box type="info" seamless>
 
@@ -567,13 +567,13 @@ for `path` package. This then allows parser to check for the validity of the giv
 As the implementation for editing students and groups is similar, for simplicity, I would be going through
 implementation of editing a group.
 
-The following methods of `ModelManager`, `Path` and `RootChildOperation` are used:
+The following methods of `ModelManager`, `AbsolutePath` and `RootChildOperation` are used:
 
 1. `ModelManager::rootChildOperation` - To generate an operation class with logic specific to the current root.
 2. `ModelManager::hasGroupWithId` - To check if editing results in a duplicate.
 3. `RootChildOperation::editChild` - To edit the group with the values extracted from parser.
-4. `Path::isGroupDirectory` - To check if the path leads to a group directory.
-5. `Path::isStudentDirectory` - To check if the path leads to a student directory.
+4. `AbsolutePath::isGroupDirectory` - To check if the path leads to a group directory.
+5. `AbsolutePath::isStudentDirectory` - To check if the path leads to a student directory.
 
 Given below is an example usage scenario on how an existing user can edit the name of a group
 
@@ -668,7 +668,7 @@ improve this validation by enforcing a tighter validation. This can be achieved 
 common phone extensions to their length and then enforcing that the phone number be of that length. This allows our
 users to have the peace of mind that the phone number is validated and robust enough to handle international numbers.
 
-### Better marking and un-marking validation (// TODO low priority, remove when needed )
+### Better marking and un-marking validation
 
 Currently, our application does not check if the tasks are marked or unmarked before any operation. This results in
 users being able to mark/un-mark tasks infinitely, this is not intuitive and may mislead some users. Hence, we plan to
@@ -683,7 +683,7 @@ and only if their ids are identical. This means that two students with identical
 considered different in ProfBook, needless to say this does not reflect requirements in the real world. Therefore, we
 plan to revamp our duplication checking for students by checking for equality between their phone number and email.
 
-### More descriptive error message (// TODO low priority, remove when needed )
+### More descriptive error message
 
 Currently, while our application tries to output a descriptive and apt message for each error, we have received feedback
 that some of our error message could be more descriptive. One such example is trying to edit the root `~/` directory or
