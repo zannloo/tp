@@ -10,12 +10,8 @@ title: ProfBook
 ![Ui](images/Ui.png)
 
 ## Introducing our product - ProfBook
-ProfBook provides easy management of tasks, group schedules, and notes for every tutorial slot and group. A CS professor
-friendly platform to keep updated and informed with notifications and profile pictures of your students for a personal
-touch and easy recognition of students during lessons.
+ProfBook is a dedicated desktop application tailored for CS2103T tutors, enabling efficient task management and student oversight within a single tutorial slot. It simplifies the handling of tasks and provides a comprehensive student management system, offering a personalized touch through student profiles for easy recognition during lessons.
 
-* This project is an ongoing software project for a desktop application (called _ProfBook_) used for managing tasks,
-* group schedules, and notes for every tutorial slot and group.
 * It is **written in OOP fashion** and comes with a **reasonable level of user and developer documentation**.
 * It is named `ProfBook` because it aims to help professors to keep track of the many tutorial groups as well as the
   many deadlines and submission.
