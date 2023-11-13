@@ -55,9 +55,9 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
     * to be added soon. 
 
 ### Community: Here are some PRs I reviewed (with non-trivial review comments):
-    * **[Pull Request #136](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/136)**
-    * **[Pull Request #180](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/180)** 
-    * **[Pull Request #289](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/289)**
-    * **[Pull Request #295](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/295)**
+- **[Pull Request #136](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/136)**
+- **[Pull Request #180](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/180)** 
+- **[Pull Request #289](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/289)**
+- **[Pull Request #295](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/295)**
     
 
