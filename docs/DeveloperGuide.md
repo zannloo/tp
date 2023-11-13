@@ -758,7 +758,7 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 1b. Command has no arguments.
+* 1b. No path provided.
 
     * 1b1. ProfBook shows list of children under current directory.
 
