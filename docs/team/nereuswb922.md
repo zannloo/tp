@@ -46,14 +46,23 @@ Java, and has about 10 kLoC.
 
 ### User Guide Contributions
 
-- Added the **Understanding ProfBook** section which explained the ProfBook structure.
-- Included a user guide for the change directory command.
+- Non-Feature Aspects:
+    - Added the **ProfBook Folder Structure** section which explained the ProfBook structure.
+    - Updated the **Accepted values for each parameter** section.
+- Feature Aspects:
+    - Explain `cd` command.
+    - Explain `ls` command.
+    - Explain `rmt` command.
 
 ### Developer Guide Contributions
 
-- Added the **Appendix: Effort** section.
-- Created **activity diagrams** for create student, create deadline and edit group command.
-- Created a **sequence diagram** for move student command.
+- Non-Feature Asepcts:
+    - Added the **Appendix: Effort** section.
+    - Updated the **UI Componenet** section.
+- Feature Aspects:
+    - Explained the **Path package** of ProfBook.
+    - Created **activity diagrams** for create student, create deadline and edit group command.
+    - Created a **sequence diagram** for move student command.
 
 ### Team-Based Task Contributions
 
@@ -61,7 +70,6 @@ Java, and has about 10 kLoC.
 - Set up a **GitHub project** to manage issues related to user stories and tasks.
 - Setup **project website deployment**.
 - Integrated **Netlify** to enable automatic deployments of our PR previews.
-- Integrated **Codecov** to automate code coverage assessment of PR.
 - Wrapped up milestone v1.1 and released JAR file.
 - Recorded video for v1.2 demo.
 - Migrated documentation to **MarkBind** with initial site-wide configuration.
