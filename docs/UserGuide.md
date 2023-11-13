@@ -81,7 +81,7 @@ The following steps are similar for all operating systems(OS) such as Windows, m
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    <div class="centered-container">
 
-      ![Ui](images/Ui.png){width=400 height=200}
+      ![Ui](images/Ui.png){width=650 height=200}
 
    </div>
 
