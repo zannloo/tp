@@ -688,7 +688,7 @@ plan to revamp our duplication checking for students by checking for equality be
 Currently, while our application tries to output a descriptive and apt message for each error, we have received feedback
 that some of our error message could be more descriptive. One such example is trying to edit the root `~/` directory or
 trying to edit a directory that does not exist. In both cases, the error message given
-is `Path does not exist in ProfBook.`. In this example, we could have mention that you are unable to edit the root
+is `Path does not exist in ProfBook`. In this example, we could have mention that you are unable to edit the root
 directory for the prior and that the Path does not lead to a student/group for the latter. This is just one example, we
 plan to revamp our error message to be more descriptive and user-friendly.
 
@@ -1490,7 +1490,7 @@ need to change according to your current directory. More information can be foun
     - Test case: `mark a`<br>
       Expected: No task would be marked, an error will be shown.
 
-    - Other incorrect `mark` commands to try: `mark \-2`, `mark x` (Where x is positive integer which is greater than current task size)<br>
+    - Other incorrect `mark` commands to try: `mark \-2`, `mark x` (Where x is positive integer which is greater than current task list size)<br>
       Expected: No task would be marked, an error message indicating that the index given is invalid.
 
 ### Un-mark a completed task
@@ -1510,7 +1510,7 @@ need to change according to your current directory. More information can be foun
     - Test case: `unmark a`<br>
       Expected: No task would be un-marked, an error will be shown.
 
-    - Other incorrect `un-mark` commands to try: `unmark \-2`, `unmark x` (Where x is positive integer which is greater than current task size)<br>
+    - Other incorrect `un-mark` commands to try: `unmark \-2`, `unmark x` (Where x is positive integer which is greater than current task list size)<br>
       Expected: No task would be marked, an error message indicating that the index given is invalid.
 
 ### Delete a task
@@ -1530,7 +1530,7 @@ need to change according to your current directory. More information can be foun
     - Test case: `rmt a`<br>
       Expected: No task would be deleted, an error will be shown.
 
-    - Other incorrect `rmt` commands to try: `rmt \-2`, `rmt x` (Where x is positive integer which is greater than current task size)<br>
+    - Other incorrect `rmt` commands to try: `rmt \-2`, `rmt x` (Where x is positive integer which is greater than current task list size)<br>
       Expected: No task would be deleted, an error message indicating that the index given is invalid.
 
 ### UI
