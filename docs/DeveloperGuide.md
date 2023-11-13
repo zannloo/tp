@@ -377,7 +377,7 @@ Implementation for creating a `Student` and a `Group` is very similar, so in thi
 implementation for the harder one, which is creating a student. Should you have any questions do feel free to contact
 us.
 
-Most of the logic for creating a student is encapsulated in the `CreateStudentCommand` class, this class utilise
+Most of the logic for creating a student is encapsulated in the `CreateStudentCommand` class, this class utilises
 the `GroupChildOperation` class to add the student to the group and the `Model` class to check for duplicates.
 The following methods of `ModelManager` and `GroupChildOperation` are used:
 
@@ -443,9 +443,9 @@ Below is an activity diagram showing the general activity of the add student com
 #### Implementation
 
 Creating and adding a task is one of the key feature of ProfBook. Currently, we support two types of tasks,
-namely `ToDo` and `Deadline` tasks. Both this tasks extends from the abstract `Task` class which add to its
-extensibility. It is important to note that currently, you can only add tasks to Group and Students. Needless to say,
-the information for these tasks are encapsulated withing their respective `Task`
+namely `ToDo` and `Deadline` tasks. Both these tasks extends from the abstract `Task` class which add to its
+extensibility. It is important to note that currently, you can only add tasks to Groups and Students. Needless to say,
+the information for these tasks are encapsulated within their respective `Task`
 instance.
 
 As the implementation for creating a `ToDo` and `Deadline` task is very similar, I would be bringing you through
@@ -529,7 +529,7 @@ This is an activity diagram showing the general activity of the add deadline com
 
 * **Alternative 1:** Add Tasks one by one to each student.
     * Pros: Quick and easy to implement.
-    * Cons: keeping track of group tasks is a hassle, any action done for one task must be done for all.
+    * Cons: Keeping track of group tasks is a hassle, any action done for one task must be done for all.
 * **Alternative 2**: Allow groups to have their own task lists.
     * Pros: Quick and easy to implement.
     * Cons: Adding of student tasks must be done manually.
@@ -575,7 +575,7 @@ The following methods of `ModelManager`, `Path` and `RootChildOperation` are use
 4. `Path::isGroupDirectory` - To check if the path leads to a group directory.
 5. `Path::isStudentDirectory` - To check if the path leads to a student directory.
 
-Given below is an example usage scenario on how an existing user can edit the name of a group
+Given below is an example usage scenario on how an existing user can edit the name of a group.
 
 1. When the user launches the application, existing information is read from the data file `profbook.json`. The initial
    state should look something like this.
@@ -592,7 +592,7 @@ Given below is an example usage scenario on how an existing user can edit the na
 
    <puml src="diagrams/EditIntermediateState.puml" width="600" />
 
-7. It then deletes the old key-value pair in root's `Map<id, group>` and adds the new key-value pair.
+7. It then deletes the old key-value pair in root's `Map<Id, group>` and adds the new key-value pair.
 
    <puml src="diagrams/EditFinalState.puml" width="600" />
 
@@ -1097,7 +1097,7 @@ otherwise)
 
 * 1e. User specifies `--all allStu` or `--all allGrp`.
 
-    * 1e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 1e1. ProfBook creates ToDo for either all students within the group, or all groups within ProfBook.
 
       Use case ends.
 
@@ -1277,9 +1277,9 @@ testers are expected to do more *exploratory* testing.
 <box type = "warning">
 
 **Important:** For simplicity, all the command given below are based on the assumption that you are currently at the 
-root directory `~/>`. Should you change your directory to something other thant root do take note that our commands may 
+root directory `~/>`. Should you change your directory to something other than root do take note that our commands may 
 need to change according to your current directory. More information can be found in our
-[user guide](https://ay2324s1-cs2103t-w15-2.github.io/tp/UserGuide.html)
+[user guide](https://ay2324s1-cs2103t-w15-2.github.io/tp/UserGuide.html).
 
 </box>
 
@@ -1402,7 +1402,7 @@ need to change according to your current directory. More information can be foun
 - Creates todo task for all groups or all students in a group,
 
     - Prerequisites: There exist at least one group in ProfBook and at least one of the groups does not have the todo task, Assignment 1.<br>
-      Test case: `todo ~ --desc Assignment 1 --all allGrp`<br>
+      Test case: `todo --desc Assignment 1 --all allGrp`<br>
       Expected: The todo task `Assignment 1` will be allocated to all groups that does not already have the todo task.
 
     - Prerequisites: There exist a group with GroupId `grp-001` with at least one student.<br>
@@ -1410,7 +1410,7 @@ need to change according to your current directory. More information can be foun
       Test case: `todo ~/grp-001 --desc Assignment 1 --all allStu`<br>
       Expected: The todo task `Assignment 1` will be allocated all students in `grp-001` that does not already have the todo task.
 
-    - Prerequisites: There exist at least one student in ProfBook and at least of the students does not have the todo task, Assignment 1.<br>
+    - Prerequisites: There exist at least one student in ProfBook and at least one of the students does not have the todo task, Assignment 1.<br>
       Test case: `todo --desc Assignment 1 --all allStu`<br>
       Expected: The todo task `Assignment 1` will be allocated to all students under root directory that does not already have the todo task.
 
@@ -1449,7 +1449,7 @@ need to change according to your current directory. More information can be foun
 - Creates deadline task for all groups or all students in a group,
 
     - Prerequisites: There exist at least one group in ProfBook and at least one of the groups does not have the deadline task, Assignment 1.<br>
-      Test case: `deadline ~ --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`<br>
+      Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all allGrp`<br>
       Expected: The deadline task `Assignment 1` will be allocated to all groups that does not already have the task.
 
     - Prerequisites: There exist a group with GroupId `grp-001` with at least one student.<br>
@@ -1457,7 +1457,7 @@ need to change according to your current directory. More information can be foun
       Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`<br>
       Expected: The deadline task `Assignment 1` will be allocated all students in `grp-001` that does not already have the task.
 
-    - Prerequisites: There exist at least one student in ProfBook and at least of the students does not have the deadline task, Assignment 1.<br>
+    - Prerequisites: There exist at least one student in ProfBook and at least one of the students does not have the deadline task, Assignment 1.<br>
       Test case: `deadline --desc Assignment 1 --datetime 2023-10-11 23:59 --all allStu`<br>
       Expected: The deadline task `Assignment 1` will be allocated to all students under root directory that does not already have the task.
 
@@ -1490,12 +1490,12 @@ need to change according to your current directory. More information can be foun
     - Test case: `mark a`<br>
       Expected: No task would be marked, an error will be shown.
 
-    - Other incorrect `mark` commands to try: `mark -2`, `mark x` (Where x is positive integer which is less than current task size)<br>
+    - Other incorrect `mark` commands to try: `mark \-2`, `mark x` (Where x is positive integer which is greater than current task size)<br>
       Expected: No task would be marked, an error message indicating that the index given is invalid.
 
 ### Un-mark a completed task
 
-- Un-marks a specified task as done for a student or group
+- Un-marks a specified task for a student or group
 
     - Prerequisites: The display panel is showing the task list of the specified student or group.<br>
       This can be achieved by using the `cat` command alongside the path to the desired student/group to display their task list.
@@ -1510,12 +1510,12 @@ need to change according to your current directory. More information can be foun
     - Test case: `unmark a`<br>
       Expected: No task would be un-marked, an error will be shown.
 
-    - Other incorrect `un-mark` commands to try: `unmark -2`, `unmark x` (Where x is positive integer which is less than current task size)<br>
+    - Other incorrect `un-mark` commands to try: `unmark \-2`, `unmark x` (Where x is positive integer which is greater than current task size)<br>
       Expected: No task would be marked, an error message indicating that the index given is invalid.
 
 ### Delete a task
 
-- Deletes a specified task as done for a student or group,
+- Deletes a specified task for a student or group,
 
     - Prerequisites: The display panel is showing the task list of the specified student or group.<br>
       This can be achieved by using the `cat` command alongside the path to the desired student/group to display their task list.
@@ -1530,7 +1530,7 @@ need to change according to your current directory. More information can be foun
     - Test case: `rmt a`<br>
       Expected: No task would be deleted, an error will be shown.
 
-    - Other incorrect `rmt` commands to try: `rmt -2`, `rmt x` (Where x is positive integer which is less than current task size)<br>
+    - Other incorrect `rmt` commands to try: `rmt \-2`, `rmt x` (Where x is positive integer which is greater than current task size)<br>
       Expected: No task would be deleted, an error message indicating that the index given is invalid.
 
 ### UI
@@ -1592,18 +1592,18 @@ need to change according to your current directory. More information can be foun
 
     - Prerequisites: Place ProfBook.jar in an empty home folder. Perform the following step in the root directory.
 
-    - Test case: `todo grp-001/0001Y --desc Assignment One`
+    - Test case: `todo grp-001/0001Y --desc Assignment One`.<br>
       Expected: `profbook.json` appears in data folder inside home folder. Student with name `Tejas` has a field history in profbook.json whereas the other students do not. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/addTodo.json).
 
-    - Test case: `rm grp-001/0001Y`
+    - Test case: `rm grp-001/0001Y`.<br>
       Expected: `profbook.json` is updated with `Tejas removed`. Sample output [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/removeTejas.json).
 
 - Clearing the save file.
 
     - Prerequisites: Have `profbook.json` in the data folder. Perform the previous step if the file isn’t there.
 
-    - Test case: `clear`
-      Expected: An empty `profbook.json` file like [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/empty.json)).
+    - Test case: `clear`<br>
+      Expected: An empty `profbook.json` file like [here](https://github.com/AY2324S1-CS2103T-W15-2/tp/tree/master/docs/sample/empty.json).
 
 <div style="page-break-after: always;"></div>
 
