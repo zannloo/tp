@@ -92,12 +92,10 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
         checkIfPathToDeleteExistInProfBook(model);
 
         if (toBeDeleted.isStudentDirectory()) {
-            logger.finer("Executing delete student.");
             return deleteStudent(model);
         }
 
         if (toBeDeleted.isGroupDirectory()) {
-            logger.finer("Executing delete group.");
             return deleteGroup(model);
         }
 
@@ -157,6 +155,9 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
         ChildOperation<Student> target = model.groupChildOperation(toBeDeleted);
         StudentId studentId = toBeDeleted.getStudentId().get();
         Student stu = target.getChild(studentId);
+
+        logger.finer("Executing delete student.");
+
         target.deleteChild(studentId);
         model.updateList();
         return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_STUDENT, Messages.format(stu)));
@@ -171,6 +172,9 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
         ChildOperation<Group> target = model.rootChildOperation();
         GroupId groupId = toBeDeleted.getGroupId().get();
         Group grp = target.getChild(groupId);
+
+        logger.finer("Executing delete group.");
+
         target.deleteChild(groupId);
         model.updateList();
         return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_GROUP, Messages.format(grp)));

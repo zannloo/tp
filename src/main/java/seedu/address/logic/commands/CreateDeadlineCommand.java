@@ -125,19 +125,16 @@ public class CreateDeadlineCommand extends Command {
 
         // Check if path exists in ProfBook
         if (!model.hasPath(path)) {
-            logger.warning("Path does not exist. Aborting create deadline task command.");
+            logger.finer("Path does not exist. Aborting create deadline task command.");
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, path));
         }
 
         switch(category) {
         case NONE:
-            logger.finer("Created a deadline task for a single student or group");
             return handleNone(model);
         case ALLSTU:
-            logger.finer("Created a deadline task for all students under a group or ProfBook");
             return handleAllStu(model);
         default:
-            logger.finer("Created a deadline task for all groups under ProfBook");
             return handleAllGrp(model);
         }
     }
@@ -165,8 +162,11 @@ public class CreateDeadlineCommand extends Command {
         model.updateList();
 
         if (path.isGroupDirectory()) {
+            logger.finer("Creating a deadline task for a single group");
             return new CommandResult(String.format(MESSAGE_SUCCESS_GROUP, path.getGroupId().get(), this.deadline));
         }
+
+        logger.finer("Creating a deadline task for a single student");
         return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, path.getStudentId().get(), this.deadline));
     }
 
@@ -206,6 +206,7 @@ public class CreateDeadlineCommand extends Command {
         // Check whether at least one of the children has the task
         boolean warning = groupOper.doAnyChildrenHaveTasks(deadline, 1);
 
+        logger.finer("Creating a deadline task for all students under a group");
         groupOper.addTaskToAllChildren(deadline, 1);
         model.updateList();
         return new CommandResult(
@@ -230,6 +231,7 @@ public class CreateDeadlineCommand extends Command {
         // Check whether at least one of the children has the task
         boolean warning = operation.doAnyChildrenHaveTasks(deadline, 2);
 
+        logger.finer("Creating a deadline task for all students under ProfBook");
         operation.addTaskToAllChildren(deadline, 2);
         model.updateList();
         return new CommandResult(
@@ -247,7 +249,6 @@ public class CreateDeadlineCommand extends Command {
         if (!path.isRootDirectory()) {
             throw new CommandException(MESSAGE_INVALID_PATH_FOR_ALL_GROUP);
         }
-
         return addTaskToAllGrpInRoot(model);
     }
 
@@ -268,6 +269,7 @@ public class CreateDeadlineCommand extends Command {
         // Check whether at least one of the children has the task
         boolean warning = rootOper.doAnyChildrenHaveTasks(deadline, 1);
 
+        logger.finer("Creating a deadline task for all groups under ProfBook");
         rootOper.addTaskToAllChildren(deadline, 1);
         model.updateList();
         return new CommandResult(warning ? MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING : MESSAGE_SUCCESS_ALL_GROUPS);
