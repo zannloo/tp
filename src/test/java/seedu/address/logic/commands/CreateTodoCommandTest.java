@@ -1,3 +1,4 @@
+//@@author zannloo
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -270,15 +271,7 @@ public class CreateTodoCommandTest {
 
     @Test
     public void execute_isHelpTrue_returnMessageUsage() throws CommandException, InvalidPathException {
-        Student alice = TypicalStudents.ALICE;
-        Group aliceGroup = TypicalGroups.GROUP_ONE;
-
-        RelativePath groupPath = new RelativePath(aliceGroup.getId().toString());
-        RelativePath alicePath = new RelativePath(alice.getId().toString());
-        AbsolutePath absoluteTargetPath = rootPath.resolve(groupPath).resolve(alicePath);
-
-        CreateTodoCommand command = new CreateTodoCommand(absoluteTargetPath, toBeAdded, Category.NONE);
-        CommandResult result = command.HELP_MESSAGE.execute(model);
+        CommandResult result = CreateTodoCommand.HELP_MESSAGE.execute(model);
 
         CommandResult expectedResult = new CommandResult(MESSAGE_USAGE);
 

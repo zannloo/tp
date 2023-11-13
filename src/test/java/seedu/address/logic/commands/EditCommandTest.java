@@ -221,9 +221,7 @@ public class EditCommandTest {
 
     @Test
     public void execute_isHelpTrue_returnMessageUsage() throws CommandException {
-        EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
-        EditCommand command = new EditCommand(rootPath, editStudentDescriptor);
-        CommandResult result = command.HELP_MESSAGE.execute(model);
+        CommandResult result = EditCommand.HELP_MESSAGE.execute(model);
 
         CommandResult expectedResult = new CommandResult(MESSAGE_USAGE);
 
