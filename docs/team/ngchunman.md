@@ -40,9 +40,9 @@ ProfBook is a desktop address book application used for easy management of tasks
 
 
 * **Feature Aspects:**
-   * `edit` command.
-   * `mv` command.
-   * `mkdir` command.
+   * `edit` command
+   * `mv` command
+   * `mkdir` command
 
 ### Developer Guide Contributions
 
