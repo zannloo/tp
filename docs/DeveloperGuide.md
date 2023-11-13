@@ -378,13 +378,13 @@ implementation for the harder one, which is creating a student. Should you have 
 us.
 
 Most of the logic for creating a student is encapsulated in the `CreateStudentCommand` class, this class utilise
-the `GroupChildOperation` class to add the student to the group and the `Model` class to check for duplicates.
-The following methods of `ModelManager` and `GroupChildOperation` are used:
+the `ChildOperation<Student>` class to add the student to the group and the `Model` class to check for duplicates.
+The following methods of `ModelManager` and `ChildOperation<Student>` are used:
 
 1. `ModelManager::groupChildOperation` - To generate an operation class specific to the current group, it also checks for
    the validity and presence of the specified group.
 2. `ModelManager::hasStudentWithId` - To check if the new student id is unique.
-3. `GroupChildOperation::addChild` - To add the current student into the group.
+3. `ChildOperation<Student>::addChild` - To add the current student into the group.
 
 Given below is an example usage scenario on how an existing user can create a student.
 
@@ -406,8 +406,8 @@ Given below is an example usage scenario on how an existing user can create a st
 5. In this case, if the input was `touch ~/grp-001/1234Y ...` or `touch ~/grp-001/9876A ...` a `CommandException` will
    be thrown.
 6. If all checks out, the command would create a new student and add the student to the `Model`. This addition is done
-   through getting a `GroupChildOperation` class from the `Model::groupChildOperation` method. This would ensure
-   the path to the group is present and valid. The student is added through the `GroupChildOperation::addChild` method.
+   through getting a `ChildOperation<Student>` class from the `Model::groupChildOperation` method. This would ensure
+   the path to the group is present and valid. The student is added through the `ChildOperation<Student>::addChild` method.
 7. It should look something like this.
 
    <puml src="diagrams/AddFinalState.puml" width="650" />
@@ -462,14 +462,14 @@ tasks can be found at the `Model` component.
 
 
 Most of the logic for creating a task is encapsulated in the `CreateDeadlineCommand` class, this class utilises
-the `GroupChildOperation` class to add the Deadline to the group and check for duplicates.
-The following methods of `ModelManager` and `GroupChildOperation` are used:
+the `ChildOperation<Student>` class to add the Deadline to the group and check for duplicates.
+The following methods of `ModelManager` and `ChildOperation<Student>` are used:
 
 1. `ModelManager::groupChildOperation` - To generate an operation class specific to the current group, it also checks for
    the validity and presence of the specified group.
-2. `GroupChildOperation::addAllTasks` - To add the tasks to all student within a group, it also checks if it is a
+2. `ChildOperation<Student>::addAllTasks` - To add the tasks to all student within a group, it also checks if it is a
    duplicate task before adding.
-3. `GroupChildOperation::checkIfAllChildrenHaveTask` - To check if all children within a group already has the task.
+3. `ChildOperation<Student>::checkIfAllChildrenHaveTask` - To check if all children within a group already has the task.
 
 It is important to note that for adding a task to a singular group/student, the operation class `TaskOperation` is used
 instead, a sequence diagram illustrating this can be found in the `Model` component.
@@ -490,11 +490,11 @@ Given below is an example usage scenario on how an existing user can add Deadlin
 4. This command would first
     * check if the specified path is a valid and present group path. This is done via `AbsolutePath::isGroupDirectory` method.
     * check if all students in the group already has the task. This is done
-      via `GroupChildOperation::checkIfAllChildrenHaveTask` method.
+      via `ChildOperation<Student>::checkIfAllChildrenHaveTask` method.
 5. If all checks out, the command would create a new `Deadline` instance and add the deadline to all student that do not
    already have the aforementioned task. This is done
-   through getting a `GroupChildOperation` class from the `Model::groupChildOperation` method. The tasks are then
-   added through the `GroupChildOperation::addTaskToAllStudent` method. For each student, the method would check if the
+   through getting a `ChildOperation<Student>` class from the `Model::groupChildOperation` method. The tasks are then
+   added through the `ChildOperation<Student>::addTaskToAllStudent` method. For each student, the method would check if the
    task is already present, if not it would add the task.
 6. It should look something like this.
 
@@ -567,11 +567,11 @@ for `path` package. This then allows parser to check for the validity of the giv
 As the implementation for editing students and groups is similar, for simplicity, I would be going through
 implementation of editing a group.
 
-The following methods of `ModelManager`, `AbsolutePath` and `RootChildOperation` are used:
+The following methods of `ModelManager`, `AbsolutePath` and `ChildOperation<Group>` are used:
 
 1. `ModelManager::rootChildOperation` - To generate an operation class with logic specific to the current root.
 2. `ModelManager::hasGroupWithId` - To check if editing results in a duplicate.
-3. `RootChildOperation::editChild` - To edit the group with the values extracted from parser.
+3. `ChildOperation<Group>::editChild` - To edit the group with the values extracted from parser.
 4. `AbsolutePath::isGroupDirectory` - To check if the path leads to a group directory.
 5. `AbsolutePath::isStudentDirectory` - To check if the path leads to a student directory.
 
@@ -587,7 +587,7 @@ Given below is an example usage scenario on how an existing user can edit the na
 4. The fields to be edited is then stored in an `EditGroupDescriptor` instance. (For student it would be stored in
    an `EditStudentDescriptor`)
 5. If the id is being edited, `ModelManager::hasGroupWithId` is called to ensure it does not result in a duplicate.
-6. The `RootChildOperation::editChild` then makes a copy of the existing group while updating the values found in
+6. The `ChildOperation<Group>::editChild` then makes a copy of the existing group while updating the values found in
    the `EditGroupDescriptor`.
 
    <puml src="diagrams/EditIntermediateState.puml" width="600" />
@@ -630,7 +630,7 @@ Initially, implementing this feature seemed like a daunting task. However, after
 realised that implementing move was quite straight forward. Moving a student can be easily done by removing the
 student's reference from its current group by removing its key-value pair from the group's `Map<Id, Student>` field.
 Then to complete the move, the student is added to the target group by adding it into the target
-group's `Map<Id, Student>` field. All of this operation is facilitated by the `GroupChildOperation` class.
+group's `Map<Id, Student>` field. All of this operation is facilitated by the `ChildOperation<Student>` class.
 
 Given below is an example usage scenario whereby a student is moved from group1 to group2.
 
@@ -639,8 +639,8 @@ Given below is an example usage scenario whereby a student is moved from group1 
    user would execute the following command: `mv ~/grp-001/1234Y ~/grp-002`.
 3. The parser would extract the relevant information and creates a `MoveStudentCommand` instance.
 4. The command would check that path to the student and target group is valid and present.
-5. Command would then add the student to the target group via the `GroupChildOperation::addChild` method. The old
-   reference is removed via the `GroupChildOperation::deleteChild` method.
+5. Command would then add the student to the target group via the `ChildOperation<Student>::addChild` method. The old
+   reference is removed via the `ChildOperation<Student>::deleteChild` method.
 6. As uniqueness of student is validated before each student is added, there is no need to check for clashes when
    executing.
 
@@ -1320,7 +1320,7 @@ need to change according to your current directory. More information can be foun
 
 - Adding a student into the specified directory,
 
-    - Prerequisites: There exist a group with GroupId `grp-001`
+    - Prerequisites for all test cases: There exist a group with GroupId `grp-001`
         
     - Prerequisites: ProfBook does not contain a student with id `0199Y`.<br>
       Test case: `touch ~/grp-001/0199Y --name Mary --email mary@gmail.com --phone 65412987 --address 4 Loyang Walk Loyang Industrial Estate`<br>
@@ -1379,7 +1379,7 @@ need to change according to your current directory. More information can be foun
     - Test case: `edit --name Lucy --email lucy@gmail.com --phone 91919191`<br>
       Expected: An error message indicating the root directory cannot be edited will be shown.
    
-    - Other incorrect `edit` commands to try: `edit ~/grp-001 --name Lucy --email lucy@gmail.com --phone 91919191`, `...`
+    - Other incorrect `edit` commands to try: `edit ~/grp-001 --name Lucy --email lucy@gmail.com --phone 91919191`, `edit ~/grp-001`
       (Where one or more required fields are missing)<br>
       Expected: An error message indicating the command format is invalid will be displayed.
 
