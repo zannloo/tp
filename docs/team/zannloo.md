@@ -42,16 +42,16 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
   * Recorded the demo video for v1.3.
   * Updated User Guide aspects that are not specific to any feature.
   * Assisted in the recording of final demo video. 
+  *   * **Non-Feature Aspects for User Guide:**
+        * ProfBook Command Format.
+        * Navigating the Graphical User Interface(GUI).
+        * FAQ.
+        * Overall editing and formatting of the whole UG to ensure consistency in writing.
 
 ### Documentation
 
 #### User Guide:
 
-  * **Non-Feature Aspects:**
-    * ProfBook Command Format.
-    * Navigating the Graphical User Interface(GUI).
-    * FAQ.
-    * Overall editing and formatting of the whole UG to ensure consistency in writing.
   * **Feature Aspects:**
     * `touch` command.
     * `rm` command.
@@ -75,6 +75,6 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
   - **[Pull Request #294](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/294)**
   - **[Pull Request #295](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/295)**
 - Contribution to forum discussions:
-  - [Actively helped the author of the issue to test out the different suggestions given](https://github.com/nus-cs2103-AY2324S1/forum/issues/225)
+  - [Actively helped the author of the issue to test out the different suggestions given. (However, I did not comment on the issue directly.)](https://github.com/nus-cs2103-AY2324S1/forum/issues/225)
     
 
