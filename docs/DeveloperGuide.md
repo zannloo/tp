@@ -872,9 +872,15 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 1b. The parameter to be changed is invalid.
+* 1b. No path provided, user is in group directory.
 
-    * 1b1. ProfBook shows an error message.
+    * 1b1. ProfBook edits the groups details.
+
+      Use case ends.
+
+* 1c. The parameter to be changed is invalid.
+
+    * 1c1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
@@ -900,20 +906,20 @@ otherwise)
 
 **MSS**
 
-1. User requests to delete a task with specific id.
+1. User requests to delete a task with task index.
 2. ProfBook deletes the task.
 
    Use case ends.
 
 **Extensions**
 
-* 1a. User inputs command while not in tasklist display using `cat`
+* 1a. User inputs command while not in tasklist display.
 
     * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
 
-* 1b. The given id is invalid.
+* 1b. The given index is invalid.
 
     * 1b1. ProfBook shows an error message.
 
@@ -959,7 +965,7 @@ otherwise)
 
       Use case resumes at step 1.
 
-* 1b. The given path is a duplicate of an existing one.
+* 1b. The given group id is a duplicate of an existing one.
 
     * 1b1. ProfBook shows an error message.
 
@@ -1008,7 +1014,7 @@ otherwise)
 
 * 1e. User specifies `--all allStu` or `--all allGrp`.
 
-    * 1e1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 1e1. ProfBook creates Deadline for either all students within the group or all groups or students within ProfBook.
 
       Use case ends.
 
@@ -1055,7 +1061,7 @@ otherwise)
 
 * 1f. User specifies `--all allStu` or `--all allGrp`.
 
-    * 1f1. ProfBook creates Deadline for either all students within the group, or all groups within ProfBook.
+    * 1f1. ProfBook creates Deadline for either all students within the group or all groups or students within ProfBook.
 
       Use case ends.
 
@@ -1070,7 +1076,7 @@ otherwise)
 
 **Extensions**
 
-* 1a. User inputs command while not in tasklist display using `cat`
+* 1a. User inputs command while not in tasklist display.
     * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
@@ -1091,7 +1097,7 @@ otherwise)
 
 **Extensions**
 
-* 1a. User inputs command while not in tasklist display using `cat`
+* 1a. User inputs command while not in tasklist display.
     * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
@@ -1112,7 +1118,7 @@ otherwise)
 
 **Extensions**
 
-* 1a. User inputs command while not in tasklist display using `cat`
+* 1a. User inputs command while not in tasklist display.
     * 1a1. ProfBook shows an error message.
 
       Use case resumes at step 1.
