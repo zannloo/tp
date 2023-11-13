@@ -5,33 +5,43 @@ title: Loo Mei Lin Zann's Project Portfolio Page
 
 ### Project: ProfBook
 
-ProfBook is a desktop address book application used for easy management of tasks, group schedules, and notes for 
-every tutorial slot and group. The user interacts with it using a CLI, 
-and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+ProfBook is a desktop application used for easy management of a variety of tasks, students and groups. 
+The user interacts with it using a CLI, and has a GUI created with JavaFX. 
+ProfBook is written in Java, and has about 20 kLoC.
 
 Given below are my contributions to the project.
 
 **Code contributed**:
 Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&breakdown=false&sort=groupTitle%20dsc&sortWithin=title&since=2023-09-22&timeframe=commit&mergegroup=&groupSelect=groupByRepos&tabOpen=true&tabType=authorship&tabAuthor=zannloo&tabRepo=AY2324S1-CS2103T-W15-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false) to my RepoSense Report.
 
-#### Enhancements to existing features:
-  1. **`touch` command**
-     * Ability to seamlessly add students into the different directories of ProfBook.
-  2. **`rm` command**
-     * Provides a streamlined means of removing students or groups by providing a single, versatile dynamic command.
-     * This simplifies user interactions, ensuring simplicity and efficiency. 
-
 #### New features:
-* **New Feature**: Ability to create deadline tasks. 
-  * **What it does:** Creates task with a deadline for specific student(s) or group(s) within ProfBook.
+- **`touch` command**:
+  * **What it does:** Adds students into the different directories of ProfBook swiftly.
+  * **Justification:** Enhances user's experience by providing a straightforward and easy method for adding students.
+  * **Highlights:** Provides a simple and streamlined process of adding a student. 
+
+- **`rm` command**: 
+  * **What it does:** Removes students or groups through a single command.
+  * **Justification:** This simplifies user interactions, ensuring simplicity and efficiency.
+  * **Highlights:** Utilizes a single dynamic command to provide a streamlined means of removing students or groups.
+
+- **`todo` command**:  Enables the creation of tasks with descriptions for specific students or groups.
+  * **What it does:** Creates task with only a description for specific student(s) or group(s) within ProfBook.
+  * **Justification:** This feature improves the product significantly because a user can now easily track tasks assigned.
   * **Highlights:**
-    * Users can now add deadline tasks seamlessly with a single command, enhancing efficiency in task management. 
+    * Ability to assign todo tasks to a large number of students or groups simultaneously, reducing the time and effort required for manual input.
+  
+- **`deadline` command**: Ability to create deadline tasks. 
+  * **What it does:** Creates task with a deadline for specific student(s) or group(s) within ProfBook.
+  * **Justification:** This feature improves task management as users can now track assigned tasks with deadlines.
+  * **Highlights:**
     * Ability to assign deadline tasks to a large number of students or groups simultaneously, reducing the time and effort required for manual input.
 
 ### Project Management
   * Managed the closing of milestones for v1.3.
   * Recorded the demo video for v1.3.
   * Updated User Guide aspects that are not specific to any feature.
+  * Assisted in the recording of final demo video. 
 
 ### Documentation
 
@@ -50,14 +60,21 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
 #### Developer Guide:
 
   * **Non-Feature Aspects:**
-    * Read through the UG and gave constructive feedback on areas of improvement.
+    * Proofread and gave constructive feedback on areas of improvement.
   * **Feature Aspects:**
-    * to be added soon. 
+    * Wrote and created UML for the following section of Implementation
+      * Creating a task: adding tasks for all or specific student or group. 
+      * Editing information: editing a student's or group's details.
 
-### Community: Here are some PRs I reviewed (with non-trivial review comments):
-- **[Pull Request #136](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/136)**
-- **[Pull Request #180](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/180)** 
-- **[Pull Request #289](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/289)**
-- **[Pull Request #295](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/295)**
+### Community: 
+
+- Here are some PRs I reviewed (with non-trivial review comments):
+  - **[Pull Request #136](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/136)**
+  - **[Pull Request #180](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/180)** 
+  - **[Pull Request #289](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/289)**
+  - **[Pull Request #294](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/294)**
+  - **[Pull Request #295](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/295)**
+- Contribution to forum discussions:
+  - [Actively helped the author of the issue to test out the different suggestions gicen](https://github.com/nus-cs2103-AY2324S1/forum/issues/225)
     
 
