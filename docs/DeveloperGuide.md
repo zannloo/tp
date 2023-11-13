@@ -578,6 +578,8 @@ The following methods of `ModelManager`, `AbsolutePath` and `ChildOperation<Grou
 4. `AbsolutePath::isGroupDirectory` - To check if the path leads to a group directory.
 5. `AbsolutePath::isStudentDirectory` - To check if the path leads to a student directory.
 
+<div style="page-break-after: always;"></div>
+
 Given below is an example usage scenario on how an existing user can edit the name of a group.
 
 1. When the user launches the application, existing information is read from the data file `profbook.json`. The initial
@@ -598,6 +600,8 @@ Given below is an example usage scenario on how an existing user can edit the na
 7. It then deletes the old key-value pair in root's `Map<Id, group>` and adds the new key-value pair.
 
    <puml src="diagrams/EditFinalState.puml" width="600" />
+
+<div style="page-break-after: always;"></div>
 
 This is illustrated by the following sequence diagram. It shows the general flow of the edit through editing a `Group`
 instance, this example should be general enough for you to understand how the edit command works on other classes such
