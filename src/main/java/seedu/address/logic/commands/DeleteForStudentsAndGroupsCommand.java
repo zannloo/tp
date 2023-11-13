@@ -157,7 +157,6 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
         Student stu = target.getChild(studentId);
 
         logger.finer("Executing delete student.");
-
         target.deleteChild(studentId);
         model.updateList();
         return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_STUDENT, Messages.format(stu)));
@@ -174,7 +173,6 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
         Group grp = target.getChild(groupId);
 
         logger.finer("Executing delete group.");
-
         target.deleteChild(groupId);
         model.updateList();
         return new CommandResult(String.format(MESSAGE_SUCCESS_FOR_GROUP, Messages.format(grp)));

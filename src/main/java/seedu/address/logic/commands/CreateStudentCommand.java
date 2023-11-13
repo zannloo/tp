@@ -89,10 +89,8 @@ public class CreateStudentCommand extends Command {
         checkIfGroupExistInProfBook(model);
         checkForDuplicateStudentId(model);
 
-        ChildOperation<Student> target = model.groupChildOperation(path);
-
         logger.finer("Executing create student command.");
-
+        ChildOperation<Student> target = model.groupChildOperation(path);
         target.addChild(this.student.getId(), this.student);
         model.updateList();
 
