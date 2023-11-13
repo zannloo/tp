@@ -13,30 +13,30 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.id.GroupId;
 import seedu.address.model.profbook.Group;
 import seedu.address.model.profbook.Name;
-import seedu.address.testutil.GroupBuilder;
+import seedu.address.testutil.TypicalGroups;
 
 
 public class JsonAdaptedGroupTest {
 
+    private static final Group GROUP_ONE = TypicalGroups.GROUP_ONE;
+    private static final Group GROUP_TWO = TypicalGroups.GROUP_TWO;
+
     @Test
     public void toModelType_validGroupDetails_returnsGroup() throws Exception {
-        Group grp = new GroupBuilder().build();
-        JsonAdaptedGroup group = new JsonAdaptedGroup(grp);
-        assertEquals(grp, group.toModelType());
+        JsonAdaptedGroup group = new JsonAdaptedGroup(GROUP_ONE);
+        assertEquals(GROUP_ONE, group.toModelType());
     }
 
     @Test
     public void toModelType_emptyTask_returnsGroup() throws Exception {
-        Group grp = new GroupBuilder().build();
-        JsonAdaptedGroup group = new JsonAdaptedGroup(grp);
-        assertEquals(grp, group.toModelType());
+        JsonAdaptedGroup group = new JsonAdaptedGroup(GROUP_TWO);
+        assertEquals(GROUP_TWO, group.toModelType());
 
     }
     @Test
     public void toModelType_emptyStudent_returnsGroup() throws Exception {
-        Group grp = new GroupBuilder().build();
-        JsonAdaptedGroup group = new JsonAdaptedGroup(grp);
-        assertEquals(grp, group.toModelType());
+        JsonAdaptedGroup group = new JsonAdaptedGroup(GROUP_ONE);
+        assertEquals(GROUP_ONE, group.toModelType());
 
     }
 
