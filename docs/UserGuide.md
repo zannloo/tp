@@ -240,7 +240,7 @@ Flags usually **come before** essential details required by the command and are 
 `SPECIFIED_PATH`:
 - Must be a **valid** path. 
 - Most commands will require the `SPECIFIED_PATH` to be a present path (path that currently exists within ProfBook)
-except for the [`touch`](#add-a-student-touch) and [`mkdir`](#add-a-goup-mkdir) commands.
+except for the [`touch`](#add-a-student-touch) and [`mkdir`](#create-a-group-mkdir) commands.
 
 | **Symbol** | **Purpose of symbol**                                                                                                                                                                                 |
 |------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
