@@ -80,7 +80,7 @@ public class MarkCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        logger.info("Executing mark task command...");
+        logger.finer("Executing mark task command...");
 
         if (!model.isShowTaskList()) {
             logger.warning("Task list is not shown. Aborting mark task command.");
@@ -97,12 +97,12 @@ public class MarkCommand extends Command {
                     String.format(MESSAGE_INVALID_INDEX, taskOperation.getTaskListSize(), index.getOneBased()));
         }
 
-        logger.info("Executing mark task command on task with index " + this.index.getOneBased());
+        logger.finer("Executing mark task command on task with index " + this.index.getOneBased());
 
         Task markedTask = taskOperation.markTask(this.index.getOneBased());
         model.updateList();
 
-        logger.info("Task marked successfully. Marked task: " + markedTask.toString());
+        logger.finer("Task marked successfully. Marked task: " + markedTask.toString());
         return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS, markedTask));
     }
 

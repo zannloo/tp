@@ -80,7 +80,7 @@ public class UnmarkCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        logger.info("Executing unmark task command...");
+        logger.finer("Executing unmark task command...");
 
         if (!model.isShowTaskList()) {
             logger.warning("Task list is not shown. Aborting unmark task command.");
@@ -96,12 +96,12 @@ public class UnmarkCommand extends Command {
             throw new CommandException(
                     String.format(MESSAGE_INVALID_INDEX, taskOperation.getTaskListSize(), index.getOneBased()));
         }
-        logger.info("Executing unmark task command on task with index " + this.index.getOneBased());
+        logger.finer("Executing unmark task command on task with index " + this.index.getOneBased());
 
         Task ummarkedTask = taskOperation.unmarkTask(this.index.getOneBased());
         model.updateList();
 
-        logger.info("Task unmarked successfully. Unmarked task: " + ummarkedTask.toString());
+        logger.finer("Task unmarked successfully. Unmarked task: " + ummarkedTask.toString());
         return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS, ummarkedTask));
     }
 

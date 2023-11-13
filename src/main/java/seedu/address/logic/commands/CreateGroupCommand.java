@@ -85,7 +85,7 @@ public class CreateGroupCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        logger.info("Executing create group command...");
+        logger.finer("Executing create group command...");
 
         ChildOperation<Group> rootOperation = model.rootChildOperation();
 
@@ -98,12 +98,12 @@ public class CreateGroupCommand extends Command {
                     MESSAGE_DUPLICATE_GROUP_ID, group.getId().toString(), Messages.format(groupWithSameId)));
         }
 
-        logger.info("Creating a new group...");
+        logger.finer("Creating a new group...");
 
         rootOperation.addChild(this.group.getId(), this.group);
         model.updateList();
 
-        logger.info("New group added successfully.");
+        logger.finer("New group added successfully.");
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(this.group)));
     }
 

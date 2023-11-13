@@ -92,7 +92,7 @@ public class MoveStudentToGroupCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        logger.info("Executing move student to group command...");
+        logger.finer("Executing move student to group command...");
 
         if (source.isStudentDirectory() && dest.isGroupDirectory()) {
             if (!model.hasStudent(source)) {
@@ -104,14 +104,14 @@ public class MoveStudentToGroupCommand extends Command {
                 throw new CommandException(MESSAGE_GROUP_NOT_FOUND);
             }
             StudentId toBeMovedId = source.getStudentId().get();
-            logger.info("Moving student " + toBeMovedId + "...");
+            logger.finer("Moving student " + toBeMovedId + "...");
             ChildOperation<Student> sourceGroup = model.groupChildOperation(source);
             Student studentToBeMoved = sourceGroup.getChild(toBeMovedId);
             ChildOperation<Student> destGroup = model.groupChildOperation(dest);
             destGroup.addChild(toBeMovedId, studentToBeMoved);
             sourceGroup.deleteChild(toBeMovedId);
             model.updateList();
-            logger.info("Student " + toBeMovedId + " has been successfully moved to destination group.");
+            logger.finer("Student " + toBeMovedId + " has been successfully moved to destination group.");
             return new CommandResult(String.format(MESSAGE_MOVE_STUDENT_SUCCESS, toBeMovedId, dest.getGroupId().get()));
         }
 
