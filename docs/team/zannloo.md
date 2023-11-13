@@ -75,6 +75,6 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
   - **[Pull Request #294](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/294)**
   - **[Pull Request #295](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/295)**
 - Contribution to forum discussions:
-  - [Actively helped the author of the issue to test out the different suggestions gicen](https://github.com/nus-cs2103-AY2324S1/forum/issues/225)
+  - [Actively helped the author of the issue to test out the different suggestions given](https://github.com/nus-cs2103-AY2324S1/forum/issues/225)
     
 
