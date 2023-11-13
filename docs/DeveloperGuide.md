@@ -671,6 +671,14 @@ improve this validation by enforcing a tighter validation. This can be achieved 
 common phone extensions to their length and then enforcing that the phone number be of that length. This allows our
 users to have the peace of mind that the phone number is validated and robust enough to handle international numbers.
 
+### Max character length validation
+
+Currently, our application only checks if the required fields (e.g. `--name`, `--desc`). Our current validation is
+lacking as users are able to enter a value that is infinitely long which may hinder the performance and functionality of
+our GUI. We plan to counteract this by enforcing a max character length for each of our field. Implementing this is
+would be rather simple by adding a length check during parsing. We could limit name length to 46 characters, email to 62 
+etc. 
+
 ### Better marking and un-marking validation
 
 Currently, our application does not check if the tasks are marked or unmarked before any operation. This results in
@@ -701,6 +709,21 @@ Currently, our hierarchy only extends to `Group`. To serve our target users bett
 `TutorialSlot` to ProfBook. This would allow our target users to juggle not only groups but also tutorial slots.
 Implementing this is rather easy as `TutorialSlot` would in theory be almost identical to the implementation of `Group`,
 all `TutorialSlot` have to do is just extend from `ChildrenAndTaskListManager`. 
+
+
+### Implement a grade component to our tasks
+
+Currently, our users can only mark tasks as completed. To serve our target users better, we plan to allow our users to 
+assign a grade or score to a task. This would allow our target users to better keep track of and monitor their students
+and their groups progress. Implementing this would be adding a new `tag` to our display for tasks and creating a new 
+command similar to that of mark that receives and store the grade or score.
+
+### Implement a search function
+
+Currently, our users are unable to filter the current displayed list. We predict that this could be a hassle if the user
+is required to manage many groups and students with each having a myriad of tasks. We plan to implement this by creating 
+a new command where users would be able to pass in the field that they wish to search by. Then, we can filter the
+display list with a simple for-loop.
 
 <div style="page-break-after: always;"></div>
 
