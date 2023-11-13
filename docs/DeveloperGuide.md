@@ -671,7 +671,7 @@ improve this validation by enforcing a tighter validation. This can be achieved 
 common phone extensions to their length and then enforcing that the phone number be of that length. This allows our
 users to have the peace of mind that the phone number is validated and robust enough to handle international numbers.
 
-### Better marking and un-marking validation (// TODO low priority, remove when needed )
+### Better marking and un-marking validation
 
 Currently, our application does not check if the tasks are marked or unmarked before any operation. This results in
 users being able to mark/un-mark tasks infinitely, this is not intuitive and may mislead some users. Hence, we plan to
@@ -686,7 +686,7 @@ and only if their ids are identical. This means that two students with identical
 considered different in ProfBook, needless to say this does not reflect requirements in the real world. Therefore, we
 plan to revamp our duplication checking for students by checking for equality between their phone number and email.
 
-### More descriptive error message (// TODO low priority, remove when needed )
+### More descriptive error message
 
 Currently, while our application tries to output a descriptive and apt message for each error, we have received feedback
 that some of our error message could be more descriptive. One such example is trying to edit the root `~/` directory or
