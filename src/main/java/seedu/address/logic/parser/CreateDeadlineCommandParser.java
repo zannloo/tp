@@ -20,7 +20,7 @@ import seedu.address.model.task.Deadline;
  * Parses input arguments and creates a new CreateDeadlineCommand object
  */
 public class CreateDeadlineCommandParser implements Parser<CreateDeadlineCommand> {
-    private static final Logger logger = LogsCenter.getLogger(CreateDeadlineCommand.class);
+    private static final Logger logger = LogsCenter.getLogger(CreateDeadlineCommandParser.class);
 
     /**
      * Parses the given {@code String} of arguments in the context of the CreateDeadlineCommand

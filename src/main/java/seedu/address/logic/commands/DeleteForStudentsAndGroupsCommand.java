@@ -3,6 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -54,6 +57,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
             return new CommandResult(MESSAGE_USAGE);
         }
     };
+    private static final Logger logger = LogsCenter.getLogger(DeleteForStudentsAndGroupsCommand.class);
 
     private final AbsolutePath toBeDeleted;
 
@@ -70,7 +74,7 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
     }
 
     /**
-     * Executes an DeleteForStudentsAndGroupsCommand to delete a {@code Student} or {@code Group}
+     * Executes a DeleteForStudentsAndGroupsCommand to delete a {@code Student} or {@code Group}
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException                  Exception thrown when error occurs during command execution.
@@ -88,10 +92,12 @@ public class DeleteForStudentsAndGroupsCommand extends Command {
         checkIfPathToDeleteExistInProfBook(model);
 
         if (toBeDeleted.isStudentDirectory()) {
+            logger.finer("Executing delete student.");
             return deleteStudent(model);
         }
 
         if (toBeDeleted.isGroupDirectory()) {
+            logger.finer("Executing delete group.");
             return deleteGroup(model);
         }
 
