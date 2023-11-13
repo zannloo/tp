@@ -85,6 +85,6 @@ Given below are my contributions to the project.
 
 Here are the pull requests I reviewed and provided valuable feedback and suggestions:
 
-- **[Pull Request #269](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/269)**
-- **[Pull Request #262](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/262)**
-- **[Pull Request #91](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/91)**
+**[Pull Request #269](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/269)**|
+**[Pull Request #262](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/262)**|
+**[Pull Request #91](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/91)**|
