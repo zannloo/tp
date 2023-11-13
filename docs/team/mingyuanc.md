@@ -81,15 +81,24 @@ Given below are my contributions to the project.
 
 ### Community:
 * PRs reviewed (with non-trivial review comments):
-  * **[Pull Request #71](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/71)**
-  * **[Pull Request #87](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/87)**
-  * **[Pull Request #113](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/113)**
-  * **[Pull Request #115](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/115)**
-  * **[Pull Request #117](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/117)**
-  * **[Pull Request #118](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/118)**
-  * **[Pull Request #128](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/128)**
-  * **[Pull Request #286](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/286)**
-  * **[Pull Request #289](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/289)**
+<div class="pull-request-container">
+
+**[PR #71](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/71)** |
+**[PR #87](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/87)** |
+**[PR #113](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/113)** |
+**[PR #115](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/115)** |
+**[PR #117](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/117)** |
+**[PR #118](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/118)** |
+**[PR #128](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/128)** |
+**[PR #286](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/286)** |
+**[PR #289](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/289)** |
+
+</div>
+
 * Contributions to forum:
-  * **[Shared my GUI](https://github.com/nus-cs2103-AY2324S1/forum/issues/101#issuecomment-1706285315)**
-  * **[Help solved an issue](https://github.com/nus-cs2103-AY2324S1/forum/issues/110#issuecomment-1709913495)**
+<div class="pull-request-container">
+
+**[Shared my GUI](https://github.com/nus-cs2103-AY2324S1/forum/issues/101#issuecomment-1706285315)** |
+**[Help solved an issue](https://github.com/nus-cs2103-AY2324S1/forum/issues/110#issuecomment-1709913495)** |
+
+</div>
