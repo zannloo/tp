@@ -923,10 +923,10 @@ root directory,
 
 <box type = "info">
 
-**Student Tasks** on the other hand are tasks assigned to **individual students**. These tasks are ideal for
+**Student Tasks** are tasks assigned to **individual students**. These tasks are ideal for
 assignments where each student is required to complete and submit their assignment independently. 
 
-**Group Tasks** are tasks designated for a **specific group as a collective responsibility**, not individual
+**Group Tasks** on the other hand are tasks designated for a **specific group as a collective responsibility**, not individual
 students within the group. They are suitable for tasks that require group collaboration instead of individual
 student contributions.
 </box>
@@ -1216,7 +1216,7 @@ Some possible errors from invalid command format are,
 
 Please note that if there are multiple invalid options, only the first invalid option will be shown in the return
 message. <br> 
-This approach aids you to concentrate on addressing the invalid option before moving on to the subsequent
+This approach aids you to concentrate on addressing the current invalid option before moving on to the subsequent
 ones. The next invalid option will be shown after rerunning the command if the current invalid option has been solved.
 </box>
 

@@ -25,17 +25,15 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
   * **Justification:** This simplifies user interactions, ensuring simplicity and efficiency.
   * **Highlights:** Utilizes a single dynamic command to provide a streamlined means of removing students or groups.
 
-- **`todo` command**:  Enables the creation of tasks with descriptions for specific students or groups.
+- **`todo` command**:
   * **What it does:** Creates task with only a description for specific student(s) or group(s) within ProfBook.
   * **Justification:** This feature improves the product significantly because a user can now easily track tasks assigned.
-  * **Highlights:**
-    * Ability to assign todo tasks to a large number of students or groups simultaneously, reducing the time and effort required for manual input.
+  * **Highlights:** Ability to assign todo tasks to a large number of students or groups simultaneously, reducing the time and effort required for manual input.
   
-- **`deadline` command**: Ability to create deadline tasks. 
+- **`deadline` command**:
   * **What it does:** Creates task with a deadline for specific student(s) or group(s) within ProfBook.
   * **Justification:** This feature improves task management as users can now track assigned tasks with deadlines.
-  * **Highlights:**
-    * Ability to assign deadline tasks to a large number of students or groups simultaneously, reducing the time and effort required for manual input.
+  * **Highlights:** Ability to assign deadline tasks to a large number of students or groups simultaneously, reducing the time and effort required for manual input.
 
 <div style="page-break-after: always;"></div>
 
@@ -43,12 +41,14 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
   * Managed the closing of milestones for v1.3.
   * Recorded the demo video for v1.3.
   * Updated User Guide aspects that are not specific to any feature.
-  * Assisted in the recording of final demo video. 
-  *   * **Non-Feature Aspects for User Guide:**
-        * ProfBook Command Format.
-        * Navigating the Graphical User Interface(GUI).
-        * FAQ.
-        * Overall editing and formatting of the whole UG to ensure consistency in writing.
+  * Assisted in the recording of final demo video.
+  * **Non-Feature Aspects for User Guide:**
+    * ProfBook Command Format.
+    * Navigating the Graphical User Interface(GUI).
+    * FAQ.
+    * Overall editing and formatting of the whole UG to ensure consistency in writing.
+  * **Non-Feature Aspects for Developer Guide:**
+    * Proofread and gave constructive feedback on areas of improvement.
 
 ### Documentation
 
@@ -61,17 +61,14 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
 
 #### Developer Guide:
 
-  * **Non-Feature Aspects:**
-    * Proofread and gave constructive feedback on areas of improvement.
   * **Feature Aspects:**
-    * Wrote and created UML for the following section of Implementation
+    * Wrote and created UML for the following sections of Implementation,
       * Creating a task: adding tasks for all or specific student or group. 
       * Editing information: editing a student's or group's details.
 
 ### Community: 
 
 - Here are some PRs I reviewed (with non-trivial review comments):
-  - **[Pull Request #136](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/136)**
   - **[Pull Request #180](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/180)** 
   - **[Pull Request #289](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/289)**
   - **[Pull Request #294](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/294)**
