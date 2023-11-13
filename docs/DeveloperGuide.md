@@ -210,7 +210,7 @@ The `Model` component,
 The diagram above shows how the folder structure is implemented in ProfBook,
 
 * The hierarchy is as such: `Root` -> `Group` -> `Student`.
-* As many of the operations are repeated (e.g. tasks operations and children operation), we decided to abstract out
+* As many of the operations are repeated (e.g. tasks operations and children operations), we decided to abstract out
   these logic into their own classes which is represented by `TaskListManager` and `ChildrenManager` respectively.
 * `ChildrenManager` manages the children which is of type `IChildElement`.
 * We also created a wrapper class (e.g. `ChildrenAndTaskListManager`) for classes that require both of those
@@ -224,7 +224,7 @@ The diagram above shows how the folder structure is implemented in ProfBook,
 
 <puml src="diagrams/TaskListClassDiagram.puml" width="250" />
 
-How the `Task` component work:
+How the `Task` component works:
 
 * As mentioned earlier, `TaskListManager` encapsulates the logic required to maintain a TaskList, this logic is
   utilised heavily in the ProfBook component.
@@ -242,7 +242,7 @@ we shall be narrowing our scope to adding a todo tasks to a specified group, g.
 How the `Model` component works:
 
 * Depending on the nature of the command, a static method is called to generate a `TaskOperation` or
-  a `ChildrenOperation` Object that acts as an interface manipulate the Model
+  a `ChildrenOperation` object that acts as an interface manipulate the Model
 * In this case, a `TaskOperation` object is created. This object would store all the necessary information to make
   changes directly on the correct state.
 * The `Command` instance calls the required method in the `TaskOperation` object which results in the `TaskOperation`
@@ -287,7 +287,7 @@ Here is a class diagram for the path package:
 
 ### Storage component
 
-**API** : [`ProfBookStorageManager.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/ProfBookStorageManager.java)
+**API** : [`Storage.java`](https://github.com/AY2324S1-CS2103T-W15-2/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
 
 <puml src="diagrams/StorageClassDiagram.puml" width="550" />
 
@@ -321,7 +321,7 @@ to capture unique functionality of the different parties at play.
 
 In our current hierarchy, `Root` -> `Group` -> `Student`, `Student` and `Group` are required to manage tasks
 whereas `Root` and `Group` are required to manage children. The `Model` component briefly mentioned this implementation,
-but I will delve into it more comprehensively.
+but I will delve into it more comprehensively in this implementation.
 
 We first created interfaces to represent the required logic for each of the manager, namely `IChildrenManager`
 and `ITaskListManager`. Then we created concrete classes such as `ChildrenManager` and `TaskListManager` to encapsulate
@@ -355,7 +355,7 @@ To further illustrate our folder structure, we have prepared this diagram
     * Pros: Easier to implement relatively to the tree representation.
     * Cons: 
       * Harder to maintain the hierarchy, search for items and load items from storage.
-      * States are more coupled
+      * States are more coupled.
 
 **Aspect: How store reference to children**
 
