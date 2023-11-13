@@ -24,7 +24,14 @@ Given below are my contributions to the project.
 1. **Introduced `Storage` Class :**
    
     - Provides methods to convert ProfBook application to Json format and read it back into our project upon start up.
-    - Each part of ProfBook storage is managed by seperate classes within storage such as `Group` managed by `JsonAdaptedGroup`.
+    - Each part of ProfBook storage is managed by seperate classes within storage such as
+      - `Root` managed by `JsonAdaptedRoot`.
+      - `Group` managed by `JsonAdaptedGroup`.
+      - `Student` managed by `JsonAdaptedStudent`.
+      - `Task` managed by `JsonAdaptedTasks`.
+      - `Deadline` managed by `JsonAdaptedDeadline`.
+      - `ToDo` managed by `JsonAdaptedToDo`.
+      - Overall storage managed by `ProfBookStorageManager`.
     - Uses Jackson to create and store the Json and read it.
 
 2. **Introduced `task` package :**
