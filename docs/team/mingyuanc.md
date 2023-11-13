@@ -78,7 +78,6 @@ Given below are my contributions to the project.
       * Folder structure
       * Moving students
       * Adding a student/group
-      * Editing a student/group
 
 ### Community:
 * PRs reviewed (with non-trivial review comments):
