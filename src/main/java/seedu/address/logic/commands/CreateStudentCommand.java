@@ -3,6 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -52,6 +55,8 @@ public class CreateStudentCommand extends Command {
         }
     };
 
+    private static final Logger logger = LogsCenter.getLogger(CreateStudentCommand.class);
+
     private final AbsolutePath path;
     private final Student student;
 
@@ -85,6 +90,8 @@ public class CreateStudentCommand extends Command {
         checkForDuplicateStudentId(model);
 
         ChildOperation<Student> target = model.groupChildOperation(path);
+
+        logger.finer("Executing create student command.");
 
         target.addChild(this.student.getId(), this.student);
         model.updateList();

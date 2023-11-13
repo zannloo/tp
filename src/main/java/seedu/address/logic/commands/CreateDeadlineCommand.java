@@ -4,6 +4,9 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
@@ -83,6 +86,8 @@ public class CreateDeadlineCommand extends Command {
         }
     };
 
+    private static final Logger logger = LogsCenter.getLogger(CreateDeadlineCommand.class);
+
     private final AbsolutePath path;
 
     private final Deadline deadline;
@@ -120,15 +125,19 @@ public class CreateDeadlineCommand extends Command {
 
         // Check if path exists in ProfBook
         if (!model.hasPath(path)) {
+            logger.warning("Path does not exist. Aborting create deadline task command.");
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, path));
         }
 
         switch(category) {
         case NONE:
+            logger.finer("Created a deadline task for a single student or group");
             return handleNone(model);
         case ALLSTU:
+            logger.finer("Created a deadline task for all students under a group or ProfBook");
             return handleAllStu(model);
         default:
+            logger.finer("Created a deadline task for all groups under ProfBook");
             return handleAllGrp(model);
         }
     }
