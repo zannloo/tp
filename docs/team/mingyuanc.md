@@ -54,8 +54,6 @@ Given below are my contributions to the project.
 * Created and assigned issues for V1.3, V1.4
 * Integrated **Codecov** to automate code coverage assessment of PR.
 
-## Documentations:
-
 ### User Guide Contributions
 * **Non-Feature Aspects**
   * Transferred initial command description from Google documents into Markdown format.
