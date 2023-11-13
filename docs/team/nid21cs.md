@@ -32,7 +32,6 @@ Given below are my contributions to the project.
       - `Deadline` managed by `JsonAdaptedDeadline`.
       - `ToDo` managed by `JsonAdaptedToDo`.
       - Overall storage managed by `ProfBookStorageManager`.
-    - Uses Jackson to create and store the Json and read it.
 
 2. **Introduced `task` package :**
    
