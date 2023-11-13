@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -26,9 +25,13 @@ import seedu.address.testutil.RootBuilder;
 import seedu.address.testutil.TypicalGroups;
 
 public class CreateGroupCommandTest {
+
     private Model model;
+
     private Model expectedModel;
+
     private AbsolutePath rootPath = CommandTestUtil.getValidRootAbsolutePath();
+
     private Group toBeAdded = TypicalGroups.GROUP_TWO;
 
     @BeforeEach
@@ -57,7 +60,7 @@ public class CreateGroupCommandTest {
     }
 
     @Test
-    public void execute_createGroup_success() throws CommandException, InvalidPathException {
+    public void execute_createGroup_success() throws InvalidPathException {
         RelativePath groupTwo = new RelativePath(toBeAdded.getId().toString());
         AbsolutePath groupTwoAbsolutePath = rootPath.resolve(groupTwo);
 
@@ -119,7 +122,7 @@ public class CreateGroupCommandTest {
     }
 
     @Test
-    public void toStringMethod() {
+    public void toString_successfullyCreateGroup_returnExpectedString() {
         CreateGroupCommand createGroupCommand = new CreateGroupCommand(rootPath, TypicalGroups.GROUP_TWO);
         String expected = CreateGroupCommand.class.getCanonicalName()
                 + "{toCreateGroup=" + toBeAdded + "}";

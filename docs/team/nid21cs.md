@@ -8,7 +8,8 @@ title: Nidhish Krishnan's Project Portfolio Page
 ProfBook is a desktop application used for easy management of a variety of tasks, students and groups. 
 The user interacts with it using a CLI, and has a GUI created with JavaFX.
 
-Given below are my contributions to the project.
+ProfBook is a desktop application used for easy management of a variety of tasks, students and groups.
+The user interacts with it using a CLI, and has a GUI created with JavaFX. It is tailor-made to mimic the familiar terminal experience for our target users by introducing Linux-style commands, Dynamic commands and a terminal like structure and interface. It is written in Java, and has about 10 kLoC.
 
 ## RepoSense Report
 
@@ -27,8 +28,14 @@ Given below are my contributions to the project.
 1. **Introduced `Storage` Class :**
    
     - Provides methods to convert ProfBook application to Json format and read it back into our project upon start up.
-    - Each part of ProfBook storage is managed by seperate classes within storage such as `Group` managed by `JsonAdaptedGroup`.
-    - Uses Jackson to create and store the Json and read it.
+    - Each part of ProfBook storage is managed by seperate classes within storage such as
+      - `Root` managed by `JsonAdaptedRoot`.
+      - `Group` managed by `JsonAdaptedGroup`.
+      - `Student` managed by `JsonAdaptedStudent`.
+      - `Task` managed by `JsonAdaptedTasks`.
+      - `Deadline` managed by `JsonAdaptedDeadline`.
+      - `ToDo` managed by `JsonAdaptedToDo`.
+      - Overall storage managed by `ProfBookStorageManager`.
 
 2. **Introduced `task` package :**
    
@@ -65,7 +72,7 @@ Given below are my contributions to the project.
 
 5. **User stories**:
    - Added User stories to the DG to articulate how our features will be valuable to a customer.
-   - Added it in the dorm of a table with a priority level, and the level of experience of the user.
+   - Added it in the form of a table with a priority level, and the level of experience of the user.
 
 6. **Glossary**:
    - Added glossary of the terms used in our project for users to better understand our product.
@@ -81,5 +88,6 @@ Given below are my contributions to the project.
 
 Here are the pull requests I reviewed and provided valuable feedback and suggestions:
 
-- **[Pull Request #269](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/269)**
-- **[Pull Request #262](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/262)**
+**[Pull Request #269](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/269)**|
+**[Pull Request #262](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/262)**|
+**[Pull Request #91](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/91)**|

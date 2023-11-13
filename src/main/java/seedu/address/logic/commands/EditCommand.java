@@ -2,8 +2,9 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Map;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -12,19 +13,12 @@ import seedu.address.model.Model;
 import seedu.address.model.field.EditGroupDescriptor;
 import seedu.address.model.field.EditStudentDescriptor;
 import seedu.address.model.id.GroupId;
-import seedu.address.model.id.Id;
 import seedu.address.model.id.StudentId;
 import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.path.RelativePath;
 import seedu.address.model.path.exceptions.InvalidPathException;
-import seedu.address.model.profbook.Address;
-import seedu.address.model.profbook.Email;
 import seedu.address.model.profbook.Group;
-import seedu.address.model.profbook.Name;
-import seedu.address.model.profbook.Phone;
 import seedu.address.model.profbook.Student;
-import seedu.address.model.task.ReadOnlyTaskList;
-import seedu.address.model.task.TaskListManager;
 
 /**
  * EditCommand is a class representing a command to edit the details of a person (either a student or a group) in
@@ -34,8 +28,6 @@ import seedu.address.model.task.TaskListManager;
 public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
-
-    public static final String ERROR_MESSAGE_UNSUPPORTED_PATH_OPERATION = "Path operation is not supported";
 
     public static final String ERROR_MESSAGE_NO_SUCH_GROUP = "Group does not exist in ProfBook.";
 
@@ -58,10 +50,10 @@ public class EditCommand extends Command {
             + "Examples: \n"
             + "edit grp-001 -n Perfect Group \n"
             + "edit grp-001 -i grp-002";
+
     public static final String MESSAGE_EDIT_GROUP_SUCCESS = "Field(s) of group has been edited successfully.";
 
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Field(s) of student has been edited successfully.";
-
 
     public static final String MESSAGE_INCORRECT_DIRECTORY_ERROR = "Root directory cannot be edited.";
 
@@ -82,13 +74,17 @@ public class EditCommand extends Command {
 
     public static final EditCommand HELP_MESSAGE = new EditCommand() {
         @Override
-        public CommandResult execute(Model model) throws CommandException {
+        public CommandResult execute(Model model) {
             return new CommandResult(MESSAGE_USAGE);
         }
     };
 
+    private static final Logger logger = LogsCenter.getLogger(EditCommand.class);
+
     private final AbsolutePath target;
+
     private final EditGroupDescriptor editGroupDescriptor;
+
     private final EditStudentDescriptor editStudentDescriptor;
 
     /**
@@ -132,50 +128,93 @@ public class EditCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+        logger.finer("Executing edit command...");
+
         // Check path exists in ProfBook
         if (!model.hasPath(target)) {
+            logger.warning("Path does not exist in ProfBook. Aborting edit command.");
             throw new CommandException(MESSAGE_NO_SUCH_PATH);
         }
 
         if (target.isGroupDirectory()) {
+            logger.finer("Start executing edit group command...");
             return handleEditGroup(model);
         }
 
         if (target.isStudentDirectory()) {
+            logger.finer("Start executing edit student command...");
             return handleEditStudent(model);
         }
 
+        logger.warning("Root directory cannot be edited. Aborting edit command.");
         throw new CommandException(MESSAGE_INCORRECT_DIRECTORY_ERROR);
     }
 
     private CommandResult handleEditGroup(Model model) throws CommandException {
         if (!model.hasGroup(target)) {
+            logger.warning("Group to be edited does not exist. Aborting edit command.");
             throw new CommandException(ERROR_MESSAGE_NO_SUCH_GROUP);
         }
 
         GroupId groupId = target.getGroupId().get();
-
         ChildOperation<Group> rootOperation = model.rootChildOperation();
-        Group groupToEdit = rootOperation.getChild(groupId);
-        Group editedGroup = createEditedGroup(groupToEdit, this.editGroupDescriptor);
+        Group editedGroup = rootOperation.editChild(groupId, editGroupDescriptor);
 
-        // Check whether group is actually edited
-        if (editedGroup.equals(groupToEdit)) {
+        if (editedGroup.equals(rootOperation.getChild(groupId))) {
+            logger.warning("No changes have been made to the group. Aborting edit command.");
             throw new CommandException(MESSAGE_NO_CHANGES_MADE);
         }
 
-        // Check if Id is edited, if is edited check whether new id has already been used.
         boolean idIsEdited = !editedGroup.getId().equals(groupId);
         if (idIsEdited && model.hasGroupWithId(editedGroup.getId())) {
             Group groupWithSameId = model.getGroupWithId(editedGroup.getId());
+            logger.warning("Updated GroupId has already been used. Aborting edit command.");
             throw new CommandException(String.format(
                 MESSAGE_DUPLICATE_GROUP_ID, editedGroup.getId(), Messages.format(groupWithSameId)));
         }
 
-        rootOperation.deleteChild(groupId);
-        rootOperation.addChild(editedGroup.getId(), editedGroup);
+        rootOperation.updateChild(groupId, editedGroup);
+        redirect(model, editedGroup);
 
-        // If edited group is current path, need to redirect with new Id.
+        model.updateList();
+
+        logger.finer("The field(s) of the group has been successfully edited.");
+        return new CommandResult(MESSAGE_EDIT_GROUP_SUCCESS);
+    }
+
+    private CommandResult handleEditStudent(Model model) throws CommandException {
+        if (!model.hasStudent(target)) {
+            logger.warning("Student to be edited does not exist. Aborting edit command.");
+            throw new CommandException(MESSAGE_NO_SUCH_STUDENT);
+        }
+
+        StudentId studentId = target.getStudentId().get();
+        ChildOperation<Student> groupOperation = model.groupChildOperation(target);
+        Student editedStudent = groupOperation.editChild(studentId, editStudentDescriptor);
+
+        if (editedStudent.equals(groupOperation.getChild(studentId))) {
+            logger.warning("No changes have been made to the student. Aborting edit command.");
+            throw new CommandException(MESSAGE_NO_CHANGES_MADE);
+        }
+
+        boolean idIsEdited = !editedStudent.getId().equals(studentId);
+        if (idIsEdited && model.hasStudentWithId(editedStudent.getId())) {
+            Student studentWithSameId = model.getStudentWithId(editedStudent.getId());
+            logger.warning("Updated StudentId has already been used. Aborting edit command.");
+            throw new CommandException(String.format(
+                MESSAGE_DUPLICATE_STUDENT_ID, editedStudent.getId(), Messages.format(studentWithSameId)));
+        }
+
+        groupOperation.updateChild(studentId, editedStudent);
+
+        model.updateList();
+
+        logger.finer("The field(s) of the student has been successfully edited.");
+        return new CommandResult(MESSAGE_EDIT_STUDENT_SUCCESS);
+    }
+
+    private void redirect(Model model, Group editedGroup) {
+        // If edited group is current path, need to redirect with new id.
         if (target.equals(model.getCurrPath())) {
             try {
                 model.changeDirectory(model.getCurrPath().resolve(RelativePath.PARENT));
@@ -184,72 +223,7 @@ public class EditCommand extends Command {
                 throw new IllegalArgumentException("Internal Error: " + e.getMessage());
             }
         }
-
-        model.updateList();
-
-        return new CommandResult(MESSAGE_EDIT_GROUP_SUCCESS);
     }
-
-    private CommandResult handleEditStudent(Model model) throws CommandException {
-        if (!model.hasStudent(target)) {
-            throw new CommandException(MESSAGE_NO_SUCH_STUDENT);
-        }
-
-        StudentId studentId = target.getStudentId().get();
-
-        ChildOperation<Student> groupOperation = model.groupChildOperation(target);
-        Student studentToEdit = groupOperation.getChild(studentId);
-        Student editedStudent = createEditedStudent(studentToEdit, this.editStudentDescriptor);
-
-        // Check whether student is actually edited
-        if (editedStudent.equals(studentToEdit)) {
-            throw new CommandException(MESSAGE_NO_CHANGES_MADE);
-        }
-
-        // Check if Id is edited, if is edited check whether new id has already been used.
-        boolean idIsEdited = !editedStudent.getId().equals(studentId);
-        if (idIsEdited && model.hasStudentWithId(editedStudent.getId())) {
-            Student studentWithSameId = model.getStudentWithId(editedStudent.getId());
-            throw new CommandException(String.format(
-                MESSAGE_DUPLICATE_STUDENT_ID, editedStudent.getId(), Messages.format(studentWithSameId)));
-        }
-
-        groupOperation.deleteChild(studentId);
-        groupOperation.addChild(editedStudent.getId(), editedStudent);
-
-        model.updateList();
-
-        return new CommandResult(MESSAGE_EDIT_STUDENT_SUCCESS);
-    }
-
-    /**
-     * Creates and returns a {@code Student} with the details of {@code studentToEdit}
-     * edited with {@code editStudentDescriptor}.
-     */
-    private static Student createEditedStudent(Student studentToEdit, EditStudentDescriptor editStudentDescriptor) {
-        assert studentToEdit != null;
-        Name updatedName = editStudentDescriptor.getName().orElse(studentToEdit.getName());
-        Phone updatedPhone = editStudentDescriptor.getPhone().orElse(studentToEdit.getPhone());
-        Email updatedEmail = editStudentDescriptor.getEmail().orElse(studentToEdit.getEmail());
-        Address updatedAddress = editStudentDescriptor.getAddress().orElse(studentToEdit.getAddress());
-        StudentId updatedId = editStudentDescriptor.getId().orElse(studentToEdit.getId());
-        ReadOnlyTaskList taskList = new TaskListManager(studentToEdit.getAllTasks());
-        return new Student(taskList, updatedName, updatedEmail, updatedPhone, updatedAddress, updatedId);
-    }
-
-    /**
-     * Creates and returns a {@code Group} with the details of {@code groupToEdit}
-     * edited with {@code editGroupDescriptor}.
-     */
-    private static Group createEditedGroup(Group groupToEdit, EditGroupDescriptor editGroupDescriptor) {
-        assert groupToEdit != null;
-        Name updatedName = editGroupDescriptor.getName().orElse(groupToEdit.getName());
-        GroupId updatedId = editGroupDescriptor.getId().orElse(groupToEdit.getId());
-        ReadOnlyTaskList taskList = new TaskListManager(groupToEdit.getAllTasks());
-        Map<Id, Student> students = groupToEdit.getChildren();
-        return new Group(taskList, students, updatedName, updatedId);
-    }
-
 
     /**
      * Checks if this EditCommand is equal to another object.
@@ -279,9 +253,9 @@ public class EditCommand extends Command {
     }
 
     /**
-     * Returns a string representation of this EditCommand.
+     * Returns the string representation of this EditCommand.
      *
-     * @return A string representation of the object.
+     * @return The string representation of this object.
      */
     @Override
     public String toString() {

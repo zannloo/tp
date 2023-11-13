@@ -21,8 +21,6 @@ public class CommandResultTest {
 
     @Test
     public void equals_sameCommandResult_returnsTrue() {
-        CommandResult commandResult2 = createCommandResult("Test", true, false);
-
         assertTrue(commonCommandResult.equals(commonCommandResult));
     }
 

@@ -21,7 +21,7 @@ Given below are my contributions to the project.
 2. **Introduced `Id` class :**
     - Represent unique id of group and student.
 3. **Introduced `Option` class :**
-    - Similar to AB3 `Prefix` class, but with shorthand and long-hand names.
+    - Similar to AB3 `Prefix` class, but with shorthand and longhand names.
     - e.g. Name option can be passed using option `--name` or `-n`.
 4. **Introduced `Displayable` interface :**
     - Classes that implement this interface can be displayed in the `ItemListPanel`.

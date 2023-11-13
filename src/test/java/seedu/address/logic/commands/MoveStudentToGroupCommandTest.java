@@ -186,7 +186,6 @@ public class MoveStudentToGroupCommandTest {
     public void equals() throws InvalidPathException {
         RelativePath sourceGroupPath = new RelativePath(sourceGroup.getId().toString());
         AbsolutePath sourceGroupAbsolutePath = rootPath.resolve(sourceGroupPath);
-
         RelativePath destinationGroupPath = new RelativePath(destinationGroup.getId().toString());
         AbsolutePath destinationGroupAbsolutePath = rootPath.resolve(destinationGroupPath);
 
@@ -216,7 +215,7 @@ public class MoveStudentToGroupCommandTest {
     }
 
     @Test
-    public void toStringMethod() throws InvalidPathException {
+    public void toString_successfullyMoveStudent_returnExpectedString() throws InvalidPathException {
         RelativePath sourceGroupPath = new RelativePath(sourceGroup.getId().toString());
         AbsolutePath sourceGroupAbsolutePath = rootPath.resolve(sourceGroupPath);
 

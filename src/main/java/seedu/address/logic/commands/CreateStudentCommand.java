@@ -1,8 +1,12 @@
+//@@author zannloo
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -12,7 +16,7 @@ import seedu.address.model.path.AbsolutePath;
 import seedu.address.model.profbook.Student;
 
 /**
- * Adds a student within the specific group.
+ * Adds a student to a specific group.
  */
 public class CreateStudentCommand extends Command {
 
@@ -52,11 +56,13 @@ public class CreateStudentCommand extends Command {
         }
     };
 
+    private static final Logger logger = LogsCenter.getLogger(CreateStudentCommand.class);
+
     private final AbsolutePath path;
     private final Student student;
 
     /**
-     * Creates an CreateStudentCommand to add the specified {@code Student}
+     * Creates an CreateStudentCommand to add the specified {@code Student}.
      */
     public CreateStudentCommand(AbsolutePath path, Student student) {
         requireAllNonNull(path, student);
@@ -70,7 +76,7 @@ public class CreateStudentCommand extends Command {
     }
 
     /**
-     * Executes an CreateStudentCommand to add the specified {@code Student} to a {@code Group}
+     * Executes an CreateStudentCommand to add the specified {@code Student} to a {@code Group}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -84,8 +90,8 @@ public class CreateStudentCommand extends Command {
         checkIfGroupExistInProfBook(model);
         checkForDuplicateStudentId(model);
 
+        logger.finer("Executing create student command.");
         ChildOperation<Student> target = model.groupChildOperation(path);
-
         target.addChild(this.student.getId(), this.student);
         model.updateList();
 
@@ -93,7 +99,7 @@ public class CreateStudentCommand extends Command {
     }
 
     /**
-     * Checks if {@code Path} is a Student Directory
+     * Checks if {@code Path} is a Student Directory.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -104,7 +110,7 @@ public class CreateStudentCommand extends Command {
     }
 
     /**
-     * Checks if specified {@code Group} exist in ProfBook
+     * Checks if specified {@code Group} exist in ProfBook.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */
@@ -115,7 +121,7 @@ public class CreateStudentCommand extends Command {
     }
 
     /**
-     * Checks if StudentId of {@code Student} to be added duplicates with other {@code Student} in ProfBook
+     * Checks if StudentId of {@code Student} to be added duplicates with other {@code Student} in ProfBook.
      *
      * @throws CommandException Exception thrown when error occurs during command execution.
      */

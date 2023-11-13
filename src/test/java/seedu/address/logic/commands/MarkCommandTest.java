@@ -29,9 +29,13 @@ import seedu.address.testutil.GroupBuilder;
 import seedu.address.testutil.RootBuilder;
 
 public class MarkCommandTest {
+
     private Model actualModel;
+
     private Model expectedModel;
+
     private AbsolutePath rootPath = CommandTestUtil.getValidRootAbsolutePath();
+
     private AbsolutePath displayPath;
 
     @BeforeEach
@@ -97,7 +101,7 @@ public class MarkCommandTest {
     }
 
     @Test
-    public void toStringMethod() {
+    public void toString_successfullyMarkTaskDone_returnExpectedString() {
         Index targetIndex = Index.fromOneBased(1);
         MarkCommand markCommand = new MarkCommand(targetIndex);
         String expected = MarkCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";

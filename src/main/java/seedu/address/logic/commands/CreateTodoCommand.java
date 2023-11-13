@@ -1,9 +1,13 @@
+//@@author zannloo
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.Messages.MESSAGE_PATH_NOT_FOUND;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ChildOperation;
@@ -15,8 +19,7 @@ import seedu.address.model.profbook.Student;
 import seedu.address.model.task.ToDo;
 
 /**
- * Represents a command for creating a new "ToDo" task in ProfBook.
- * This command is typically used to add a "ToDo" task.
+ * Adds a Todo task for a one or more {@code Student} or {@code Group}.
  */
 public class CreateTodoCommand extends Command {
 
@@ -79,6 +82,8 @@ public class CreateTodoCommand extends Command {
         }
     };
 
+    private static final Logger logger = LogsCenter.getLogger(CreateTodoCommand.class);
+
     private final AbsolutePath path;
 
     private final ToDo todo;
@@ -86,11 +91,11 @@ public class CreateTodoCommand extends Command {
     private final Category category;
 
     /**
-     * Constructs a {@code CreateTodoCommand} with the specified absolute path and "ToDo" task details.
+     * Constructs a {@code CreateTodoCommand} with the specified absolute path and Todo task details.
      *
-     * @param path   The absolute path to the group where the "ToDo" task will be added.
-     * @param todo     The details of the "ToDo" task to be created.
-     * @param category The specific category of people to add ToDo task to each.
+     * @param path   The absolute path to the group where the Todo task will be added.
+     * @param todo     The details of the Todo task to be created.
+     * @param category The specific category of people to add Todo task to each.
      */
     public CreateTodoCommand(AbsolutePath path, ToDo todo, Category category) {
         requireAllNonNull(path, todo, category);
@@ -106,8 +111,8 @@ public class CreateTodoCommand extends Command {
     }
 
     /**
-     * Executes the CreateTodoCommand, adding a "ToDo" task to either a group or a specific student as specified
-     * in the relative path.
+     * Executes a CreateTodoCommand to allocate a {@code Todo} task to one or more
+     * {@code Group} or {@code Student}.
      *
      * @return A CommandResult indicating the outcome of the command execution.
      * @throws CommandException If an error occurs during command execution.
@@ -119,6 +124,7 @@ public class CreateTodoCommand extends Command {
 
         // Check path exists in ProfBook
         if (!model.hasPath(path)) {
+            logger.warning("Path does not exist. Aborting create todo task command.");
             throw new CommandException(String.format(MESSAGE_PATH_NOT_FOUND, path));
         }
 
@@ -133,7 +139,7 @@ public class CreateTodoCommand extends Command {
     }
 
     /**
-     * Allocates a {@code Todo} task to a {@code Group} or {@code Student}
+     * Allocates a {@code Todo} task to a {@code Group} or {@code Student}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -148,17 +154,21 @@ public class CreateTodoCommand extends Command {
         if (taskOperation.hasTask(this.todo)) {
             throw new CommandException(MESSAGE_DUPLICATE_TODO_TASK);
         }
+
+        logger.finer("Created a todo task for a single group or student");
         taskOperation.addTask(this.todo);
         model.updateList();
+
         if (path.isGroupDirectory()) {
             return new CommandResult(String.format(MESSAGE_SUCCESS_GROUP, path.getGroupId().get(), this.todo));
         }
+
         return new CommandResult(String.format(MESSAGE_SUCCESS_STUDENT, path.getStudentId().get(), this.todo));
     }
 
     /**
      * Handles the situation where a {@code Todo} task is allocated to all {@code Student}
-     * or {@code Root}
+     * in {@code Group} or {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -176,7 +186,7 @@ public class CreateTodoCommand extends Command {
     }
 
     /**
-     * Adds a {@code Todo} task to all {@code Student} in a {@code Group}
+     * Adds a {@code Todo} task to all {@code Student} in a {@code Group}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -192,6 +202,7 @@ public class CreateTodoCommand extends Command {
         // Check whether at least one of the children has the task
         boolean warning = groupOper.doAnyChildrenHaveTasks(todo, 1);
 
+        logger.finer("Created a todo task for all students under a group");
         groupOper.addTaskToAllChildren(todo, 1);
         model.updateList();
         return new CommandResult(
@@ -200,7 +211,7 @@ public class CreateTodoCommand extends Command {
     }
 
     /**
-     * Adds a {@code Todo} task to all {@code Student} in a {@code Root}
+     * Adds a {@code Todo} task to all {@code Student} in a {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -216,6 +227,7 @@ public class CreateTodoCommand extends Command {
         // Check whether at least one of the children has the task
         boolean warning = operation.doAnyChildrenHaveTasks(todo, 2);
 
+        logger.finer("Created a todo task for all students under ProfBook");
         operation.addTaskToAllChildren(todo, 2);
         model.updateList();
         return new CommandResult(
@@ -224,7 +236,7 @@ public class CreateTodoCommand extends Command {
     }
 
     /**
-     * Handles the situation where a {@code Todo} task is allocated to all {@code Group} in a {@code Root}
+     * Handles the situation where a {@code Todo} task is allocated to all {@code Group} in a {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -238,7 +250,7 @@ public class CreateTodoCommand extends Command {
     }
 
     /**
-     * Adds a {@code Todo} task to all {@code Group} in a {@code Root}
+     * Adds a {@code Todo} task to all {@code Group} in a {@code Root}.
      *
      * @return Command result which represents the outcome of the command execution.
      * @throws CommandException Exception thrown when error occurs during command execution.
@@ -254,6 +266,7 @@ public class CreateTodoCommand extends Command {
         // Check whether at least one of the children has the task
         boolean warning = rootOper.doAnyChildrenHaveTasks(todo, 1);
 
+        logger.finer("Created a todo task for all groups under ProfBook");
         rootOper.addTaskToAllChildren(todo, 1);
         model.updateList();
         return new CommandResult(warning ? MESSAGE_SUCCESS_ALL_GROUPS_WITH_WARNING : MESSAGE_SUCCESS_ALL_GROUPS);
@@ -262,8 +275,8 @@ public class CreateTodoCommand extends Command {
     /**
      * Checks if this {@code CreateTodoCommand} is equal to another object.
      *
-     * @param other The object to compare with.
-     * @return True if the objects are equal, false otherwise.
+     * @param other The other object to compare against this {@code CreateTodoCommand}.
+     * @return True if the object is same as {@code CreateTodoCommand} and false otherwise.
      */
     @Override
     public boolean equals(Object other) {
@@ -282,9 +295,9 @@ public class CreateTodoCommand extends Command {
     }
 
     /**
-     * Returns the string representation of this CreateTodoCommand.
+     * Returns a string representation of this CreateTodoCommand.
      *
-     * @return A string representation of the CreateTodoCommand.
+     * @return String representation of the CreateTodoCommand.
      */
     @Override
     public String toString() {

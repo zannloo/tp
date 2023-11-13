@@ -41,15 +41,36 @@ import seedu.address.model.profbook.Root;
 import seedu.address.model.profbook.Student;
 
 public class EditCommandTest {
+
     private Model model;
+
     private Model expectedModel;
+
     private AbsolutePath rootPath = CommandTestUtil.getValidRootAbsolutePath();
+
+    private EditGroupDescriptor editGroupDescriptorForFirstCommand;
+
+    private EditGroupDescriptor editGroupDescriptorForSecondCommand;
+
+    private EditStudentDescriptor editStudentDescriptorForThirdCommand;
+
+    private EditStudentDescriptor editStudentDescriptorForFourthCommand;
 
     @BeforeEach
     public void setup() {
         Root root = PROFBOOK_WITH_TWO_GROUPS;
         model = new ModelManager(rootPath, new Root(root), new UserPrefs());
         expectedModel = new ModelManager(rootPath, new Root(root), new UserPrefs());
+
+        editGroupDescriptorForFirstCommand = new EditGroupDescriptor();
+        editGroupDescriptorForSecondCommand = new EditGroupDescriptor();
+        editGroupDescriptorForFirstCommand.setName(new Name("Group 123"));
+        editGroupDescriptorForSecondCommand.setName(new Name("Group 321"));
+
+        editStudentDescriptorForThirdCommand = new EditStudentDescriptor();
+        editStudentDescriptorForThirdCommand.setName(new Name("Marry"));
+        editStudentDescriptorForFourthCommand = new EditStudentDescriptor();
+        editStudentDescriptorForFourthCommand.setId(new StudentId("0999A"));
     }
 
     @Test
@@ -221,9 +242,7 @@ public class EditCommandTest {
 
     @Test
     public void execute_isHelpTrue_returnMessageUsage() throws CommandException {
-        EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
-        EditCommand command = new EditCommand(rootPath, editStudentDescriptor);
-        CommandResult result = command.HELP_MESSAGE.execute(model);
+        CommandResult result = EditCommand.HELP_MESSAGE.execute(model);
 
         CommandResult expectedResult = new CommandResult(MESSAGE_USAGE);
 
@@ -232,44 +251,35 @@ public class EditCommandTest {
 
     @Test
     public void equals() throws InvalidPathException {
-        EditGroupDescriptor editGroupDescriptor1 = new EditGroupDescriptor();
-        EditGroupDescriptor editGroupDescriptor2 = new EditGroupDescriptor();
-        editGroupDescriptor1.setName(new Name("Group 123"));
-        editGroupDescriptor2.setName(new Name("Group 321"));
-        EditCommand command1 = new EditCommand(rootPath, editGroupDescriptor1);
-        EditCommand command2 = new EditCommand(rootPath, editGroupDescriptor2);
-
+        EditCommand firstCommand = new EditCommand(rootPath, editGroupDescriptorForFirstCommand);
+        EditCommand secondCommand = new EditCommand(rootPath, editGroupDescriptorForSecondCommand);
         // same object -> returns true
-        assertEquals(command1, command1);
+        assertEquals(firstCommand, firstCommand);
 
         // same values -> returns true
-        EditCommand command1Copy = new EditCommand(rootPath, editGroupDescriptor1);
-        assertEquals(command1, command1Copy);
+        EditCommand firstCommandCopy = new EditCommand(rootPath, editGroupDescriptorForFirstCommand);
+        assertEquals(firstCommand, firstCommandCopy);
 
         // different types -> returns false
-        assertNotEquals(1, command1);
+        assertNotEquals(1, firstCommand);
 
         // null -> returns false
-        assertNotEquals(null, command1);
+        assertNotEquals(null, firstCommand);
 
         // different values
-        assertNotEquals(command1, command2);
+        assertNotEquals(firstCommand, secondCommand);
 
-        EditStudentDescriptor editStudentDescriptor3 = new EditStudentDescriptor();
-        editStudentDescriptor3.setName(new Name("Marry"));
-        EditStudentDescriptor editStudentDescriptor3Copy = new EditStudentDescriptor(editStudentDescriptor3);
-        EditStudentDescriptor editStudentDescriptor4 = new EditStudentDescriptor();
-        editStudentDescriptor4.setId(new StudentId("0999A"));
-
-        EditCommand command3 = new EditCommand(rootPath, editStudentDescriptor3);
-        EditCommand command4 = new EditCommand(rootPath, editStudentDescriptor4);
+        EditStudentDescriptor editStudentDescriptor3Copy =
+                new EditStudentDescriptor(editStudentDescriptorForThirdCommand);
+        EditCommand thirdCommand = new EditCommand(rootPath, editStudentDescriptorForThirdCommand);
+        EditCommand fourthCommand = new EditCommand(rootPath, editStudentDescriptorForFourthCommand);
 
         // same values -> returns true
-        EditCommand command3copy = new EditCommand(rootPath, editStudentDescriptor3Copy);
-        assertEquals(command3, command3copy);
+        EditCommand thirdCommandCopy = new EditCommand(rootPath, editStudentDescriptor3Copy);
+        assertEquals(thirdCommand, thirdCommandCopy);
 
         // different values
-        assertNotEquals(command3, command4);
+        assertNotEquals(thirdCommand, fourthCommand);
     }
 
     @Test
