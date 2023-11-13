@@ -11,25 +11,22 @@ and it has a GUI created with JavaFX. It is written in Java, and has about 10 kL
 
 Given below are my contributions to the project.
 
-### Code Contributions
-
 **Code contributed**:
 Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&breakdown=false&sort=groupTitle%20dsc&sortWithin=title&since=2023-09-22&timeframe=commit&mergegroup=&groupSelect=groupByRepos&tabOpen=true&tabType=authorship&tabAuthor=zannloo&tabRepo=AY2324S1-CS2103T-W15-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false) to my RepoSense Report.
 
 #### Enhancements to existing features:
-  1. `touch` command
-     * Ability to add students through dynamic commands into the different directories of ProfBook.
-  2. `rm` command
-     * Ability to remove students or groups through dynamic commands in ProfBook.
-     * This allows user to remove either students or groups through only one command word, ensuring simplicity and efficiency. 
+  1. **`touch` command**
+     * Ability to seamlessly add students into the different directories of ProfBook.
+  2. **`rm` command**
+     * Provides a streamlined means of removing students or groups by providing a single, versatile dynamic command.
+     * This simplifies user interactions, ensuring simplicity and efficiency. 
 
 #### New features:
-* **New Feature**: Ability to create deadline task
-  * What it does: Creates task with a deadline for specific student(s) or group(s).
-  * Justification: to be added soon.
-  * Highlights:
-    * Ability to add deadline tasks to all students within a group or all groups within the root directory through in
-    one command.
+* **New Feature**: Ability to create deadline tasks. 
+  * **What it does:** Creates task with a deadline for specific student(s) or group(s) within ProfBook.
+  * **Highlights:**
+    * Users can now add deadline tasks seamlessly with a single command, enhancing efficiency in task management. 
+    * Ability to assign deadline tasks to a large number of students or groups simultaneously, reducing the time and effort required for manual input.
 
 ### Project Management
   * Managed the closing of milestones for v1.3.
@@ -44,7 +41,7 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
     * ProfBook Command Format.
     * Navigating the Graphical User Interface(GUI).
     * FAQ.
-    * Overall formatting of the whole UG.
+    * Overall editing and formatting of the whole UG to ensure consistency in writing.
   * **Feature Aspects:**
     * `touch` command.
     * `rm` command.
@@ -52,12 +49,15 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
 
 #### Developer Guide:
 
-    * to be added soon.
+  * **Non-Feature Aspects:**
+    * Read through the UG and gave constructive feedback on areas of improvement.
+  * **Feature Aspects:**
+    * to be added soon. 
 
-### Community:
-  * PRs reviewed (with non-trivial review comments): to be added soon.
-    * **[Pull Request #135](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/135)**
+### Community: Here are some PRs I reviewed (with non-trivial review comments):
     * **[Pull Request #136](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/136)**
-    * **[Pull Request #180](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/180)**
+    * **[Pull Request #180](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/180)** 
+    * **[Pull Request #289](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/289)**
+    * **[Pull Request #295](https://github.com/AY2324S1-CS2103T-W15-2/tp/pull/295)**
     
 
