@@ -37,6 +37,8 @@ Click [here](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=zannloo&
   * **Highlights:**
     * Ability to assign deadline tasks to a large number of students or groups simultaneously, reducing the time and effort required for manual input.
 
+<div style="page-break-after: always;"></div>
+
 ### Project Management
   * Managed the closing of milestones for v1.3.
   * Recorded the demo video for v1.3.
