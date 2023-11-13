@@ -49,18 +49,13 @@ ProfBook is a desktop address book application used for easy management of tasks
    - Represents the descriptor for editing the details of a student in a group.
    - Helps to track which student's field that the user wanted to edit.
 
-
 ### Enhancements to existing features:
-1. `mkdir` command
-   * Creates a group that can contain students.
 
-
-2. `mv` command
-   * Moves student from one group to another group.
-
-
-2. `edit` command
-   * Edits the details of a student or group.
+1. **`mkdir` Command :** Creates a group under the root directory.
+2. **`mv` Command :** Moves student from one group to another group.
+3. **`edit` Command :** Edits the details of a student or group.
+4. **`mark` Command :** Marks a task as done.
+5. **`unmark` Command :** Unmarks a task.
 
 ### User Guide Contributions
 
