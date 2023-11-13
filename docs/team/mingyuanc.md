@@ -3,7 +3,7 @@ layout: default.md
 title: Ching Ming Yuan's Project Portfolio Page
 ---
 
-### Project: ProfBook
+## Project: ProfBook
 
 ProfBook is a desktop address book application used for easy management of tasks, group schedules, and notes for every
 tutorial slot and group. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is tailor-made
