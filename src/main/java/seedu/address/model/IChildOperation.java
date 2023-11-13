@@ -16,6 +16,7 @@ import seedu.address.model.task.Task;
  * @param <T> Type of the child
  */
 public interface IChildOperation<T extends IChildElement<T>> {
+
     /**
      * Adds the child to list of children.
      * Id must not be duplicate.
@@ -86,14 +87,14 @@ public interface IChildOperation<T extends IChildElement<T>> {
      * The {@code level} must be level of task list manager.
      * e.g. Group level and student level.
      */
-    boolean checkIfAllChildrenHaveTask(Task task, int level);
+    boolean doAllChildrenHaveTasks(Task task, int level);
 
     /**
      * Returns {@code true} if at least one child at {@code level} has the task.
      * The {@code level} must be level of task list manager.
      * e.g. Group level and student level.
      */
-    boolean checkIfAnyChildHasTask(Task task, int level);
+    boolean doAnyChildrenHaveTasks(Task task, int level);
 
     /**
      * Returns Number of current children
