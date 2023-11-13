@@ -21,12 +21,20 @@ import seedu.address.model.task.TaskListManager;
  * An instance of this class is used within the {@code EditCommand} to specify the details to be edited.
  */
 public class EditStudentDescriptor implements EditDescriptor<Student> {
+
     private Name name;
+
     private Phone phone;
+
     private Email email;
+
     private Address address;
+
     private StudentId id;
 
+    /**
+     * Default constructor for creating an empty EditStudentDescriptor.
+     */
     public EditStudentDescriptor() {}
 
     /**
@@ -41,6 +49,11 @@ public class EditStudentDescriptor implements EditDescriptor<Student> {
         setId(toCopy.id);
     }
 
+    /**
+     * Checks if any field in the descriptor has been edited.
+     *
+     * @return True if any field is edited, false otherwise.
+     */
     @Override
     public boolean isAnyFieldEdited() {
         return CollectionUtil.isAnyNonNull(name, phone, email, address, id);
@@ -136,15 +149,23 @@ public class EditStudentDescriptor implements EditDescriptor<Student> {
         return Optional.ofNullable(id);
     }
 
+    /**
+     * Applies the edits specified in the descriptor to the old student.
+     *
+     * @param oldStudent The old student to be edited.
+     * @return A new student with the applied edits.
+     */
     @Override
-    public Student applyEditsToOld(Student old) {
-        assert old != null;
-        Name updatedName = getName().orElse(old.getName());
-        Phone updatedPhone = getPhone().orElse(old.getPhone());
-        Email updatedEmail = getEmail().orElse(old.getEmail());
-        Address updatedAddress = getAddress().orElse(old.getAddress());
-        StudentId updatedId = getId().orElse(old.getId());
-        ReadOnlyTaskList taskList = new TaskListManager(old.getAllTasks());
+    public Student applyEditsToOld(Student oldStudent) {
+        assert oldStudent != null;
+
+        Name updatedName = getName().orElse(oldStudent.getName());
+        Phone updatedPhone = getPhone().orElse(oldStudent.getPhone());
+        Email updatedEmail = getEmail().orElse(oldStudent.getEmail());
+        Address updatedAddress = getAddress().orElse(oldStudent.getAddress());
+        StudentId updatedId = getId().orElse(oldStudent.getId());
+        ReadOnlyTaskList taskList = new TaskListManager(oldStudent.getAllTasks());
+
         return new Student(taskList, updatedName, updatedEmail, updatedPhone, updatedAddress, updatedId);
     }
 
@@ -174,9 +195,9 @@ public class EditStudentDescriptor implements EditDescriptor<Student> {
     }
 
     /**
-     * Returns a string representation of this EditStudentDescriptor.
+     * Returns the string representation of this EditStudentDescriptor.
      *
-     * @return A string representation of the object.
+     * @return The string representation of this object.
      */
     @Override
     public String toString() {

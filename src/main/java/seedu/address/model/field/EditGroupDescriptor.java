@@ -19,12 +19,15 @@ import seedu.address.model.task.TaskListManager;
  * updating the group's name and id. It helps to track which fields have been edited by the user.
  * An instance of this class is used within the {@code EditCommand} to specify the details to be edited.
  */
-
 public class EditGroupDescriptor implements EditDescriptor<Group> {
+
     private Name name;
 
     private GroupId id;
 
+    /**
+     *  Default constructor for creating an empty EditGroupDescriptor.
+     */
     public EditGroupDescriptor() {}
 
     /**
@@ -36,6 +39,11 @@ public class EditGroupDescriptor implements EditDescriptor<Group> {
         setId(toCopy.id);
     }
 
+    /**
+     * Checks if any field in the descriptor has been edited.
+     *
+     * @return True if any field is edited, false otherwise.
+     */
     @Override
     public boolean isAnyFieldEdited() {
         return CollectionUtil.isAnyNonNull(name, id);
@@ -77,13 +85,21 @@ public class EditGroupDescriptor implements EditDescriptor<Group> {
         return Optional.ofNullable(id);
     }
 
+    /**
+     * Applies the edits specified in the descriptor to the old group.
+     *
+     * @param oldGroup The old group to be edited.
+     * @return A new group with the applied edits.
+     */
     @Override
-    public Group applyEditsToOld(Group old) {
-        assert old != null;
-        Name updatedName = getName().orElse(old.getName());
-        GroupId updatedId = getId().orElse(old.getId());
-        ReadOnlyTaskList taskList = new TaskListManager(old.getAllTasks());
-        Map<Id, Student> students = old.getChildren();
+    public Group applyEditsToOld(Group oldGroup) {
+        assert oldGroup != null;
+
+        Name updatedName = getName().orElse(oldGroup.getName());
+        GroupId updatedId = getId().orElse(oldGroup.getId());
+        ReadOnlyTaskList taskList = new TaskListManager(oldGroup.getAllTasks());
+        Map<Id, Student> students = oldGroup.getChildren();
+
         return new Group(taskList, students, updatedName, updatedId);
     }
 
@@ -99,7 +115,6 @@ public class EditGroupDescriptor implements EditDescriptor<Group> {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof EditGroupDescriptor)) {
             return false;
         }
@@ -111,9 +126,9 @@ public class EditGroupDescriptor implements EditDescriptor<Group> {
     }
 
     /**
-     * Returns a string representation of this EditStudentDescriptor.
+     * Returns the string representation of this EditStudentDescriptor.
      *
-     * @return A string representation of the object.
+     * @return The string representation of this object.
      */
     @Override
     public String toString() {
