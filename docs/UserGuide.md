@@ -1277,6 +1277,12 @@ are definitely working toward including it in our future enhancements.
 
 ## Known issues
 
+<box type="warning">
+
+Do note that if you decide to edit the data file manually, any invalid edits may cause the presence
+of duplicates or cause ProfBook to start with an empty file. So, do proceed with caution!
+</box>
+
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only
    the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the
    application before running the application again.
