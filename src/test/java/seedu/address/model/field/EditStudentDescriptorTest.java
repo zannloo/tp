@@ -32,8 +32,8 @@ public class EditStudentDescriptorTest {
     @Test
     public void isAnyFieldEdited_oneFieldEdited_true() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
-
         descriptor.setName(new Name("Ben"));
+
         assertTrue(descriptor.isAnyFieldEdited());
     }
 
@@ -49,8 +49,8 @@ public class EditStudentDescriptorTest {
     public void setName_setNameForEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Name name = new Name("Ben");
-
         descriptor.setName(name);
+
         assertTrue(descriptor.getName().isPresent());
         assertEquals(name, descriptor.getName().get());
     }
@@ -59,8 +59,8 @@ public class EditStudentDescriptorTest {
     public void getName_getNameOfEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Name name = new Name("Ben");
-
         descriptor.setName(name);
+
         assertTrue(descriptor.getName().isPresent());
         assertEquals(name, descriptor.getName().get());
     }
@@ -69,8 +69,8 @@ public class EditStudentDescriptorTest {
     public void setPhone_setPhoneForEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Phone phone = new Phone("95427854");
-
         descriptor.setPhone(phone);
+
         assertTrue(descriptor.getPhone().isPresent());
         assertEquals(phone, descriptor.getPhone().get());
     }
@@ -79,8 +79,8 @@ public class EditStudentDescriptorTest {
     public void getPhone_getPhoneOfEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Phone phone = new Phone("95427854");
-
         descriptor.setPhone(phone);
+
         assertTrue(descriptor.getPhone().isPresent());
         assertEquals(phone, descriptor.getPhone().get());
     }
@@ -89,8 +89,8 @@ public class EditStudentDescriptorTest {
     public void setAddress_setAddressForEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Address address = new Address("123, Jurong West Ave 6, #08-111");
-
         descriptor.setAddress(address);
+
         assertTrue(descriptor.getAddress().isPresent());
         assertEquals(address, descriptor.getAddress().get());
     }
@@ -99,8 +99,8 @@ public class EditStudentDescriptorTest {
     public void getAddress_getAddressOfEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Address address = new Address("123, Jurong West Ave 6, #08-111");
-
         descriptor.setAddress(address);
+
         assertTrue(descriptor.getAddress().isPresent());
         assertEquals(address, descriptor.getAddress().get());
     }
@@ -109,8 +109,8 @@ public class EditStudentDescriptorTest {
     public void setEmail_setEmailForEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Email email = new Email("ben@gmail.com");
-
         descriptor.setEmail(email);
+
         assertTrue(descriptor.getEmail().isPresent());
         assertEquals(email, descriptor.getEmail().get());
     }
@@ -119,8 +119,8 @@ public class EditStudentDescriptorTest {
     public void getEmail_getEmailOfEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         Email email = new Email("ben@gmail.com");
-
         descriptor.setEmail(email);
+
         assertTrue(descriptor.getEmail().isPresent());
         assertEquals(email, descriptor.getEmail().get());
     }
@@ -129,8 +129,8 @@ public class EditStudentDescriptorTest {
     public void setId_setIdForEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         StudentId studentId = new StudentId("0001Y");
-
         descriptor.setId(studentId);
+
         assertTrue(descriptor.getId().isPresent());
         assertEquals(studentId, descriptor.getId().get());
     }
@@ -139,8 +139,8 @@ public class EditStudentDescriptorTest {
     public void getId_getIdOfEditStudentDescriptor_nonEmptyOptional() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         StudentId studentId = new StudentId("0001Y");
-
         descriptor.setId(studentId);
+
         assertTrue(descriptor.getId().isPresent());
         assertEquals(studentId, descriptor.getId().get());
     }
@@ -161,7 +161,6 @@ public class EditStudentDescriptorTest {
     public void equals() {
         EditStudentDescriptor firstEditStudentDescriptor = new EditStudentDescriptor();
         EditStudentDescriptor secondEditStudentDescriptor = new EditStudentDescriptor();
-
         // same object -> returns true
         assertEquals(firstEditStudentDescriptor, firstEditStudentDescriptor);
 
@@ -173,7 +172,6 @@ public class EditStudentDescriptorTest {
         firstEditStudentDescriptor.setId(new StudentId("0001Y"));
 
         EditStudentDescriptor firstEditStudentDescriptorCopy = new EditStudentDescriptor(firstEditStudentDescriptor);
-
         assertEquals(firstEditStudentDescriptor, firstEditStudentDescriptorCopy);
 
         // different types -> returns false
@@ -194,8 +192,10 @@ public class EditStudentDescriptorTest {
     @Test
     public void toString_noChangeField_allFieldsNull() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
+
         String expected = EditStudentDescriptor.class.getCanonicalName()
                 + "{name=" + null + ", phone=" + null + ", email=" + null + ", address=" + null + ", id=" + null + "}";
+
         assertEquals(expected, descriptor.toString());
     }
 
@@ -203,8 +203,10 @@ public class EditStudentDescriptorTest {
     public void toString_changeName_nameNotNull() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         descriptor.setName(new Name("Ben"));
+
         String expected = EditStudentDescriptor.class.getCanonicalName()
                 + "{name=Ben" + ", phone=" + null + ", email=" + null + ", address=" + null + ", id=" + null + "}";
+
         assertEquals(expected, descriptor.toString());
     }
 
@@ -212,8 +214,10 @@ public class EditStudentDescriptorTest {
     public void toString_changePhone_phoneNotNull() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         descriptor.setPhone(new Phone("32447898"));
+
         String expected = EditStudentDescriptor.class.getCanonicalName()
                 + "{name=" + null + ", phone=32447898" + ", email=" + null + ", address=" + null + ", id=" + null + "}";
+
         assertEquals(expected, descriptor.toString());
     }
 
@@ -221,9 +225,11 @@ public class EditStudentDescriptorTest {
     public void toString_changeEmail_emailNotNull() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         descriptor.setEmail(new Email("ben@gmail.com"));
+
         String expected = EditStudentDescriptor.class.getCanonicalName()
                 + "{name=" + null + ", phone=" + null + ", email=ben@gmail.com" + ", address=" + null
                 + ", id=" + null + "}";
+
         assertEquals(expected, descriptor.toString());
     }
 
@@ -231,9 +237,11 @@ public class EditStudentDescriptorTest {
     public void toString_changeAddress_addressNotNull() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         descriptor.setAddress(new Address("123, Jurong West Ave 6, #08-111"));
+
         String expected = EditStudentDescriptor.class.getCanonicalName()
                 + "{name=" + null + ", phone=" + null + ", email=" + null + ", address=123, Jurong West Ave 6, #08-111"
                 + ", id=" + null + "}";
+
         assertEquals(expected, descriptor.toString());
     }
 
@@ -241,8 +249,10 @@ public class EditStudentDescriptorTest {
     public void toString_changeId_idNotNull() {
         EditStudentDescriptor descriptor = new EditStudentDescriptor();
         descriptor.setId(new StudentId("0001Y"));
+
         String expected = EditStudentDescriptor.class.getCanonicalName()
                 + "{name=" + null + ", phone=" + null + ", email=" + null + ", address=" + null + ", id=0001Y" + "}";
+
         assertEquals(expected, descriptor.toString());
     }
 }

@@ -5,10 +5,11 @@ package seedu.address.model.field;
  * @param <T> The type of the item being edited.
  */
 public interface EditDescriptor<T> {
+
     /**
      * Checks if any field has been edited.
      *
-     * @return {@code true} if any field has been edited.
+     * @return True if any field has been edited, false otherwise.
      */
     boolean isAnyFieldEdited();
 
