@@ -1452,7 +1452,7 @@ need to change according to your current directory. More information can be foun
       Expected: An error message indicating the datetime format is invalid will be displayed.
 
     - Prerequisites: There exist a group with GroupId `grp-001` with the same deadline task Assignment 1 already assigned to it.<br>
-      Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 11-11-2023 23:59`<br>
+      Test case: `deadline ~/grp-001 --desc Assignment 1 --datetime 2023-10-11 23:59`<br>
       Expected: An error message indicating that Assignment 1 has already been allocated to it.
 
 - Creates deadline task for all groups or all students in a group,
