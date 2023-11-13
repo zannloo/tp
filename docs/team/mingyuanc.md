@@ -62,7 +62,7 @@ Given below are my contributions to the project.
   * Wrote guides on how input flag works.
   * Updated the command summary page.
 * **Feature Aspects:**
-  * Wrote guide for `clear`, `cat`, `help`, `exit`
+  * Wrote guides for `clear`, `cat`, `help`, `exit`
 
 ### Developer Guide Contributions
 * **Non-Feature Aspects**
